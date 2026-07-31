@@ -6,6 +6,8 @@ import {
   userDataViewState,
 } from '@states/settings';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
+import { displaySnackNotification } from '@services/states/app';
+import { getMessageByCode } from '@services/i18n/translation';
 
 const useAudioVideoCombined = () => {
   const settings = useAtomValue(settingsState);
@@ -15,22 +17,32 @@ const useAudioVideoCombined = () => {
   const [value, setValue] = useState(false);
 
   const handleValueChange = async () => {
-    const meetingDuties = structuredClone(
-      settings.cong_settings.meeting_duties ?? []
-    );
+    try {
+      const meetingDuties = structuredClone(
+        settings.cong_settings.meeting_duties ?? []
+      );
 
-    const dutiesByView = meetingDuties.find((duty) => duty.type === dataView);
+      const dutiesByView = meetingDuties.find((duty) => duty.type === dataView);
 
-    if (!dutiesByView) return;
+      if (!dutiesByView) return;
 
-    dutiesByView.av_combined = {
-      value: !value,
-      updatedAt: new Date().toISOString(),
-    };
+      dutiesByView.av_combined = {
+        value: !value,
+        updatedAt: new Date().toISOString(),
+      };
 
-    await dbAppSettingsUpdate({
-      'cong_settings.meeting_duties': meetingDuties,
-    });
+      await dbAppSettingsUpdate({
+        'cong_settings.meeting_duties': meetingDuties,
+      });
+    } catch (error) {
+      console.error(error);
+
+      displaySnackNotification({
+        header: getMessageByCode('error_app_generic-title'),
+        message: getMessageByCode((error as Error).message),
+        severity: 'error',
+      });
+    }
   };
 
   useEffect(() => setValue(valueInitial), [valueInitial]);
