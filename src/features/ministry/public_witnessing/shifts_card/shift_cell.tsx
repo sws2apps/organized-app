@@ -173,6 +173,7 @@ const ShiftCell = ({
           alignItems: 'center',
           justifyContent: 'space-between',
           gap: '8px',
+          minHeight: '20px',
           minWidth: 0,
         }}
       >

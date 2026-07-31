@@ -11,7 +11,6 @@ import {
   IconChevronRight,
   IconDelete,
   IconExpand,
-  IconInfo,
 } from '@components/icons';
 import Button from '@components/button';
 import Checkbox from '@components/checkbox';
@@ -336,21 +335,7 @@ const LocationForm = (props: LocationFormProps) => {
       )}
 
       <Stack spacing="16px" sx={{ flex: 1, minWidth: 0 }}>
-        {selectedDay === null ? (
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'flex-end',
-              gap: '8px',
-            }}
-          >
-            <IconInfo color="var(--grey-350)" />
-            <Typography className="body-small-regular" color="var(--grey-400)">
-              {t('tr_PWScheduleSelectDay')}
-            </Typography>
-          </Box>
-        ) : (
+        {selectedDay !== null && (
           <>
             <Typography className="body-small-semibold">
               {t('tr_daysShifts', { dayName: weekdayNames[selectedDay - 1] })}

@@ -86,8 +86,7 @@ const useArrangementForm = ({
       : false
   );
 
-  // Unset max falls back to the default shift capacity of 3 publishers.
-  const capacity = location.location_data.max_publishers ?? 3;
+  const capacity = location.location_data.max_publishers;
 
   // Seats other people already hold in this shift. An edit does not count its
   // own record — those seats are the ones being re-arranged.

@@ -127,7 +127,7 @@ const useShiftsCard = ({ location }: ShiftsCardProps) => {
       );
       if (!daySchedule) return [];
 
-      const capacity = location.location_data.max_publishers ?? 3;
+      const capacity = location.location_data.max_publishers;
 
       return daySchedule.shifts.map((shift) => {
         const records =

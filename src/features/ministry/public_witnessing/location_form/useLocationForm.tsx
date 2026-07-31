@@ -151,7 +151,10 @@ const useLocationForm = ({ location, onClose }: LocationFormProps) => {
     );
   };
 
-  const isValid = useMemo(() => name.trim().length > 0, [name]);
+  const isValid = useMemo(
+    () => name.trim().length > 0 && Number(maxPublishers) > 0,
+    [name, maxPublishers]
+  );
 
   const handleSave = async () => {
     if (!isValid) return;
@@ -175,7 +178,7 @@ const useLocationForm = ({ location, onClose }: LocationFormProps) => {
           name: name.trim(),
           address: address.trim(),
           cart_stored_at: cartStoredAt.trim(),
-          max_publishers: maxPublishers === '' ? undefined : maxPublishers,
+          max_publishers: Number(maxPublishers),
           description: description.trim(),
           sort_index: location?.location_data.sort_index ?? locations.length,
           schedule,

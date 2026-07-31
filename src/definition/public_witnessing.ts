@@ -19,8 +19,7 @@ export type PublicWitnessingLocationType = {
     name: string;
     address: string;
     cart_stored_at: string;
-    // Optional — when unset, shifts fall back to the default capacity of 3.
-    max_publishers?: number;
+    max_publishers: number;
     description: string;
     sort_index: number;
     schedule: PublicWitnessingDayScheduleType[];
