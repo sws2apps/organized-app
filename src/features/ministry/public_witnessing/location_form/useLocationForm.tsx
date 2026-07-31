@@ -9,15 +9,13 @@ import { dbPublicWitnessingLocationsSave } from '@services/dexie/public_witnessi
 import { timeAddMinutes } from '@utils/date';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
-import { LocationFormProps } from './index.types';
+import {
+  EditableShiftType,
+  LocationFormProps,
+  ScheduleMode,
+} from './index.types';
 
 const WEEKDAYS = [1, 2, 3, 4, 5, 6, 7];
-
-export type ScheduleMode = 'every_day' | 'custom';
-
-// Shifts get an id while they are being edited so the rows keep their identity
-// as the times change; it is dropped again on save.
-export type EditableShiftType = PublicWitnessingShiftType & { id: string };
 
 const toEditable = (shift: PublicWitnessingShiftType): EditableShiftType => ({
   ...shift,
