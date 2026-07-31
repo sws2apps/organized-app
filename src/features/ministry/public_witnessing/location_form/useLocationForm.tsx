@@ -66,6 +66,10 @@ const useLocationForm = ({ location, onClose }: LocationFormProps) => {
   // editing one.
   const [step, setStep] = useState(0);
 
+  // Missing details are only marked once the publisher tried to move on
+  // without them.
+  const [showErrors, setShowErrors] = useState(false);
+
   const [scheduleMode, setScheduleMode] = useState<ScheduleMode>(() => {
     const schedule = location?.location_data.schedule;
     if (schedule?.length !== WEEKDAYS.length) return 'custom';
@@ -157,22 +161,18 @@ const useLocationForm = ({ location, onClose }: LocationFormProps) => {
     );
   };
 
-  // Errors stay hidden until the form is submitted — the details are only
-  // marked as missing once the publisher tried to move on without them.
-  const [showErrors, setShowErrors] = useState(false);
-
   const errors = {
     name: showErrors && name.trim().length === 0,
     maxPublishers: showErrors && !(Number(maxPublishers) > 0),
   };
 
-  const isValid = useMemo(
+  const isDetailsValid = useMemo(
     () => name.trim().length > 0 && Number(maxPublishers) > 0,
     [name, maxPublishers]
   );
 
   const handleNext = () => {
-    if (!isValid) {
+    if (!isDetailsValid) {
       setShowErrors(true);
       return;
     }
@@ -181,7 +181,7 @@ const useLocationForm = ({ location, onClose }: LocationFormProps) => {
   };
 
   const handleSave = async () => {
-    if (!isValid) {
+    if (!isDetailsValid) {
       setShowErrors(true);
       setStep(0);
       return;
