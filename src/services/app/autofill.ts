@@ -1129,16 +1129,25 @@ const handleDutiesWeekAssignedPersons = (
   );
 };
 
-const handleAutofillDutiesMeeting = (
-  schedule: SchedWeekType,
-  meeting: 'midweek' | 'weekend',
-  config: MeetingDutiesConfigType,
-  dataView: string,
-  conflictPrevent: boolean,
-  historyAutofill: AssignmentHistoryType[],
-  source: SourceWeekType | undefined,
-  lang: string
-) => {
+const handleAutofillDutiesMeeting = ({
+  schedule,
+  meeting,
+  config,
+  dataView,
+  conflictPrevent,
+  history,
+  source,
+  lang,
+}: {
+  schedule: SchedWeekType;
+  meeting: 'midweek' | 'weekend';
+  config: MeetingDutiesConfigType;
+  dataView: string;
+  conflictPrevent: boolean;
+  history: AssignmentHistoryType[];
+  source: SourceWeekType | undefined;
+  lang: string;
+}) => {
   const hasSource =
     meeting === 'midweek'
       ? source?.midweek_meeting.week_date_locale[lang]
@@ -1160,18 +1169,14 @@ const handleAutofillDutiesMeeting = (
 
     // conflict_prevent: skip persons already assigned this week
     const excludedPersons = conflictPrevent
-      ? handleDutiesWeekAssignedPersons(
-          historyAutofill,
-          schedule.weekOf,
-          dataView
-        )
+      ? handleDutiesWeekAssignedPersons(history, schedule.weekOf, dataView)
       : undefined;
 
     const selected = schedulesSelectRandomPerson({
       type: field.type,
       week: schedule.weekOf,
       meeting,
-      history: historyAutofill,
+      history,
       excludedPersons,
     });
 
@@ -1179,7 +1184,7 @@ const handleAutofillDutiesMeeting = (
 
     schedulesAutofillSaveAssignment({
       assignment: field.assignment,
-      history: historyAutofill,
+      history,
       schedule,
       value: selected,
       schedule_id: field.schedule_id,
@@ -1209,16 +1214,16 @@ const handleAutofillDuties = async (weeksList: SchedWeekType[]) => {
     const source = sources.find((record) => record.weekOf === schedule.weekOf);
 
     for (const meeting of ['midweek', 'weekend'] as const) {
-      handleAutofillDutiesMeeting(
+      handleAutofillDutiesMeeting({
         schedule,
         meeting,
         config,
         dataView,
         conflictPrevent,
-        historyAutofill,
+        history: historyAutofill,
         source,
-        lang
-      );
+        lang,
+      });
     }
   }
 
