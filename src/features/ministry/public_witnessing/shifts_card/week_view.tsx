@@ -123,6 +123,7 @@ const WeekView = ({ days, canInteract, onSelectSlot }: ShiftsViewProps) => {
                 display: 'grid',
                 gridColumn: column + 1,
                 gridRow: row + 2,
+                alignSelf: 'start',
                 minWidth: 0,
               }}
             >

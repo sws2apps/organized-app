@@ -96,7 +96,7 @@ const FullContent = ({ slot, color, statusLabel }: CellContentProps) => (
       <PublisherNames slot={slot} color={color} />
     )}
 
-    {slot.status !== 'past' && (
+    {(slot.status === 'available' || slot.status === 'partner_needed') && (
       <Badge
         size="small"
         color={badgeColors[slot.status]}

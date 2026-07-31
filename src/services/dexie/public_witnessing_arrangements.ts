@@ -18,13 +18,6 @@ export const dbPublicWitnessingArrangementsSave = async (
   await dbUpdatePublicWitnessingArrangementsMetadata();
 };
 
-export const dbPublicWitnessingArrangementsBulkSave = async (
-  arrangements: PublicWitnessingArrangementType[]
-) => {
-  await appDb.public_witnessing_arrangements.bulkPut(arrangements);
-  await dbUpdatePublicWitnessingArrangementsMetadata();
-};
-
 export const dbPublicWitnessingArrangementsClear = async () => {
   const records = await appDb.public_witnessing_arrangements.toArray();
   if (records.length === 0) return;
