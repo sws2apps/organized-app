@@ -1172,13 +1172,20 @@ const handleAutofillDutiesMeeting = ({
       ? handleDutiesWeekAssignedPersons(history, schedule.weekOf, dataView)
       : undefined;
 
-    const selected = schedulesSelectRandomPerson({
-      type: field.type,
-      week: schedule.weekOf,
-      meeting,
-      history,
-      excludedPersons,
-    });
+    const selectPerson = (excluded?: string[]) =>
+      schedulesSelectRandomPerson({
+        type: field.type,
+        week: schedule.weekOf,
+        meeting,
+        history,
+        excludedPersons: excluded,
+      });
+
+    // when everyone qualified already serves this week, a duty without anyone
+    // assigned helps no one: keep the conflict a preference and fill it anyway
+    const selected =
+      selectPerson(excludedPersons) ??
+      (excludedPersons?.length > 0 ? selectPerson() : undefined);
 
     if (!selected) continue;
 
