@@ -1,7 +1,12 @@
 import appDb from '@db/appDb';
 import { UpdateSpec } from 'dexie';
-import { SchedWeekType } from '@definition/schedules';
-import { dutiesSchema, scheduleSchema } from './schema';
+import {
+  AssignmentCongregation,
+  DutiesMeetingType,
+  DutyPositionsType,
+  SchedWeekType,
+} from '@definition/schedules';
+import { dutiesSchema, dutyPositions, scheduleSchema } from './schema';
 
 const dbUpdateSchedulesMetadata = async () => {
   const metadata = await appDb.metadata.get(1);
@@ -136,21 +141,40 @@ export const dbSchedUpdateOutgoingTalksFields = async () => {
   await dbUpdateSchedulesMetadata();
 };
 
+// audio and video used to hold a single person; they are positional now
+const dutyToPositions = (duty: DutiesMeetingType, field: 'audio' | 'video') => {
+  const current = duty[field] as DutyPositionsType | AssignmentCongregation[];
+
+  if (!Array.isArray(current)) return;
+
+  duty[field] = { ...dutyPositions(), position_1: current };
+};
+
 export const dbSchedFillDutiesFields = async () => {
   const schedules = await appDb.sched.toArray();
 
-  const data = schedules
-    .filter(
-      (sched) =>
-        !sched.duties?.midweek.dynamic || !sched.duties?.weekend.dynamic
-    )
-    .map((sched) => {
-      sched.duties ??= dutiesSchema();
-      sched.duties.midweek.dynamic ??= [];
-      sched.duties.weekend.dynamic ??= [];
+  const needsUpdate = (sched: SchedWeekType) => {
+    const duties = sched.duties;
 
-      return { key: sched.weekOf, changes: sched };
-    });
+    if (!duties?.midweek.dynamic || !duties?.weekend.dynamic) return true;
+
+    return [duties.midweek, duties.weekend].some(
+      (duty) => Array.isArray(duty.audio) || Array.isArray(duty.video)
+    );
+  };
+
+  const data = schedules.filter(needsUpdate).map((sched) => {
+    sched.duties ??= dutiesSchema();
+    sched.duties.midweek.dynamic ??= [];
+    sched.duties.weekend.dynamic ??= [];
+
+    for (const duty of [sched.duties.midweek, sched.duties.weekend]) {
+      dutyToPositions(duty, 'audio');
+      dutyToPositions(duty, 'video');
+    }
+
+    return { key: sched.weekOf, changes: sched };
+  });
 
   if (data.length === 0) return;
 

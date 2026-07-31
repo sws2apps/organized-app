@@ -656,6 +656,12 @@ export const dutiesConflictPreventState = atom((get) => {
   return duties.conflict_prevent?.value ?? false;
 });
 
+export const dutiesAudioVideoCombinedState = atom((get) => {
+  const duties = get(meetingDutiesState);
+
+  return duties?.av_combined?.value ?? false;
+});
+
 export const dutiesMicrophoneSectionsState = atom((get) => {
   const settings = get(settingsState);
   const dataView = get(userDataViewState);

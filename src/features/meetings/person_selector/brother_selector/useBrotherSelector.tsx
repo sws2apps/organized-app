@@ -32,6 +32,7 @@ import {
 } from '@states/schedules';
 import { personGetDisplayName, speakerGetDisplayName } from '@utils/common';
 import {
+  schedulesDutyPersonQualified,
   schedulesGetData,
   schedulesGetMeetingDate,
   schedulesSaveAssignment,
@@ -176,7 +177,7 @@ const useBrotherSelector = ({
 
       if (isSameField) continue;
 
-      const isDuty = item.assignment.code >= AssignmentCode.DUTIES_Audio;
+      const isDuty = item.assignment.key?.includes('_DUTIES_') ?? false;
       const existing = conflicts.get(item.assignment.person);
 
       // duty conflicts take precedence over meeting-part ones
@@ -224,7 +225,7 @@ const useBrotherSelector = ({
         type !== AssignmentCode.MM_LCPart &&
         type !== AssignmentCode.WM_SpeakerSymposium
       ) {
-        return activeAssignments.includes(type);
+        return schedulesDutyPersonQualified(type, activeAssignments);
       }
 
       if (type === AssignmentCode.WM_SpeakerSymposium) {

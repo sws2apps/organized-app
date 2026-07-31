@@ -508,6 +508,9 @@ export const ASSIGNMENT_PATH = {
     ] as const;
 
     const positioned = [
+      ['Audio', 'audio'],
+      ['Video', 'video'],
+      ['AudioVideo', 'audio_video'],
       ['Microphone', 'microphones'],
       ['Stage', 'stage'],
       ['EntranceAttendant', 'entrance_attendant'],
@@ -515,8 +518,6 @@ export const ASSIGNMENT_PATH = {
     ] as const;
 
     for (const [prefix, meeting] of meetings) {
-      paths[`${prefix}_DUTIES_Audio`] = `duties.${meeting}.audio`;
-      paths[`${prefix}_DUTIES_Video`] = `duties.${meeting}.video`;
       paths[`${prefix}_DUTIES_AuditoriumAttendant`] =
         `duties.${meeting}.auditorium_attendant`;
       paths[`${prefix}_DUTIES_Dynamic`] = `duties.${meeting}.dynamic`;
@@ -549,6 +550,7 @@ export const BROTHER_ASSIGNMENT = [
   AssignmentCode.WM_WTStudyConductor,
   AssignmentCode.WM_WTStudyReader,
   AssignmentCode.DUTIES_Audio,
+  AssignmentCode.DUTIES_AudioVideo,
   AssignmentCode.DUTIES_AuditoriumAttendant,
   AssignmentCode.DUTIES_Custom,
   AssignmentCode.DUTIES_EntranceAttendant,

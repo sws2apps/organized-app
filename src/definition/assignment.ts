@@ -38,6 +38,7 @@ export enum AssignmentCode {
   DUTIES_AuditoriumAttendant = 405,
   DUTIES_Hospitality = 406,
   DUTIES_Custom = 407,
+  DUTIES_AudioVideo = 408,
 }
 
 export type AssignmentType = {
@@ -132,11 +133,12 @@ export type DutiesMeetingPrefixType = 'MM' | 'WM';
 export type DutyPositionIndexType = 1 | 2 | 3 | 4;
 
 export type AssignmentFieldDutiesType =
-  | `${DutiesMeetingPrefixType}_DUTIES_Audio`
-  | `${DutiesMeetingPrefixType}_DUTIES_Video`
   | `${DutiesMeetingPrefixType}_DUTIES_AuditoriumAttendant`
   | `${DutiesMeetingPrefixType}_DUTIES_Dynamic`
   | `${DutiesMeetingPrefixType}_DUTIES_${
+      | 'Audio'
+      | 'Video'
+      | 'AudioVideo'
       | 'Microphone'
       | 'Stage'
       | 'EntranceAttendant'

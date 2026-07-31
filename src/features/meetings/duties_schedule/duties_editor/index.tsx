@@ -80,12 +80,12 @@ const DutiesEditor = () => {
         <Typography className="h4">{t('tr_dutiesAudio')}</Typography>
 
         <Stack spacing="16px" divider={rowDivider}>
-          {dutyRows.audioVideo.length > 0 && (
+          {dutyRows.audioVideo.some((column) => column.length > 0) && (
             <DutyRow
               duty={t('tr_audioVideo')}
               icon={<IconComputerVideo color="var(--accent-dark)" />}
               week={selectedWeek}
-              fields={dutyRows.audioVideo}
+              columns={dutyRows.audioVideo}
             />
           )}
 
@@ -138,12 +138,14 @@ const DutiesEditor = () => {
             />
           )}
 
-          <DutyRow
-            duty={t('tr_dutiesAuditoriumAttendant')}
-            icon={<IconHallOverseer color="var(--accent-dark)" />}
-            week={selectedWeek}
-            fields={dutyRows.auditoriumAttendant}
-          />
+          {dutyRows.auditoriumAttendant.length > 0 && (
+            <DutyRow
+              duty={t('tr_dutiesAuditoriumAttendant')}
+              icon={<IconHallOverseer color="var(--accent-dark)" />}
+              week={selectedWeek}
+              fields={dutyRows.auditoriumAttendant}
+            />
+          )}
         </Stack>
       </Stack>
 

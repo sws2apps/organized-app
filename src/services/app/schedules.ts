@@ -159,6 +159,29 @@ export const schedulesDutiesConfig = () => {
   );
 };
 
+// the combined A/V duty is done by one brother, so he covers both jobs and
+// needs both qualifications; every other duty maps to its own code
+export const schedulesDutyRequiredCodes = (
+  type?: AssignmentCode
+): AssignmentCode[] => {
+  if (type === AssignmentCode.DUTIES_AudioVideo) {
+    return [AssignmentCode.DUTIES_Audio, AssignmentCode.DUTIES_Video];
+  }
+
+  return type === undefined ? [] : [type];
+};
+
+export const schedulesDutyPersonQualified = (
+  type: AssignmentCode | undefined,
+  assignments: AssignmentCode[]
+) => {
+  const required = schedulesDutyRequiredCodes(type);
+
+  if (required.length === 0) return false;
+
+  return required.every((code) => assignments.includes(code));
+};
+
 // single source of truth for duty fields — drives counts and autofill
 export const schedulesDutiesFieldList = (
   meeting: 'midweek' | 'weekend',
@@ -169,7 +192,14 @@ export const schedulesDutiesFieldList = (
   const fields: DutyFieldDefinitionType[] = [];
 
   const positioned = (
-    duty: 'Microphone' | 'Stage' | 'EntranceAttendant' | 'Hospitality',
+    duty:
+      | 'Audio'
+      | 'Video'
+      | 'AudioVideo'
+      | 'Microphone'
+      | 'Stage'
+      | 'EntranceAttendant'
+      | 'Hospitality',
     type: AssignmentCode,
     amount: number
   ) => {
@@ -198,19 +228,17 @@ export const schedulesDutiesFieldList = (
     }
   };
 
-  // av_amount: 0 disables the row, 1 = combined A/V person, 2 = audio + video
-  if (config.av_amount.value >= 1) {
-    fields.push({
-      assignment: `${prefix}_DUTIES_Audio` as AssignmentFieldType,
-      type: AssignmentCode.DUTIES_Audio,
-    });
-  }
+  // av_combined: one brother does both duties, so a single field replaces them
+  if (config.av_combined?.value) {
+    positioned(
+      'AudioVideo',
+      AssignmentCode.DUTIES_AudioVideo,
+      config.audio_amount.value
+    );
+  } else {
+    positioned('Audio', AssignmentCode.DUTIES_Audio, config.audio_amount.value);
 
-  if (config.av_amount.value >= 2) {
-    fields.push({
-      assignment: `${prefix}_DUTIES_Video` as AssignmentFieldType,
-      type: AssignmentCode.DUTIES_Video,
-    });
+    positioned('Video', AssignmentCode.DUTIES_Video, config.video_amount.value);
   }
 
   if (config.mic_sections.value) {
@@ -1269,8 +1297,13 @@ export const schedulesGetHistoryDetails = ({
 
   if (assignment.includes('_DUTIES_')) {
     const staticDuties: [string, AssignmentCode, string][] = [
-      ['_DUTIES_Audio', AssignmentCode.DUTIES_Audio, 'tr_dutiesAudio'],
-      ['_DUTIES_Video', AssignmentCode.DUTIES_Video, 'tr_dutiesVideo'],
+      [
+        '_DUTIES_AudioVideo_',
+        AssignmentCode.DUTIES_AudioVideo,
+        'tr_audioVideo',
+      ],
+      ['_DUTIES_Audio_', AssignmentCode.DUTIES_Audio, 'tr_dutiesAudio'],
+      ['_DUTIES_Video_', AssignmentCode.DUTIES_Video, 'tr_dutiesVideo'],
       [
         '_DUTIES_Microphone_',
         AssignmentCode.DUTIES_Microphone,
@@ -2006,7 +2039,13 @@ export const schedulesSelectRandomPerson = (data: {
 
   const persons = store.get(personsByViewState);
 
-  let personsElligible = applyAssignmentFilters(persons, [data.type]);
+  // a duty can require several qualifications at once (combined audio/video)
+  const requiredCodes = schedulesDutyRequiredCodes(data.type);
+
+  let personsElligible = requiredCodes.reduce(
+    (elligible, code) => applyAssignmentFilters(elligible, [code]),
+    persons
+  );
 
   if (data.excludedPersons?.length > 0) {
     personsElligible = personsElligible.filter(

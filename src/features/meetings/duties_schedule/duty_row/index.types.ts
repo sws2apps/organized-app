@@ -12,5 +12,7 @@ export type DutyRowProps = {
   duty: string;
   icon: ReactElement;
   week: string;
-  fields: DutyFieldType[];
+  fields?: DutyFieldType[];
+  /** one entry per duty column; its fields stack vertically */
+  columns?: DutyFieldType[][];
 };

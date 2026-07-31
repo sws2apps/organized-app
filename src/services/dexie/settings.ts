@@ -344,35 +344,46 @@ export const dbAppSettingsUpdateCongNumber = async () => {
   });
 };
 
+const meetingDutiesDefault = (type: string) => {
+  const updatedAt = new Date().toISOString();
+
+  return {
+    type,
+    _deleted: { value: false, updatedAt },
+    conflict_prevent: { value: false, updatedAt },
+    mic_sections: { value: false, updatedAt },
+    av_combined: { value: false, updatedAt },
+    sections: [],
+    audio_amount: { value: 1, updatedAt },
+    video_amount: { value: 1, updatedAt },
+    mic_amount: { value: 2, updatedAt },
+    stage_amount: { value: 1, updatedAt },
+    entrance_attendant_amount: { value: 1, updatedAt },
+    hospitality_amount: { value: 0, updatedAt },
+    custom: [],
+  };
+};
+
 export const dbAppSettingsSetupMeetingDuties = async () => {
   const settings = await appDb.app_settings.get(1);
 
   const meetingDuties = settings.cong_settings.meeting_duties ?? [];
+  const dataView = settings.user_settings.data_view.value;
 
-  const hasDutiesView = meetingDuties.some(
-    (duty) => duty.type === settings.user_settings.data_view.value
-  );
+  const current = meetingDuties.find((duty) => duty.type === dataView);
+  const defaults = meetingDutiesDefault(dataView);
 
-  if (meetingDuties.length === 0 || !hasDutiesView) {
-    meetingDuties.push({
-      type: settings.user_settings.data_view.value,
-      _deleted: { value: false, updatedAt: new Date().toISOString() },
-      conflict_prevent: { value: false, updatedAt: new Date().toISOString() },
-      mic_sections: { value: false, updatedAt: new Date().toISOString() },
-      sections: [],
-      av_amount: { value: 2, updatedAt: new Date().toISOString() },
-      mic_amount: { value: 2, updatedAt: new Date().toISOString() },
-      stage_amount: { value: 1, updatedAt: new Date().toISOString() },
-      entrance_attendant_amount: {
-        value: 1,
-        updatedAt: new Date().toISOString(),
-      },
-      hospitality_amount: { value: 0, updatedAt: new Date().toISOString() },
-      custom: [],
-    });
+  // records saved before a setting existed keep their values and get the rest
+  const isComplete =
+    current && Object.keys(defaults).every((key) => key in current);
 
-    await dbAppSettingsUpdate({
-      'cong_settings.meeting_duties': meetingDuties,
-    });
-  }
+  if (isComplete) return;
+
+  const record = { ...defaults, ...current };
+
+  const updated = current
+    ? meetingDuties.map((duty) => (duty.type === dataView ? record : duty))
+    : [...meetingDuties, record];
+
+  await dbAppSettingsUpdate({ 'cong_settings.meeting_duties': updated });
 };

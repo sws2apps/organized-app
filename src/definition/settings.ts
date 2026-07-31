@@ -197,6 +197,7 @@ export type SettingsType = {
       _deleted: { value: boolean; updatedAt: string };
       conflict_prevent: { value: boolean; updatedAt: string };
       mic_sections: { value: boolean; updatedAt: string };
+      av_combined: { value: boolean; updatedAt: string };
       sections?: {
         _deleted: boolean;
         id: string;
@@ -204,7 +205,8 @@ export type SettingsType = {
         updatedAt: string;
         amount: number;
       }[];
-      av_amount: { value: number; updatedAt: string };
+      audio_amount: { value: number; updatedAt: string };
+      video_amount: { value: number; updatedAt: string };
       mic_amount: { value: number; updatedAt: string };
       stage_amount: { value: number; updatedAt: string };
       entrance_attendant_amount: { value: number; updatedAt: string };

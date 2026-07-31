@@ -169,6 +169,7 @@ const useAssignments = () => {
             name: t('tr_dutiesHospitality'),
           },
           {
+            // one qualification covers every custom duty defined in settings
             code: AssignmentCode.DUTIES_Custom,
             name: t('tr_dutiesCustom'),
           },

@@ -14,12 +14,6 @@ const DutyItem = (props: DutyItemProps) => {
 
   const { value, handleAmountChange } = useDutyItem(props);
 
-  // audio/video: 1 = combined A/V person, 2 = audio + video
-  const amounts =
-    props.duty === 'tr_audioVideo'
-      ? DUTIES_MAX.filter((num) => num <= 2)
-      : DUTIES_MAX;
-
   return (
     <TwoColumnsRow
       sx={{
@@ -38,7 +32,7 @@ const DutyItem = (props: DutyItemProps) => {
           <Typography>{t('tr_disabledLabel')}</Typography>
         </MenuItem>
 
-        {amounts.map((num) => (
+        {DUTIES_MAX.map((num) => (
           <MenuItem key={num} value={num}>
             <Typography>{num}</Typography>
           </MenuItem>

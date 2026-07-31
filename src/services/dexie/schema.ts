@@ -95,7 +95,7 @@ const dutyAssignment = (): AssignmentCongregation[] => [
   { type: 'main', value: '', name: '', updatedAt: '' },
 ];
 
-const dutyPositions = (): DutyPositionsType => ({
+export const dutyPositions = (): DutyPositionsType => ({
   position_1: dutyAssignment(),
   position_2: dutyAssignment(),
   position_3: dutyAssignment(),
@@ -103,8 +103,9 @@ const dutyPositions = (): DutyPositionsType => ({
 });
 
 const dutiesMeeting = (): DutiesMeetingType => ({
-  audio: dutyAssignment(),
-  video: dutyAssignment(),
+  audio: dutyPositions(),
+  video: dutyPositions(),
+  audio_video: dutyPositions(),
   microphones: dutyPositions(),
   stage: dutyPositions(),
   entrance_attendant: dutyPositions(),

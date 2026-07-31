@@ -1,6 +1,7 @@
 import { Stack } from '@mui/material';
 import { useAppTranslation } from '@hooks/index';
 import { CardSection, CardSectionHeader } from '../shared_styles';
+import AudioVideoCombined from './audio_video_combined';
 import CustomDuties from './custom_duties';
 import Divider from '@components/divider';
 import DutiesPreventConflict from './prevent_conflict';
@@ -32,6 +33,8 @@ const MeetingDutiesSettings = () => {
           <Typography className="body-small-semibold" color="var(--grey-400)">
             {t('tr_dutiesConfiguration')}
           </Typography>
+
+          <AudioVideoCombined />
 
           <MicrophoneSections />
 

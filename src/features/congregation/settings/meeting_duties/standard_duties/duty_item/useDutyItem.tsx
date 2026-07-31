@@ -20,8 +20,13 @@ const useDutyItem = ({ duty }: DutyItemProps) => {
   const valueInitial = useMemo(() => {
     if (!meetingDuties) return 0;
 
-    if (duty === 'tr_audioVideo') {
-      return meetingDuties.av_amount.value;
+    // the combined audio/video duty reuses the audio amount
+    if (duty === 'tr_dutiesAudio' || duty === 'tr_audioVideo') {
+      return meetingDuties.audio_amount.value;
+    }
+
+    if (duty === 'tr_dutiesVideo') {
+      return meetingDuties.video_amount.value;
     }
 
     if (duty === 'tr_dutiesEntranceAttendant') {
@@ -55,8 +60,12 @@ const useDutyItem = ({ duty }: DutyItemProps) => {
 
       if (!duties) return;
 
-      if (duty === 'tr_audioVideo') {
-        duties.av_amount = { value, updatedAt: new Date().toISOString() };
+      if (duty === 'tr_dutiesAudio' || duty === 'tr_audioVideo') {
+        duties.audio_amount = { value, updatedAt: new Date().toISOString() };
+      }
+
+      if (duty === 'tr_dutiesVideo') {
+        duties.video_amount = { value, updatedAt: new Date().toISOString() };
       }
 
       if (duty === 'tr_dutiesEntranceAttendant') {

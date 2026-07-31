@@ -1,6 +1,7 @@
 import { Stack } from '@mui/material';
 import { useAppTranslation } from '@hooks/index';
 import { QuickSettingsMeetingDutiesProps } from './index.types';
+import AudioVideoCombined from '@features/congregation/settings/meeting_duties/audio_video_combined';
 import CustomDuties from '@features/congregation/settings/meeting_duties/custom_duties';
 import Divider from '@components/divider';
 import DutiesPreventConflict from '@features/congregation/settings/meeting_duties/prevent_conflict';
@@ -38,6 +39,8 @@ const QuickSettingsMeetingDuties = ({
           <Typography className="body-small-semibold" color="var(--grey-400)">
             {t('tr_dutiesConfiguration')}
           </Typography>
+
+          <AudioVideoCombined />
 
           <MicrophoneSections />
 

@@ -82,8 +82,10 @@ export type DutyPositionsType = {
 };
 
 export type DutiesMeetingType = {
-  audio: AssignmentCongregation[];
-  video: AssignmentCongregation[];
+  audio: DutyPositionsType;
+  video: DutyPositionsType;
+  // one brother covering both duties, kept apart from the split fields
+  audio_video: DutyPositionsType;
   microphones: DutyPositionsType;
   stage: DutyPositionsType;
   entrance_attendant: DutyPositionsType;

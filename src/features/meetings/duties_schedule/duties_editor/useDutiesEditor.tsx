@@ -2,12 +2,14 @@ import { useEffect, useMemo, useState } from 'react';
 import { useAtom, useAtomValue } from 'jotai';
 import {
   AssignmentCode,
-  AssignmentFieldType,
   DutiesMeetingPrefixType,
 } from '@definition/assignment';
 import { schedulesState, selectedWeekState } from '@states/schedules';
 import { dutiesCustomState, meetingDutiesState } from '@states/settings';
-import { schedulesDutiesMeetingInfo } from '@services/app/schedules';
+import {
+  schedulesDutiesFieldList,
+  schedulesDutiesMeetingInfo,
+} from '@services/app/schedules';
 import {
   addDays,
   formatDate,
@@ -21,21 +23,6 @@ export type DutiesMeetingValue = 'midweek' | 'weekend';
 const MEETING_PREFIX: Record<DutiesMeetingValue, DutiesMeetingPrefixType> = {
   midweek: 'MM',
   weekend: 'WM',
-};
-
-const buildDutyFields = (
-  meeting: DutiesMeetingValue,
-  duty: 'Microphone' | 'Stage' | 'EntranceAttendant' | 'Hospitality',
-  code: AssignmentCode,
-  amount: number,
-  label: string
-): DutyFieldType[] => {
-  return Array.from({ length: Math.min(amount, 4) }, (_, index) => ({
-    assignment:
-      `${MEETING_PREFIX[meeting]}_DUTIES_${duty}_${index + 1}` as AssignmentFieldType,
-    type: code,
-    label,
-  }));
 };
 
 const useDutiesEditor = () => {
@@ -81,79 +68,48 @@ const useDutiesEditor = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedWeek, schedules, dutiesConfig]);
 
+  // rendered fields come from the same list that drives counters and autofill
   const dutyRows = useMemo(() => {
-    const prefix = MEETING_PREFIX[activeMeeting];
+    const fields = dutiesConfig
+      ? schedulesDutiesFieldList(activeMeeting, dutiesConfig)
+      : [];
+
     const responsible = t('tr_responsible');
+    const attendant = t('tr_attendant');
 
-    const avAmount = dutiesConfig?.av_amount.value ?? 2;
-
-    const audioVideo: DutyFieldType[] = [];
-
-    if (avAmount >= 1) {
-      audioVideo.push({
-        assignment: `${prefix}_DUTIES_Audio`,
-        type: AssignmentCode.DUTIES_Audio,
-        label: responsible,
-      });
-    }
-
-    if (avAmount >= 2) {
-      audioVideo.push({
-        assignment: `${prefix}_DUTIES_Video`,
-        type: AssignmentCode.DUTIES_Video,
-        label: responsible,
-      });
-    }
+    // sections and custom duties carry a schedule_id and render on their own
+    const byType = (type: AssignmentCode, label: string): DutyFieldType[] =>
+      fields
+        .filter((field) => field.type === type && !field.schedule_id)
+        .map((field) => ({ ...field, label }));
 
     return {
-      audioVideo,
-      microphones: buildDutyFields(
-        activeMeeting,
-        'Microphone',
-        AssignmentCode.DUTIES_Microphone,
-        dutiesConfig?.mic_amount.value ?? 0,
-        responsible
-      ),
-      stage: buildDutyFields(
-        activeMeeting,
-        'Stage',
-        AssignmentCode.DUTIES_Stage,
-        dutiesConfig?.stage_amount.value ?? 0,
-        responsible
-      ),
-      entranceAttendant: buildDutyFields(
-        activeMeeting,
-        'EntranceAttendant',
+      // one column per duty: combined has a single one, split keeps them apart
+      audioVideo: [
+        byType(AssignmentCode.DUTIES_AudioVideo, responsible),
+        byType(AssignmentCode.DUTIES_Audio, t('tr_dutiesAudio')),
+        byType(AssignmentCode.DUTIES_Video, t('tr_dutiesVideo')),
+      ],
+      microphones: byType(AssignmentCode.DUTIES_Microphone, responsible),
+      stage: byType(AssignmentCode.DUTIES_Stage, responsible),
+      entranceAttendant: byType(
         AssignmentCode.DUTIES_EntranceAttendant,
-        dutiesConfig?.entrance_attendant_amount.value ?? 0,
-        t('tr_attendant')
+        attendant
       ),
-      auditoriumAttendant: [
-        {
-          assignment: `${prefix}_DUTIES_AuditoriumAttendant`,
-          type: AssignmentCode.DUTIES_AuditoriumAttendant,
-          label: t('tr_attendant'),
-        },
-      ] as DutyFieldType[],
-      hospitality: buildDutyFields(
-        activeMeeting,
-        'Hospitality',
+      auditoriumAttendant: byType(
+        AssignmentCode.DUTIES_AuditoriumAttendant,
+        attendant
+      ),
+      hospitality: byType(
         AssignmentCode.DUTIES_Hospitality,
-        dutiesConfig?.hospitality_amount.value ?? 0,
         t('tr_hospitality')
       ),
       custom: customDuties.map((duty) => ({
         id: duty.id,
         name: duty.name,
-        fields: Array.from(
-          { length: Math.min(duty.amount, 4) },
-          (_, index): DutyFieldType => ({
-            assignment: `${prefix}_DUTIES_Dynamic`,
-            type: AssignmentCode.DUTIES_Custom,
-            label: responsible,
-            schedule_id: `${duty.id}_${index + 1}`,
-          })
-        ),
+        fields: fields
+          .filter((field) => field.schedule_id?.startsWith(`${duty.id}_`))
+          .map((field): DutyFieldType => ({ ...field, label: responsible })),
       })),
     };
   }, [activeMeeting, dutiesConfig, customDuties, t]);
