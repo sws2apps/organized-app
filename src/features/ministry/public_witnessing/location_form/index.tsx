@@ -173,7 +173,7 @@ const LocationForm = (props: LocationFormProps) => {
           value={name}
           onChange={(e) => setName(e.target.value)}
           error={errors.name}
-          helperText={errors.name ? t('tr_fillRequiredField') : undefined}
+          helperText={errors.name && t('tr_fillRequiredField')}
         />
         <TextField
           label={t('tr_address')}
@@ -195,9 +195,7 @@ const LocationForm = (props: LocationFormProps) => {
             )
           }
           error={errors.maxPublishers}
-          helperText={
-            errors.maxPublishers ? t('tr_fillRequiredField') : undefined
-          }
+          helperText={errors.maxPublishers && t('tr_fillRequiredField')}
         />
       </Box>
       <TextField
