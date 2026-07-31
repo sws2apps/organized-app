@@ -51,3 +51,12 @@ export type MonthViewProps = {
   days: DayShiftsType[];
   onSelectDay: (date: string) => void;
 };
+
+export type ShiftCellProps = {
+  slot: ShiftSlotType;
+  interactive: boolean;
+  compact?: boolean;
+  expanded?: boolean;
+  onToggle?: VoidFunction;
+  onClick?: VoidFunction;
+};

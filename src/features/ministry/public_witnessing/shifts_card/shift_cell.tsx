@@ -7,20 +7,7 @@ import Badge from '@components/badge';
 import IconButton from '@components/icon_button';
 import Tooltip from '@components/tooltip';
 import Typography from '@components/typography';
-import { ShiftSlotStatus, ShiftSlotType } from './index.types';
-
-type ShiftCellProps = {
-  slot: ShiftSlotType;
-  interactive: boolean;
-  /**
-   * Narrow layout for the week columns: the times and the names stack, and
-   * the names hide behind the expand chevron.
-   */
-  compact?: boolean;
-  expanded?: boolean;
-  onToggle?: VoidFunction;
-  onClick?: VoidFunction;
-};
+import { ShiftCellProps, ShiftSlotStatus, ShiftSlotType } from './index.types';
 
 const cellStyles: Record<ShiftSlotStatus, object> = {
   available: {
@@ -62,6 +49,67 @@ const textColors: Record<ShiftSlotStatus, string> = {
   past: 'var(--grey-350)',
 };
 
+type CellContentProps = {
+  slot: ShiftSlotType;
+  color: string;
+  statusLabel: string;
+};
+
+const PublisherNames = ({
+  slot,
+  color,
+  compact,
+}: Omit<CellContentProps, 'statusLabel'> & { compact?: boolean }) => (
+  <Typography
+    className={compact ? 'label-small-regular' : 'body-small-regular'}
+    color={color}
+  >
+    {slot.publishers.join(', ')}
+  </Typography>
+);
+
+const CompactContent = ({
+  slot,
+  color,
+  statusLabel,
+  expanded,
+}: CellContentProps & { expanded?: boolean }) => (
+  <Collapse in={expanded} unmountOnExit>
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+      <PublisherNames slot={slot} color={color} compact />
+
+      {slot.status === 'partner_needed' && (
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+          <IconPersonSearch color={color} width={16} height={16} />
+          <Typography className="label-small-regular" color={color}>
+            {statusLabel}
+          </Typography>
+        </Box>
+      )}
+    </Box>
+  </Collapse>
+);
+
+const FullContent = ({ slot, color, statusLabel }: CellContentProps) => (
+  <>
+    {slot.publishers.length > 0 && (
+      <PublisherNames slot={slot} color={color} />
+    )}
+
+    {slot.status !== 'past' && (
+      <Badge
+        size="small"
+        color={badgeColors[slot.status]}
+        text={statusLabel}
+        icon={
+          slot.status === 'partner_needed' ? <IconPersonSearch /> : undefined
+        }
+        sx={{ marginLeft: 'auto' }}
+      />
+    )}
+  </>
+);
+
 const ShiftCell = ({
   slot,
   interactive,
@@ -72,8 +120,6 @@ const ShiftCell = ({
 }: ShiftCellProps) => {
   const { t } = useAppTranslation();
 
-  const color = textColors[slot.status];
-
   const statusLabels: Record<ShiftSlotStatus, string> = {
     available: t('tr_shiftAvailable'),
     partner_needed: t('tr_partnerNeeded'),
@@ -81,44 +127,30 @@ const ShiftCell = ({
     past: '',
   };
 
+  const color = textColors[slot.status];
   const statusLabel = statusLabels[slot.status];
+  const times = `${slot.start_time} - ${slot.end_time}`;
+  const expandable = Boolean(compact && slot.publishers.length);
 
-  const hasPublishers = slot.publishers.length > 0;
+  const handleKeyDown = (event: KeyboardEvent) => {
+    if (event.key !== 'Enter' && event.key !== ' ') return;
+    event.preventDefault();
+    onClick?.();
+  };
 
-  const expandable = compact && hasPublishers;
+  const handleToggle = (event: MouseEvent) => {
+    event.stopPropagation();
+    onToggle?.();
+  };
 
   const interactiveProps = interactive
-    ? {
-        role: 'button',
-        tabIndex: 0,
-        onClick,
-        onKeyDown: (event: KeyboardEvent) => {
-          if (event.key !== 'Enter' && event.key !== ' ') return;
-          event.preventDefault();
-          onClick?.();
-        },
-      }
+    ? { role: 'button', tabIndex: 0, onClick, onKeyDown: handleKeyDown }
     : {};
-
-  const names = (
-    <Typography
-      className={compact ? 'label-small-regular' : 'body-small-regular'}
-      color={color}
-    >
-      {slot.publishers.join(', ')}
-    </Typography>
-  );
 
   const cell = (
     <Box
       {...interactiveProps}
-      aria-label={
-        compact
-          ? [`${slot.start_time} - ${slot.end_time}`, statusLabel]
-              .filter(Boolean)
-              .join(', ')
-          : undefined
-      }
+      aria-label={compact ? [times, statusLabel].join(', ') : undefined}
       sx={{
         display: 'flex',
         flexDirection: compact ? 'column' : 'row',
@@ -149,17 +181,14 @@ const ShiftCell = ({
           color={color}
           sx={{ whiteSpace: 'nowrap' }}
         >
-          {slot.start_time} - {slot.end_time}
+          {times}
         </Typography>
 
         {expandable && (
           <IconButton
             aria-expanded={expanded}
-            aria-label={t('tr_shiftOccupied')}
-            onClick={(event: MouseEvent) => {
-              event.stopPropagation();
-              onToggle?.();
-            }}
+            aria-label={statusLabel}
+            onClick={handleToggle}
             sx={{ padding: '2px', marginRight: '-2px' }}
           >
             <IconExpand
@@ -175,48 +204,22 @@ const ShiftCell = ({
         )}
       </Box>
 
-      {compact ? (
-        <>
-          {expandable && (
-            <Collapse in={expanded} unmountOnExit>
-              <Box
-                sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}
-              >
-                {names}
-                {slot.status === 'partner_needed' && (
-                  <Box
-                    sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}
-                  >
-                    <IconPersonSearch color={color} width={16} height={16} />
-                    <Typography className="label-small-regular" color={color}>
-                      {statusLabel}
-                    </Typography>
-                  </Box>
-                )}
-              </Box>
-            </Collapse>
-          )}
-
-        </>
-      ) : (
-        <>
-          {hasPublishers && names}
-
-          {slot.status !== 'past' && (
-            <Badge
-              size="small"
-              color={badgeColors[slot.status]}
-              text={statusLabel}
-              icon={
-                slot.status === 'partner_needed' ? (
-                  <IconPersonSearch />
-                ) : undefined
-              }
-              sx={{ marginLeft: 'auto' }}
+      {compact
+        ? expandable && (
+            <CompactContent
+              slot={slot}
+              color={color}
+              statusLabel={statusLabel}
+              expanded={expanded}
+            />
+          )
+        : (
+            <FullContent
+              slot={slot}
+              color={color}
+              statusLabel={statusLabel}
             />
           )}
-        </>
-      )}
     </Box>
   );
 
