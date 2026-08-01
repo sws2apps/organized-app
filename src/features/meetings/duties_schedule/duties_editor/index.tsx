@@ -3,7 +3,7 @@ import {
   IconAtHome,
   IconComputerVideo,
   IconDoor,
-  IconEdit,
+  IconDuties,
   IconHallOverseer,
   IconInfo,
   IconMicrophone,
@@ -170,7 +170,7 @@ const DutiesEditor = () => {
                 <DutyRow
                   key={duty.id}
                   duty={duty.name}
-                  icon={<IconEdit color="var(--accent-dark)" />}
+                  icon={<IconDuties color="var(--accent-dark)" />}
                   week={selectedWeek}
                   fields={duty.fields}
                 />
