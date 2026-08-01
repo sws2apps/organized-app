@@ -20,8 +20,8 @@ const BADGE_HORIZONTAL_PADDING = 8;
 const BADGE_VERTICAL_PADDING = 4;
 const BLOCK_GAP = 6;
 export const DIVIDER_HEIGHT = 1;
-const OVERSEER_GAP = 3;
-const MEMBER_GAP = 2;
+const OVERSEER_GAP = 5;
+const MEMBER_GAP = 4;
 const LINE_RATIO = 1.1;
 const AVERAGE_CHAR_RATIO = 0.55;
 

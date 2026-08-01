@@ -44,11 +44,11 @@ const styles = StyleSheet.create({
   groupOverseers: {
     display: 'flex',
     flexDirection: 'column',
-    gap: '3px',
+    gap: '5px',
   },
   dashedDivider: {
     stroke: '#DADADA',
-    strokeWidth: 0.5,
+    strokeWidth: 1,
     strokeDasharray: '5 4',
   },
   groupOverseerText: {
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
   groupMemberList: {
     display: 'flex',
     flexDirection: 'column',
-    gap: '2px',
+    gap: '4px',
   },
   groupMember: {
     fontWeight: 400,
