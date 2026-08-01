@@ -2,10 +2,16 @@ import { FieldServiceGroupExportType } from '@definition/field_service_groups';
 
 export type FSGPageOrientation = 'portrait' | 'landscape';
 
+export type FSGColumn = {
+  id: string;
+  publishers: string[];
+};
+
 export type FSGCard = {
+  id: string;
   group: FieldServiceGroupExportType;
   span: number;
-  columns: string[][];
+  columns: FSGColumn[];
   height: number;
   membersCount: number;
 };

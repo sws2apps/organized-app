@@ -19,7 +19,7 @@ const TITLE_GAP = 4;
 const BADGE_HORIZONTAL_PADDING = 8;
 const BADGE_VERTICAL_PADDING = 4;
 const BLOCK_GAP = 6;
-const DIVIDER_HEIGHT = 0.5;
+export const DIVIDER_HEIGHT = 1;
 const OVERSEER_GAP = 3;
 const MEMBER_GAP = 2;
 const LINE_RATIO = 1.1;
@@ -147,26 +147,36 @@ const membersCountOf = (group: FieldServiceGroupExportType) =>
   group.publishers.length + overseersOf(group).length;
 
 const layoutCard = (
-  group: FieldServiceGroupExportType,
+  input: {
+    id: string;
+    group: FieldServiceGroupExportType;
+    membersCount: number;
+  },
   fontSize: number,
   maxHeight: number,
-  maxSpan: number,
-  membersCount = membersCountOf(group)
+  maxSpan: number
 ): FSGCard => {
+  const { id, group, membersCount } = input;
+
   const measure = (span: number): FSGCard => {
     const width = columnWidth(span);
-    const columns = balanceColumns(group.publishers, span, fontSize, width);
+    const publishers = balanceColumns(group.publishers, span, fontSize, width);
 
     const height =
       chromeHeight(group, fontSize, span, membersCount) +
       Math.max(
         0,
-        ...columns.map((column) =>
+        ...publishers.map((column) =>
           textHeight(column, fontSize, width, MEMBER_GAP)
         )
       );
 
-    return { group, span, columns, height, membersCount };
+    const columns = publishers.map((column, position) => ({
+      id: `${id}-${position}`,
+      publishers: column,
+    }));
+
+    return { id, group, span, columns, height, membersCount };
   };
 
   let card = measure(1);
@@ -184,7 +194,14 @@ const layoutCards = (
   maxHeight: number,
   maxSpan: number
 ): FSGCard[] => {
-  const whole = layoutCard(group, fontSize, maxHeight, maxSpan);
+  const membersCount = membersCountOf(group);
+
+  const whole = layoutCard(
+    { id: `${group.group_number}`, group, membersCount },
+    fontSize,
+    maxHeight,
+    maxSpan
+  );
 
   if (whole.height <= maxHeight) return [whole];
 
@@ -197,15 +214,18 @@ const layoutCards = (
     const measure = (take: number) =>
       layoutCard(
         {
-          ...group,
-          publishers: remaining.slice(0, take),
-          overseer: leading ? group.overseer : undefined,
-          overseerAssistant: leading ? group.overseerAssistant : undefined,
+          id: `${group.group_number}-${cards.length}`,
+          membersCount,
+          group: {
+            ...group,
+            publishers: remaining.slice(0, take),
+            overseer: leading ? group.overseer : undefined,
+            overseerAssistant: leading ? group.overseerAssistant : undefined,
+          },
         },
         fontSize,
         maxHeight,
-        maxSpan,
-        membersCountOf(group)
+        maxSpan
       );
 
     let take = remaining.length;
