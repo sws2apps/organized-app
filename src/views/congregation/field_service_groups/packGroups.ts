@@ -13,7 +13,10 @@ export const CARD_GAP = 7;
 const LIST_HORIZONTAL_PADDING = 8;
 const LIST_VERTICAL_PADDING = 12;
 const LIST_BORDER = 1;
+const TITLE_HORIZONTAL_PADDING = 12;
 const TITLE_VERTICAL_PADDING = 8;
+const TITLE_GAP = 4;
+const BADGE_HORIZONTAL_PADDING = 8;
 const BADGE_VERTICAL_PADDING = 4;
 const BLOCK_GAP = 6;
 const DIVIDER_HEIGHT = 0.5;
@@ -47,9 +50,18 @@ const textHeight = (
 export const cardWidth = (span: number) =>
   span * CARD_WIDTH + (span - 1) * CARD_GAP;
 
+export const contentWidth = (span: number) =>
+  cardWidth(span) - 2 * LIST_HORIZONTAL_PADDING - LIST_BORDER;
+
 export const columnWidth = (span: number) =>
-  (cardWidth(span) - 2 * LIST_HORIZONTAL_PADDING - LIST_BORDER) / span -
-  ((span - 1) * CARD_GAP) / span;
+  (contentWidth(span) - (span - 1) * CARD_GAP) / span;
+
+const titleWidth = (span: number, fontSize: number, membersCount: number) =>
+  cardWidth(span) -
+  TITLE_HORIZONTAL_PADDING -
+  TITLE_GAP -
+  BADGE_HORIZONTAL_PADDING -
+  String(membersCount).length * AVERAGE_CHAR_RATIO * (fontSize - 2);
 
 const overseersOf = (group: FieldServiceGroupExportType) =>
   [group.overseer, group.overseerAssistant].filter(
@@ -59,18 +71,25 @@ const overseersOf = (group: FieldServiceGroupExportType) =>
 const chromeHeight = (
   group: FieldServiceGroupExportType,
   fontSize: number,
-  width: number
+  span: number,
+  membersCount: number
 ) => {
+  const titleLines = nameLines(
+    group.group_name,
+    fontSize,
+    titleWidth(span, fontSize, membersCount)
+  );
+
   const titleHeight =
     Math.max(
-      lineHeight(fontSize),
+      titleLines * lineHeight(fontSize),
       lineHeight(fontSize - 2) + BADGE_VERTICAL_PADDING
     ) + TITLE_VERTICAL_PADDING;
 
   const overseers = overseersOf(group);
 
   const overseerHeight = overseers.length
-    ? textHeight(overseers, fontSize, width, OVERSEER_GAP) +
+    ? textHeight(overseers, fontSize, contentWidth(span), OVERSEER_GAP) +
       2 * BLOCK_GAP +
       DIVIDER_HEIGHT
     : 0;
@@ -131,14 +150,15 @@ const layoutCard = (
   group: FieldServiceGroupExportType,
   fontSize: number,
   maxHeight: number,
-  maxSpan: number
+  maxSpan: number,
+  membersCount = membersCountOf(group)
 ): FSGCard => {
   const measure = (span: number): FSGCard => {
     const width = columnWidth(span);
     const columns = balanceColumns(group.publishers, span, fontSize, width);
 
     const height =
-      chromeHeight(group, fontSize, width) +
+      chromeHeight(group, fontSize, span, membersCount) +
       Math.max(
         0,
         ...columns.map((column) =>
@@ -146,13 +166,7 @@ const layoutCard = (
         )
       );
 
-    return {
-      group,
-      span,
-      columns,
-      height,
-      membersCount: membersCountOf(group),
-    };
+    return { group, span, columns, height, membersCount };
   };
 
   let card = measure(1);
@@ -190,7 +204,8 @@ const layoutCards = (
         },
         fontSize,
         maxHeight,
-        maxSpan
+        maxSpan,
+        membersCountOf(group)
       );
 
     let take = remaining.length;
@@ -210,7 +225,7 @@ const layoutCards = (
       card = wider;
     }
 
-    cards.push({ ...card, membersCount: membersCountOf(group) });
+    cards.push(card);
 
     remaining = remaining.slice(take);
     leading = false;
