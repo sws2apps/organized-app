@@ -49,7 +49,6 @@ const styles = StyleSheet.create({
   dashedDivider: {
     stroke: '#DADADA',
     strokeWidth: 1,
-    strokeDasharray: '5 4',
   },
   groupOverseerText: {
     fontWeight: 600,
