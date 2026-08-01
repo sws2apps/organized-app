@@ -1,10 +1,19 @@
 {
-  "2026-01-20T00:00": {
+  "2026-07-01T00:00": {
+    "images": {
+      "img_01": {
+        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-color-schemes.svg",
+        "tr_title": "New color schemes",
+        "tr_desc": "More ways to make Organized yours! Explore new colors in profile settings, from minimal monochrome to vibrant pink."
+      },
+      "img_02": {
+        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-homescreen-shortcuts.svg",
+        "tr_title": "Home screen shortcuts",
+        "tr_desc": "Jump straight to the most important features, on both desktop and mobile devices."
+      }
+    },
     "improvements": {
-      "tr_note_01": "Hi’opo’a i te mau nūmera tātari nō te tāvini-ra’a i rāfa’i e te mau pupu reo i roto i te mau parau fā’ito a te feiā poro",
-      "tr_note_02": "Tāpiri te fa'atupura'a āmuri i te tā'atira'a tāta'ira'a",
-      "tr_note_03": "Ua fa'ahou-hia te pu'e haere i ni'a 'e ua tāpiri-hia te pūpū ohipa i raro nā te uira'a tāmau'a (mobile)",
-      "tr_note_04": "Fa'aîe atu te mau hora o te mau taeae orero fa'ahiti ei PDF"
+      "tr_note_01": "Added school for congregation elders credit hour preset"
     }
   }
 }

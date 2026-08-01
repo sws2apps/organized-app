@@ -165,6 +165,6 @@
   "tr_templateDownload": "Baixar modelo",
   "tr_fileImport": "Importar arquivo",
   "tr_csvImportDescription": "Para melhores resultados ao importar, use o arquivo de modelo.\nNem todas as colunas precisam ser preenchidas.\nAs colunas serão processadas na ordem em que aparecem.\nSe um status ou tarefa deve ser ativado, um '1' ou 'verdadeiro' deve ser especificado.\nTanto ';' quanto ',' são permitidos como delimitadores.",
-  "tr_importSuccess": "Import completed! {{ successCount }} out of {{ totalCount }} persons were saved.",
-  "tr_bottomActionsMenu": "Bottom actions menu"
+  "tr_importSuccess": "Importação concluída! {{ successCount }} das pessoas de {{ totalCount }} foram salvas.",
+  "tr_bottomActionsMenu": "Menu de ações inferior"
 }
