@@ -1,8 +1,9 @@
 import { Box } from '@mui/material';
-import { IconGenerate, IconPublish } from '@components/icons';
+import { IconGenerate, IconPrint, IconPublish } from '@components/icons';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useMeetingDuties from './useDuties';
 import DutiesEditor from '@features/meetings/duties_schedule/duties_editor';
+import DutiesExport from '@features/meetings/duties_export';
 import NavBarButton from '@components/nav_bar_button';
 import NavBarButtonGroup from '@components/nav_bar_button_group';
 import PageTitle from '@components/page_title';
@@ -27,6 +28,9 @@ const MeetingDuties = () => {
     publishOpen,
     handleOpenPublish,
     handleClosePublish,
+    exportOpen,
+    handleOpenExport,
+    handleCloseExport,
   } = useMeetingDuties();
 
   return (
@@ -54,11 +58,20 @@ const MeetingDuties = () => {
         />
       )}
 
+      {exportOpen && (
+        <DutiesExport open={exportOpen} onClose={handleCloseExport} />
+      )}
+
       <PageTitle
         title={t('tr_meetingDutiesSchedules')}
         quickSettings={handleOpenQuickSettings}
         buttons={
           <NavBarButtonGroup>
+            <NavBarButton
+              text={t('tr_export')}
+              icon={<IconPrint />}
+              onClick={handleOpenExport}
+            />
             <NavBarButton
               text={t('tr_autofill')}
               icon={<IconGenerate />}

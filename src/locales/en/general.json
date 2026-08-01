@@ -168,5 +168,12 @@
   "tr_importSuccess": "Import completed! {{ successCount }} out of {{ totalCount }} persons were saved.",
   "tr_bottomActionsMenu": "Bottom actions menu",
   "tr_disabledLabel": "Disabled",
-  "tr_amountLabel": "Amount"
+  "tr_amountLabel": "Amount",
+  "tr_orientation": "Orientation",
+  "tr_portrait": "Portrait",
+  "tr_landscape": "Landscape",
+  "tr_fontSize": "Font size",
+  "tr_small": "Small",
+  "tr_normal": "Normal",
+  "tr_large": "Large"
 }

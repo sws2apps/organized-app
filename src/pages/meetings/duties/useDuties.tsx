@@ -8,6 +8,7 @@ const useMeetingDuties = () => {
   const [quickSettingsOpen, setQuickSettingsOpen] = useState(false);
   const [autofillOpen, setAutofillOpen] = useState(false);
   const [publishOpen, setPublishOpen] = useState(false);
+  const [exportOpen, setExportOpen] = useState(false);
 
   const handleOpenQuickSettings = () => setQuickSettingsOpen(true);
 
@@ -21,6 +22,10 @@ const useMeetingDuties = () => {
 
   const handleClosePublish = () => setPublishOpen(false);
 
+  const handleOpenExport = () => setExportOpen(true);
+
+  const handleCloseExport = () => setExportOpen(false);
+
   return {
     isConnected,
     quickSettingsOpen,
@@ -32,6 +37,9 @@ const useMeetingDuties = () => {
     publishOpen,
     handleOpenPublish,
     handleClosePublish,
+    exportOpen,
+    handleOpenExport,
+    handleCloseExport,
   };
 };
 
