@@ -20,6 +20,8 @@ const BADGE_HORIZONTAL_PADDING = 8;
 const BADGE_VERTICAL_PADDING = 4;
 const BLOCK_GAP = 6;
 export const DIVIDER_HEIGHT = 1;
+const DIVIDER_DASH = 5;
+const DIVIDER_GAP = 4;
 const OVERSEER_GAP = 5;
 const MEMBER_GAP = 4;
 const LINE_RATIO = 1.1;
@@ -55,6 +57,19 @@ export const contentWidth = (span: number) =>
 
 export const columnWidth = (span: number) =>
   (contentWidth(span) - (span - 1) * CARD_GAP) / span;
+
+export const dividerDash = (span: number) => {
+  const width = contentWidth(span);
+
+  const dashes = Math.max(
+    2,
+    Math.floor((width + DIVIDER_GAP) / (DIVIDER_DASH + DIVIDER_GAP))
+  );
+
+  const gap = (width - dashes * DIVIDER_DASH) / (dashes - 1);
+
+  return `${DIVIDER_DASH} ${gap}`;
+};
 
 const titleWidth = (span: number, fontSize: number, membersCount: number) =>
   cardWidth(span) -

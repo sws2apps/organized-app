@@ -7,6 +7,7 @@ import {
   cardWidth,
   columnWidth,
   contentWidth,
+  dividerDash,
 } from './packGroups';
 import styles from './index.styles';
 
@@ -72,7 +73,10 @@ const FSGGroup = ({ card, fontSize }: FSGGroupProps) => {
                 y1={DIVIDER_HEIGHT / 2}
                 x2={contentWidth(span)}
                 y2={DIVIDER_HEIGHT / 2}
-                style={styles.dashedDivider}
+                style={{
+                  ...styles.dashedDivider,
+                  strokeDasharray: dividerDash(span),
+                }}
               />
             </Svg>
           </>
