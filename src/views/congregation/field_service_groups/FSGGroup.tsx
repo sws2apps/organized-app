@@ -2,32 +2,34 @@ import { View, Text } from '@react-pdf/renderer';
 import { getCSSPropertyValue } from '@utils/common';
 import { FSGGroupProps } from './index.types';
 import FSGGroupMember from './FSGGroupMember';
+import { cardWidth, columnWidth } from './packGroups';
 import styles from './index.styles';
 
-const FSGGroup = ({ group, fontSize }: FSGGroupProps) => {
-  const groupMembersCount =
-    group.publishers.length +
-    (group.overseer && 1) +
-    (group.overseerAssistant && 1);
+const FSGGroup = ({ card, fontSize }: FSGGroupProps) => {
+  const { group, span, columns, membersCount } = card;
+
+  const groupColor = getCSSPropertyValue(`--group-${group.group_number}`);
 
   return (
-    <View style={styles.groupContainer}>
+    <View wrap={false} style={{ width: cardWidth(span) }}>
       <View
         style={{
           ...styles.groupTitleContainer,
-          backgroundColor: getCSSPropertyValue(`--group-${group.group_number}`),
+          backgroundColor: groupColor,
         }}
       >
-        <Text style={{ ...styles.groupTitle, fontSize: `${fontSize}px` }}>{group.group_name}</Text>
+        <Text style={{ ...styles.groupTitle, fontSize }}>
+          {group.group_name}
+        </Text>
         <View style={styles.membersCountContainer}>
           <Text
             style={{
               ...styles.membersCount,
-              fontSize: `${fontSize - 2}px`,
-              color: getCSSPropertyValue(`--group-${group.group_number}`),
+              fontSize: fontSize - 2,
+              color: groupColor,
             }}
           >
-            {groupMembersCount}
+            {membersCount}
           </Text>
         </View>
       </View>
@@ -40,8 +42,8 @@ const FSGGroup = ({ group, fontSize }: FSGGroupProps) => {
                 <Text
                   style={{
                     ...styles.groupOverseerText,
-                    fontSize: `${fontSize}px`,
-                    color: getCSSPropertyValue(`--group-${group.group_number}`),
+                    fontSize,
+                    color: groupColor,
                   }}
                 >
                   {group.overseer}
@@ -51,8 +53,8 @@ const FSGGroup = ({ group, fontSize }: FSGGroupProps) => {
                 <Text
                   style={{
                     ...styles.groupOverseerAssistantText,
-                    fontSize: `${fontSize}px`,
-                    color: getCSSPropertyValue(`--group-${group.group_number}`),
+                    fontSize,
+                    color: groupColor,
                   }}
                 >
                   {group.overseerAssistant}
@@ -63,9 +65,20 @@ const FSGGroup = ({ group, fontSize }: FSGGroupProps) => {
           </>
         )}
 
-        <View style={styles.groupMemberList}>
-          {group.publishers.map((publisher) => (
-            <FSGGroupMember key={publisher} member={publisher} fontSize={fontSize} />
+        <View style={styles.groupColumns}>
+          {columns.map((column, index) => (
+            <View
+              key={index}
+              style={{ ...styles.groupMemberList, width: columnWidth(span) }}
+            >
+              {column.map((publisher) => (
+                <FSGGroupMember
+                  key={publisher}
+                  member={publisher}
+                  fontSize={fontSize}
+                />
+              ))}
+            </View>
           ))}
         </View>
       </View>

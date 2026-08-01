@@ -1,15 +1,31 @@
 import { FieldServiceGroupExportType } from '@definition/field_service_groups';
 
+export type FSGPageOrientation = 'portrait' | 'landscape';
+
+export type FSGCard = {
+  group: FieldServiceGroupExportType;
+  span: number;
+  columns: string[][];
+  height: number;
+  membersCount: number;
+};
+
+export type FSGPlacement = {
+  card: FSGCard;
+  left: number;
+  top: number;
+};
+
 export type TemplateFieldServiceGroupsProps = {
   groups: FieldServiceGroupExportType[];
   congregation: string;
   lang: string;
-  orientation?: 'portrait' | 'landscape';
+  orientation?: FSGPageOrientation;
   fontSize?: number;
 };
 
 export type FSGGroupProps = {
-  group: FieldServiceGroupExportType;
+  card: FSGCard;
   fontSize: number;
 };
 
