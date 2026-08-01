@@ -3,6 +3,7 @@ import { Document, Page, PageContent, PageHeader } from '@views/components';
 import { IconGroups } from '@views/components/icons';
 import { useAppTranslation } from '@hooks/index';
 import { TemplateFieldServiceGroupsProps } from './index.types';
+import packGroups, { pageBox } from './packGroups';
 import styles from './index.styles';
 import FSGGroup from './FSGGroup';
 
@@ -15,24 +16,38 @@ const TemplateFieldServiceGroups = ({
 }: TemplateFieldServiceGroupsProps) => {
   const { t } = useAppTranslation();
 
+  const pages = packGroups(groups, fontSize, orientation);
+
+  const contentHeight = pageBox(orientation).height;
+
   return (
     <Document title={t('tr_fieldServiceGroups')} lang={lang}>
-      <Page orientation={orientation}>
-        <PageContent gap={10}>
-          <PageHeader
-            congregationName={congregation}
-            variant="secondary"
-            icon={<IconGroups size={18} />}
-            title={t('tr_fieldServiceGroups')}
-            fixed
-          />
-          <View style={styles.groupsContainer}>
-            {groups.map((group) => (
-              <FSGGroup key={group.group_name} group={group} fontSize={fontSize} />
-            ))}
-          </View>
-        </PageContent>
-      </Page>
+      {pages.map((placements, index) => (
+        <Page key={index} orientation={orientation}>
+          <PageContent gap={10}>
+            <PageHeader
+              congregationName={congregation}
+              variant="secondary"
+              icon={<IconGroups size={18} />}
+              title={t('tr_fieldServiceGroups')}
+              fixed
+            />
+            <View
+              style={{ ...styles.groupsContainer, height: contentHeight }}
+              wrap={false}
+            >
+              {placements.map(({ card, left, top }, position) => (
+                <View
+                  key={position}
+                  style={{ position: 'absolute', left, top }}
+                >
+                  <FSGGroup card={card} fontSize={fontSize} />
+                </View>
+              ))}
+            </View>
+          </PageContent>
+        </Page>
+      ))}
     </Document>
   );
 };
