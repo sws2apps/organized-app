@@ -22,8 +22,8 @@ const TemplateFieldServiceGroups = ({
 
   return (
     <Document title={t('tr_fieldServiceGroups')} lang={lang}>
-      {pages.map((placements, index) => (
-        <Page key={index} orientation={orientation}>
+      {pages.map((placements) => (
+        <Page key={placements[0].card.id} orientation={orientation}>
           <PageContent gap={10}>
             <PageHeader
               congregationName={congregation}
@@ -36,11 +36,8 @@ const TemplateFieldServiceGroups = ({
               style={{ ...styles.groupsContainer, height: contentHeight }}
               wrap={false}
             >
-              {placements.map(({ card, left, top }, position) => (
-                <View
-                  key={position}
-                  style={{ position: 'absolute', left, top }}
-                >
+              {placements.map(({ card, left, top }) => (
+                <View key={card.id} style={{ position: 'absolute', left, top }}>
                   <FSGGroup card={card} fontSize={fontSize} />
                 </View>
               ))}

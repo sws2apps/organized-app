@@ -1,8 +1,13 @@
-import { View, Text } from '@react-pdf/renderer';
+import { View, Text, Svg, Line } from '@react-pdf/renderer';
 import { getCSSPropertyValue } from '@utils/common';
 import { FSGGroupProps } from './index.types';
 import FSGGroupMember from './FSGGroupMember';
-import { cardWidth, columnWidth } from './packGroups';
+import {
+  DIVIDER_HEIGHT,
+  cardWidth,
+  columnWidth,
+  contentWidth,
+} from './packGroups';
 import styles from './index.styles';
 
 const FSGGroup = ({ card, fontSize }: FSGGroupProps) => {
@@ -61,17 +66,25 @@ const FSGGroup = ({ card, fontSize }: FSGGroupProps) => {
                 </Text>
               )}
             </View>
-            <View style={styles.dashedDivider} />
+            <Svg width={contentWidth(span)} height={DIVIDER_HEIGHT}>
+              <Line
+                x1={0}
+                y1={DIVIDER_HEIGHT / 2}
+                x2={contentWidth(span)}
+                y2={DIVIDER_HEIGHT / 2}
+                style={styles.dashedDivider}
+              />
+            </Svg>
           </>
         )}
 
         <View style={styles.groupColumns}>
-          {columns.map((column, index) => (
+          {columns.map((column) => (
             <View
-              key={index}
+              key={column.id}
               style={{ ...styles.groupMemberList, width: columnWidth(span) }}
             >
-              {column.map((publisher) => (
+              {column.publishers.map((publisher) => (
                 <FSGGroupMember
                   key={publisher}
                   member={publisher}

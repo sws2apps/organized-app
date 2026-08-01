@@ -47,8 +47,9 @@ const styles = StyleSheet.create({
     gap: '3px',
   },
   dashedDivider: {
-    width: '100%',
-    borderBottom: `0.5px dashed #DADADA`,
+    stroke: '#DADADA',
+    strokeWidth: 0.5,
+    strokeDasharray: '5 4',
   },
   groupOverseerText: {
     fontWeight: 600,
