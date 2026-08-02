@@ -231,7 +231,9 @@ const findSpot = (
   columns: number,
   maxHeight: number
 ) => {
-  const lines = [0, ...taken.map((slot) => slot.top + slot.height + CARD_GAP)];
+  const lines = [
+    ...new Set([0, ...taken.map((slot) => slot.top + slot.height + CARD_GAP)]),
+  ].sort((first, second) => first - second);
 
   const spots: Slot[] = [];
 
@@ -245,13 +247,10 @@ const findSpot = (
     }
   }
 
-  if (spots.length === 0) return undefined;
+  // lines run top down, so the first spot found is the highest one available
+  const [highest] = spots;
 
-  const highest = spots.reduce((best, spot) =>
-    spot.top < best.top || (spot.top === best.top && spot.column < best.column)
-      ? spot
-      : best
-  );
+  if (!highest) return undefined;
 
   // starting a hair below a neighbour reads as a mistake: share its line instead
   const aligned = spots
@@ -261,8 +260,7 @@ const findSpot = (
         spot.top > highest.top &&
         spot.top - highest.top <= ALIGN_TOLERANCE
     )
-    .sort((a, b) => b.top - a.top)
-    .at(0);
+    .at(-1);
 
   return aligned ?? highest;
 };
