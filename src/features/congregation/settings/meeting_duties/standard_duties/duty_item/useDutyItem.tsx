@@ -41,6 +41,10 @@ const useDutyItem = ({ duty }: DutyItemProps) => {
       return meetingDuties.stage_amount.value;
     }
 
+    if (duty === 'tr_dutiesAuditoriumAttendant') {
+      return meetingDuties.auditorium_attendant_amount?.value ?? 1;
+    }
+
     if (duty === 'tr_hospitality') {
       return meetingDuties.hospitality_amount.value;
     }
@@ -85,6 +89,13 @@ const useDutyItem = ({ duty }: DutyItemProps) => {
 
       if (duty === 'tr_dutiesStage') {
         duties.stage_amount = { value, updatedAt: new Date().toISOString() };
+      }
+
+      if (duty === 'tr_dutiesAuditoriumAttendant') {
+        duties.auditorium_attendant_amount = {
+          value,
+          updatedAt: new Date().toISOString(),
+        };
       }
 
       if (duty === 'tr_hospitality') {

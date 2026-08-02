@@ -134,7 +134,6 @@ export type DutiesMeetingPrefixType = 'MM' | 'WM';
 export type DutyPositionIndexType = 1 | 2 | 3 | 4;
 
 export type AssignmentFieldDutiesType =
-  | `${DutiesMeetingPrefixType}_DUTIES_AuditoriumAttendant`
   | `${DutiesMeetingPrefixType}_DUTIES_Dynamic`
   | `${DutiesMeetingPrefixType}_DUTIES_${
       | 'Audio'
@@ -143,6 +142,7 @@ export type AssignmentFieldDutiesType =
       | 'Microphone'
       | 'Stage'
       | 'EntranceAttendant'
+      | 'AuditoriumAttendant'
       | 'Hospitality'
       | 'VideoconferenceHost'}_${DutyPositionIndexType}`;
 

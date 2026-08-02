@@ -199,6 +199,7 @@ export const schedulesDutiesFieldList = (
       | 'Microphone'
       | 'Stage'
       | 'EntranceAttendant'
+      | 'AuditoriumAttendant'
       | 'Hospitality'
       | 'VideoconferenceHost',
     type: AssignmentCode,
@@ -260,10 +261,11 @@ export const schedulesDutiesFieldList = (
     config.entrance_attendant_amount.value
   );
 
-  fields.push({
-    assignment: `${prefix}_DUTIES_AuditoriumAttendant` as AssignmentFieldType,
-    type: AssignmentCode.DUTIES_AuditoriumAttendant,
-  });
+  positioned(
+    'AuditoriumAttendant',
+    AssignmentCode.DUTIES_AuditoriumAttendant,
+    config.auditorium_attendant_amount?.value ?? 1
+  );
 
   positioned(
     'Hospitality',
@@ -1323,7 +1325,7 @@ export const schedulesGetHistoryDetails = ({
         'tr_dutiesEntranceAttendant',
       ],
       [
-        '_DUTIES_AuditoriumAttendant',
+        '_DUTIES_AuditoriumAttendant_',
         AssignmentCode.DUTIES_AuditoriumAttendant,
         'tr_dutiesAuditoriumAttendant',
       ],

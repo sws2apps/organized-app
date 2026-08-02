@@ -141,8 +141,13 @@ export const dbSchedUpdateOutgoingTalksFields = async () => {
   await dbUpdateSchedulesMetadata();
 };
 
-// audio and video used to hold a single person; they are positional now
-const dutyToPositions = (duty: DutiesMeetingType, field: 'audio' | 'video') => {
+// these duties used to hold a single person; they are positional now
+const POSITIONAL_DUTIES = ['audio', 'video', 'auditorium_attendant'] as const;
+
+const dutyToPositions = (
+  duty: DutiesMeetingType,
+  field: (typeof POSITIONAL_DUTIES)[number]
+) => {
   const current = duty[field] as DutyPositionsType | AssignmentCongregation[];
 
   if (!Array.isArray(current)) return;
@@ -161,8 +166,7 @@ export const dbSchedFillDutiesFields = async () => {
     return [duties.midweek, duties.weekend].some(
       (duty) =>
         !duty.videoconference_host ||
-        Array.isArray(duty.audio) ||
-        Array.isArray(duty.video)
+        POSITIONAL_DUTIES.some((field) => Array.isArray(duty[field]))
     );
   };
 
@@ -174,8 +178,9 @@ export const dbSchedFillDutiesFields = async () => {
     for (const duty of [sched.duties.midweek, sched.duties.weekend]) {
       duty.videoconference_host ??= dutyPositions();
 
-      dutyToPositions(duty, 'audio');
-      dutyToPositions(duty, 'video');
+      for (const field of POSITIONAL_DUTIES) {
+        dutyToPositions(duty, field);
+      }
     }
 
     return { key: sched.weekOf, changes: sched };

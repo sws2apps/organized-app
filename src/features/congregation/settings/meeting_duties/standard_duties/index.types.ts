@@ -5,5 +5,6 @@ export type DutyStandard =
   | 'tr_dutiesMicrophones'
   | 'tr_dutiesStage'
   | 'tr_dutiesEntranceAttendant'
+  | 'tr_dutiesAuditoriumAttendant'
   | 'tr_hospitality'
   | 'tr_dutiesVideoconferenceHost';

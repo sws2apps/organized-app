@@ -210,6 +210,7 @@ export type SettingsType = {
       mic_amount: { value: number; updatedAt: string };
       stage_amount: { value: number; updatedAt: string };
       entrance_attendant_amount: { value: number; updatedAt: string };
+      auditorium_attendant_amount: { value: number; updatedAt: string };
       hospitality_amount: { value: number; updatedAt: string };
       videoconference_host_amount: { value: number; updatedAt: string };
       custom: {

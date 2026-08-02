@@ -109,7 +109,7 @@ const dutiesMeeting = (): DutiesMeetingType => ({
   microphones: dutyPositions(),
   stage: dutyPositions(),
   entrance_attendant: dutyPositions(),
-  auditorium_attendant: dutyAssignment(),
+  auditorium_attendant: dutyPositions(),
   hospitality: dutyPositions(),
   videoconference_host: dutyPositions(),
   dynamic: [],

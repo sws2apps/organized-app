@@ -89,7 +89,7 @@ export type DutiesMeetingType = {
   microphones: DutyPositionsType;
   stage: DutyPositionsType;
   entrance_attendant: DutyPositionsType;
-  auditorium_attendant: AssignmentCongregation[];
+  auditorium_attendant: DutyPositionsType;
   hospitality: DutyPositionsType;
   videoconference_host: DutyPositionsType;
   // `${sectionOrCustomId}_${position}` entries for sections and custom duties

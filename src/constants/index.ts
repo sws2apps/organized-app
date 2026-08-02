@@ -514,13 +514,12 @@ export const ASSIGNMENT_PATH = {
       ['Microphone', 'microphones'],
       ['Stage', 'stage'],
       ['EntranceAttendant', 'entrance_attendant'],
+      ['AuditoriumAttendant', 'auditorium_attendant'],
       ['Hospitality', 'hospitality'],
       ['VideoconferenceHost', 'videoconference_host'],
     ] as const;
 
     for (const [prefix, meeting] of meetings) {
-      paths[`${prefix}_DUTIES_AuditoriumAttendant`] =
-        `duties.${meeting}.auditorium_attendant`;
       paths[`${prefix}_DUTIES_Dynamic`] = `duties.${meeting}.dynamic`;
 
       for (const [duty, field] of positioned) {
