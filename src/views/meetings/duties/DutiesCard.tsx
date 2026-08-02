@@ -4,6 +4,7 @@ import {
   IconAtHome,
   IconAudioMixer,
   IconComputerVideo,
+  IconConference,
   IconDoor,
   IconDuties,
   IconHallOverseer,
@@ -30,6 +31,7 @@ const DUTY_ICONS: Record<DutiesCardIconType, ComponentType<IconProps>> = {
   entranceAttendant: IconDoor,
   auditoriumAttendant: IconHallOverseer,
   hospitality: IconAtHome,
+  videoconferenceHost: IconConference,
   custom: IconDuties,
 };
 

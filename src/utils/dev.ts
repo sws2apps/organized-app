@@ -619,6 +619,7 @@ export const importDummyPersons = async (showLoading?: boolean) => {
               AssignmentCode.WM_WTStudyReader,
               AssignmentCode.DUTIES_AuditoriumAttendant,
               AssignmentCode.DUTIES_Hospitality,
+              AssignmentCode.DUTIES_VideoconferenceHost,
             ],
           });
 

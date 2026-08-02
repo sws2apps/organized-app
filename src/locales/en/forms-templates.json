@@ -117,5 +117,6 @@
   "tr_dutiesStage": "Stage",
   "tr_dutiesEntranceAttendant": "Entrance attendant",
   "tr_dutiesAuditoriumAttendant": "Auditorium attendant",
-  "tr_dutiesHospitality": "Hospitality"
+  "tr_dutiesHospitality": "Hospitality",
+  "tr_dutiesVideoconferenceHost": "Videoconference host"
 }

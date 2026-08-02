@@ -86,6 +86,11 @@ const STATIC_DUTIES: {
     icon: 'hospitality',
     label: 'tr_hospitality',
   },
+  {
+    code: AssignmentCode.DUTIES_VideoconferenceHost,
+    icon: 'videoconferenceHost',
+    label: 'tr_dutiesVideoconferenceHost',
+  },
 ];
 
 const useDutiesExport = (onClose: DutiesExportType['onClose']) => {

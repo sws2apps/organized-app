@@ -199,7 +199,8 @@ export const schedulesDutiesFieldList = (
       | 'Microphone'
       | 'Stage'
       | 'EntranceAttendant'
-      | 'Hospitality',
+      | 'Hospitality'
+      | 'VideoconferenceHost',
     type: AssignmentCode,
     amount: number
   ) => {
@@ -268,6 +269,12 @@ export const schedulesDutiesFieldList = (
     'Hospitality',
     AssignmentCode.DUTIES_Hospitality,
     config.hospitality_amount.value
+  );
+
+  positioned(
+    'VideoconferenceHost',
+    AssignmentCode.DUTIES_VideoconferenceHost,
+    config.videoconference_host_amount?.value ?? 0
   );
 
   dynamic(config.custom, AssignmentCode.DUTIES_Custom);
@@ -1324,6 +1331,11 @@ export const schedulesGetHistoryDetails = ({
         '_DUTIES_Hospitality_',
         AssignmentCode.DUTIES_Hospitality,
         'tr_dutiesHospitality',
+      ],
+      [
+        '_DUTIES_VideoconferenceHost_',
+        AssignmentCode.DUTIES_VideoconferenceHost,
+        'tr_dutiesVideoconferenceHost',
       ],
     ];
 

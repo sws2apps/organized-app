@@ -91,6 +91,7 @@ export type DutiesMeetingType = {
   entrance_attendant: DutyPositionsType;
   auditorium_attendant: AssignmentCongregation[];
   hospitality: DutyPositionsType;
+  videoconference_host: DutyPositionsType;
   // `${sectionOrCustomId}_${position}` entries for sections and custom duties
   dynamic: AssignmentCongregation[];
 };

@@ -111,6 +111,7 @@ const dutiesMeeting = (): DutiesMeetingType => ({
   entrance_attendant: dutyPositions(),
   auditorium_attendant: dutyAssignment(),
   hospitality: dutyPositions(),
+  videoconference_host: dutyPositions(),
   dynamic: [],
 });
 

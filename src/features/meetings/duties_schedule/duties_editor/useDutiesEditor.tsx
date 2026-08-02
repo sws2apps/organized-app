@@ -104,6 +104,10 @@ const useDutiesEditor = () => {
         AssignmentCode.DUTIES_Hospitality,
         t('tr_hospitality')
       ),
+      videoconferenceHost: byType(
+        AssignmentCode.DUTIES_VideoconferenceHost,
+        responsible
+      ),
       custom: customDuties.map((duty) => ({
         id: duty.id,
         name: duty.name,

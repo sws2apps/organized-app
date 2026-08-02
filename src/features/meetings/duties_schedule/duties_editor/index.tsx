@@ -2,6 +2,7 @@ import { Box, Stack } from '@mui/material';
 import {
   IconAtHome,
   IconComputerVideo,
+  IconConference,
   IconDoor,
   IconDuties,
   IconHallOverseer,
@@ -149,7 +150,9 @@ const DutiesEditor = () => {
         </Stack>
       </Stack>
 
-      {(dutyRows.hospitality.length > 0 || dutyRows.custom.length > 0) && (
+      {(dutyRows.hospitality.length > 0 ||
+        dutyRows.videoconferenceHost.length > 0 ||
+        dutyRows.custom.length > 0) && (
         <>
           <Divider color="var(--accent-200)" />
 
@@ -163,6 +166,15 @@ const DutiesEditor = () => {
                   icon={<IconAtHome color="var(--accent-dark)" />}
                   week={selectedWeek}
                   fields={dutyRows.hospitality}
+                />
+              )}
+
+              {dutyRows.videoconferenceHost.length > 0 && (
+                <DutyRow
+                  duty={t('tr_dutiesVideoconferenceHost')}
+                  icon={<IconConference color="var(--accent-dark)" />}
+                  week={selectedWeek}
+                  fields={dutyRows.videoconferenceHost}
                 />
               )}
 

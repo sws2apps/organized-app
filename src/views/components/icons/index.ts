@@ -24,3 +24,4 @@ export { default as IconTalk } from './IconTalk';
 export { default as IconDoor } from './IconDoor';
 export { default as IconHallOverseer } from './IconHallOverseer';
 export { default as IconAtHome } from './IconAtHome';
+export { default as IconConference } from './IconConference';

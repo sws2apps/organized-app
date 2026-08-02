@@ -211,6 +211,7 @@ export type SettingsType = {
       stage_amount: { value: number; updatedAt: string };
       entrance_attendant_amount: { value: number; updatedAt: string };
       hospitality_amount: { value: number; updatedAt: string };
+      videoconference_host_amount: { value: number; updatedAt: string };
       custom: {
         _deleted: boolean;
         id: string;

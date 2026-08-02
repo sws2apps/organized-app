@@ -159,7 +159,10 @@ export const dbSchedFillDutiesFields = async () => {
     if (!duties?.midweek.dynamic || !duties?.weekend.dynamic) return true;
 
     return [duties.midweek, duties.weekend].some(
-      (duty) => Array.isArray(duty.audio) || Array.isArray(duty.video)
+      (duty) =>
+        !duty.videoconference_host ||
+        Array.isArray(duty.audio) ||
+        Array.isArray(duty.video)
     );
   };
 
@@ -169,6 +172,8 @@ export const dbSchedFillDutiesFields = async () => {
     sched.duties.weekend.dynamic ??= [];
 
     for (const duty of [sched.duties.midweek, sched.duties.weekend]) {
+      duty.videoconference_host ??= dutyPositions();
+
       dutyToPositions(duty, 'audio');
       dutyToPositions(duty, 'video');
     }

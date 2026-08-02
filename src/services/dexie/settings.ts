@@ -360,6 +360,7 @@ const meetingDutiesDefault = (type: string) => {
     stage_amount: { value: 1, updatedAt },
     entrance_attendant_amount: { value: 1, updatedAt },
     hospitality_amount: { value: 0, updatedAt },
+    videoconference_host_amount: { value: 0, updatedAt },
     custom: [],
   };
 };

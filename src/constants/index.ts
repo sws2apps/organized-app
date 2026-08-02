@@ -515,6 +515,7 @@ export const ASSIGNMENT_PATH = {
       ['Stage', 'stage'],
       ['EntranceAttendant', 'entrance_attendant'],
       ['Hospitality', 'hospitality'],
+      ['VideoconferenceHost', 'videoconference_host'],
     ] as const;
 
     for (const [prefix, meeting] of meetings) {
@@ -558,6 +559,7 @@ export const BROTHER_ASSIGNMENT = [
   AssignmentCode.DUTIES_Microphone,
   AssignmentCode.DUTIES_Stage,
   AssignmentCode.DUTIES_Video,
+  AssignmentCode.DUTIES_VideoconferenceHost,
 ];
 
 export const STUDENT_ASSIGNMENT = [

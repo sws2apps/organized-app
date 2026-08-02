@@ -45,6 +45,10 @@ const useDutyItem = ({ duty }: DutyItemProps) => {
       return meetingDuties.hospitality_amount.value;
     }
 
+    if (duty === 'tr_dutiesVideoconferenceHost') {
+      return meetingDuties.videoconference_host_amount?.value ?? 0;
+    }
+
     return 0;
   }, [meetingDuties, duty]);
 
@@ -85,6 +89,13 @@ const useDutyItem = ({ duty }: DutyItemProps) => {
 
       if (duty === 'tr_hospitality') {
         duties.hospitality_amount = {
+          value,
+          updatedAt: new Date().toISOString(),
+        };
+      }
+
+      if (duty === 'tr_dutiesVideoconferenceHost') {
+        duties.videoconference_host_amount = {
           value,
           updatedAt: new Date().toISOString(),
         };

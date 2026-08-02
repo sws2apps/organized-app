@@ -39,6 +39,7 @@ export enum AssignmentCode {
   DUTIES_Hospitality = 406,
   DUTIES_Custom = 407,
   DUTIES_AudioVideo = 408,
+  DUTIES_VideoconferenceHost = 409,
 }
 
 export type AssignmentType = {
@@ -142,7 +143,8 @@ export type AssignmentFieldDutiesType =
       | 'Microphone'
       | 'Stage'
       | 'EntranceAttendant'
-      | 'Hospitality'}_${DutyPositionIndexType}`;
+      | 'Hospitality'
+      | 'VideoconferenceHost'}_${DutyPositionIndexType}`;
 
 export type AssignmentFieldType =
   | AssignmentFieldMidweekType

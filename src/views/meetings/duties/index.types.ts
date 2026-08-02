@@ -9,6 +9,7 @@ export type DutiesCardIconType =
   | 'entranceAttendant'
   | 'auditoriumAttendant'
   | 'hospitality'
+  | 'videoconferenceHost'
   | 'custom';
 
 export type DutiesSchedulePersonType = {
