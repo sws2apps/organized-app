@@ -316,7 +316,11 @@ export const sourcesCheckLCElderAssignment = (
   return false;
 };
 
-export const sourcesCheckLCAssignments = (source: string, language: string) => {
+export const sourcesCheckLCAssignments = (
+  source: string,
+  desc: string | undefined,
+  language: string
+) => {
   if (source) {
     const noAssigned = getTranslation({
       key: 'tr_lcNoAssignedVariations',
@@ -327,7 +331,19 @@ export const sourcesCheckLCAssignments = (source: string, language: string) => {
     const regex = new RegExp(search.toLowerCase());
     const array = regex.exec(source.toLowerCase());
 
-    return Array.isArray(array);
+    if (!Array.isArray(array)) return false;
+
+    if (!desc) return true;
+
+    const videoContent = getTranslation({
+      key: 'tr_lcNoAssignedContentVariations',
+      language,
+    });
+
+    const videoSearch = `(${videoContent})`;
+    const videoRegex = new RegExp(videoSearch.toLowerCase());
+
+    return Array.isArray(videoRegex.exec(desc.toLowerCase()));
   }
 
   return false;
