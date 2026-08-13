@@ -41,7 +41,10 @@ export type InfoBoardAnnouncement = {
   category?: InformationBoardCategory;
   short_description: string;
   text?: string;
-  pin_at_the_top: boolean;
+  pin_at_the_top: {
+    updatedAt: string;
+    value: boolean;
+  };
   notify_everybody: boolean;
   _deleted: boolean;
   updatedAt: string;

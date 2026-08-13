@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ExternalLinkType } from '@definition/information_board';
 import { useCallback, useEffect, useState } from 'react';
 import { labelIsCorrect, linkIsCorrect } from '../../index.utils';

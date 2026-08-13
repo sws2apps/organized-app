@@ -43,7 +43,7 @@ const Category = (props: CategoryProps) => {
           direction="row"
           justifyContent="space-between"
           alignItems="center"
-          sx={{ p: '8px' }}
+          sx={{ padding: '8px' }}
         >
           <Stack direction="row" alignItems="center" spacing="8px">
             {cloneElement(props.icon, {
@@ -61,8 +61,7 @@ const Category = (props: CategoryProps) => {
           {!!props.entries.length && (
             <Box
               sx={{
-                px: '10px',
-                py: '2px',
+                padding: '2px 10px',
                 borderRadius: 'var(--radius-xxl)',
                 backgroundColor: props.isActive
                   ? 'var(--accent-main)'
@@ -71,7 +70,9 @@ const Category = (props: CategoryProps) => {
             >
               <Typography
                 className="label-small-medium"
-                color="var(--always-white)"
+                color={
+                  props.isActive ? 'var(--always-white)' : 'var(--accent-dark)'
+                }
               >
                 {props.entries.length}
               </Typography>

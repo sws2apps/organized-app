@@ -175,5 +175,6 @@
   "tr_buttonLabel": "Button label",
   "tr_link": "Link",
   "tr_maximum25characters": "Maximum 25 characters",
-  "tr_invalidLink": "Enter a valid URL starting with http:// or https://."
+  "tr_invalidLink": "Enter a valid URL starting with http:// or https://.",
+  "tr_pinned": "Pinned"
 }

@@ -1,7 +1,7 @@
 import SwitchWithLabel from '@components/switch_with_label';
 import Typography from '@components/typography';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
-import { Box } from '@mui/material';
+import { Stack } from '@mui/material';
 import useInforBoardQSSmartWidgets from './useInfoBoardQSSmartWidgets';
 import { InfoBoardGeneralInformationDraftProps } from '../index.types';
 
@@ -10,23 +10,19 @@ const InfoBoardQSSmartWidgets = (
 ) => {
   const {
     meetingTimes,
-    videoconferenceInfo,
+    // videoconferenceInfo,
     auxiliaryPioneers,
     monthsOfSpecialActivity,
     handleSmartWidgetToggle,
+    pioneersIsExist,
+    noMonths,
   } = useInforBoardQSSmartWidgets(props);
 
   const { t } = useAppTranslation();
   const { isAdmin } = useCurrentUser();
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '16px',
-      }}
-    >
+    <Stack spacing={'16px'}>
       <Typography className="body-regular" color="var(--grey-400)">
         {t('tr_infoBoardQuickSettingsSWDescription')}
       </Typography>
@@ -37,28 +33,28 @@ const InfoBoardQSSmartWidgets = (
         checked={meetingTimes}
         onChange={() => handleSmartWidgetToggle('meeting_times')}
       />
-      <SwitchWithLabel
+      {/* <SwitchWithLabel
         readOnly={!isAdmin}
         label={t('tr_videoconferenceInfo')}
         helper={t('tr_videoconferenceInfoDesc')}
         checked={videoconferenceInfo}
         onChange={() => handleSmartWidgetToggle('videoconference_info')}
-      />
+      /> */}
       <SwitchWithLabel
-        readOnly={!isAdmin}
-        label={t('tr_auxiliaryPioneers')}
+        readOnly={!isAdmin || !pioneersIsExist}
+        label={t('tr_APs')}
         helper={t('tr_auxiliaryPioneersDesc')}
-        checked={auxiliaryPioneers}
+        checked={pioneersIsExist && auxiliaryPioneers}
         onChange={() => handleSmartWidgetToggle('auxiliary_pioneers')}
       />
       <SwitchWithLabel
-        readOnly={!isAdmin}
+        readOnly={!isAdmin || noMonths}
         label={t('tr_monthsOfSpecialActivity')}
         helper={t('tr_monthsOfSpecialActivityDesc')}
-        checked={monthsOfSpecialActivity}
+        checked={!noMonths && monthsOfSpecialActivity}
         onChange={() => handleSmartWidgetToggle('months_of_special_activity')}
       />
-    </Box>
+    </Stack>
   );
 };
 
