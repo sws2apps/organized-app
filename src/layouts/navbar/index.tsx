@@ -37,7 +37,7 @@ import IconButton from '@components/icon_button';
 import BottomMenu from '@layouts/bottom_menu';
 
 const baseMenuStyle = {
-  padding: '8px 12px 8px 16px',
+  padding: '8px 12px 8px 12px',
   minHeight: '40px',
   height: '40px',
   gap: '8px',
@@ -193,7 +193,8 @@ const NavBar = ({ isSupported }: NavBarType) => {
                     <LanguageSwitcher
                       menuStyle={{
                         ...baseMenuStyle,
-                        padding: '8px 16px 8px 12px',
+                        padding: '8px 12px 8px 12px',
+                        marginRight: '4px',
                         transition: 'background-color 0.3s',
                         borderRadius: 'var(--radius-max)',
                         '&:hover': {
