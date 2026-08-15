@@ -21,7 +21,7 @@ const ImageViewer = ({
     <>
       <Box
         sx={{
-          padding: '24px 0',
+          padding: '16px 0',
           display: 'flex',
           flexDirection: 'column',
           gap: '24px',
@@ -49,7 +49,7 @@ const ImageViewer = ({
                   <Box
                     component="img"
                     src={slide.src}
-                    sx={{ height: '200px', width: '100%' }}
+                    sx={{ height: 'auto', width: '100%', maxHeight: '200px', objectFit: 'contain' }}
                   />
 
                   <Box
