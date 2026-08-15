@@ -1,4 +1,5 @@
-import { Box, Stack } from '@mui/material';
+import { Box, Collapse, Stack } from '@mui/material';
+import { SelectorStatsProps } from './index.types';
 import useSelectorStats from './useSelectorStats';
 import Card from '@components/card';
 import Divider from '@components/divider';
@@ -9,13 +10,13 @@ import { IconInfo } from '@components/icons';
 import Typography from '@components/typography';
 import { t } from 'i18next';
 
-const SelectorStats = () => {
+const SelectorStats = ({ hideStats = false }: SelectorStatsProps) => {
   const { handleMonthChange, handleYearChange, month, year, month_locked } =
     useSelectorStats();
 
   return (
     <Card>
-      <Stack spacing="24px" divider={<Divider color="var(--accent-200)" />}>
+      <Stack>
         <Stack spacing="24px">
           <ServiceYearMonthSelector
             year={year}
@@ -43,10 +44,13 @@ const SelectorStats = () => {
           )}
         </Stack>
 
-        <Stack spacing="24px">
-          <ReceivedReports />
-          <PersonFilter />
-        </Stack>
+        <Collapse in={!hideStats}>
+          <Stack spacing="24px" sx={{ paddingTop: '24px' }}>
+            <Divider color="var(--accent-200)" />
+            <ReceivedReports />
+            <PersonFilter />
+          </Stack>
+        </Collapse>
       </Stack>
     </Card>
   );
