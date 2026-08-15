@@ -94,9 +94,20 @@ export interface CustomTabProps extends TabOwnProps {
   actionComponent?: ReactNode;
 
   /**
+   * Where the action component sits relative to the tab list. (Default: 'end')
+   */
+  actionPosition?: 'start' | 'end';
+
+  /**
    * A boolean indicating whether to display the tabs. (Default: true)
    */
   showTabs?: boolean;
+
+  /**
+   * When true, the tab list fills its container and every tab shares the
+   * width equally (e.g. two tabs at 50/50). (Default: false)
+   */
+  fullWidth?: boolean;
 
   /**
    * Custom styling applied to the tab component using MUI's `sx` prop.

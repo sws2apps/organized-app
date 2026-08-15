@@ -9,6 +9,7 @@ const useUserAdditionalRights = () => {
   const [isMidweek, setIsMidweek] = useState(false);
   const [isWeekend, setIsWeekend] = useState(false);
   const [isPublicTalk, setIsPublicTalk] = useState(false);
+  const [isDuties, setIsDuties] = useState(false);
   const [isAttendance, setIsAttendance] = useState(false);
 
   const handleToggleMidweek = async (value: boolean) => {
@@ -131,6 +132,36 @@ const useUserAdditionalRights = () => {
     }
   };
 
+  const handleToggleDuties = async (value: boolean) => {
+    try {
+      setIsDuties(value);
+
+      const newUser = structuredClone(currentUser);
+
+      newUser.profile.cong_role = newUser.profile.cong_role || [];
+
+      if (value) {
+        newUser.profile.cong_role.push('duties_schedule');
+      }
+
+      if (!value) {
+        newUser.profile.cong_role = newUser.profile.cong_role.filter(
+          (role) => role !== 'duties_schedule'
+        );
+      }
+
+      await handleSaveDetails(newUser);
+    } catch (error) {
+      console.error(error);
+
+      displaySnackNotification({
+        header: getMessageByCode('error_app_generic-title'),
+        message: getMessageByCode(error.message),
+        severity: 'error',
+      });
+    }
+  };
+
   useEffect(() => {
     const isMidweek =
       currentUser.profile.cong_role?.includes('midweek_schedule') ?? false;
@@ -143,6 +174,10 @@ const useUserAdditionalRights = () => {
     const isPublicTalk =
       currentUser.profile.cong_role?.includes('public_talk_schedule') ?? false;
     setIsPublicTalk(isPublicTalk);
+
+    const isDuties =
+      currentUser.profile.cong_role?.includes('duties_schedule') ?? false;
+    setIsDuties(isDuties);
 
     const isAttendance =
       currentUser.profile.cong_role?.includes('attendance_tracking') ?? false;
@@ -158,6 +193,8 @@ const useUserAdditionalRights = () => {
     handleTogglePublicTalk,
     isAttendance,
     handleToggleAttendance,
+    isDuties,
+    handleToggleDuties,
   };
 };
 

@@ -39,8 +39,12 @@ import {
   weekendMeetingOpeningPrayerAutoAssignState,
 } from '@states/settings';
 import {
+  MeetingDutiesConfigType,
   schedulesAutofillSaveAssignment,
   schedulesBuildHistoryList,
+  schedulesDutiesConfig,
+  schedulesDutiesFieldList,
+  schedulesDutiesGetFieldValue,
   schedulesSelectRandomPerson,
 } from './schedules';
 import {
@@ -1106,10 +1110,140 @@ const handleAutofillWeekend = async (weeksList: SchedWeekType[]) => {
   store.set(assignmentsHistoryState, history);
 };
 
+const handleDutiesWeekAssignedPersons = (
+  history: AssignmentHistoryType[],
+  weekOf: string,
+  dataView: string
+) => {
+  return Array.from(
+    new Set(
+      history
+        .filter(
+          (record) =>
+            record.weekOf === weekOf &&
+            record.assignment.dataView === dataView &&
+            record.assignment.person?.length > 0
+        )
+        .map((record) => record.assignment.person)
+    )
+  );
+};
+
+const handleAutofillDutiesMeeting = ({
+  schedule,
+  meeting,
+  config,
+  dataView,
+  conflictPrevent,
+  history,
+  source,
+  lang,
+}: {
+  schedule: SchedWeekType;
+  meeting: 'midweek' | 'weekend';
+  config: MeetingDutiesConfigType;
+  dataView: string;
+  conflictPrevent: boolean;
+  history: AssignmentHistoryType[];
+  source: SourceWeekType | undefined;
+  lang: string;
+}) => {
+  const hasSource =
+    meeting === 'midweek'
+      ? source?.midweek_meeting.week_date_locale[lang]
+      : source?.weekend_meeting.w_study[lang];
+
+  if (!hasSource) return;
+
+  const weekType =
+    schedule[`${meeting}_meeting`].week_type.find(
+      (record) => record.type === dataView
+    )?.value ?? Week.NORMAL;
+
+  if (WEEK_TYPE_NO_MEETING.includes(weekType)) return;
+
+  for (const field of schedulesDutiesFieldList(meeting, config)) {
+    if (schedulesDutiesGetFieldValue(schedule, field, dataView).length > 0) {
+      continue;
+    }
+
+    // conflict_prevent: skip persons already assigned this week
+    const excludedPersons = conflictPrevent
+      ? handleDutiesWeekAssignedPersons(history, schedule.weekOf, dataView)
+      : undefined;
+
+    const selectPerson = (excluded?: string[]) =>
+      schedulesSelectRandomPerson({
+        type: field.type,
+        week: schedule.weekOf,
+        meeting,
+        history,
+        excludedPersons: excluded,
+      });
+
+    // when everyone qualified already serves this week, a duty without anyone
+    // assigned helps no one: keep the conflict a preference and fill it anyway
+    const selected =
+      selectPerson(excludedPersons) ??
+      (excludedPersons?.length > 0 ? selectPerson() : undefined);
+
+    if (!selected) continue;
+
+    schedulesAutofillSaveAssignment({
+      assignment: field.assignment,
+      history,
+      schedule,
+      value: selected,
+      schedule_id: field.schedule_id,
+    });
+  }
+};
+
+const handleAutofillDuties = async (weeksList: SchedWeekType[]) => {
+  const assignmentsHistory = store.get(assignmentsHistoryState);
+  const dataView = store.get(userDataViewState);
+  const sources = store.get(sourcesState);
+  const lang = store.get(JWLangState);
+
+  const config = schedulesDutiesConfig();
+
+  if (!config) return;
+
+  const conflictPrevent = config.conflict_prevent.value;
+
+  // shallow copy of schedules and history to improve autofill speed
+  const weeksAutofill = structuredClone(weeksList);
+  const historyAutofill = structuredClone(assignmentsHistory);
+
+  for (const schedule of weeksAutofill) {
+    if (!schedule.duties) continue;
+
+    const source = sources.find((record) => record.weekOf === schedule.weekOf);
+
+    for (const meeting of ['midweek', 'weekend'] as const) {
+      handleAutofillDutiesMeeting({
+        schedule,
+        meeting,
+        config,
+        dataView,
+        conflictPrevent,
+        history: historyAutofill,
+        source,
+        lang,
+      });
+    }
+  }
+
+  await dbSchedBulkUpdate(weeksAutofill);
+
+  const history = schedulesBuildHistoryList();
+  store.set(assignmentsHistoryState, history);
+};
+
 export const schedulesStartAutofill = async (
   start: string,
   end: string,
-  meeting: 'midweek' | 'weekend'
+  meeting: 'midweek' | 'weekend' | 'duties'
 ) => {
   try {
     if (start.length === 0 || end.length === 0) return;
@@ -1133,6 +1267,15 @@ export const schedulesStartAutofill = async (
         if (!source.weekend_meeting.w_study[lang]) return false;
       }
 
+      if (meeting === 'duties') {
+        if (
+          !source.midweek_meeting.week_date_locale[lang] &&
+          !source.weekend_meeting.w_study[lang]
+        ) {
+          return false;
+        }
+      }
+
       return isValid;
     });
 
@@ -1142,6 +1285,10 @@ export const schedulesStartAutofill = async (
 
     if (meeting === 'weekend') {
       await handleAutofillWeekend(weeksList);
+    }
+
+    if (meeting === 'duties') {
+      await handleAutofillDuties(weeksList);
     }
   } catch (error) {
     throw new Error(`autofill error: ${error.message}`);

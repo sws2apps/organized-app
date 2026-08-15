@@ -1,7 +1,12 @@
 import appDb from '@db/appDb';
 import { UpdateSpec } from 'dexie';
-import { SchedWeekType } from '@definition/schedules';
-import { scheduleSchema } from './schema';
+import {
+  AssignmentCongregation,
+  DutiesMeetingType,
+  DutyPositionsType,
+  SchedWeekType,
+} from '@definition/schedules';
+import { dutiesSchema, dutyPositions, scheduleSchema } from './schema';
 
 const dbUpdateSchedulesMetadata = async () => {
   const metadata = await appDb.metadata.get(1);
@@ -131,6 +136,57 @@ export const dbSchedUpdateOutgoingTalksFields = async () => {
 
     return { key: sched.weekOf, changes: sched };
   });
+
+  await appDb.sched.bulkUpdate(data);
+  await dbUpdateSchedulesMetadata();
+};
+
+// these duties used to hold a single person; they are positional now
+const POSITIONAL_DUTIES = ['audio', 'video', 'auditorium_attendant'] as const;
+
+const dutyToPositions = (
+  duty: DutiesMeetingType,
+  field: (typeof POSITIONAL_DUTIES)[number]
+) => {
+  const current = duty[field] as DutyPositionsType | AssignmentCongregation[];
+
+  if (!Array.isArray(current)) return;
+
+  duty[field] = { ...dutyPositions(), position_1: current };
+};
+
+export const dbSchedFillDutiesFields = async () => {
+  const schedules = await appDb.sched.toArray();
+
+  const needsUpdate = (sched: SchedWeekType) => {
+    const duties = sched.duties;
+
+    if (!duties?.midweek.dynamic || !duties?.weekend.dynamic) return true;
+
+    return [duties.midweek, duties.weekend].some(
+      (duty) =>
+        !duty.videoconference_host ||
+        POSITIONAL_DUTIES.some((field) => Array.isArray(duty[field]))
+    );
+  };
+
+  const data = schedules.filter(needsUpdate).map((sched) => {
+    sched.duties ??= dutiesSchema();
+    sched.duties.midweek.dynamic ??= [];
+    sched.duties.weekend.dynamic ??= [];
+
+    for (const duty of [sched.duties.midweek, sched.duties.weekend]) {
+      duty.videoconference_host ??= dutyPositions();
+
+      for (const field of POSITIONAL_DUTIES) {
+        dutyToPositions(duty, field);
+      }
+    }
+
+    return { key: sched.weekOf, changes: sched };
+  });
+
+  if (data.length === 0) return;
 
   await appDb.sched.bulkUpdate(data);
   await dbUpdateSchedulesMetadata();

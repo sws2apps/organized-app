@@ -5,7 +5,12 @@ import { DelegatedFieldServiceReportType } from '@definition/delegated_field_ser
 import { FieldServiceGroupType } from '@definition/field_service_groups';
 import { MeetingAttendanceType } from '@definition/meeting_attendance';
 import { PersonType } from '@definition/person';
-import { SchedWeekType } from '@definition/schedules';
+import {
+  AssignmentCongregation,
+  DutiesMeetingType,
+  DutyPositionsType,
+  SchedWeekType,
+} from '@definition/schedules';
 import {
   FullnameOption,
   PublishersSortOption,
@@ -86,8 +91,38 @@ export const sourceSchema: SourceWeekType = {
   },
 };
 
+const dutyAssignment = (): AssignmentCongregation[] => [
+  { type: 'main', value: '', name: '', updatedAt: '' },
+];
+
+export const dutyPositions = (): DutyPositionsType => ({
+  position_1: dutyAssignment(),
+  position_2: dutyAssignment(),
+  position_3: dutyAssignment(),
+  position_4: dutyAssignment(),
+});
+
+const dutiesMeeting = (): DutiesMeetingType => ({
+  audio: dutyPositions(),
+  video: dutyPositions(),
+  audio_video: dutyPositions(),
+  microphones: dutyPositions(),
+  stage: dutyPositions(),
+  entrance_attendant: dutyPositions(),
+  auditorium_attendant: dutyPositions(),
+  hospitality: dutyPositions(),
+  videoconference_host: dutyPositions(),
+  dynamic: [],
+});
+
+export const dutiesSchema = () => ({
+  midweek: dutiesMeeting(),
+  weekend: dutiesMeeting(),
+});
+
 export const scheduleSchema: SchedWeekType = {
   weekOf: '',
+  duties: dutiesSchema(),
   midweek_meeting: {
     chairman: {
       main_hall: [{ type: 'main', value: '', name: '', updatedAt: '' }],
@@ -345,6 +380,7 @@ export const settingSchema: SettingsType = {
     schedule_songs_weekend: [
       { type: 'main', value: false, _deleted: false, updatedAt: '' },
     ],
+    meeting_duties: [],
   },
   user_settings: {
     cong_role: [],
@@ -377,8 +413,6 @@ export const upcomingEventsSchema: UpcomingEventType = {
     type: 'main',
     duration: null,
   },
-  _deleted: false,
-  updatedAt: '',
 };
 
 export const vistingSpeakerSchema: VisitingSpeakerType = {

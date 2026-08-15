@@ -74,8 +74,34 @@ export type OutgoingTalkExportScheduleType = OutgoingTalkScheduleType & {
   weekOf: string;
 };
 
+export type DutyPositionsType = {
+  position_1: AssignmentCongregation[];
+  position_2: AssignmentCongregation[];
+  position_3: AssignmentCongregation[];
+  position_4: AssignmentCongregation[];
+};
+
+export type DutiesMeetingType = {
+  audio: DutyPositionsType;
+  video: DutyPositionsType;
+  // one brother covering both duties, kept apart from the split fields
+  audio_video: DutyPositionsType;
+  microphones: DutyPositionsType;
+  stage: DutyPositionsType;
+  entrance_attendant: DutyPositionsType;
+  auditorium_attendant: DutyPositionsType;
+  hospitality: DutyPositionsType;
+  videoconference_host: DutyPositionsType;
+  // `${sectionOrCustomId}_${position}` entries for sections and custom duties
+  dynamic: AssignmentCongregation[];
+};
+
 export type SchedWeekType = {
   weekOf: string;
+  duties?: {
+    midweek: DutiesMeetingType;
+    weekend: DutiesMeetingType;
+  };
   midweek_meeting: {
     chairman: {
       main_hall: AssignmentCongregation[];

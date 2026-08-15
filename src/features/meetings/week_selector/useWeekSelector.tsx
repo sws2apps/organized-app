@@ -33,6 +33,8 @@ const useWeekSelector = () => {
   const [activeTab, setActiveTab] = useState(0);
 
   const meeting: MeetingType = useMemo(() => {
+    if (location.pathname === '/meeting-duties') return 'duties';
+
     return location.pathname === '/midweek-meeting' ? 'midweek' : 'weekend';
   }, [location.pathname]);
 

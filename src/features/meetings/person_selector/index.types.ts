@@ -30,4 +30,6 @@ export type PersonOptionsType = PersonType & {
   last_assistant?: string;
   last_assistant_weekOf?: string;
   hall?: string;
+  // another assignment the person holds in the selected week
+  conflict?: { title: string };
 };
