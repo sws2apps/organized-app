@@ -603,6 +603,12 @@ export const themeFollowOSEnabledState = atom((get) => {
   return settings.user_settings.theme_follow_os_enabled.value;
 });
 
+export const hapticsEnabledState = atom((get) => {
+  const settings = get(settingsState);
+
+  return settings.user_settings.haptics_enabled?.value ?? true;
+});
+
 export const hoursCreditsEnabledState = atom((get) => {
   const settings = get(settingsState);
 

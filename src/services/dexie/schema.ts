@@ -357,6 +357,7 @@ export const settingSchema: SettingsType = {
     firstname: { value: '', updatedAt: '' },
     lastname: { value: '', updatedAt: '' },
     theme_follow_os_enabled: { value: false, updatedAt: '' },
+    haptics_enabled: { value: true, updatedAt: '' },
     user_avatar: undefined,
     user_local_uid: '',
     user_members_delegate: [],

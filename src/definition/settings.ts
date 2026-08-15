@@ -207,6 +207,7 @@ export type SettingsType = {
       interval: { value: number; updatedAt: string };
     };
     theme_follow_os_enabled: { value: boolean; updatedAt: string };
+    haptics_enabled: { value: boolean; updatedAt: string };
     hour_credits_enabled: { value: boolean; updatedAt: string };
     data_view: { value: string; updatedAt: string };
   };
