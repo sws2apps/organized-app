@@ -194,6 +194,7 @@ export const personSchema: PersonType = {
   person_uid: '',
   person_data: {
     person_firstname: { value: '', updatedAt: '' },
+    person_middlename: { value: '', updatedAt: '' },
     person_lastname: { value: '', updatedAt: '' },
     person_display_name: { value: '', updatedAt: '' },
     male: { value: true, updatedAt: '' },
@@ -269,6 +270,10 @@ export const settingSchema: SettingsType = {
         _deleted: false,
       },
     ],
+    // print_fullname_option is intentionally not seeded: while no record
+    // exists, printFullnameOptionState follows the in-app format, so a
+    // congregation only diverges print output by an explicit choice
+
     short_date_format: [
       { type: 'main', value: 'MM/dd/yyyy', updatedAt: '', _deleted: false },
     ],
@@ -293,6 +298,7 @@ export const settingSchema: SettingsType = {
     },
     circuit_overseer: {
       firstname: { value: '', updatedAt: '' },
+      middlename: { value: '', updatedAt: '' },
       lastname: { value: '', updatedAt: '' },
       display_name: { value: '', updatedAt: '' },
       visits: [],
@@ -355,6 +361,7 @@ export const settingSchema: SettingsType = {
     },
     hour_credits_enabled: { value: false, updatedAt: '' },
     firstname: { value: '', updatedAt: '' },
+    middlename: { value: '', updatedAt: '' },
     lastname: { value: '', updatedAt: '' },
     theme_follow_os_enabled: { value: false, updatedAt: '' },
     user_avatar: undefined,
@@ -388,6 +395,7 @@ export const vistingSpeakerSchema: VisitingSpeakerType = {
     cong_id: '',
     person_display_name: { value: '', updatedAt: '' },
     person_firstname: { value: '', updatedAt: '' },
+    person_middlename: { value: '', updatedAt: '' },
     person_lastname: { value: '', updatedAt: '' },
     person_notes: { value: '', updatedAt: '' },
     elder: { value: false, updatedAt: '' },

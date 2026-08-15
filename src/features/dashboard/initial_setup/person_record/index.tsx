@@ -1,5 +1,5 @@
 import { Box, Stack } from '@mui/material';
-import { useAppTranslation, useBreakpoints } from '@hooks/index';
+import { useAppTranslation } from '@hooks/index';
 import { PersonRecordProps } from './index.types';
 import usePersonRecord from './usePersonRecord';
 import Button from '@components/button';
@@ -10,12 +10,12 @@ import IconLoading from '@components/icon_loading';
 const PersonRecord = ({ onPrevious }: PersonRecordProps) => {
   const { t } = useAppTranslation();
 
-  const { tabletDown } = useBreakpoints();
-
   const {
     handleSavePerson,
     firstname,
     handleFirstnameChange,
+    middlename,
+    handleMiddlenameChange,
     handleLastnameChange,
     lastname,
     isProcessing,
@@ -31,9 +31,7 @@ const PersonRecord = ({ onPrevious }: PersonRecordProps) => {
         sx={{
           display: 'flex',
           gap: '16px',
-          flexWrap: tabletDown ? 'wrap' : 'nowrap',
-          justifyContent: 'space-between',
-          flexDirection: 'row',
+          flexWrap: 'wrap',
         }}
       >
         <TextField
@@ -41,12 +39,21 @@ const PersonRecord = ({ onPrevious }: PersonRecordProps) => {
           height={48}
           value={firstname}
           onChange={(e) => handleFirstnameChange(e.target.value)}
+          sx={{ flex: '1 0 200px' }}
+        />
+        <TextField
+          label={t('tr_middlename')}
+          height={48}
+          value={middlename}
+          onChange={(e) => handleMiddlenameChange(e.target.value)}
+          sx={{ flex: '1 0 200px' }}
         />
         <TextField
           label={t('tr_lastname')}
           height={48}
           value={lastname}
           onChange={(e) => handleLastnameChange(e.target.value)}
+          sx={{ flex: '1 0 200px' }}
         />
       </Box>
 

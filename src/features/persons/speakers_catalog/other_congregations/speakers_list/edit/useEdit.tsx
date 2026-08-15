@@ -1,9 +1,6 @@
 import { useState } from 'react';
 import { useAtomValue } from 'jotai';
-import {
-  displayNameMeetingsEnableState,
-  fullnameOptionState,
-} from '@states/settings';
+import { displayNameMeetingsEnableState } from '@states/settings';
 import { VisitingSpeakerType } from '@definition/visiting_speakers';
 import {
   dbVisitingSpeakersDelete,
@@ -15,12 +12,14 @@ import { PublicTalkType } from '@definition/public_talks';
 import { SongType } from '@definition/songs';
 
 const useEdit = (speaker: VisitingSpeakerType) => {
-  const fullnameOption = useAtomValue(fullnameOptionState);
   const displayNameEnabled = useAtomValue(displayNameMeetingsEnableState);
   const publicTalks = useAtomValue(publicTalksLocaleState);
 
   const [firstname, setFirstname] = useState(
     speaker.speaker_data.person_firstname.value
+  );
+  const [middlename, setMiddlename] = useState(
+    speaker.speaker_data.person_middlename?.value ?? ''
   );
   const [lastname, setLastname] = useState(
     speaker.speaker_data.person_lastname.value
@@ -52,6 +51,20 @@ const useEdit = (speaker: VisitingSpeakerType) => {
 
         return talk;
       }) || [];
+
+  const handleMiddlenameChange = async (value: string) => {
+    setMiddlename(value);
+
+    await dbVisitingSpeakersUpdate(
+      {
+        'speaker_data.person_middlename': {
+          value: value,
+          updatedAt: new Date().toISOString(),
+        },
+      },
+      speaker.person_uid
+    );
+  };
 
   const handleFirstnameChange = async (value: string) => {
     setFirstname(value);
@@ -308,10 +321,11 @@ const useEdit = (speaker: VisitingSpeakerType) => {
   };
 
   return {
-    fullnameOption,
     displayNameEnabled,
     handleFirstnameChange,
     firstname,
+    handleMiddlenameChange,
+    middlename,
     handleLastnameChange,
     lastname,
     handleToggleGender,

@@ -1,25 +1,27 @@
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
-import useNameFormat from './useNameFormat';
+import usePrintNameFormat from './usePrintNameFormat';
 import NameFormatSelect from '../name_format_select';
 
-const NameFormat = () => {
+const PrintNameFormat = () => {
   const { t } = useAppTranslation();
 
   const { isMidweekEditor, isWeekendEditor, isPublicTalkCoordinator } =
     useCurrentUser();
 
-  const { fullnameOption, handleFullnameOptionChange } = useNameFormat();
+  const { printFullnameOption, handlePrintFullnameOptionChange } =
+    usePrintNameFormat();
 
   return (
     <NameFormatSelect
-      label={t('tr_nameFormat')}
-      value={fullnameOption}
-      onChange={handleFullnameOptionChange}
+      label={t('tr_printNameFormat')}
+      value={printFullnameOption}
+      onChange={handlePrintFullnameOptionChange}
       readOnly={
         !isMidweekEditor && !isWeekendEditor && !isPublicTalkCoordinator
       }
+      inherit
     />
   );
 };
 
-export default NameFormat;
+export default PrintNameFormat;

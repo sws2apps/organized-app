@@ -268,6 +268,10 @@ export const dbVisitingSpeakersDummy = async () => {
       value: 'Ribeiro',
       updatedAt: new Date().toISOString(),
     },
+    person_middlename: {
+      value: 'Santos',
+      updatedAt: new Date().toISOString(),
+    },
     person_lastname: {
       value: 'Gonzaga',
       updatedAt: new Date().toISOString(),

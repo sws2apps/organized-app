@@ -12,9 +12,10 @@ const UserProfileDetails = () => {
   const { accountType } = useCurrentUser();
 
   const {
-    tabletDown,
     firstNameTmp,
     handleChangeFirstName,
+    middleNameTmp,
+    handleChangeMiddleName,
     handleChangeLastName,
     lastNameTmp,
     userEmail,
@@ -35,9 +36,7 @@ const UserProfileDetails = () => {
           sx={{
             display: 'flex',
             gap: '16px',
-            flexWrap: tabletDown ? 'wrap' : 'nowrap',
-            justifyContent: 'space-between',
-            flexDirection: 'row',
+            flexWrap: 'wrap',
           }}
         >
           <TextField
@@ -45,12 +44,21 @@ const UserProfileDetails = () => {
             height={48}
             value={firstNameTmp}
             onChange={(e) => handleChangeFirstName(e.target.value)}
+            sx={{ flex: '1 0 200px' }}
+          />
+          <TextField
+            label={t('tr_middlename')}
+            height={48}
+            value={middleNameTmp}
+            onChange={(e) => handleChangeMiddleName(e.target.value)}
+            sx={{ flex: '1 0 200px' }}
           />
           <TextField
             label={t('tr_lastname')}
             height={48}
             value={lastNameTmp}
             onChange={(e) => handleChangeLastName(e.target.value)}
+            sx={{ flex: '1 0 200px' }}
           />
         </Box>
         {isConnected && accountType === 'vip' && (

@@ -49,7 +49,8 @@ const useFamilyMembers = () => {
       return buildPersonFullname(
         currentPerson.person_data?.person_lastname.value,
         currentPerson.person_data?.person_firstname.value,
-        fullnameOption
+        fullnameOption,
+        currentPerson.person_data?.person_middlename?.value
       );
     } else {
       if (!currentFamily) {
@@ -59,12 +60,14 @@ const useFamilyMembers = () => {
       return buildPersonFullname(
         currentFamily.person_data?.person_lastname.value,
         currentFamily.person_data?.person_firstname.value,
-        fullnameOption
+        fullnameOption,
+        currentFamily.person_data?.person_middlename?.value
       );
     }
   }, [
     currentFamily,
     currentPerson.person_data?.person_firstname.value,
+    currentPerson.person_data?.person_middlename?.value,
     currentPerson.person_data?.person_lastname.value,
     fullnameOption,
     isFamilyHead,
@@ -103,7 +106,8 @@ const useFamilyMembers = () => {
             person_name: buildPersonFullname(
               person.person_data.person_lastname.value,
               person.person_data.person_firstname.value,
-              fullnameOption
+              fullnameOption,
+              person.person_data.person_middlename?.value
             ),
           };
         }),

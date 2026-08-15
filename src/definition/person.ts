@@ -68,6 +68,7 @@ export type PersonType = {
   person_uid: string;
   person_data: {
     person_firstname: { value: string; updatedAt: string };
+    person_middlename?: { value: string; updatedAt: string };
     person_lastname: { value: string; updatedAt: string };
     person_display_name: { value: string; updatedAt: string };
     male: { value: boolean; updatedAt: string };

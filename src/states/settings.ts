@@ -94,6 +94,19 @@ export const fullnameOptionState = atom((get) => {
   );
 });
 
+export const printFullnameOptionState = atom((get) => {
+  const settings = get(settingsState);
+  const dataView = get(userDataViewState);
+
+  const printOption = settings.cong_settings.print_fullname_option?.find(
+    (record) => record.type === dataView && !record._deleted
+  )?.value;
+
+  // congregations that never chose a print format keep printing exactly
+  // what they print today, so no migration is needed
+  return printOption || get(fullnameOptionState);
+});
+
 export const shortDateFormatState = atom((get) => {
   const settings = get(settingsState);
   const dataView = get(userDataViewState);
@@ -122,6 +135,12 @@ export const COFirstnameState = atom((get) => {
   return settings.cong_settings.circuit_overseer.firstname.value;
 });
 
+export const COMiddlenameState = atom((get) => {
+  const settings = get(settingsState);
+
+  return settings.cong_settings.circuit_overseer.middlename?.value ?? '';
+});
+
 export const COLastnameState = atom((get) => {
   const settings = get(settingsState);
 
@@ -136,16 +155,48 @@ export const CODisplayNameState = atom((get) => {
 
 export const COFullnameState = atom((get) => {
   const firstname = get(COFirstnameState);
+  const middlename = get(COMiddlenameState);
   const lastname = get(COLastnameState);
   const fullnameOption = get(fullnameOptionState);
 
-  const fullname = buildPersonFullname(lastname, firstname, fullnameOption);
+  const fullname = buildPersonFullname(
+    lastname,
+    firstname,
+    fullnameOption,
+    middlename
+  );
 
   return fullname;
 });
 
 export const COScheduleNameState = atom((get) => {
   const fullname = get(COFullnameState);
+  const displayName = get(CODisplayNameState);
+  const useDisplayName = get(displayNameMeetingsEnableState);
+
+  const scheduleName = useDisplayName ? displayName : fullname;
+
+  return scheduleName;
+});
+
+export const COPrintFullnameState = atom((get) => {
+  const firstname = get(COFirstnameState);
+  const middlename = get(COMiddlenameState);
+  const lastname = get(COLastnameState);
+  const fullnameOption = get(printFullnameOptionState);
+
+  const fullname = buildPersonFullname(
+    lastname,
+    firstname,
+    fullnameOption,
+    middlename
+  );
+
+  return fullname;
+});
+
+export const COPrintScheduleNameState = atom((get) => {
+  const fullname = get(COPrintFullnameState);
   const displayName = get(CODisplayNameState);
   const useDisplayName = get(displayNameMeetingsEnableState);
 
@@ -521,6 +572,12 @@ export const firstnameState = atom((get) => {
   return settings.user_settings.firstname.value;
 });
 
+export const middlenameState = atom((get) => {
+  const settings = get(settingsState);
+
+  return settings.user_settings.middlename?.value || '';
+});
+
 export const lastnameState = atom((get) => {
   const settings = get(settingsState);
 
@@ -540,10 +597,16 @@ export const firstDayWeekState = atom((get) => {
 
 export const fullnameState = atom((get) => {
   const firstname = get(firstnameState);
+  const middlename = get(middlenameState);
   const lastname = get(lastnameState);
   const fullnameOption = get(fullnameOptionState);
 
-  const fullname = buildPersonFullname(lastname, firstname, fullnameOption);
+  const fullname = buildPersonFullname(
+    lastname,
+    firstname,
+    fullnameOption,
+    middlename
+  );
 
   return fullname;
 });

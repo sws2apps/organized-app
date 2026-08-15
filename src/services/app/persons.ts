@@ -5,11 +5,7 @@ import {
   PrivilegeType,
   TimeAwayType,
 } from '@definition/person';
-import {
-  displayNameMeetingsEnableState,
-  fullnameOptionState,
-  userDataViewState,
-} from '@states/settings';
+import { fullnameOptionState, userDataViewState } from '@states/settings';
 import { buildPersonFullname } from '@utils/common';
 import {
   addDays,
@@ -439,6 +435,9 @@ export const applyNameFilters = ({
     const foundFirstName = person.person_data.person_firstname.value
       .toLowerCase()
       .includes(searchKey.toLowerCase());
+    const foundMiddleName = (person.person_data.person_middlename?.value || '')
+      .toLowerCase()
+      .includes(searchKey.toLowerCase());
     const foundLastName = person.person_data.person_lastname.value
       .toLowerCase()
       .includes(searchKey.toLowerCase());
@@ -446,7 +445,12 @@ export const applyNameFilters = ({
       .toLowerCase()
       .includes(searchKey.toLowerCase());
 
-    if (foundFirstName || foundLastName || foundDisplayName) {
+    if (
+      foundFirstName ||
+      foundMiddleName ||
+      foundLastName ||
+      foundDisplayName
+    ) {
       filteredByName.push(person);
     }
   }
@@ -725,12 +729,14 @@ export const personsSortByName = (persons: PersonType[]) => {
       const fullnameA = buildPersonFullname(
         a.person_data.person_lastname.value,
         a.person_data.person_firstname.value,
-        fullnameOption
+        fullnameOption,
+        a.person_data.person_middlename?.value
       );
       const fullnameB = buildPersonFullname(
         b.person_data.person_lastname.value,
         b.person_data.person_firstname.value,
-        fullnameOption
+        fullnameOption,
+        b.person_data.person_middlename?.value
       );
 
       return fullnameA.localeCompare(fullnameB, undefined, {
@@ -888,26 +894,6 @@ export const personsFilterActiveTimeAway = (records: TimeAwayType[]) => {
     // Show if today is before or equal to endDatePlusCutoff
     return date >= limitDate;
   });
-};
-
-export const personGetScheduleName = (person: PersonType) => {
-  const useDisplayName = store.get(displayNameMeetingsEnableState);
-
-  const fullnameOption = store.get(fullnameOptionState);
-  const firstName = person.person_data.person_firstname.value;
-  const lastName = person.person_data.person_lastname.value;
-
-  let result = '';
-
-  if (useDisplayName) {
-    result = person.person_data.person_display_name.value;
-  }
-
-  if (!useDisplayName) {
-    result = buildPersonFullname(lastName, firstName, fullnameOption);
-  }
-
-  return result;
 };
 
 export const personIsAway = (person: PersonType, date: string) => {

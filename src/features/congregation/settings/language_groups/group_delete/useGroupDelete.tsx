@@ -100,6 +100,19 @@ const useGroupDelete = ({ group }: GroupDeleteProps) => {
         findOption.updatedAt = new Date().toISOString();
       }
 
+      const printFullnameOption = structuredClone(
+        settings.cong_settings.print_fullname_option ?? []
+      );
+
+      const findPrintOption = printFullnameOption.find(
+        (record) => record.type === group.group_id
+      );
+
+      if (findPrintOption) {
+        findPrintOption._deleted = true;
+        findPrintOption.updatedAt = new Date().toISOString();
+      }
+
       const shortDateFormat = structuredClone(
         settings.cong_settings.short_date_format
       );
@@ -202,6 +215,7 @@ const useGroupDelete = ({ group }: GroupDeleteProps) => {
         'cong_settings.cong_circuit': circuits,
         'cong_settings.display_name_enabled': displayName,
         'cong_settings.fullname_option': fullnameOption,
+        'cong_settings.print_fullname_option': printFullnameOption,
         'cong_settings.short_date_format': shortDateFormat,
         'cong_settings.format_24h_enabled': format24h,
         'cong_settings.attendance_online_record': onlineRecord,
