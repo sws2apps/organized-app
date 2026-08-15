@@ -12,6 +12,9 @@ import UpcomingEventDate from './UpcomingEventDate';
 const UpcomingEvent = ({ event }: UpcomingEventProps) => {
   const { t } = useAppTranslation();
 
+  const decoration =
+    decorationsForEvent[event.category] ?? decorationsForEvent.at(-1);
+
   return (
     <View
       wrap={false}
@@ -32,7 +35,7 @@ const UpcomingEvent = ({ event }: UpcomingEventProps) => {
               gap: '2px',
             }}
           >
-            {cloneElement(decorationsForEvent[event.category].icon, {
+            {cloneElement(decoration.icon, {
               size: 14,
               backgroundColor: 'none',
             })}
@@ -41,7 +44,7 @@ const UpcomingEvent = ({ event }: UpcomingEventProps) => {
               style={{ fontWeight: 500, fontSize: '11px', color: '#222222' }}
             >
               {event.category !== UpcomingEventCategory.Custom
-                ? t(decorationsForEvent[event.category].translationKey)
+                ? t(decoration.translationKey)
                 : event.custom}
             </Text>
           </View>
@@ -55,23 +58,26 @@ const UpcomingEvent = ({ event }: UpcomingEventProps) => {
           <UpcomingEventDate
             date={event.date}
             day={event.day}
-            title={event.time}
+            title={event.wholeDay ? t('tr_wholeDay') : event.time}
           />
         )}
 
         {event.duration === UpcomingEventDuration.MultipleDays &&
-          event.category !== UpcomingEventCategory.SpecialCampaignWeek &&
-          event.dates.map((eventDate, eventDateIndex) => (
-            <UpcomingEventDate
-              key={eventDate.date}
-              date={eventDate.dateFormatted}
-              day={eventDate.day}
-              title={t('tr_wholeDay')}
-              description={`${t('tr_day')} ${eventDateIndex + 1}/${event.dates.length}`}
-            />
-          ))}
+          !event.showAsRange && (
+            <>
+              {event.dates.map((eventDate, eventDateIndex) => (
+                <UpcomingEventDate
+                  key={eventDate.date}
+                  date={eventDate.dateFormatted}
+                  day={eventDate.day}
+                  title={t('tr_wholeDay')}
+                  description={`${t('tr_day')} ${eventDateIndex + 1}/${event.dates.length}`}
+                />
+              ))}
+            </>
+          )}
 
-        {event.category === UpcomingEventCategory.SpecialCampaignWeek && (
+        {event.showAsRange && (
           <UpcomingEventDate
             range={event.datesRange}
             title={t('tr_everyDay')}

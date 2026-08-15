@@ -5,6 +5,7 @@ This file holds the source of the truth from the table "upcoming_events".
 import { atom } from 'jotai';
 import { UpcomingEventType } from '@definition/upcoming_events';
 import { formatDate } from '@utils/date';
+import { userDataViewState } from './settings';
 
 export const upcomingEventsDbState = atom<UpcomingEventType[]>([]);
 
@@ -30,5 +31,20 @@ export const upcomingEventsActiveState = atom((get) => {
     const endDate = formatDate(new Date(record.event_data.end), 'yyyy/MM/dd');
 
     return startDate >= today || endDate >= today;
+  });
+});
+
+export const upcomingEventsByDataViewState = atom((get) => {
+  const events = get(upcomingEventsActiveState);
+  const dataView = get(userDataViewState);
+
+  return events.filter((record) => {
+    if (dataView === 'main') {
+      return record.event_data.type === 'main';
+    }
+
+    return (
+      record.event_data.type === 'main' || record.event_data.type === dataView
+    );
   });
 });

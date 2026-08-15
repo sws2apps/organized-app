@@ -510,6 +510,15 @@ export const addHours = (amount: number, date: Date = new Date()) => {
   return libAddHours(date, amount);
 };
 
+export const sundayOfWeek = (date: Date) => {
+  const result = new Date(date);
+  const weekday = result.getDay();
+
+  result.setDate(result.getDate() + (weekday === 0 ? 0 : 7 - weekday));
+
+  return result;
+};
+
 export const formatDateShortMonthWithYear = (
   value: string,
   language?: string

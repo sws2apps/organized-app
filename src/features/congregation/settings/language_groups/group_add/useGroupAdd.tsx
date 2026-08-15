@@ -141,6 +141,18 @@ const useGroupAdd = ({ onClose }: GroupAddProps) => {
         value: true,
       });
 
+      const eventsDisplay = structuredClone(
+        appSettings.cong_settings.events_multiday_display ||
+          settingSchema.cong_settings.events_multiday_display
+      );
+
+      eventsDisplay.push({
+        _deleted: false,
+        type: group.group_id,
+        updatedAt: new Date().toISOString(),
+        value: 'byDay',
+      });
+
       const onlineRecord = appSettings.cong_settings.attendance_online_record;
 
       onlineRecord.push({
@@ -193,6 +205,7 @@ const useGroupAdd = ({ onClose }: GroupAddProps) => {
         'cong_settings.fullname_option': fullnameOption,
         'cong_settings.short_date_format': shortDateFormat,
         'cong_settings.format_24h_enabled': format24h,
+        'cong_settings.events_multiday_display': eventsDisplay,
         'cong_settings.attendance_online_record': onlineRecord,
         'cong_settings.first_day_week': firstDayWeek,
         'cong_settings.schedule_songs_weekend': weekendSongs,
