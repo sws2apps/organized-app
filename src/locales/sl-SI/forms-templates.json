@@ -54,6 +54,7 @@
   "tr_initialCallVariations": "0",
   "tr_returnVisitVariations": "0",
   "tr_lcNoAssignedVariations": "Organizacijski dosežki|Poročilo Vodstvenega organa",
+  "tr_lcNoAssignedContentVariations": "Play the VIDEO",
   "tr_cbsLffWithPointsVariations": "lff lekcija {{ lesson }}, točke {{ points }}|lff lekcija {{ lesson }}, točka {{ points }}",
   "tr_cbsLffSectionOnlyVariations": "lff del",
   "tr_lcSourceElderVariations": "Krajevne potrebe",
