@@ -1,20 +1,23 @@
-import { Stack } from '@mui/material';
+import { Collapse, Stack } from '@mui/material';
+import { useAppTranslation } from '@hooks/index';
+import { SelectorStatsProps } from './index.types';
 import useSelectorStats from './useSelectorStats';
 import Card from '@components/card';
 import Divider from '@components/divider';
+import InfoBanner from '@components/info_banner';
+import PersonFilter from './person_filter';
 import ReceivedReports from './received_reports';
 import ServiceYearMonthSelector from '@features/reports/service_year_month_selector';
-import PersonFilter from './person_filter';
-import InfoBanner from '@components/info_banner';
-import { t } from 'i18next';
 
-const SelectorStats = () => {
+const SelectorStats = ({ hideStats = false }: SelectorStatsProps) => {
+  const { t } = useAppTranslation();
+  
   const { handleMonthChange, handleYearChange, month, year, month_locked } =
     useSelectorStats();
 
   return (
     <Card>
-      <Stack spacing="24px" divider={<Divider color="var(--accent-200)" />}>
+      <Stack>
         <Stack spacing="24px">
           <ServiceYearMonthSelector
             year={year}
@@ -28,10 +31,13 @@ const SelectorStats = () => {
           )}
         </Stack>
 
-        <Stack spacing="24px">
-          <ReceivedReports />
-          <PersonFilter />
-        </Stack>
+        <Collapse in={!hideStats}>
+          <Stack spacing="24px" sx={{ paddingTop: '24px' }}>
+            <Divider color="var(--accent-200)" />
+            <ReceivedReports />
+            <PersonFilter />
+          </Stack>
+        </Collapse>
       </Stack>
     </Card>
   );

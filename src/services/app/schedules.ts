@@ -431,8 +431,14 @@ export const schedulesMidweekInfo = (week: string) => {
       const titleDefault = lcPart.title.default[lang];
       const title = titleOverride?.length > 0 ? titleOverride : titleDefault;
 
+      const descOverride = lcPart.desc.override.find(
+        (record) => record.type === dataView
+      )?.value;
+      const descDefault = lcPart.desc.default[lang];
+      const desc = descOverride?.length > 0 ? descOverride : descDefault;
+
       if (title?.length > 0) {
-        const noAssign = sourcesCheckLCAssignments(title, sourceLocale);
+        const noAssign = sourcesCheckLCAssignments(title, desc, sourceLocale);
 
         if (!noAssign) {
           total = total + 1;
@@ -465,8 +471,11 @@ export const schedulesMidweekInfo = (week: string) => {
     const title =
       lcPart.title.find((record) => record.type === dataView)?.value || '';
 
+    const desc =
+      lcPart.desc.find((record) => record.type === dataView)?.value || '';
+
     if (title?.length > 0) {
-      const noAssign = sourcesCheckLCAssignments(title, sourceLocale);
+      const noAssign = sourcesCheckLCAssignments(title, desc, sourceLocale);
 
       if (!noAssign) {
         total = total + 1;
