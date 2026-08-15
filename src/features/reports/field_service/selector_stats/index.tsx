@@ -1,16 +1,17 @@
-import { Box, Collapse, Stack } from '@mui/material';
+import { Collapse, Stack } from '@mui/material';
+import { useAppTranslation } from '@hooks/index';
 import { SelectorStatsProps } from './index.types';
 import useSelectorStats from './useSelectorStats';
 import Card from '@components/card';
 import Divider from '@components/divider';
+import InfoBanner from '@components/info_banner';
+import PersonFilter from './person_filter';
 import ReceivedReports from './received_reports';
 import ServiceYearMonthSelector from '@features/reports/service_year_month_selector';
-import PersonFilter from './person_filter';
-import { IconInfo } from '@components/icons';
-import Typography from '@components/typography';
-import { t } from 'i18next';
 
 const SelectorStats = ({ hideStats = false }: SelectorStatsProps) => {
+  const { t } = useAppTranslation();
+  
   const { handleMonthChange, handleYearChange, month, year, month_locked } =
     useSelectorStats();
 
@@ -26,21 +27,7 @@ const SelectorStats = ({ hideStats = false }: SelectorStatsProps) => {
           />
 
           {month_locked && (
-            <Box
-              sx={{
-                borderRadius: 'var(--radius-xl)',
-                padding: '16px',
-                backgroundColor: 'var(--orange-secondary)',
-                display: 'flex',
-                gap: '8px',
-                alignItems: 'center',
-              }}
-            >
-              <IconInfo color="var(--orange-dark)" />
-              <Typography color="var(--orange-dark)">
-                {t('tr_alreadySubmittedWarning')}
-              </Typography>
-            </Box>
+            <InfoBanner>{t('tr_alreadySubmittedWarning')}</InfoBanner>
           )}
         </Stack>
 
