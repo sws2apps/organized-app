@@ -54,6 +54,7 @@
   "tr_initialCallVariations": "0",
   "tr_returnVisitVariations": "0",
   "tr_lcNoAssignedVariations": "Што постигнува нашата организациjа|Извештај од Водечкото тело",
+  "tr_lcNoAssignedContentVariations": "Play the VIDEO",
   "tr_cbsLffWithPointsVariations": "lff лекција {{ lesson }} точки {{ points }}|lff лекција {{ lesson }} точка {{ points }}",
   "tr_cbsLffSectionOnlyVariations": "lff лекција",
   "tr_lcSourceElderVariations": "Потреби на собранието",
