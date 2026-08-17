@@ -84,6 +84,10 @@ const useAssignments = () => {
             name: t('tr_assistantOnly'),
             borderTop: true,
           },
+          {
+            code: AssignmentCode.MM_AuxiliaryClassroomOnly,
+            name: t('tr_auxiliaryClassroomOnly'),
+          },
         ],
       },
       {
@@ -177,9 +181,22 @@ const useAssignments = () => {
         views.push(dataView);
       }
 
-      const localItems = items.filter(
-        (record) => record.code !== AssignmentCode.MM_AssistantOnly
+      const hasAssistantOnly = checkedItems.includes(
+        AssignmentCode.MM_AssistantOnly
       );
+      const hasAuxiliaryClassroomOnly = checkedItems.includes(
+        AssignmentCode.MM_AuxiliaryClassroomOnly
+      );
+
+      const isSpecialActive = hasAssistantOnly || hasAuxiliaryClassroomOnly;
+
+      const localItems = items.filter((record) => {
+        const isSpecial =
+          record.code === AssignmentCode.MM_AssistantOnly ||
+          record.code === AssignmentCode.MM_AuxiliaryClassroomOnly;
+
+        return isSpecialActive ? isSpecial : !isSpecial;
+      });
 
       for (const item of localItems) {
         if (!male) {
@@ -216,7 +233,24 @@ const useAssignments = () => {
     }
 
     if (!checked) {
-      for (const item of items) {
+      const hasAssistantOnly = checkedItems.includes(
+        AssignmentCode.MM_AssistantOnly
+      );
+      const hasAuxiliaryClassroomOnly = checkedItems.includes(
+        AssignmentCode.MM_AuxiliaryClassroomOnly
+      );
+
+      const isSpecialActive = hasAssistantOnly || hasAuxiliaryClassroomOnly;
+
+      const localItems = items.filter((record) => {
+        const isSpecial =
+          record.code === AssignmentCode.MM_AssistantOnly ||
+          record.code === AssignmentCode.MM_AuxiliaryClassroomOnly;
+
+        return isSpecialActive ? isSpecial : !isSpecial;
+      });
+
+      for (const item of localItems) {
         if (duplicateAssignmentsGroup.includes(id)) {
           newPerson.person_data.assignments.forEach((assignments) => {
             assignments.updatedAt = new Date().toISOString();
