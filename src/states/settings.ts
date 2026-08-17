@@ -416,6 +416,11 @@ export const midweekMeetingAssigFSGState = atom((get) => {
   return settings.cong_settings.aux_class_fsg?.value ?? false;
 });
 
+export const midweekMeetingAuxClassQualificationsState = atom((get) => {
+  const settings = get(settingsState);
+  return settings.cong_settings.aux_class_qualifications?.value ?? false;
+});
+
 // WEEKEND MEETING
 
 export const weekendMeetingOpeningPrayerAutoAssignState = atom((get) => {
