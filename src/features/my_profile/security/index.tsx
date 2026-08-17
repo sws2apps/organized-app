@@ -9,6 +9,7 @@ import useSecurity from './useSecurity';
 import Divider from '@components/divider';
 import MFAEnable from './mfaEnable';
 import MFADisable from './mfaDisable';
+import AppLockSection from './app_lock';
 import Button from '@components/button';
 import Switch from '@components/switch';
 import SwitcherContainer from '@components/switcher_container';
@@ -28,6 +29,7 @@ const Security = () => {
     handleCloseDelete,
     handleOpenDelete,
     isAccountDelete,
+    isConnected,
   } = useSecurity();
 
   return (
@@ -47,7 +49,7 @@ const Security = () => {
       <Typography className="h2">{t('tr_security')}</Typography>
 
       <Stack spacing="16px" divider={<Divider color="var(--accent-200)" />}>
-        {accountType === 'vip' && (
+        {accountType === 'vip' && isConnected && (
           <SettingWithBorderContainer>
             <SwitcherContainer>
               <Switch checked={isMFAEnabled} onChange={handleToggleMFA} />
@@ -66,18 +68,22 @@ const Security = () => {
           </SettingWithBorderContainer>
         )}
 
-        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-          <Button
-            disableAutoStretch
-            variant="small"
-            color="red"
-            onClick={handleOpenDelete}
-            startIcon={<IconDelete />}
-            sx={{ minHeight: '28px', height: '28px' }}
-          >
-            {t('tr_deleteAccount')}
-          </Button>
-        </Box>
+        <AppLockSection />
+
+        {isConnected && (
+          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+            <Button
+              disableAutoStretch
+              variant="small"
+              color="red"
+              onClick={handleOpenDelete}
+              startIcon={<IconDelete />}
+              sx={{ minHeight: '28px', height: '28px' }}
+            >
+              {t('tr_deleteAccount')}
+            </Button>
+          </Box>
+        )}
       </Stack>
     </ProfileItemContainer>
   );

@@ -209,7 +209,18 @@ export type SettingsType = {
     theme_follow_os_enabled: { value: boolean; updatedAt: string };
     hour_credits_enabled: { value: boolean; updatedAt: string };
     data_view: { value: string; updatedAt: string };
+    app_lock?: AppLockSettingsType;
   };
+};
+
+export type AppLockSettingsType = {
+  enabled: { value: boolean; updatedAt: string };
+  lock_after_minutes: { value: number; updatedAt: string };
+  biometric_enabled: { value: boolean; updatedAt: string };
+  pin_hash?: string;
+  pin_salt?: string;
+  pin_iterations?: number;
+  webauthn_credential_id?: string;
 };
 
 export type BackupDataType = {
