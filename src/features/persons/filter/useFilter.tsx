@@ -137,6 +137,8 @@ const useFilter = () => {
           { id: 'unbaptized', name: t('tr_unbaptized') },
           { id: 'active', name: t('tr_active') },
           { id: 'inactive', name: t('tr_inactive') },
+          { id: 'regular', name: t('tr_regular') },
+          { id: 'irregular', name: t('tr_irregular') },
         ],
       },
       {
@@ -162,6 +164,14 @@ const useFilter = () => {
         items: [
           { id: 'midweekStudent', name: t('tr_midweekStudent') },
           { id: 'noAssignment', name: t('tr_noAssignmentsYet') },
+        ],
+      },
+      {
+        name: t('tr_ministry'),
+        items: [
+          { id: 'bethelite', name: t('tr_bethelite') },
+          { id: 'bethelCommuter', name: t('tr_bethelCommuter') },
+          { id: 'ldcVolunteer', name: t('tr_ldcVolunteer') },
         ],
       },
     ];

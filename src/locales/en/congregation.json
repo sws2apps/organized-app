@@ -62,6 +62,9 @@
   "tr_baptizedPublisher": "Baptized publisher",
   "tr_unbaptizedPublisher": "Unbaptized publisher",
   "tr_midweekMeetingStudent": "Midweek meeting student",
+  "tr_bethelite": "Bethelite",
+  "tr_bethelCommuter": "Bethel commuter",
+  "tr_ldcVolunteer": "LDC volunteer",
   "tr_addTimeAway": "Add your time away so that the brothers can take it into account when scheduling further meetings.",
   "tr_emergencyContacts": "Emergency contacts",
   "tr_addEmergencyContacts": "Add contact persons from the ‘No Blood’ document, ensuring the group overseer always has the right people to reach in case of an emergency.",
@@ -523,5 +526,8 @@
   "tr_maximumAmountOfGroupsIs10": "Maximum amount of field service groups is 10",
   "tr_personAwayNotice": "This person is away: {{ date }}",
   "tr_weekendTemplateShowSongs": "Display songs on weekend meeting schedules",
-  "tr_personalDetails": "Personal details"
+  "tr_personalDetails": "Personal details",
+  "tr_irregular": "Irregular",
+  "tr_regular": "Regular",
+  "tr_irregularPublisher": "Irregular publisher"
 }

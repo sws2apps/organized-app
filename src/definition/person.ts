@@ -100,6 +100,9 @@ export type PersonType = {
     enrollments: EnrollmentHistoryType[];
     emergency_contacts: EmergencyContactsType[];
     categories?: { value: string[]; updatedAt: string };
+    bethelite?: { value: boolean; updatedAt: string };
+    bethel_commuter?: { value: boolean; updatedAt: string };
+    ldc_volunteer?: { value: boolean; updatedAt: string };
     family_members: {
       head: boolean;
       members: string[];

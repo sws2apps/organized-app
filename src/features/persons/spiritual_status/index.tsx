@@ -20,6 +20,9 @@ const PersonSpiritualStatus = () => {
     expandedStatus,
     handleToggleExpand,
     handleToggleArchive,
+    handleToggleBethelite,
+    handleToggleBethelCommuter,
+    handleToggleLDCVolunteer,
   } = useSpiritualStatus();
 
   return (
@@ -84,6 +87,26 @@ const PersonSpiritualStatus = () => {
           expanded={expandedStatus.midweek}
           onExpand={() => handleToggleExpand('midweek')}
         />
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px', paddingLeft: '16px' }}>
+          <Checkbox
+            label={t('tr_bethelite')}
+            checked={person.person_data.bethelite?.value ?? false}
+            onChange={(e) => handleToggleBethelite(e.target.checked)}
+            readOnly={!isPersonEditor}
+          />
+          <Checkbox
+            label={t('tr_bethelCommuter')}
+            checked={person.person_data.bethel_commuter?.value ?? false}
+            onChange={(e) => handleToggleBethelCommuter(e.target.checked)}
+            readOnly={!isPersonEditor}
+          />
+          <Checkbox
+            label={t('tr_ldcVolunteer')}
+            checked={person.person_data.ldc_volunteer?.value ?? false}
+            onChange={(e) => handleToggleLDCVolunteer(e.target.checked)}
+            readOnly={!isPersonEditor}
+          />
+        </Box>
       </Box>
     </Box>
   );
