@@ -9,6 +9,7 @@ import {
 import useReminders from './useReminders';
 import Button from '@components/button';
 import Typography from '@components/typography';
+import { EASING } from '@components/snackbar';
 import Divider from '@components/divider';
 import ReminderItem from './reminder_item';
 
@@ -25,6 +26,11 @@ const AppReminders = () => {
       in={reminders.length > 0}
       mountOnEnter
       unmountOnExit
+      easing={{
+        enter: EASING.expoOut,
+        exit: 'cubic-bezier(0.7, 0, 0.84, 0)',
+      }}
+      timeout={{ enter: 400, exit: 300 }}
     >
       <StyledRemindersCard
         className="warning-glow"

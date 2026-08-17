@@ -1,6 +1,9 @@
+import { forwardRef } from 'react';
 import {
   Fade,
   FadeProps,
+  Grow,
+  GrowProps,
   Snackbar as MUISnackbar,
   SnackbarCloseReason,
   SnackbarOrigin,
@@ -8,16 +11,38 @@ import {
 import { SnackbarPropsType } from './index.types';
 import InfoMessage from '@components/info-message';
 
-/**
- * Custom transition component for the Snackbar.
- */
-const FadeTransition = (props: FadeProps) => {
-  return <Fade {...props} />;
+export const EASING = {
+  expoOut: 'cubic-bezier(0.16, 1, 0.3, 1)',
+  easeIn: 'cubic-bezier(0.55, 0, 1, 0.45)',
 };
 
-/**
- * Custom Snackbar component.
- */
+const GrowTransition = forwardRef<HTMLDivElement, GrowProps>(
+  function GrowTransition(props, ref) {
+    return (
+      <Grow
+        {...props}
+        ref={ref}
+        timeout={{ enter: 450, exit: 300 }}
+        easing={{ enter: EASING.expoOut, exit: EASING.easeIn }}
+        style={{ ...props.style, transformOrigin: 'center bottom' }}
+      />
+    );
+  }
+);
+
+const FadeTransition = forwardRef<HTMLDivElement, FadeProps>(
+  function FadeTransition(props, ref) {
+    return (
+      <Fade
+        {...props}
+        ref={ref}
+        timeout={{ enter: 400, exit: 250 }}
+        easing={{ enter: EASING.expoOut, exit: EASING.easeIn }}
+      />
+    );
+  }
+);
+
 const Snackbar = (props: SnackbarPropsType) => {
   const open = props.open || false;
   const messageHeader = props.messageHeader || '';
@@ -25,10 +50,6 @@ const Snackbar = (props: SnackbarPropsType) => {
   const variant = props.variant || 'message-with-button';
   const position = props.position || 'bottom-center';
 
-  /**
-   * Gets the anchor origin for the Snackbar based on the specified position.
-   * @returns SnackbarOrigin - The anchor origin for the Snackbar.
-   */
   const getAnchorOrigin = () => {
     const anchor = {} as SnackbarOrigin;
 
@@ -45,11 +66,11 @@ const Snackbar = (props: SnackbarPropsType) => {
     return anchor;
   };
 
-  /**
-   * Handles the Snackbar close event.
-   * @param _ - The event.
-   * @param reason - The reason for closing the Snackbar.
-   */
+  const getTransition = () => {
+    if (position === 'top-center') return FadeTransition;
+    return GrowTransition;
+  };
+
   const handleClose = (_, reason: SnackbarCloseReason) => {
     if (reason === 'clickaway') {
       return;
@@ -64,7 +85,7 @@ const Snackbar = (props: SnackbarPropsType) => {
       onClose={handleClose}
       anchorOrigin={getAnchorOrigin()}
       autoHideDuration={variant === 'message-with-button' ? null : 5000}
-      slots={{ transition: FadeTransition }}
+      slots={{ transition: getTransition() }}
       slotProps={{
         content: {
           style: {
