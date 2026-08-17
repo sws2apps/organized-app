@@ -46,6 +46,7 @@ const BottomMenu = (props: BottomMenuProps) => {
           padding: '6px',
           display: 'flex',
           flexDirection: 'row',
+          alignItems: 'center',
           justifyContent: 'center',
           gap: '4px',
         }}

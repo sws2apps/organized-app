@@ -52,6 +52,8 @@ export type BadgePropsType = {
    */
   icon?: ReactElement;
 
+  light?: boolean;
+
   /**
    * Custom styles for the badge.
    */

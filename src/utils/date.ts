@@ -78,6 +78,22 @@ export const getWeekDate = (date: Date = new Date()) => {
   return monDay;
 };
 
+/**
+ * Start of the week the date belongs to, for a configurable first day of the
+ * week (0 = Sunday, 1 = Monday, 6 = Saturday — see FirstDayWeekOption).
+ *
+ * Unlike getWeekDate, which always returns the Monday of the meeting week and
+ * mutates the date it is given, this leaves its argument untouched.
+ */
+export const getWeekStartDate = (date: Date, firstDayWeek: number) => {
+  const weekStart = new Date(date);
+  weekStart.setDate(
+    weekStart.getDate() - ((weekStart.getDay() - firstDayWeek + 7) % 7)
+  );
+
+  return weekStart;
+};
+
 export const getOldestWeekDate = () => {
   const weekDate = getWeekDate();
   const validDate = weekDate.setMonth(weekDate.getMonth() - 12);
