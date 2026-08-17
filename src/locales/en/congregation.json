@@ -366,7 +366,9 @@
   "tr_createMasterKeyIntroDesc": "This key securely encrypts your congregation's data, including reports and persons, and is required for administrative actions such as data export/import or making significant changed to settings.",
   "tr_hallC": "C",
   "tr_FR": "Regular pioneer",
+  "tr_FRI": "Infirm regular pioneer",
   "tr_FS": "Special pioneer",
+  "tr_FSI": "Infirm special pioneer",
   "tr_incomingCongregationOnlineNoSpeakers": "This congregation does not have any visiting speakers yet added to their records. If necessary, you can personally contact them.",
   "tr_incomingCongregationOnlinePending": "This congregation did not yet approve your request to access their outgoing speakers list. If necessary, you can personally contact them.",
   "tr_incomingCongregationOnlineDisapproved": "This congregation rejected your request to access their outgoing speakers list. If necessary, you can contact them personally.",
@@ -523,5 +525,7 @@
   "tr_maximumAmountOfGroupsIs10": "Maximum amount of field service groups is 10",
   "tr_personAwayNotice": "This person is away: {{ date }}",
   "tr_weekendTemplateShowSongs": "Display songs on weekend meeting schedules",
-  "tr_personalDetails": "Personal details"
+  "tr_personalDetails": "Personal details",
+  "tr_infirmPioneer": "Infirm pioneer",
+  "tr_infirmPioneerNoGoal": "As an infirm pioneer, you can serve as much as you are able without a yearly hour goal."
 }
