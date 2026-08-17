@@ -6,15 +6,16 @@ import { displaySnackNotification } from '@services/states/app';
 import {
   generateMonthNames,
   getMessageByCode,
+  getTranslation,
 } from '@services/i18n/translation';
 import { createArrayFromMonths, currentServiceYear } from '@utils/date';
-import { AttendanceExport, MonthData, YearlyData } from './index.types';
+import { AttendanceExport, ColumnSource } from './index.types';
 import {
   MeetingAttendanceExport,
-  MeetingAttendanceType,
-  WeeklyAttendance,
+  MeetingAttendanceStats,
 } from '@definition/meeting_attendance';
 import {
+  attendanceDeafRecordState,
   JWLangLocaleState,
   JWLangState,
   languageGroupEnabledState,
@@ -22,7 +23,32 @@ import {
 import { meetingAttendanceState } from '@states/meeting_attendance';
 import { languageGroupsState } from '@states/field_service_groups';
 import { MeetingType } from '@definition/app';
+import { meetingAttendanceGetStats } from '@services/app/meeting_attendance';
 import TemplateS88 from '@views/reports/attendance';
+
+const getCell = (stats?: MeetingAttendanceStats, deaf?: boolean) => {
+  if (!stats) return { count: '', total: '', average: '' };
+
+  return {
+    count: stats.count || '',
+    total: (deaf ? stats.total_deaf : stats.total) || '',
+    average: (deaf ? stats.average_deaf : stats.average) || '',
+  };
+};
+
+const getYearlyAverage = (column: ColumnSource, meeting: MeetingType) => {
+  const values = column.months
+    .map((month) =>
+      column.deaf ? month[meeting].average_deaf : month[meeting].average
+    )
+    .filter((average) => average > 0);
+
+  if (values.length === 0) return 0;
+
+  const sum = values.reduce((acc, current) => acc + current, 0);
+
+  return Math.round(sum / values.length);
+};
 
 const useExportS88 = () => {
   const attendances = useAtomValue(meetingAttendanceState);
@@ -30,8 +56,11 @@ const useExportS88 = () => {
   const locale = useAtomValue(JWLangLocaleState);
   const languageGroups = useAtomValue(languageGroupsState);
   const languageGroupEnabled = useAtomValue(languageGroupEnabledState);
+  const recordDeaf = useAtomValue(attendanceDeafRecordState);
 
   const [isProcessing, setIsProcessing] = useState(false);
+
+  const monthNames = useMemo(() => generateMonthNames(locale), [locale]);
 
   const groups = useMemo(() => {
     if (!languageGroupEnabled) return [];
@@ -42,268 +71,83 @@ const useExportS88 = () => {
     );
   }, [languageGroupEnabled, languageGroups]);
 
-  const getAttendance = (month: string) => {
-    return attendances.find((record) => record.month_date === month);
-  };
-
-  const getMidweekOnline = (
-    attendance: MeetingAttendanceType,
-    category: string
-  ) => {
-    if (!attendance) return 0;
-
-    let total = 0;
-
-    for (let i = 1; i <= 5; i++) {
-      const weekData = attendance[`week_${i}`] as WeeklyAttendance;
-
-      let meetingData = weekData.midweek;
-
-      if (category !== 'main') {
-        meetingData = meetingData.filter((record) => record.type === category);
-      }
-
-      total += meetingData.reduce((acc, current) => {
-        if (current?.online) {
-          return acc + current.online;
-        }
-
-        return acc;
-      }, 0);
-    }
-
-    return total;
-  };
-
-  const getWeekendOnline = (
-    attendance: MeetingAttendanceType,
-    category: string
-  ) => {
-    if (!attendance) return 0;
-
-    let total = 0;
-
-    for (let i = 1; i <= 5; i++) {
-      const weekData = attendance[`week_${i}`] as WeeklyAttendance;
-
-      let meetingData = weekData.weekend;
-
-      if (category !== 'main') {
-        meetingData = meetingData.filter((record) => record.type === category);
-      }
-
-      total += meetingData.reduce((acc, current) => {
-        if (current?.online) {
-          return acc + current.online;
-        }
-
-        return acc;
-      }, 0);
-    }
-
-    return total;
-  };
-
-  const getMidweekTotal = (
-    attendance: MeetingAttendanceType,
-    category: string
-  ) => {
-    if (!attendance) return 0;
-
-    let total = 0;
-
-    for (let i = 1; i <= 5; i++) {
-      const weekData = attendance[`week_${i}`] as WeeklyAttendance;
-
-      let meetingData = weekData.midweek;
-
-      if (category !== 'main') {
-        meetingData = meetingData.filter((record) => record.type === category);
-      }
-
-      total += meetingData.reduce((acc, current) => {
-        if (current?.present) {
-          return acc + current.present;
-        }
-
-        return acc;
-      }, 0);
-    }
-
-    const midweek_online = getMidweekOnline(attendance, category);
-
-    return total + midweek_online;
-  };
-
-  const getWeekendTotal = (
-    attendance: MeetingAttendanceType,
-    category: string
-  ) => {
-    if (!attendance) return 0;
-
-    let total = 0;
-
-    for (let i = 1; i <= 5; i++) {
-      const weekData = attendance[`week_${i}`] as WeeklyAttendance;
-
-      let meetingData = weekData.weekend;
-
-      if (category !== 'main') {
-        meetingData = meetingData.filter((record) => record.type === category);
-      }
-
-      total += meetingData.reduce((acc, current) => {
-        if (current?.present) {
-          return acc + current.present;
-        }
-
-        return acc;
-      }, 0);
-    }
-
-    const weekend_online = getWeekendOnline(attendance, category);
-
-    return total + weekend_online;
-  };
-
-  const getMidweekCount = (
-    attendance: MeetingAttendanceType,
-    category: string
-  ) => {
-    if (!attendance) return 0;
-
-    let count = 0;
-
-    for (let i = 1; i <= 5; i++) {
-      const weekData = attendance[`week_${i}`] as WeeklyAttendance;
-
-      let meetingData = weekData.midweek;
-
-      if (category !== 'main') {
-        meetingData = meetingData.filter((record) => record.type === category);
-      }
-
-      const total = meetingData.reduce((acc, current) => {
-        let value = acc;
-
-        if (current?.present) {
-          value += current.present;
-        }
-
-        if (current?.online) {
-          value += current.online;
-        }
-
-        return value;
-      }, 0);
-
-      if (total > 0) count++;
-    }
-
-    return count;
-  };
-
-  const getWeekendCount = (
-    attendance: MeetingAttendanceType,
-    category: string
-  ) => {
-    if (!attendance) return 0;
-
-    let count = 0;
-
-    for (let i = 1; i <= 5; i++) {
-      const weekData = attendance[`week_${i}`] as WeeklyAttendance;
-
-      let meetingData = weekData.weekend;
-
-      if (category !== 'main') {
-        meetingData = meetingData.filter((record) => record.type === category);
-      }
-
-      const total = meetingData.reduce((acc, current) => {
-        let value = acc;
-
-        if (current?.present) {
-          value += current.present;
-        }
-
-        if (current?.online) {
-          value += current.online;
-        }
-
-        return value;
-      }, 0);
-
-      if (total > 0) count++;
-    }
-
-    return count;
-  };
-
-  const getMidweekAverage = (
-    attendance: MeetingAttendanceType,
-    category: string
-  ) => {
-    if (!attendance) return 0;
-
-    const midweek_total = getMidweekTotal(attendance, category);
-    const midweek_count = getMidweekCount(attendance, category);
-
-    const average =
-      midweek_total === 0 ? 0 : Math.round(midweek_total / midweek_count);
-
-    return average;
-  };
-
-  const getWeekendAverage = (
-    attendance: MeetingAttendanceType,
-    category: string
-  ) => {
-    if (!attendance) return 0;
-
-    const weekend_total = getWeekendTotal(attendance, category);
-    const weekend_count = getWeekendCount(attendance, category);
-
-    const average =
-      weekend_total === 0 ? 0 : Math.round(weekend_total / weekend_count);
-
-    return average;
-  };
-
   const getAttendanceDetails = (month: string, category: string) => {
-    const attendance = getAttendance(month);
+    const attendance = attendances.find(
+      (record) => record.month_date === month
+    );
+
+    const filter = category === 'main' ? undefined : category;
 
     return {
-      midweek: {
-        count: getMidweekCount(attendance, category),
-        total: getMidweekTotal(attendance, category),
-        average: getMidweekAverage(attendance, category),
-      },
-      weekend: {
-        count: getWeekendCount(attendance, category),
-        total: getWeekendTotal(attendance, category),
-        average: getWeekendAverage(attendance, category),
-      },
+      midweek: meetingAttendanceGetStats(attendance, 'midweek', filter),
+      weekend: meetingAttendanceGetStats(attendance, 'weekend', filter),
     };
   };
 
-  const getYearlyMeetingAverage = (
-    months: MonthData[],
-    meeting: MeetingType
-  ) => {
-    const values: number[] = [];
+  const getYearlyData = (year: string, category: string) => {
+    const months = createArrayFromMonths(`${+year - 1}/09`, `${year}/08`);
 
-    for (const month of months) {
-      const avg = month[meeting].average;
+    return {
+      year,
+      months: months.map((month) => ({
+        month,
+        ...getAttendanceDetails(month, category),
+      })),
+    };
+  };
 
-      if (avg > 0) values.push(avg);
+  const buildPage = (name: string, columns: ColumnSource[]) => {
+    const [column1, column2] = columns;
+
+    const buildRows = (meeting: MeetingType) => {
+      return column1.months.map((record, index) => {
+        const monthIndex = +record.month.split('/')[1] - 1;
+
+        return {
+          month: monthNames[monthIndex],
+          table_1: getCell(record[meeting], column1.deaf),
+          table_2: getCell(column2.months.at(index)?.[meeting], column2.deaf),
+        };
+      });
+    };
+
+    return {
+      name,
+      columns: columns.map((column) => column.label),
+      midweek_meeting: buildRows('midweek'),
+      midweek_average: [
+        getYearlyAverage(column1, 'midweek'),
+        getYearlyAverage(column2, 'midweek'),
+      ],
+      weekend_meeting: buildRows('weekend'),
+      weekend_average: [
+        getYearlyAverage(column1, 'weekend'),
+        getYearlyAverage(column2, 'weekend'),
+      ],
+    };
+  };
+
+  const buildCategoryPages = (category: AttendanceExport) => {
+    if (!recordDeaf) {
+      const columns: ColumnSource[] = [0, 1].map((index) => {
+        const yearly = category.data.at(index);
+
+        return yearly
+          ? { label: yearly.year, months: yearly.months }
+          : { label: '', months: [] };
+      });
+
+      return [buildPage(category.name, columns)];
     }
 
-    const sum = values.reduce((acc, current) => acc + current, 0);
+    const deafLabel = getTranslation({ key: 'tr_deaf', language: locale });
 
-    if (sum === 0) return 0;
-
-    return Math.round(sum / values.length);
+    return category.data.map((yearly) =>
+      buildPage(category.name, [
+        { label: yearly.year, months: yearly.months },
+        { label: deafLabel, months: yearly.months, deaf: true },
+      ])
+    );
   };
 
   const handleExportS88 = async () => {
@@ -312,173 +156,44 @@ const useExportS88 = () => {
     try {
       setIsProcessing(true);
 
-      const result: AttendanceExport[] = [];
+      const currentYear = currentServiceYear();
+      const years = [String(+currentYear - 1), currentYear];
 
-      const years = [currentServiceYear()];
-      years.unshift(String(+years - 1));
-
-      const main = {
-        category: 'main',
-        name: 'main',
-        data: [],
-      } as AttendanceExport;
-
-      for (const year of years) {
-        const obj = { year, months: [] };
-
-        const startMonth = `${+year - 1}/09`;
-        const endMonth = `${year}/08`;
-        const months = createArrayFromMonths(startMonth, endMonth);
-
-        for (const month of months) {
-          const attendance = getAttendanceDetails(month, main.category);
-          obj.months.push({ month, ...attendance });
-        }
-
-        main.data.push(obj);
-      }
-
-      result.push(main);
-
-      for (const group of groups) {
-        const groupData = {
+      const categories: AttendanceExport[] = [
+        { category: 'main', name: 'main' },
+        ...groups.map((group) => ({
           category: group.group_id,
           name: group.group_data.name,
-          data: [],
-        } as AttendanceExport;
-
-        for (const year of years) {
-          const obj = { year, months: [] };
-
-          const startMonth = `${+year - 1}/09`;
-          const endMonth = `${year}/08`;
-          const months = createArrayFromMonths(startMonth, endMonth);
-
-          for (const month of months) {
-            const attendance = getAttendanceDetails(month, groupData.category);
-            obj.months.push({ month, ...attendance });
-          }
-
-          groupData.data.push(obj);
-        }
-
-        result.push(groupData);
-      }
-
-      // remove service year with no data
-      const resultClean = result.reduce((acc: AttendanceExport[], current) => {
-        const newCurrent = current.data.reduce(
-          (childAcc: YearlyData[], childCurrent) => {
-            const hasData = childCurrent.months.some(
+        })),
+      ].map((category) => ({
+        ...category,
+        data: years
+          .map((year) => getYearlyData(year, category.category))
+          .filter((yearly) =>
+            yearly.months.some(
               (record) => record.midweek.count > 0 || record.weekend.count > 0
-            );
+            )
+          ),
+      }));
 
-            if (hasData) {
-              childAcc.push(childCurrent);
-            }
-
-            return childAcc;
-          },
-          []
-        );
-
-        acc.push({ ...current, data: newCurrent });
-
-        return acc;
-      }, []);
-
-      if (resultClean.length === 0 || resultClean?.at(0).data.length === 0) {
+      if (categories.every((category) => category.data.length === 0)) {
         setIsProcessing(false);
         return;
       }
 
-      const monthNames = generateMonthNames(locale);
-
       const finalData: MeetingAttendanceExport = {
         lang,
         locale,
-        data: resultClean
-          .filter((record) => record.data.length > 0)
-          .map((category) => {
-            const year1 = category.data.at(0).year;
-            const year2 = category.data.at(1)?.year;
-
-            return {
-              name: category.name,
-              years: [year1, year2 || ''],
-              midweek_meeting: category.data
-                .at(0)
-                .months.map((record, index) => {
-                  const table1 = category.data.at(0).months.at(index);
-                  const table2 = category.data.at(1)?.months.at(index);
-
-                  const monthIndex = +record.month.split('/')[1] - 1;
-
-                  return {
-                    month: monthNames[monthIndex],
-                    table_1: {
-                      count: table1.midweek.count || '',
-                      total: table1.midweek.total || '',
-                      average: table1.midweek.average || '',
-                    },
-                    table_2: {
-                      count: table2?.midweek.count || '',
-                      total: table2?.midweek.total || '',
-                      average: table2?.midweek.average || '',
-                    },
-                  };
-                }),
-              midweek_average: [
-                getYearlyMeetingAverage(category.data.at(0).months, 'midweek'),
-                year2
-                  ? getYearlyMeetingAverage(
-                      category.data.at(1)?.months ?? [],
-                      'midweek'
-                    )
-                  : 0,
-              ],
-              weekend_meeting: category.data
-                .at(0)
-                .months.map((record, index) => {
-                  const table1 = category.data.at(0).months.at(index);
-                  const table2 = category.data.at(1)?.months.at(index);
-
-                  const monthIndex = +record.month.split('/')[1] - 1;
-
-                  return {
-                    month: monthNames[monthIndex],
-                    table_1: {
-                      count: table1.weekend.count || '',
-                      total: table1.weekend.total || '',
-                      average: table1.weekend.average || '',
-                    },
-                    table_2: {
-                      count: table2?.weekend.count || '',
-                      total: table2?.weekend.total || '',
-                      average: table2?.weekend.average || '',
-                    },
-                  };
-                }),
-              weekend_average: [
-                getYearlyMeetingAverage(category.data.at(0).months, 'weekend'),
-                year2
-                  ? getYearlyMeetingAverage(
-                      category.data.at(1)?.months ?? [],
-                      'weekend'
-                    )
-                  : 0,
-              ],
-            };
-          }),
+        data: categories
+          .filter((category) => category.data.length > 0)
+          .flatMap(buildCategoryPages),
       };
 
       const blob = await pdf(
         <TemplateS88 attendance={finalData} lang={lang} />
       ).toBlob();
 
-      const filename = `S-88.pdf`;
-
-      saveAs(blob, filename);
+      saveAs(blob, 'S-88.pdf');
 
       setIsProcessing(false);
     } catch (error) {

@@ -1,26 +1,21 @@
+import { memo } from 'react';
 import { Box, Stack } from '@mui/material';
-import { useAppTranslation } from '@hooks/index';
 import { TextFieldStyles } from './index.styles';
 import { WeekBoxProps } from './index.types';
 import useWeekBox from './useWeekBox';
 import NowIndicator from './now_indicator';
 import TextField from '@components/textfield';
 import Typography from '@components/typography';
-import { memo } from 'react';
 
 const WeekBox = (props: WeekBoxProps) => {
-  const { t } = useAppTranslation();
-
   const {
     isCurrent,
-    recordOnline,
-    handlePresentChange,
-    present,
-    online,
-    handleOnlineChange,
+    isMeetingDay,
+    detailed,
+    fields,
+    values,
+    handleValueChange,
     total,
-    isMidweek,
-    isWeekend,
     box_label,
     noMeeting,
   } = useWeekBox(props);
@@ -28,7 +23,7 @@ const WeekBox = (props: WeekBoxProps) => {
   return (
     <Stack spacing="4px" flex={1}>
       <Stack spacing="16px">
-        {recordOnline && (
+        {detailed && (
           <Box
             sx={{
               padding: '4px 16px',
@@ -52,44 +47,42 @@ const WeekBox = (props: WeekBoxProps) => {
           </Box>
         )}
 
-        <TextField
-          type="number"
-          label={recordOnline ? t('tr_present') : box_label}
-          value={present}
-          onChange={handlePresentChange}
-          disabled={noMeeting}
-          slotProps={{
-            htmlInput: { className: 'h4' },
-          }}
-          sx={TextFieldStyles}
-        />
+        {fields.map((field, index) => {
+          const last = detailed && index === fields.length - 1;
 
-        {recordOnline && (
-          <Stack
-            spacing="4px"
-            height={
-              (props.type === 'midweek' && isMidweek) ||
-              (props.type === 'weekend' && isWeekend)
-                ? '56px'
-                : 'unset'
-            }
-          >
-            <TextField
-              type="number"
-              label={t('tr_online')}
-              value={online}
-              onChange={handleOnlineChange}
-              disabled={noMeeting}
-              slotProps={{
-                htmlInput: { className: 'h4' },
-              }}
-              sx={TextFieldStyles}
-            />
-            {isCurrent && <NowIndicator type={props.type} />}
-          </Stack>
-        )}
+          return (
+            <Stack
+              key={field.name}
+              spacing="4px"
+              height={last && isMeetingDay ? '56px' : 'unset'}
+            >
+              {field.section && (
+                <Typography
+                  className="body-small-semibold"
+                  color="var(--grey-400)"
+                >
+                  {field.section}
+                </Typography>
+              )}
 
-        {recordOnline && (
+              <TextField
+                type="number"
+                label={field.label}
+                value={values[field.name]}
+                onChange={handleValueChange(field.name)}
+                disabled={noMeeting}
+                slotProps={{
+                  htmlInput: { className: 'h4' },
+                }}
+                sx={TextFieldStyles}
+              />
+
+              {last && isCurrent && <NowIndicator type={props.type} />}
+            </Stack>
+          );
+        })}
+
+        {detailed && (
           <Box
             sx={{
               padding: '4px 16px',
@@ -115,7 +108,7 @@ const WeekBox = (props: WeekBoxProps) => {
         )}
       </Stack>
 
-      {!recordOnline && isCurrent && <NowIndicator type={props.type} />}
+      {!detailed && isCurrent && <NowIndicator type={props.type} />}
     </Stack>
   );
 };

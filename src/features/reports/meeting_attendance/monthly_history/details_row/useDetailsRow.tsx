@@ -1,82 +1,40 @@
 import { useMemo } from 'react';
-import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { DetailsRowProps } from './index.types';
-import { meetingAttendanceState } from '@states/meeting_attendance';
 import useMeetingAttendance from '../../hooks/useMeetingAttendance';
 
 const useDetailsRow = ({ type, month, meeting }: DetailsRowProps) => {
   const { t } = useAppTranslation();
 
-  const { midweek, weekend } = useMeetingAttendance(month);
-
-  const attendances = useAtomValue(meetingAttendanceState);
+  const { midweek, weekend, hasRecord } = useMeetingAttendance(month);
 
   const label = useMemo(() => {
-    if (type === 'count') {
-      return t('tr_numberOfMeetings');
-    }
+    const labels: Record<DetailsRowProps['type'], string> = {
+      count: t('tr_numberOfMeetings'),
+      total: t('tr_totalAttendance'),
+      average: t('tr_avgAttendance'),
+      average_online: t('tr_avgOnline'),
+      total_deaf: t('tr_totalAttendanceDeaf'),
+      average_deaf: t('tr_avgAttendanceDeaf'),
+    };
 
-    if (type === 'total') {
-      return t('tr_totalAttendance');
-    }
-
-    if (type === 'average') {
-      return t('tr_avgAttendance');
-    }
-
-    if (type === 'average_online') {
-      return t('tr_avgOnline');
-    }
+    return labels[type];
   }, [type, t]);
 
-  const attendance = useMemo(() => {
-    return attendances.find((record) => record.month_date === month);
-  }, [attendances, month]);
-
   const value = useMemo(() => {
-    if (!attendance) return '';
+    if (!hasRecord) return '';
 
-    if (type === 'count') {
-      if (meeting === 'midweek') {
-        return midweek.count;
-      }
+    const stats = meeting === 'midweek' ? midweek : weekend;
 
-      if (meeting === 'weekend') {
-        return weekend.count;
-      }
-    }
+    if (type !== 'average_online') return stats[type];
 
-    if (type === 'total') {
-      if (meeting === 'midweek') {
-        return midweek.total;
-      }
+    const percent =
+      stats.average === 0
+        ? 0
+        : Math.round((stats.average_online * 100) / stats.average);
 
-      if (meeting === 'weekend') {
-        return weekend.total;
-      }
-    }
-
-    if (type === 'average') {
-      if (meeting === 'midweek') {
-        return midweek.average;
-      }
-
-      if (meeting === 'weekend') {
-        return weekend.average;
-      }
-    }
-
-    if (type === 'average_online') {
-      if (meeting === 'midweek') {
-        return midweek.average_online;
-      }
-
-      if (meeting === 'weekend') {
-        return weekend.average_online;
-      }
-    }
-  }, [attendance, type, meeting, midweek, weekend]);
+    return `${stats.average_online} (${percent}%)`;
+  }, [type, meeting, midweek, weekend, hasRecord]);
 
   return { label, value };
 };

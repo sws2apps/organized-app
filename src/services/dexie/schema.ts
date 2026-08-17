@@ -283,6 +283,9 @@ export const settingSchema: SettingsType = {
     attendance_online_record: [
       { type: 'main', value: false, updatedAt: '', _deleted: false },
     ],
+    attendance_deaf_record: [
+      { type: 'main', value: false, updatedAt: '', _deleted: false },
+    ],
     special_months: [],
     source_material: {
       auto_import: {
