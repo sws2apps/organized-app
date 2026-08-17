@@ -122,16 +122,7 @@ const DatePicker = ({
           slots={{
             ...slotFieldProps,
             toolbar: () => <Toolbar selected={valueTmp} />,
-            actionBar: () => (
-              <ActionBar
-                onClose={() => setOpen(false)}
-                onClear={() => {
-                  setOpen(false);
-                  setValueTmp(null);
-                  onChange?.(null);
-                }}
-              />
-            ),
+            actionBar: () => <ActionBar onClose={() => setOpen(false)} />,
             openPickerIcon: IconDate,
             leftArrowIcon: hideNav ? () => <></> : ArrowLeft,
             rightArrowIcon: hideNav ? () => <></> : ArrowRight,
