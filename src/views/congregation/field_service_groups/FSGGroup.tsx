@@ -1,32 +1,41 @@
-import { View, Text } from '@react-pdf/renderer';
+import { View, Text, Svg, Line } from '@react-pdf/renderer';
 import { getCSSPropertyValue } from '@utils/common';
 import { FSGGroupProps } from './index.types';
 import FSGGroupMember from './FSGGroupMember';
+import {
+  DIVIDER_HEIGHT,
+  cardWidth,
+  columnWidth,
+  contentWidth,
+  dividerDash,
+} from './packGroups';
 import styles from './index.styles';
 
-const FSGGroup = ({ group }: FSGGroupProps) => {
-  const groupMembersCount =
-    group.publishers.length +
-    (group.overseer && 1) +
-    (group.overseerAssistant && 1);
+const FSGGroup = ({ card, fontSize }: FSGGroupProps) => {
+  const { group, span, columns, membersCount } = card;
+
+  const groupColor = getCSSPropertyValue(`--group-${group.group_number}`);
 
   return (
-    <View style={styles.groupContainer}>
+    <View wrap={false} style={{ width: cardWidth(span) }}>
       <View
         style={{
           ...styles.groupTitleContainer,
-          backgroundColor: getCSSPropertyValue(`--group-${group.group_number}`),
+          backgroundColor: groupColor,
         }}
       >
-        <Text style={styles.groupTitle}>{group.group_name}</Text>
+        <Text style={{ ...styles.groupTitle, fontSize }}>
+          {group.group_name}
+        </Text>
         <View style={styles.membersCountContainer}>
           <Text
             style={{
               ...styles.membersCount,
-              color: getCSSPropertyValue(`--group-${group.group_number}`),
+              fontSize: fontSize - 2,
+              color: groupColor,
             }}
           >
-            {groupMembersCount}
+            {membersCount}
           </Text>
         </View>
       </View>
@@ -39,7 +48,8 @@ const FSGGroup = ({ group }: FSGGroupProps) => {
                 <Text
                   style={{
                     ...styles.groupOverseerText,
-                    color: getCSSPropertyValue(`--group-${group.group_number}`),
+                    fontSize,
+                    color: groupColor,
                   }}
                 >
                   {group.overseer}
@@ -49,20 +59,43 @@ const FSGGroup = ({ group }: FSGGroupProps) => {
                 <Text
                   style={{
                     ...styles.groupOverseerAssistantText,
-                    color: getCSSPropertyValue(`--group-${group.group_number}`),
+                    fontSize,
+                    color: groupColor,
                   }}
                 >
                   {group.overseerAssistant}
                 </Text>
               )}
             </View>
-            <View style={styles.dashedDivider} />
+            <Svg width={contentWidth(span)} height={DIVIDER_HEIGHT}>
+              <Line
+                x1={0}
+                y1={DIVIDER_HEIGHT / 2}
+                x2={contentWidth(span)}
+                y2={DIVIDER_HEIGHT / 2}
+                style={{
+                  ...styles.dashedDivider,
+                  strokeDasharray: dividerDash(span),
+                }}
+              />
+            </Svg>
           </>
         )}
 
-        <View style={styles.groupMemberList}>
-          {group.publishers.map((publisher) => (
-            <FSGGroupMember key={publisher} member={publisher} />
+        <View style={styles.groupColumns}>
+          {columns.map((column) => (
+            <View
+              key={column.id}
+              style={{ ...styles.groupMemberList, width: columnWidth(span) }}
+            >
+              {column.publishers.map((publisher) => (
+                <FSGGroupMember
+                  key={publisher}
+                  member={publisher}
+                  fontSize={fontSize}
+                />
+              ))}
+            </View>
           ))}
         </View>
       </View>

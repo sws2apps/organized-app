@@ -2,46 +2,6 @@ import { StyleSheet } from '@react-pdf/renderer';
 import { getCSSPropertyValue } from '@utils/common';
 
 const styles = StyleSheet.create({
-  page: {
-    padding: '20px',
-    backgroundColor: '#FFFFFF',
-  },
-  contentContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '10px',
-  },
-  titleContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  documentNameContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    gap: '5px',
-    alignItems: 'center',
-  },
-  documentNameTypography: {
-    color: '#000000',
-    fontWeight: 500,
-    fontSize: '14px',
-  },
-  congregationNameContainer: {
-    padding: '2px 8px 2px 8px',
-    borderRadius: '2px',
-    display: 'flex',
-    justifyContent: 'center',
-    backgroundColor: '#D5DFFD',
-  },
-  congregationName: {
-    fontSize: '10px',
-    fontWeight: 500,
-    color: '#3B4CA3',
-  },
-  groupContainer: {
-    width: '180px',
-  },
   groupTitleContainer: {
     width: '100%',
     padding: '4px 4px 4px 8px',
@@ -84,11 +44,11 @@ const styles = StyleSheet.create({
   groupOverseers: {
     display: 'flex',
     flexDirection: 'column',
-    gap: '3px',
+    gap: '5px',
   },
   dashedDivider: {
-    width: '100%',
-    borderBottom: `0.5px dashed #DADADA`,
+    stroke: '#DADADA',
+    strokeWidth: 1,
   },
   groupOverseerText: {
     fontWeight: 600,
@@ -98,10 +58,15 @@ const styles = StyleSheet.create({
     fontWeight: 400,
     fontSize: '10px',
   },
+  groupColumns: {
+    display: 'flex',
+    flexDirection: 'row',
+    gap: '7px',
+  },
   groupMemberList: {
     display: 'flex',
     flexDirection: 'column',
-    gap: '2px',
+    gap: '4px',
   },
   groupMember: {
     fontWeight: 400,
@@ -109,10 +74,8 @@ const styles = StyleSheet.create({
     fontSize: '10px',
   },
   groupsContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: '7px',
+    position: 'relative',
+    width: '100%',
   },
 });
 
