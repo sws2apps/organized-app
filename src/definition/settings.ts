@@ -143,6 +143,13 @@ export type SettingsType = {
         updatedAt: string;
       };
     }[];
+    // Recurring field service meeting time per group ("type" is the group_id).
+    // Used to pre-fill the date/time when creating a new field service meeting.
+    field_service_meeting_times?: {
+      type: string;
+      weekday: { value: number | null; updatedAt: string };
+      time: { value: string; updatedAt: string };
+    }[];
     circuit_overseer: {
       firstname: { value: string; updatedAt: string };
       lastname: { value: string; updatedAt: string };

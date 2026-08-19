@@ -346,11 +346,11 @@ export const featureFlagsState = atom<Record<string, boolean>>({});
 
 export const navBarAnchorElState = atom<MenuProps['anchorEl']>();
 
+export const navBarOptionsState = atom<NavBarOptionsType>({});
+
 export const isPocketSignUpState = atom(false);
 
 export const appLocaleState = atom(enUS);
-
-export const navBarOptionsState = atom<NavBarOptionsType>({});
 
 export const colorSchemeState = atomWithStorage<ColorSchemeType>(
   'color',

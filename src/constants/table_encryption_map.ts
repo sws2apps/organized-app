@@ -235,4 +235,10 @@ export const TABLE_ENCRYPTION_MAP = {
     updatedAt: 'shared',
     event_data: 'shared',
   },
+  field_service_meetings: {
+    meeting_uid: 'public',
+    _deleted: 'shared',
+    updatedAt: 'shared',
+    meeting_data: 'shared',
+  },
 };

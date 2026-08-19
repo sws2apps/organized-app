@@ -54,10 +54,34 @@ export const CustomListBoxComponent = forwardRef((props: BoxProps, ref) => {
           minHeight: '36px !important',
           backgroundColor: 'unset',
           borderBottom: '1px solid var(--accent-200)',
+          color: 'var(--black)',
           '&:hover': {
-            backgroundColor: 'var(--accent-150)',
+            backgroundColor: 'var(--accent-150) !important',
+            // Apply directly so plain-text options (not wrapped in <p>) also
+            // turn accent on hover. The `& p` rule covers Typography children.
+            color: 'var(--accent-dark)',
             '& p': {
               color: 'var(--accent-dark)',
+            },
+          },
+          '&.Mui-focused': {
+            backgroundColor: 'var(--accent-150) !important',
+            color: 'var(--accent-dark)',
+            '& p': {
+              color: 'var(--accent-dark)',
+            },
+          },
+          '&.Mui-focusVisible': {
+            backgroundColor: 'var(--accent-150) !important',
+            color: 'var(--accent-dark)',
+            '& p': {
+              color: 'var(--accent-dark)',
+            },
+          },
+          '&[aria-selected="true"]': {
+            backgroundColor: 'var(--accent-100) !important',
+            '&:hover': {
+              backgroundColor: 'var(--accent-150) !important',
             },
           },
         },
@@ -82,6 +106,8 @@ const Autocomplete = <T,>(props: AutocompletePropsType<T>) => {
     styleIcon,
     decorator,
     variant,
+    error,
+    helperText,
     ...defaultProps
   } = props;
 
@@ -133,6 +159,8 @@ const Autocomplete = <T,>(props: AutocompletePropsType<T>) => {
           endIcon={endIcon}
           height={48}
           styleIcon={styleIcon ?? true}
+          error={error}
+          helperText={helperText}
           sx={
             decorator
               ? {

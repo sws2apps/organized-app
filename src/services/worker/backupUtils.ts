@@ -29,6 +29,7 @@ import { MeetingAttendanceType } from '@definition/meeting_attendance';
 import { MetadataRecordType } from '@definition/metadata';
 import { DelegatedFieldServiceReportType } from '@definition/delegated_field_service_reports';
 import { UpcomingEventType } from '@definition/upcoming_events';
+import { FieldServiceMeetingType } from '@definition/field_service_meetings';
 import { formatDate } from '@utils/date';
 import { APP_READ_ONLY_ROLES } from '@constants/index';
 
@@ -336,6 +337,7 @@ const dbGetTableData = async () => {
   const sources = await appDb.sources.toArray();
   const meeting_attendance = await appDb.meeting_attendance.toArray();
   const upcoming_events = await appDb.upcoming_events.toArray();
+  const field_service_meetings = await appDb.field_service_meetings.toArray();
   const metadata = await appDb.metadata.get(1);
 
   const congId = speakers_congregations.find(
@@ -393,6 +395,7 @@ const dbGetTableData = async () => {
     metadata,
     delegated_field_service_reports,
     upcoming_events,
+    field_service_meetings,
   };
 };
 
@@ -791,6 +794,63 @@ const dbRestoreUpcomingEvents = async (
     }
   } catch (error) {
     throw new Error(`upcoming_events: ${error.message}`);
+  }
+};
+
+const dbRestoreFieldServiceMeetings = async (
+  backupData: BackupDataType,
+  accessCode: string
+) => {
+  try {
+    if (!backupData.field_service_meetings) return;
+
+    const remoteMeetings = backupData.field_service_meetings.map(
+      (meeting: FieldServiceMeetingType) => {
+        decryptObject({
+          data: meeting,
+          table: 'field_service_meetings',
+          accessCode,
+        });
+
+        // clean up keys
+        if (meeting.updatedAt) {
+          meeting.meeting_data._deleted = meeting._deleted;
+          meeting.meeting_data.updatedAt = meeting.updatedAt;
+
+          delete meeting._deleted;
+          delete meeting.updatedAt;
+        }
+
+        return meeting;
+      }
+    );
+
+    const meetings = await appDb.field_service_meetings.toArray();
+
+    const meetingToUpdate: FieldServiceMeetingType[] = [];
+
+    for (const remoteMeeting of remoteMeetings) {
+      const localMeeting = meetings.find(
+        (record) => record.meeting_uid === remoteMeeting.meeting_uid
+      );
+
+      if (!localMeeting) {
+        meetingToUpdate.push(remoteMeeting);
+      }
+
+      if (localMeeting) {
+        const newMeeting = structuredClone(localMeeting);
+        syncFromRemote(newMeeting, remoteMeeting);
+
+        meetingToUpdate.push(newMeeting);
+      }
+    }
+
+    if (meetingToUpdate.length > 0) {
+      await appDb.field_service_meetings.bulkPut(meetingToUpdate);
+    }
+  } catch (error) {
+    throw new Error(`field_service_meetings: ${error.message}`);
   }
 };
 
@@ -1557,6 +1617,8 @@ const dbRestoreFromBackup = async (
 
     await dbRestoreUpcomingEvents(backupData, accessCode);
 
+    await dbRestoreFieldServiceMeetings(backupData, accessCode);
+
     await dbRestoreUserReports(backupData, accessCode);
 
     await dbRestoreDelegatedReports(backupData, accessCode);
@@ -1630,6 +1692,7 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
       metadata,
       delegated_field_service_reports,
       upcoming_events,
+      field_service_meetings,
     } = await dbGetTableData();
 
     const dataSync = settings.cong_settings.data_sync.value;
@@ -1961,6 +2024,31 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
 
             obj.upcoming_events = backupUpcomingEvents;
           }
+        }
+
+        // include field service meetings — the edit permission model also
+        // covers group overseers and the service overseer, so the export gate
+        // must match or their local changes would silently never sync
+        if (
+          (adminRole ||
+            serviceCommitteeRole ||
+            groupOverseerRole ||
+            languageGroupOverseerRole) &&
+          metadata.metadata.field_service_meetings?.send_local
+        ) {
+          const backupFieldServiceMeetings = field_service_meetings.map(
+            (meeting) => {
+              encryptObject({
+                data: meeting,
+                table: 'field_service_meetings',
+                accessCode,
+              });
+
+              return meeting;
+            }
+          );
+
+          obj.field_service_meetings = backupFieldServiceMeetings;
         }
 
         // include user role changes

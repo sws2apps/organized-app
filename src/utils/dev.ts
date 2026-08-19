@@ -7,6 +7,11 @@ import {
   FieldServiceGroupType,
 } from '@definition/field_service_groups';
 import {
+  FieldServiceMeetingType,
+  FieldServiceMeetingCategory,
+  FieldServiceMeetingLocation,
+} from '@definition/field_service_meetings';
+import {
   generateDisplayName,
   getRandomArrayItem,
   getRandomNumber,
@@ -585,6 +590,7 @@ export const importDummyPersons = async (showLoading?: boolean) => {
               AssignmentCode.WM_Chairman,
               AssignmentCode.WM_Prayer,
               AssignmentCode.WM_Speaker,
+              AssignmentCode.MINISTRY_FS_CONDUCTOR,
             ],
           });
 
@@ -615,6 +621,7 @@ export const importDummyPersons = async (showLoading?: boolean) => {
               AssignmentCode.WM_Chairman,
               AssignmentCode.WM_Prayer,
               AssignmentCode.WM_WTStudyReader,
+              AssignmentCode.MINISTRY_FS_CONDUCTOR,
             ],
           });
 
@@ -783,7 +790,10 @@ export const dbFieldGroupAutoAssign = async () => {
       group_data: {
         _deleted: false,
         updatedAt: new Date().toISOString(),
-        name: '',
+        // Real groups only carry an optional custom name; most have none, so
+        // they should display as "Group N". One sample below ("Maple Street")
+        // demonstrates the "Group N - Name" format.
+        name: i === 1 ? 'Maple Street' : '',
         sort_index: i,
         members: [
           {
@@ -1337,4 +1347,138 @@ export const dbSchedulesAutoFill = async () => {
       updatedAt: new Date().toISOString(),
     },
   });
+};
+
+export const dbFieldServiceMeetingsDummy = async () => {
+  const groups = await appDb.field_service_groups.toArray();
+  const settings = await appDb.app_settings.get(1);
+  const userLocalUid = settings.user_settings.user_local_uid;
+  const serviceOverseerUid =
+    settings.cong_settings.responsabilities?.service || userLocalUid;
+  const now = new Date().toISOString();
+
+  // Seed a couple of recurring meeting times (demo): Group 1 → Sunday 10:00,
+  // Group 2 → Wednesday 18:30. (weekday is Monday=0 … Sunday=6.)
+  const regularGroups = groups.filter((g) => !g.group_data.language_group);
+  if (regularGroups.length >= 2) {
+    const recurring = [
+      {
+        type: regularGroups[0].group_id,
+        weekday: { value: 6, updatedAt: now },
+        time: { value: '10:00', updatedAt: now },
+      },
+      {
+        type: regularGroups[1].group_id,
+        weekday: { value: 2, updatedAt: now },
+        time: { value: '18:30', updatedAt: now },
+      },
+    ];
+    await appDb.app_settings.update(1, {
+      'cong_settings.field_service_meeting_times': recurring,
+    });
+  }
+
+  // Find current user's group
+  const userGroup = groups.find((group) =>
+    group.group_data.members.some(
+      (member) => member.person_uid === userLocalUid
+    )
+  );
+
+  // Get first day of current week (Monday)
+  const firstDayOfWeek = getWeekDate(new Date());
+
+  // Helper to create meeting date within current week
+  const createMeetingDate = (dayOfWeek: number) => {
+    const start = new Date(firstDayOfWeek);
+    start.setDate(firstDayOfWeek.getDate() + dayOfWeek);
+    start.setHours(9, 30, 0, 0);
+
+    const end = new Date(start);
+    end.setHours(10, 30, 0, 0);
+
+    return { start: start.toISOString(), end: end.toISOString() };
+  };
+
+  // Regular Meeting - Kingdom Hall (assigned to current user's group) - Wednesday
+  const { start: start0, end: end0 } = createMeetingDate(2);
+  const meeting0: FieldServiceMeetingType = {
+    meeting_uid: 'demo-field-service-meeting-1',
+    meeting_data: {
+      _deleted: false,
+      updatedAt: now,
+      start: start0,
+      end: end0,
+      type: userGroup?.group_id || 'main',
+      category: FieldServiceMeetingCategory.RegularMeeting,
+      conductor: userLocalUid,
+      location: FieldServiceMeetingLocation.KingdomHall,
+      group_id: userGroup?.group_id,
+      address: '123 Kingdom Hall St',
+      additionalInfo: 'Bring your iPad',
+    },
+  };
+
+  // Regular Meeting for a specific group - Publisher home - Friday
+  const firstGroup = groups.find((g) => !g.group_data.language_group);
+  const { start: start1, end: end1 } = createMeetingDate(4);
+  const meeting1: FieldServiceMeetingType = {
+    meeting_uid: 'demo-field-service-meeting-2',
+    meeting_data: {
+      _deleted: false,
+      updatedAt: now,
+      start: start1,
+      end: end1,
+      type: firstGroup?.group_id || 'main',
+      category: FieldServiceMeetingCategory.RegularMeeting,
+      conductor:
+        firstGroup?.group_data.members?.[0]?.person_uid || userLocalUid,
+      location: FieldServiceMeetingLocation.Publisher,
+      group_id: firstGroup?.group_id,
+      address: '456 Publisher Ave',
+      additionalInfo: 'Group 1 only',
+    },
+  };
+
+  // Joint Meeting - Territory - Saturday
+  const { start: start2, end: end2 } = createMeetingDate(5);
+  const meeting2: FieldServiceMeetingType = {
+    meeting_uid: 'demo-field-service-meeting-3',
+    meeting_data: {
+      _deleted: false,
+      updatedAt: now,
+      start: start2,
+      end: end2,
+      type: 'main',
+      category: FieldServiceMeetingCategory.JointMeeting,
+      conductor: userLocalUid,
+      location: FieldServiceMeetingLocation.Territory,
+      address: 'Central Park',
+      additionalInfo: 'All groups - Special campaign',
+    },
+  };
+
+  // Service Overseer Meeting - Online - Sunday
+  const { start: start3, end: end3 } = createMeetingDate(6);
+  const meeting3: FieldServiceMeetingType = {
+    meeting_uid: 'demo-field-service-meeting-4',
+    meeting_data: {
+      _deleted: false,
+      updatedAt: now,
+      start: start3,
+      end: end3,
+      type: 'main',
+      category: FieldServiceMeetingCategory.ServiceOverseerMeeting,
+      conductor: serviceOverseerUid,
+      location: FieldServiceMeetingLocation.Online,
+      address: 'https://zoom.us/j/123456789',
+    },
+  };
+
+  await appDb.field_service_meetings.bulkPut([
+    meeting0,
+    meeting1,
+    meeting2,
+    meeting3,
+  ]);
 };
