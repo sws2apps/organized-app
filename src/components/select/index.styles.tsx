@@ -39,4 +39,9 @@ export const SelectStyled = styled(Select)({
       borderColor: 'var(--accent-200)',
     },
   },
+  '&.Mui-error': {
+    '& .MuiOutlinedInput-notchedOutline': {
+      borderColor: 'var(--red-main)',
+    },
+  },
 }) as unknown as typeof Select;
