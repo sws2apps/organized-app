@@ -66,6 +66,8 @@ const DatePicker = ({
 
     if (!isValidDate) return;
 
+    if (valueTmp.getFullYear() < MIN_VALID_YEAR) return;
+
     onChange?.(valueTmp);
     setOpen(false);
   };
@@ -106,7 +108,19 @@ const DatePicker = ({
   }, [valueTmp]);
 
   useEffect(() => {
-    setValueTmp(value ?? null);
+    setValueTmp((prev) => {
+      const next = value ?? null;
+
+      if (prev === null && next === null) return prev;
+      if (
+        prev instanceof Date &&
+        next instanceof Date &&
+        prev.getTime() === next.getTime()
+      )
+        return prev;
+
+      return next;
+    });
   }, [value]);
 
   return (
