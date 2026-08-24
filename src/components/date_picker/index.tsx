@@ -34,6 +34,10 @@ const DatePicker = ({
   error,
   helperText,
 }: CustomDatePickerProps) => {
+  // Years below this threshold are transient artifacts of typing the year
+  // section (e.g. 0002 while entering 2026) and must not be propagated.
+  const MIN_VALID_YEAR = 1000;
+
   const poperRef = useRef<HTMLDivElement>(null);
 
   const shortDateFormatDefault = useAtomValue(shortDateFormatState);
@@ -66,17 +70,23 @@ const DatePicker = ({
     setOpen(false);
   };
 
-  const handleValueChange = (value: Date | null) => {
-    setValueTmp(value);
+  const handleValueChange = (newValue: Date | null) => {
+    const isValidDate = newValue instanceof Date && isValid(newValue);
 
-    const isValidDate = value instanceof Date && isValid(value);
+    // Mirror every change locally so the controlled picker stays in sync
+    // with its own field state. Only settled values reach the parent:
+    // incomplete drafts and the low-year artifacts emitted while typing
+    // the year section (e.g. 0002 en route to 2026) must not propagate,
+    // since parents stringify and parse them back as a different date,
+    // which scrambles or wipes the entry. An explicit clear (null) is
+    // always forwarded.
+    setValueTmp(newValue);
 
-    // Only push a complete valid date or a fully cleared field up to the parent.
-    // A partial manual entry (e.g. while typing the year) arrives as an Invalid
-    // Date and would otherwise clear the stored value.
-    if (isValidDate || value === null) {
-      onChange?.(value);
-    }
+    if (!isValidDate && newValue !== null) return;
+
+    if (isValidDate && newValue.getFullYear() < MIN_VALID_YEAR) return;
+
+    onChange?.(newValue);
 
     if (view === 'input' && !open && isValidDate) {
       setOpen(false);
