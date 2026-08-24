@@ -523,5 +523,6 @@
   "tr_maximumAmountOfGroupsIs10": "Maksimaalselt lubatud 10 kuulutustöögruppi",
   "tr_personAwayNotice": "See isik on ära: {{ date }}",
   "tr_weekendTemplateShowSongs": "Kuva nädalavahetuse koosolekute kavades laulude numbreid",
-  "tr_personalDetails": "Isiklikud andmed"
+  "tr_personalDetails": "Isiklikud andmed",
+  "tr_midweekMeetingDay": "Midweek meeting day"
 }
