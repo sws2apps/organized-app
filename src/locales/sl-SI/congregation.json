@@ -524,5 +524,5 @@
   "tr_personAwayNotice": "Ta oseba je odsotna: {{ date }}",
   "tr_weekendTemplateShowSongs": "Na razporedu shodov ob koncu tedna prikaži pesmi",
   "tr_personalDetails": "Osebni podatki",
-  "tr_midweekMeetingDay": "Midweek meeting day"
+  "tr_midweekMeetingDay": "Dan shoda med tednom"
 }
