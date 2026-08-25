@@ -60,7 +60,7 @@
     "qrcode": "^1.5.4",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
-    "react-dropzone": "^15.0.0",
+    "react-dropzone": "^20.1.1",
     "react-i18next": "^17.0.8",
     "react-lottie-player": "^2.1.0",
     "react-pdf-html": "^2.1.5",
