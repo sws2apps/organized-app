@@ -524,5 +524,5 @@
   "tr_personAwayNotice": "Tämä henkilö on poissa: {{ date }}",
   "tr_weekendTemplateShowSongs": "Näytä laulut viikonlopun kokouksen aikatauluissa",
   "tr_personalDetails": "Henkilötiedot",
-  "tr_midweekMeetingDay": "Midweek meeting day"
+  "tr_midweekMeetingDay": "Viikkokokouksen kokouspäivä"
 }
