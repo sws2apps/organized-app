@@ -48,29 +48,11 @@ export const infoBoardSWMonthsOfSpecialActivityState = atom((get) => {
   );
 });
 
-export const infoBoardLocalAnnouncement = atom((get) => {
+export const infoBoardAnnouncements = atom((get) => {
   const informationBoard = get(informationBoardState);
   const dataView = get(userDataViewState);
 
-  return informationBoard.information.local_announcements.find(
-    (record) => record.type == dataView
-  );
-});
-
-export const infoBoardBranchLetters = atom((get) => {
-  const informationBoard = get(informationBoardState);
-  const dataView = get(userDataViewState);
-
-  return informationBoard.information.branch_letters.find(
-    (record) => record.type == dataView
-  );
-});
-
-export const infoBoardFrequentlyUsedInformation = atom((get) => {
-  const informationBoard = get(informationBoardState);
-  const dataView = get(userDataViewState);
-
-  return informationBoard.information.frequently_used_information.find(
+  return informationBoard.information.announcements.filter(
     (record) => record.type == dataView
   );
 });

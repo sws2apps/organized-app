@@ -11,6 +11,7 @@ import {
 import { Box } from '@mui/material';
 import useInformationBoard from './userInformationBoard';
 import QuickSettingsInformationBoard from '@features/congregation/information_board/quick_settings';
+import AddAnnouncement from '@features/congregation/information_board/add_announcement';
 
 const InformationBoard = () => {
   const { t } = useAppTranslation();
@@ -20,9 +21,12 @@ const InformationBoard = () => {
 
   const {
     currentCategory,
-    handleOpenQuickSettings,
     quickSettingsOpen,
+    addAnnouncementOpen,
+    handleOpenQuickSettings,
     handleCloseQuickSettings,
+    handleOpenAddAnnouncement,
+    handleCloseAddAnnouncement,
   } = useInformationBoard();
 
   return (
@@ -41,6 +45,13 @@ const InformationBoard = () => {
         />
       )}
 
+      {addAnnouncementOpen && (
+        <AddAnnouncement
+          open={addAnnouncementOpen}
+          onClose={handleCloseAddAnnouncement}
+        />
+      )}
+
       <PageTitle
         title={t('tr_informationBoard')}
         quickSettings={handleOpenQuickSettings}
@@ -50,7 +61,7 @@ const InformationBoard = () => {
               <NavBarButton
                 text={t('tr_add')}
                 icon={<IconAdd />}
-                onClick={() => {}}
+                onClick={handleOpenAddAnnouncement}
               ></NavBarButton>
             </NavBarButtonGroup>
           )

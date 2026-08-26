@@ -539,5 +539,6 @@
   "tr_auxiliaryPioneersDesc": "A list of auxiliary pioneers for the current month",
   "tr_monthsOfSpecialActivity": "Months of special activity",
   "tr_monthsOfSpecialActivityDesc": "A list of month with the reduced auxiliary pioneer requirement",
-  "tr_continuous": "Continuous"
+  "tr_continuous": "Continuous",
+  "tr_addAnnouncement": "Add announcement"
 }

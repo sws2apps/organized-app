@@ -8,6 +8,7 @@ const useInformationBoard = () => {
   const activeCategory = useAtomValue(infoBoardSelectedCategory);
 
   const [quickSettingsOpen, setQuickSettingsOpen] = useState(false);
+  const [addAnnouncementOpen, setAddAnnouncementOpen] = useState(false);
 
   const categoriesPages: Record<InformationBoardCategory, ReactNode> = {
     general_information: <GeneralInformation />,
@@ -26,11 +27,22 @@ const useInformationBoard = () => {
     setQuickSettingsOpen(false);
   }, []);
 
+  const handleOpenAddAnnouncement = useCallback(() => {
+    setAddAnnouncementOpen(true);
+  }, []);
+
+  const handleCloseAddAnnouncement = useCallback(() => {
+    setAddAnnouncementOpen(false);
+  }, []);
+
   return {
     currentCategory,
     quickSettingsOpen,
+    addAnnouncementOpen,
     handleOpenQuickSettings,
     handleCloseQuickSettings,
+    handleOpenAddAnnouncement,
+    handleCloseAddAnnouncement,
   };
 };
 

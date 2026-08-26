@@ -609,8 +609,6 @@ export const informationBoardSchema: InformationBoardType = {
         },
       },
     ],
-    local_announcements: [],
-    branch_letters: [],
-    frequently_used_information: [],
+    announcements: [],
   },
 };

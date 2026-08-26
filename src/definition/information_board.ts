@@ -35,7 +35,8 @@ export type InfoBoardGeneralInformationType = {
   };
 };
 
-export type InfoBoardAnnouncement = {
+export type InfoBoardAnnouncementType = {
+  id: string;
   type: string;
   title: string;
   category?: InformationBoardCategory;
@@ -55,8 +56,6 @@ export type InformationBoardType = {
   id: number;
   information: {
     general_information: InfoBoardGeneralInformationType[];
-    local_announcements: InfoBoardAnnouncement[];
-    branch_letters: InfoBoardAnnouncement[];
-    frequently_used_information: InfoBoardAnnouncement[];
+    announcements: InfoBoardAnnouncementType[];
   };
 };

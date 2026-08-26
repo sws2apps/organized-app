@@ -176,5 +176,14 @@
   "tr_link": "Link",
   "tr_maximum25characters": "Maximum 25 characters",
   "tr_invalidLink": "Enter a valid URL starting with http:// or https://.",
-  "tr_pinned": "Pinned"
+  "tr_pinned": "Pinned",
+  "tr_optionalSettings": "Optional settings",
+  "tr_pinAtTheTop": "Pin at the top",
+  "tr_pinAtTheTopDesc": "Pin the most important information",
+  "tr_notifyEverybody": "Notify everybody",
+  "tr_notifyEverybodyDesc": "Notify all users regardless of their notification settings. For urgent use only.",
+  "tr_textOnly": "Text only",
+  "tr_attachment": "Attachment",
+  "tr_category": "Category",
+  "tr_text": "Text"
 }
