@@ -366,7 +366,9 @@
   "tr_createMasterKeyIntroDesc": "See võti krüpteerib turvaliselt sinu koguduse andmeid, sealhulgas aruandeid ja isikuid, ning on vajalik administratiivsete toimingute jaoks, nagu andmete eksport/import või seadete olulised muudatused.",
   "tr_hallC": "C",
   "tr_FR": "Üldpioneer",
+  "tr_FRI": "Infirm regular pioneer",
   "tr_FS": "Eripioneer",
+  "tr_FSI": "Infirm special pioneer",
   "tr_incomingCongregationOnlineNoSpeakers": "See kogudus ei ole veel oma andmetesse lisanud ühtegi kõnepidajat. Vajadusel võid nendega isiklikult ühendust võtta.",
   "tr_incomingCongregationOnlinePending": "See kogudus pole veel heaks kiitnud sinu taotlust nende väljaminevate kõnepidajate nimekirja vaatamiseks. Vajadusel võid nendega isiklikult ühendust võtta.",
   "tr_incomingCongregationOnlineDisapproved": "See kogudus keeldus sinu taotlusest nende väljaminevate kõnepidajate nimekirja vaatamiseks. Vajadusel võid nendega isiklikult ühendust võtta.",
@@ -524,5 +526,7 @@
   "tr_personAwayNotice": "See isik on ära: {{ date }}",
   "tr_weekendTemplateShowSongs": "Kuva nädalavahetuse koosolekute kavades laulude numbreid",
   "tr_personalDetails": "Isiklikud andmed",
-  "tr_midweekMeetingDay": "Nädalasisese koosoleku päev"
+  "tr_midweekMeetingDay": "Nädalasisese koosoleku päev",
+  "tr_infirmPioneer": "Infirm pioneer",
+  "tr_infirmPioneerNoGoal": "As an infirm pioneer, you can serve as much as you are able without a yearly hour goal."
 }
