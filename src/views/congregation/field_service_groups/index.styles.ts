@@ -11,7 +11,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     display: 'flex',
     flexDirection: 'row',
-    alignItems: 'center',
+    // the count stays in the top right corner, whatever the title wraps to
+    alignItems: 'flex-start',
     gap: '4px',
   },
   groupTitle: {
