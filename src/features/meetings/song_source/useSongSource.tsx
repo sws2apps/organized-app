@@ -121,7 +121,10 @@ const useSongSource = ({
 
     if (!findSong) return '';
 
-    const title = findSong.song_title[lang];
+    const title =
+      findSong.song_title[lang] ??
+      findSong.song_title.E ??
+      initialValue?.song_number?.toString();
 
     return `${songLocale} ${title}`;
   }, [initialValue, songsAll, lang, songLocale]);

@@ -523,5 +523,6 @@
   "tr_maximumAmountOfGroupsIs10": "Максимальна кількість груп для проповідницького служіння становить 10",
   "tr_personAwayNotice": "Ця особа відсутня: {{ date }}",
   "tr_weekendTemplateShowSongs": "Відображення пісень на розкладах зібрань на вихідних",
-  "tr_personalDetails": "Personal details"
+  "tr_personalDetails": "Personal details",
+  "tr_midweekMeetingDay": "Midweek meeting day"
 }

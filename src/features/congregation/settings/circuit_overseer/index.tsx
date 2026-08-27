@@ -8,6 +8,7 @@ import useCircuitOverseer from './useCircuitOverseer';
 import TextField from '@components/textfield';
 import WeeksList from './weeks_list';
 import { Box, Stack } from '@mui/material';
+import COMidweekMeetingDay from './co_midweek_meeting_day';
 
 const CircuitOverseer = () => {
   const { t } = useAppTranslation();
@@ -75,6 +76,8 @@ const CircuitOverseer = () => {
               sx={{ flex: '1 0 200px' }}
             />
           </Box>
+
+          <COMidweekMeetingDay />
 
           {displayNameEnabled && (
             <TextField

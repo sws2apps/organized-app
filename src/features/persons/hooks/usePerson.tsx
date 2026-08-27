@@ -5,6 +5,10 @@ import { BadgeColor } from '@definition/app';
 import { fullnameOptionState } from '@states/settings';
 import { buildPersonFullname } from '@utils/common';
 import { formatDate } from '@utils/date';
+import {
+  enrollmentMatches,
+  personIsInfirmPioneer as _personIsInfirmPioneer,
+} from '@services/app/persons';
 
 const usePerson = () => {
   const { t } = useAppTranslation();
@@ -134,7 +138,7 @@ const usePerson = () => {
     if (!month) {
       const isActive = person.person_data.enrollments?.some(
         (record) =>
-          record.enrollment === enrollment &&
+          enrollmentMatches(record.enrollment, enrollment) &&
           record.end_date === null &&
           record._deleted === false
       );
@@ -146,7 +150,7 @@ const usePerson = () => {
       person.person_data.enrollments?.filter(
         (record) =>
           record._deleted === false &&
-          record.enrollment === enrollment &&
+          enrollmentMatches(record.enrollment, enrollment) &&
           record.start_date?.length > 0
       ) ?? [];
 
@@ -183,6 +187,10 @@ const usePerson = () => {
     const firstDate = new Date(history.at(0).start_date);
 
     return formatDate(firstDate, 'yyyy/MM');
+  };
+
+  const personIsInfirmPioneer = (person: PersonType) => {
+    return _personIsInfirmPioneer(person);
   };
 
   const getBadges = (person: PersonType, month?: string) => {
@@ -233,6 +241,10 @@ const usePerson = () => {
       if (isFS) {
         badges.push({ name: t('tr_FS'), color: 'orange' });
       }
+
+      if ((isFR || isFS) && _personIsInfirmPioneer(person)) {
+        badges.push({ name: t('tr_infirmPioneer'), color: 'grey' });
+      }
     }
 
     const hasSpecialBadge =
@@ -273,7 +285,7 @@ const usePerson = () => {
     const history = person.person_data.enrollments.filter(
       (record) =>
         record._deleted === false &&
-        record.enrollment === enrollment &&
+        enrollmentMatches(record.enrollment, enrollment) &&
         record.start_date?.length > 0
     );
 
@@ -405,6 +417,7 @@ const usePerson = () => {
     personIsAPContinuousYearActive,
     personIsElder,
     personIsMS,
+    personIsInfirmPioneer,
   };
 };
 

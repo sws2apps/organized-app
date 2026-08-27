@@ -158,6 +158,7 @@ export type SettingsType = {
       middlename?: { value: string; updatedAt: string };
       lastname: { value: string; updatedAt: string };
       display_name: { value: string; updatedAt: string };
+      midweek_meeting_day: { value: number; updatedAt: string };
       visits: CircuitOverseerVisitType[];
     };
     language_groups: { enabled: { value: boolean; updatedAt: string } };
