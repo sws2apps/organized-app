@@ -7,8 +7,8 @@ const PAGE_PADDING = 20;
 const HEADER_RESERVED = 24;
 const CONTENT_GAP = 10;
 
-export const CARD_WIDTH = 180;
-export const CARD_GAP = 7;
+const CARD_WIDTH = 180;
+const CARD_GAP = 7;
 
 const LIST_HORIZONTAL_PADDING = 8;
 const LIST_VERTICAL_PADDING = 12;
@@ -16,16 +16,8 @@ const LIST_BORDER = 1;
 const TITLE_HORIZONTAL_PADDING = 12;
 const TITLE_VERTICAL_PADDING = 8;
 const TITLE_GAP = 4;
-// the badge takes the height of its own text, which follows the script the
-// document is set in, plus a padding that scales with the font size. Giving it
-// a fixed height instead makes the renderer loop on a title it cannot break.
 const BADGE_VERTICAL_RATIO = 0.1;
 const BADGE_HORIZONTAL_RATIO = 0.3;
-
-export const badgePadding = (fontSize: number) => ({
-  vertical: fontSize * BADGE_VERTICAL_RATIO,
-  horizontal: fontSize * BADGE_HORIZONTAL_RATIO,
-});
 const BLOCK_GAP = 6;
 export const DIVIDER_HEIGHT = 1;
 const DIVIDER_DASH = 5;
@@ -36,6 +28,17 @@ const LINE_RATIO = 1.25;
 const AVERAGE_CHAR_RATIO = 0.6;
 
 const lineHeight = (fontSize: number) => fontSize * LINE_RATIO;
+
+/**
+ * The badge is only as tall as the text inside it, so it keeps the line height
+ * of the script the document uses and stays on the first line of the title.
+ * A fixed height lines it up as well, but makes the renderer loop forever on a
+ * title it cannot break.
+ */
+export const badgePadding = (fontSize: number) => ({
+  vertical: fontSize * BADGE_VERTICAL_RATIO,
+  horizontal: fontSize * BADGE_HORIZONTAL_RATIO,
+});
 
 const nameLines = (name: string, fontSize: number, width: number) =>
   Math.max(1, Math.ceil((name.length * AVERAGE_CHAR_RATIO * fontSize) / width));
@@ -120,7 +123,7 @@ const chromeHeight = (
   return titleHeight + LIST_VERTICAL_PADDING + LIST_BORDER + overseerHeight;
 };
 
-export const pageBox = (orientation: FSGPageOrientation) => {
+const pageBox = (orientation: FSGPageOrientation) => {
   const width = orientation === 'landscape' ? A4_HEIGHT : A4_WIDTH;
   const height = orientation === 'landscape' ? A4_WIDTH : A4_HEIGHT;
 
@@ -130,7 +133,7 @@ export const pageBox = (orientation: FSGPageOrientation) => {
   };
 };
 
-export const columnCount = (orientation: FSGPageOrientation) =>
+const columnCount = (orientation: FSGPageOrientation) =>
   Math.max(
     1,
     Math.floor(

@@ -27,18 +27,14 @@ const FSGGroup = ({ card, fontSize }: FSGGroupProps) => {
           backgroundColor: groupColor,
         }}
       >
-        <Text
-          style={{
-            ...styles.groupTitle,
-            fontSize,
-          }}
-        >
+        <Text style={{ ...styles.groupTitle, fontSize }}>
           {group.group_name}
         </Text>
         <View
           style={{
             ...styles.membersCountContainer,
-            padding: `${badge.vertical}px ${badge.horizontal}px`,
+            paddingVertical: badge.vertical,
+            paddingHorizontal: badge.horizontal,
           }}
         >
           <Text

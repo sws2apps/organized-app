@@ -44,7 +44,7 @@ const cutToWidth = (part: string) => {
  * words in narrow cells. Short words are kept whole, and since no dictionary is
  * available, long ones are only offered vowel-consonant boundaries to break at.
  */
-export const splitWord = (word: string) => {
+const splitWord = (word: string) => {
   if (word.length < MIN_LENGTH) return [word];
 
   const parts: string[] = [];
