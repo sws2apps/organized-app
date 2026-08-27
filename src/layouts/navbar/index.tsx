@@ -488,7 +488,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
                   <IconButton
                     aria-label={t('tr_back')}
                     onClick={handleBack}
-                    sx={{
+                    sx={(theme) => ({
                       marginLeft: '-10px',
                       '@media (hover: hover)': {
                         '&:hover': {
@@ -515,7 +515,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
                       '& svg': {
                         transition: 'transform 0.2s ease-in-out',
                       },
-                    }}
+                    })}
                   >
                     <IconNavigateLeft color="var(--black)" />
                   </IconButton>
