@@ -1,6 +1,6 @@
 import { Suspense, useEffect, useRef, useState } from 'react';
 import { Outlet, ScrollRestoration } from 'react-router';
-import { useAtomValue } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
 import { Box, Container, Toolbar } from '@mui/material';
 import { IconClose } from '@components/icons';
 import { AppModalWrapper, WebWorkerWrapper } from '@wrapper/index';
@@ -11,8 +11,9 @@ import useCurrentUser from '@hooks/useCurrentUser';
 import useGlobal from '@hooks/useGlobal';
 import useRootLayout from './useRootLayout';
 import useAppLock from '@features/app_lock/useAppLock';
-import { isAppLockedState } from '@states/app_lock';
+import { appLockPinResetPromptState, isAppLockedState } from '@states/app_lock';
 import AppLock from '@features/app_lock';
+import CreatePin from '@features/app_lock/create_pin';
 import { EXIT_DURATION_MS } from '@features/app_lock/animations';
 import About from '@features/about';
 import AppFeedback from '@features/app_feedback';
@@ -41,6 +42,9 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
 
   const { isPublisher } = useCurrentUser();
   const isAppLocked = useAtomValue(isAppLockedState);
+  const [pinResetPrompt, setPinResetPrompt] = useAtom(
+    appLockPinResetPromptState
+  );
 
   // Keep AppLock mounted briefly after unlock so the exit animation plays.
   const [showLock, setShowLock] = useState(isAppLocked);
@@ -116,8 +120,15 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
 
               {isAppLoad && isTest && <DemoStartup />}
 
-              {!isAppLoad && showLock && (
-                <AppLock isExiting={isExiting} />
+              {!isAppLoad && showLock && <AppLock isExiting={isExiting} />}
+
+              {/* the forgotten PIN was cleared after the email link sign-in */}
+              {!isAppLoad && !showLock && pinResetPrompt && (
+                <CreatePin
+                  open={pinResetPrompt}
+                  mode="create"
+                  onClose={() => setPinResetPrompt(false)}
+                />
               )}
 
               {!isAppLoad && (!showLock || isExiting) ? (

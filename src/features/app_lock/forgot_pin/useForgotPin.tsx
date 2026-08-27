@@ -6,6 +6,7 @@ import { appLockViewState } from '@states/app_lock';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { apiRequestPasswordlesssLink } from '@services/api/user';
+import { appLockMarkPinResetRequested } from '@services/app_lock/reset';
 
 const useForgotPin = () => {
   const { t } = useAppTranslation();
@@ -39,6 +40,10 @@ const useForgotPin = () => {
       const result = await apiRequestPasswordlesssLink(email.trim());
 
       if (result.status === 200) {
+        // the link can be opened in another tab or after a cold start, so the
+        // pending reset has to survive this session
+        appLockMarkPinResetRequested();
+
         displaySnackNotification({
           header: t('tr_resetPIN'),
           message: t('tr_forgotPINEmailSent'),
@@ -56,9 +61,7 @@ const useForgotPin = () => {
     } catch (error) {
       displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
-        message: getMessageByCode(
-          error instanceof Error ? error.message : ''
-        ),
+        message: getMessageByCode(error instanceof Error ? error.message : ''),
         severity: 'error',
       });
     } finally {

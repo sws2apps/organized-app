@@ -21,6 +21,11 @@ import {
   isEmailLinkAuthenticateState,
   isUserAccountCreatedState,
 } from '@states/app';
+import {
+  appLockIsPinResetPending,
+  appLockResetPin,
+} from '@services/app_lock/reset';
+import { appLockPinResetPromptState } from '@states/app_lock';
 import useAuth from '../hooks/useAuth';
 import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 
@@ -35,6 +40,7 @@ const useEmailLinkAuth = () => {
 
   const setIsUserAccountCreated = useSetAtom(isUserAccountCreatedState);
   const setIsEmailAuth = useSetAtom(isEmailLinkAuthenticateState);
+  const setPinResetPrompt = useSetAtom(appLockPinResetPromptState);
 
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -81,6 +87,13 @@ const useEmailLinkAuth = () => {
       if (status !== 200) {
         handleAuthorizationError(data.message);
         return;
+      }
+
+      // the user proved the email ownership, so a PIN they no longer remember
+      // must not lock them out again once the app opens
+      if (appLockIsPinResetPending()) {
+        await appLockResetPin();
+        setPinResetPrompt(true);
       }
 
       const nextStep: NextStepType = determineNextStep(

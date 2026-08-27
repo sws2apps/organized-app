@@ -28,6 +28,7 @@ import {
   congIDState,
 } from '@states/settings';
 import { APP_ROLES, VIP_ROLES } from '@constants/index';
+import { appLockIsPinResetPending } from '@services/app_lock/reset';
 import { handleDeleteDatabase, loadApp, runUpdater } from '@services/app';
 import { apiValidateMe } from '@services/api/user';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
@@ -103,7 +104,12 @@ const useStartup = () => {
           congAccessCode.length > 0) ||
         (!masterKeyNeeded && congAccessCode.length > 0);
 
-      if (allowOpen) {
+      // a device that is already set up normally opens straight away, but a
+      // pending PIN reset has to complete its sign-in link first: dropping the
+      // code here would send the user back to the PIN they forgot
+      const completeEmailLink = isEmailLink && appLockIsPinResetPending();
+
+      if (allowOpen && !completeEmailLink) {
         setIsSetup(false);
         await runUpdater();
         loadApp();
@@ -203,6 +209,7 @@ const useStartup = () => {
     setCurrentStep,
     isAuthenticated,
     setIsUserSignIn,
+    isEmailLink,
   ]);
 
   useEffect(() => {

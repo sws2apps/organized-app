@@ -1,4 +1,5 @@
 import { useEffect, useLayoutEffect, useRef } from 'react';
+import { useSearchParams } from 'react-router';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { isAppLoadState } from '@states/app';
 import {
@@ -17,6 +18,8 @@ const ACTIVITY_EVENTS = [
 ] as const;
 
 const useAppLock = () => {
+  const [searchParams] = useSearchParams();
+
   const isAppLoad = useAtomValue(isAppLoadState);
   const enabled = useAtomValue(appLockEnabledState);
   const lockAfterMinutes = useAtomValue(appLockAfterMinutesState);
@@ -24,6 +27,10 @@ const useAppLock = () => {
   const isLocked = useAtomValue(isAppLockedState);
   const setIsLocked = useSetAtom(isAppLockedState);
   const setView = useSetAtom(appLockViewState);
+
+  // the forgot-PIN flow returns through the passwordless link: locking the app
+  // then would send the user straight back to the PIN they cannot remember
+  const isEmailLinkAuth = searchParams.get('code') !== null;
 
   const coldStartGate = useRef(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -35,7 +42,7 @@ const useAppLock = () => {
       return;
     }
 
-    if (!enabled) {
+    if (!enabled || isEmailLinkAuth) {
       coldStartGate.current = false;
       setIsLocked(false);
       return;
@@ -46,10 +53,10 @@ const useAppLock = () => {
       setView('unlock');
       setIsLocked(true);
     }
-  }, [isAppLoad, enabled, setIsLocked, setView]);
+  }, [isAppLoad, enabled, isEmailLinkAuth, setIsLocked, setView]);
 
   useEffect(() => {
-    if (!enabled || isLocked || isAppLoad) return;
+    if (!enabled || isLocked || isAppLoad || isEmailLinkAuth) return;
     if (lockAfterMinutes < 0) return;
 
     const lockAfterMs = Math.max(0, lockAfterMinutes) * 60_000;
@@ -81,7 +88,15 @@ const useAppLock = () => {
         globalThis.removeEventListener(event, resetTimer);
       }
     };
-  }, [enabled, isLocked, isAppLoad, lockAfterMinutes, setIsLocked, setView]);
+  }, [
+    enabled,
+    isLocked,
+    isAppLoad,
+    isEmailLinkAuth,
+    lockAfterMinutes,
+    setIsLocked,
+    setView,
+  ]);
 };
 
 export default useAppLock;
