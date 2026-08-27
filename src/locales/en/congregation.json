@@ -550,5 +550,9 @@
   "tr_contacts": "Contacts",
   "tr_speakerAlreadyExists": "Speaker already exists",
   "tr_congregationAlreadySynced": "Congregation is already connected and synced.",
-  "tr_error_app_data_no_valid_data_found": "No valid data found, or no speaker data selected."
+  "tr_error_app_data_no_valid_data_found": "No valid data found, or no speaker data selected.",
+  "tr_FRI": "Infirm regular pioneer",
+  "tr_FSI": "Infirm special pioneer",
+  "tr_infirmPioneer": "Infirm pioneer",
+  "tr_infirmPioneerNoGoal": "As an infirm pioneer, you can serve as much as you are able without a yearly hour goal."
 }
