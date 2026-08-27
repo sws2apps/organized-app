@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { useBreakpoints } from '@hooks/index';
 import { IconError } from '@components/icons';
 import { dbUpcomingEventsSave } from '@services/dexie/upcoming_events';
 import { UpcomingEventType } from '@definition/upcoming_events';
@@ -10,6 +11,8 @@ import { decorationsForEvent } from '../decorations_for_event';
 import { UpcomingEventProps } from './index.types';
 
 const useUpcomingEvent = ({ data }: UpcomingEventProps) => {
+  const { tablet688Up } = useBreakpoints();
+
   const dayIndicatorRefs = useRef<HTMLDivElement[]>([]);
 
   const [isEdit, setIsEdit] = useState(false);
@@ -26,6 +29,21 @@ const useUpcomingEvent = ({ data }: UpcomingEventProps) => {
   const eventFormatted = useMemo(() => {
     return upcomingEventData(data);
   }, [data]);
+
+  const dayColumns = useMemo(() => {
+    const days = eventFormatted.dates.map((date, index) => ({
+      ...date,
+      index,
+    }));
+
+    if (!tablet688Up) return [days];
+
+    const splitIndex = Math.ceil(days.length / 2);
+
+    return [days.slice(0, splitIndex), days.slice(splitIndex)].filter(
+      (column) => column.length > 0
+    );
+  }, [eventFormatted.dates, tablet688Up]);
 
   const eventDecoration = useMemo(() => {
     const category = data.event_data.category;
@@ -67,7 +85,7 @@ const useUpcomingEvent = ({ data }: UpcomingEventProps) => {
     const widths = dayIndicatorRefs.current.map((el) => el?.offsetWidth || 0);
     const widest = Math.max(...widths);
     setDayIndicatorMaxWidth(widest);
-  }, []);
+  }, [dayColumns]);
 
   return {
     eventDecoration,
@@ -81,6 +99,7 @@ const useUpcomingEvent = ({ data }: UpcomingEventProps) => {
     handleMouseLeave,
     eventFormatted,
     previousDay,
+    dayColumns,
   };
 };
 

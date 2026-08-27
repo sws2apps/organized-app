@@ -137,6 +137,10 @@ export const apiSetCongregationMasterKey = async (key: string) => {
     idToken,
   } = await apiDefault();
 
+  if (congID.length === 0) {
+    throw new Error('error_app_generic-desc');
+  }
+
   const res = await fetch(
     `${apiHost}api/v3/congregations/admin/${congID}/master-key`,
     {
@@ -164,6 +168,10 @@ export const apiSetCongregationAccessCode = async (access_code: string) => {
     congID,
     idToken,
   } = await apiDefault();
+
+  if (congID.length === 0) {
+    throw new Error('error_app_generic-desc');
+  }
 
   const res = await fetch(
     `${apiHost}api/v3/congregations/admin/${congID}/access-code`,

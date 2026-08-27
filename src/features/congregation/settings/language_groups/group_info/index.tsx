@@ -1,9 +1,10 @@
-import { Box, Stack } from '@mui/material';
+import { Box } from '@mui/material';
 import { useAppTranslation } from '@hooks/index';
 import { GroupInfoProps } from './index.types';
 import useGroupInfo from './useGroupInfo';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
+import DialogActions from '@components/dialog_actions';
 import IconLoading from '@components/icon_loading';
 import LanguageGroupMembers from '../group_members';
 import LanguageGroupDetails from '../group_details';
@@ -64,7 +65,10 @@ const GroupInfo = (props: GroupInfoProps) => {
         />
       </Box>
 
-      <Stack spacing="8px" width="100%">
+      <DialogActions>
+        <Button variant="secondary" onClick={handleClose}>
+          {t('tr_cancel')}
+        </Button>
         <Button
           variant="main"
           onClick={handleSaveChange}
@@ -72,10 +76,7 @@ const GroupInfo = (props: GroupInfoProps) => {
         >
           {t('tr_save')}
         </Button>
-        <Button variant="secondary" onClick={handleClose}>
-          {t('tr_cancel')}
-        </Button>
-      </Stack>
+      </DialogActions>
     </Dialog>
   );
 };
