@@ -61,8 +61,5 @@ export default defineConfig({
   build: {
     chunkSizeWarningLimit: 2500,
     target: 'esnext',
-    rollupOptions: {
-      output: { manualChunks: { vendor: ['react'] } },
-    },
   },
 });

@@ -5,6 +5,7 @@ import { useAppTranslation } from '@hooks/index';
 import useContact from './useContact';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
+import DialogActions from '@components/dialog_actions';
 import TextMarkup from '@components/text_markup';
 import Typography from '@components/typography';
 import TextField from '@components/textfield';
@@ -76,22 +77,7 @@ const Contact = () => {
         onChange={(e) => setMessage(e.target.value)}
       />
 
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'stretch',
-          gap: '8px',
-          alignSelf: 'stretch',
-        }}
-      >
-        <Button
-          variant="main"
-          onClick={handleSendMessage}
-          endIcon={isProcessing && <IconLoading />}
-        >
-          {t('tr_sendFeedback')}
-        </Button>
+      <DialogActions>
         <Button
           variant="secondary"
           disabled={isProcessing}
@@ -99,7 +85,14 @@ const Contact = () => {
         >
           {t('tr_cancel')}
         </Button>
-      </Box>
+        <Button
+          variant="main"
+          onClick={handleSendMessage}
+          endIcon={isProcessing && <IconLoading />}
+        >
+          {t('tr_sendFeedback')}
+        </Button>
+      </DialogActions>
     </Dialog>
   );
 };

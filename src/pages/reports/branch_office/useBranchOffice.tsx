@@ -10,6 +10,7 @@ import {
 import { branchFieldReportsState } from '@states/branch_field_service_reports';
 import { branchCongAnalysisState } from '@states/branch_cong_analysis';
 import NavBarButton from '@components/nav_bar_button';
+import NavBarButtonGroup from '@components/nav_bar_button_group';
 
 const useBranchOffice = () => {
   const { t } = useAppTranslation();
@@ -75,7 +76,7 @@ const useBranchOffice = () => {
 
   const buttons = useMemo(() => {
     return (
-      <>
+      <NavBarButtonGroup>
         {!submitted && (
           <>
             <NavBarButton
@@ -86,7 +87,6 @@ const useBranchOffice = () => {
             ></NavBarButton>
             <NavBarButton
               text={t('tr_btnSubmitted')}
-              main
               disabled={!generated}
               icon={<IconCheckCircle />}
               onClick={handleOpenSubmit}
@@ -97,13 +97,12 @@ const useBranchOffice = () => {
         {submitted && (
           <NavBarButton
             text={t('tr_undoSubmission')}
-            main
             color="orange"
             icon={<IconUndo />}
             onClick={handleOpenWithdraw}
           ></NavBarButton>
         )}
-      </>
+      </NavBarButtonGroup>
     );
   }, [t, submitted, generated]);
 

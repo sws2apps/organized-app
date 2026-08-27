@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   AppBar,
   Box,
@@ -7,7 +8,6 @@ import {
   Menu,
   MenuItem,
   Toolbar,
-  useTheme,
 } from '@mui/material';
 import {
   IconAccount,
@@ -19,7 +19,7 @@ import {
   IconMail,
   IconArrowLink,
   IconLogout,
-  IconArrowBack,
+  IconNavigateLeft,
   IconSettings,
 } from '@icons/index';
 import { useAppTranslation, useFirebaseAuth } from '@hooks/index';
@@ -37,7 +37,7 @@ import IconButton from '@components/icon_button';
 import BottomMenu from '@layouts/bottom_menu';
 
 const baseMenuStyle = {
-  padding: '8px 12px 8px 16px',
+  padding: '8px 12px 8px 12px',
   minHeight: '40px',
   height: '40px',
   gap: '8px',
@@ -58,7 +58,9 @@ const menuStyle = {
 
 const NavBar = ({ isSupported }: NavBarType) => {
   const { t } = useAppTranslation();
-  const theme = useTheme();
+
+
+  const [settingsAnimating, setSettingsAnimating] = useState(false);
 
   const { isAuthenticated } = useFirebaseAuth();
 
@@ -152,20 +154,51 @@ const NavBar = ({ isSupported }: NavBarType) => {
                   sx={{
                     display: 'flex',
                     alignItems: 'center',
-                    gap: { mobile: '4px', tablet: '8px' },
+                    gap: '2px',
                   }}
                 >
-                  {isSupported && <AppNotification />}
+                  {isSupported && (
+                    <AppNotification
+                      sx={{
+                        borderRadius: 'var(--radius-max)',
+                        transition: 'background-color 0.3s',
+                        '&:hover': {
+                          backgroundColor: 'var(--accent-200)',
+                        },
+                      }}
+                    />
+                  )}
 
-                  <ThemeSwitcher />
+                  <ThemeSwitcher
+                    sx={{
+                      height: '40px',
+                      padding: '0 8px',
+                      borderRadius: 'var(--radius-max)',
+                      cursor: 'pointer',
+                      transition: 'background-color 0.3s',
+                      '&:hover': {
+                        backgroundColor: 'var(--accent-200)',
+                        '& .MuiSwitch-track': {
+                          backgroundColor: 'var(--accent-300)',
+                          transition: 'background-color 0.3s',
+                        },
+                      },
+                      '& .MuiSwitch-track': {
+                        transition: 'background-color 0.3s',
+                      },
+                    }}
+                  />
 
                   {tabletUp && (isAppLoad || isTest) && (
                     <LanguageSwitcher
                       menuStyle={{
                         ...baseMenuStyle,
+                        padding: '8px 12px 8px 12px',
+                        marginRight: '4px',
+                        transition: 'background-color 0.3s',
+                        borderRadius: 'var(--radius-max)',
                         '&:hover': {
                           backgroundColor: 'var(--accent-200)',
-                          borderRadius: 'var(--radius-l)',
                         },
                         '&:focus-visible': {
                           outline: 'var(--accent-main) auto 1px',
@@ -187,6 +220,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
                         <AccountHeaderIcon
                           handleOpenMore={handleOpenMoreMenu}
                           isMoreOpen={openMore}
+                          sx={{ marginLeft: '2px' }}
                         />
                       </Box>
 
@@ -456,22 +490,12 @@ const NavBar = ({ isSupported }: NavBarType) => {
                     aria-label={t('tr_back')}
                     onClick={handleBack}
                     sx={{
-                      marginLeft: '-10px',
                       '&:hover': {
                         backgroundColor: 'var(--accent-200)',
-                        '& svg': {
-                          transform:
-                            theme.direction === 'rtl'
-                              ? 'translateX(-4px) scaleX(-1)'
-                              : 'translateX(4px)',
-                        },
-                      },
-                      '& svg': {
-                        transition: 'transform 0.2s ease-in-out',
                       },
                     }}
                   >
-                    <IconArrowBack color="var(--black)" />
+                    <IconNavigateLeft color="var(--black)" />
                   </IconButton>
                   <Box
                     sx={{
@@ -505,13 +529,28 @@ const NavBar = ({ isSupported }: NavBarType) => {
                   </Box>
                   {navBarOptions.quickSettings ? (
                     <IconButton
-                      onClick={handleQuickSettings}
+                      onClick={(e) => {
+                        handleQuickSettings(e);
+                        setSettingsAnimating(true);
+                        setTimeout(() => setSettingsAnimating(false), 250);
+                      }}
                       aria-label={t('tr_quickSettings')}
                       sx={{
                         marginRight: '-8px',
                         transition: 'background-color 50ms ease-in-out',
                         '&:hover': {
                           backgroundColor: 'var(--accent-200)',
+                          '& svg': {
+                            transform: settingsAnimating
+                              ? 'rotate(0deg)'
+                              : 'rotate(60deg)',
+                          },
+                        },
+                        '& svg': {
+                          transition: 'transform 0.25s ease-out',
+                          ...(settingsAnimating && {
+                            transform: 'rotate(0deg)',
+                          }),
                         },
                       }}
                     >

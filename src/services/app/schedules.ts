@@ -25,6 +25,7 @@ import {
   meetingExactDateState,
   congNameState,
   weekendSchedulesSongsWeekend,
+  COMidweekMeetingDayState,
 } from '@states/settings';
 import { sourcesState } from '@states/sources';
 import {
@@ -87,10 +88,14 @@ import {
   generateDateFromTime,
   timeAddMinutes,
 } from '@utils/date';
-import { applyAssignmentFilters, personIsElder } from './persons';
+import { applyAssignmentFilters, personIsAway, personIsElder } from './persons';
 import { personsByViewState } from '@states/persons';
 import { personsStateFind } from '@services/states/persons';
-import { buildPersonFullname, personGetDisplayName } from '@utils/common';
+import {
+  buildPersonFullname,
+  personGetDisplayName,
+  speakerGetDetails,
+} from '@utils/common';
 import { sourcesFind } from '@services/states/sources';
 import { weekTypeLocaleState } from '@states/weekType';
 import { VisitingSpeakerType } from '@definition/visiting_speakers';
@@ -431,8 +436,14 @@ export const schedulesMidweekInfo = (week: string) => {
       const titleDefault = lcPart.title.default[lang];
       const title = titleOverride?.length > 0 ? titleOverride : titleDefault;
 
+      const descOverride = lcPart.desc.override.find(
+        (record) => record.type === dataView
+      )?.value;
+      const descDefault = lcPart.desc.default[lang];
+      const desc = descOverride?.length > 0 ? descOverride : descDefault;
+
       if (title?.length > 0) {
-        const noAssign = sourcesCheckLCAssignments(title, sourceLocale);
+        const noAssign = sourcesCheckLCAssignments(title, desc, sourceLocale);
 
         if (!noAssign) {
           total = total + 1;
@@ -465,8 +476,11 @@ export const schedulesMidweekInfo = (week: string) => {
     const title =
       lcPart.title.find((record) => record.type === dataView)?.value || '';
 
+    const desc =
+      lcPart.desc.find((record) => record.type === dataView)?.value || '';
+
     if (title?.length > 0) {
-      const noAssign = sourcesCheckLCAssignments(title, sourceLocale);
+      const noAssign = sourcesCheckLCAssignments(title, desc, sourceLocale);
 
       if (!noAssign) {
         total = total + 1;
@@ -816,11 +830,23 @@ export const schedulesWeekGetAssigned = ({
     }
 
     if (!person) {
-      result = assigned.value;
+      result = assigned.solo ? assigned.value : assigned.name;
     }
   }
 
   return result;
+};
+
+export const schedulesGetSpeakerDetails = (
+  assigned: AssignmentCongregation
+) => {
+  return speakerGetDetails({
+    assigned,
+    speakers: store.get(incomingSpeakersState),
+    congregations: store.get(speakersCongregationsState),
+    displayNameEnabled: store.get(displayNameMeetingsEnableState),
+    fullnameOption: store.get(fullnameOptionState),
+  });
 };
 
 export const schedulesGetHistoryDetails = ({
@@ -1651,6 +1677,7 @@ export const schedulesPersonLatest = ({
 export const schedulesSelectRandomPerson = (data: {
   type: AssignmentCode;
   week: string;
+  meeting: 'midweek' | 'weekend';
   isAYFTalk?: boolean;
   classroom?: string;
   isLC?: boolean;
@@ -1663,6 +1690,15 @@ export const schedulesSelectRandomPerson = (data: {
   const persons = store.get(personsByViewState);
 
   let personsElligible = applyAssignmentFilters(persons, [data.type]);
+
+  const { date: meetingDate } = schedulesGetMeetingDate({
+    week: data.week,
+    meeting: data.meeting,
+  });
+
+  personsElligible = personsElligible.filter(
+    (record) => !personIsAway(record, meetingDate || data.week)
+  );
 
   if (data.isElderPart) {
     personsElligible = personsElligible.filter((record) =>
@@ -2805,16 +2841,11 @@ export const schedulesWeekendData = (
 ) => {
   const source = sourcesFind(schedule.weekOf);
   const talks = store.get(publicTalksState);
-  const speakers = store.get(incomingSpeakersState);
-
-  const congregations = store.get(speakersCongregationsState);
 
   const openingPrayerAuto = store.get(
     weekendMeetingOpeningPrayerAutoAssignState
   );
 
-  const fullnameOption = store.get(fullnameOptionState);
-  const useDisplayName = store.get(displayNameMeetingsEnableState);
   const defaultWTStudyConductor = store.get(defaultWTStudyConductorNameState);
   const lang = store.get(JWLangState);
   const congName = store.get(congNameState);
@@ -2946,31 +2977,18 @@ export const schedulesWeekendData = (
     )?.value;
 
     if (talkType === 'visitingSpeaker') {
-      const speaker = speakers.find(
-        (record) => record.person_uid === result.speaker_1_name
-      );
+      const assigned = schedulesGetData(
+        schedule,
+        ASSIGNMENT_PATH['WM_Speaker_Part1'],
+        dataView
+      ) as AssignmentCongregation;
 
-      result.speaker_1_name = '';
+      const { name, cong_name } = schedulesGetSpeakerDetails(assigned);
 
-      if (speaker) {
-        if (useDisplayName) {
-          result.speaker_1_name =
-            speaker.speaker_data.person_display_name.value;
-        }
+      result.speaker_1_name = name;
 
-        if (!useDisplayName) {
-          result.speaker_1_name = buildPersonFullname(
-            speaker.speaker_data.person_lastname.value,
-            speaker.speaker_data.person_firstname.value,
-            fullnameOption
-          );
-        }
-
-        const cong = congregations.find(
-          (record) => record.id === speaker.speaker_data.cong_id
-        );
-
-        result.speaker_cong_name = cong.cong_data.cong_name.value;
+      if (cong_name.length > 0) {
+        result.speaker_cong_name = cong_name;
       }
     }
 
@@ -3217,6 +3235,7 @@ export const schedulesGetMeetingDate = ({
   const sources = store.get(sourcesState);
   const lang = store.get(JWLangState);
   const useExact = store.get(meetingExactDateState);
+  const coMidweekMeetingDay = store.get(COMidweekMeetingDayState);
 
   dataView = dataView ?? userDataView;
 
@@ -3274,7 +3293,12 @@ export const schedulesGetMeetingDate = ({
     }
   }
 
-  const meetingDate = addDays(week, meetingDay);
+  const meetingDate = addDays(
+    week,
+    meeting == 'midweek' && mainWeekType == Week.CO_VISIT
+      ? coMidweekMeetingDay
+      : meetingDay
+  );
   const vardate = meetingDate.getDate();
   const month = meetingDate.getMonth();
   const year = meetingDate.getFullYear();

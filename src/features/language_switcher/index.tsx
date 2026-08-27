@@ -35,10 +35,11 @@ const LanguageSwitcher = ({ menuStyle }: { menuStyle: SxProps }) => {
             '&.MuiListItemIcon-root': {
               width: '24px',
               minWidth: '24px !important',
+              justifyContent: 'center',
             },
           }}
         >
-          <IconLanguage color="var(--black)" />
+          <IconLanguage color="var(--black)" width={22} height={22} />
         </ListItemIcon>
         {(tabletDown || !isAppLoad) && (
           <ListItemText>
