@@ -1,6 +1,6 @@
-import { Style } from '@react-pdf/types';
+import { StyleSheet } from '@react-pdf/renderer';
 
-const styles: Record<string, Style> = {
+const styles = StyleSheet.create({
   body: {
     paddingTop: 10,
     paddingBottom: 10,
@@ -93,6 +93,6 @@ const styles: Record<string, Style> = {
     textTransform: 'uppercase',
     borderRadius: '2px',
   },
-};
+});
 
 export default styles;
