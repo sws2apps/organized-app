@@ -523,5 +523,6 @@
   "tr_maximumAmountOfGroupsIs10": "Maksymalna liczba grup służby to 10",
   "tr_personAwayNotice": "Ta osoba jest nieobecna: {{ date }}",
   "tr_weekendTemplateShowSongs": "Wyświetlaj pieśni w planie zebrania w weekend",
-  "tr_personalDetails": "Dane osobowe"
+  "tr_personalDetails": "Dane osobowe",
+  "tr_midweekMeetingDay": "Midweek meeting day"
 }

@@ -1,11 +1,11 @@
 {
-  "tr_addNewDate": "Add new date",
-  "tr_deepCleaning": "Deep cleaning",
-  "tr_noCleaningSchedulesYet": "You have no cleaning schedules created yet. Add a new month to start creating your first schedule.",
-  "tr_addMonthDesc": "First, choose the months you want to schedule. Then, create a plan for each specific meeting date.",
-  "tr_responsiblePerson": "Responsible person",
-  "tr_deleteDate": "Delete the date",
-  "tr_deleteDateDecs": "You cannot undo this action, but you can create a new date at any time.",
-  "tr_deleteMonth": "Delete the month",
-  "tr_deleteMonthDesc": "You cannot undo this action, but you can add a new month at any time."
+  "tr_addNewDate": "Додај нов датум",
+  "tr_deepCleaning": "Темелно чистење",
+  "tr_noCleaningSchedulesYet": "Сè уште немаш креирано распоред за чистење. Додај нов месец за да го креираш твојот прв распоред.",
+  "tr_addMonthDesc": "Прво, избери ги месеците за кои сакаш да креираш распоред. Потоа, направи план за секој конкретен датум на состанок.",
+  "tr_responsiblePerson": "Одговорно лице",
+  "tr_deleteDate": "Избриши го датумот",
+  "tr_deleteDateDecs": "Оваа акција не може да се поништи, но во секое време можете да додадете нов датум.",
+  "tr_deleteMonth": "Избриши го месецот",
+  "tr_deleteMonthDesc": "Оваа акција не може да се поништи, но во секое време можете да додадете нов месец."
 }

@@ -54,6 +54,7 @@
   "tr_initialCallVariations": "0",
   "tr_returnVisitVariations": "0",
   "tr_lcNoAssignedVariations": "Teşkilatımızın Başardıkları|Yönetim Kurulu durum raporu",
+  "tr_lcNoAssignedContentVariations": "Play the VIDEO",
   "tr_cbsLffWithPointsVariations": "lff bölüm {{ lesson }} kısım {{ points }}|lff bölüm{{ lesson }} kısım {{ points }}",
   "tr_cbsLffSectionOnlyVariations": "lff kısım",
   "tr_lcSourceElderVariations": "Yerel İhtiyaçlar",
