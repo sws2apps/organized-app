@@ -523,5 +523,6 @@
   "tr_maximumAmountOfGroupsIs10": "Högst 10 tjänstegrupper",
   "tr_personAwayNotice": "Denna person är borta: {{ date }}",
   "tr_weekendTemplateShowSongs": "Visa sånger på schemat för helgmötet",
-  "tr_personalDetails": "Personuppgifter"
+  "tr_personalDetails": "Personuppgifter",
+  "tr_midweekMeetingDay": "Veckomötesdag"
 }
