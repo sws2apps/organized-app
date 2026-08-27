@@ -366,7 +366,9 @@
   "tr_createMasterKeyIntroDesc": "このキーは、報告や成員の個人情報を含む会衆のデータを安全に暗号化し、データのエクスポート/インポートや重要な設定変更などの管理操作に必要です。",
   "tr_hallC": "C",
   "tr_FR": "正規開拓者",
+  "tr_FRI": "Infirm regular pioneer",
   "tr_FS": "特別開拓者",
+  "tr_FSI": "Infirm special pioneer",
   "tr_incomingCongregationOnlineNoSpeakers": "This congregation does not have any visiting speakers yet added to their records. If necessary, you can personally contact them.",
   "tr_incomingCongregationOnlinePending": "この会衆は訪問講演者のリストを表示するためのあなたの会衆のリクエストをまだ承認していません。必要な場合は、この会衆に連絡してください。",
   "tr_incomingCongregationOnlineDisapproved": "この会衆は訪問講演者のリストを表示するためのあなたの会衆のリクエストを拒否しました。必要な場合は、再びこの会衆に連絡してください。",
@@ -524,5 +526,7 @@
   "tr_personAwayNotice": "This person is away: {{ date }}",
   "tr_weekendTemplateShowSongs": "Display songs on weekend meeting schedules",
   "tr_personalDetails": "Personal details",
-  "tr_midweekMeetingDay": "Midweek meeting day"
+  "tr_midweekMeetingDay": "Midweek meeting day",
+  "tr_infirmPioneer": "Infirm pioneer",
+  "tr_infirmPioneerNoGoal": "As an infirm pioneer, you can serve as much as you are able without a yearly hour goal."
 }
