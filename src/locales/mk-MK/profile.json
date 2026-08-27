@@ -1,5 +1,5 @@
 {
-  "tr_logOut": "Log out",
+  "tr_logOut": "Одјави се",
   "tr_emailAddress": "Email address",
   "tr_emailAddressDesc": "The email address can’t be changed. Please contact us if you want to change it.",
   "tr_name": "Name",
@@ -49,7 +49,7 @@
   "tr_sessions": "Sessions",
   "tr_sessionsDesc": "A list of devices that have logged into your account. Terminate any sessions that you do not recognize.",
   "tr_terminate": "Terminate",
-  "tr_currentSession": "Current session",
+  "tr_currentSession": "Тековна сесија",
   "tr_logoutClearData": "Log out and clear the local data?",
   "tr_logoutClearDataDesc": "Make sure that all your recently created data is synced, otherwise it will be deleted.",
   "tr_2FAEnable": "Enable two-factor authentication",

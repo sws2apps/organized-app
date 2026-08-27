@@ -55,7 +55,11 @@ const WeekBox = (props: WeekBoxProps) => {
           >
             <Typography
               className="body-small-semibold"
-              color={`var(--${props.type}-meeting)`}
+              color={
+                props.type === 'midweek'
+                  ? 'var(--accent-dark)'
+                  : 'var(--weekend-meeting)'
+              }
             >
               {box_label}
             </Typography>

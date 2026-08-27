@@ -1,0 +1,23 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "dev",
+      "runtimeExecutable": "/bin/sh",
+      "runtimeArgs": [
+        "-c",
+        "cd /Users/Vlad/Dev/Organized-Dev/organized-app-updates && exec node node_modules/.bin/vite --port 4050 --host"
+      ],
+      "port": 4050
+    },
+    {
+      "name": "dev-alt",
+      "runtimeExecutable": "/bin/sh",
+      "runtimeArgs": [
+        "-c",
+        "cd /Users/Vlad/Dev/Organized-Dev/organized-app-updates && exec node node_modules/.bin/vite --port 4090 --strictPort --host"
+      ],
+      "port": 4090
+    }
+  ]
+}

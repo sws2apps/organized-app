@@ -523,5 +523,6 @@
   "tr_maximumAmountOfGroupsIs10": "Ang pinakamadaming bilang ng grupo sa paglilingkod ay 10",
   "tr_personAwayNotice": "Umalis ang user: {{ date }}",
   "tr_weekendTemplateShowSongs": "Ipakita ang mga awit sa weekend meeting schedule",
-  "tr_personalDetails": "Personal na detalye"
+  "tr_personalDetails": "Personal na detalye",
+  "tr_midweekMeetingDay": "Midweek meeting day"
 }

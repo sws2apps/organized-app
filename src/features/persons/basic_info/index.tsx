@@ -10,7 +10,7 @@ import DatePicker from '@components/date_picker';
 import Radio from '@components/radio';
 import TextField from '@components/textfield';
 import Typography from '@components/typography';
-import Tooltip from '@components/tooltip';
+import Indicator, { IndicatorRow } from '@components/indicator';
 
 const PersonBasicInfo = () => {
   const { t } = useAppTranslation();
@@ -183,13 +183,7 @@ const PersonBasicInfo = () => {
 
       <Divider sx={{ borderColor: 'var(--accent-200)' }} />
 
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          gap: '8px',
-        }}
-      >
+      <IndicatorRow sx={{ gap: '8px' }}>
         <DatePicker
           label={t('tr_dateOfBirth')}
           value={
@@ -201,33 +195,13 @@ const PersonBasicInfo = () => {
           maxDate={new Date()}
           readOnly={!isPersonEditor}
         />
-        <Tooltip
-          sx={{
-            width: age.length > 3 ? '140px' : '120px',
-            height: tabletDown ? 'auto' : '48px',
-          }}
-          title={t('tr_ageInYearsAndMonths', ageToYearsAndMonths(age))}
-          show={age !== '0'}
+        <Indicator
+          tooltip={t('tr_ageInYearsAndMonths', ageToYearsAndMonths(age))}
+          showTooltip={age !== '0'}
         >
-          <Box
-            sx={{
-              backgroundColor: 'var(--accent-150)',
-              padding: '8px 16px',
-              borderRadius: 'var(--radius-l)',
-              height: age === '0' ? (tabletDown ? 'auto' : '48px') : '100%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              width:
-                age === '0' ? (age.length > 3 ? '140px' : '120px') : '100%',
-            }}
-          >
-            <Typography className="h4" color="var(--accent-dark)">
-              {t('tr_userAge', { userAge: age })}
-            </Typography>
-          </Box>
-        </Tooltip>
-      </Box>
+          {t('tr_userAge', { userAge: age })}
+        </Indicator>
+      </IndicatorRow>
 
       <Divider sx={{ borderColor: 'var(--accent-200)' }} />
 
