@@ -8,6 +8,7 @@ import {
 import { apiUpdatePasswordlessInfo } from '@services/api/user';
 import {
   displayOnboardingFeedback,
+  displaySnackNotification,
   setIsCongAccountCreate,
   setIsEmailLinkAuthenticate,
   setIsUnauthorizedRole,
@@ -25,7 +26,7 @@ import {
   appLockIsPinResetPending,
   appLockResetPin,
 } from '@services/app_lock/reset';
-import { appLockPinResetPromptState } from '@states/app_lock';
+import { appLockCreatePinState } from '@states/app_lock';
 import useAuth from '../hooks/useAuth';
 import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 
@@ -40,7 +41,7 @@ const useEmailLinkAuth = () => {
 
   const setIsUserAccountCreated = useSetAtom(isUserAccountCreatedState);
   const setIsEmailAuth = useSetAtom(isEmailLinkAuthenticateState);
-  const setPinResetPrompt = useSetAtom(appLockPinResetPromptState);
+  const setCreatePin = useSetAtom(appLockCreatePinState);
 
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -93,7 +94,13 @@ const useEmailLinkAuth = () => {
       // must not lock them out again once the app opens
       if (appLockIsPinResetPending()) {
         await appLockResetPin();
-        setPinResetPrompt(true);
+        setCreatePin(true);
+
+        displaySnackNotification({
+          header: t('tr_PINResetDone'),
+          message: t('tr_PINResetDoneDesc'),
+          severity: 'success',
+        });
       }
 
       const nextStep: NextStepType = determineNextStep(

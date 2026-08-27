@@ -1,6 +1,6 @@
 import { Suspense, useEffect, useRef, useState } from 'react';
 import { Outlet, ScrollRestoration } from 'react-router';
-import { useAtom, useAtomValue } from 'jotai';
+import { useAtomValue } from 'jotai';
 import { Box, Container, Toolbar } from '@mui/material';
 import { IconClose } from '@components/icons';
 import { AppModalWrapper, WebWorkerWrapper } from '@wrapper/index';
@@ -11,9 +11,9 @@ import useCurrentUser from '@hooks/useCurrentUser';
 import useGlobal from '@hooks/useGlobal';
 import useRootLayout from './useRootLayout';
 import useAppLock from '@features/app_lock/useAppLock';
-import { appLockPinResetPromptState, isAppLockedState } from '@states/app_lock';
+import { appLockCreatePinState, isAppLockedState } from '@states/app_lock';
 import AppLock from '@features/app_lock';
-import CreatePin from '@features/app_lock/create_pin';
+import CreatePinScreen from '@features/app_lock/create_pin_screen';
 import { EXIT_DURATION_MS } from '@features/app_lock/animations';
 import About from '@features/about';
 import AppFeedback from '@features/app_feedback';
@@ -42,9 +42,7 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
 
   const { isPublisher } = useCurrentUser();
   const isAppLocked = useAtomValue(isAppLockedState);
-  const [pinResetPrompt, setPinResetPrompt] = useAtom(
-    appLockPinResetPromptState
-  );
+  const createPinOpen = useAtomValue(appLockCreatePinState);
 
   // Keep AppLock mounted briefly after unlock so the exit animation plays.
   const [showLock, setShowLock] = useState(isAppLocked);
@@ -123,13 +121,7 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
               {!isAppLoad && showLock && <AppLock isExiting={isExiting} />}
 
               {/* the forgotten PIN was cleared after the email link sign-in */}
-              {!isAppLoad && !showLock && pinResetPrompt && (
-                <CreatePin
-                  open={pinResetPrompt}
-                  mode="create"
-                  onClose={() => setPinResetPrompt(false)}
-                />
-              )}
+              {!isAppLoad && !showLock && createPinOpen && <CreatePinScreen />}
 
               {!isAppLoad && (!showLock || isExiting) ? (
                 <Suspense

@@ -6,7 +6,12 @@ import {
   appLockAfterMinutesState,
   appLockEnabledState,
 } from '@states/settings';
-import { isAppLockedState, appLockViewState } from '@states/app_lock';
+import {
+  appLockCreatePinState,
+  appLockViewState,
+  isAppLockedState,
+} from '@states/app_lock';
+import { appLockIsPinCreatePending } from '@services/app_lock/reset';
 
 const ACTIVITY_EVENTS = [
   'mousemove',
@@ -27,6 +32,7 @@ const useAppLock = () => {
   const isLocked = useAtomValue(isAppLockedState);
   const setIsLocked = useSetAtom(isAppLockedState);
   const setView = useSetAtom(appLockViewState);
+  const setCreatePin = useSetAtom(appLockCreatePinState);
 
   // the forgot-PIN flow returns through the passwordless link: locking the app
   // then would send the user straight back to the PIN they cannot remember
@@ -34,6 +40,14 @@ const useAppLock = () => {
 
   const coldStartGate = useRef(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // a reload during the create screen would otherwise leave the lock off
+  // without telling the user
+  useEffect(() => {
+    if (isAppLoad) return;
+
+    setCreatePin(appLockIsPinCreatePending());
+  }, [isAppLoad, setCreatePin]);
 
   useLayoutEffect(() => {
     if (isAppLoad) {

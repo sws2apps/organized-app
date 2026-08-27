@@ -8,4 +8,4 @@ export const appLockViewState = atom<AppLockView>('unlock');
 
 export const appLockWrongAttemptState = atom(false);
 
-export const appLockPinResetPromptState = atom(false);
+export const appLockCreatePinState = atom(false);

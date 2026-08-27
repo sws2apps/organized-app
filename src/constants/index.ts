@@ -533,6 +533,7 @@ export const ASSISTANT_ASSIGNMENT = [
 export const STORAGE_KEY = {
   source_import: 'organized_jw_import_next_sync',
   app_lock_pin_reset: 'organized_app_lock_pin_reset',
+  app_lock_pin_create: 'organized_app_lock_pin_create',
 };
 
 export const WEEK_TYPE_WITH_MEETING = [

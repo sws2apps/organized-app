@@ -42,6 +42,21 @@ export const appLockIsPinResetPending = () => {
 };
 
 /**
+ * The app lock is off between the reset and the new PIN, so the request to
+ * create one outlives a reload: it is the only thing that brings the create
+ * screen back, and without it the lock would stay off unnoticed.
+ */
+export const appLockIsPinCreatePending = () => {
+  return !!localStorageGetItem(STORAGE_KEY.app_lock_pin_create);
+};
+
+export const appLockClearPinCreateRequest = () => {
+  if (typeof localStorage === 'undefined') return;
+
+  localStorage.removeItem(STORAGE_KEY.app_lock_pin_create);
+};
+
+/**
  * Removes the forgotten PIN and every credential derived from it, so the app
  * opens unlocked and a new PIN can be created.
  */
@@ -61,4 +76,11 @@ export const appLockResetPin = async () => {
   });
 
   appLockClearPinResetRequest();
+
+  if (typeof localStorage !== 'undefined') {
+    localStorage.setItem(
+      STORAGE_KEY.app_lock_pin_create,
+      new Date().toISOString()
+    );
+  }
 };
