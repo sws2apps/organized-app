@@ -16,13 +16,12 @@ const LIST_BORDER = 1;
 const TITLE_HORIZONTAL_PADDING = 12;
 const TITLE_VERTICAL_PADDING = 8;
 const TITLE_GAP = 4;
-// the badge keeps its proportions at every font size: 2px / 4px at the default
-// size of 10, less on smaller ones
-const BADGE_PADDING_RATIO = 0.2;
+// the badge keeps its proportions at every font size
+const BADGE_PADDING_RATIO = 0.15;
 
 export const badgePadding = (fontSize: number) => ({
   vertical: fontSize * BADGE_PADDING_RATIO,
-  horizontal: fontSize * BADGE_PADDING_RATIO * 2,
+  horizontal: fontSize * BADGE_PADDING_RATIO * 2.5,
 });
 const BLOCK_GAP = 6;
 export const DIVIDER_HEIGHT = 1;

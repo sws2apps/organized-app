@@ -35,6 +35,8 @@ const styles = StyleSheet.create({
   membersCount: {
     fontWeight: 600,
     fontSize: '8px',
+    // the font leading would otherwise add its own space inside the badge
+    lineHeight: 1,
   },
   groupListContainer: {
     borderBottomLeftRadius: '4px',
