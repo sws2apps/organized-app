@@ -3,7 +3,7 @@ import { Document, Page, PageContent, PageHeader } from '@views/components';
 import { IconGroups } from '@views/components/icons';
 import { useAppTranslation } from '@hooks/index';
 import { TemplateFieldServiceGroupsProps } from './index.types';
-import packGroups, { pageBox } from './packGroups';
+import packGroups from './packGroups';
 import styles from './index.styles';
 import FSGGroup from './FSGGroup';
 
@@ -16,35 +16,28 @@ const TemplateFieldServiceGroups = ({
 }: TemplateFieldServiceGroupsProps) => {
   const { t } = useAppTranslation();
 
-  const pages = packGroups(groups, fontSize, orientation);
-
-  const contentHeight = pageBox(orientation).height;
+  const cards = packGroups(groups, fontSize, orientation);
 
   return (
     <Document title={t('tr_fieldServiceGroups')} lang={lang}>
-      {pages.map((placements) => (
-        <Page key={placements[0].card.id} orientation={orientation}>
-          <PageContent gap={10}>
-            <PageHeader
-              congregationName={congregation}
-              variant="secondary"
-              icon={<IconGroups size={18} />}
-              title={t('tr_fieldServiceGroups')}
-              fixed
-            />
-            <View
-              style={{ ...styles.groupsContainer, height: contentHeight }}
-              wrap={false}
-            >
-              {placements.map(({ card, left, top }) => (
-                <View key={card.id} style={{ position: 'absolute', left, top }}>
-                  <FSGGroup card={card} fontSize={fontSize} />
-                </View>
-              ))}
-            </View>
-          </PageContent>
-        </Page>
-      ))}
+      <Page orientation={orientation}>
+        <PageContent gap={10}>
+          <PageHeader
+            congregationName={congregation}
+            variant="secondary"
+            icon={<IconGroups size={18} />}
+            title={t('tr_fieldServiceGroups')}
+            fixed
+          />
+          {/* the cards flow: each one keeps the height its own text needs, and
+              the renderer moves a card that no longer fits to the next page */}
+          <View style={styles.groupsContainer}>
+            {cards.map((card) => (
+              <FSGGroup key={card.id} card={card} fontSize={fontSize} />
+            ))}
+          </View>
+        </PageContent>
+      </Page>
     </Document>
   );
 };

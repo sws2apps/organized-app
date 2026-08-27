@@ -16,12 +16,6 @@ export type FSGCard = {
   membersCount: number;
 };
 
-export type FSGPlacement = {
-  card: FSGCard;
-  left: number;
-  top: number;
-};
-
 export type TemplateFieldServiceGroupsProps = {
   groups: FieldServiceGroupExportType[];
   congregation: string;

@@ -74,8 +74,13 @@ const styles = StyleSheet.create({
     fontSize: '10px',
   },
   groupsContainer: {
-    position: 'relative',
     width: '100%',
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'flex-start',
+    alignContent: 'flex-start',
+    gap: '7px',
   },
 });
 

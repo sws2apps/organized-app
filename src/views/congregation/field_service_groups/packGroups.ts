@@ -1,5 +1,5 @@
 import { FieldServiceGroupExportType } from '@definition/field_service_groups';
-import { FSGCard, FSGPageOrientation, FSGPlacement } from './index.types';
+import { FSGCard, FSGPageOrientation } from './index.types';
 
 const A4_WIDTH = 595.28;
 const A4_HEIGHT = 841.89;
@@ -24,8 +24,8 @@ const DIVIDER_DASH = 5;
 const DIVIDER_GAP = 4;
 const OVERSEER_GAP = 5;
 const MEMBER_GAP = 4;
-const LINE_RATIO = 1.1;
-const AVERAGE_CHAR_RATIO = 0.55;
+const LINE_RATIO = 1.25;
+const AVERAGE_CHAR_RATIO = 0.6;
 
 const lineHeight = (fontSize: number) => fontSize * LINE_RATIO;
 
@@ -269,6 +269,12 @@ const layoutCards = (
   return cards;
 };
 
+/**
+ * Cards are laid out by the renderer, not by these measurements: the text
+ * height can only be estimated here, and positioning cards from an estimate
+ * made a taller-than-expected card overlap the ones below it. The estimate now
+ * only decides how wide a card is and where an oversized group is split.
+ */
 const packGroups = (
   groups: FieldServiceGroupExportType[],
   fontSize: number,
@@ -277,56 +283,9 @@ const packGroups = (
   const { height: maxHeight } = pageBox(orientation);
   const columns = columnCount(orientation);
 
-  const pages: FSGPlacement[][] = [];
-
-  let placements: FSGPlacement[] = [];
-  let filled: number[] = Array.from({ length: columns }, () => 0);
-
-  const nextPage = () => {
-    if (placements.length > 0) pages.push(placements);
-
-    placements = [];
-    filled = Array.from({ length: columns }, () => 0);
-  };
-
-  const cards = groups.flatMap((group) =>
+  return groups.flatMap((group) =>
     layoutCards(group, fontSize, maxHeight, columns)
   );
-
-  for (const card of cards) {
-    let column = -1;
-    let top = Infinity;
-
-    for (let index = 0; index + card.span <= columns; index++) {
-      const used = Math.max(...filled.slice(index, index + card.span));
-      const offset = used === 0 ? 0 : used + CARD_GAP;
-
-      if (offset + card.height <= maxHeight && offset < top) {
-        column = index;
-        top = offset;
-      }
-    }
-
-    if (column === -1) {
-      nextPage();
-      column = 0;
-      top = 0;
-    }
-
-    placements.push({
-      card,
-      left: column * (CARD_WIDTH + CARD_GAP),
-      top,
-    });
-
-    for (let index = column; index < column + card.span; index++) {
-      filled[index] = top + card.height;
-    }
-  }
-
-  nextPage();
-
-  return pages;
 };
 
 export default packGroups;
