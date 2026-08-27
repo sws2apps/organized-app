@@ -4,7 +4,7 @@ import { useAppTranslation } from '@hooks/index';
 import useExportGroups from './useExportGroups';
 import NavBarButton from '@components/nav_bar_button';
 
-const ExportGroups = () => {
+const ExportGroups = ({ main }: { main?: boolean }) => {
   const { t } = useAppTranslation();
 
   const { handleExport, isProcessing } = useExportGroups();
@@ -12,6 +12,7 @@ const ExportGroups = () => {
   return (
     <NavBarButton
       text={t('tr_export')}
+      main={main}
       onClick={handleExport}
       icon={
         isProcessing ? (

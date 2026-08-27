@@ -13,7 +13,11 @@ import LanguageGroupMembers from '../group_members';
 import LanguageGroupDetails from '../group_details';
 import Typography from '@components/typography';
 import GroupDelete from '../group_delete';
-import { CardSection, CardSectionContent, CardSectionHeader } from '../../shared_styles';
+import {
+  CardSection,
+  CardSectionContent,
+  CardSectionHeader,
+} from '../../shared_styles';
 
 const GroupInfo = (props: GroupInfoProps) => {
   const { t } = useAppTranslation();
@@ -81,7 +85,9 @@ const GroupInfo = (props: GroupInfoProps) => {
       open={props.open}
       sx={{ padding: '24px', gap: '16px' }}
     >
-      <Typography className="h2">{props.group.group_data.name || t('tr_details')}</Typography>
+      <Typography className="h2">
+        {props.group.group_data.name || t('tr_details')}
+      </Typography>
 
       <DialogSectionsContainer>
         <DialogSection>

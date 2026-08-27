@@ -1,8 +1,5 @@
 import { FullnameOption } from '@definition/settings';
-import {
-  useAppTranslation,
-  useCurrentUser,
-} from '@hooks/index';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import {
   CardSection,
   CardSectionContent,
@@ -13,6 +10,7 @@ import useCircuitOverseer from './useCircuitOverseer';
 import TextField from '@components/textfield';
 import WeeksList from './weeks_list';
 import { Stack } from '@mui/material';
+import COMidweekMeetingDay from './co_midweek_meeting_day';
 
 const CircuitOverseer = () => {
   const { t } = useAppTranslation();
@@ -35,53 +33,56 @@ const CircuitOverseer = () => {
 
   return (
     <CardSection>
-        <CardSectionHeader
-          title={t('tr_circuitOverseer')}
-          description={t('tr_circuitOverseerSettingDesc')}
-        />
+      <CardSectionHeader
+        title={t('tr_circuitOverseer')}
+        description={t('tr_circuitOverseerSettingDesc')}
+      />
 
-        <CardSectionContent sx={{ '& > hr': { display: 'none' } }}>
-          <Stack spacing="16px">
-            <TwoColumnsRow
-              sx={{
-                flexDirection:
-                  fullnameOption === FullnameOption.FIRST_BEFORE_LAST
-                    ? 'row'
-                    : 'row-reverse',
-              }}
-            >
-              <TextField
-                type="text"
-                label={t('tr_firstname')}
-                value={firstname}
-                onChange={(e) => handleFirstnameChange(e.target.value)}
-                onKeyUp={handleFirstnameSave}
-                slotProps={{ input: { readOnly: !isAdmin } }}
-              />
-              <TextField
-                type="text"
-                label={t('tr_lastname')}
-                value={lastname}
-                onChange={(e) => handleLastnameChange(e.target.value)}
-                onKeyUp={handleLastnameSave}
-                slotProps={{ input: { readOnly: !isAdmin } }}
-              />
-            </TwoColumnsRow>
+      <CardSectionContent sx={{ '& > hr': { display: 'none' } }}>
+        <Stack spacing="16px">
+          <TwoColumnsRow
+            sx={{
+              flexDirection:
+                fullnameOption === FullnameOption.FIRST_BEFORE_LAST
+                  ? 'row'
+                  : 'row-reverse',
+            }}
+          >
+            <TextField
+              type="text"
+              label={t('tr_firstname')}
+              value={firstname}
+              onChange={(e) => handleFirstnameChange(e.target.value)}
+              onKeyUp={handleFirstnameSave}
+              slotProps={{ input: { readOnly: !isAdmin } }}
+            />
+            <TextField
+              type="text"
+              label={t('tr_lastname')}
+              value={lastname}
+              onChange={(e) => handleLastnameChange(e.target.value)}
+              onKeyUp={handleLastnameSave}
+              slotProps={{ input: { readOnly: !isAdmin } }}
+            />
+          </TwoColumnsRow>
 
-            {displayNameEnabled && (
-              <TextField
-                type="text"
-                label={t('tr_displayName')}
-                value={displayname}
-                onChange={(e) => handleDisplaynameChange(e.target.value)}
-                onKeyUp={handleDisplaynameSave}
-                slotProps={{ input: { readOnly: !isAdmin } }}
-              />
-            )}
-            <WeeksList />
-          </Stack>
-        </CardSectionContent>
-      </CardSection>
+          <COMidweekMeetingDay />
+
+          {displayNameEnabled && (
+            <TextField
+              type="text"
+              label={t('tr_displayName')}
+              value={displayname}
+              onChange={(e) => handleDisplaynameChange(e.target.value)}
+              onKeyUp={handleDisplaynameSave}
+              slotProps={{ input: { readOnly: !isAdmin } }}
+            />
+          )}
+
+          <WeeksList />
+        </Stack>
+      </CardSectionContent>
+    </CardSection>
   );
 };
 

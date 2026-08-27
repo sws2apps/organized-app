@@ -2,9 +2,10 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { displaySnackNotification } from '@services/states/app';
-import { refreshLocalesResources } from '@services/i18n';
+import { refreshLocaleDerivedData } from '@services/app/locale_derived_data';
+import { syncJWMeetingMaterials } from '@services/app/meeting_materials';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
-import { settingsState } from '@states/settings';
+import { settingsState, userDataViewState } from '@states/settings';
 import { GroupInfoProps } from './index.types';
 import { FieldServiceGroupType } from '@definition/field_service_groups';
 import { dbFieldServiceGroupSave } from '@services/dexie/field_service_groups';
@@ -13,6 +14,7 @@ const useGroupInfo = ({ group, onClose }: GroupInfoProps) => {
   const { t } = useAppTranslation();
 
   const settings = useAtomValue(settingsState);
+  const dataView = useAtomValue(userDataViewState);
 
   const circuitNumber = useMemo(() => {
     return (
@@ -86,8 +88,13 @@ const useGroupInfo = ({ group, onClose }: GroupInfoProps) => {
         (record) => record.type === group.group_id
       );
 
+      const normalizedLanguage = language.toUpperCase();
+      const activeGroupLanguageChanged =
+        dataView === group.group_id &&
+        findLanguage?.value !== normalizedLanguage;
+
       if (findLanguage) {
-        findLanguage.value = language.toUpperCase();
+        findLanguage.value = normalizedLanguage;
         findLanguage.updatedAt = new Date().toISOString();
       }
 
@@ -109,7 +116,15 @@ const useGroupInfo = ({ group, onClose }: GroupInfoProps) => {
 
       await dbFieldServiceGroupSave(groupToSave);
 
-      await refreshLocalesResources();
+      if (activeGroupLanguageChanged) {
+        await refreshLocaleDerivedData();
+
+        try {
+          await syncJWMeetingMaterials(normalizedLanguage);
+        } catch (error) {
+          console.error(error);
+        }
+      }
     } catch (error) {
       console.error(error);
 
@@ -129,7 +144,7 @@ const useGroupInfo = ({ group, onClose }: GroupInfoProps) => {
         handleSaveChange();
       }
     }
-  }, [circuit, group.group_id, groupEdit, language, settings, t]);
+  }, [circuit, dataView, group.group_id, groupEdit, language, settings, t]);
 
   useEffect(() => {
     setCircuit(circuitNumber);

@@ -136,5 +136,6 @@
   "tr_congregationReports": "Gemeente rapporten",
   "tr_bibleStudiesMonthlyLess": "Je kunt het aantal Bijbelstudies niet lager instellen dan het totaal dat je in je dagelijkse verslagen hebt",
   "tr_hoursDecreaseError": "Kan uren niet wijzigen",
-  "tr_hoursDecreaseErrorDesc": "Je kan de uren niet instellen op een getal dat lager is dan het totaal dat je hebt van je dagelijkse verslagen"
+  "tr_hoursDecreaseErrorDesc": "Je kan de uren niet instellen op een getal dat lager is dan het totaal dat je hebt van je dagelijkse verslagen",
+  "tr_SCEL": "School for Congregation Elders"
 }

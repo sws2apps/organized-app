@@ -1,7 +1,16 @@
 import { useEffect } from 'react';
 import { Box, Stack } from '@mui/material';
-import { CardSection, CardSectionHeader, CardSectionContent } from '@features/congregation/settings/shared_styles';
-import { PageContainer, SplitLayout, ContentArea, CenteredAction } from './index.styles';
+import {
+  CardSection,
+  CardSectionHeader,
+  CardSectionContent,
+} from '@features/congregation/settings/shared_styles';
+import {
+  PageContainer,
+  SplitLayout,
+  ContentArea,
+  CenteredAction,
+} from './index.styles';
 import {
   useAppTranslation,
   useBreakpoints,
@@ -40,8 +49,13 @@ const CongregationSettings = () => {
 
   const { isGroup } = useCurrentUser();
 
-  const { activeTab, handleTabChange, mobileView, setMobileView, handleMobileTabSelect } =
-    useCongregationSettings();
+  const {
+    activeTab,
+    handleTabChange,
+    mobileView,
+    setMobileView,
+    handleMobileTabSelect,
+  } = useCongregationSettings();
 
   const { userAddOpen, handleCloseUserAdd, isLoading, handleOpenUserAdd } =
     useAllUsers();
@@ -83,7 +97,12 @@ const CongregationSettings = () => {
 
       return (
         <Stack spacing="16px">
-          <GroupInfo open={true} onClose={() => handleTabChange('general')} group={group} inline />
+          <GroupInfo
+            open={true}
+            onClose={() => handleTabChange('general')}
+            group={group}
+            inline
+          />
           {fullAccess && (
             <CenteredAction>
               <GroupDelete group={group} />
@@ -112,11 +131,9 @@ const CongregationSettings = () => {
           <Stack spacing="16px">
             <MeetingSettings />
             <MeetingForms />
-            
+
             <CardSection>
-              <CardSectionHeader
-                title={t('tr_meetingReports')}
-              />
+              <CardSectionHeader title={t('tr_meetingReports')} />
               <CardSectionContent sx={{ '& > hr': { display: 'none' } }}>
                 <MeetingAttendance />
               </CardSectionContent>
@@ -132,7 +149,13 @@ const CongregationSettings = () => {
       case 'app-config':
         return <AppConfig />;
       case 'import-export':
-        return <ImportExport open={true} onClose={() => handleTabChange('general')} inline />;
+        return (
+          <ImportExport
+            open={true}
+            onClose={() => handleTabChange('general')}
+            inline
+          />
+        );
       default:
         return null;
     }
@@ -144,9 +167,7 @@ const CongregationSettings = () => {
       <PageContainer>
         <PageTitle
           title={pageTitle}
-          buttons={
-            activeTab === 'user-accounts' ? addUserButton : undefined
-          }
+          buttons={activeTab === 'user-accounts' ? addUserButton : undefined}
         />
 
         {userAddOpen && (
@@ -173,9 +194,7 @@ const CongregationSettings = () => {
             />
           </Box>
 
-          <ContentArea>
-            {renderContent()}
-          </ContentArea>
+          <ContentArea>{renderContent()}</ContentArea>
         </SplitLayout>
       </PageContainer>
     );
@@ -209,8 +228,7 @@ const CongregationSettings = () => {
 
   // Detail view — fullscreen sub-page with back navigation
   // Only add bottom padding when the BottomMenu will render (user-accounts has an Add button)
-  const hasBottomActions =
-    !tablet688Up && activeTab === 'user-accounts';
+  const hasBottomActions = !tablet688Up && activeTab === 'user-accounts';
 
   return (
     <PageContainer

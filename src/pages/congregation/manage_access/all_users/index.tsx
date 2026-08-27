@@ -7,6 +7,7 @@ import CongregationVIP from '@features/congregation/app_access/congregation_vip'
 import PageTitle from '@components/page_title';
 import UserAdd from '@features/congregation/app_access/user_add';
 import NavBarButton from '@components/nav_bar_button';
+import NavBarButtonGroup from '@components/nav_bar_button_group';
 
 const UsersAll = () => {
   const { t } = useAppTranslation();
@@ -28,12 +29,13 @@ const UsersAll = () => {
       <PageTitle
         title={t('tr_manageAccessFullTitle')}
         buttons={
-          <NavBarButton
-            text={t('tr_btnAdd')}
-            main
-            icon={<IconAddPerson />}
-            onClick={handleOpenUserAdd}
-          ></NavBarButton>
+          <NavBarButtonGroup>
+            <NavBarButton
+              text={t('tr_btnAdd')}
+              icon={<IconAddPerson />}
+              onClick={handleOpenUserAdd}
+            ></NavBarButton>
+          </NavBarButtonGroup>
         }
       />
 

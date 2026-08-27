@@ -7,6 +7,7 @@ import PageTitle from '@components/page_title';
 import PublisherTabs from '@features/reports/publisher_records/publisher_tabs';
 import YearsStats from '@features/reports/publisher_records/years_stats';
 import NavBarButton from '@components/nav_bar_button';
+import NavBarButtonGroup from '@components/nav_bar_button_group';
 
 const PublisherRecords = () => {
   const { t } = useAppTranslation();
@@ -32,12 +33,13 @@ const PublisherRecords = () => {
       <PageTitle
         title={t('tr_publishersRecords')}
         buttons={
-          <NavBarButton
-            main
-            text={t('tr_exportS21')}
-            onClick={handleOpenExport}
-            icon={<IconExport />}
-          ></NavBarButton>
+          <NavBarButtonGroup>
+            <NavBarButton
+              text={t('tr_exportS21')}
+              onClick={handleOpenExport}
+              icon={<IconExport />}
+            ></NavBarButton>
+          </NavBarButtonGroup>
         }
       />
 

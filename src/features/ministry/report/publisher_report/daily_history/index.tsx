@@ -1,9 +1,10 @@
 import { Box, Stack } from '@mui/material';
-import { IconAdd, IconInfo } from '@components/icons';
+import { IconAdd } from '@components/icons';
 import { CardContainer } from '../../../shared_styles';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useDailyHistory from './useDailyHistory';
 import Button from '@components/button';
+import InfoNote from '@components/info_note';
 import ReportFormDialog from '@features/ministry/report/report_form_dialog';
 import Typography from '@components/typography';
 import DailyRecord from './daily_record';
@@ -53,21 +54,13 @@ const DailyHistory = () => {
       </Box>
 
       {dailyReports.length === 0 && (
-        <Typography color="var(--grey-350)">
-          <Box
-            component="span"
-            sx={{
-              verticalAlign: '-6px',
-              display: 'inline-flex',
-              marginRight: '4px',
-            }}
-          >
-            <IconInfo color="var(--grey-350)" />
-          </Box>
-          {status === 'pending'
-            ? t('tr_noDailyRecordsDesc')
-            : t('tr_noDailyRecordsMonthClosed')}
-        </Typography>
+        <InfoNote
+          message={
+            status === 'pending'
+              ? t('tr_noDailyRecordsDesc')
+              : t('tr_noDailyRecordsMonthClosed')
+          }
+        />
       )}
 
       {dailyReports.length > 0 && (
