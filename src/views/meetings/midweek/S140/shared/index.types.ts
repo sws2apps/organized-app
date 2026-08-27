@@ -22,7 +22,10 @@ export type S140PartMiniLabelType = {
 };
 
 export type S140PersonType = {
-  person: string;
+  primary: string;
+  secondary?: string;
+  lang: string;
+  direction?: 'row' | 'column';
 };
 
 export type S140SourceComplexType = {
