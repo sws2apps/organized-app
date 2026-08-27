@@ -104,12 +104,21 @@ const useNavbar = () => {
   };
 
   const handleBack = () => {
-    navigate(-1);
+    if (navBarOptions.onBack) {
+      navBarOptions.onBack();
+      return;
+    }
+
+    if (window.history.length > 1) {
+      navigate(-1);
+    } else {
+      navigate('/');
+    }
   };
 
   const handleQuickSettings = (e) => {
     e.stopPropagation();
-    navBarOptions.quickSettings();
+    navBarOptions.quickSettings!();
   };
 
   const handleReconnectAccount = () => {

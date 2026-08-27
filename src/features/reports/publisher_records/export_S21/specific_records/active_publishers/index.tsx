@@ -4,6 +4,7 @@ import { useAppTranslation } from '@hooks/index';
 import { ActivePublishersProps } from './index.types';
 import useActivePublishers from './useActivePublishers';
 import Button from '@components/button';
+import DialogActions from '@components/dialog_actions';
 import SearchBar from '@components/search_bar';
 import RichTreeViewCheckboxes from '@components/rich_tree_view/checkboxes';
 
@@ -37,7 +38,14 @@ const ActivePublishers = (props: ActivePublishersProps) => {
         />
       </Stack>
 
-      <Stack spacing="8px" width="100%">
+      <DialogActions>
+        <Button
+          variant="secondary"
+          disabled={isProcessing}
+          onClick={props.onClose}
+        >
+          {t('tr_cancel')}
+        </Button>
         <Button
           variant="main"
           onClick={handleExport}
@@ -46,14 +54,7 @@ const ActivePublishers = (props: ActivePublishersProps) => {
         >
           {btnLabel}
         </Button>
-        <Button
-          variant="secondary"
-          disabled={isProcessing}
-          onClick={props.onClose}
-        >
-          {t('tr_cancel')}
-        </Button>
-      </Stack>
+      </DialogActions>
     </Stack>
   );
 };

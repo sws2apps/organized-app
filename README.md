@@ -76,6 +76,8 @@ In short, Organized is not a cloud-only app; it combines the flexibility of web 
 
 ## The app is open-source and secure
 
+[![Frontend Status](https://img.shields.io/website?url=https%3A%2F%2Forganized-app.com&up_message=online&down_message=offline&label=Frontend)](https://status.organized-app.com/)
+[![Backend Status](https://img.shields.io/website?url=https%3A%2F%2Fapi-v3.organized-app.com&up_message=online&down_message=offline&label=Backend)](https://status.organized-app.com/)
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/sws2apps/organized-app)
 [![CD](https://github.com/sws2apps/cpe-sws/actions/workflows/deploy.yml/badge.svg)](https://github.com/sws2apps/cpe-sws/actions/workflows/deploy.yml)
 ![Next Vesion](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/rhahao/8d98acc3c934ff9dc191a0131135c4cb/raw/organized-next.json)

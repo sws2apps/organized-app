@@ -102,7 +102,7 @@ export const appThemeState = atom((get) => {
 });
 
 export const monthNamesState = atom((get) => {
-  const appLang = get(appLangState);
+  const appLang = get(appLangState)!;
 
   const months: string[] = [];
 
@@ -123,7 +123,7 @@ export const monthNamesState = atom((get) => {
 });
 
 export const monthShortNamesState = atom((get) => {
-  const appLang = get(appLangState);
+  const appLang = get(appLangState)!;
 
   const months: string[] = [];
 
@@ -144,7 +144,7 @@ export const monthShortNamesState = atom((get) => {
 });
 
 export const dayNamesState = atom((get) => {
-  const appLang = get(appLangState);
+  const appLang = get(appLangState)!;
 
   const days: string[] = [];
 
@@ -160,7 +160,7 @@ export const dayNamesState = atom((get) => {
 });
 
 export const dayNamesShortState = atom((get) => {
-  const appLang = get(appLangState);
+  const appLang = get(appLangState)!;
 
   const days: string[] = [];
 
@@ -177,7 +177,7 @@ export const dayNamesShortState = atom((get) => {
 
 export const dayNamesCapitalState = atom((get) => {
   const days = get(dayNamesState);
-  return days.map((record) => record.at(0).toUpperCase());
+  return days.map((record) => record.at(0)!.toUpperCase());
 });
 
 export const shortDatePickerFormatState = atom(getShortDatePickerFormat());
@@ -254,7 +254,7 @@ export const appMessageState = atom('');
 
 export const appMessageHeaderState = atom('');
 
-export const appMessageIconState = atom<ReactElement>(null as ReactElement);
+export const appMessageIconState = atom<ReactElement>();
 
 export const congAccountConnectedState = atom(false);
 

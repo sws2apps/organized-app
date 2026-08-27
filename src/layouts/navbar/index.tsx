@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   AppBar,
   Box,
@@ -7,7 +8,6 @@ import {
   Menu,
   MenuItem,
   Toolbar,
-  useTheme,
 } from '@mui/material';
 import {
   IconAccount,
@@ -19,7 +19,7 @@ import {
   IconMail,
   IconArrowLink,
   IconLogout,
-  IconArrowBack,
+  IconNavigateLeft,
   IconSettings,
 } from '@icons/index';
 import { useAppTranslation, useFirebaseAuth } from '@hooks/index';
@@ -38,7 +38,7 @@ import IconButton from '@components/icon_button';
 import BottomMenu from '@layouts/bottom_menu';
 
 const baseMenuStyle = {
-  padding: '8px 12px 8px 16px',
+  padding: '8px 12px 8px 12px',
   minHeight: '40px',
   height: '40px',
   gap: '8px',
@@ -59,7 +59,9 @@ const menuStyle = {
 
 const NavBar = ({ isSupported }: NavBarType) => {
   const { t } = useAppTranslation();
-  const theme = useTheme();
+
+
+  const [settingsAnimating, setSettingsAnimating] = useState(false);
 
   const { isAuthenticated } = useFirebaseAuth();
 
@@ -197,7 +199,8 @@ const NavBar = ({ isSupported }: NavBarType) => {
                     <LanguageSwitcher
                       menuStyle={{
                         ...baseMenuStyle,
-                        padding: '8px 16px 8px 12px',
+                        padding: '8px 12px 8px 12px',
+                        marginRight: '4px',
                         transition: 'background-color 0.3s',
                         borderRadius: 'var(--radius-max)',
                         '&:hover': {
@@ -517,22 +520,12 @@ const NavBar = ({ isSupported }: NavBarType) => {
                     aria-label={t('tr_back')}
                     onClick={handleBack}
                     sx={{
-                      marginLeft: '-10px',
                       '&:hover': {
                         backgroundColor: 'var(--accent-200)',
-                        '& svg': {
-                          transform:
-                            theme.direction === 'rtl'
-                              ? 'translateX(-4px) scaleX(-1)'
-                              : 'translateX(4px)',
-                        },
-                      },
-                      '& svg': {
-                        transition: 'transform 0.2s ease-in-out',
                       },
                     }}
                   >
-                    <IconArrowBack color="var(--black)" />
+                    <IconNavigateLeft color="var(--black)" />
                   </IconButton>
                   <Box
                     sx={{
@@ -566,13 +559,28 @@ const NavBar = ({ isSupported }: NavBarType) => {
                   </Box>
                   {navBarOptions.quickSettings ? (
                     <IconButton
-                      onClick={handleQuickSettings}
+                      onClick={(e) => {
+                        handleQuickSettings(e);
+                        setSettingsAnimating(true);
+                        setTimeout(() => setSettingsAnimating(false), 250);
+                      }}
                       aria-label={t('tr_quickSettings')}
                       sx={{
                         marginRight: '-8px',
                         transition: 'background-color 50ms ease-in-out',
                         '&:hover': {
                           backgroundColor: 'var(--accent-200)',
+                          '& svg': {
+                            transform: settingsAnimating
+                              ? 'rotate(0deg)'
+                              : 'rotate(60deg)',
+                          },
+                        },
+                        '& svg': {
+                          transition: 'transform 0.25s ease-out',
+                          ...(settingsAnimating && {
+                            transform: 'rotate(0deg)',
+                          }),
                         },
                       }}
                     >

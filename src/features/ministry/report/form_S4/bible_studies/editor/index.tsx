@@ -1,10 +1,11 @@
-import { Box, Stack } from '@mui/material';
+import { Box } from '@mui/material';
 import { IconClose } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import { BibleStudyEditorProps } from './index.types';
 import useBibleStudy from './useBibleStudy';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
+import DialogActions from '@components/dialog_actions';
 import IconButton from '@components/icon_button';
 import Typography from '@components/typography';
 import TextField from '@components/textfield';
@@ -42,10 +43,7 @@ const BibleStudyEditor = (props: BibleStudyEditorProps) => {
         onChange={(e) => handleChange(e.target.value)}
       />
 
-      <Stack spacing="8px">
-        <Button variant="main" onClick={handleSave}>
-          {props.bibleStudy ? t('tr_saveChanges') : t('tr_save')}
-        </Button>
+      <DialogActions>
         <Button
           variant="secondary"
           color="red"
@@ -53,7 +51,10 @@ const BibleStudyEditor = (props: BibleStudyEditorProps) => {
         >
           {props.bibleStudy ? t('tr_deleteStudy') : t('tr_cancel')}
         </Button>
-      </Stack>
+        <Button variant="main" onClick={handleSave}>
+          {props.bibleStudy ? t('tr_saveChanges') : t('tr_save')}
+        </Button>
+      </DialogActions>
     </Dialog>
   );
 };
