@@ -526,6 +526,7 @@
   "tr_personAwayNotice": "This person is away: {{ date }}",
   "tr_weekendTemplateShowSongs": "Display songs on weekend meeting schedules",
   "tr_personalDetails": "Personal details",
+  "tr_midweekMeetingDay": "Midweek meeting day",
   "tr_infirmPioneer": "Infirm pioneer",
   "tr_infirmPioneerNoGoal": "As an infirm pioneer, you can serve as much as you are able without a yearly hour goal."
 }

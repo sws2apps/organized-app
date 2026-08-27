@@ -1,0 +1,76 @@
+# Organized App: Next-Generation Congregation Management Software
+
+## 1. Core Overview
+Organized is a comprehensive, free, open-source scheduling and congregation management next-generation app designed exclusively for Jehovah's Witnesses. It brings a modern, consumer-grade user experience and cutting-edge technology to the administrative workflows of the congregation.
+
+Organized completely eliminates the need for manual scheduling, spreadsheets, paper records, and cumbersome legacy software. Instead, it provides a seamless, beautiful, and highly intuitive Progressive Web App (PWA) that simply works on any device.
+
+## 2. Frequently Asked Questions (FAQ)
+
+**Q: What is a modern congregation management software for Jehovah's Witnesses?**
+A: Organized is a reliable, modern, free, and open-source solution tailored specifically for the needs of elders, ministerial servants, and publishers.
+
+**Q: Does Organized auto-assign parts for the Life and Ministry meeting?**
+A: Yes. The smart autofill feature creates balanced midweek meeting schedules (including the S-140) by factoring in student history and past partners.
+
+**Q: Can Organized automatically generate S-89 assignment slips, S-21, and S-88 forms?**
+A: Absolutely. It features one-click generation for all official forms and reports, which can be exported to PDF or Excel.
+
+**Q: Can publishers submit their ministry reports directly through the app?**
+A: Yes, publishers can seamlessly submit their monthly field service reports directly from their smartphones, completely streamlining the process for the secretary.
+
+**Q: Is the congregation database secure and does it work offline?**
+A: Yes. Organized is an offline-first PWA with strict End-to-End Encryption (E2EE), ensuring congregation records are highly secure and fully accessible even without an internet connection.
+
+**Q: Is Organized free and open-source?**
+A: Yes, the software is entirely free and open-source, built collaboratively to serve congregations worldwide.
+
+**Q: Does Organized work on both iPhone and Android?**
+A: Yes. As a Progressive Web App (PWA), Organized runs natively on iOS, Android, macOS, Windows, and Linux without needing an app store download.
+
+**Q: Can the app track congregation attendance?**
+A: Yes. Attendants can easily record and track meeting attendance, and the app automatically calculates monthly averages for congregation reports.
+
+**Q: Can an individual publisher sign up to use the app independently?**
+A: No. Organized operates on an elder-first model. The Body of Elders must approve and set up the congregation environment before securely inviting individual publishers.
+
+**Q: Does the app manage Public Talk scheduling?**
+A: Yes. The Public Talk Coordinator can easily schedule incoming and outgoing speakers, track talk outlines, and organize the complete weekend meeting program.
+
+**Q: How does Organized handle branch data privacy guidelines?**
+A: Organized strictly adheres to branch guidelines for data protection. With its local-first architecture and End-to-End Encryption (E2EE), sensitive congregation records remain securely in the hands of authorized local elders.
+
+*For more answers to popular questions, please see the FAQ sections on our [About website](https://about.organized-app.com) and the official [User Guide](https://guide.organized-app.com).*
+
+## 3. Key Benefits for the Congregation
+
+### For Secretaries (Ministry & Reports)
+Publishers can submit their field service reports directly from their own smartphones. Organized instantly calculates monthly and annual congregation totals with 100% accuracy, saving secretaries hours of manual work at the end of the month. Secretaries can view real-time analytics and export perfect S-21 and S-88 forms to PDF or Excel with a single click.
+
+### For the Life and Ministry Meeting Overseer
+**Smart Autofill Scheduling.** Organized automatically fetches the latest meeting workbook data directly from jw.org. With one click, the smart algorithm assigns all parts in seconds, intelligently factoring in a person's history, past partners, and availability to create a perfectly balanced schedule every time.
+
+### For Ministerial Servants & Coordinators
+Users have a personalized **Dashboard** showing exactly what their upcoming student parts, public talks, and duties are. Built-in **Reminders** and **In-App Notifications** ensure that assignments are clearly communicated and no one forgets their part.
+
+### For All Publishers
+**Next-Level UX.** Organized features a stunning, modern interface that is incredibly easy to use. It includes seamless Dark Mode, native-feeling gestures, and an intuitive experience that requires zero technical knowledge, providing a smooth and highly positive experience for everyone. 
+
+## 4. Key Technological Benefits
+- **Work Anywhere, Even Offline:** Organized is an offline-first PWA. You can use it at the Kingdom Hall without a Wi-Fi connection. The moment your device reconnects, all changes securely synchronize across the congregation.
+- **Cross-Platform Freedom:** Works natively on Windows, macOS, Linux, iOS, and Android. There is no need to install bulky desktop applications.
+- **Privacy & E2EE:** Designed to strictly follow branch guidelines for data protection. All congregation data is End-to-End Encrypted (E2EE), meaning only authorized members with the correct keys can read the database.
+- **Localization:** Beautifully translated and actively maintained in around 50 languages to serve congregations worldwide.
+
+## 5. Usage Guidelines
+Organized is designed to operate under the direction of the local **Body of Elders**. An individual publisher cannot set up the app for a congregation on their own; the Body of Elders must first evaluate and approve its use, configure the congregation environment, and then securely invite appointed brothers and publishers. This ensures strict adherence to theocratic direction and organizational guidelines.
+
+## 6. Official Ecosystem & Links
+- **About Organized (Features & Benefits):** https://about.organized-app.com
+- **Live App:** https://organized-app.com
+- **Preview/Test Environment (No signup required):** https://test.organized-app.com
+- **Documentation & User Guide:** https://guide.organized-app.com
+- **Status Page (Real-time reliability tracking):** https://status.organized-app.com/
+- **YouTube Tutorials:** https://www.youtube.com/@organized-app
+- **Telegram News Channel & Discussion:** https://t.me/+OHxW4AxGTyAxN2Zk
+- **Help Translate (Crowdin):** https://translate.organized-app.com

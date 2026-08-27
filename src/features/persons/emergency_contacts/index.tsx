@@ -1,8 +1,9 @@
 import { Box } from '@mui/material';
-import { IconAdd, IconInfo } from '@icons/index';
+import { IconAdd } from '@icons/index';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import useEmergencyContacts from './useEmergencyContacts';
 import Button from '@components/button';
+import InfoNote from '@components/info_note';
 import Typography from '@components/typography';
 import ContactItem from './contact_item';
 
@@ -35,21 +36,7 @@ const PersonEmergencyContacts = () => {
 
       {activeContacts.length === 0 && (
         <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <Typography color="var(--grey-350)">
-              <Box
-                component="span"
-                sx={{
-                  verticalAlign: '-6px',
-                  display: 'inline-flex',
-                  marginRight: '4px',
-                }}
-              >
-                <IconInfo color="var(--grey-350)" />
-              </Box>
-              {t('tr_personEmergencyDesc')}
-            </Typography>
-          </Box>
+          <InfoNote message={t('tr_personEmergencyDesc')} />
 
           {isPersonEditor && (
             <Button
