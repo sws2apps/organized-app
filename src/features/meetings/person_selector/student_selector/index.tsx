@@ -1,6 +1,7 @@
 import { Box, FormControlLabel, Popper, RadioGroup } from '@mui/material';
 import { STUDENT_ASSIGNMENT } from '@constants/index';
 import { PersonOptionsType, PersonSelectorType } from '../index.types';
+import { StudentIconType } from './index.types';
 import {
   IconAssignmetHistory,
   IconClose,
@@ -8,7 +9,6 @@ import {
   IconMale,
   IconPersonPlaceholder,
 } from '@components/icons';
-import { StudentIconType } from './index.types';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useStudentSelector from './useStudentSelector';
 import AssignmentsHistoryDialog from '@features/meetings/assignments_history_dialog';
@@ -53,6 +53,8 @@ const StudentSelector = (props: PersonSelectorType) => {
     handleToggleGroup,
     showHeader,
     showGroupToggle,
+    mainStudentGender,
+    showFamilyFilter,
   } = useStudentSelector(props);
 
   return (
@@ -192,18 +194,55 @@ const StudentSelector = (props: PersonSelectorType) => {
               >
                 {showGenderSelector && (
                   <>
-                    <FormControlLabel
-                      value="male"
-                      control={<Radio />}
-                      label={<Typography>{t('tr_male')}</Typography>}
-                      onClick={(e) => handleGenderChange(e, 'male')}
-                    />
-                    <FormControlLabel
-                      value="female"
-                      control={<Radio />}
-                      label={<Typography>{t('tr_female')}</Typography>}
-                      onClick={(e) => handleGenderChange(e, 'female')}
-                    />
+                    {!isAssistant && (
+                      <>
+                        <FormControlLabel
+                          value="male"
+                          control={<Radio />}
+                          label={<Typography>{t('tr_male')}</Typography>}
+                          onClick={(e) => handleGenderChange(e, 'male')}
+                        />
+                        <FormControlLabel
+                          value="female"
+                          control={<Radio />}
+                          label={<Typography>{t('tr_female')}</Typography>}
+                          onClick={(e) => handleGenderChange(e, 'female')}
+                        />
+                      </>
+                    )}
+
+                    {isAssistant && mainStudentGender && (
+                      <>
+                        <FormControlLabel
+                          value={mainStudentGender}
+                          control={<Radio />}
+                          label={
+                            <Typography>
+                              {t(
+                                mainStudentGender === 'male'
+                                  ? 'tr_male'
+                                  : 'tr_female'
+                              )}
+                            </Typography>
+                          }
+                          onClick={(e) =>
+                            handleGenderChange(e, mainStudentGender)
+                          }
+                        />
+                        {showFamilyFilter && (
+                          <FormControlLabel
+                            value="family"
+                            control={<Radio />}
+                            label={
+                              <Typography>{t('tr_family')}</Typography>
+                            }
+                            onClick={(e) =>
+                              handleGenderChange(e, 'family')
+                            }
+                          />
+                        )}
+                      </>
+                    )}
                   </>
                 )}
 
