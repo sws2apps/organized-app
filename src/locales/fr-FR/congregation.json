@@ -523,5 +523,6 @@
   "tr_maximumAmountOfGroupsIs10": "Le nombre maximum de groupes de prédication est de 10",
   "tr_personAwayNotice": "Cette personne est absente: {{ date }}",
   "tr_weekendTemplateShowSongs": "Affichez les quantiques sur le programme des réunions en weekend",
-  "tr_personalDetails": "Détails personnels"
+  "tr_personalDetails": "Détails personnels",
+  "tr_midweekMeetingDay": "Midweek meeting day"
 }

@@ -1,9 +1,10 @@
-import { MouseEvent, useEffect, useMemo, useState } from 'react';
+import { MouseEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'react-router';
 import { useAtomValue } from 'jotai';
 import { IconError } from '@components/icons';
 import { PersonOptionsType, PersonSelectorType } from '../index.types';
 import { personsByViewState } from '@states/persons';
+import { PersonType } from '@definition/person';
 import {
   displayNameMeetingsEnableState,
   fullnameOptionState,
@@ -37,6 +38,7 @@ import { getMessageByCode } from '@services/i18n/translation';
 import { formatDate } from '@utils/date';
 import {
   personAssignmentHasClassroom,
+  personGetFamilyMemberUIDs,
   personIsAway,
 } from '@services/app/persons';
 
@@ -104,6 +106,74 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
     return assignedFSG.length > 0;
   }, [congAssignFSG, assignment, schedule, classCount, dataView, assignedFSG]);
 
+  const mainStudentAssigned = useMemo(() => {
+    if (!isAssistant || week.length === 0) return null;
+
+    const pathMainStudent =
+      ASSIGNMENT_PATH[assignment.replace('Assistant', 'Student')];
+
+    if (!pathMainStudent) return null;
+
+    const assigned = schedulesGetData(
+      schedule,
+      pathMainStudent,
+      dataView
+    ) as AssignmentCongregation;
+
+    return (
+      persons.find((record) => record.person_uid === assigned?.value) ?? null
+    );
+  }, [isAssistant, week, assignment, schedule, dataView, persons]);
+
+  const familyMemberUIDs = useMemo(() => {
+    if (!mainStudentAssigned) return new Set<string>();
+
+    return personGetFamilyMemberUIDs(persons, mainStudentAssigned.person_uid);
+  }, [mainStudentAssigned, persons]);
+
+  const buildPersonOption = useCallback(
+    (record: PersonType): PersonOptionsType => {
+      const lastAssignment = assignmentsHistory.find(
+        (item) => item.assignment.person === record.person_uid
+      );
+
+      const lastAssignmentFormat = lastAssignment
+        ? formatDate(new Date(lastAssignment.weekOf), shortDateFormat)
+        : '';
+
+      const lastAssistant = assignmentsHistory.find(
+        (item) => item.assignment.ayf?.assistant === record.person_uid
+      );
+
+      const lastAssistantFormat = lastAssistant
+        ? formatDate(new Date(lastAssistant.weekOf), shortDateFormat)
+        : '';
+
+      const classroom = lastAssignment?.assignment.classroom;
+      const hall =
+        classroom === '1'
+          ? t('tr_hallA')
+          : classroom === '2'
+            ? t('tr_hallB')
+            : '';
+
+      return {
+        ...record,
+        last_assignment: lastAssignmentFormat,
+        last_assistant: lastAssistantFormat,
+        last_assistant_weekOf: lastAssistant?.weekOf || '',
+        weekOf: lastAssignment?.weekOf || '',
+        hall,
+        person_name: personGetDisplayName(
+          record,
+          displayNameEnabled,
+          fullnameOption
+        ),
+      };
+    },
+    [assignmentsHistory, shortDateFormat, t, displayNameEnabled, fullnameOption]
+  );
+
   const personAssigned = useMemo(() => {
     if (week.length === 0) return null;
 
@@ -111,15 +181,11 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
 
     if (!path) return null;
 
-    const dataSchedule = schedulesGetData(schedule, path);
-
-    let assigned: AssignmentCongregation;
-
-    if (Array.isArray(dataSchedule)) {
-      assigned = dataSchedule.find((record) => record.type === dataView);
-    } else {
-      assigned = dataSchedule;
-    }
+    const assigned = schedulesGetData(
+      schedule,
+      path,
+      dataView
+    ) as AssignmentCongregation;
 
     const person = persons.find(
       (record) => record.person_uid === assigned?.value
@@ -163,104 +229,34 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
         );
       }
 
-      if (isAssistant) {
-        const pathMainStudent =
-          ASSIGNMENT_PATH[assignment.replace('Assistant', 'Student')];
+      if (!mainStudentAssigned) return false;
 
-        const dataSchedule = schedulesGetData(schedule, pathMainStudent);
+      const hasAssistantRole = activeAssignments.some(
+        (a) =>
+          ASSISTANT_ASSIGNMENT.includes(a) &&
+          (skipClassrooms ||
+            personAssignmentHasClassroom(personAssignments, a, classroom))
+      );
 
-        let assigned: AssignmentCongregation;
+      if (!hasAssistantRole) return false;
 
-        if (Array.isArray(dataSchedule)) {
-          assigned = dataSchedule.find((record) => record.type === dataView);
-        } else {
-          assigned = dataSchedule;
-        }
+      if (record.person_uid === mainStudentAssigned.person_uid) return false;
 
-        const mainStudent = persons.find(
-          (record) => record.person_uid === assigned?.value
-        );
-
-        if (mainStudent) {
-          const assignment = activeAssignments.some(
-            (assignment) =>
-              ASSISTANT_ASSIGNMENT.includes(assignment) &&
-              (skipClassrooms ||
-                personAssignmentHasClassroom(
-                  personAssignments,
-                  assignment,
-                  classroom
-                ))
-          );
-
-          const isMale = mainStudent.person_data.male.value;
-          const isFemale = mainStudent.person_data.female.value;
-
-          const isFamilyMembers =
-            mainStudent.person_data.family_members?.members.includes(
-              record.person_uid
-            );
-
-          const isFamilyHead =
-            record.person_data.family_members?.members.includes(
-              mainStudent.person_uid
-            );
-
-          const isFamily = isFamilyMembers || isFamilyHead;
-
-          return (
-            assignment &&
-            (isFamily ||
-              (record.person_data.male.value === isMale &&
-                record.person_data.female.value === isFemale))
-          );
-        }
-
-        return false;
+      if (gender === 'family') {
+        return familyMemberUIDs.has(record.person_uid);
       }
 
-      return false;
+      const isMale = mainStudentAssigned.person_data.male.value;
+      const isFemale = mainStudentAssigned.person_data.female.value;
+
+      return (
+        record.person_data.male.value === isMale &&
+        record.person_data.female.value === isFemale
+      );
     });
 
-    const newPersons: PersonOptionsType[] = filteredPersons.map((record) => {
-      const lastAssignment = assignmentsHistory.find(
-        (item) => item.assignment.person === record.person_uid
-      );
-
-      const lastAssignmentFormat = lastAssignment
-        ? formatDate(new Date(lastAssignment.weekOf), shortDateFormat)
-        : '';
-
-      const lastAssistant = assignmentsHistory.find(
-        (item) => item.assignment.ayf?.assistant === record.person_uid
-      );
-
-      const lastAssistantFormat = lastAssistant
-        ? formatDate(new Date(lastAssistant.weekOf), shortDateFormat)
-        : '';
-
-      const classroom = lastAssignment?.assignment.classroom;
-      const hall =
-        classroom === '1'
-          ? t('tr_hallA')
-          : classroom === '2'
-            ? t('tr_hallB')
-            : '';
-
-      return {
-        ...record,
-        last_assignment: lastAssignmentFormat,
-        last_assistant: lastAssistantFormat,
-        last_assistant_weekOf: lastAssistant?.weekOf || '',
-        weekOf: lastAssignment?.weekOf || '',
-        hall,
-        person_name: personGetDisplayName(
-          record,
-          displayNameEnabled,
-          fullnameOption
-        ),
-      };
-    });
+    const newPersons: PersonOptionsType[] =
+      filteredPersons.map(buildPersonOption);
 
     return newPersons.sort((a, b) => {
       // If both 'weekOf' fields are empty, sort by last assistant first then by name
@@ -304,28 +300,26 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
   }, [
     persons,
     type,
-    assignmentsHistory,
-    shortDateFormat,
-    displayNameEnabled,
-    fullnameOption,
-    t,
     isAssistant,
     classroom,
     classCount,
     congAuxClassQualifications,
     personAssigned,
     gender,
-    assignment,
     dataView,
-    schedule,
     assignedFSG,
     showGroupToggle,
     groupChecked,
     serviceGroups,
+    mainStudentAssigned,
+    familyMemberUIDs,
+    buildPersonOption,
   ]);
 
   const showGenderSelector = useMemo(() => {
-    if (isAssistant) return false;
+    if (isAssistant) {
+      return !!mainStudentAssigned;
+    }
 
     const validType = [
       AssignmentCode.MM_StartingConversation,
@@ -354,7 +348,15 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
     }
 
     return false;
-  }, [isAssistant, type, source, assignment, lang, sourceLocale]);
+  }, [
+    isAssistant,
+    type,
+    source,
+    assignment,
+    lang,
+    sourceLocale,
+    mainStudentAssigned,
+  ]);
 
   const showHeader = useMemo(
     () => showGenderSelector || showGroupToggle,
@@ -368,8 +370,10 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
       (record) => record.person_uid === personAssigned.person_uid
     );
 
-    return person || null;
-  }, [options, personAssigned]);
+    if (person) return person;
+
+    return buildPersonOption(personAssigned);
+  }, [options, personAssigned, buildPersonOption]);
 
   const personHistory = useMemo(() => {
     if (!value) return [];
@@ -459,14 +463,42 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
   const handleCloseHistory = () => setIsHistoryOpen(false);
 
   useEffect(() => {
-    if (personAssigned?.person_data.female.value) {
-      setGender('female');
+    if (isAssistant && mainStudentAssigned) {
+      if (!personAssigned) {
+        const studentGender = mainStudentAssigned.person_data.male.value
+          ? 'male'
+          : 'female';
+        setGender(studentGender);
+        return;
+      }
+
+      const isFamilyMember = familyMemberUIDs.has(personAssigned.person_uid);
+      const sameGender =
+        personAssigned.person_data.male.value ===
+        mainStudentAssigned.person_data.male.value;
+
+      if (isFamilyMember && !sameGender) {
+        setGender('family');
+        return;
+      }
+
+      setGender(personAssigned.person_data.male.value ? 'male' : 'female');
+      return;
     }
 
-    if (personAssigned?.person_data.male.value) {
+    if (personAssigned?.person_data.female.value) {
+      setGender('female');
+    } else if (personAssigned?.person_data.male.value) {
       setGender('male');
     }
-  }, [personAssigned]);
+  }, [personAssigned, isAssistant, mainStudentAssigned, familyMemberUIDs]);
+
+  let mainStudentGender: 'male' | 'female' | null = null;
+  if (mainStudentAssigned) {
+    mainStudentGender = mainStudentAssigned.person_data.male.value
+      ? 'male'
+      : 'female';
+  }
 
   return {
     options,
@@ -485,6 +517,8 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
     helperText,
     handleToggleGroup,
     groupChecked,
+    mainStudentGender,
+    showFamilyFilter: familyMemberUIDs.size > 0,
   };
 };
 

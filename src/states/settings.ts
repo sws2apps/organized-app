@@ -134,6 +134,14 @@ export const CODisplayNameState = atom((get) => {
   return settings.cong_settings.circuit_overseer.display_name.value;
 });
 
+export const COMidweekMeetingDayState = atom((get) => {
+  const settings = get(settingsState);
+
+  return (
+    settings.cong_settings.circuit_overseer.midweek_meeting_day?.value ?? 1
+  );
+});
+
 export const COFullnameState = atom((get) => {
   const firstname = get(COFirstnameState);
   const lastname = get(COLastnameState);

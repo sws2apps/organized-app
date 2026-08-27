@@ -54,6 +54,7 @@
   "tr_initialCallVariations": "0",
   "tr_returnVisitVariations": "0",
   "tr_lcNoAssignedVariations": "Mga Nagawa ng Organisasyon|Update ng Lupong Tagapamahala",
+  "tr_lcNoAssignedContentVariations": "Play the VIDEO",
   "tr_cbsLffWithPointsVariations": "lff aralin {{ lesson }}: #{{ points }}|lff aralin {{ lesson }}: #{{ points }}",
   "tr_cbsLffSectionOnlyVariations": "lff review ng seksiyon",
   "tr_lcSourceElderVariations": "Lokal na Pangangailangan",

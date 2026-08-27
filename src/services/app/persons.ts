@@ -324,6 +324,19 @@ export const personIsMS = (person: PersonType) => {
   return hasActive ? true : false;
 };
 
+// An infirm pioneer keeps the enrollment family of their non-infirm
+// counterpart: FRI counts as FR and FSI as FS. Only the yearly hour goal
+// differs (see personIsInfirmPioneer).
+const ENROLLMENT_FAMILY: Partial<Record<EnrollmentType, EnrollmentType[]>> = {
+  FR: ['FR', 'FRI'],
+  FS: ['FS', 'FSI'],
+};
+
+export const enrollmentMatches = (
+  record: EnrollmentType,
+  target: EnrollmentType
+) => (ENROLLMENT_FAMILY[target] ?? [target]).includes(record);
+
 export const personIsEnrollmentActive = (
   person: PersonType,
   enrollment: EnrollmentType,
@@ -332,7 +345,7 @@ export const personIsEnrollmentActive = (
   if (!month) {
     const isActive = person.person_data.enrollments.some(
       (record) =>
-        record.enrollment === enrollment &&
+        enrollmentMatches(record.enrollment, enrollment) &&
         record.end_date === null &&
         record._deleted === false
     );
@@ -343,7 +356,7 @@ export const personIsEnrollmentActive = (
   const history = person.person_data.enrollments.filter(
     (record) =>
       record._deleted === false &&
-      record.enrollment === enrollment &&
+      enrollmentMatches(record.enrollment, enrollment) &&
       record.start_date?.length > 0
   );
 
@@ -387,7 +400,7 @@ export const personIsFMF = (person: PersonType) => {
 export const personIsFR = (person: PersonType) => {
   const hasActive = person.person_data.enrollments.find(
     (record) =>
-      record.enrollment === 'FR' &&
+      enrollmentMatches(record.enrollment, 'FR') &&
       record.end_date === null &&
       record._deleted === false
   );
@@ -398,12 +411,21 @@ export const personIsFR = (person: PersonType) => {
 export const personIsFS = (person: PersonType) => {
   const hasActive = person.person_data.enrollments.find(
     (record) =>
-      record.enrollment === 'FS' &&
+      enrollmentMatches(record.enrollment, 'FS') &&
       record.end_date === null &&
       record._deleted === false
   );
 
   return hasActive ? true : false;
+};
+
+export const personIsInfirmPioneer = (person: PersonType) => {
+  return person.person_data.enrollments.some(
+    (record) =>
+      (record.enrollment === 'FRI' || record.enrollment === 'FSI') &&
+      record.end_date === null &&
+      record._deleted === false
+  );
 };
 
 export const personHasNoAssignment = (person: PersonType) => {
@@ -555,6 +577,7 @@ export const applyGroupFilters = (
       const isMSFilter = groups.includes('ministerialServant');
       const isMidweekStudentFilter = groups.includes('midweekStudent');
       const isNoAssignmentFilter = groups.includes('noAssignment');
+      const isInfirmPioneerFilter = groups.includes('IP');
 
       const male = person.person_data.male.value;
       const female = person.person_data.female.value;
@@ -573,6 +596,7 @@ export const applyGroupFilters = (
         person.person_data.midweek_meeting_student.active.value;
       const hasNoAssignment = personHasNoAssignment(person);
       const isFamilyHead = person.person_data.family_members?.head;
+      const isInfirmPioneer = personIsInfirmPioneer(person);
 
       // if you want to add another condition here, add it after the male and
       // female check to avoid it to be overwritten
@@ -635,6 +659,9 @@ export const applyGroupFilters = (
 
       // family head selected
       if (isPassed && isFamilyHeadFilter) isPassed = isFamilyHead;
+
+      // infirm pioneer selected
+      if (isPassed && isInfirmPioneerFilter) isPassed = isInfirmPioneer;
 
       if (isPassed) {
         finalResult.push(person);
@@ -745,6 +772,37 @@ export const personIsPublisher = (person: PersonType, month?: string) => {
 
 export const personIsMidweekStudent = (person: PersonType) => {
   return person.person_data.midweek_meeting_student.active.value;
+};
+
+export const personGetFamilyMemberUIDs = (
+  persons: PersonType[],
+  personUid: string
+): Set<string> => {
+  const person = persons.find((p) => p.person_uid === personUid);
+  if (!person) return new Set();
+
+  // head's own UID is not stored in members[], so no need to delete self
+  if (person.person_data.family_members?.head) {
+    const members = new Set(person.person_data.family_members.members);
+    members.delete(personUid);
+    return members;
+  }
+
+  // person is a member — find the head and include them in the returned set
+  const headPerson = persons.find(
+    (p) =>
+      p.person_data.family_members?.head &&
+      p.person_data.family_members.members.includes(personUid)
+  );
+
+  if (headPerson) {
+    const members = new Set(headPerson.person_data.family_members.members);
+    members.add(headPerson.person_uid);
+    members.delete(personUid);
+    return members;
+  }
+
+  return new Set();
 };
 
 export const personsSortByName = (persons: PersonType[]) => {
