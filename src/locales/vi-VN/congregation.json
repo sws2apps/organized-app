@@ -366,7 +366,9 @@
   "tr_createMasterKeyIntroDesc": "Khóa này sẽ mã hóa dữ liệu của hội thánh của anh/chị một cách an toàn, bao gồm báo cáo và thông tin người dùng, và sẽ cần thiết cho các hành động quản trị như xuất/nhập dữ liệu hoặc thay đổi các thiết lập quan trọng.",
   "tr_hallC": "C",
   "tr_FR": "Tiên phong đều đều",
+  "tr_FRI": "Infirm regular pioneer",
   "tr_FS": "Tiên phong đặc biệt",
+  "tr_FSI": "Infirm special pioneer",
   "tr_incomingCongregationOnlineNoSpeakers": "This congregation does not have any visiting speakers yet added to their records. If necessary, you can personally contact them.",
   "tr_incomingCongregationOnlinePending": "This congregation did not yet approve your request to access their outgoing speakers list. If necessary, you can personally contact them.",
   "tr_incomingCongregationOnlineDisapproved": "This congregation rejected your request to access their outgoing speakers list. If necessary, you can contact them personally.",
@@ -524,5 +526,7 @@
   "tr_personAwayNotice": "This person is away: {{ date }}",
   "tr_weekendTemplateShowSongs": "Display songs on weekend meeting schedules",
   "tr_personalDetails": "Personal details",
-  "tr_midweekMeetingDay": "Midweek meeting day"
+  "tr_midweekMeetingDay": "Midweek meeting day",
+  "tr_infirmPioneer": "Infirm pioneer",
+  "tr_infirmPioneerNoGoal": "As an infirm pioneer, you can serve as much as you are able without a yearly hour goal."
 }
