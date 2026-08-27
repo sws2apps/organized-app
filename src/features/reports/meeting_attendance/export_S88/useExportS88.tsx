@@ -15,10 +15,10 @@ import {
   MeetingAttendanceStats,
 } from '@definition/meeting_attendance';
 import {
-  attendanceDeafRecordState,
   JWLangLocaleState,
   JWLangState,
   languageGroupEnabledState,
+  settingsState,
 } from '@states/settings';
 import { meetingAttendanceState } from '@states/meeting_attendance';
 import { languageGroupsState } from '@states/field_service_groups';
@@ -56,11 +56,21 @@ const useExportS88 = () => {
   const locale = useAtomValue(JWLangLocaleState);
   const languageGroups = useAtomValue(languageGroupsState);
   const languageGroupEnabled = useAtomValue(languageGroupEnabledState);
-  const recordDeaf = useAtomValue(attendanceDeafRecordState);
+  const settings = useAtomValue(settingsState);
 
   const [isProcessing, setIsProcessing] = useState(false);
 
   const monthNames = useMemo(() => generateMonthNames(locale), [locale]);
+
+  // the setting is stored per data view: a language group keeps its own
+  // form, whatever the congregation itself records
+  const recordDeaf = useMemo(() => {
+    const records = settings.cong_settings.attendance_deaf_record ?? [];
+
+    return (category: string) =>
+      records.find((record) => record.type === category && !record._deleted)
+        ?.value ?? false;
+  }, [settings]);
 
   const groups = useMemo(() => {
     if (!languageGroupEnabled) return [];
@@ -128,7 +138,7 @@ const useExportS88 = () => {
   };
 
   const buildCategoryPages = (category: AttendanceExport) => {
-    if (!recordDeaf) {
+    if (!recordDeaf(category.category)) {
       const columns: ColumnSource[] = [0, 1].map((index) => {
         const yearly = category.data.at(index);
 
