@@ -109,8 +109,15 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
         record.person_data.assignments.find((a) => a.type === dataView)
           ?.values ?? [];
 
+      const isAuxClass = assignment.endsWith('_B') || assignment.endsWith('_C');
+      const isMainHall = !isAuxClass;
+
       if (!isAssistant) {
         return (
+          (!isMainHall ||
+            !activeAssignments.includes(
+              AssignmentCode.MM_AuxiliaryClassroomOnly
+            )) &&
           activeAssignments.includes(type) &&
           ((gender === 'male' && record.person_data.male.value) ||
             (gender === 'female' && record.person_data.female.value))
@@ -155,7 +162,14 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
 
           const isFamily = isFamilyMembers || isFamilyHead;
 
+          const isEligibleForClassroom =
+            !isMainHall ||
+            !activeAssignments.includes(
+              AssignmentCode.MM_AuxiliaryClassroomOnly
+            );
+
           return (
+            isEligibleForClassroom &&
             assignment &&
             (isFamily ||
               (record.person_data.male.value === isMale &&
