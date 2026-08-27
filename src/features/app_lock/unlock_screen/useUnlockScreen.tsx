@@ -14,6 +14,7 @@ import {
   verifyPin,
 } from '@services/app_lock/crypto';
 import { verifyBiometric } from '@services/app_lock/webauthn';
+import { appLockClearPinResetRequest } from '@services/app_lock/reset';
 
 const PIN_LENGTH = 4;
 
@@ -31,6 +32,15 @@ const useUnlockScreen = () => {
   const reset = () => {
     setPin('');
     setHasError(false);
+  };
+
+  // the user remembered the PIN after all: a reset link that is still pending
+  // must not clear it the next time they sign in
+  const unlock = () => {
+    appLockClearPinResetRequest();
+    setIsLocked(false);
+    setHasError(false);
+    setPin('');
   };
 
   const handlePinChange = (value: string) => {
@@ -59,9 +69,7 @@ const useUnlockScreen = () => {
     }
 
     if (ok) {
-      setIsLocked(false);
-      setHasError(false);
-      setPin('');
+      unlock();
       return;
     }
 
@@ -82,9 +90,7 @@ const useUnlockScreen = () => {
     }
 
     if (ok) {
-      setIsLocked(false);
-      setHasError(false);
-      setPin('');
+      unlock();
     }
   };
 

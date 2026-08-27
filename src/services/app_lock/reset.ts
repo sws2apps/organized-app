@@ -16,14 +16,29 @@ export const appLockMarkPinResetRequested = () => {
   );
 };
 
-export const appLockIsPinResetPending = () => {
-  return !!localStorageGetItem(STORAGE_KEY.app_lock_pin_reset);
-};
-
 export const appLockClearPinResetRequest = () => {
   if (typeof localStorage === 'undefined') return;
 
   localStorage.removeItem(STORAGE_KEY.app_lock_pin_reset);
+};
+
+// a request the user never followed through on must not clear the PIN days
+// later, when the same device signs in through an email link for any reason
+const PIN_RESET_VALID_FOR = 60 * 60 * 1000;
+
+export const appLockIsPinResetPending = () => {
+  const requestedAt = localStorageGetItem(STORAGE_KEY.app_lock_pin_reset);
+
+  if (!requestedAt) return false;
+
+  const elapsed = Date.now() - new Date(requestedAt).getTime();
+
+  if (Number.isNaN(elapsed) || elapsed > PIN_RESET_VALID_FOR) {
+    appLockClearPinResetRequest();
+    return false;
+  }
+
+  return true;
 };
 
 /**
