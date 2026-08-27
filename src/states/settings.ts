@@ -123,7 +123,7 @@ export const eventsMultiDayDisplayState = atom((get) => {
   return (
     settings.cong_settings.events_multiday_display?.find(
       (record) => record.type === dataView
-    )?.value ?? 'byDay'
+    )?.value ?? 'range'
   );
 });
 

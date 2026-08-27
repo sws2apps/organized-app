@@ -151,7 +151,7 @@ const useGroupAdd = ({ onClose }: GroupAddProps) => {
         _deleted: false,
         type: group.group_id,
         updatedAt: new Date().toISOString(),
-        value: 'byDay',
+        value: 'range',
       });
 
       const onlineRecord = appSettings.cong_settings.attendance_online_record;
