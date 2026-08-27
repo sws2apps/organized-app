@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useLayoutEffect } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { pwaInstallPromptState, pwaStandaloneState } from '@states/app';
 import { BeforeInstallPromptEvent } from '@definition/app';
@@ -50,7 +50,9 @@ export const usePwaInstallListener = () => {
     };
   }, [setInstallPrompt, setStandalone]);
 
-  useEffect(() => {
+  // before paint: an installed app would otherwise show the install button
+  // for one frame, while the standalone state still holds its initial value
+  useLayoutEffect(() => {
     setStandalone(isStandaloneDisplay());
 
     if (typeof window.matchMedia !== 'function') return;
