@@ -16,8 +16,14 @@ const LIST_BORDER = 1;
 const TITLE_HORIZONTAL_PADDING = 12;
 const TITLE_VERTICAL_PADDING = 8;
 const TITLE_GAP = 4;
-const BADGE_HORIZONTAL_PADDING = 8;
-const BADGE_VERTICAL_PADDING = 4;
+// the badge keeps its proportions at every font size: 2px / 4px at the default
+// size of 10, less on smaller ones
+const BADGE_PADDING_RATIO = 0.2;
+
+export const badgePadding = (fontSize: number) => ({
+  vertical: fontSize * BADGE_PADDING_RATIO,
+  horizontal: fontSize * BADGE_PADDING_RATIO * 2,
+});
 const BLOCK_GAP = 6;
 export const DIVIDER_HEIGHT = 1;
 const DIVIDER_DASH = 5;
@@ -75,7 +81,7 @@ const titleWidth = (span: number, fontSize: number, membersCount: number) =>
   cardWidth(span) -
   TITLE_HORIZONTAL_PADDING -
   TITLE_GAP -
-  BADGE_HORIZONTAL_PADDING -
+  2 * badgePadding(fontSize).horizontal -
   String(membersCount).length * AVERAGE_CHAR_RATIO * (fontSize - 2);
 
 const overseersOf = (group: FieldServiceGroupExportType) =>
@@ -98,7 +104,7 @@ const chromeHeight = (
   const titleHeight =
     Math.max(
       titleLines * lineHeight(fontSize),
-      lineHeight(fontSize - 2) + BADGE_VERTICAL_PADDING
+      lineHeight(fontSize - 2) + 2 * badgePadding(fontSize).vertical
     ) + TITLE_VERTICAL_PADDING;
 
   const overseers = overseersOf(group);

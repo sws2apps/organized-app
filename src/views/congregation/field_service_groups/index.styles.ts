@@ -28,7 +28,6 @@ const styles = StyleSheet.create({
   membersCountContainer: {
     backgroundColor: '#FEFEFE',
     borderRadius: getCSSPropertyValue('--radius-xs'),
-    padding: '2px 4px 2px 4px',
     display: 'flex',
     gap: '8px',
     flexShrink: 0,

@@ -4,6 +4,7 @@ import { FSGGroupProps } from './index.types';
 import FSGGroupMember from './FSGGroupMember';
 import {
   DIVIDER_HEIGHT,
+  badgePadding,
   cardWidth,
   columnWidth,
   contentWidth,
@@ -16,6 +17,8 @@ const FSGGroup = ({ card, fontSize }: FSGGroupProps) => {
 
   const groupColor = getCSSPropertyValue(`--group-${group.group_number}`);
 
+  const badge = badgePadding(fontSize);
+
   return (
     <View wrap={false} style={{ width: cardWidth(span) }}>
       <View
@@ -27,7 +30,12 @@ const FSGGroup = ({ card, fontSize }: FSGGroupProps) => {
         <Text style={{ ...styles.groupTitle, fontSize }}>
           {group.group_name}
         </Text>
-        <View style={styles.membersCountContainer}>
+        <View
+          style={{
+            ...styles.membersCountContainer,
+            padding: `${badge.vertical}px ${badge.horizontal}px`,
+          }}
+        >
           <Text
             style={{
               ...styles.membersCount,
