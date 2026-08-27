@@ -1,70 +1,96 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
+import { useAtomValue, useSetAtom } from 'jotai';
+import { pwaInstallPromptState, pwaStandaloneState } from '@states/app';
+import { BeforeInstallPromptEvent } from '@definition/app';
 
-type BeforeInstallPromptEvent = Event & {
-  prompt: () => Promise<void>;
-  userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
+const STANDALONE_QUERY = '(display-mode: standalone)';
+
+const isStandaloneDisplay = () => {
+  if (typeof window === 'undefined') return false;
+
+  if (typeof window.matchMedia === 'function') {
+    return window.matchMedia(STANDALONE_QUERY).matches;
+  }
+
+  return false;
 };
 
-let cachedPrompt: BeforeInstallPromptEvent | null =
-  typeof globalThis === 'undefined'
-    ? null
-    : ((globalThis.deferredPrompt as BeforeInstallPromptEvent) ?? null);
-
-const listeners = new Set<() => void>();
-
-if (
-  typeof globalThis !== 'undefined' &&
-  typeof globalThis.addEventListener === 'function'
-) {
-  globalThis.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    cachedPrompt = e as BeforeInstallPromptEvent;
-    listeners.forEach((fn) => fn());
-  });
-
-  globalThis.addEventListener('appinstalled', () => {
-    cachedPrompt = null;
-    listeners.forEach((fn) => fn());
-  });
-}
-
-const isStandalone = () =>
-  typeof globalThis !== 'undefined' &&
-  typeof globalThis.matchMedia === 'function'
-    ? globalThis.matchMedia('(display-mode: standalone)').matches
-    : false;
-
-const usePwaInstall = () => {
-  const [isPwaInstallable, setIsPwaInstallable] = useState(
-    () => cachedPrompt !== null && !isStandalone()
-  );
+/**
+ * Keeps the install prompt state in sync with the browser.
+ *
+ * Mounted once from the root layout: the listeners live inside a React effect
+ * so no code runs outside a React boundary, which the app strict CSP rules
+ * require.
+ */
+export const usePwaInstallListener = () => {
+  const setInstallPrompt = useSetAtom(pwaInstallPromptState);
+  const setStandalone = useSetAtom(pwaStandaloneState);
 
   useEffect(() => {
-    const sync = () => {
-      setIsPwaInstallable(cachedPrompt !== null && !isStandalone());
+    const handleBeforeInstallPrompt = (event: Event) => {
+      event.preventDefault();
+
+      setInstallPrompt(event as BeforeInstallPromptEvent);
     };
 
-    sync();
-    listeners.add(sync);
-    return () => {
-      listeners.delete(sync);
+    const handleAppInstalled = () => {
+      setInstallPrompt(null);
+      setStandalone(isStandaloneDisplay());
     };
-  }, []);
+
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    window.addEventListener('appinstalled', handleAppInstalled);
+
+    return () => {
+      window.removeEventListener(
+        'beforeinstallprompt',
+        handleBeforeInstallPrompt
+      );
+      window.removeEventListener('appinstalled', handleAppInstalled);
+    };
+  }, [setInstallPrompt, setStandalone]);
+
+  useEffect(() => {
+    setStandalone(isStandaloneDisplay());
+
+    if (typeof window.matchMedia !== 'function') return;
+
+    const query = window.matchMedia(STANDALONE_QUERY);
+
+    const handleDisplayModeChange = (event: MediaQueryListEvent) => {
+      setStandalone(event.matches);
+    };
+
+    query.addEventListener('change', handleDisplayModeChange);
+
+    return () => {
+      query.removeEventListener('change', handleDisplayModeChange);
+    };
+  }, [setStandalone]);
+};
+
+const usePwaInstall = () => {
+  const installPrompt = useAtomValue(pwaInstallPromptState);
+  const isStandalone = useAtomValue(pwaStandaloneState);
+
+  const setInstallPrompt = useSetAtom(pwaInstallPromptState);
+
+  const isPwaInstallable = installPrompt !== null && !isStandalone;
 
   const installPwa = useCallback(async () => {
-    const prompt = cachedPrompt;
-    if (!prompt) return;
+    if (!installPrompt) return;
 
-    await prompt.prompt();
-    const { outcome } = await prompt.userChoice;
+    await installPrompt.prompt();
 
+    const { outcome } = await installPrompt.userChoice;
+
+    // a dismissed prompt can be shown again, an accepted one cannot
     if (outcome === 'accepted') {
-      cachedPrompt = null;
-      listeners.forEach((fn) => fn());
+      setInstallPrompt(null);
     }
-  }, []);
+  }, [installPrompt, setInstallPrompt]);
 
-  return { isPwaInstallable, installPwa, isStandalone: isStandalone() };
+  return { isPwaInstallable, installPwa, isStandalone };
 };
 
 export default usePwaInstall;

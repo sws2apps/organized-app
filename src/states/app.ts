@@ -8,6 +8,7 @@ import {
 import { localStorageGetItem } from '@utils/common';
 import {
   BackupFileType,
+  BeforeInstallPromptEvent,
   ColorSchemeType,
   NavBarOptionsType,
   SnackBarSeverityType,
@@ -366,3 +367,9 @@ export const devAuthOTPState = atom('');
 export const congPrefixState = atom('');
 
 export const countriesState = atom<CountryResponseType[]>([]);
+
+export const pwaInstallPromptState = atom(
+  null as BeforeInstallPromptEvent | null
+);
+
+export const pwaStandaloneState = atom(false);

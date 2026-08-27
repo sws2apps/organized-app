@@ -13,7 +13,7 @@ import {
   userConfirmationOpenState,
 } from '@states/app';
 import { useEffect, useMemo } from 'react';
-import { useUserAutoLogin } from '@hooks/index';
+import { usePwaInstallListener, useUserAutoLogin } from '@hooks/index';
 import { isImportEPUBState, isImportJWOrgState } from '@states/sources';
 import { settingsState } from '@states/settings';
 import { checkPwaUpdate } from '@services/app';
@@ -23,6 +23,8 @@ const useRootLayout = () => {
   const location = useLocation();
 
   const { autoLoginStatus } = useUserAutoLogin();
+
+  usePwaInstallListener();
 
   const isAppLoad = useAtomValue(isAppLoadState);
   const isOpenContact = useAtomValue(isContactOpenState);
