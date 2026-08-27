@@ -523,5 +523,6 @@
   "tr_maximumAmountOfGroupsIs10": "A maximális szántóföldi csoportok száma 10",
   "tr_personAwayNotice": "Ez a személy távol van: {{ date }}",
   "tr_weekendTemplateShowSongs": "Énekek megjelenítése a hétvégi összejövetel beosztásaiban",
-  "tr_personalDetails": "Personal details"
+  "tr_personalDetails": "Personal details",
+  "tr_midweekMeetingDay": "Midweek meeting day"
 }

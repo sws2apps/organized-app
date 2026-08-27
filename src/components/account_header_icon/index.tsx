@@ -54,7 +54,7 @@ const AccountHeaderIcon = ({
       }}
       onClick={handleOpenMore}
       onKeyDown={(e) =>
-        e.key === 'Enter' || e.key === ' ' ? handleOpenMore(e) : null
+        e.key === 'Enter' || e.key === ' ' ? handleOpenMore?.(e) : null
       }
     >
       <Box

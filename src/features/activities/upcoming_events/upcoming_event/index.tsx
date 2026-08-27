@@ -36,6 +36,7 @@ const UpcomingEvent = (props: UpcomingEventProps) => {
     handleMouseLeave,
     eventFormatted,
     previousDay,
+    dayColumns,
   } = useUpcomingEvent(props);
 
   if (isEdit) {
@@ -159,29 +160,46 @@ const UpcomingEvent = (props: UpcomingEventProps) => {
 
       {props.data.event_data.duration === UpcomingEventDuration.MultipleDays &&
         props.data.event_data.category !==
-          UpcomingEventCategory.SpecialCampaignWeek &&
-        eventFormatted.dates.map((eventDate, eventDateIndex) => (
-          <Fragment key={eventDate.date}>
-            <UpcomingEventDate
-              date={eventDate.dateFormatted}
-              day={eventDate.day}
-              title={t('tr_wholeDay')}
-              disabled={eventDate.date <= previousDay}
-              description={`${t('tr_day')} ${eventDateIndex + 1}/${eventFormatted.dates.length}`}
-              dayIndicatorRef={(element: HTMLDivElement) => {
-                dayIndicatorRefs.current[eventDateIndex] = element;
-              }}
-              dayIndicatorSharedWidth={dayIndicatorMaxWidth}
-            />
+          UpcomingEventCategory.SpecialCampaignWeek && (
+          <Box sx={{ display: 'flex', flexDirection: 'row', gap: '24px' }}>
+            {dayColumns.map((column, columnIndex) => (
+              <Box
+                key={column[0].date}
+                sx={{
+                  flex: 1,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '16px',
+                  borderLeft:
+                    columnIndex > 0 ? '1px solid var(--accent-200)' : 'none',
+                  paddingLeft: columnIndex > 0 ? '24px' : 0,
+                }}
+              >
+                {column.map((eventDate, indexInColumn) => (
+                  <Fragment key={eventDate.date}>
+                    <UpcomingEventDate
+                      date={eventDate.dateFormatted}
+                      day={eventDate.day}
+                      title={t('tr_wholeDay')}
+                      disabled={eventDate.date <= previousDay}
+                      description={`${t('tr_day')} ${eventDate.index + 1}/${eventFormatted.dates.length}`}
+                      dayIndicatorRef={(element: HTMLDivElement) => {
+                        dayIndicatorRefs.current[eventDate.index] = element;
+                      }}
+                      dayIndicatorSharedWidth={dayIndicatorMaxWidth}
+                    />
 
-            {eventDateIndex + 1 !== eventFormatted.dates.length && (
-              <Divider color="var(--accent-200)" />
-            )}
-          </Fragment>
-        ))}
+                    {indexInColumn + 1 !== column.length && (
+                      <Divider color="var(--accent-200)" />
+                    )}
+                  </Fragment>
+                ))}
+              </Box>
+            ))}
+          </Box>
+        )}
     </Box>
   );
 };
 
 export default UpcomingEvent;
-

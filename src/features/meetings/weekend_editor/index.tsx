@@ -1,7 +1,6 @@
 import { Box } from '@mui/material';
 import {
   IconClose,
-  IconInfo,
   IconTalk,
   IconWatchtowerStudy,
 } from '@components/icons';
@@ -34,6 +33,7 @@ import AssignmentsWeekDelete from '../assignments_week_delete';
 import Button from '@components/button';
 import Divider from '@components/divider';
 import EventEditor from '../event_editor';
+import InfoNote from '@components/info_note';
 import Markup from '@components/text_markup';
 import MeetingSection from '../meeting_section';
 import PersonSelector from '../person_selector';
@@ -100,12 +100,7 @@ const WeekendEditor = () => {
       )}
 
       {weekDateLocale.length === 0 && (
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <IconInfo color="var(--accent-400)" />
-          <Typography color="var(--grey-400)">
-            {t('tr_infoSecondPlanMidweekMeeting')}
-          </Typography>
-        </Box>
+        <InfoNote message={t('tr_infoSecondPlanMidweekMeeting')} />
       )}
 
       {weekDateLocale.length > 0 && (

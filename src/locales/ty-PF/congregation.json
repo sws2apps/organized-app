@@ -523,5 +523,6 @@
   "tr_maximumAmountOfGroupsIs10": "E 10 noa pupu tāviniraa e nehenehe e vai",
   "tr_personAwayNotice": "Tei te vāhi ’ē teie ta’ata: {{ date }}",
   "tr_weekendTemplateShowSongs": "’A fa’a’ite i te mau hīmene i ni’a i te tāpura putuputuraa nō te hope’a hepetoma",
-  "tr_personalDetails": "Te mau fa'ahohora'a ta'ata"
+  "tr_personalDetails": "Te mau fa'ahohora'a ta'ata",
+  "tr_midweekMeetingDay": "Midweek meeting day"
 }

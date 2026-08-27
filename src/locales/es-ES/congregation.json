@@ -523,5 +523,6 @@
   "tr_maximumAmountOfGroupsIs10": "La cantidad máxima de grupos de servicio de campo es 10",
   "tr_personAwayNotice": "Esta persona está de ausencia: {{ date }}",
   "tr_weekendTemplateShowSongs": "Mostrar canciones en los programas de reuniones de fin de semana",
-  "tr_personalDetails": "Datos personales"
+  "tr_personalDetails": "Datos personales",
+  "tr_midweekMeetingDay": "Midweek meeting day"
 }

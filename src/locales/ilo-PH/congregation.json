@@ -523,5 +523,6 @@
   "tr_maximumAmountOfGroupsIs10": "10 laeng ti mapalubosan a field service group",
   "tr_personAwayNotice": "Daytoy a miembro ket awan inton: {{ date }}",
   "tr_weekendTemplateShowSongs": "Ipakita dagiti makanta kadagiti eskediul iti gimong iti ngudo ti lawas",
-  "tr_personalDetails": "Personal details"
+  "tr_personalDetails": "Personal details",
+  "tr_midweekMeetingDay": "Midweek meeting day"
 }
