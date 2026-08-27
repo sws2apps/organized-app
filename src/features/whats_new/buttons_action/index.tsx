@@ -1,7 +1,7 @@
-import { Stack } from '@mui/material';
 import { useAppTranslation } from '@hooks/index';
 import { ButtonsActionProps } from './index.types';
 import Button from '@components/button';
+import DialogActions from '@components/dialog_actions';
 
 const ButtonsAction = ({
   slides,
@@ -13,25 +13,23 @@ const ButtonsAction = ({
   const { t } = useAppTranslation();
 
   return (
-    <Stack spacing="8px" width="100%">
+    <DialogActions>
+      {slides.length > 1 && current > 0 && (
+        <Button variant="secondary" onClick={onBack}>
+          {t('tr_back')}
+        </Button>
+      )}
+
+      {slides.length > 1 && current === 0 && (
+        <Button variant="secondary" onClick={onClose}>
+          {t('tr_skip')}
+        </Button>
+      )}
+
       {slides.length > 1 && (
-        <>
-          <Button variant="main" onClick={onNext}>
-            {current === slides.length - 1 ? t('tr_ok') : t('tr_next')}
-          </Button>
-
-          {current > 0 && (
-            <Button variant="secondary" onClick={onBack}>
-              {t('tr_back')}
-            </Button>
-          )}
-
-          {current === 0 && (
-            <Button variant="secondary" onClick={onClose}>
-              {t('tr_skip')}
-            </Button>
-          )}
-        </>
+        <Button variant="main" onClick={onNext}>
+          {current === slides.length - 1 ? t('tr_ok') : t('tr_next')}
+        </Button>
       )}
 
       {slides.length <= 1 && (
@@ -39,7 +37,7 @@ const ButtonsAction = ({
           {t('tr_ok')}
         </Button>
       )}
-    </Stack>
+    </DialogActions>
   );
 };
 

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useAtomValue } from 'jotai';
+import { useBreakpoints } from '@hooks/index';
 import { IconError } from '@components/icons';
 import {
   eventsMultiDayDisplayState,
@@ -17,6 +18,8 @@ import { UpcomingEventProps } from './index.types';
 const useUpcomingEvent = ({ data }: UpcomingEventProps) => {
   const multiDayDisplay = useAtomValue(eventsMultiDayDisplayState);
   const hour24 = useAtomValue(hour24FormatState);
+
+  const { tablet688Up } = useBreakpoints();
 
   const dayIndicatorRefs = useRef<HTMLDivElement[]>([]);
 
@@ -37,6 +40,21 @@ const useUpcomingEvent = ({ data }: UpcomingEventProps) => {
     return upcomingEventData(data);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, multiDayDisplay, hour24]);
+
+  const dayColumns = useMemo(() => {
+    const days = eventFormatted.dates.map((date, index) => ({
+      ...date,
+      index,
+    }));
+
+    if (!tablet688Up) return days.length > 0 ? [days] : [];
+
+    const splitIndex = Math.ceil(days.length / 2);
+
+    return [days.slice(0, splitIndex), days.slice(splitIndex)].filter(
+      (column) => column.length > 0
+    );
+  }, [eventFormatted.dates, tablet688Up]);
 
   const eventDecoration = useMemo(() => {
     const category = data.event_data.category;
@@ -78,7 +96,7 @@ const useUpcomingEvent = ({ data }: UpcomingEventProps) => {
     const widths = dayIndicatorRefs.current.map((el) => el?.offsetWidth || 0);
     const widest = Math.max(...widths);
     setDayIndicatorMaxWidth(widest);
-  }, []);
+  }, [dayColumns]);
 
   return {
     eventDecoration,
@@ -92,6 +110,7 @@ const useUpcomingEvent = ({ data }: UpcomingEventProps) => {
     handleMouseLeave,
     eventFormatted,
     previousDay,
+    dayColumns,
   };
 };
 
