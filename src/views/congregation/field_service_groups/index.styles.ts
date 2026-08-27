@@ -4,6 +4,7 @@ import { getCSSPropertyValue } from '@utils/common';
 const styles = StyleSheet.create({
   groupTitleContainer: {
     width: '100%',
+    overflow: 'hidden',
     padding: '4px 4px 4px 8px',
     borderTopLeftRadius: '4px',
     borderTopRightRadius: '4px',
@@ -17,6 +18,11 @@ const styles = StyleSheet.create({
     fontWeight: 500,
     fontSize: '10px',
     color: '#FEFEFE',
+    // a long group name has to wrap inside the space the badge leaves it,
+    // instead of running underneath it
+    flexGrow: 1,
+    flexShrink: 1,
+    flexBasis: 0,
   },
   membersCountContainer: {
     backgroundColor: '#FEFEFE',
@@ -24,6 +30,7 @@ const styles = StyleSheet.create({
     padding: '2px 4px 2px 4px',
     display: 'flex',
     gap: '8px',
+    flexShrink: 0,
   },
   membersCount: {
     fontWeight: 600,
