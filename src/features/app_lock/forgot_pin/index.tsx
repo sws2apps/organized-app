@@ -21,8 +21,16 @@ const ForgotPin = ({ isExiting = false }: { isExiting?: boolean }) => {
   } = useForgotPin();
 
   return (
-    <AppLockPage role="main" aria-label={t('tr_forgotPINTitle')} exiting={isExiting}>
-      <AppLockCard role="region" aria-label={t('tr_forgotPINTitle')} exiting={isExiting}>
+    <AppLockPage
+      role="main"
+      aria-label={t('tr_forgotPINTitle')}
+      exiting={isExiting}
+    >
+      <AppLockCard
+        role="region"
+        aria-label={t('tr_forgotPINTitle')}
+        exiting={isExiting}
+      >
         <Stack spacing={1}>
           <Typography className="h1" id="forgot-pin-heading">
             {t('tr_forgotPINTitle')}

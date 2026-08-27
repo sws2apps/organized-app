@@ -23,9 +23,17 @@ const UnlockScreen = ({ isExiting = false }: { isExiting?: boolean }) => {
   } = useUnlockScreen();
 
   return (
-    <AppLockPage role="main" aria-label={t('tr_enterPinToUnlock')} exiting={isExiting}>
+    <AppLockPage
+      role="main"
+      aria-label={t('tr_enterPinToUnlock')}
+      exiting={isExiting}
+    >
       <Stack spacing={3} alignItems="center" sx={{ width: '100%' }}>
-        <AppLockCard role="region" aria-label={t('tr_enterPinToUnlock')} exiting={isExiting}>
+        <AppLockCard
+          role="region"
+          aria-label={t('tr_enterPinToUnlock')}
+          exiting={isExiting}
+        >
           <Stack spacing={1}>
             <Typography className="h1" id="unlock-heading">
               {t('tr_enterPinToUnlock')}

@@ -26,7 +26,6 @@ import {
   appLockIsPinResetPending,
   appLockResetPin,
 } from '@services/app_lock/reset';
-import { appLockCreatePinState } from '@states/app_lock';
 import useAuth from '../hooks/useAuth';
 import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 
@@ -41,7 +40,6 @@ const useEmailLinkAuth = () => {
 
   const setIsUserAccountCreated = useSetAtom(isUserAccountCreatedState);
   const setIsEmailAuth = useSetAtom(isEmailLinkAuthenticateState);
-  const setCreatePin = useSetAtom(appLockCreatePinState);
 
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -94,7 +92,6 @@ const useEmailLinkAuth = () => {
       // must not lock them out again once the app opens
       if (appLockIsPinResetPending()) {
         await appLockResetPin();
-        setCreatePin(true);
 
         displaySnackNotification({
           header: t('tr_PINResetDone'),

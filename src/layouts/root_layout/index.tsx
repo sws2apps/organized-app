@@ -11,7 +11,8 @@ import useCurrentUser from '@hooks/useCurrentUser';
 import useGlobal from '@hooks/useGlobal';
 import useRootLayout from './useRootLayout';
 import useAppLock from '@features/app_lock/useAppLock';
-import { appLockCreatePinState, isAppLockedState } from '@states/app_lock';
+import { isAppLockedState } from '@states/app_lock';
+import { appLockNeedsPinState } from '@states/settings';
 import AppLock from '@features/app_lock';
 import CreatePinScreen from '@features/app_lock/create_pin_screen';
 import { EXIT_DURATION_MS } from '@features/app_lock/animations';
@@ -42,7 +43,7 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
 
   const { isPublisher } = useCurrentUser();
   const isAppLocked = useAtomValue(isAppLockedState);
-  const createPinOpen = useAtomValue(appLockCreatePinState);
+  const createPinOpen = useAtomValue(appLockNeedsPinState);
 
   // Keep AppLock mounted briefly after unlock so the exit animation plays.
   const [showLock, setShowLock] = useState(isAppLocked);

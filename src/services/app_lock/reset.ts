@@ -42,29 +42,22 @@ export const appLockIsPinResetPending = () => {
 };
 
 /**
- * The app lock is off between the reset and the new PIN, so the request to
- * create one outlives a reload: it is the only thing that brings the create
- * screen back, and without it the lock would stay off unnoticed.
- */
-export const appLockIsPinCreatePending = () => {
-  return !!localStorageGetItem(STORAGE_KEY.app_lock_pin_create);
-};
-
-export const appLockClearPinCreateRequest = () => {
-  if (typeof localStorage === 'undefined') return;
-
-  localStorage.removeItem(STORAGE_KEY.app_lock_pin_create);
-};
-
-/**
  * Removes the forgotten PIN and every credential derived from it, so the app
  * opens unlocked and a new PIN can be created.
+ *
+ * The request for a new PIN is stored with the settings rather than on the
+ * device: the lock is off until it is answered, and that has to hold in every
+ * tab and after any reload, whatever the browser storage was cleared of.
  */
 export const appLockResetPin = async () => {
   const now = new Date().toISOString();
 
   await dbAppSettingsUpdate({
     'user_settings.app_lock.enabled': { value: false, updatedAt: now },
+    'user_settings.app_lock.pin_create_pending': {
+      value: true,
+      updatedAt: now,
+    },
     'user_settings.app_lock.pin_hash': undefined,
     'user_settings.app_lock.pin_salt': undefined,
     'user_settings.app_lock.pin_iterations': undefined,
@@ -76,11 +69,13 @@ export const appLockResetPin = async () => {
   });
 
   appLockClearPinResetRequest();
+};
 
-  if (typeof localStorage !== 'undefined') {
-    localStorage.setItem(
-      STORAGE_KEY.app_lock_pin_create,
-      new Date().toISOString()
-    );
-  }
+export const appLockClearPinCreateRequest = async () => {
+  await dbAppSettingsUpdate({
+    'user_settings.app_lock.pin_create_pending': {
+      value: false,
+      updatedAt: new Date().toISOString(),
+    },
+  });
 };

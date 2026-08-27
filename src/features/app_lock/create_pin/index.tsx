@@ -38,7 +38,9 @@ const CreatePin = ({ open, mode = 'create', onClose }: CreatePinProps) => {
       onClose={onClose}
       TransitionProps={{ onEntered: () => pinRef.current?.focus() }}
     >
-      <Typography className="h1" id="create-pin-heading">{title}</Typography>
+      <Typography className="h1" id="create-pin-heading">
+        {title}
+      </Typography>
       <Typography
         className="body-regular"
         color="var(--grey-400)"

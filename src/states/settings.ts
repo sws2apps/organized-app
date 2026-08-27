@@ -648,6 +648,15 @@ export const appLockHasPinState = atom((get) => {
   return !!appLock?.pin_hash && !!appLock?.pin_salt;
 });
 
+export const appLockNeedsPinState = atom((get) => {
+  const appLock = get(appLockSettingsState);
+
+  const pending = appLock?.pin_create_pending?.value === true;
+
+  // a PIN that exists answers the request, whatever the flag still says
+  return pending && !get(appLockHasPinState);
+});
+
 export const hoursCreditsEnabledState = atom((get) => {
   const settings = get(settingsState);
 

@@ -130,9 +130,7 @@ const useCreatePin = (mode: Mode, onClose: VoidFunction) => {
     } catch (error) {
       displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
-        message: getMessageByCode(
-          error instanceof Error ? error.message : ''
-        ),
+        message: getMessageByCode(error instanceof Error ? error.message : ''),
         severity: 'error',
       });
     } finally {
@@ -159,9 +157,7 @@ const useCreatePin = (mode: Mode, onClose: VoidFunction) => {
     } catch (error) {
       displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
-        message: getMessageByCode(
-          error instanceof Error ? error.message : ''
-        ),
+        message: getMessageByCode(error instanceof Error ? error.message : ''),
         severity: 'error',
       });
     } finally {

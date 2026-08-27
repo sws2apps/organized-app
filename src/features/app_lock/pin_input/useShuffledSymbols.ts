@@ -6,7 +6,7 @@ const getSecureRandom = () => {
   return randomBuffer[0] / (0xffffffff + 1);
 };
 
-const shuffle = <T,>(array: readonly T[]): T[] => {
+const shuffle = <T>(array: readonly T[]): T[] => {
   const result = [...array];
   for (let i = result.length - 1; i > 0; i--) {
     const j = Math.floor(getSecureRandom() * (i + 1));

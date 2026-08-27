@@ -366,6 +366,7 @@ export const settingSchema: SettingsType = {
       enabled: { value: false, updatedAt: '' },
       lock_after_minutes: { value: 5, updatedAt: '' },
       biometric_enabled: { value: false, updatedAt: '' },
+      pin_create_pending: { value: false, updatedAt: '' },
     },
   },
 };

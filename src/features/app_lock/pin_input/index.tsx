@@ -149,130 +149,133 @@ const PinInput = forwardRef<PinInputHandle, PinInputProps>(
         onMouseDownCapture={handleMouseDownCapture}
         sx={{
           position: 'relative',
-          ...(isError
-            ? { animation: `${shakeError} 320ms ease-in-out` }
-            : {}),
+          ...(isError ? { animation: `${shakeError} 320ms ease-in-out` } : {}),
         }}
       >
-      <MuiOtpInput
-        value={value}
-        onChange={onChange}
-        onComplete={onComplete}
-        length={length}
-        autoFocus={autoFocus}
-        display="flex"
-        gap={1}
-        validateChar={isDigit}
-        TextFieldsProps={(index) => {
-          const filled = !!value[index];
+        <MuiOtpInput
+          value={value}
+          onChange={onChange}
+          onComplete={onComplete}
+          length={length}
+          autoFocus={autoFocus}
+          display="flex"
+          gap={1}
+          validateChar={isDigit}
+          TextFieldsProps={(index) => {
+            const filled = !!value[index];
 
-          return {
-            autoComplete: 'off',
-            type: 'tel',
-            onFocus: () => {
-              setTimeout(() => {
-                containerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-              }, 300);
-            },
-            inputProps: {
-              inputMode: 'numeric',
-              pattern: '[0-9]*',
+            return {
               autoComplete: 'off',
-              'aria-label': `PIN digit ${index + 1}`,
-            },
-            sx: {
-              '.MuiOutlinedInput-input': {
-                color: 'transparent',
-                caretColor: 'transparent',
-                WebkitTextSecurity: 'none',
-                width: CELL_SIZE,
-                height: CELL_SIZE,
-                padding: 0,
-                borderRadius: 'var(--radius-l)',
-                textAlign: 'center',
-
-                '&::selection': {
-                  backgroundColor: 'transparent',
-                  color: 'transparent',
-                },
-                '&::-moz-selection': {
-                  backgroundColor: 'transparent',
-                  color: 'transparent',
-                },
+              type: 'tel',
+              onFocus: () => {
+                setTimeout(() => {
+                  containerRef.current?.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center',
+                  });
+                }, 300);
               },
-              '.MuiOutlinedInput-root': {
-                cursor: 'default',
-                animation: filled ? `${cellPop} 220ms ${SPRING} both` : 'none',
-                '& fieldset': {
-                  border: `1px solid var(${borderColor(filled)})`,
+              inputProps: {
+                inputMode: 'numeric',
+                pattern: '[0-9]*',
+                autoComplete: 'off',
+                'aria-label': `PIN digit ${index + 1}`,
+              },
+              sx: {
+                '.MuiOutlinedInput-input': {
+                  color: 'transparent',
+                  caretColor: 'transparent',
+                  WebkitTextSecurity: 'none',
+                  width: CELL_SIZE,
+                  height: CELL_SIZE,
+                  padding: 0,
                   borderRadius: 'var(--radius-l)',
-                  transition: 'border-color 150ms ease',
+                  textAlign: 'center',
+
+                  '&::selection': {
+                    backgroundColor: 'transparent',
+                    color: 'transparent',
+                  },
+                  '&::-moz-selection': {
+                    backgroundColor: 'transparent',
+                    color: 'transparent',
+                  },
                 },
-                '&.Mui-focused fieldset': {
-                  border: `1px solid var(${
-                    isError ? '--red-dark' : '--accent-main'
-                  })`,
-                },
-                '&:hover fieldset': {
-                  border: `1px solid var(${borderColor(filled)})`,
-                },
-                '&.Mui-focused:hover fieldset': {
-                  border: `1px solid var(${
-                    isError ? '--red-dark' : '--accent-main'
-                  })`,
+                '.MuiOutlinedInput-root': {
+                  cursor: 'default',
+                  animation: filled
+                    ? `${cellPop} 220ms ${SPRING} both`
+                    : 'none',
+                  '& fieldset': {
+                    border: `1px solid var(${borderColor(filled)})`,
+                    borderRadius: 'var(--radius-l)',
+                    transition: 'border-color 150ms ease',
+                  },
+                  '&.Mui-focused fieldset': {
+                    border: `1px solid var(${
+                      isError ? '--red-dark' : '--accent-main'
+                    })`,
+                  },
+                  '&:hover fieldset': {
+                    border: `1px solid var(${borderColor(filled)})`,
+                  },
+                  '&.Mui-focused:hover fieldset': {
+                    border: `1px solid var(${
+                      isError ? '--red-dark' : '--accent-main'
+                    })`,
+                  },
                 },
               },
-            },
-          };
-        }}
-      />
-      <Box
-        aria-hidden
-        sx={{
-          position: 'absolute',
-          inset: 0,
-          display: 'flex',
-          gap: `${CELL_GAP}px`,
-          pointerEvents: 'none',
-        }}
-      >
-        {Array.from({ length }).map((_, index) => {
-          const symbolIndex = symbolOrder[index] ?? index;
-          const filled = !!value[index];
-          const Icon = PIN_ICONS[symbolIndex % PIN_ICONS.length];
+            };
+          }}
+        />
+        <Box
+          aria-hidden
+          sx={{
+            position: 'absolute',
+            inset: 0,
+            display: 'flex',
+            gap: `${CELL_GAP}px`,
+            pointerEvents: 'none',
+          }}
+        >
+          {Array.from({ length }).map((_, index) => {
+            const symbolIndex = symbolOrder[index] ?? index;
+            const filled = !!value[index];
+            const Icon = PIN_ICONS[symbolIndex % PIN_ICONS.length];
 
-          return (
-            <Box
-              key={`pin-symbol-${symbolIndex}`}
-              sx={{
-                width: CELL_SIZE,
-                height: CELL_SIZE,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <Icon
-                width={SYMBOL_SIZE}
-                height={SYMBOL_SIZE}
-                color={isError ? 'var(--red-dark)' : 'var(--accent-main)'}
+            return (
+              <Box
+                key={`pin-symbol-${symbolIndex}`}
                 sx={{
-                  opacity: filled ? 1 : 0,
-                  transform: filled
-                    ? 'scale(1) rotate(0deg)'
-                    : 'scale(0.7) rotate(-25deg)',
-                  transition: [
-                    `opacity ${ANIMATION_DURATION} ${ANIMATION_EASING}`,
-                    `transform 220ms ${SPRING}`,
-                  ].join(', '),
-                  '& > svg': { width: '100%', height: '100%' },
+                  width: CELL_SIZE,
+                  height: CELL_SIZE,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                 }}
-              />
-            </Box>
-          );
-        })}
-      </Box>
-    </PinInputContainer>
+              >
+                <Icon
+                  width={SYMBOL_SIZE}
+                  height={SYMBOL_SIZE}
+                  color={isError ? 'var(--red-dark)' : 'var(--accent-main)'}
+                  sx={{
+                    opacity: filled ? 1 : 0,
+                    transform: filled
+                      ? 'scale(1) rotate(0deg)'
+                      : 'scale(0.7) rotate(-25deg)',
+                    transition: [
+                      `opacity ${ANIMATION_DURATION} ${ANIMATION_EASING}`,
+                      `transform 220ms ${SPRING}`,
+                    ].join(', '),
+                    '& > svg': { width: '100%', height: '100%' },
+                  }}
+                />
+              </Box>
+            );
+          })}
+        </Box>
+      </PinInputContainer>
     );
   }
 );

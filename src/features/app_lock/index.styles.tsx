@@ -38,45 +38,51 @@ const zoomFadeOut = keyframes`
   }
 `;
 
-export const AppLockPage = styled(Box)<{ exiting?: boolean }>(({ exiting }) => ({
-  position: 'fixed',
-  top: 0,
-  left: 0,
-  right: 0,
-  bottom: 0,
-  zIndex: 1200,
-  display: 'flex',
-  alignItems: 'flex-start',
-  justifyContent: 'center',
-  padding: '24px',
-  paddingTop: 'clamp(48px, 12vh, 120px)',
-  paddingBottom: '24px',
-  backgroundColor: 'var(--accent-100)',
-  overflowY: 'auto',
-  '@supports (height: 100dvh)': {
-    height: '100dvh',
-    bottom: 'auto',
-  },
-  animation: exiting
-    ? `${fadeOut} ${EXIT_DURATION_MS}ms ease-in-out both`
-    : `${fadeIn} 300ms ease-out both`,
-})) as unknown as typeof Box;
+export const AppLockPage = styled(Box)<{ exiting?: boolean }>(
+  ({ exiting }) => ({
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    // above a dialog (1300), below the snackbar (1400): a modal left open when
+    // the app locks must not stay readable through the lock screen
+    zIndex: 1350,
+    display: 'flex',
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    padding: '24px',
+    paddingTop: 'clamp(48px, 12vh, 120px)',
+    paddingBottom: '24px',
+    backgroundColor: 'var(--accent-100)',
+    overflowY: 'auto',
+    '@supports (height: 100dvh)': {
+      height: '100dvh',
+      bottom: 'auto',
+    },
+    animation: exiting
+      ? `${fadeOut} ${EXIT_DURATION_MS}ms ease-in-out both`
+      : `${fadeIn} 300ms ease-out both`,
+  })
+) as unknown as typeof Box;
 
-export const AppLockCard = styled(Box)<{ exiting?: boolean }>(({ exiting }) => ({
-  width: '100%',
-  maxWidth: '440px',
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '16px',
-  padding: '24px',
-  borderRadius: 'var(--radius-xl)',
-  border: '1px solid var(--accent-300)',
-  backgroundColor: 'var(--white)',
-  boxShadow: 'var(--big-card-shadow)',
-  animation: exiting
-    ? `${zoomFadeOut} ${EXIT_DURATION_MS - 50}ms cubic-bezier(0.4, 0, 1, 1) both`
-    : `${slideUpFadeIn} 400ms cubic-bezier(0.16, 1, 0.3, 1) 40ms both`,
-})) as unknown as typeof Box;
+export const AppLockCard = styled(Box)<{ exiting?: boolean }>(
+  ({ exiting }) => ({
+    width: '100%',
+    maxWidth: '440px',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '16px',
+    padding: '24px',
+    borderRadius: 'var(--radius-xl)',
+    border: '1px solid var(--accent-300)',
+    backgroundColor: 'var(--white)',
+    boxShadow: 'var(--big-card-shadow)',
+    animation: exiting
+      ? `${zoomFadeOut} ${EXIT_DURATION_MS - 50}ms cubic-bezier(0.4, 0, 1, 1) both`
+      : `${slideUpFadeIn} 400ms cubic-bezier(0.16, 1, 0.3, 1) 40ms both`,
+  })
+) as unknown as typeof Box;
 
 export const PinFieldStack = styled(Box)({
   display: 'flex',
