@@ -523,5 +523,6 @@
   "tr_maximumAmountOfGroupsIs10": "Максимальное количество групп для служения — 10",
   "tr_personAwayNotice": "Этот человек отсутствует: {{ date }}",
   "tr_weekendTemplateShowSongs": "Отображать песни в расписании встреч в выходные дни",
-  "tr_personalDetails": "Личные данные"
+  "tr_personalDetails": "Личные данные",
+  "tr_midweekMeetingDay": "Midweek meeting day"
 }

@@ -523,5 +523,6 @@
   "tr_maximumAmountOfGroupsIs10": "Die maximale Anzahl an Predigtdienstgruppen ist 10",
   "tr_personAwayNotice": "Diese Person ist abwesend: {{ date }}",
   "tr_weekendTemplateShowSongs": "Lieder auf Wochenend-Zusammenkunftsplänen anzeigen",
-  "tr_personalDetails": "Persönliche Details"
+  "tr_personalDetails": "Persönliche Details",
+  "tr_midweekMeetingDay": "Midweek meeting day"
 }

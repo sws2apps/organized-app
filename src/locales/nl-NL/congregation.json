@@ -523,5 +523,6 @@
   "tr_maximumAmountOfGroupsIs10": "Maximale hoeveelheid van de velddienstgroep is 10",
   "tr_personAwayNotice": "Deze persoon is afwezig: {{ date }}",
   "tr_weekendTemplateShowSongs": "Toon liederen op de schema's voor weekendvergadering",
-  "tr_personalDetails": "Personal details"
+  "tr_personalDetails": "Personal details",
+  "tr_midweekMeetingDay": "Midweek meeting day"
 }
