@@ -29,14 +29,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#FEFEFE',
     borderRadius: getCSSPropertyValue('--radius-xs'),
     display: 'flex',
-    gap: '8px',
+    alignItems: 'center',
+    justifyContent: 'center',
     flexShrink: 0,
   },
   membersCount: {
     fontWeight: 600,
     fontSize: '8px',
-    // the font leading would otherwise add its own space inside the badge
-    lineHeight: 1,
   },
   groupListContainer: {
     borderBottomLeftRadius: '4px',

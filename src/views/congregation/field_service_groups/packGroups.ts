@@ -16,12 +16,15 @@ const LIST_BORDER = 1;
 const TITLE_HORIZONTAL_PADDING = 12;
 const TITLE_VERTICAL_PADDING = 8;
 const TITLE_GAP = 4;
-// the badge keeps its proportions at every font size
-const BADGE_PADDING_RATIO = 0.15;
+// the badge takes the height of its own text, which follows the script the
+// document is set in, plus a padding that scales with the font size. Giving it
+// a fixed height instead makes the renderer loop on a title it cannot break.
+const BADGE_VERTICAL_RATIO = 0.1;
+const BADGE_HORIZONTAL_RATIO = 0.3;
 
 export const badgePadding = (fontSize: number) => ({
-  vertical: fontSize * BADGE_PADDING_RATIO,
-  horizontal: fontSize * BADGE_PADDING_RATIO * 2.5,
+  vertical: fontSize * BADGE_VERTICAL_RATIO,
+  horizontal: fontSize * BADGE_HORIZONTAL_RATIO,
 });
 const BLOCK_GAP = 6;
 export const DIVIDER_HEIGHT = 1;

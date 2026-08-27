@@ -27,7 +27,12 @@ const FSGGroup = ({ card, fontSize }: FSGGroupProps) => {
           backgroundColor: groupColor,
         }}
       >
-        <Text style={{ ...styles.groupTitle, fontSize }}>
+        <Text
+          style={{
+            ...styles.groupTitle,
+            fontSize,
+          }}
+        >
           {group.group_name}
         </Text>
         <View
