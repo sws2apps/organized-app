@@ -366,7 +366,9 @@
   "tr_createMasterKeyIntroDesc": "Цей ключ безпечно шифрує дані вашого збору, включаючи звіти та осіб, і запитується для адміністративних дій, таких як експорт/імпорт даних або внесення значних змін в налаштування.",
   "tr_hallC": "3",
   "tr_FR": "Повночасний піонер",
+  "tr_FRI": "Infirm regular pioneer",
   "tr_FS": "Спеціальний піонер",
+  "tr_FSI": "Infirm special pioneer",
   "tr_incomingCongregationOnlineNoSpeakers": "Цей збір ще не додав жодного запрошеного промовця до своїх записів. Якщо потрібно, ти можеш зв'язатися з ними.",
   "tr_incomingCongregationOnlinePending": "Цей збір ще не схвалив твоє прохання про доступ до списку їхніх рекомендованих промовців. Якщо потрібно, ти можеш особисто зв'язатися з ними.",
   "tr_incomingCongregationOnlineDisapproved": "Цей збір відхилив твій запит про доступ до списку їхніх промовців. Якщо потрібно, ти можеш особисто зв'язатися з ними.",
@@ -524,5 +526,7 @@
   "tr_personAwayNotice": "Ця особа відсутня: {{ date }}",
   "tr_weekendTemplateShowSongs": "Відображення пісень на розкладах зібрань на вихідних",
   "tr_personalDetails": "Personal details",
-  "tr_midweekMeetingDay": "Midweek meeting day"
+  "tr_midweekMeetingDay": "Midweek meeting day",
+  "tr_infirmPioneer": "Infirm pioneer",
+  "tr_infirmPioneerNoGoal": "As an infirm pioneer, you can serve as much as you are able without a yearly hour goal."
 }
