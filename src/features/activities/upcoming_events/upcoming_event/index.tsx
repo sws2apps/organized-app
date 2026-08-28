@@ -141,15 +141,16 @@ const UpcomingEvent = (props: UpcomingEventProps) => {
 
       {props.data.event_data.duration === UpcomingEventDuration.SingleDay && (
         <UpcomingEventDate
-          title={eventFormatted.time}
+          title={
+            eventFormatted.wholeDay ? t('tr_wholeDay') : eventFormatted.time
+          }
           date={eventFormatted.date}
           day={eventFormatted.day}
           disabled={false}
         />
       )}
 
-      {props.data.event_data.category ===
-        UpcomingEventCategory.SpecialCampaignWeek && (
+      {eventFormatted.showAsRange && (
         <UpcomingEventDate
           title={t('tr_everyDay')}
           range={eventFormatted.datesRange}
@@ -159,8 +160,7 @@ const UpcomingEvent = (props: UpcomingEventProps) => {
       )}
 
       {props.data.event_data.duration === UpcomingEventDuration.MultipleDays &&
-        props.data.event_data.category !==
-          UpcomingEventCategory.SpecialCampaignWeek && (
+        !eventFormatted.showAsRange && (
           <Box sx={{ display: 'flex', flexDirection: 'row', gap: '24px' }}>
             {dayColumns.map((column, columnIndex) => (
               <Box

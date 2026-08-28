@@ -6,8 +6,8 @@ export enum UpcomingEventCategory {
   AssemblyWeek,
   InternationalConventionWeek,
   SpecialCampaignWeek,
-  TheocraticTrainingWeek,
   HallMaintenanceTrainingWeek,
+  TheocraticTrainingWeek,
   BethelTour,
   SpecialProgram,
   PublicWitnessing,
@@ -21,6 +21,12 @@ export enum UpcomingEventDuration {
   SingleDay,
   MultipleDays,
 }
+
+export type UpcomingEventDisplayType = 'byDay' | 'range';
+
+export const UPCOMING_EVENT_MAX_LIST_DAYS = 7;
+
+export const DEFAULT_EVENT_START_HOUR = 9;
 
 export type UpcomingEventType = {
   event_uid: string;
@@ -36,6 +42,7 @@ export type UpcomingEventType = {
     duration: UpcomingEventDuration;
     description: string;
     custom?: string;
+    wholeDay?: boolean;
   };
 };
 
@@ -48,6 +55,8 @@ export type UpcomingEventDataType = {
   description: string;
   category: UpcomingEventCategory;
   duration: UpcomingEventDuration;
+  wholeDay: boolean;
+  showAsRange: boolean;
   start: string;
   date: string;
   day: string;

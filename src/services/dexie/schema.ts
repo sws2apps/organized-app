@@ -277,6 +277,9 @@ export const settingSchema: SettingsType = {
     format_24h_enabled: [
       { type: 'main', value: true, updatedAt: '', _deleted: false },
     ],
+    events_multiday_display: [
+      { type: 'main', value: 'range', updatedAt: '', _deleted: false },
+    ],
     week_start_sunday: [
       { type: 'main', value: false, updatedAt: '', _deleted: false },
     ],
