@@ -149,6 +149,8 @@
   "tr_created": "Loodud: {{ date }}",
   "tr_missingInfo": "Puuduv info",
   "tr_fillRequiredField": "Palun täida nõutud väljad",
+  "tr_endTimeAfterStart": "End time must be after the start time",
+  "tr_endDateAfterStart": "End date must be after the start date",
   "tr_mondayShort": "E",
   "tr_tuesdayShort": "T",
   "tr_wednesdayShort": "K",
