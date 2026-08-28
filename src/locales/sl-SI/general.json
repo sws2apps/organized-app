@@ -149,6 +149,8 @@
   "tr_created": "Ustvarjeno: {{ date }}",
   "tr_missingInfo": "Manjkajoči podatki",
   "tr_fillRequiredField": "Prosimo, izpolni obvezno polje",
+  "tr_endTimeAfterStart": "End time must be after the start time",
+  "tr_endDateAfterStart": "End date must be after the start date",
   "tr_mondayShort": "Pon",
   "tr_tuesdayShort": "Tor",
   "tr_wednesdayShort": "Sre",
