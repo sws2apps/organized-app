@@ -149,6 +149,8 @@
   "tr_created": "Created: {{ date }}",
   "tr_missingInfo": "Kulang na info",
   "tr_fillRequiredField": "Pakisagutan ang kinakailangang bahagi",
+  "tr_endTimeAfterStart": "End time must be after the start time",
+  "tr_endDateAfterStart": "End date must be after the start date",
   "tr_mondayShort": "Lun",
   "tr_tuesdayShort": "Mar",
   "tr_wednesdayShort": "Miy",
