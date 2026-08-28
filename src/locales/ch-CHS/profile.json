@@ -33,6 +33,8 @@
   "tr_modeDark": "Dark",
   "tr_autoThemeChange": "自动应用主题更改",
   "tr_autoThemeChangeDesc": "在浅色和深色模式之间选择时，遵循您设备的系统设置",
+  "tr_hapticFeedback": "Haptic feedback",
+  "tr_hapticFeedbackDesc": "Vibrate when you interact with the app, if your device and browser support it",
   "tr_colorScheme": "颜色方案",
   "tr_blue": "蓝色",
   "tr_green": "绿色",
