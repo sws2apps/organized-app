@@ -1,14 +1,9 @@
 import { Fragment } from 'react';
 import { Box, Grid, Stack } from '@mui/material';
-import {
-  IconAdd,
-  IconAssign,
-  IconCopy,
-  IconDelete,
-  IconEdit,
-} from '@components/icons';
+import { IconAdd, IconDelete, IconEdit } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import { AssignmentCode } from '@definition/assignment';
+import { DUTIES_SECTIONS_MAX } from '@services/app/duties';
 import { MicSectionsProps } from './index.types';
 import useMicSections from './useMicSections';
 import Button from '@components/button';
@@ -26,8 +21,6 @@ const MicSections = ({ week, prefix, meeting }: MicSectionsProps) => {
   const {
     sections,
     sectionParts,
-    hasSuggestion,
-    previousWeek,
     formOpen,
     editId,
     deleteId,
@@ -37,8 +30,6 @@ const MicSections = ({ week, prefix, meeting }: MicSectionsProps) => {
     handleAskDelete,
     handleCloseDelete,
     handleDelete,
-    handleAddSuggested,
-    handleCopyPrevious,
   } = useMicSections(week, meeting);
 
   return (
@@ -76,8 +67,7 @@ const MicSections = ({ week, prefix, meeting }: MicSectionsProps) => {
       {sections.map((section) => {
         const size = dutyFieldColumns(section.amount);
 
-        const partsLabel =
-          sectionParts(section.parts) || t('tr_sectionWholeMeeting');
+        const partsLabel = sectionParts(section.parts);
 
         return (
           <Fragment key={section.id}>
@@ -94,8 +84,15 @@ const MicSections = ({ week, prefix, meeting }: MicSectionsProps) => {
                 },
               }}
             >
-              {/* absolute icons keep the row at label height */}
-              <Box sx={{ position: 'relative', display: 'flex' }}>
+              {/* absolute icons keep the row at label height, and the padding
+                  gives the same gap to the fields with or without parts */}
+              <Box
+                sx={{
+                  position: 'relative',
+                  display: 'flex',
+                  paddingBottom: '4px',
+                }}
+              >
                 <Stack spacing="2px">
                   <Typography
                     className="body-small-semibold"
@@ -106,7 +103,7 @@ const MicSections = ({ week, prefix, meeting }: MicSectionsProps) => {
 
                   {/* the parts tell the brothers where they are expected, and
                       a section named after its only part says it once */}
-                  {partsLabel !== section.name && (
+                  {partsLabel.length > 0 && partsLabel !== section.name && (
                     <Typography
                       className="label-small-regular"
                       color="var(--grey-350)"
@@ -130,12 +127,14 @@ const MicSections = ({ week, prefix, meeting }: MicSectionsProps) => {
                   }}
                 >
                   <IconButton
+                    aria-label={t('tr_sectionEdit')}
                     sx={{ padding: '4px' }}
                     onClick={() => handleOpenEdit(section.id)}
                   >
                     <IconEdit color="var(--accent-main)" />
                   </IconButton>
                   <IconButton
+                    aria-label={t('tr_sectionDelete')}
                     sx={{ padding: '4px' }}
                     onClick={() => handleAskDelete(section.id)}
                   >
@@ -168,10 +167,11 @@ const MicSections = ({ week, prefix, meeting }: MicSectionsProps) => {
 
       <Divider color="var(--accent-200)" />
 
-      <Stack direction="row" spacing="8px" flexWrap="wrap" useFlexGap>
+      <Stack spacing="4px" alignItems="flex-start">
         <Button
           variant="small"
           onClick={handleOpenAdd}
+          disabled={sections.length >= DUTIES_SECTIONS_MAX}
           startIcon={<IconAdd />}
           sx={{
             height: '32px',
@@ -181,35 +181,11 @@ const MicSections = ({ week, prefix, meeting }: MicSectionsProps) => {
           {t('tr_sectionAdd')}
         </Button>
 
-        {/* the layout used most of the time, one click away */}
-        {sections.length === 0 && hasSuggestion && (
-          <Button
-            variant="small"
-            onClick={handleAddSuggested}
-            startIcon={<IconAssign />}
-            sx={{
-              height: '32px',
-              minHeight: '32px !important',
-            }}
-          >
-            {t('tr_sectionsSuggested')}
-          </Button>
-        )}
-
-        {/* the sections of a week are its own: a congregation that keeps the
-            same shifts brings them over instead of typing them again */}
-        {sections.length === 0 && previousWeek.length > 0 && (
-          <Button
-            variant="small"
-            onClick={handleCopyPrevious}
-            startIcon={<IconCopy />}
-            sx={{
-              height: '32px',
-              minHeight: '32px !important',
-            }}
-          >
-            {t('tr_sectionsCopyPrevious')}
-          </Button>
+        {/* the limit only shows once it is in the way */}
+        {sections.length >= DUTIES_SECTIONS_MAX && (
+          <Typography className="label-small-regular" color="var(--grey-350)">
+            {t('tr_sectionsMax', { maxSections: DUTIES_SECTIONS_MAX })}
+          </Typography>
         )}
       </Stack>
     </Stack>

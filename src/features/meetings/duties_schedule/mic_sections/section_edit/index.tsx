@@ -11,6 +11,14 @@ import Select from '@components/select';
 import TextField from '@components/textfield';
 import Typography from '@components/typography';
 
+// a name that fits the column of a printed schedule
+const SECTION_NAME_MAX = 40;
+
+const NAME_ERRORS = {
+  required: 'tr_fillRequiredField',
+  duplicate: 'tr_sectionNameTaken',
+} as const;
+
 const SectionEdit = (props: SectionEditProps) => {
   const { t } = useAppTranslation();
 
@@ -33,27 +41,38 @@ const SectionEdit = (props: SectionEditProps) => {
           {props.type === 'add' ? t('tr_sectionAdd') : t('tr_sectionEdit')}
         </Typography>
 
-        <TextField
-          label={t('tr_title')}
-          value={name}
-          onChange={handleNameChange}
-          error={nameError}
-          helperText={nameError ? t('tr_fillRequiredField') : undefined}
-        />
-
-        <Select
-          label={t('tr_amountLabel')}
-          value={amount}
-          onChange={handleAmountChange}
+        {/* the amount is a single digit: side by side it leaves the title
+            the room it needs, and only a phone is too narrow for both */}
+        <Stack
+          direction={{ mobile: 'column', tablet: 'row' }}
+          spacing={{ mobile: '24px', tablet: '16px' }}
+          sx={{ alignItems: { mobile: 'stretch', tablet: 'flex-start' } }}
         >
-          {DUTIES_MAX.map((num) => (
-            <MenuItem key={num} value={num}>
-              <Typography>{num}</Typography>
-            </MenuItem>
-          ))}
-        </Select>
+          <TextField
+            label={t('tr_title')}
+            value={name}
+            onChange={handleNameChange}
+            error={!!nameError}
+            helperText={nameError ? t(NAME_ERRORS[nameError]) : undefined}
+            slotProps={{ htmlInput: { maxLength: SECTION_NAME_MAX } }}
+            sx={{ flex: 1 }}
+          />
 
-        <Stack spacing="8px">
+          <Select
+            label={t('tr_amountLabel')}
+            value={amount}
+            onChange={handleAmountChange}
+            sx={{ width: { mobile: '100%', tablet: '120px' }, flexShrink: 0 }}
+          >
+            {DUTIES_MAX.map((num) => (
+              <MenuItem key={num} value={num}>
+                <Typography>{num}</Typography>
+              </MenuItem>
+            ))}
+          </Select>
+        </Stack>
+
+        <Stack spacing="4px">
           <Typography className="body-small-semibold" color="var(--grey-400)">
             {t('tr_sectionParts')}
           </Typography>

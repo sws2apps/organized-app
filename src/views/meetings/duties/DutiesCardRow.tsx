@@ -62,6 +62,11 @@ const DutiesCardRow = ({
                   person.groupId &&
                   person.groupId !== row.persons[index - 1].groupId;
 
+                // the section is named once above the brothers serving it
+                const showNote =
+                  person.note &&
+                  (index === 0 || person.note !== row.persons[index - 1].note);
+
                 return (
                   <Fragment key={person.id}>
                     {groupChanged && (
@@ -90,11 +95,7 @@ const DutiesCardRow = ({
                       </Svg>
                     )}
 
-                    <Text style={{ ...styles.person, fontSize, color }}>
-                      {person.name}
-                    </Text>
-
-                    {person.note && (
+                    {showNote && (
                       <Text
                         style={{
                           ...styles.personNote,
@@ -104,6 +105,10 @@ const DutiesCardRow = ({
                         {person.note}
                       </Text>
                     )}
+
+                    <Text style={{ ...styles.person, fontSize, color }}>
+                      {person.name}
+                    </Text>
                   </Fragment>
                 );
               })}

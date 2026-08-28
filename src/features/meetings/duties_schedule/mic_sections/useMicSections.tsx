@@ -1,25 +1,16 @@
 import { useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { schedulesState } from '@states/schedules';
-import { meetingDutiesState } from '@states/settings';
 import {
   schedulesDutiesMeetingParts,
   schedulesDutiesSections,
 } from '@services/app/schedules';
-import {
-  DutiesMeetingValue,
-  dutiesSectionDelete,
-  dutiesSectionsAddSuggested,
-  dutiesSectionsCopyFromWeek,
-  dutiesSectionsPreviousWeek,
-  dutiesSectionsSuggested,
-} from '@services/app/duties';
+import { DutiesMeetingValue, dutiesSectionDelete } from '@services/app/duties';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 
 const useMicSections = (week: string, meeting: DutiesMeetingValue) => {
   const schedules = useAtomValue(schedulesState);
-  const dutiesConfig = useAtomValue(meetingDutiesState);
 
   const [formOpen, setFormOpen] = useState(false);
   const [deleteId, setDeleteId] = useState('');
@@ -35,17 +26,6 @@ const useMicSections = (week: string, meeting: DutiesMeetingValue) => {
   const parts = useMemo(
     () => schedulesDutiesMeetingParts(week, meeting),
     [week, meeting]
-  );
-
-  const hasSuggestion = useMemo(
-    () => dutiesSectionsSuggested(week, meeting).length > 0,
-    [week, meeting]
-  );
-
-  const previousWeek = useMemo(
-    () => dutiesSectionsPreviousWeek(week, meeting),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [week, meeting, schedules]
   );
 
   const handleOpenAdd = () => {
@@ -86,26 +66,6 @@ const useMicSections = (week: string, meeting: DutiesMeetingValue) => {
     }
   };
 
-  const handleAddSuggested = async () => {
-    try {
-      await dutiesSectionsAddSuggested(
-        week,
-        meeting,
-        dutiesConfig?.mic_amount.value || 2
-      );
-    } catch (error) {
-      notifyError(error);
-    }
-  };
-
-  const handleCopyPrevious = async () => {
-    try {
-      await dutiesSectionsCopyFromWeek(previousWeek, week, meeting);
-    } catch (error) {
-      notifyError(error);
-    }
-  };
-
   const sectionParts = (keys: string[]) =>
     keys
       .map((key) => parts.find((part) => part.key === key)?.label)
@@ -115,8 +75,6 @@ const useMicSections = (week: string, meeting: DutiesMeetingValue) => {
   return {
     sections,
     sectionParts,
-    hasSuggestion,
-    previousWeek,
     formOpen,
     editId,
     deleteId,
@@ -126,8 +84,6 @@ const useMicSections = (week: string, meeting: DutiesMeetingValue) => {
     handleAskDelete,
     handleCloseDelete,
     handleDelete,
-    handleAddSuggested,
-    handleCopyPrevious,
   };
 };
 

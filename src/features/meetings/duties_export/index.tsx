@@ -48,18 +48,13 @@ const DutiesExport = ({ open, onClose }: DutiesExportType) => {
           alignItems="flex-start"
         >
           <Stack spacing="8px" flex={1} width="100%">
-            <Typography
-              className="body-small-semibold"
-              color="var(--grey-400)"
-            >
+            <Typography className="body-small-semibold" color="var(--grey-400)">
               {t('tr_orientation')}
             </Typography>
             <RadioGroup
               value={orientation}
               onChange={(e) =>
-                handleSetOrientation(
-                  e.target.value as 'portrait' | 'landscape'
-                )
+                handleSetOrientation(e.target.value as 'portrait' | 'landscape')
               }
               sx={{ gap: '8px' }}
             >
@@ -79,10 +74,7 @@ const DutiesExport = ({ open, onClose }: DutiesExportType) => {
           </Stack>
 
           <Stack spacing="8px" flex={1} width="100%">
-            <Typography
-              className="body-small-semibold"
-              color="var(--grey-400)"
-            >
+            <Typography className="body-small-semibold" color="var(--grey-400)">
               {t('tr_fontSize')}
             </Typography>
             <RadioGroup

@@ -404,11 +404,9 @@ export const schedulesDutiesMeetingParts = (
 
   add('public_talk', getTranslation({ key: 'tr_publicTalk' }));
 
-  add(
-    'w_study',
-    getTranslation({ key: 'tr_watchtowerStudy' }),
-    source.weekend_meeting?.w_study?.[lang]
-  );
+  // the study keeps its own name: the article title changes every week and
+  // says nothing about where a brother stands
+  add('w_study', getTranslation({ key: 'tr_watchtowerStudy' }));
 
   return parts;
 };

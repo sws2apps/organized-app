@@ -39,6 +39,7 @@ import {
   weekendMeetingOpeningPrayerAutoAssignState,
 } from '@states/settings';
 import {
+  DutyFieldDefinitionType,
   MeetingDutiesConfigType,
   schedulesAutofillSaveAssignment,
   schedulesBuildHistoryList,
@@ -53,6 +54,7 @@ import {
   sourcesCheckLCAssignments,
   sourcesCheckLCElderAssignment,
 } from './sources';
+import { dutiesSectionsShareTime, dutiesSourceId } from './duties';
 import { sourcesState } from '@states/sources';
 import { personsState } from '@states/persons';
 
@@ -1163,21 +1165,66 @@ const handleAutofillDutiesMeeting = ({
 
   if (WEEK_TYPE_NO_MEETING.includes(weekType)) return;
 
-  for (const field of schedulesDutiesFieldList(
-    meeting,
-    config,
-    schedulesDutiesSections(schedule.weekOf, meeting)
-  )) {
+  const sections = schedulesDutiesSections(schedule.weekOf, meeting);
+
+  const fields = schedulesDutiesFieldList(meeting, config, sections);
+
+  const sectionOfField = (field: DutyFieldDefinitionType) =>
+    field.schedule_id
+      ? sections.find(
+          (record) => record.id === dutiesSourceId(field.schedule_id)
+        )
+      : undefined;
+
+  // the positions of one duty and the slots of one section stand next to each
+  // other, so one brother can never hold two of them. Sections are the
+  // exception: they are shifts, and only meet where they share a part
+  const servedTogether = (
+    first: DutyFieldDefinitionType,
+    second: DutyFieldDefinitionType
+  ) => {
+    if (first.type !== second.type) return false;
+
+    if (first.schedule_id && second.schedule_id) {
+      const firstSection = sectionOfField(first);
+      const secondSection = sectionOfField(second);
+
+      if (firstSection && secondSection) {
+        return dutiesSectionsShareTime(firstSection, secondSection);
+      }
+
+      // two custom duties are two duties, not two shifts of one
+      return (
+        dutiesSourceId(first.schedule_id) === dutiesSourceId(second.schedule_id)
+      );
+    }
+
+    return true;
+  };
+
+  const taken = fields
+    .map((field) => ({
+      field,
+      person: schedulesDutiesGetFieldValue(schedule, field, dataView),
+    }))
+    .filter((record) => record.person.length > 0);
+
+  for (const field of fields) {
     if (schedulesDutiesGetFieldValue(schedule, field, dataView).length > 0) {
       continue;
     }
 
+    // nobody can be in two places at the same moment, whatever the settings say
+    const servingNow = taken
+      .filter((record) => servedTogether(record.field, field))
+      .map((record) => record.person);
+
     // conflict_prevent: skip persons already assigned this week
     const excludedPersons = conflictPrevent
       ? handleDutiesWeekAssignedPersons(history, schedule.weekOf, dataView)
-      : undefined;
+      : [];
 
-    const selectPerson = (excluded?: string[]) =>
+    const selectPerson = (excluded: string[]) =>
       schedulesSelectRandomPerson({
         type: field.type,
         week: schedule.weekOf,
@@ -1187,12 +1234,15 @@ const handleAutofillDutiesMeeting = ({
       });
 
     // when everyone qualified already serves this week, a duty without anyone
-    // assigned helps no one: keep the conflict a preference and fill it anyway
+    // assigned helps no one: keep the week conflict a preference and fill it
+    // anyway, without ever putting a brother in two places at once
     const selected =
-      selectPerson(excludedPersons) ??
-      (excludedPersons?.length > 0 ? selectPerson() : undefined);
+      selectPerson([...servingNow, ...excludedPersons]) ??
+      (excludedPersons.length > 0 ? selectPerson(servingNow) : undefined);
 
     if (!selected) continue;
+
+    taken.push({ field, person: selected.person_uid });
 
     schedulesAutofillSaveAssignment({
       assignment: field.assignment,

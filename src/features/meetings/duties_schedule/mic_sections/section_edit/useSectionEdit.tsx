@@ -9,7 +9,7 @@ import { dutiesSectionAdd, dutiesSectionUpdate } from '@services/app/duties';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { useAppTranslation } from '@hooks/index';
-import { SectionEditProps } from '../index.types';
+import { SectionEditProps, SectionNameError } from '../index.types';
 
 const useSectionEdit = ({
   id,
@@ -35,10 +35,10 @@ const useSectionEdit = ({
   const [name, setName] = useState('');
   const [amount, setAmount] = useState(2);
   const [selectedParts, setSelectedParts] = useState<string[]>([]);
-  const [nameError, setNameError] = useState(false);
+  const [nameError, setNameError] = useState<SectionNameError>(undefined);
 
   const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setNameError(false);
+    setNameError(undefined);
     setName(e.target.value);
   };
 
@@ -61,7 +61,20 @@ const useSectionEdit = ({
     const sectionName = name.trim();
 
     if (sectionName.length === 0) {
-      setNameError(true);
+      setNameError('required');
+      return;
+    }
+
+    // the name is what tells two sections apart on the sheet and in the
+    // assignment a brother reads, so it has to be his alone
+    const nameTaken = sections.some(
+      (record) =>
+        record.id !== id &&
+        record.name.trim().toLowerCase() === sectionName.toLowerCase()
+    );
+
+    if (nameTaken) {
+      setNameError('duplicate');
       return;
     }
 

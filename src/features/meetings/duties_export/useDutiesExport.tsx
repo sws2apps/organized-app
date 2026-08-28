@@ -19,6 +19,7 @@ import {
   schedulesDutiesSectionTitle,
   schedulesGetMeetingDate,
 } from '@services/app/schedules';
+import { dutiesSourceId } from '@services/app/duties';
 import { schedulesState } from '@states/schedules';
 import { sourcesState } from '@states/sources';
 import { personsState } from '@states/persons';
@@ -199,17 +200,14 @@ const useDutiesExport = (onClose: DutiesExportType['onClose']) => {
   ) => {
     if (!field.schedule_id) return undefined;
 
-    const sourceId = field.schedule_id.substring(
-      0,
-      field.schedule_id.lastIndexOf('_')
-    );
+    const sourceId = dutiesSourceId(field.schedule_id);
 
     const section = schedulesDutiesSections(
       slot.schedule.weekOf,
       slot.meeting
     ).find((record) => record.id === sourceId);
 
-    if (!section || section.parts.length === 0) return undefined;
+    if (!section) return undefined;
 
     return schedulesDutiesSectionTitle(
       section,
