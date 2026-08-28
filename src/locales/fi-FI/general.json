@@ -166,5 +166,13 @@
   "tr_fileImport": "Tuo tiedosto",
   "tr_csvImportDescription": "Parhaan tuloksen saavuttamiseksi tuonnissa käytä mallitiedostoa.\nKaikkia sarakkeita ei tarvitse täyttää.\nSarakkeet käsitellään siinä järjestyksessä kuin ne esiintyvät.\nJos tila tai tehtävä tulee aktivoida, on määritettävä arvo ’1’ tai ’true’.\nSekä ’;’ että ’,’ ovat sallittuja erottimina.",
   "tr_importSuccess": "Tuonti valmis! {{ successCount }} / {{ totalCount }} henkilöä tallennettiin.",
-  "tr_bottomActionsMenu": "Toimintojen alavalikko"
+  "tr_bottomActionsMenu": "Toimintojen alavalikko",
+  "tr_exportSettings": "Export settings",
+  "tr_orientation": "Orientation",
+  "tr_portrait": "Portrait",
+  "tr_landscape": "Landscape",
+  "tr_fontSize": "Font size",
+  "tr_small": "Small",
+  "tr_normal": "Normal",
+  "tr_large": "Large"
 }
