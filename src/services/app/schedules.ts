@@ -430,9 +430,14 @@ export const schedulesDutiesSectionTitle = (
     .map((key) => parts.find((part) => part.key === key)?.label)
     .filter(Boolean);
 
-  if (labels.length === 0) return section.name;
+  const partsLabel = labels.join(', ');
 
-  return `${section.name}: ${labels.join(', ')}`;
+  // a section named after its only part says it once
+  if (labels.length === 0 || partsLabel === section.name) {
+    return section.name;
+  }
+
+  return `${section.name}: ${partsLabel}`;
 };
 
 /**

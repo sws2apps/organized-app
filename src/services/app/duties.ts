@@ -2,6 +2,7 @@ import { UpdateSpec } from 'dexie';
 import { store } from '@states/index';
 import { DutiesSectionType, SchedWeekType } from '@definition/schedules';
 import { schedulesState } from '@states/schedules';
+import { schedulesDutiesMeetingParts } from '@services/app/schedules';
 import { dbSchedUpdate } from '@services/dexie/schedules';
 
 export type DutiesMeetingValue = 'midweek' | 'weekend';
@@ -118,4 +119,54 @@ export const dutiesSectionsPreviousWeek = (
     );
 
   return previous?.weekOf ?? '';
+};
+
+// the parts the congregation follows with a microphone: the ones the audience
+// takes part in. The student assignments and the talks are left out, and parts
+// that are served together are merged by editing the section afterwards.
+const MIDWEEK_DISCUSSION = /^(tgw_gems|lc_part\d+|lc_cbs)$/;
+
+const WEEKEND_PARTS = /^(public_talk|w_study)$/;
+
+/**
+ * The layout a congregation uses most of the time: midweek follows the parts
+ * the audience takes part in, the weekend is split between the talk and the
+ * study.
+ */
+export const dutiesSectionsSuggested = (
+  week: string,
+  meeting: DutiesMeetingValue
+) => {
+  const matcher = meeting === 'midweek' ? MIDWEEK_DISCUSSION : WEEKEND_PARTS;
+
+  return schedulesDutiesMeetingParts(week, meeting).filter((part) =>
+    matcher.test(part.key)
+  );
+};
+
+export const dutiesSectionsAddSuggested = async (
+  week: string,
+  meeting: DutiesMeetingValue,
+  amount: number
+) => {
+  const suggested = dutiesSectionsSuggested(week, meeting);
+
+  if (suggested.length === 0) return;
+
+  const now = new Date().toISOString();
+
+  const sections = sectionsOf(week, meeting);
+
+  for (const part of suggested) {
+    sections.push({
+      id: crypto.randomUUID(),
+      name: part.label,
+      parts: [part.key],
+      amount,
+      _deleted: false,
+      updatedAt: now,
+    });
+  }
+
+  await saveSections(week, meeting, sections);
 };

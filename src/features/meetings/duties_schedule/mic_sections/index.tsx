@@ -1,6 +1,12 @@
 import { Fragment } from 'react';
 import { Box, Grid, Stack } from '@mui/material';
-import { IconAdd, IconCopy, IconDelete, IconEdit } from '@components/icons';
+import {
+  IconAdd,
+  IconAssign,
+  IconCopy,
+  IconDelete,
+  IconEdit,
+} from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import { AssignmentCode } from '@definition/assignment';
 import { MicSectionsProps } from './index.types';
@@ -20,6 +26,7 @@ const MicSections = ({ week, prefix, meeting }: MicSectionsProps) => {
   const {
     sections,
     sectionParts,
+    hasSuggestion,
     previousWeek,
     formOpen,
     editId,
@@ -30,6 +37,7 @@ const MicSections = ({ week, prefix, meeting }: MicSectionsProps) => {
     handleAskDelete,
     handleCloseDelete,
     handleDelete,
+    handleAddSuggested,
     handleCopyPrevious,
   } = useMicSections(week, meeting);
 
@@ -68,6 +76,9 @@ const MicSections = ({ week, prefix, meeting }: MicSectionsProps) => {
       {sections.map((section) => {
         const size = dutyFieldColumns(section.amount);
 
+        const partsLabel =
+          sectionParts(section.parts) || t('tr_sectionWholeMeeting');
+
         return (
           <Fragment key={section.id}>
             <Divider color="var(--accent-200)" />
@@ -93,13 +104,16 @@ const MicSections = ({ week, prefix, meeting }: MicSectionsProps) => {
                     {section.name}
                   </Typography>
 
-                  {/* the parts tell the brothers where they are expected */}
-                  <Typography
-                    className="label-small-regular"
-                    color="var(--grey-350)"
-                  >
-                    {sectionParts(section.parts) || t('tr_sectionWholeMeeting')}
-                  </Typography>
+                  {/* the parts tell the brothers where they are expected, and
+                      a section named after its only part says it once */}
+                  {partsLabel !== section.name && (
+                    <Typography
+                      className="label-small-regular"
+                      color="var(--grey-350)"
+                    >
+                      {partsLabel}
+                    </Typography>
+                  )}
                 </Stack>
 
                 <Stack
@@ -166,6 +180,21 @@ const MicSections = ({ week, prefix, meeting }: MicSectionsProps) => {
         >
           {t('tr_sectionAdd')}
         </Button>
+
+        {/* the layout used most of the time, one click away */}
+        {sections.length === 0 && hasSuggestion && (
+          <Button
+            variant="small"
+            onClick={handleAddSuggested}
+            startIcon={<IconAssign />}
+            sx={{
+              height: '32px',
+              minHeight: '32px !important',
+            }}
+          >
+            {t('tr_sectionsSuggested')}
+          </Button>
+        )}
 
         {/* the sections of a week are its own: a congregation that keeps the
             same shifts brings them over instead of typing them again */}
