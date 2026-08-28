@@ -366,7 +366,9 @@
   "tr_createMasterKeyIntroDesc": "Bu anahtar, cemaatinizin verilerini, raporlar ve kişiler dahil olmak üzere güvenli bir şekilde şifreler ve veri dışa/içe aktarma veya ayarlarda önemli değişiklikler yapma gibi idari işlemler için gereklidir.",
   "tr_hallC": "C",
   "tr_FR": "Daimi öncü",
+  "tr_FRI": "Infirm regular pioneer",
   "tr_FS": "Özel öncü",
+  "tr_FSI": "Infirm special pioneer",
   "tr_incomingCongregationOnlineNoSpeakers": "Bu cemaatin kayıtlarında henüz ziyaretçi konuşmacı eklenmemiştir. Gerekirse, onlarla iletişime geçebilirsiniz.",
   "tr_incomingCongregationOnlinePending": "Bu cemaat, diğer cemaatlere konuşma verebilecek biraderler listelerine erişim talebinizi henüz onaylamadı. Gerekirse, onlarla iletişime geçebilirsiniz.",
   "tr_incomingCongregationOnlineDisapproved": "Bu cemaat, giden konuşmacılar listelerine erişim talebinizi reddetti. Gerekirse, onlarla iletişime geçebilirsiniz.",
@@ -524,5 +526,7 @@
   "tr_personAwayNotice": "This person is away: {{ date }}",
   "tr_weekendTemplateShowSongs": "Display songs on weekend meeting schedules",
   "tr_personalDetails": "Personal details",
-  "tr_midweekMeetingDay": "Midweek meeting day"
+  "tr_midweekMeetingDay": "Midweek meeting day",
+  "tr_infirmPioneer": "Infirm pioneer",
+  "tr_infirmPioneerNoGoal": "As an infirm pioneer, you can serve as much as you are able without a yearly hour goal."
 }

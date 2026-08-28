@@ -366,7 +366,9 @@
   "tr_createMasterKeyIntroDesc": "Deze sleutel versleutelt veilig de gegevens van je gemeente, inclusief rapporten en personen, en is vereist voor administratieve acties zoals gegevens exporteren/importeren of belangrijke wijzigingen aan instellingen doorvoeren.",
   "tr_hallC": "C",
   "tr_FR": "Gewone pionier",
+  "tr_FRI": "Infirm regular pioneer",
   "tr_FS": "Speciale pionier",
+  "tr_FSI": "Infirm special pioneer",
   "tr_incomingCongregationOnlineNoSpeakers": "Deze gemeente heeft nog geen bezoekende sprekers aan hun lijst toegevoegd. Indien nodig, kun je ze persoonlijk contacteren.",
   "tr_incomingCongregationOnlinePending": "Deze gemeente heeft je verzoek om toegang tot hun uitgaande sprekerslijst nog niet goedgekeurd. Indien nodig, kun je ze persoonlijk contacteren.",
   "tr_incomingCongregationOnlineDisapproved": "Deze gemeente heeft je verzoek om toegang tot hun uitgaande sprekerslijst afgewezen. Indien nodig, kun je ze persoonlijk contacteren.",
@@ -524,5 +526,7 @@
   "tr_personAwayNotice": "Deze persoon is afwezig: {{ date }}",
   "tr_weekendTemplateShowSongs": "Toon liederen op de schema's voor weekendvergadering",
   "tr_personalDetails": "Personal details",
-  "tr_midweekMeetingDay": "Midweek meeting day"
+  "tr_midweekMeetingDay": "Midweek meeting day",
+  "tr_infirmPioneer": "Infirm pioneer",
+  "tr_infirmPioneerNoGoal": "As an infirm pioneer, you can serve as much as you are able without a yearly hour goal."
 }

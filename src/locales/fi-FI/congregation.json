@@ -366,7 +366,9 @@
   "tr_createMasterKeyIntroDesc": "Tämä avain salaa seurakuntasi tiedot, mukaan lukien raportit ja henkilöt, ja on tarpeen hallinnollisille toimille, kuten tietojen vienti/tuonti tai merkittävien asetusten muutosten tekeminen.",
   "tr_hallC": "C",
   "tr_FR": "Vakituinen tienraivaaja",
+  "tr_FRI": "Infirm regular pioneer",
   "tr_FS": "Erikoistienraivaaja",
+  "tr_FSI": "Infirm special pioneer",
   "tr_incomingCongregationOnlineNoSpeakers": "Tällä seurakunnalla ei ole vielä lisättyjä vierailevia puhujia. Jos tarpeen, voit ottaa heihin henkilökohtaisesti yhteyttä.",
   "tr_incomingCongregationOnlinePending": "Tämä seurakunta ei ole vielä hyväksynyt pyyntöäsi pääsyyn heidän lähtevien puhujien luetteloonsa. Jos tarpeen, voit ottaa heihin henkilökohtaisesti yhteyttä.",
   "tr_incomingCongregationOnlineDisapproved": "Tämä seurakunta hylkäsi pyyntösi pääsyyn heidän lähtevien puhujien luetteloonsa. Jos tarpeen, voit ottaa heihin henkilökohtaisesti yhteyttä.",
@@ -524,5 +526,7 @@
   "tr_personAwayNotice": "Tämä henkilö on poissa: {{ date }}",
   "tr_weekendTemplateShowSongs": "Näytä laulut viikonlopun kokouksen aikatauluissa",
   "tr_personalDetails": "Henkilötiedot",
-  "tr_midweekMeetingDay": "Viikkokokouksen kokouspäivä"
+  "tr_midweekMeetingDay": "Viikkokokouksen kokouspäivä",
+  "tr_infirmPioneer": "Infirm pioneer",
+  "tr_infirmPioneerNoGoal": "As an infirm pioneer, you can serve as much as you are able without a yearly hour goal."
 }

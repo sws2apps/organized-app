@@ -366,7 +366,9 @@
   "tr_createMasterKeyIntroDesc": "מפתח זה מצפין באופן מאובטח את נתוני הקהילה שלך, כולל דוחות ואנשים, ונדרש לפעולות ניהוליות כגון ייצוא/ייבוא נתונים או ביצוע שינויים משמעותיים בהגדרות.",
   "tr_hallC": "אולם ג'",
   "tr_FR": "חלוץ רגיל",
+  "tr_FRI": "Infirm regular pioneer",
   "tr_FS": "חלוץ מיוחד",
+  "tr_FSI": "Infirm special pioneer",
   "tr_incomingCongregationOnlineNoSpeakers": "לקהילה זו אין נואמים אורחים שנוספו לרשומות שלהם. במידת הצורך, תוכל ליצור איתם קשר באופן אישי.",
   "tr_incomingCongregationOnlinePending": "קהילה זו טרם אישרה את בקשתך לגשת לרשימת הנואמים היוצאים שלה. במידת הצורך, תוכל ליצור איתם קשר באופן אישי.",
   "tr_incomingCongregationOnlineDisapproved": "קהילה זו דחתה את בקשתך לגשת לרשימת הנואמים היוצאים שלה. במידת הצורך, תוכל ליצור איתם קשר באופן אישי.",
@@ -524,5 +526,7 @@
   "tr_personAwayNotice": "אדם זה אינו זמין: {{ date }}",
   "tr_weekendTemplateShowSongs": "הצג שירים בתוכניות אסיפת סוף שבוע",
   "tr_personalDetails": "פרטים אישיים",
-  "tr_midweekMeetingDay": "Midweek meeting day"
+  "tr_midweekMeetingDay": "Midweek meeting day",
+  "tr_infirmPioneer": "Infirm pioneer",
+  "tr_infirmPioneerNoGoal": "As an infirm pioneer, you can serve as much as you are able without a yearly hour goal."
 }

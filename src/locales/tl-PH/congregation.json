@@ -366,7 +366,9 @@
   "tr_createMasterKeyIntroDesc": "Ang key na ito ay nage-encrypt ng data ng inyong kongregasyon, kabilang ang mga ulat at listahan ng mga tao, at kailangan para sa mga administratibong gawain tulad ng pag-export/import ng data o mahahalagang pagbabago sa mga setting.",
   "tr_hallC": "C",
   "tr_FR": "Regular Pioneer",
+  "tr_FRI": "Infirm regular pioneer",
   "tr_FS": "Special Pioneer",
+  "tr_FSI": "Infirm special pioneer",
   "tr_incomingCongregationOnlineNoSpeakers": "Wala pang record ng naimbitahang mga speaker ang kongregasyong ito. Kung maaari, maaari mo silang kontakin.",
   "tr_incomingCongregationOnlinePending": "Hindi pa naaprubahan ng kongregasyong ito ang request para sa listahan ng kanilang mga lumalabas na speaker. Kung maaari, kontakin sila.",
   "tr_incomingCongregationOnlineDisapproved": "Tinanggihan ng kongregasyong ito ang iyong request para sa listahan ng kanilang mga lumalabas na speaker. Kung maaari, maaari mo silang kontakin.",
@@ -524,5 +526,7 @@
   "tr_personAwayNotice": "Umalis ang user: {{ date }}",
   "tr_weekendTemplateShowSongs": "Ipakita ang mga awit sa weekend meeting schedule",
   "tr_personalDetails": "Personal na detalye",
-  "tr_midweekMeetingDay": "Midweek meeting day"
+  "tr_midweekMeetingDay": "Midweek meeting day",
+  "tr_infirmPioneer": "Infirm pioneer",
+  "tr_infirmPioneerNoGoal": "As an infirm pioneer, you can serve as much as you are able without a yearly hour goal."
 }
