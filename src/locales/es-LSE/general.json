@@ -149,6 +149,8 @@
   "tr_created": "Creado: {{ date }}",
   "tr_missingInfo": "Información faltante",
   "tr_fillRequiredField": "Por favor completa el campo obligatorio",
+  "tr_endTimeAfterStart": "End time must be after the start time",
+  "tr_endDateAfterStart": "End date must be after the start date",
   "tr_mondayShort": "Lun",
   "tr_tuesdayShort": "Mar",
   "tr_wednesdayShort": "Mié",
