@@ -300,6 +300,15 @@ const useMonthlyView = () => {
 
         const lcSrc = lcSrcOverride?.length > 0 ? lcSrcOverride : lcSrcDefault;
 
+        const lcDescOverride = lcSrcPart.desc.override.find(
+          (record) => record.type === dataView
+        )?.value;
+
+        const lcDescDefault = lcSrcPart.desc.default[lang];
+
+        const lcDesc =
+          lcDescOverride?.length > 0 ? lcDescOverride : lcDescDefault;
+
         if (setterIndex + 1 === 1 || setterIndex + 1 === 2) {
           changeValueInArrayState(
             isOverwriteLCPartsSetters[setterIndex],
@@ -309,7 +318,7 @@ const useMonthlyView = () => {
         }
 
         if (lcSrc?.length > 0) {
-          const noAssign = sourcesCheckLCAssignments(lcSrc, lang);
+          const noAssign = sourcesCheckLCAssignments(lcSrc, lcDesc, lang);
           changeValueInArrayState(setter, index, noAssign);
         }
       });
@@ -319,8 +328,13 @@ const useMonthlyView = () => {
           (record) => record.type === dataView
         )?.value || '';
 
+      const lc3Desc =
+        source.midweek_meeting.lc_part3.desc.find(
+          (record) => record.type === dataView
+        )?.value || '';
+
       if (lc3Src.length > 0) {
-        const noAssign = sourcesCheckLCAssignments(lc3Src, lang);
+        const noAssign = sourcesCheckLCAssignments(lc3Src, lc3Desc, lang);
         changeValueInArrayState(setLcNoAssignParts3, index, noAssign);
       }
     });

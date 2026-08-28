@@ -366,7 +366,9 @@
   "tr_createMasterKeyIntroDesc": "E tā’āpī teie tāpū i te mau parau a tā ’oe amuiraa ma te pāruruhia, mai te mau parau tātara e te tāpura i’oa. E mea fīti te reira nō te mau ’ohipa fa’atere, mai te hāponoraa/fa’a’ōra’a i te mau parau aore ra te huriraa i te mau fa’anahoraa faufa’a.",
   "tr_hallC": "C",
   "tr_FR": "Pionie tāmau",
+  "tr_FRI": "Pionie tamau vaivai",
   "tr_FS": "Pionie ta’a ’ē",
+  "tr_FSI": "Pionie taa ê vaivai",
   "tr_incomingCongregationOnlineNoSpeakers": "’Aita ā tā teie amuiraa e taeae poro tū’ati i roto i tā rātou tāpura. Mai te mea ē e mea fīti, e nehenehe ’oe e fārei atu ia rātou.",
   "tr_incomingCongregationOnlinePending": "’Aita ā teie amuiraa i fa’ati’a i tā ’oe aniraa nō te hi’o i tā rātou tāpura taeae orero nō rāpa’e. Mai te mea ē e mea fīti, e nehenehe ’oe e fārei atu ia rātou.",
   "tr_incomingCongregationOnlineDisapproved": "Ua pāto’i teie amuiraa i tā ’oe aniraa nō te hi’o i tā rātou tāpura taeae orero nō rāpa’e. Mai te mea ē e mea fīti, e nehenehe ’oe e fārei atu ia rātou.",
@@ -511,6 +513,12 @@
   "tr_singleDay": "Hō’ē noa mahana",
   "tr_multipleDays": "E rave rahi mahana",
   "tr_wholeDay": "Te mau mahana ato’a",
+  "tr_multiDayEventsLayout": "Multi-day events layout",
+  "tr_separateDays": "Separate days",
+  "tr_oneDateRange": "One date range",
+  "tr_deleteEventTitle": "Delete the event",
+  "tr_deleteEventDesc": "Are you sure you want to delete “{{ eventName }}”? This cannot be undone.",
+  "tr_multiDayEventsHint": "Events longer than {{ days }} days always use a date range",
   "tr_groupServant": "Tāviniraa pupu",
   "tr_groupServantAssign": "’A fa’ariro ’ei tāvini",
   "tr_firstDayOfTheWeek": "Mahana mātāmua o te hepetoma",
@@ -523,5 +531,8 @@
   "tr_maximumAmountOfGroupsIs10": "E 10 noa pupu tāviniraa e nehenehe e vai",
   "tr_personAwayNotice": "Tei te vāhi ’ē teie ta’ata: {{ date }}",
   "tr_weekendTemplateShowSongs": "’A fa’a’ite i te mau hīmene i ni’a i te tāpura putuputuraa nō te hope’a hepetoma",
-  "tr_personalDetails": "Te mau fa'ahohora'a ta'ata"
+  "tr_personalDetails": "Te mau fa'ahohora'a ta'ata",
+  "tr_midweekMeetingDay": "Mahana putuputuraa i te ropu o te hebedoma",
+  "tr_infirmPioneer": "Taata poro vaivai",
+  "tr_infirmPioneerNoGoal": "Ei pionie vaivai, e nehenehe ta oe e tavini ma te au i to oe puai ma ore e titauhia ia naeahia te hoê numera hora matahiti."
 }

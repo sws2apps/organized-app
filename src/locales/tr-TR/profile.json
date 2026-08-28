@@ -33,6 +33,8 @@
   "tr_modeDark": "Dark",
   "tr_autoThemeChange": "Otomatik uygulama teması değişikliği",
   "tr_autoThemeChangeDesc": "Aydınlık ve karanlık mod arasında seçim yaparken cihazınızın sistem ayarını takip edin",
+  "tr_hapticFeedback": "Haptic feedback",
+  "tr_hapticFeedbackDesc": "Vibrate when you interact with the app, if your device and browser support it",
   "tr_colorScheme": "Renk şeması",
   "tr_blue": "Mavi",
   "tr_green": "Yeşil",

@@ -4,6 +4,7 @@ import { generateDateFromTime } from '@utils/date';
 import { useAppTranslation } from '@hooks/index';
 import Button from '@components/button';
 import ContactDetails from '../../contact_details';
+import DialogActions from '@components/dialog_actions';
 import MeetingTime from '../../meeting_time';
 import TextField from '@components/textfield';
 import Typography from '@components/typography';
@@ -75,21 +76,14 @@ const CongregationDetails = ({
         onPhoneChange={handleCoordinatorPhoneChange}
       />
 
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '8px',
-          width: '100%',
-        }}
-      >
-        <Button variant="main" onClick={handleIncomingCongregationAdd}>
-          {t('tr_addCongregation')}
-        </Button>
+      <DialogActions>
         <Button variant="secondary" onClick={handleMovePrevious}>
           {t('tr_back')}
         </Button>
-      </Box>
+        <Button variant="main" onClick={handleIncomingCongregationAdd}>
+          {t('tr_addCongregation')}
+        </Button>
+      </DialogActions>
     </Box>
   );
 };

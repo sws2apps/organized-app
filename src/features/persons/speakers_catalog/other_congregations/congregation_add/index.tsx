@@ -7,6 +7,7 @@ import CongregationDetails from './details';
 import CongregationOfflineAdd from './offline';
 import CongregationOnlineAdd from './online';
 import Dialog from '@components/dialog';
+import DialogActions from '@components/dialog_actions';
 import Tabs from '@components/tabs';
 import Typography from '@components/typography';
 
@@ -78,14 +79,10 @@ const CongregationAdd = ({ onClose, open }: CongregationAddType) => {
             />
           </Box>
 
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '8px',
-              width: '100%',
-            }}
-          >
+          <DialogActions>
+            <Button variant="secondary" onClick={onClose}>
+              {t('tr_cancel')}
+            </Button>
             <Button
               variant="main"
               disabled={congregation === null}
@@ -93,10 +90,7 @@ const CongregationAdd = ({ onClose, open }: CongregationAddType) => {
             >
               {t('tr_continue')}
             </Button>
-            <Button variant="secondary" onClick={onClose}>
-              {t('tr_cancel')}
-            </Button>
-          </Box>
+          </DialogActions>
         </Box>
       )}
 

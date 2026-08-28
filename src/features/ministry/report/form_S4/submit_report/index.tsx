@@ -1,4 +1,4 @@
-import { Box, Stack } from '@mui/material';
+import { Box } from '@mui/material';
 import { IconClose } from '@components/icons';
 import IconLoading from '@components/icon_loading';
 import { useAppTranslation } from '@hooks/index';
@@ -6,6 +6,7 @@ import { SubmitReportProps } from './index.types';
 import useSubmitReport from './useSubmitReport';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
+import DialogActions from '@components/dialog_actions';
 import IconButton from '@components/icon_button';
 import Typography from '@components/typography';
 
@@ -49,7 +50,14 @@ const SubmitReport = (props: SubmitReportProps) => {
           : t('tr_extraTimeDesc')}
       </Typography>
 
-      <Stack spacing="8px" width="100%">
+      <DialogActions>
+        <Button
+          variant="secondary"
+          onClick={handleKeepMinutesOrClose}
+          disabled={isProcessing}
+        >
+          {minutes_remains === 0 ? t('tr_cancel') : t('tr_btnNoKeepIt')}
+        </Button>
         <Button
           variant="main"
           onClick={handleTransferAndSubmit}
@@ -58,14 +66,7 @@ const SubmitReport = (props: SubmitReportProps) => {
         >
           {minutes_remains === 0 ? t('tr_yes') : t('tr_btnTransfer')}
         </Button>
-        <Button
-          variant="secondary"
-          onClick={handleKeepMinutesOrClose}
-          disabled={isProcessing}
-        >
-          {minutes_remains === 0 ? t('tr_cancel') : t('tr_btnNoKeepIt')}
-        </Button>
-      </Stack>
+      </DialogActions>
     </Dialog>
   );
 };

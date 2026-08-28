@@ -1,16 +1,15 @@
 import { Box } from '@mui/material';
-import { useAppTranslation, useBreakpoints } from '@hooks/index';
+import { useAppTranslation } from '@hooks/index';
 import { AddTimeDialogProps } from './index.types';
 import useAddTimeDialog from './useAddTimeDialog';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
+import DialogActions from '@components/dialog_actions';
 import TimePickerSlider from '@components/time_picker_slider';
 import Typography from '@components/typography';
 
 const AddTimeDialog = (props: AddTimeDialogProps) => {
   const { t } = useAppTranslation();
-
-  const { tabletUp } = useBreakpoints();
 
   const { handleAddTime, handleValueChange, value } = useAddTimeDialog(props);
 
@@ -37,22 +36,14 @@ const AddTimeDialog = (props: AddTimeDialogProps) => {
         <TimePickerSlider value={value} onChange={handleValueChange} />
       </Box>
 
-      <Box
-        sx={{
-          width: '100%',
-          display: 'flex',
-          flexDirection: tabletUp ? 'row' : 'column-reverse',
-          gap: '8px',
-          justifyContent: 'space-between',
-        }}
-      >
+      <DialogActions>
         <Button variant="secondary" onClick={props.onClose}>
           {t('tr_cancel')}
         </Button>
         <Button variant="main" onClick={handleAddTime}>
           {t('tr_add')}
         </Button>
-      </Box>
+      </DialogActions>
     </Dialog>
   );
 };

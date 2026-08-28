@@ -277,6 +277,9 @@ export const settingSchema: SettingsType = {
     format_24h_enabled: [
       { type: 'main', value: true, updatedAt: '', _deleted: false },
     ],
+    events_multiday_display: [
+      { type: 'main', value: 'range', updatedAt: '', _deleted: false },
+    ],
     week_start_sunday: [
       { type: 'main', value: false, updatedAt: '', _deleted: false },
     ],
@@ -295,6 +298,7 @@ export const settingSchema: SettingsType = {
       firstname: { value: '', updatedAt: '' },
       lastname: { value: '', updatedAt: '' },
       display_name: { value: '', updatedAt: '' },
+      midweek_meeting_day: { value: 1, updatedAt: '' },
       visits: [],
     },
     midweek_meeting: [
@@ -339,6 +343,7 @@ export const settingSchema: SettingsType = {
       value: PublishersSortOption.MANUAL,
     },
     aux_class_fsg: { value: false, updatedAt: '' },
+    aux_class_qualifications: { value: false, updatedAt: '' },
     first_day_week: [
       { type: 'main', value: 1, _deleted: false, updatedAt: '' },
     ],
@@ -357,6 +362,7 @@ export const settingSchema: SettingsType = {
     firstname: { value: '', updatedAt: '' },
     lastname: { value: '', updatedAt: '' },
     theme_follow_os_enabled: { value: false, updatedAt: '' },
+    haptics_enabled: { value: true, updatedAt: '' },
     user_avatar: undefined,
     user_local_uid: '',
     user_members_delegate: [],
