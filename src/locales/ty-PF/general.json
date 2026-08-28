@@ -149,6 +149,8 @@
   "tr_created": "Hamanihia: {{ date }}",
   "tr_missingInfo": "Haamaramaramaraa e toe ra",
   "tr_fillRequiredField": "A faaî i te vahi titauhia",
+  "tr_endTimeAfterStart": "End time must be after the start time",
+  "tr_endDateAfterStart": "End date must be after the start date",
   "tr_mondayShort": "Mon",
   "tr_tuesdayShort": "Mah2",
   "tr_wednesdayShort": "Mah3",
