@@ -527,7 +527,7 @@ export const getCodeAndElderOnlyLCPart = (
 
   if (!title) return undefined;
   // CHECK: Video / No assignment?
-  const noAssign = sourcesCheckLCAssignments(title, sourceLocale);
+  const noAssign = sourcesCheckLCAssignments(title, desc, sourceLocale);
   if (noAssign) return undefined;
 
   // CHECK: Elders only?
