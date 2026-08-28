@@ -149,6 +149,8 @@
   "tr_created": "Loodud: {{ date }}",
   "tr_missingInfo": "Puuduv info",
   "tr_fillRequiredField": "Palun täida nõutud väljad",
+  "tr_endTimeAfterStart": "End time must be after the start time",
+  "tr_endDateAfterStart": "End date must be after the start date",
   "tr_mondayShort": "E",
   "tr_tuesdayShort": "T",
   "tr_wednesdayShort": "K",
@@ -166,5 +168,13 @@
   "tr_fileImport": "Impordi fail",
   "tr_csvImportDescription": "Parimate tulemuste saavutamiseks kasuta importimisel mallifaili.\nKõiki veerge ei ole vaja täita.\nVeerge töödeldakse nende esinemisjärjekorras.\nKui staatus või ülesanne tuleb aktiveerida, tuleb märkida „1” või „true”.\nEraldajatena on lubatud kasutada nii „;” kui ka „,”.",
   "tr_importSuccess": "Importimine lõpetatud! {{ successCount }} isikut {{ totalCount }}-st on salvestatud.",
-  "tr_bottomActionsMenu": "Alumine toimingute menüü"
+  "tr_bottomActionsMenu": "Alumine toimingute menüü",
+  "tr_exportSettings": "Export settings",
+  "tr_orientation": "Orientation",
+  "tr_portrait": "Portrait",
+  "tr_landscape": "Landscape",
+  "tr_fontSize": "Font size",
+  "tr_small": "Small",
+  "tr_normal": "Normal",
+  "tr_large": "Large"
 }
