@@ -166,6 +166,7 @@ export const dbSchedFillDutiesFields = async () => {
     return [duties.midweek, duties.weekend].some(
       (duty) =>
         !duty.videoconference_host ||
+        !duty.sections ||
         POSITIONAL_DUTIES.some((field) => Array.isArray(duty[field]))
     );
   };
@@ -177,6 +178,7 @@ export const dbSchedFillDutiesFields = async () => {
 
     for (const duty of [sched.duties.midweek, sched.duties.weekend]) {
       duty.videoconference_host ??= dutyPositions();
+      duty.sections ??= [];
 
       for (const field of POSITIONAL_DUTIES) {
         dutyToPositions(duty, field);

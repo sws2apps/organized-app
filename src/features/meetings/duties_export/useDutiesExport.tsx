@@ -12,8 +12,11 @@ import {
   DutyFieldDefinitionType,
   MeetingDutiesConfigType,
   schedulesDutiesConfig,
+  schedulesDutiesExportSettingsSave,
   schedulesDutiesFieldList,
   schedulesDutiesGetFieldValue,
+  schedulesDutiesSections,
+  schedulesDutiesSectionTitle,
   schedulesGetMeetingDate,
 } from '@services/app/schedules';
 import { schedulesState } from '@states/schedules';
@@ -25,6 +28,7 @@ import {
   displayNameMeetingsEnableState,
   fullnameOptionState,
   JWLangLocaleState,
+  meetingDutiesExportSettingsState,
   userDataViewState,
 } from '@states/settings';
 import { personGetDisplayName } from '@utils/common';
@@ -35,17 +39,21 @@ import {
   DutiesScheduleRowType,
 } from '@views/meetings/duties/index.types';
 import { TemplateMeetingDuties } from '@views/index';
+import { MICROPHONE_GROUP_GAP } from '@views/meetings/duties/packDuties';
 import { DutiesExportSettings, DutiesExportType } from './index.types';
 
 type DutyMeeting = 'midweek' | 'weekend';
 
 type DutyMatcher = (field: DutyFieldDefinitionType) => boolean;
 
+type DutyGroup = (field: DutyFieldDefinitionType) => string | undefined;
+
 type MeetingSlotType = {
   id: string;
   schedule: SchedWeekType;
   meeting: DutyMeeting;
   date: string;
+  sortDate: string;
   event?: string;
 };
 
@@ -105,14 +113,31 @@ const useDutiesExport = (onClose: DutiesExportType['onClose']) => {
   const sourceLang = useAtomValue(JWLangLocaleState);
   const displayNameEnabled = useAtomValue(displayNameMeetingsEnableState);
   const fullnameOption = useAtomValue(fullnameOptionState);
+  const savedExportSettings = useAtomValue(meetingDutiesExportSettingsState);
 
   const [startWeek, setStartWeek] = useState('');
   const [endWeek, setEndWeek] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
+  const [orientation, setOrientation] = useState(
+    savedExportSettings.orientation
+  );
+  const [fontSize, setFontSize] = useState(savedExportSettings.fontSize);
 
   const handleSetStartWeek = (value: string) => setStartWeek(value);
 
   const handleSetEndWeek = (value: string) => setEndWeek(value);
+
+  const handleSetOrientation = async (value: 'portrait' | 'landscape') => {
+    setOrientation(value);
+
+    await schedulesDutiesExportSettingsSave({ orientation: value, fontSize });
+  };
+
+  const handleSetFontSize = async (value: number) => {
+    setFontSize(value);
+
+    await schedulesDutiesExportSettingsSave({ orientation, fontSize: value });
+  };
 
   const personName = (uid: string) => {
     if (uid.length === 0) return '';
@@ -147,37 +172,72 @@ const useDutiesExport = (onClose: DutiesExportType['onClose']) => {
   const meetingSlots = (weeks: SchedWeekType[]): MeetingSlotType[] => {
     return weeks
       .flatMap((schedule) =>
-        MEETINGS.map((meeting) => ({
-          id: `${schedule.weekOf}_${meeting}`,
-          schedule,
-          meeting,
-          date: schedulesGetMeetingDate({
+        MEETINGS.map((meeting) => {
+          const meetingDate = schedulesGetMeetingDate({
             week: schedule.weekOf,
             meeting,
             short: true,
-          }).locale,
-          event: meetingEvent(schedule, meeting),
-        }))
+          });
+
+          return {
+            id: `${schedule.weekOf}_${meeting}`,
+            schedule,
+            meeting,
+            date: meetingDate.locale,
+            sortDate: meetingDate.date,
+            event: meetingEvent(schedule, meeting),
+          };
+        })
       )
-      .filter((slot) => slot.date.length > 0);
+      .filter((slot) => slot.date.length > 0)
+      .sort((first, second) => first.sortDate.localeCompare(second.sortDate));
+  };
+
+  const sectionNote = (
+    slot: MeetingSlotType,
+    field: DutyFieldDefinitionType
+  ) => {
+    if (!field.schedule_id) return undefined;
+
+    const sourceId = field.schedule_id.substring(
+      0,
+      field.schedule_id.lastIndexOf('_')
+    );
+
+    const section = schedulesDutiesSections(
+      slot.schedule.weekOf,
+      slot.meeting
+    ).find((record) => record.id === sourceId);
+
+    if (!section || section.parts.length === 0) return undefined;
+
+    return schedulesDutiesSectionTitle(
+      section,
+      slot.schedule.weekOf,
+      slot.meeting
+    );
   };
 
   const dutyRows = (
     id: string,
     slots: MeetingSlotType[],
-    fields: Record<DutyMeeting, DutyFieldDefinitionType[]>,
-    matcher: DutyMatcher
+    fieldsOf: (slot: MeetingSlotType) => DutyFieldDefinitionType[],
+    matcher: DutyMatcher,
+    groupForField?: DutyGroup
   ): DutiesScheduleRowType[] => {
     return slots.map((slot) => {
       const assigned = slot.event
         ? []
-        : fields[slot.meeting]
+        : fieldsOf(slot)
             .filter(matcher)
             .map((field) => ({
               id: `${slot.id}_${field.assignment}_${field.schedule_id ?? ''}`,
               name: personName(
                 schedulesDutiesGetFieldValue(slot.schedule, field, dataView)
               ),
+              groupId: groupForField?.(field),
+              // the brother reads from the sheet which parts he covers
+              note: sectionNote(slot, field),
             }))
             .filter((person) => person.name.length > 0);
 
@@ -196,12 +256,14 @@ const useDutiesExport = (onClose: DutiesExportType['onClose']) => {
   ) => {
     const slots = meetingSlots(weeks);
 
-    const fields: Record<DutyMeeting, DutyFieldDefinitionType[]> = {
-      midweek: schedulesDutiesFieldList('midweek', config),
-      weekend: schedulesDutiesFieldList('weekend', config),
-    };
+    const fieldsOf = (slot: MeetingSlotType) =>
+      schedulesDutiesFieldList(
+        slot.meeting,
+        config,
+        schedulesDutiesSections(slot.schedule.weekOf, slot.meeting)
+      );
 
-    const allFields = MEETINGS.flatMap((meeting) => fields[meeting]);
+    const allFields = slots.flatMap(fieldsOf);
 
     const cards: DutiesScheduleCardType[] = [];
 
@@ -209,7 +271,10 @@ const useDutiesExport = (onClose: DutiesExportType['onClose']) => {
       id: string,
       name: string,
       icon: DutiesCardIconType,
-      matcher: DutyMatcher
+      matcher: DutyMatcher,
+      meetings: DutyMeeting[] = MEETINGS,
+      groupGap = 0,
+      groupForField?: DutyGroup
     ) => {
       if (!allFields.some(matcher)) return;
 
@@ -217,7 +282,14 @@ const useDutiesExport = (onClose: DutiesExportType['onClose']) => {
         id,
         name,
         icon,
-        rows: dutyRows(id, slots, fields, matcher),
+        rows: dutyRows(
+          id,
+          slots.filter((slot) => meetings.includes(slot.meeting)),
+          fieldsOf,
+          matcher,
+          groupForField
+        ),
+        groupGap,
       });
     };
 
@@ -230,21 +302,37 @@ const useDutiesExport = (onClose: DutiesExportType['onClose']) => {
       );
     }
 
-    // microphone sections and custom duties carry their own name and fields
-    const named = [
-      {
-        items: config.sections ?? [],
-        icon: 'microphone' as DutiesCardIconType,
-      },
-      { items: config.custom ?? [], icon: 'custom' as DutiesCardIconType },
-    ];
+    // every week brings its own sections, so the card collects them all
+    const microphoneSections = slots.flatMap((slot) =>
+      schedulesDutiesSections(slot.schedule.weekOf, slot.meeting)
+    );
 
-    for (const { items, icon } of named) {
-      for (const item of items.filter((record) => !record._deleted)) {
-        addCard(item.id, item.name, icon, (field) =>
-          Boolean(field.schedule_id?.startsWith(`${item.id}_`))
-        );
-      }
+    const microphoneGroup = (field: DutyFieldDefinitionType) =>
+      microphoneSections.find((section) =>
+        field.schedule_id?.startsWith(`${section.id}_`)
+      )?.id;
+
+    if (microphoneSections.length > 0) {
+      addCard(
+        'microphone-sections',
+        t('tr_dutiesMicrophones'),
+        'microphone',
+        (field) =>
+          field.type === AssignmentCode.DUTIES_Microphone &&
+          Boolean(microphoneGroup(field)),
+        MEETINGS,
+        MICROPHONE_GROUP_GAP,
+        microphoneGroup
+      );
+    }
+
+    // custom duties keep their own card and name
+    for (const item of (config.custom ?? []).filter(
+      (record) => !record._deleted
+    )) {
+      addCard(item.id, item.name, 'custom', (field) =>
+        Boolean(field.schedule_id?.startsWith(`${item.id}_`))
+      );
     }
 
     return cards;
@@ -296,8 +384,12 @@ const useDutiesExport = (onClose: DutiesExportType['onClose']) => {
 
   return {
     isProcessing,
+    orientation,
+    fontSize,
     handleSetStartWeek,
     handleSetEndWeek,
+    handleSetOrientation,
+    handleSetFontSize,
     handleExportSchedules,
   };
 };

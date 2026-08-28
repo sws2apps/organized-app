@@ -112,6 +112,7 @@ const dutiesMeeting = (): DutiesMeetingType => ({
   auditorium_attendant: dutyPositions(),
   hospitality: dutyPositions(),
   videoconference_host: dutyPositions(),
+  sections: [],
   dynamic: [],
 });
 
@@ -390,6 +391,10 @@ export const settingSchema: SettingsType = {
       interval: { value: 5, updatedAt: '' },
     },
     hour_credits_enabled: { value: false, updatedAt: '' },
+    meeting_duties_export: {
+      orientation: { value: 'portrait', updatedAt: '' },
+      font_size: { value: 10, updatedAt: '' },
+    },
     firstname: { value: '', updatedAt: '' },
     lastname: { value: '', updatedAt: '' },
     theme_follow_os_enabled: { value: false, updatedAt: '' },

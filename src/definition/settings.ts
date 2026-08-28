@@ -198,13 +198,6 @@ export type SettingsType = {
       conflict_prevent: { value: boolean; updatedAt: string };
       mic_sections: { value: boolean; updatedAt: string };
       av_combined: { value: boolean; updatedAt: string };
-      sections?: {
-        _deleted: boolean;
-        id: string;
-        name: string;
-        updatedAt: string;
-        amount: number;
-      }[];
       audio_amount: { value: number; updatedAt: string };
       video_amount: { value: number; updatedAt: string };
       mic_amount: { value: number; updatedAt: string };
@@ -237,6 +230,13 @@ export type SettingsType = {
     };
     theme_follow_os_enabled: { value: boolean; updatedAt: string };
     hour_credits_enabled: { value: boolean; updatedAt: string };
+    meeting_duties_export?: {
+      orientation: {
+        value: 'portrait' | 'landscape';
+        updatedAt: string;
+      };
+      font_size: { value: number; updatedAt: string };
+    };
     data_view: { value: string; updatedAt: string };
   };
 };

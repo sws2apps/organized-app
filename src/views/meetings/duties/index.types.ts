@@ -15,6 +15,9 @@ export type DutiesCardIconType =
 export type DutiesSchedulePersonType = {
   id: string;
   name: string;
+  groupId?: string;
+  // the parts a microphone section covers, printed under the name
+  note?: string;
 };
 
 export type DutiesScheduleRowType = {
@@ -29,6 +32,7 @@ export type DutiesScheduleCardType = {
   name: string;
   icon: DutiesCardIconType;
   rows: DutiesScheduleRowType[];
+  groupGap?: number;
 };
 
 export type DutiesCardLayoutType = {
@@ -38,6 +42,7 @@ export type DutiesCardLayoutType = {
   span: number;
   height: number;
   columns: DutiesScheduleRowType[][];
+  groupGap: number;
 };
 
 export type DutiesCardPlacementType = {
@@ -64,4 +69,6 @@ export type DutiesCardRowProps = {
   row?: DutiesScheduleRowType;
   fontSize: number;
   divided: boolean;
+  groupGap: number;
+  dividerWidth: number;
 };

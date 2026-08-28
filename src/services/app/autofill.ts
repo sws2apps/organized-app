@@ -44,6 +44,7 @@ import {
   schedulesBuildHistoryList,
   schedulesDutiesConfig,
   schedulesDutiesFieldList,
+  schedulesDutiesSections,
   schedulesDutiesGetFieldValue,
   schedulesSelectRandomPerson,
 } from './schedules';
@@ -1162,7 +1163,11 @@ const handleAutofillDutiesMeeting = ({
 
   if (WEEK_TYPE_NO_MEETING.includes(weekType)) return;
 
-  for (const field of schedulesDutiesFieldList(meeting, config)) {
+  for (const field of schedulesDutiesFieldList(
+    meeting,
+    config,
+    schedulesDutiesSections(schedule.weekOf, meeting)
+  )) {
     if (schedulesDutiesGetFieldValue(schedule, field, dataView).length > 0) {
       continue;
     }

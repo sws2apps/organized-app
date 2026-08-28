@@ -1,27 +1,40 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
+import { meetingDutiesState } from '@states/settings';
 import {
-  dutiesSectionsState,
-  meetingDutiesState,
-  settingsState,
-  userDataViewState,
-} from '@states/settings';
+  schedulesDutiesMeetingParts,
+  schedulesDutiesSections,
+} from '@services/app/schedules';
+import { dutiesSectionAdd, dutiesSectionUpdate } from '@services/app/duties';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
-import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { useAppTranslation } from '@hooks/index';
 import { SectionEditProps } from '../index.types';
 
-const useSectionEdit = ({ id, onClose, type }: SectionEditProps) => {
+const useSectionEdit = ({
+  id,
+  meeting,
+  onClose,
+  type,
+  week,
+}: SectionEditProps) => {
   const { t } = useAppTranslation();
 
-  const settings = useAtomValue(settingsState);
-  const dataView = useAtomValue(userDataViewState);
-  const sections = useAtomValue(dutiesSectionsState);
   const dutiesConfig = useAtomValue(meetingDutiesState);
+
+  const sections = useMemo(
+    () => schedulesDutiesSections(week, meeting),
+    [week, meeting]
+  );
+
+  const parts = useMemo(
+    () => schedulesDutiesMeetingParts(week, meeting),
+    [week, meeting]
+  );
 
   const [name, setName] = useState('');
   const [amount, setAmount] = useState(2);
+  const [selectedParts, setSelectedParts] = useState<string[]>([]);
   const [nameError, setNameError] = useState(false);
 
   const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -33,6 +46,17 @@ const useSectionEdit = ({ id, onClose, type }: SectionEditProps) => {
     setAmount(e.target.value as unknown as number);
   };
 
+  const handleTogglePart = (key: string) => {
+    setSelectedParts((prev) =>
+      prev.includes(key)
+        ? prev.filter((record) => record !== key)
+        : // keep the order of the meeting, not the order of the clicks
+          parts
+            .map((part) => part.key)
+            .filter((part) => part === key || prev.includes(part))
+    );
+  };
+
   const handleSave = async () => {
     const sectionName = name.trim();
 
@@ -42,35 +66,21 @@ const useSectionEdit = ({ id, onClose, type }: SectionEditProps) => {
     }
 
     try {
-      const meetingDuties = structuredClone(
-        settings.cong_settings.meeting_duties
-      );
-
-      const duties = meetingDuties.find((duty) => duty.type === dataView);
-
-      duties.sections ??= [];
-
       if (type === 'add') {
-        duties.sections.push({
-          id: crypto.randomUUID(),
+        await dutiesSectionAdd(week, meeting, {
           name: sectionName,
           amount,
-          _deleted: false,
-          updatedAt: new Date().toISOString(),
+          parts: selectedParts,
         });
       }
 
-      if (type === 'edit') {
-        const section = duties.sections.find((section) => section.id === id)!;
-
-        section.name = sectionName;
-        section.amount = amount;
-        section.updatedAt = new Date().toISOString();
+      if (type === 'edit' && id) {
+        await dutiesSectionUpdate(week, meeting, id, {
+          name: sectionName,
+          amount,
+          parts: selectedParts,
+        });
       }
-
-      await dbAppSettingsUpdate({
-        'cong_settings.meeting_duties': meetingDuties,
-      });
 
       onClose();
     } catch (error) {
@@ -78,7 +88,9 @@ const useSectionEdit = ({ id, onClose, type }: SectionEditProps) => {
 
       displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
-        message: getMessageByCode(error.message),
+        message: getMessageByCode(
+          error instanceof Error ? error.message : String(error)
+        ),
         severity: 'error',
       });
     }
@@ -90,23 +102,28 @@ const useSectionEdit = ({ id, onClose, type }: SectionEditProps) => {
 
       // mic amount = default persons per section
       setAmount(dutiesConfig?.mic_amount.value || 2);
+      setSelectedParts([]);
       return;
     }
 
-    const section = sections.find((section) => section.id === id);
+    const section = sections.find((record) => record.id === id);
 
     if (!section) return;
 
     setName(section.name);
     setAmount(section.amount);
+    setSelectedParts(section.parts ?? []);
   }, [id, type, sections, t, dutiesConfig]);
 
   return {
     name,
     amount,
+    parts,
+    selectedParts,
     nameError,
     handleNameChange,
     handleAmountChange,
+    handleTogglePart,
     handleSave,
   };
 };

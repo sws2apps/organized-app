@@ -1,22 +1,43 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
+import { schedulesState } from '@states/schedules';
 import {
-  dutiesSectionsState,
-  settingsState,
-  userDataViewState,
-} from '@states/settings';
+  schedulesDutiesMeetingParts,
+  schedulesDutiesSections,
+} from '@services/app/schedules';
+import {
+  DutiesMeetingValue,
+  dutiesSectionDelete,
+  dutiesSectionsCopyFromWeek,
+  dutiesSectionsPreviousWeek,
+} from '@services/app/duties';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
-import { dbAppSettingsUpdate } from '@services/dexie/settings';
 
-const useMicSections = () => {
-  const settings = useAtomValue(settingsState);
-  const dataView = useAtomValue(userDataViewState);
-  const sections = useAtomValue(dutiesSectionsState);
+const useMicSections = (week: string, meeting: DutiesMeetingValue) => {
+  const schedules = useAtomValue(schedulesState);
 
   const [formOpen, setFormOpen] = useState(false);
   const [deleteId, setDeleteId] = useState('');
   const [editId, setEditId] = useState<string | undefined>();
+
+  // sections belong to the week: schedules drive the refresh after a save
+  const sections = useMemo(
+    () => schedulesDutiesSections(week, meeting),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [week, meeting, schedules]
+  );
+
+  const parts = useMemo(
+    () => schedulesDutiesMeetingParts(week, meeting),
+    [week, meeting]
+  );
+
+  const previousWeek = useMemo(
+    () => dutiesSectionsPreviousWeek(week, meeting),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [week, meeting, schedules]
+  );
 
   const handleOpenAdd = () => {
     setEditId(undefined);
@@ -34,40 +55,46 @@ const useMicSections = () => {
 
   const handleCloseDelete = () => setDeleteId('');
 
+  const notifyError = (error: unknown) => {
+    console.error(error);
+
+    displaySnackNotification({
+      header: getMessageByCode('error_app_generic-title'),
+      message: getMessageByCode(
+        error instanceof Error ? error.message : String(error)
+      ),
+      severity: 'error',
+    });
+  };
+
   const handleDelete = async () => {
     try {
-      const meetingDuties = structuredClone(
-        settings.cong_settings.meeting_duties
-      );
-
-      const duties = meetingDuties.find((duty) => duty.type === dataView);
-      const section = duties.sections?.find(
-        (section) => section.id === deleteId
-      );
-
-      if (section) {
-        section._deleted = true;
-        section.updatedAt = new Date().toISOString();
-
-        await dbAppSettingsUpdate({
-          'cong_settings.meeting_duties': meetingDuties,
-        });
-      }
+      await dutiesSectionDelete(week, meeting, deleteId);
 
       setDeleteId('');
     } catch (error) {
-      console.error(error);
-
-      displaySnackNotification({
-        header: getMessageByCode('error_app_generic-title'),
-        message: getMessageByCode(error.message),
-        severity: 'error',
-      });
+      notifyError(error);
     }
   };
 
+  const handleCopyPrevious = async () => {
+    try {
+      await dutiesSectionsCopyFromWeek(previousWeek, week, meeting);
+    } catch (error) {
+      notifyError(error);
+    }
+  };
+
+  const sectionParts = (keys: string[]) =>
+    keys
+      .map((key) => parts.find((part) => part.key === key)?.label)
+      .filter(Boolean)
+      .join(', ');
+
   return {
     sections,
+    sectionParts,
+    previousWeek,
     formOpen,
     editId,
     deleteId,
@@ -77,6 +104,7 @@ const useMicSections = () => {
     handleAskDelete,
     handleCloseDelete,
     handleDelete,
+    handleCopyPrevious,
   };
 };
 

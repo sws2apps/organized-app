@@ -4,6 +4,7 @@ import { DUTIES_MAX } from '@features/congregation/settings/meeting_duties/share
 import { SectionEditProps } from '../index.types';
 import useSectionEdit from './useSectionEdit';
 import Button from '@components/button';
+import Checkbox from '@components/checkbox';
 import Dialog from '@components/dialog';
 import MenuItem from '@components/menuitem';
 import Select from '@components/select';
@@ -16,9 +17,12 @@ const SectionEdit = (props: SectionEditProps) => {
   const {
     name,
     amount,
+    parts,
+    selectedParts,
     nameError,
     handleNameChange,
     handleAmountChange,
+    handleTogglePart,
     handleSave,
   } = useSectionEdit(props);
 
@@ -48,6 +52,31 @@ const SectionEdit = (props: SectionEditProps) => {
             </MenuItem>
           ))}
         </Select>
+
+        <Stack spacing="8px">
+          <Typography className="body-small-semibold" color="var(--grey-400)">
+            {t('tr_sectionParts')}
+          </Typography>
+
+          <Typography className="label-small-regular" color="var(--grey-350)">
+            {t('tr_sectionPartsDesc')}
+          </Typography>
+
+          {parts.length === 0 && (
+            <Typography className="label-small-regular" color="var(--grey-350)">
+              {t('tr_sectionPartsNone')}
+            </Typography>
+          )}
+
+          {parts.map((part) => (
+            <Checkbox
+              key={part.key}
+              label={part.label}
+              checked={selectedParts.includes(part.key)}
+              onChange={() => handleTogglePart(part.key)}
+            />
+          ))}
+        </Stack>
 
         <Stack spacing="8px">
           <Button variant="main" onClick={handleSave}>

@@ -3,12 +3,15 @@ import { DutiesMeetingPrefixType } from '@definition/assignment';
 export type MicSectionsProps = {
   week: string;
   prefix: DutiesMeetingPrefixType;
+  meeting: 'midweek' | 'weekend';
 };
 
 export type SectionEditProps = {
   open: boolean;
   onClose: VoidFunction;
   type: 'add' | 'edit';
+  meeting: 'midweek' | 'weekend';
+  week: string;
   id?: string;
 };
 

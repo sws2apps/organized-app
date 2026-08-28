@@ -13,7 +13,14 @@ import {
 } from '@views/components/icons';
 import { IconProps } from '@views/components/icons/index.types';
 import { DutiesCardIconType, DutiesCardProps } from './index.types';
-import { iconSize, lineCount } from './packDuties';
+import {
+  CARD_HORIZONTAL_BORDER,
+  CELL_DIVIDER_WIDTH,
+  dateWidth,
+  iconSize,
+  lineCount,
+  ROW_TEXT_PADDING,
+} from './packDuties';
 import styles, {
   CARD_RADIUS,
   DIVIDER_BORDER,
@@ -40,6 +47,7 @@ const DutiesCard = ({ card, width, fontSize }: DutiesCardProps) => {
 
   // columns share one line per position so paired rows keep the same height
   const lines = lineCount(card.columns);
+  const cellWidth = (width - CARD_HORIZONTAL_BORDER) / card.columns.length;
 
   return (
     <View style={{ width }}>
@@ -74,6 +82,13 @@ const DutiesCard = ({ card, width, fontSize }: DutiesCardProps) => {
                   row={column[index]}
                   fontSize={fontSize}
                   divided={position > 0}
+                  groupGap={card.groupGap}
+                  dividerWidth={
+                    cellWidth -
+                    dateWidth(fontSize) -
+                    ROW_TEXT_PADDING -
+                    (position > 0 ? CELL_DIVIDER_WIDTH : 0)
+                  }
                 />
               ))}
             </View>

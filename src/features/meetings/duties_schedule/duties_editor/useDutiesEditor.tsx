@@ -9,6 +9,7 @@ import { dutiesCustomState, meetingDutiesState } from '@states/settings';
 import {
   schedulesDutiesFieldList,
   schedulesDutiesMeetingInfo,
+  schedulesDutiesSections,
 } from '@services/app/schedules';
 import {
   addDays,
@@ -71,7 +72,11 @@ const useDutiesEditor = () => {
   // rendered fields come from the same list that drives counters and autofill
   const dutyRows = useMemo(() => {
     const fields = dutiesConfig
-      ? schedulesDutiesFieldList(activeMeeting, dutiesConfig)
+      ? schedulesDutiesFieldList(
+          activeMeeting,
+          dutiesConfig,
+          schedulesDutiesSections(selectedWeek, activeMeeting)
+        )
       : [];
 
     const responsible = t('tr_responsible');
@@ -116,7 +121,9 @@ const useDutiesEditor = () => {
           .map((field): DutyFieldType => ({ ...field, label: responsible })),
       })),
     };
-  }, [activeMeeting, dutiesConfig, customDuties, t]);
+    // the sections of the week come from the schedules
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeMeeting, dutiesConfig, customDuties, selectedWeek, schedules, t]);
 
   const handleChangeMeeting = (tab: number) => {
     setActiveMeeting(tab === 0 ? 'midweek' : 'weekend');

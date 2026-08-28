@@ -1,7 +1,5 @@
-import { useState } from 'react';
 import { FormControlLabel, RadioGroup, Stack } from '@mui/material';
-import { useAppTranslation } from '@hooks/index';
-import { PageType } from '@views/components/page/index.types';
+import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { DutiesExportType } from './index.types';
 import useDutiesExport from './useDutiesExport';
 import Button from '@components/button';
@@ -13,17 +11,18 @@ import WeekRangeSelector from '../week_range_selector';
 
 const DutiesExport = ({ open, onClose }: DutiesExportType) => {
   const { t } = useAppTranslation();
+  const { tablet600Down } = useBreakpoints();
 
   const {
     isProcessing,
+    orientation,
+    fontSize,
     handleSetStartWeek,
     handleSetEndWeek,
+    handleSetOrientation,
+    handleSetFontSize,
     handleExportSchedules,
   } = useDutiesExport(onClose);
-
-  const [orientation, setOrientation] =
-    useState<PageType['orientation']>('portrait');
-  const [fontSize, setFontSize] = useState(10);
 
   const handleExport = () => handleExportSchedules({ orientation, fontSize });
 
@@ -43,55 +42,74 @@ const DutiesExport = ({ open, onClose }: DutiesExportType) => {
           onEndChange={handleSetEndWeek}
         />
 
-        <Stack spacing="8px">
-          <Typography className="body-small-semibold" color="var(--grey-400)">
-            {t('tr_orientation')}
-          </Typography>
-          <RadioGroup
-            value={orientation}
-            onChange={(e) =>
-              setOrientation(e.target.value as PageType['orientation'])
-            }
-            sx={{ gap: '8px', marginLeft: '6px' }}
-          >
-            <FormControlLabel
-              value="portrait"
-              label={<Typography>{t('tr_portrait')}</Typography>}
-              control={<Radio />}
-            />
-            <FormControlLabel
-              value="landscape"
-              label={<Typography>{t('tr_landscape')}</Typography>}
-              control={<Radio />}
-            />
-          </RadioGroup>
-        </Stack>
+        <Stack
+          direction={tablet600Down ? 'column' : 'row'}
+          spacing="24px"
+          alignItems="flex-start"
+        >
+          <Stack spacing="8px" flex={1} width="100%">
+            <Typography
+              className="body-small-semibold"
+              color="var(--grey-400)"
+            >
+              {t('tr_orientation')}
+            </Typography>
+            <RadioGroup
+              value={orientation}
+              onChange={(e) =>
+                handleSetOrientation(
+                  e.target.value as 'portrait' | 'landscape'
+                )
+              }
+              sx={{ gap: '8px' }}
+            >
+              <FormControlLabel
+                value="portrait"
+                label={<Typography>{t('tr_portrait')}</Typography>}
+                control={<Radio />}
+                sx={{ margin: 0 }}
+              />
+              <FormControlLabel
+                value="landscape"
+                label={<Typography>{t('tr_landscape')}</Typography>}
+                control={<Radio />}
+                sx={{ margin: 0 }}
+              />
+            </RadioGroup>
+          </Stack>
 
-        <Stack spacing="8px">
-          <Typography className="body-small-semibold" color="var(--grey-400)">
-            {t('tr_fontSize')}
-          </Typography>
-          <RadioGroup
-            value={String(fontSize)}
-            onChange={(e) => setFontSize(Number(e.target.value))}
-            sx={{ gap: '8px', marginLeft: '6px' }}
-          >
-            <FormControlLabel
-              value="8"
-              label={<Typography>{t('tr_small')}</Typography>}
-              control={<Radio />}
-            />
-            <FormControlLabel
-              value="10"
-              label={<Typography>{t('tr_normal')}</Typography>}
-              control={<Radio />}
-            />
-            <FormControlLabel
-              value="12"
-              label={<Typography>{t('tr_large')}</Typography>}
-              control={<Radio />}
-            />
-          </RadioGroup>
+          <Stack spacing="8px" flex={1} width="100%">
+            <Typography
+              className="body-small-semibold"
+              color="var(--grey-400)"
+            >
+              {t('tr_fontSize')}
+            </Typography>
+            <RadioGroup
+              value={String(fontSize)}
+              onChange={(e) => handleSetFontSize(Number(e.target.value))}
+              sx={{ gap: '8px' }}
+            >
+              <FormControlLabel
+                value="8"
+                label={<Typography>{t('tr_small')}</Typography>}
+                control={<Radio />}
+                sx={{ margin: 0 }}
+              />
+              <FormControlLabel
+                value="10"
+                label={<Typography>{t('tr_normal')}</Typography>}
+                control={<Radio />}
+                sx={{ margin: 0 }}
+              />
+              <FormControlLabel
+                value="12"
+                label={<Typography>{t('tr_large')}</Typography>}
+                control={<Radio />}
+                sx={{ margin: 0 }}
+              />
+            </RadioGroup>
+          </Stack>
         </Stack>
 
         <Stack spacing="8px" width="100%">

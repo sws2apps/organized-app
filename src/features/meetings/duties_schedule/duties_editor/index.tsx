@@ -100,7 +100,11 @@ const DutiesEditor = () => {
                 duty={t('tr_dutiesMicrophones')}
                 icon={<IconMicrophone color="var(--accent-dark)" />}
               />
-              <MicSections week={selectedWeek} prefix={activePrefix} />
+              <MicSections
+                week={selectedWeek}
+                prefix={activePrefix}
+                meeting={meeting}
+              />
             </Stack>
           )}
 

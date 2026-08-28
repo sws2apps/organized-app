@@ -53,6 +53,8 @@ import {
 import {
   AssignmentCongregation,
   AssignmentHistoryType,
+  DutiesMeetingPartType,
+  DutiesSectionType,
   MidweekMeetingDataType,
   OutgoingSpeakersScheduleType,
   S89DataType,
@@ -99,7 +101,10 @@ import { incomingSpeakersState } from '@states/visiting_speakers';
 import { speakersCongregationsState } from '@states/speakers_congregations';
 import { publicTalksState } from '@states/public_talks';
 import { PublicTalkType } from '@definition/public_talks';
-import { dbAppSettingsGet } from '@services/dexie/settings';
+import {
+  dbAppSettingsGet,
+  dbAppSettingsUpdate,
+} from '@services/dexie/settings';
 import {
   fieldGroupsState,
   languageGroupsState,
@@ -159,6 +164,20 @@ export const schedulesDutiesConfig = () => {
   );
 };
 
+export const schedulesDutiesExportSettingsSave = async (settings: {
+  orientation: 'portrait' | 'landscape';
+  fontSize: number;
+}) => {
+  const updatedAt = new Date().toISOString();
+
+  await dbAppSettingsUpdate({
+    'user_settings.meeting_duties_export': {
+      orientation: { value: settings.orientation, updatedAt },
+      font_size: { value: settings.fontSize, updatedAt },
+    },
+  });
+};
+
 // the combined A/V duty is done by one brother, so he covers both jobs and
 // needs both qualifications; every other duty maps to its own code
 export const schedulesDutyRequiredCodes = (
@@ -185,7 +204,8 @@ export const schedulesDutyPersonQualified = (
 // single source of truth for duty fields — drives counts and autofill
 export const schedulesDutiesFieldList = (
   meeting: 'midweek' | 'weekend',
-  config: MeetingDutiesConfigType
+  config: MeetingDutiesConfigType,
+  sections: DutiesSectionType[] = []
 ): DutyFieldDefinitionType[] => {
   const prefix = meeting === 'midweek' ? 'MM' : 'WM';
 
@@ -214,7 +234,7 @@ export const schedulesDutiesFieldList = (
   };
 
   const dynamic = (
-    items: MeetingDutiesConfigType['custom'] | undefined,
+    items: MeetingDutiesConfigType['custom'] | DutiesSectionType[] | undefined,
     type: AssignmentCode
   ) => {
     const active = items?.filter((record) => !record._deleted) ?? [];
@@ -244,7 +264,7 @@ export const schedulesDutiesFieldList = (
   }
 
   if (config.mic_sections.value) {
-    dynamic(config.sections, AssignmentCode.DUTIES_Microphone);
+    dynamic(sections, AssignmentCode.DUTIES_Microphone);
   } else {
     positioned(
       'Microphone',
@@ -305,6 +325,129 @@ export const schedulesDutiesGetFieldValue = (
   return assigned?.value ?? '';
 };
 
+/**
+ * The parts of one meeting of one week, as the source material describes them.
+ * A microphone section covers some of these, so the brothers know which part
+ * they serve and autofill has a real basis to work from.
+ */
+export const schedulesDutiesMeetingParts = (
+  week: string,
+  meeting: 'midweek' | 'weekend'
+): DutiesMeetingPartType[] => {
+  const source = sourcesFind(week);
+
+  if (!source) return [];
+
+  const lang = store.get(JWLangState);
+  const dataView = store.get(userDataViewState);
+
+  const parts: DutiesMeetingPartType[] = [];
+
+  const add = (key: string, fallback: string, title?: string) => {
+    parts.push({ key, label: title?.trim() || fallback });
+  };
+
+  if (meeting === 'midweek') {
+    const midweek = source.midweek_meeting;
+
+    add(
+      'tgw_talk',
+      getTranslation({ key: 'tr_treasuresPart' }),
+      midweek.tgw_talk?.src?.[lang]
+    );
+
+    add('tgw_gems', getTranslation({ key: 'tr_tgwGems' }));
+
+    add('tgw_bible_reading', getTranslation({ key: 'tr_bibleReading' }));
+
+    const ayfCount = midweek.ayf_count?.[lang] ?? 0;
+
+    for (let index = 1; index <= ayfCount; index++) {
+      const part = midweek[
+        `ayf_part${index}` as SourceAssignmentType
+      ] as ApplyMinistryType;
+
+      add(
+        `ayf_part${index}`,
+        getTranslation({ key: 'tr_lcPartNum', params: { partNumber: index } }),
+        part?.title?.[lang]
+      );
+    }
+
+    const lcCount = sourcesCountLC(source, dataView, lang);
+
+    for (let index = 1; index <= lcCount; index++) {
+      const part = midweek[
+        `lc_part${index}` as SourceAssignmentType
+      ] as LivingAsChristiansType;
+
+      add(
+        `lc_part${index}`,
+        getTranslation({ key: 'tr_lcPartNum', params: { partNumber: index } }),
+        part ? sourcesLCGetTitle(part, dataView, lang) : undefined
+      );
+    }
+
+    add(
+      'lc_cbs',
+      getTranslation({ key: 'tr_cbs' }),
+      midweek.lc_cbs?.title?.default?.[lang]
+    );
+
+    return parts;
+  }
+
+  add('public_talk', getTranslation({ key: 'tr_publicTalk' }));
+
+  add(
+    'w_study',
+    getTranslation({ key: 'tr_watchtowerStudy' }),
+    source.weekend_meeting?.w_study?.[lang]
+  );
+
+  return parts;
+};
+
+/**
+ * The section name followed by the parts it covers, for the schedule and for
+ * the assignment the brother sees.
+ */
+export const schedulesDutiesSectionTitle = (
+  section: DutiesSectionType,
+  week: string,
+  meeting: 'midweek' | 'weekend'
+) => {
+  if (section.parts.length === 0) return section.name;
+
+  const parts = schedulesDutiesMeetingParts(week, meeting);
+
+  const labels = section.parts
+    .map((key) => parts.find((part) => part.key === key)?.label)
+    .filter(Boolean);
+
+  if (labels.length === 0) return section.name;
+
+  return `${section.name}: ${labels.join(', ')}`;
+};
+
+/**
+ * Sections of one meeting of one week, oldest first, deleted ones removed.
+ */
+export const schedulesDutiesSections = (
+  week: string,
+  meeting: 'midweek' | 'weekend'
+): DutiesSectionType[] => {
+  const schedules = store.get(schedulesState);
+
+  const schedule = schedules.find((record) => record.weekOf === week);
+
+  return (
+    schedule?.duties?.[meeting].sections?.filter(
+      (record) => !record._deleted
+    ) ?? []
+  );
+};
+
 export const schedulesDutiesMeetingInfo = (
   week: string,
   meeting: 'midweek' | 'weekend'
@@ -326,7 +469,11 @@ export const schedulesDutiesMeetingInfo = (
     return { total: 0, assigned: 0 };
   }
 
-  const fields = schedulesDutiesFieldList(meeting, config);
+  const fields = schedulesDutiesFieldList(
+    meeting,
+    config,
+    schedulesDutiesSections(week, meeting)
+  );
 
   const assigned = fields.filter(
     (field) =>
@@ -1359,13 +1506,21 @@ export const schedulesGetHistoryDetails = ({
         (record) => record.type === assigned.type
       );
 
-      const section = config?.sections?.find(
+      const meeting = assignment.startsWith('WM') ? 'weekend' : 'midweek';
+
+      const section = schedule.duties?.[meeting].sections?.find(
         (record) => record.id === sourceId
       );
 
       if (section) {
         history.assignment.code = AssignmentCode.DUTIES_Microphone;
-        history.assignment.title = section.name;
+
+        // the parts tell the brother where he is expected to help
+        history.assignment.title = schedulesDutiesSectionTitle(
+          section,
+          schedule.weekOf,
+          meeting
+        );
       }
 
       const custom = config?.custom?.find((record) => record.id === sourceId);
@@ -1393,13 +1548,17 @@ export const schedulesBuildHistoryList = () => {
   // duty values hidden by the current config must not feed history/conflicts
   const dutiesFieldsCache = new Map<string, Set<string>>();
 
+  // sections belong to a week, so the active fields are cached per week too
   const isActiveDutyField = (
     key: AssignmentFieldType,
-    assigned: AssignmentCongregation
+    assigned: AssignmentCongregation,
+    week: string
   ) => {
     if (!key.includes('_DUTIES_')) return true;
 
-    let fieldSet = dutiesFieldsCache.get(assigned.type);
+    const cacheKey = `${assigned.type}_${week}`;
+
+    let fieldSet = dutiesFieldsCache.get(cacheKey);
 
     if (!fieldSet) {
       fieldSet = new Set();
@@ -1410,7 +1569,13 @@ export const schedulesBuildHistoryList = () => {
 
       if (config) {
         for (const meeting of ['midweek', 'weekend'] as const) {
-          for (const field of schedulesDutiesFieldList(meeting, config)) {
+          const fields = schedulesDutiesFieldList(
+            meeting,
+            config,
+            schedulesDutiesSections(week, meeting)
+          );
+
+          for (const field of fields) {
             fieldSet.add(
               field.schedule_id
                 ? `${field.assignment}:${field.schedule_id}`
@@ -1420,7 +1585,7 @@ export const schedulesBuildHistoryList = () => {
         }
       }
 
-      dutiesFieldsCache.set(assigned.type, fieldSet);
+      dutiesFieldsCache.set(cacheKey, fieldSet);
     }
 
     const lookup = key.includes('_DUTIES_Dynamic')
@@ -1446,7 +1611,13 @@ export const schedulesBuildHistoryList = () => {
 
         if (assigned.value === '') continue;
 
-        if (!isActiveDutyField(key as AssignmentFieldType, assigned)) continue;
+        const isActive = isActiveDutyField(
+          key as AssignmentFieldType,
+          assigned,
+          schedule.weekOf
+        );
+
+        if (!isActive) continue;
 
         const lang =
           languages

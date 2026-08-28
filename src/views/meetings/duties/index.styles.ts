@@ -5,6 +5,7 @@ const BORDER_COLOR = '#A5B3DD';
 const DIVIDER_COLOR = '#D5DFFD';
 
 export const CARD_RADIUS = getCSSPropertyValue('--radius-s');
+export const GROUP_DIVIDER_COLOR = BORDER_COLOR;
 export const DIVIDER_BORDER = `0.5px solid ${DIVIDER_COLOR}`;
 export const SHADED_ROW_COLOR = '#F8F9FF';
 export const EVENT_COLOR = '#8391BD';
@@ -72,6 +73,10 @@ const styles = StyleSheet.create({
   person: {
     fontWeight: 400,
     lineHeight: 1.1,
+  },
+  personNote: {
+    fontWeight: 400,
+    color: '#606060',
   },
 });
 

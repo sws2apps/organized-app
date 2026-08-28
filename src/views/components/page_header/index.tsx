@@ -63,21 +63,24 @@ const PageHeader = ({
             display: 'flex',
             flexDirection: 'row',
             justifyContent: 'space-between',
+            alignItems: 'center',
           }}
           fixed={fixed}
         >
           <View
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              gap: '5px',
-            }}
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                gap: '5px',
+              }}
           >
             {icon}
             <Text
               style={{
                 fontWeight: 500,
                 fontSize: '14px',
+                lineHeight: 20 / 14,
                 color: '#000000',
               }}
             >
@@ -95,6 +98,7 @@ const PageHeader = ({
               style={{
                 fontWeight: 500,
                 fontSize: '12px',
+                lineHeight: 16 / 12,
                 color: '#3B4CA3',
               }}
             >

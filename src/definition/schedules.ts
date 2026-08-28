@@ -81,6 +81,26 @@ export type DutyPositionsType = {
   position_4: AssignmentCongregation[];
 };
 
+/**
+ * A microphone section of one meeting of one week: the parts it covers and how
+ * many brothers serve it. Sections live with the week, not with the settings,
+ * because the parts of a meeting change from week to week.
+ */
+export type DutiesMeetingPartType = {
+  key: string;
+  label: string;
+};
+
+export type DutiesSectionType = {
+  id: string;
+  name: string;
+  // keys of the meeting parts this section covers, empty for a whole meeting
+  parts: string[];
+  amount: number;
+  _deleted: boolean;
+  updatedAt: string;
+};
+
 export type DutiesMeetingType = {
   audio: DutyPositionsType;
   video: DutyPositionsType;
@@ -92,6 +112,7 @@ export type DutiesMeetingType = {
   auditorium_attendant: DutyPositionsType;
   hospitality: DutyPositionsType;
   videoconference_host: DutyPositionsType;
+  sections: DutiesSectionType[];
   // `${sectionOrCustomId}_${position}` entries for sections and custom duties
   dynamic: AssignmentCongregation[];
 };

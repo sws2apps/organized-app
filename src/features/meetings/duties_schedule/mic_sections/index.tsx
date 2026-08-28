@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
 import { Box, Grid, Stack } from '@mui/material';
-import { IconAdd, IconDelete, IconEdit } from '@components/icons';
+import { IconAdd, IconCopy, IconDelete, IconEdit } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import { AssignmentCode } from '@definition/assignment';
 import { MicSectionsProps } from './index.types';
@@ -14,11 +14,13 @@ import SectionEdit from './section_edit';
 import Typography from '@components/typography';
 import { dutyFieldColumns } from '../shared';
 
-const MicSections = ({ week, prefix }: MicSectionsProps) => {
+const MicSections = ({ week, prefix, meeting }: MicSectionsProps) => {
   const { t } = useAppTranslation();
 
   const {
     sections,
+    sectionParts,
+    previousWeek,
     formOpen,
     editId,
     deleteId,
@@ -28,7 +30,8 @@ const MicSections = ({ week, prefix }: MicSectionsProps) => {
     handleAskDelete,
     handleCloseDelete,
     handleDelete,
-  } = useMicSections();
+    handleCopyPrevious,
+  } = useMicSections(week, meeting);
 
   return (
     <Stack spacing="16px" flex={1} width="100%">
@@ -37,6 +40,8 @@ const MicSections = ({ week, prefix }: MicSectionsProps) => {
           open={formOpen}
           onClose={handleCloseForm}
           type={editId ? 'edit' : 'add'}
+          meeting={meeting}
+          week={week}
           id={editId}
         />
       )}
@@ -80,12 +85,22 @@ const MicSections = ({ week, prefix }: MicSectionsProps) => {
             >
               {/* absolute icons keep the row at label height */}
               <Box sx={{ position: 'relative', display: 'flex' }}>
-                <Typography
-                  className="body-small-regular"
-                  color="var(--grey-400)"
-                >
-                  {section.name}
-                </Typography>
+                <Stack spacing="2px">
+                  <Typography
+                    className="body-small-semibold"
+                    color="var(--grey-400)"
+                  >
+                    {section.name}
+                  </Typography>
+
+                  {/* the parts tell the brothers where they are expected */}
+                  <Typography
+                    className="label-small-regular"
+                    color="var(--grey-350)"
+                  >
+                    {sectionParts(section.parts) || t('tr_sectionWholeMeeting')}
+                  </Typography>
+                </Stack>
 
                 <Stack
                   direction="row"
@@ -139,18 +154,35 @@ const MicSections = ({ week, prefix }: MicSectionsProps) => {
 
       <Divider color="var(--accent-200)" />
 
-      <Button
-        variant="small"
-        onClick={handleOpenAdd}
-        startIcon={<IconAdd />}
-        sx={{
-          height: '32px',
-          minHeight: '32px !important',
-          alignSelf: 'flex-start',
-        }}
-      >
-        {t('tr_sectionAdd')}
-      </Button>
+      <Stack direction="row" spacing="8px" flexWrap="wrap" useFlexGap>
+        <Button
+          variant="small"
+          onClick={handleOpenAdd}
+          startIcon={<IconAdd />}
+          sx={{
+            height: '32px',
+            minHeight: '32px !important',
+          }}
+        >
+          {t('tr_sectionAdd')}
+        </Button>
+
+        {/* the sections of a week are its own: a congregation that keeps the
+            same shifts brings them over instead of typing them again */}
+        {sections.length === 0 && previousWeek.length > 0 && (
+          <Button
+            variant="small"
+            onClick={handleCopyPrevious}
+            startIcon={<IconCopy />}
+            sx={{
+              height: '32px',
+              minHeight: '32px !important',
+            }}
+          >
+            {t('tr_sectionsCopyPrevious')}
+          </Button>
+        )}
+      </Stack>
     </Stack>
   );
 };

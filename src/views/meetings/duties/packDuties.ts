@@ -21,10 +21,15 @@ const TITLE_GAP = 6;
 const TITLE_PADDING = 12;
 const TITLE_LINE_RATIO = 1.24;
 const ROW_PADDING = 8;
-const ROW_TEXT_PADDING = 10;
-const PERSON_GAP = 2;
-const BORDER = 1;
-const DIVIDER = 0.5;
+export const ROW_TEXT_PADDING = 10;
+export const PERSON_GAP = 2;
+export const MICROPHONE_GROUP_DIVIDER_TOP_PADDING = 2;
+export const MICROPHONE_GROUP_GAP =
+  PERSON_GAP * 2 + MICROPHONE_GROUP_DIVIDER_TOP_PADDING;
+export const CARD_HORIZONTAL_BORDER = 1;
+export const CELL_DIVIDER_WIDTH = 0.5;
+const BORDER = CARD_HORIZONTAL_BORDER;
+const DIVIDER = CELL_DIVIDER_WIDTH;
 const LINE_RATIO = 1.1;
 
 // text cannot be measured before rendering, so wrapping is estimated from an
@@ -95,7 +100,8 @@ const titleHeight = (
 const rowHeight = (
   row: DutiesScheduleRowType,
   fontSize: number,
-  width: number
+  width: number,
+  groupGap: number
 ) => {
   const textWidth =
     width - dateWidth(fontSize) - ROW_TEXT_PADDING - DIVIDER - BORDER;
@@ -109,8 +115,20 @@ const rowHeight = (
 
   const gaps = Math.max(0, row.persons.length - 1) * PERSON_GAP;
 
+  const groupTransitions = row.persons.reduce((total, person, index) => {
+    if (index === 0 || !person.groupId) return total;
+
+    return person.groupId !== row.persons[index - 1].groupId
+      ? total + 1
+      : total;
+  }, 0);
+
   return (
-    ROW_PADDING + Math.max(1, lines) * lineHeight(fontSize) + gaps + DIVIDER
+    ROW_PADDING +
+    Math.max(1, lines) * lineHeight(fontSize) +
+    gaps +
+    groupTransitions * groupGap +
+    DIVIDER
   );
 };
 
@@ -144,7 +162,9 @@ const spanFor = (
   maxSpan: number
 ) => {
   for (let span = 1; span < maxSpan; span++) {
-    if (title + columnsHeight(balance(measured, span)) <= limit) return span;
+    if (title + columnsHeight(balance(measured, span)) <= limit) {
+      return span;
+    }
   }
 
   return maxSpan;
@@ -166,9 +186,11 @@ const layoutCard = ({
   spanLimit: number;
   maxSpan: number;
 }): DutiesCardLayoutType[] => {
+  const groupGap = card.groupGap ?? 0;
+
   const measured: MeasuredRow[] = card.rows.map((row) => ({
     row,
-    height: rowHeight(row, fontSize, width),
+    height: rowHeight(row, fontSize, width, groupGap),
   }));
 
   const title = titleHeight(card, fontSize, width);
@@ -186,10 +208,12 @@ const layoutCard = ({
     let filled = 0;
 
     for (const entry of remaining) {
-      if (take > 0 && filled + entry.height > available * span) break;
+      const nextHeight = filled + entry.height;
+
+      if (take > 0 && nextHeight > available * span) break;
 
       take += 1;
-      filled += entry.height;
+      filled = nextHeight;
     }
 
     let columns = balance(remaining.slice(0, take), Math.min(span, take));
@@ -205,6 +229,7 @@ const layoutCard = ({
       icon: card.icon,
       span: columns.length,
       height: title + BORDER + columnsHeight(columns),
+      groupGap,
       columns: columns.map((column) => column.map((entry) => entry.row)),
     });
 
