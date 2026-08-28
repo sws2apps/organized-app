@@ -149,6 +149,8 @@
   "tr_created": "Created: {{ date }}",
   "tr_missingInfo": "Tsy feno ny fanazavana",
   "tr_fillRequiredField": "Fenoy azafady ireo fanazavana ilaina",
+  "tr_endTimeAfterStart": "End time must be after the start time",
+  "tr_endDateAfterStart": "End date must be after the start date",
   "tr_mondayShort": "Alats",
   "tr_tuesdayShort": "Tal",
   "tr_wednesdayShort": "Alar",
