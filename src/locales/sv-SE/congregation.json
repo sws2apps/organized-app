@@ -368,7 +368,7 @@
   "tr_FR": "Reguljär pionjär",
   "tr_FRI": "Ålderspionjär",
   "tr_FS": "Specialpionjär",
-  "tr_FSI": "Åldersspecialpionjär",
+  "tr_FSI": "Ålderspionjär",
   "tr_incomingCongregationOnlineNoSpeakers": "Denna församling har ännu inte lagt till några besökande talare i sina register. Om nödvändigt kan du kontakta dem.",
   "tr_incomingCongregationOnlinePending": "Denna församling har ännu inte godkänt din begäran om tillgång till deras lista över utresande talare. Om nödvändigt kan du kontakta dem personligen.",
   "tr_incomingCongregationOnlineDisapproved": "Denna församling nekade din begäran om att få tillgång till deras lista över utresande talare. Om nödvändigt kan du personligen kontakta dem.",
@@ -528,5 +528,5 @@
   "tr_personalDetails": "Personuppgifter",
   "tr_midweekMeetingDay": "Veckomötesdag",
   "tr_infirmPioneer": "Ålderspionjär",
-  "tr_infirmPioneerNoGoal": "As an infirm pioneer, you can serve as much as you are able without a yearly hour goal."
+  "tr_infirmPioneerNoGoal": "Som ålderspionjär kan du tjäna så mycket du kan, utan ett årligt timmål."
 }
