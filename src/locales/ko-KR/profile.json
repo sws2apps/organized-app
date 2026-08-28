@@ -33,6 +33,8 @@
   "tr_modeDark": "Dark",
   "tr_autoThemeChange": "자동 테마 변경",
   "tr_autoThemeChangeDesc": "기기의 시스템 설정을 따라 밝은 모드와 어두운 모드를 선택합니다.",
+  "tr_hapticFeedback": "Haptic feedback",
+  "tr_hapticFeedbackDesc": "Vibrate when you interact with the app, if your device and browser support it",
   "tr_colorScheme": "색상 구성",
   "tr_blue": "파란색",
   "tr_green": "초록색",
