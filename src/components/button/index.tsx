@@ -34,7 +34,7 @@ const Button: FC<ButtonPropsType> = (props) => {
   const overlayBorderTop =
     'linear-gradient(180deg, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0) 100%)';
   const overlayBorderBottom =
-    'linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.05) 100%)';
+    'linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.02) 100%)';
   const gradientBackground = `${topHighlight}, ${overlayBorderTop}, ${overlayBorderBottom}`;
 
   const darkenOverlay = 'inset 0 0 0 1000px var(--btn-hover-overlay)';
@@ -44,7 +44,10 @@ const Button: FC<ButtonPropsType> = (props) => {
   const springEasing = 'cubic-bezier(0.34, 1.56, 0.64, 1)';
 
   const hasPressScale =
-    isGradient || variant === 'secondary' || variant === 'tertiary';
+    isGradient ||
+    variant === 'secondary' ||
+    variant === 'tertiary' ||
+    variant === 'semi-white';
 
   const getBorder = (isDisabled = false) => {
     if (isGradient) {
