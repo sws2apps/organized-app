@@ -69,7 +69,7 @@ const AppReminders = () => {
         </Stack>
 
         <StyledRemindersFooter>
-          <Button variant="main" color="orange" onClick={reminderMeTomorrow}>
+          <Button variant="semi-white" onClick={reminderMeTomorrow}>
             {t('tr_remindMeTomorrow')}
           </Button>
         </StyledRemindersFooter>

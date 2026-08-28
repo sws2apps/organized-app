@@ -33,6 +33,8 @@
   "tr_modeDark": "Tume",
   "tr_autoThemeChange": "Rakenduse teema automaatne muutmine",
   "tr_autoThemeChangeDesc": "Järgi oma seadme süsteemi seadeid, kui valid heledat või tumedat režiimi",
+  "tr_hapticFeedback": "Haptic feedback",
+  "tr_hapticFeedbackDesc": "Vibrate when you interact with the app, if your device and browser support it",
   "tr_colorScheme": "Värviskeem",
   "tr_blue": "Sinine",
   "tr_green": "Roheline",
