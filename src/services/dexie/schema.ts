@@ -340,6 +340,7 @@ export const settingSchema: SettingsType = {
       value: PublishersSortOption.MANUAL,
     },
     aux_class_fsg: { value: false, updatedAt: '' },
+    aux_class_qualifications: { value: false, updatedAt: '' },
     first_day_week: [
       { type: 'main', value: 1, _deleted: false, updatedAt: '' },
     ],

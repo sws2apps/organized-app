@@ -181,6 +181,7 @@ export type SettingsType = {
       value: PublishersSortOption;
     };
     aux_class_fsg: { value: boolean; updatedAt: string };
+    aux_class_qualifications: { value: boolean; updatedAt: string };
     first_day_week: {
       type: string;
       _deleted: boolean;

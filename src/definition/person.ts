@@ -21,10 +21,18 @@ export const isEnrollmentType = (value: string): value is EnrollmentType => {
   return ALL_ENROLLMENT_TYPES.includes(value as EnrollmentType);
 };
 
+export type AssignmentClassroomsType = {
+  code: AssignmentCode;
+  classrooms: string[];
+};
+
 export type AssignmentType = {
   type: string;
   updatedAt: string;
   values: AssignmentCode[];
+  // classrooms where an assignment applies ('1' = main hall, '2' = auxiliary
+  // classroom) — an assignment without a record applies to all classrooms
+  classroom_qualifications?: AssignmentClassroomsType[];
 };
 
 export type TimeAwayType = {

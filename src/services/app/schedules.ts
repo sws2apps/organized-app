@@ -1689,7 +1689,11 @@ export const schedulesSelectRandomPerson = (data: {
 
   const persons = store.get(personsByViewState);
 
-  let personsElligible = applyAssignmentFilters(persons, [data.type]);
+  let personsElligible = applyAssignmentFilters(
+    persons,
+    [data.type],
+    data.classroom
+  );
 
   const { date: meetingDate } = schedulesGetMeetingDate({
     week: data.week,

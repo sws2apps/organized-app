@@ -4,6 +4,7 @@ import {
   displayNameMeetingsEnableState,
   fullnameOptionState,
   midweekMeetingAssigFSGState,
+  midweekMeetingAuxClassQualificationsState,
   midweekMeetingAuxCounselorDefaultEnabledState,
   midweekMeetingAuxCounselorDefaultState,
   midweekMeetingClassCountState,
@@ -24,6 +25,9 @@ const useMidweekSettings = () => {
   const classCount = useAtomValue(midweekMeetingClassCountState);
   const defaultAuxPerson = useAtomValue(midweekMeetingAuxCounselorDefaultState);
   const assignFSGInitial = useAtomValue(midweekMeetingAssigFSGState);
+  const auxClassQualificationsInitial = useAtomValue(
+    midweekMeetingAuxClassQualificationsState
+  );
   const defaultAuxEnabled = useAtomValue(
     midweekMeetingAuxCounselorDefaultEnabledState
   );
@@ -32,6 +36,7 @@ const useMidweekSettings = () => {
   const [auxCounselorMainEnabled, setAuxCounselorMainEnabled] = useState(false);
   const [auxCounselorMainPerson, setAuxCounselorMainPerson] = useState('');
   const [auxClassAssignFSG, setAuxClassAssignFSG] = useState(false);
+  const [auxClassQualifications, setAuxClassQualifications] = useState(false);
 
   const personsAuxCounselorList = useMemo(() => {
     const elligiblePersons = persons.filter((record) => {
@@ -109,12 +114,28 @@ const useMidweekSettings = () => {
     });
   };
 
+  const handleAuxClassQualificationsToggle = async () => {
+    await dbAppSettingsUpdate({
+      'cong_settings.aux_class_qualifications': {
+        value: !auxClassQualifications,
+        updatedAt: new Date().toISOString(),
+      },
+    });
+  };
+
   useEffect(() => {
     setAuxClassEnabled(classCount === 2);
     setAuxCounselorMainEnabled(defaultAuxEnabled);
     setAuxCounselorMainPerson(defaultAuxPerson);
     setAuxClassAssignFSG(assignFSGInitial);
-  }, [assignFSGInitial, classCount, defaultAuxEnabled, defaultAuxPerson]);
+    setAuxClassQualifications(auxClassQualificationsInitial);
+  }, [
+    assignFSGInitial,
+    auxClassQualificationsInitial,
+    classCount,
+    defaultAuxEnabled,
+    defaultAuxPerson,
+  ]);
 
   return {
     auxClassEnabled,
@@ -126,6 +147,8 @@ const useMidweekSettings = () => {
     handleAuxCounselorMainPersonChange,
     auxClassAssignFSG,
     handleAuxClassAssignFSGToggle,
+    auxClassQualifications,
+    handleAuxClassQualificationsToggle,
   };
 };
 
