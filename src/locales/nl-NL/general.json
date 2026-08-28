@@ -149,6 +149,8 @@
   "tr_created": "Aangemaakt: {{ date }}",
   "tr_missingInfo": "Verstrek de nodige info",
   "tr_fillRequiredField": "Vul de ontbrekende velden in a.u.b.",
+  "tr_endTimeAfterStart": "End time must be after the start time",
+  "tr_endDateAfterStart": "End date must be after the start date",
   "tr_mondayShort": "Ma",
   "tr_tuesdayShort": "Din",
   "tr_wednesdayShort": "Woe",
