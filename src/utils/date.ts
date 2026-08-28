@@ -18,6 +18,7 @@ import {
   monthNamesState,
   monthShortNamesState,
 } from '@states/app';
+import { FirstDayWeekOption } from '@definition/settings';
 
 export const MAX_DATE = new Date(9999, 11, 31);
 
@@ -544,4 +545,17 @@ export const formatDateShortMonthWithYear = (
     language,
     params: { year, month: monthName, date },
   });
+};
+
+export const shiftWeekday = (day: number, firstDayWeek: FirstDayWeekOption) => {
+  const shift = (firstDayWeek + 6) % 7;
+  return (day + 7 - shift) % 7;
+};
+
+export const unshiftWeekday = (
+  day: number,
+  firstDayWeek: FirstDayWeekOption
+) => {
+  const shift = (firstDayWeek + 6) % 7;
+  return (day + shift) % 7;
 };

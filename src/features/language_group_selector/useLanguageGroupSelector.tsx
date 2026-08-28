@@ -14,7 +14,7 @@ import { Option } from './index.types';
 import { schedulesBuildHistoryList } from '@services/app/schedules';
 import { assignmentsHistoryState } from '@states/schedules';
 import { languageGroupsState } from '@states/field_service_groups';
-import { refreshLocalesResources } from '@services/i18n';
+import { refreshLocaleDerivedData } from '@services/app/locale_derived_data';
 
 const useGroupLanguageSelector = () => {
   const { t } = useAppTranslation();
@@ -65,15 +65,23 @@ const useGroupLanguageSelector = () => {
   const renderValue = (value: string) => {
     if (value === 'main') return t('tr_hostCongregation');
 
-    return options.find((record) => record.value === value).label;
+    return (
+      options.find((record) => record.value === value)?.label ??
+      t('tr_hostCongregation')
+    );
   };
 
-  const handleChange = async (value: string) => {
+  const handleChange = async (dataViewNext: string) => {
+    if (dataViewNext === value) return;
+
     await dbAppSettingsUpdate({
-      'user_settings.data_view': { value, updatedAt: new Date().toISOString() },
+      'user_settings.data_view': {
+        value: dataViewNext,
+        updatedAt: new Date().toISOString(),
+      },
     });
 
-    await refreshLocalesResources();
+    await refreshLocaleDerivedData();
 
     await dbAppSettingsSetupMeetingDuties();
 

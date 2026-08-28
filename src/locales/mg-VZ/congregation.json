@@ -366,7 +366,9 @@
   "tr_createMasterKeyIntroDesc": "Kôdy toy ro hamonianao ty data ampiasan'ny fiangona, ohatsy hoe tatitsy, na listan'olo.Ilà koa raha io lafa hampilitsy na hanajary data na hanao fanovà bevata amy fanamboara ao.",
   "tr_hallC": "3",
   "tr_FR": "Mpisava lala maharitsy",
+  "tr_FRI": "Infirm regular pioneer",
   "tr_FS": "Mpisava lala manoka",
+  "tr_FSI": "Infirm special pioneer",
   "tr_incomingCongregationOnlineNoSpeakers": "Mbo tsy misy mpandahateny mpitsidiky fiangona toy amy firaketa ao. Miresaha amin’izy ireo raha ilaina.",
   "tr_incomingCongregationOnlinePending": "Mbo tsy neken'ny fiangona toy ty fangatahanao hahita ty listan'ny mpandahateny amy fiangona io ao. Azonao resahy rozy laha ilà.",
   "tr_incomingCongregationOnlineDisapproved": "Tsy neken’ny fiangona {} ty fangatahanao hahita ty listan'ny mpandahateny mpitsidiky amin-drozy ao. Azonao resahy rozy laha ilà.",
@@ -523,5 +525,8 @@
   "tr_maximumAmountOfGroupsIs10": "10 ny isa ambony indrindra azo ampidirina",
   "tr_personAwayNotice": "Tsy eo: {{ date }}",
   "tr_weekendTemplateShowSongs": "Hampiseho ny hira amin’ny fandaharana faran’ny herinandro",
-  "tr_personalDetails": "Personal details"
+  "tr_personalDetails": "Personal details",
+  "tr_midweekMeetingDay": "Midweek meeting day",
+  "tr_infirmPioneer": "Infirm pioneer",
+  "tr_infirmPioneerNoGoal": "As an infirm pioneer, you can serve as much as you are able without a yearly hour goal."
 }

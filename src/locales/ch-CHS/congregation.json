@@ -366,7 +366,9 @@
   "tr_createMasterKeyIntroDesc": "此密钥安全地加密您会众的数据，包括报告和人员，并且是进行管理操作（例如数据导出/导入或对设置进行重大更改）所必需的。",
   "tr_hallC": "C",
   "tr_FR": "正规先驱",
+  "tr_FRI": "Infirm regular pioneer",
   "tr_FS": "特别先驱",
+  "tr_FSI": "Infirm special pioneer",
   "tr_incomingCongregationOnlineNoSpeakers": "该会众尚未添加任何外部讲者。如果需要，您可以亲自联系他们。",
   "tr_incomingCongregationOnlinePending": "该会众尚未批准您访问其外部讲者列表的请求。如果需要，您可以亲自联系他们。",
   "tr_incomingCongregationOnlineDisapproved": "该会众拒绝了您访问其外部讲者列表的请求。如果需要，您可以亲自联系他们。",
@@ -523,5 +525,8 @@
   "tr_maximumAmountOfGroupsIs10": "Maximum amount of field service groups is 10",
   "tr_personAwayNotice": "This person is away: {{ date }}",
   "tr_weekendTemplateShowSongs": "Display songs on weekend meeting schedules",
-  "tr_personalDetails": "Personal details"
+  "tr_personalDetails": "Personal details",
+  "tr_midweekMeetingDay": "Midweek meeting day",
+  "tr_infirmPioneer": "Infirm pioneer",
+  "tr_infirmPioneerNoGoal": "As an infirm pioneer, you can serve as much as you are able without a yearly hour goal."
 }

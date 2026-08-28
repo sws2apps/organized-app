@@ -366,7 +366,9 @@
   "tr_createMasterKeyIntroDesc": "Denna nyckel krypterar säkert din församlings data, inklusive rapporter och personer, och krävs för administrativa åtgärder som dataexport/import eller för att göra betydande ändringar i inställningarna.",
   "tr_hallC": "C",
   "tr_FR": "Reguljär pionjär",
+  "tr_FRI": "Infirm regular pioneer",
   "tr_FS": "Specialpionjär",
+  "tr_FSI": "Infirm special pioneer",
   "tr_incomingCongregationOnlineNoSpeakers": "Denna församling har ännu inte lagt till några besökande talare i sina register. Om nödvändigt kan du kontakta dem.",
   "tr_incomingCongregationOnlinePending": "Denna församling har ännu inte godkänt din begäran om tillgång till deras lista över utresande talare. Om nödvändigt kan du kontakta dem personligen.",
   "tr_incomingCongregationOnlineDisapproved": "Denna församling nekade din begäran om att få tillgång till deras lista över utresande talare. Om nödvändigt kan du personligen kontakta dem.",
@@ -523,5 +525,8 @@
   "tr_maximumAmountOfGroupsIs10": "Högst 10 tjänstegrupper",
   "tr_personAwayNotice": "Denna person är borta: {{ date }}",
   "tr_weekendTemplateShowSongs": "Visa sånger på schemat för helgmötet",
-  "tr_personalDetails": "Personuppgifter"
+  "tr_personalDetails": "Personuppgifter",
+  "tr_midweekMeetingDay": "Veckomötesdag",
+  "tr_infirmPioneer": "Infirm pioneer",
+  "tr_infirmPioneerNoGoal": "As an infirm pioneer, you can serve as much as you are able without a yearly hour goal."
 }

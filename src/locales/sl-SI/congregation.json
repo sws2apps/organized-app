@@ -366,7 +366,9 @@
   "tr_createMasterKeyIntroDesc": "Ta ključ varno šifrira vaše občinske podatke, tudi poročila in osebe. Potreben je za administratorska dela, kot so izvoz/uvoz podatkov, ali delanje pomembnih sprememb v nastavitvah.",
   "tr_hallC": "C",
   "tr_FR": "Redni pionir",
+  "tr_FRI": "Infirm regular pioneer",
   "tr_FS": "Posebni pionir",
+  "tr_FSI": "Infirm special pioneer",
   "tr_incomingCongregationOnlineNoSpeakers": "Ta občina v svojih zapisih še nima vpisanih bratov, ki lahko imajo govore v drugih občinah. Če je treba, jih lahko osebno kontaktiraš.",
   "tr_incomingCongregationOnlinePending": "Ta občina še ni odobrila tvoje zahteve za dostop do njihovega seznama bratov, ki lahko imajo govore v drugih občinah. Če je treba, jih lahko osebno kontaktiraš.",
   "tr_incomingCongregationOnlineDisapproved": "Ta občina je zavrnila tvojo zahtevo za dostop do njihovega seznama bratov, ki lahko imajo govore v drugih občinah. Če je treba, jih lahko osebno kontaktiraš.",
@@ -523,5 +525,8 @@
   "tr_maximumAmountOfGroupsIs10": "Največje število oznanjevalskih skupin je 10.",
   "tr_personAwayNotice": "Ta oseba je odsotna: {{ date }}",
   "tr_weekendTemplateShowSongs": "Na razporedu shodov ob koncu tedna prikaži pesmi",
-  "tr_personalDetails": "Osebni podatki"
+  "tr_personalDetails": "Osebni podatki",
+  "tr_midweekMeetingDay": "Dan shoda med tednom",
+  "tr_infirmPioneer": "Infirm pioneer",
+  "tr_infirmPioneerNoGoal": "As an infirm pioneer, you can serve as much as you are able without a yearly hour goal."
 }

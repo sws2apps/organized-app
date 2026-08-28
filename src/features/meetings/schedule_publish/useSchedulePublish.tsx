@@ -18,7 +18,7 @@ import {
   SchedWeekType,
 } from '@definition/schedules';
 import { incomingSpeakersState } from '@states/visiting_speakers';
-import { speakerGetDisplayName, updateObject } from '@utils/common';
+import { schedulesStampVisitingSpeakers, updateObject } from '@utils/common';
 import {
   congIDState,
   displayNameMeetingsEnableState,
@@ -242,37 +242,20 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
     return finalData;
   };
 
-  const handleUpdateSchedules = (schedules: SchedWeekType[]) => {
+  const handleUpdateSchedules = (
+    schedules: SchedWeekType[],
+    published: SchedWeekType[]
+  ) => {
     // only weekend resolves visiting-speaker display names
     if (type !== 'weekend') return schedules;
 
-    const newSchedules = structuredClone(schedules);
-
-    return newSchedules.map((schedule) => {
-      if (!schedule.weekend_meeting) return schedule;
-
-      for (const speakerSchedule of schedule.weekend_meeting.speaker.part_1) {
-        const talkType = schedule.weekend_meeting.public_talk_type.find(
-          (record) => record.type
-        )?.value;
-
-        if (speakerSchedule.value.length > 0) {
-          if (talkType === 'visitingSpeaker') {
-            const speaker = incomingSpeakers.find(
-              (record) => record.person_uid === speakerSchedule.value
-            );
-            speakerSchedule.name = !speaker
-              ? ''
-              : speakerGetDisplayName(
-                  speaker,
-                  displayNameEnabled,
-                  fullnameOption
-                );
-          }
-        }
-      }
-
-      return schedule;
+    return schedulesStampVisitingSpeakers({
+      schedules: structuredClone(schedules),
+      speakers: incomingSpeakers,
+      congregations,
+      displayNameEnabled,
+      fullnameOption,
+      published,
     });
   };
 
@@ -437,6 +420,9 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
         const sourcesRemote = data.sources;
         const schedulesRemote = data.schedules;
 
+        // clone before the merge below: it mutates the matched remote records
+        const schedulesPublished = structuredClone(schedulesRemote);
+
         const sourcesPublish = handleUpdateMaterialsFromRemote(
           sourcesLocalPublish,
           sourcesRemote
@@ -447,7 +433,10 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
           schedulesRemote
         );
 
-        const schedulesPrePublish = handleUpdateSchedules(schedulesBasePublish);
+        const schedulesPrePublish = handleUpdateSchedules(
+          schedulesBasePublish,
+          schedulesPublished
+        );
         let schedulesPublish = schedulesPrePublish;
 
         let talksPublish: OutgoingTalkExportScheduleType[] = undefined;

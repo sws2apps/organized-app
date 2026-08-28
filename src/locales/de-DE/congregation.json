@@ -366,7 +366,9 @@
   "tr_createMasterKeyIntroDesc": "Dieser Schlüssel verschlüsselt sicher die Daten deiner Versammlung, einschließlich Berichte und Personen, und ist erforderlich für administrative Aktionen wie Datenexport/-import oder wesentliche Änderungen an den Einstellungen.",
   "tr_hallC": "3",
   "tr_FR": "Allgemeiner Pionier",
+  "tr_FRI": "Infirm regular pioneer",
   "tr_FS": "Sonderpionier",
+  "tr_FSI": "Infirm special pioneer",
   "tr_incomingCongregationOnlineNoSpeakers": "Diese Versammlung hat noch keine Gastredner in ihren Datensätzen eingetragen. Falls nötig, kannst du sie persönlich kontaktieren.",
   "tr_incomingCongregationOnlinePending": "Diese Versammlung hat deine Anfrage zum Zugriff auf ihre auswärtige Rednerliste noch nicht genehmigt. Falls nötig, kannst du sie persönlich kontaktieren.",
   "tr_incomingCongregationOnlineDisapproved": "Diese Versammlung hat deine Anfrage zum Zugriff auf ihre auswärtige Rednerliste abgelehnt. Falls nötig, kannst du sie persönlich kontaktieren.",
@@ -523,5 +525,8 @@
   "tr_maximumAmountOfGroupsIs10": "Die maximale Anzahl an Predigtdienstgruppen ist 10",
   "tr_personAwayNotice": "Diese Person ist abwesend: {{ date }}",
   "tr_weekendTemplateShowSongs": "Lieder auf Wochenend-Zusammenkunftsplänen anzeigen",
-  "tr_personalDetails": "Persönliche Details"
+  "tr_personalDetails": "Persönliche Details",
+  "tr_midweekMeetingDay": "Midweek meeting day",
+  "tr_infirmPioneer": "Infirm pioneer",
+  "tr_infirmPioneerNoGoal": "As an infirm pioneer, you can serve as much as you are able without a yearly hour goal."
 }

@@ -366,7 +366,9 @@
   "tr_createMasterKeyIntroDesc": "Daytoy a key ket secure a mang-encrypt ti data ti kongregasionyo, kas ti reports ken tao, ken kasapulan para iti administrative a panagaramid kas iti data export/import wenno panagbalbaliw ti significant a settings.",
   "tr_hallC": "C",
   "tr_FR": "Regular pioneer",
+  "tr_FRI": "Infirm regular pioneer",
   "tr_FS": "Special pioneer",
+  "tr_FSI": "Infirm special pioneer",
   "tr_incomingCongregationOnlineNoSpeakers": "Daytoy a kongregasion ket awanen a visiting speakers a na-Add iti records da. No kasapulan, mabalin mo a makikontak kadakuada personally.",
   "tr_incomingCongregationOnlinePending": "Daytoy a kongregasion ket saan pay a naaprobar ti request mo a maka-access iti outgoing speakers list da. No kasapulan, mabalin mo a makikontak kadakuada personally.",
   "tr_incomingCongregationOnlineDisapproved": "Daytoy a kongregasion ket indisapprove ti request mo a maka-access iti outgoing speakers list da. No kasapulan, mabalin mo a makikontak kadakuada personally.",
@@ -523,5 +525,8 @@
   "tr_maximumAmountOfGroupsIs10": "10 laeng ti mapalubosan a field service group",
   "tr_personAwayNotice": "Daytoy a miembro ket awan inton: {{ date }}",
   "tr_weekendTemplateShowSongs": "Ipakita dagiti makanta kadagiti eskediul iti gimong iti ngudo ti lawas",
-  "tr_personalDetails": "Personal details"
+  "tr_personalDetails": "Personal details",
+  "tr_midweekMeetingDay": "Midweek meeting day",
+  "tr_infirmPioneer": "Infirm pioneer",
+  "tr_infirmPioneerNoGoal": "As an infirm pioneer, you can serve as much as you are able without a yearly hour goal."
 }

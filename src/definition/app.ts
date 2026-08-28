@@ -102,5 +102,6 @@ export type NavBarOptionsType = {
   title?: string;
   secondaryTitle?: string;
   quickSettings?: VoidFunction;
+  onBack?: VoidFunction;
   buttons?: ReactNode;
 };
