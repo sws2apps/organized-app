@@ -166,5 +166,13 @@
   "tr_fileImport": "Importera fil",
   "tr_csvImportDescription": "För bästa resultat vid import, använd mallfilen. \n Alla kolumner behöver inte fyllas i.\nKolumner kommer att behandlas i den ordning de visas.\nOm en status eller uppgift ska aktiveras måste en '1' eller 'true' anges.\nBåde ';' och ',' tillåts som avgränsare.",
   "tr_importSuccess": "Importen slutförd! {{ successCount }} av {{ totalCount }} personer sparades.",
-  "tr_bottomActionsMenu": "Undermeny för åtgärder"
+  "tr_bottomActionsMenu": "Undermeny för åtgärder",
+  "tr_exportSettings": "Export settings",
+  "tr_orientation": "Orientation",
+  "tr_portrait": "Portrait",
+  "tr_landscape": "Landscape",
+  "tr_fontSize": "Font size",
+  "tr_small": "Small",
+  "tr_normal": "Normal",
+  "tr_large": "Large"
 }
