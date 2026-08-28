@@ -166,5 +166,13 @@
   "tr_fileImport": "Importuj plik",
   "tr_csvImportDescription": "Aby uzyskać najlepsze wyniki podczas importowania, użyj pliku szablonu. \nNie wszystkie kolumny muszą być wypełnione.\nKolumny będą przetwarzane w kolejności, w jakiej się pojawiają.\nJeśli status lub zadanie ma być aktywowane, należy wpisać '1' lub 'true'.\nJako ograniczniki dozwolone są zarówno ';' jak i ','.",
   "tr_importSuccess": "Import zakończony! {{ successCount }} z {{ totalCount }} osób zostało zapisanych.",
-  "tr_bottomActionsMenu": "Menu akcji na dole"
+  "tr_bottomActionsMenu": "Menu akcji na dole",
+  "tr_exportSettings": "Export settings",
+  "tr_orientation": "Orientation",
+  "tr_portrait": "Portrait",
+  "tr_landscape": "Landscape",
+  "tr_fontSize": "Font size",
+  "tr_small": "Small",
+  "tr_normal": "Normal",
+  "tr_large": "Large"
 }
