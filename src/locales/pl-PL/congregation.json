@@ -366,7 +366,9 @@
   "tr_createMasterKeyIntroDesc": "Ten klucz bezpiecznie szyfruje dane Twojego zboru, w tym sprawozdania i osoby, i jest wymagany do działań administracyjnych, takich jak eksport/import danych lub wprowadzanie istotnych zmian w ustawieniach.",
   "tr_hallC": "Sala C",
   "tr_FR": "Pionier pełno czasowy",
+  "tr_FRI": "Infirm regular pioneer",
   "tr_FS": "Pionier specjalny",
+  "tr_FSI": "Infirm special pioneer",
   "tr_incomingCongregationOnlineNoSpeakers": "Ten zbór nie ma jeszcze dodanych żadnych wizytujących mówców. W razie potrzeby możesz się z nimi skontaktować.",
   "tr_incomingCongregationOnlinePending": "Ten zbór jeszcze nie zatwierdził twojego wniosku o dostęp do listy jego mówców. W razie potrzeby możesz się z nimi skontaktować.",
   "tr_incomingCongregationOnlineDisapproved": "Ten zbór odrzucił twoją prośbę o dostęp do listy jego mówców. W razie potrzeby możesz się z nimi skontaktować.",
@@ -524,5 +526,7 @@
   "tr_personAwayNotice": "Ta osoba jest nieobecna: {{ date }}",
   "tr_weekendTemplateShowSongs": "Wyświetlaj pieśni w planie zebrania w weekend",
   "tr_personalDetails": "Dane osobowe",
-  "tr_midweekMeetingDay": "Midweek meeting day"
+  "tr_midweekMeetingDay": "Midweek meeting day",
+  "tr_infirmPioneer": "Infirm pioneer",
+  "tr_infirmPioneerNoGoal": "As an infirm pioneer, you can serve as much as you are able without a yearly hour goal."
 }
