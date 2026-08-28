@@ -166,5 +166,13 @@
   "tr_fileImport": "Importer fichier",
   "tr_csvImportDescription": "Pour de meilleurs résultats lors de l'importation, utilisez le fichier exemple. \nToutes les colonnes n'ont pas besoin d'être remplie.\nLes colonnes seront procédé selon l'ordre d'apparition.\nSi un statut ou une tâche doit être activée, '1' ou 'true' doit être spécifié.\nTous deux ';' et ',' sont autorisés en tant que délimiteur.",
   "tr_importSuccess": "Importation complétée! {{ successCount }} sur {{ totalCount }} personnes ont été sauvegardé.",
-  "tr_bottomActionsMenu": "Menu d'actions du bas"
+  "tr_bottomActionsMenu": "Menu d'actions du bas",
+  "tr_exportSettings": "Export settings",
+  "tr_orientation": "Orientation",
+  "tr_portrait": "Portrait",
+  "tr_landscape": "Landscape",
+  "tr_fontSize": "Font size",
+  "tr_small": "Small",
+  "tr_normal": "Normal",
+  "tr_large": "Large"
 }
