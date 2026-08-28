@@ -149,6 +149,8 @@
   "tr_created": "Létrehozva: {{ date }}",
   "tr_missingInfo": "Hiányzó információ",
   "tr_fillRequiredField": "Kérlek töltsd ki a szükséges mezőket",
+  "tr_endTimeAfterStart": "End time must be after the start time",
+  "tr_endDateAfterStart": "End date must be after the start date",
   "tr_mondayShort": "Hé",
   "tr_tuesdayShort": "Ke",
   "tr_wednesdayShort": "Sze",
