@@ -166,5 +166,13 @@
   "tr_fileImport": "Импортировать файл",
   "tr_csvImportDescription": "Для наилучших результатов при импорте используй файл-шаблон. \nНе обязательно заполнять все столбцы.\nСтолбцы будут обрабатываться в том порядке, в котором они указаны.\nЕсли нужно чтобы статус или задача была активна, укажи '1' или 'true'.\nВ качестве разделителей допускаются как ';' так и ','.",
   "tr_importSuccess": "Импорт завершен! {{ successCount }} из {{ totalCount }} человек были сохранены.",
-  "tr_bottomActionsMenu": "Нижнее меню действий"
+  "tr_bottomActionsMenu": "Нижнее меню действий",
+  "tr_exportSettings": "Export settings",
+  "tr_orientation": "Orientation",
+  "tr_portrait": "Portrait",
+  "tr_landscape": "Landscape",
+  "tr_fontSize": "Font size",
+  "tr_small": "Small",
+  "tr_normal": "Normal",
+  "tr_large": "Large"
 }
