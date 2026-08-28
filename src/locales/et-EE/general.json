@@ -166,5 +166,13 @@
   "tr_fileImport": "Impordi fail",
   "tr_csvImportDescription": "Parimate tulemuste saavutamiseks kasuta importimisel mallifaili.\nKõiki veerge ei ole vaja täita.\nVeerge töödeldakse nende esinemisjärjekorras.\nKui staatus või ülesanne tuleb aktiveerida, tuleb märkida „1” või „true”.\nEraldajatena on lubatud kasutada nii „;” kui ka „,”.",
   "tr_importSuccess": "Importimine lõpetatud! {{ successCount }} isikut {{ totalCount }}-st on salvestatud.",
-  "tr_bottomActionsMenu": "Alumine toimingute menüü"
+  "tr_bottomActionsMenu": "Alumine toimingute menüü",
+  "tr_exportSettings": "Export settings",
+  "tr_orientation": "Orientation",
+  "tr_portrait": "Portrait",
+  "tr_landscape": "Landscape",
+  "tr_fontSize": "Font size",
+  "tr_small": "Small",
+  "tr_normal": "Normal",
+  "tr_large": "Large"
 }
