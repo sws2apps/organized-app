@@ -149,6 +149,8 @@
   "tr_created": "Skapad: {{ date }}",
   "tr_missingInfo": "Information saknas",
   "tr_fillRequiredField": "Fyll i det obligatoriska fältet",
+  "tr_endTimeAfterStart": "End time must be after the start time",
+  "tr_endDateAfterStart": "End date must be after the start date",
   "tr_mondayShort": "Mån",
   "tr_tuesdayShort": "Tis",
   "tr_wednesdayShort": "Ons",
