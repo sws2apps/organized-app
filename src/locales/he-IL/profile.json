@@ -33,6 +33,8 @@
   "tr_modeDark": "כהה",
   "tr_autoThemeChange": "שינוי נושא אפליקציה אוטומטי",
   "tr_autoThemeChangeDesc": "עקוב אחר הגדרות המערכת של המכשיר שלך בעת בחירה בין מצב בהיר לכהה",
+  "tr_hapticFeedback": "Haptic feedback",
+  "tr_hapticFeedbackDesc": "Vibrate when you interact with the app, if your device and browser support it",
   "tr_colorScheme": "ערכות צבעים",
   "tr_blue": "כחול",
   "tr_green": "ירוק",
