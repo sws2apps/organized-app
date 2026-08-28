@@ -149,6 +149,8 @@
   "tr_created": "Створено: {{ date }}",
   "tr_missingInfo": "Відсутня інформація",
   "tr_fillRequiredField": "Будь ласка, заповни обовʼязкові поля",
+  "tr_endTimeAfterStart": "End time must be after the start time",
+  "tr_endDateAfterStart": "End date must be after the start date",
   "tr_mondayShort": "Пон",
   "tr_tuesdayShort": "Вів",
   "tr_wednesdayShort": "Сер",
