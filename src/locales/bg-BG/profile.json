@@ -33,6 +33,8 @@
   "tr_modeDark": "Dark",
   "tr_autoThemeChange": "Automatic app theme change",
   "tr_autoThemeChangeDesc": "Follow your device’s system setting when choosing between light and dark mode",
+  "tr_hapticFeedback": "Haptic feedback",
+  "tr_hapticFeedbackDesc": "Vibrate when you interact with the app, if your device and browser support it",
   "tr_colorScheme": "Color scheme",
   "tr_blue": "Blue",
   "tr_green": "Green",
