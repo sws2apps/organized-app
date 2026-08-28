@@ -149,6 +149,8 @@
   "tr_created": "Создано: {{ date }}",
   "tr_missingInfo": "Информация отсутствует",
   "tr_fillRequiredField": "Пожалуйста, заполни обязательное поле",
+  "tr_endTimeAfterStart": "End time must be after the start time",
+  "tr_endDateAfterStart": "End date must be after the start date",
   "tr_mondayShort": "Пн.",
   "tr_tuesdayShort": "Вт.",
   "tr_wednesdayShort": "Ср.",
