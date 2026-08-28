@@ -33,6 +33,8 @@
   "tr_modeDark": "Тёмная",
   "tr_autoThemeChange": "Автоматическая смена темы",
   "tr_autoThemeChangeDesc": "Следовать настройкам системы твоего устройства при выборе между светлой и темной темой",
+  "tr_hapticFeedback": "Haptic feedback",
+  "tr_hapticFeedbackDesc": "Vibrate when you interact with the app, if your device and browser support it",
   "tr_colorScheme": "Цветовая схема",
   "tr_blue": "Синяя",
   "tr_green": "Зелёная",
