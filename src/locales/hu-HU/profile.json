@@ -33,6 +33,8 @@
   "tr_modeDark": "Dark",
   "tr_autoThemeChange": "Alkalmazás automatikus témaváltása",
   "tr_autoThemeChangeDesc": "Kövesse az eszköz rendszerbeállításait a világos és sötét mód közötti választásnál",
+  "tr_hapticFeedback": "Haptic feedback",
+  "tr_hapticFeedbackDesc": "Vibrate when you interact with the app, if your device and browser support it",
   "tr_colorScheme": "Színséma",
   "tr_blue": "Kék",
   "tr_green": "Zöld",
