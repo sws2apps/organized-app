@@ -33,6 +33,8 @@
   "tr_modeDark": "Dark",
   "tr_autoThemeChange": "外観テーマの自動変更",
   "tr_autoThemeChangeDesc": "外観モードをシステム設定に合わせる",
+  "tr_hapticFeedback": "Haptic feedback",
+  "tr_hapticFeedbackDesc": "Vibrate when you interact with the app, if your device and browser support it",
   "tr_colorScheme": "カラーテーマ",
   "tr_blue": "ブルー",
   "tr_green": "グリーン",
