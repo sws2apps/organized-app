@@ -149,6 +149,8 @@
   "tr_created": "Utworzono: {{ date }}",
   "tr_missingInfo": "Brak informacji",
   "tr_fillRequiredField": "Proszę wypełnić wymagane pole",
+  "tr_endTimeAfterStart": "End time must be after the start time",
+  "tr_endDateAfterStart": "End date must be after the start date",
   "tr_mondayShort": "Pon",
   "tr_tuesdayShort": "Wt",
   "tr_wednesdayShort": "Śr",
