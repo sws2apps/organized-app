@@ -366,7 +366,9 @@
   "tr_createMasterKeyIntroDesc": "Ez a kulcs megbízhatóan titkosítja a gyülekezet adatait, beleértve a jelentéseket és a személyeket, és szükséges az olyan adminisztratív műveletekhez, mint az adatok exportálása/importálása vagy jelentősebb beállítások módosítása.",
   "tr_hallC": "3",
   "tr_FR": "Általános úttörő",
+  "tr_FRI": "Infirm regular pioneer",
   "tr_FS": "Különleges úttörő",
+  "tr_FSI": "Infirm special pioneer",
   "tr_incomingCongregationOnlineNoSpeakers": "Ez a gyülekezet még nem adott hozzá vendégszónokokat a listájukhoz. Ha szükséges, közvetlenül kapcsolatba léphetsz velük.",
   "tr_incomingCongregationOnlinePending": "Ez a gyülekezet még nem hagyta jóvá a kérelmed az előadóik listájának eléréséhez. Ha szükséges, közvetlenül kapcsolatba léphetsz velük.",
   "tr_incomingCongregationOnlineDisapproved": "Ez a gyülekezet elutasította a kérelmedet az előadóik listájának hozzáféréséhez. Ha szükséges, közvetlenül kapcsolatba léphetsz velük.",
@@ -524,5 +526,7 @@
   "tr_personAwayNotice": "Ez a személy távol van: {{ date }}",
   "tr_weekendTemplateShowSongs": "Énekek megjelenítése a hétvégi összejövetel beosztásaiban",
   "tr_personalDetails": "Personal details",
-  "tr_midweekMeetingDay": "Midweek meeting day"
+  "tr_midweekMeetingDay": "Midweek meeting day",
+  "tr_infirmPioneer": "Infirm pioneer",
+  "tr_infirmPioneerNoGoal": "As an infirm pioneer, you can serve as much as you are able without a yearly hour goal."
 }

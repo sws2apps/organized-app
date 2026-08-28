@@ -366,7 +366,9 @@
   "tr_createMasterKeyIntroDesc": "E tā’āpī teie tāpū i te mau parau a tā ’oe amuiraa ma te pāruruhia, mai te mau parau tātara e te tāpura i’oa. E mea fīti te reira nō te mau ’ohipa fa’atere, mai te hāponoraa/fa’a’ōra’a i te mau parau aore ra te huriraa i te mau fa’anahoraa faufa’a.",
   "tr_hallC": "C",
   "tr_FR": "Pionie tāmau",
+  "tr_FRI": "Infirm regular pioneer",
   "tr_FS": "Pionie ta’a ’ē",
+  "tr_FSI": "Infirm special pioneer",
   "tr_incomingCongregationOnlineNoSpeakers": "’Aita ā tā teie amuiraa e taeae poro tū’ati i roto i tā rātou tāpura. Mai te mea ē e mea fīti, e nehenehe ’oe e fārei atu ia rātou.",
   "tr_incomingCongregationOnlinePending": "’Aita ā teie amuiraa i fa’ati’a i tā ’oe aniraa nō te hi’o i tā rātou tāpura taeae orero nō rāpa’e. Mai te mea ē e mea fīti, e nehenehe ’oe e fārei atu ia rātou.",
   "tr_incomingCongregationOnlineDisapproved": "Ua pāto’i teie amuiraa i tā ’oe aniraa nō te hi’o i tā rātou tāpura taeae orero nō rāpa’e. Mai te mea ē e mea fīti, e nehenehe ’oe e fārei atu ia rātou.",
@@ -524,5 +526,7 @@
   "tr_personAwayNotice": "Tei te vāhi ’ē teie ta’ata: {{ date }}",
   "tr_weekendTemplateShowSongs": "’A fa’a’ite i te mau hīmene i ni’a i te tāpura putuputuraa nō te hope’a hepetoma",
   "tr_personalDetails": "Te mau fa'ahohora'a ta'ata",
-  "tr_midweekMeetingDay": "Midweek meeting day"
+  "tr_midweekMeetingDay": "Midweek meeting day",
+  "tr_infirmPioneer": "Infirm pioneer",
+  "tr_infirmPioneerNoGoal": "As an infirm pioneer, you can serve as much as you are able without a yearly hour goal."
 }

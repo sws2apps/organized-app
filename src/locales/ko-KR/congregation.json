@@ -366,7 +366,9 @@
   "tr_createMasterKeyIntroDesc": "이 키는 귀하의 회중 데이터를 안전하게 암호화하며, 보고서 및 사람들 포함하여 데이터 내보내기/가져오기와 같은 관리 작업을 위해 필요합니다.",
   "tr_hallC": "C",
   "tr_FR": "정규 파이오니아",
+  "tr_FRI": "Infirm regular pioneer",
   "tr_FS": "특별 파이오니아",
+  "tr_FSI": "Infirm special pioneer",
   "tr_incomingCongregationOnlineNoSpeakers": "이 회중에는 아직 추가된 방문 연사가 없습니다. 필요하면 개인적으로 연락하실 수 있습니다.",
   "tr_incomingCongregationOnlinePending": "이 회중은 아직 귀하의 외부 연사 목록 접근 요청을 승인하지 않았습니다. 필요하면 개인적으로 연락하실 수 있습니다.",
   "tr_incomingCongregationOnlineDisapproved": "이 회중은 귀하의 외부 연사 목록 접근 요청을 거부했습니다. 필요하면 개인적으로 연락하실 수 있습니다.",
@@ -524,5 +526,7 @@
   "tr_personAwayNotice": "This person is away: {{ date }}",
   "tr_weekendTemplateShowSongs": "Display songs on weekend meeting schedules",
   "tr_personalDetails": "Personal details",
-  "tr_midweekMeetingDay": "Midweek meeting day"
+  "tr_midweekMeetingDay": "Midweek meeting day",
+  "tr_infirmPioneer": "Infirm pioneer",
+  "tr_infirmPioneerNoGoal": "As an infirm pioneer, you can serve as much as you are able without a yearly hour goal."
 }
