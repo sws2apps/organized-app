@@ -33,6 +33,8 @@
   "tr_modeDark": "Dark",
   "tr_autoThemeChange": "Schimbare automată a temei aplicației",
   "tr_autoThemeChangeDesc": "Folosiți setările sistemului dispozitivului când se alege între modul luminos și modul întunecat",
+  "tr_hapticFeedback": "Haptic feedback",
+  "tr_hapticFeedbackDesc": "Vibrate when you interact with the app, if your device and browser support it",
   "tr_colorScheme": "Scheme de culori",
   "tr_blue": "Albastru",
   "tr_green": "Verde",

@@ -1,5 +1,6 @@
 import { AppRoleType } from './app';
 import { AssignmentFieldType } from './assignment';
+import { UpcomingEventDisplayType } from './upcoming_events';
 
 export enum FullnameOption {
   FIRST_BEFORE_LAST = 1,
@@ -157,6 +158,12 @@ export type SettingsType = {
       updatedAt: string;
       _deleted: boolean;
     }[];
+    events_multiday_display: {
+      type: string;
+      value: UpcomingEventDisplayType;
+      updatedAt: string;
+      _deleted: boolean;
+    }[];
     week_start_sunday: {
       type: string;
       value: boolean;
@@ -181,6 +188,7 @@ export type SettingsType = {
       value: PublishersSortOption;
     };
     aux_class_fsg: { value: boolean; updatedAt: string };
+    aux_class_qualifications: { value: boolean; updatedAt: string };
     first_day_week: {
       type: string;
       _deleted: boolean;
@@ -230,6 +238,7 @@ export type SettingsType = {
       interval: { value: number; updatedAt: string };
     };
     theme_follow_os_enabled: { value: boolean; updatedAt: string };
+    haptics_enabled: { value: boolean; updatedAt: string };
     hour_credits_enabled: { value: boolean; updatedAt: string };
     meeting_duties_export?: {
       orientation: {

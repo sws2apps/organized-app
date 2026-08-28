@@ -1,6 +1,7 @@
 import {
-  UpcomingEventCategory,
+  UPCOMING_EVENT_MAX_LIST_DAYS,
   UpcomingEventDataType,
+  UpcomingEventDuration,
   UpcomingEventType,
 } from '@definition/upcoming_events';
 import { formatDate, getDatesBetweenDates } from '@utils/date';
@@ -10,7 +11,39 @@ import {
   getTranslation,
 } from '@services/i18n/translation';
 import { store } from '@states/index';
-import { hour24FormatState } from '@states/settings';
+import {
+  eventsMultiDayDisplayState,
+  hour24FormatState,
+} from '@states/settings';
+
+export const groupEventsByYear = (events: UpcomingEventType[]) => {
+  const yearMap = new Map<number, UpcomingEventType[]>();
+
+  for (const event of events) {
+    const start = event.event_data?.start;
+
+    if (!start) continue;
+
+    const year = new Date(start).getFullYear();
+
+    if (!yearMap.has(year)) {
+      yearMap.set(year, []);
+    }
+
+    yearMap.get(year)!.push(event);
+  }
+
+  return Array.from(yearMap.keys())
+    .sort((a, b) => a - b)
+    .map((year) => yearMap.get(year)!);
+};
+
+export const isWholeDayEvent = (event: UpcomingEventType) => {
+  return (
+    event.event_data.wholeDay ??
+    event.event_data.duration === UpcomingEventDuration.MultipleDays
+  );
+};
 
 export const upcomingEventData = (event: UpcomingEventType) => {
   const hour24 = store.get(hour24FormatState);
@@ -25,6 +58,7 @@ export const upcomingEventData = (event: UpcomingEventType) => {
   result.custom = event.event_data.custom;
   result.description = event.event_data.description;
   result.duration = event.event_data.duration;
+  result.wholeDay = isWholeDayEvent(event);
 
   result.year = new Date(event.event_data.start).getFullYear();
 
@@ -64,7 +98,13 @@ export const upcomingEventData = (event: UpcomingEventType) => {
     };
   });
 
-  if (event.event_data.category === UpcomingEventCategory.SpecialCampaignWeek) {
+  result.showAsRange =
+    event.event_data.duration === UpcomingEventDuration.MultipleDays &&
+    eventDates.length > 1 &&
+    (eventDates.length > UPCOMING_EVENT_MAX_LIST_DAYS ||
+      store.get(eventsMultiDayDisplayState) === 'range');
+
+  if (eventDates.length > 1) {
     const startDate = eventDates.at(0);
     const startDateV = startDate.getDate();
     const startMonthIndex = startDate.getMonth();

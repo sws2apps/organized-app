@@ -2257,7 +2257,8 @@ export const schedulesSelectRandomPerson = (data: {
   const requiredCodes = schedulesDutyRequiredCodes(data.type);
 
   let personsElligible = requiredCodes.reduce(
-    (elligible, code) => applyAssignmentFilters(elligible, [code]),
+    (elligible, code) =>
+      applyAssignmentFilters(elligible, [code], data.classroom),
     persons
   );
 

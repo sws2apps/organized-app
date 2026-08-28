@@ -68,12 +68,12 @@ const PageHeader = ({
           fixed={fixed}
         >
           <View
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-                gap: '5px',
-              }}
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: '5px',
+            }}
           >
             {icon}
             <Text
