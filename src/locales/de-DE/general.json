@@ -166,5 +166,13 @@
   "tr_fileImport": "Datei importieren",
   "tr_csvImportDescription": "Für beste Ergebnisse beim Importieren verwende die Vorlagendatei. \nNicht alle Spalten müssen ausgefüllt werden.\nSpalten werden in der Reihenfolge verarbeitet, in der sie erscheinen.\nWenn ein Status oder eine Aufgabe aktiviert werden soll, muss eine '1' oder 'wahr' angegeben werden.\nSowohl ';' als auch ',' sind als Trennzeichen erlaubt.",
   "tr_importSuccess": "Import abgeschlossen! {{ successCount }} von {{ totalCount }} Personen wurden gespeichert.",
-  "tr_bottomActionsMenu": "Unteres Menü"
+  "tr_bottomActionsMenu": "Unteres Menü",
+  "tr_exportSettings": "Export settings",
+  "tr_orientation": "Orientation",
+  "tr_portrait": "Portrait",
+  "tr_landscape": "Landscape",
+  "tr_fontSize": "Font size",
+  "tr_small": "Small",
+  "tr_normal": "Normal",
+  "tr_large": "Large"
 }
