@@ -166,5 +166,13 @@
   "tr_fileImport": "I-import ang file",
   "tr_csvImportDescription": "Para sa pinakamagandang resulta sa pag-import, gamitin ang template file. Hindi kailangang punan lahat ng mga kolum. Ipoproseso ang mga ito ayon sa kanilang pagkakasunod-sunod. Kung ang isang status o task ay dapat naka-activate, kailangang tukuyin na ‘1’ o ‘true’. \nPuwede ang parehong ‘;’ at ‘,’ bilang mga delimiter.",
   "tr_importSuccess": "Tapos na ang pag-import! {{ successCount }} sa {{ totalCount }} na mga user ang nai-save.",
-  "tr_bottomActionsMenu": "Bottom actions menu"
+  "tr_bottomActionsMenu": "Bottom actions menu",
+  "tr_exportSettings": "Export settings",
+  "tr_orientation": "Orientation",
+  "tr_portrait": "Portrait",
+  "tr_landscape": "Landscape",
+  "tr_fontSize": "Font size",
+  "tr_small": "Small",
+  "tr_normal": "Normal",
+  "tr_large": "Large"
 }
