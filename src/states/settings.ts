@@ -116,6 +116,17 @@ export const hour24FormatState = atom((get) => {
   );
 });
 
+export const eventsMultiDayDisplayState = atom((get) => {
+  const settings = get(settingsState);
+  const dataView = get(userDataViewState);
+
+  return (
+    settings.cong_settings.events_multiday_display?.find(
+      (record) => record.type === dataView
+    )?.value ?? 'range'
+  );
+});
+
 export const COFirstnameState = atom((get) => {
   const settings = get(settingsState);
 
@@ -255,6 +266,17 @@ export const attendanceOnlineRecordState = atom((get) => {
 
   return (
     settings.cong_settings.attendance_online_record.find(
+      (record) => record.type === dataView
+    )?.value ?? false
+  );
+});
+
+export const attendanceDeafRecordState = atom((get) => {
+  const settings = get(settingsState);
+  const dataView = get(userDataViewState);
+
+  return (
+    settings?.cong_settings?.attendance_deaf_record?.find(
       (record) => record.type === dataView
     )?.value ?? false
   );
@@ -422,6 +444,11 @@ export const midweekMeetingAuxCounselorDefaultState = atom((get) => {
 export const midweekMeetingAssigFSGState = atom((get) => {
   const settings = get(settingsState);
   return settings.cong_settings.aux_class_fsg?.value ?? false;
+});
+
+export const midweekMeetingAuxClassQualificationsState = atom((get) => {
+  const settings = get(settingsState);
+  return settings.cong_settings.aux_class_qualifications?.value ?? false;
 });
 
 // WEEKEND MEETING
@@ -609,6 +636,12 @@ export const themeFollowOSEnabledState = atom((get) => {
   const settings = get(settingsState);
 
   return settings.user_settings.theme_follow_os_enabled.value;
+});
+
+export const hapticsEnabledState = atom((get) => {
+  const settings = get(settingsState);
+
+  return settings.user_settings.haptics_enabled?.value ?? true;
 });
 
 export const appLockSettingsState = atom((get) => {

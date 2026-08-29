@@ -49,7 +49,7 @@ const ScheduleS140 = ({ data, class_count, cong_name, lang }: S140Type) => {
                       <S140PartMiniLabel
                         part={`${t('tr_chairman', { lng: lang })}:`}
                       />
-                      <S140Person person={meetingData.chairman_A_name} />
+                      <S140Person primary={meetingData.chairman_A_name} lang={lang} />
                     </>
                   )}
                 </View>
@@ -65,7 +65,7 @@ const ScheduleS140 = ({ data, class_count, cong_name, lang }: S140Type) => {
                       <S140PartMiniLabel
                         part={`${t('tr_auxClassCounselor', { lng: lang })}:`}
                       />
-                      <S140Person person={meetingData.chairman_B_name} />
+                      <S140Person primary={meetingData.chairman_B_name} lang={lang} />
                     </>
                   )}
                 </View>
@@ -83,7 +83,7 @@ const ScheduleS140 = ({ data, class_count, cong_name, lang }: S140Type) => {
                             <S140PartMiniLabel
                               part={`${t('tr_assignedGroupAuxClassroom', { lng: lang })}:`}
                             />
-                            <S140Person person={meetingData.aux_room_fsg} />
+                            <S140Person primary={meetingData.aux_room_fsg} lang={lang} />
                           </View>
                         )}
 
@@ -98,9 +98,7 @@ const ScheduleS140 = ({ data, class_count, cong_name, lang }: S140Type) => {
                           <S140PartMiniLabel
                             part={`${t('tr_prayer', { lng: lang })}:`}
                           />
-                          <S140Person
-                            person={meetingData.opening_prayer_name}
-                          />
+                          <S140Person primary={meetingData.opening_prayer_name} lang={lang} />
                         </View>
 
                         {/* 4th row for opening comments */}
@@ -115,7 +113,7 @@ const ScheduleS140 = ({ data, class_count, cong_name, lang }: S140Type) => {
                             lang={lang}
                           />
                           <S140PartMiniLabel part="" />
-                          <S140Person person="" />
+                          <S140Person primary={""} lang={lang} />
                         </View>
                       </>
                     )}
@@ -149,9 +147,7 @@ const ScheduleS140 = ({ data, class_count, cong_name, lang }: S140Type) => {
                                       lang={lang}
                                     />
                                     <S140PartMiniLabel part="" />
-                                    <S140Person
-                                      person={meetingData.tgw_talk_name}
-                                    />
+                                    <S140Person primary={meetingData.tgw_talk_name} lang={lang} />
                                   </View>
 
                                   {/* TGW Gems */}
@@ -166,9 +162,7 @@ const ScheduleS140 = ({ data, class_count, cong_name, lang }: S140Type) => {
                                       lang={lang}
                                     />
                                     <S140PartMiniLabel part="" />
-                                    <S140Person
-                                      person={meetingData.tgw_gems_name}
-                                    />
+                                    <S140Person primary={meetingData.tgw_gems_name} lang={lang} />
                                   </View>
                                 </>
                               )}
@@ -189,18 +183,14 @@ const ScheduleS140 = ({ data, class_count, cong_name, lang }: S140Type) => {
                                       partLabel={`${t('tr_student', { lng: lang })}:`}
                                       lang={lang}
                                     />
-                                    <S140Person
-                                      person={
+                                    <S140Person primary={
                                         meetingData.aux_class
                                           ? meetingData.tgw_bible_reading_B_name
                                           : ''
-                                      }
-                                    />
-                                    <S140Person
-                                      person={
+                                      } lang={lang} />
+                                    <S140Person primary={
                                         meetingData.tgw_bible_reading_A_name
-                                      }
-                                    />
+                                      } lang={lang} />
                                   </View>
 
                                   {/* AYF Heading */}
@@ -249,7 +239,7 @@ const ScheduleS140 = ({ data, class_count, cong_name, lang }: S140Type) => {
                                       lang={lang}
                                     />
                                     <S140PartMiniLabel part="" />
-                                    <S140Person person="" />
+                                    <S140Person primary={""} lang={lang} />
                                   </View>
                                 </>
                               )}
@@ -276,9 +266,7 @@ const ScheduleS140 = ({ data, class_count, cong_name, lang }: S140Type) => {
                                       lang={lang}
                                     />
                                     <S140PartMiniLabel part="" />
-                                    <S140Person
-                                      person={meetingData.chairman_A_name}
-                                    />
+                                    <S140Person primary={meetingData.chairman_A_name} lang={lang} />
                                   </View>
 
                                   {/* Talk by CO */}
@@ -293,7 +281,7 @@ const ScheduleS140 = ({ data, class_count, cong_name, lang }: S140Type) => {
                                       lang={lang}
                                     />
                                     <S140PartMiniLabel part="" />
-                                    <S140Person person={meetingData.co_name} />
+                                    <S140Person primary={meetingData.co_name} lang={lang} />
                                   </View>
                                 </>
                               )}
@@ -319,7 +307,10 @@ const ScheduleS140 = ({ data, class_count, cong_name, lang }: S140Type) => {
                                       part={meetingData.lc_cbs_label}
                                     />
                                     <S140Person
-                                      person={meetingData.lc_cbs_name}
+                                      primary={meetingData.lc_cbs_conductor_name}
+                                      secondary={meetingData.lc_cbs_reader_name}
+                                      direction="column"
+                                      lang={lang}
                                     />
                                   </View>
 
@@ -340,9 +331,7 @@ const ScheduleS140 = ({ data, class_count, cong_name, lang }: S140Type) => {
                                         lang={lang}
                                       />
                                       <S140PartMiniLabel part="" />
-                                      <S140Person
-                                        person={meetingData.chairman_A_name}
-                                      />
+                                      <S140Person primary={meetingData.chairman_A_name} lang={lang} />
                                     </View>
                                   )}
                                 </>
@@ -360,9 +349,7 @@ const ScheduleS140 = ({ data, class_count, cong_name, lang }: S140Type) => {
                                   <S140PartMiniLabel
                                     part={`${t('tr_prayer', { lng: lang })}:`}
                                   />
-                                  <S140Person
-                                    person={meetingData.lc_concluding_prayer}
-                                  />
+                                  <S140Person primary={meetingData.lc_concluding_prayer} lang={lang} />
                                 </View>
                               )}
                             </>
