@@ -4,6 +4,7 @@ Individual property are evaluated using recoil selector
 */
 
 import { atom } from 'jotai';
+import { appLockState } from '@services/app_lock/storage';
 import { settingSchema } from '@services/dexie/schema';
 import { buildPersonFullname } from '@utils/common';
 import { currentServiceYear } from '@utils/date';
@@ -644,11 +645,7 @@ export const hapticsEnabledState = atom((get) => {
   return settings.user_settings.haptics_enabled?.value ?? true;
 });
 
-export const appLockSettingsState = atom((get) => {
-  const settings = get(settingsState);
-
-  return settings.user_settings.app_lock;
-});
+export const appLockSettingsState = atom((get) => get(appLockState));
 
 export const appLockEnabledState = atom((get) => {
   const appLock = get(appLockSettingsState);

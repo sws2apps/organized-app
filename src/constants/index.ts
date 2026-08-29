@@ -540,6 +540,7 @@ export const CLASSROOM_QUALIFICATIONS_ASSIGNMENT = [
 export const STORAGE_KEY = {
   source_import: 'organized_jw_import_next_sync',
   app_lock_pin_reset: 'organized_app_lock_pin_reset',
+  app_lock: 'organized_app_lock',
 };
 
 export const WEEK_TYPE_WITH_MEETING = [

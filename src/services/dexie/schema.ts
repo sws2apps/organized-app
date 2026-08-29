@@ -370,12 +370,6 @@ export const settingSchema: SettingsType = {
     user_local_uid: '',
     user_members_delegate: [],
     data_view: { value: 'main', updatedAt: '' },
-    app_lock: {
-      enabled: { value: false, updatedAt: '' },
-      lock_after_minutes: { value: 5, updatedAt: '' },
-      biometric_enabled: { value: false, updatedAt: '' },
-      pin_create_pending: { value: false, updatedAt: '' },
-    },
   },
 };
 

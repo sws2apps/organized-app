@@ -225,10 +225,10 @@ export type SettingsType = {
     haptics_enabled: { value: boolean; updatedAt: string };
     hour_credits_enabled: { value: boolean; updatedAt: string };
     data_view: { value: string; updatedAt: string };
-    app_lock?: AppLockSettingsType;
   };
 };
 
+/** Kept on the device: see `services/app_lock/storage.ts` */
 export type AppLockSettingsType = {
   enabled: { value: boolean; updatedAt: string };
   lock_after_minutes: { value: number; updatedAt: string };

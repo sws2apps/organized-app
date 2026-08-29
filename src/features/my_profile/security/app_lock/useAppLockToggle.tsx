@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
+import { appLockUpdate } from '@services/app_lock/storage';
 import {
   appLockAfterMinutesState,
   appLockBiometricEnabledState,
@@ -8,7 +9,6 @@ import {
   appLockSettingsState,
 } from '@states/settings';
 import { userEmailState } from '@states/app';
-import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { displaySnackNotification } from '@services/states/app';
 import {
   isBiometricAvailable,
@@ -27,9 +27,9 @@ const useAppLockToggle = () => {
   const enabled = hasPin && appLock?.enabled?.value === true;
 
   const [isCreatePinOpen, setIsCreatePinOpen] = useState(false);
-  const [createPinMode, setCreatePinMode] = useState<'create' | 'change' | 'disable'>(
-    'create'
-  );
+  const [createPinMode, setCreatePinMode] = useState<
+    'create' | 'change' | 'disable'
+  >('create');
   const [biometricSupported, setBiometricSupported] = useState(false);
   const isBiometricToggling = useRef(false);
 
@@ -62,11 +62,8 @@ const useAppLockToggle = () => {
   };
 
   const handleLockAfterChange = async (value: number) => {
-    await dbAppSettingsUpdate({
-      'user_settings.app_lock.lock_after_minutes': {
-        value,
-        updatedAt: new Date().toISOString(),
-      },
+    appLockUpdate({
+      lock_after_minutes: { value, updatedAt: new Date().toISOString() },
     });
   };
 
@@ -78,12 +75,9 @@ const useAppLockToggle = () => {
       const now = new Date().toISOString();
 
       if (!checked) {
-        await dbAppSettingsUpdate({
-          'user_settings.app_lock.biometric_enabled': {
-            value: false,
-            updatedAt: now,
-          },
-          'user_settings.app_lock.webauthn_credential_id': undefined,
+        appLockUpdate({
+          biometric_enabled: { value: false, updatedAt: now },
+          webauthn_credential_id: undefined,
         });
         return;
       }
@@ -95,12 +89,9 @@ const useAppLockToggle = () => {
           userEmail || 'Organized user'
         );
 
-        await dbAppSettingsUpdate({
-          'user_settings.app_lock.biometric_enabled': {
-            value: true,
-            updatedAt: now,
-          },
-          'user_settings.app_lock.webauthn_credential_id': credentialId,
+        appLockUpdate({
+          biometric_enabled: { value: true, updatedAt: now },
+          webauthn_credential_id: credentialId,
         });
 
         displaySnackNotification({

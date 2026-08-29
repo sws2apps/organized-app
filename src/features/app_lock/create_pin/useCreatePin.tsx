@@ -3,7 +3,7 @@ import { useAtomValue } from 'jotai';
 import { TFunction } from 'i18next';
 import { useAppTranslation } from '@hooks/index';
 import { appLockSettingsState } from '@states/settings';
-import { dbAppSettingsUpdate } from '@services/dexie/settings';
+import { appLockUpdate } from '@services/app_lock/storage';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import {
@@ -113,11 +113,11 @@ const useCreatePin = (mode: Mode, onClose: VoidFunction) => {
       const hash = await hashPin(newPin, salt);
       const now = new Date().toISOString();
 
-      await dbAppSettingsUpdate({
-        'user_settings.app_lock.enabled': { value: true, updatedAt: now },
-        'user_settings.app_lock.pin_hash': hash,
-        'user_settings.app_lock.pin_salt': salt,
-        'user_settings.app_lock.pin_iterations': APP_LOCK_PBKDF2_ITERATIONS,
+      appLockUpdate({
+        enabled: { value: true, updatedAt: now },
+        pin_hash: hash,
+        pin_salt: salt,
+        pin_iterations: APP_LOCK_PBKDF2_ITERATIONS,
       });
 
       displaySnackNotification({
@@ -142,16 +142,13 @@ const useCreatePin = (mode: Mode, onClose: VoidFunction) => {
     setIsProcessing(true);
     try {
       const now = new Date().toISOString();
-      await dbAppSettingsUpdate({
-        'user_settings.app_lock.enabled': { value: false, updatedAt: now },
-        'user_settings.app_lock.pin_hash': undefined,
-        'user_settings.app_lock.pin_salt': undefined,
-        'user_settings.app_lock.pin_iterations': undefined,
-        'user_settings.app_lock.biometric_enabled': {
-          value: false,
-          updatedAt: now,
-        },
-        'user_settings.app_lock.webauthn_credential_id': undefined,
+      appLockUpdate({
+        enabled: { value: false, updatedAt: now },
+        pin_hash: undefined,
+        pin_salt: undefined,
+        pin_iterations: undefined,
+        biometric_enabled: { value: false, updatedAt: now },
+        webauthn_credential_id: undefined,
       });
       onClose();
     } catch (error) {
