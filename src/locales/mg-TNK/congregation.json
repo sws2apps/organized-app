@@ -146,6 +146,8 @@
   "tr_useDisplayNameOthersDesc": "Mety tsara raha ampiasaina amin’ny lisitra andraikitra na ny fandaharana fanadiovana, izay mety feno fanazavana be dia be. Jereo sy andramo izay mety aminareo.",
   "tr_recordOnlineAttendance": "Hirakitra ny isan’ny olona manatrika fivoriana amin’ny internet",
   "tr_recordOnlineAttendanceDesc": "Lasa misy hoe “Internet” rehefa hampiditra ny isan’ny mpanatrika",
+  "tr_recordDeafAttendance": "Record deaf attendance separately",
+  "tr_recordDeafAttendanceDesc": "For sign-language congregations: count deaf and hearing attendees separately, and report both on the S-88 form",
   "tr_kingdomHallAddressDesc": "Ampidiro ny adiresy mba ho fantatry ny mpandahateny mpitsidika ny toerana",
   "tr_meetingSettings": "Fanamboarana amin’ny fivoriana",
   "tr_midweek": "Andavanandro",
