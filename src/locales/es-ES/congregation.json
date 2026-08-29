@@ -146,6 +146,8 @@
   "tr_useDisplayNameOthersDesc": "Útil para programas de tareas o limpieza con mucho contenido. Prueba y ve qué opción funciona mejor",
   "tr_recordOnlineAttendance": "Registrar asistencia a reuniones en línea",
   "tr_recordOnlineAttendanceDesc": "Añadir un campo de entrada 'En línea' para registrar tanto la asistencia en línea como la presencial",
+  "tr_recordDeafAttendance": "Record deaf attendance separately",
+  "tr_recordDeafAttendanceDesc": "For sign-language congregations: count deaf and hearing attendees separately, and report both on the S-88 form",
   "tr_kingdomHallAddressDesc": "Proporciona la dirección para informar a los oradores visitantes sobre la ubicación",
   "tr_meetingSettings": "Ajustes de reunión",
   "tr_midweek": "Entre semana",
