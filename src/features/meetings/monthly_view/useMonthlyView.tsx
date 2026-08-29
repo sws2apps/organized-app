@@ -251,7 +251,7 @@ const useMonthlyView = () => {
     selectedWeeks.forEach((value, index) => {
       const schedule = schedules.find((record) => record.weekOf === value);
 
-      if (!schedule) {
+      if (!schedule?.midweek_meeting) {
         changeValueInArrayState(setWeeksTypes, index, { value: Week.NORMAL });
         return;
       }
@@ -282,7 +282,7 @@ const useMonthlyView = () => {
     selectedWeeks.forEach((value, index) => {
       const source = sources.find((record) => record.weekOf === value);
 
-      if (!source) {
+      if (!source?.midweek_meeting) {
         changeValueInArrayState(setAyfCount, index, 1);
 
         ayfPartsSetters.forEach((setter) =>
@@ -330,7 +330,8 @@ const useMonthlyView = () => {
     selectedWeeks.forEach((value, index) => {
       const source = sources.find((record) => record.weekOf === value);
 
-      if (!source) {
+      // the material of a week can be filed without its midweek part
+      if (!source?.midweek_meeting) {
         changeValueInArrayState(setLcCount, index, 1);
         changeValueInArrayState(setCustomPartEnabled, index, false);
         changeValueInArrayState(setHasCustomPart, index, false);
