@@ -72,20 +72,22 @@ const useMonthlyView = () => {
     }));
   }, [sourcesFormatted, currentYear, monthNames]);
 
-  const [selectedMonth, setSelectedMonth] = useState(() => {
+  // a congregation whose material stops short of today opens on its newest
+  const preferredMonth = useCallback((months: typeof thisYearMonths) => {
     const today = new Date();
 
     const thisMonth = `${today.getFullYear()}/${String(
       today.getMonth() + 1
     ).padStart(2, '0')}`;
 
-    const hasThisMonth = thisYearMonths.some(
-      (month) => month.value === thisMonth
-    );
+    const hasThisMonth = months.some((month) => month.value === thisMonth);
 
-    // a congregation whose material stops short of today opens on its newest
-    return hasThisMonth ? thisMonth : (thisYearMonths[0]?.value ?? '');
-  });
+    return hasThisMonth ? thisMonth : (months[0]?.value ?? '');
+  }, []);
+
+  const [selectedMonth, setSelectedMonth] = useState(() =>
+    preferredMonth(thisYearMonths)
+  );
 
   const [selectedWeeks, setSelectedWeeks] = useState(() =>
     getWeeksByMonth(selectedMonth)
@@ -225,6 +227,20 @@ const useMonthlyView = () => {
     });
   };
 
+  // the material arrives from the database after this view is mounted, and a
+  // month can equally disappear from it, so the choice is kept answerable
+  useEffect(() => {
+    if (thisYearMonths.length === 0) return;
+
+    const stillOffered = thisYearMonths.some(
+      (month) => month.value === selectedMonth
+    );
+
+    if (stillOffered) return;
+
+    setSelectedMonth(preferredMonth(thisYearMonths));
+  }, [thisYearMonths, selectedMonth, preferredMonth]);
+
   useEffect(() => {
     setSelectedWeeks(getWeeksByMonth(selectedMonth));
   }, [getWeeksByMonth, selectedMonth]);
@@ -313,7 +329,7 @@ const useMonthlyView = () => {
 
       if (!source) {
         changeValueInArrayState(setLcCount, index, 1);
-        changeValueInArrayState(setCustomPartEnabled, index, true);
+        changeValueInArrayState(setCustomPartEnabled, index, false);
         changeValueInArrayState(setHasCustomPart, index, false);
         lcNoAssignPartsSetters.forEach((setter) =>
           changeValueInArrayState(setter, index, false)
@@ -401,6 +417,9 @@ const useMonthlyView = () => {
 
   const handleAddCustomLCPart = async (week: string) => {
     const source = sources.find((record) => record.weekOf === week);
+
+    if (!source) return;
+
     const lcCount = source.midweek_meeting.lc_count;
     const lcCountOverride = structuredClone(lcCount.override);
 
