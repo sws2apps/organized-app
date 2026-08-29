@@ -3,6 +3,7 @@ import { useAppTranslation } from '@hooks/index';
 import { BasicSettingsProps } from './index.types';
 import useBasicSettings from './useBasicSettings';
 import Button from '@components/button';
+import DialogActions from '@components/dialog_actions';
 import DateFormat from '@features/congregation/settings/meeting_forms/date_format';
 import DataSharing from '@features/congregation/settings/congregation_privacy/data_sharing';
 import HourFormat from '@features/congregation/settings/congregation_basic/hour_format';
@@ -30,14 +31,14 @@ const BasicSettings = (props: BasicSettingsProps) => {
         <NameFormat />
       </Stack>
 
-      <Stack spacing="8px">
-        <Button variant="main" onClick={handleSave}>
-          {t('tr_saveAndContinueBtn')}
-        </Button>
+      <DialogActions>
         <Button variant="secondary" onClick={props.onMove}>
           {t('tr_skipThisStepBtn')}
         </Button>
-      </Stack>
+        <Button variant="main" onClick={handleSave}>
+          {t('tr_saveAndContinueBtn')}
+        </Button>
+      </DialogActions>
     </Box>
   );
 };

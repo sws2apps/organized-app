@@ -69,6 +69,11 @@ const useNavbar = () => {
   };
 
   const handleBack = () => {
+    if (navBarOptions.onBack) {
+      navBarOptions.onBack();
+      return;
+    }
+
     if (window.history.length > 1) {
       navigate(-1);
     } else {

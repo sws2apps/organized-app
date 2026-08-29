@@ -366,7 +366,9 @@
   "tr_createMasterKeyIntroDesc": "Denna nyckel krypterar säkert din församlings data, inklusive rapporter och personer, och krävs för administrativa åtgärder som dataexport/import eller för att göra betydande ändringar i inställningarna.",
   "tr_hallC": "C",
   "tr_FR": "Reguljär pionjär",
+  "tr_FRI": "Ålderspionjär",
   "tr_FS": "Specialpionjär",
+  "tr_FSI": "Ålderspionjär",
   "tr_incomingCongregationOnlineNoSpeakers": "Denna församling har ännu inte lagt till några besökande talare i sina register. Om nödvändigt kan du kontakta dem.",
   "tr_incomingCongregationOnlinePending": "Denna församling har ännu inte godkänt din begäran om tillgång till deras lista över utresande talare. Om nödvändigt kan du kontakta dem personligen.",
   "tr_incomingCongregationOnlineDisapproved": "Denna församling nekade din begäran om att få tillgång till deras lista över utresande talare. Om nödvändigt kan du personligen kontakta dem.",
@@ -511,6 +513,12 @@
   "tr_singleDay": "En dag",
   "tr_multipleDays": "Flera dagar",
   "tr_wholeDay": "Hela dagen",
+  "tr_multiDayEventsLayout": "Multi-day events layout",
+  "tr_separateDays": "Separate days",
+  "tr_oneDateRange": "One date range",
+  "tr_deleteEventTitle": "Delete the event",
+  "tr_deleteEventDesc": "Are you sure you want to delete “{{ eventName }}”? This cannot be undone.",
+  "tr_multiDayEventsHint": "Events longer than {{ days }} days always use a date range",
   "tr_groupServant": "Grupptjänare",
   "tr_groupServantAssign": "Gör till tjänare",
   "tr_firstDayOfTheWeek": "Första veckodagen",
@@ -523,5 +531,8 @@
   "tr_maximumAmountOfGroupsIs10": "Högst 10 tjänstegrupper",
   "tr_personAwayNotice": "Denna person är borta: {{ date }}",
   "tr_weekendTemplateShowSongs": "Visa sånger på schemat för helgmötet",
-  "tr_personalDetails": "Personuppgifter"
+  "tr_personalDetails": "Personuppgifter",
+  "tr_midweekMeetingDay": "Veckomötesdag",
+  "tr_infirmPioneer": "Ålderspionjär",
+  "tr_infirmPioneerNoGoal": "Som ålderspionjär kan du tjäna så mycket du kan, utan ett årligt timmål."
 }

@@ -1,5 +1,6 @@
 import { store } from '@states/index';
 import {
+  AssignmentType,
   EnrollmentType,
   PersonType,
   PrivilegeType,
@@ -8,6 +9,8 @@ import {
 import {
   displayNameMeetingsEnableState,
   fullnameOptionState,
+  midweekMeetingAuxClassQualificationsState,
+  midweekMeetingClassCountState,
   userDataViewState,
 } from '@states/settings';
 import { buildPersonFullname } from '@utils/common';
@@ -19,6 +22,7 @@ import {
   formatDateShortMonth,
 } from '@utils/date';
 import { AppRoleType } from '@definition/app';
+import { AssignmentCode } from '@definition/assignment';
 import { fieldWithLanguageGroupsState } from '@states/field_service_groups';
 import { APP_READ_ONLY_ROLES } from '@constants/index';
 import { getTranslation } from '@services/i18n/translation';
@@ -214,6 +218,7 @@ export const personAssignmentsRemove = (person: PersonType) => {
 
   if (assignments) {
     assignments.values = [];
+    assignments.classroom_qualifications = [];
     assignments.updatedAt = new Date().toISOString();
   }
 
@@ -319,6 +324,19 @@ export const personIsMS = (person: PersonType) => {
   return hasActive ? true : false;
 };
 
+// An infirm pioneer keeps the enrollment family of their non-infirm
+// counterpart: FRI counts as FR and FSI as FS. Only the yearly hour goal
+// differs (see personIsInfirmPioneer).
+const ENROLLMENT_FAMILY: Partial<Record<EnrollmentType, EnrollmentType[]>> = {
+  FR: ['FR', 'FRI'],
+  FS: ['FS', 'FSI'],
+};
+
+export const enrollmentMatches = (
+  record: EnrollmentType,
+  target: EnrollmentType
+) => (ENROLLMENT_FAMILY[target] ?? [target]).includes(record);
+
 export const personIsEnrollmentActive = (
   person: PersonType,
   enrollment: EnrollmentType,
@@ -327,7 +345,7 @@ export const personIsEnrollmentActive = (
   if (!month) {
     const isActive = person.person_data.enrollments.some(
       (record) =>
-        record.enrollment === enrollment &&
+        enrollmentMatches(record.enrollment, enrollment) &&
         record.end_date === null &&
         record._deleted === false
     );
@@ -338,7 +356,7 @@ export const personIsEnrollmentActive = (
   const history = person.person_data.enrollments.filter(
     (record) =>
       record._deleted === false &&
-      record.enrollment === enrollment &&
+      enrollmentMatches(record.enrollment, enrollment) &&
       record.start_date?.length > 0
   );
 
@@ -382,7 +400,7 @@ export const personIsFMF = (person: PersonType) => {
 export const personIsFR = (person: PersonType) => {
   const hasActive = person.person_data.enrollments.find(
     (record) =>
-      record.enrollment === 'FR' &&
+      enrollmentMatches(record.enrollment, 'FR') &&
       record.end_date === null &&
       record._deleted === false
   );
@@ -393,12 +411,21 @@ export const personIsFR = (person: PersonType) => {
 export const personIsFS = (person: PersonType) => {
   const hasActive = person.person_data.enrollments.find(
     (record) =>
-      record.enrollment === 'FS' &&
+      enrollmentMatches(record.enrollment, 'FS') &&
       record.end_date === null &&
       record._deleted === false
   );
 
   return hasActive ? true : false;
+};
+
+export const personIsInfirmPioneer = (person: PersonType) => {
+  return person.person_data.enrollments.some(
+    (record) =>
+      (record.enrollment === 'FRI' || record.enrollment === 'FSI') &&
+      record.end_date === null &&
+      record._deleted === false
+  );
 };
 
 export const personHasNoAssignment = (person: PersonType) => {
@@ -454,9 +481,30 @@ export const applyNameFilters = ({
   return filteredByName;
 };
 
+export const personAssignmentHasClassroom = (
+  assignment: AssignmentType | undefined,
+  code: AssignmentCode,
+  classroom: string
+) => {
+  const enabled = store.get(midweekMeetingAuxClassQualificationsState);
+  const classCount = store.get(midweekMeetingClassCountState);
+
+  // restrictions only apply when the auxiliary classroom is in use
+  if (!enabled || classCount < 2) return true;
+
+  const classrooms = assignment?.classroom_qualifications?.find(
+    (record) => record.code === code
+  )?.classrooms;
+
+  if (!classrooms || classrooms.length === 0) return true;
+
+  return classrooms.includes(classroom);
+};
+
 export const applyAssignmentFilters = (
   persons: PersonType[],
-  filtersKey: number[]
+  filtersKey: number[],
+  classroom?: string
 ) => {
   const dataView = store.get(userDataViewState);
 
@@ -471,12 +519,17 @@ export const applyAssignmentFilters = (
     for (const person of persons) {
       let isPassed = false;
 
-      const activeAssignments =
-        person.person_data.assignments.find((a) => a.type === dataView)
-          ?.values ?? [];
+      const personAssignments = person.person_data.assignments.find(
+        (a) => a.type === dataView
+      );
 
-      isPassed = activeAssignments.some((record) =>
-        assignments.includes(record)
+      const activeAssignments = personAssignments?.values ?? [];
+
+      isPassed = activeAssignments.some(
+        (record) =>
+          assignments.includes(record) &&
+          (!classroom ||
+            personAssignmentHasClassroom(personAssignments, record, classroom))
       );
 
       if (isPassed) {
@@ -524,6 +577,7 @@ export const applyGroupFilters = (
       const isMSFilter = groups.includes('ministerialServant');
       const isMidweekStudentFilter = groups.includes('midweekStudent');
       const isNoAssignmentFilter = groups.includes('noAssignment');
+      const isInfirmPioneerFilter = groups.includes('IP');
 
       const male = person.person_data.male.value;
       const female = person.person_data.female.value;
@@ -542,6 +596,7 @@ export const applyGroupFilters = (
         person.person_data.midweek_meeting_student.active.value;
       const hasNoAssignment = personHasNoAssignment(person);
       const isFamilyHead = person.person_data.family_members?.head;
+      const isInfirmPioneer = personIsInfirmPioneer(person);
 
       // if you want to add another condition here, add it after the male and
       // female check to avoid it to be overwritten
@@ -604,6 +659,9 @@ export const applyGroupFilters = (
 
       // family head selected
       if (isPassed && isFamilyHeadFilter) isPassed = isFamilyHead;
+
+      // infirm pioneer selected
+      if (isPassed && isInfirmPioneerFilter) isPassed = isInfirmPioneer;
 
       if (isPassed) {
         finalResult.push(person);
@@ -714,6 +772,37 @@ export const personIsPublisher = (person: PersonType, month?: string) => {
 
 export const personIsMidweekStudent = (person: PersonType) => {
   return person.person_data.midweek_meeting_student.active.value;
+};
+
+export const personGetFamilyMemberUIDs = (
+  persons: PersonType[],
+  personUid: string
+): Set<string> => {
+  const person = persons.find((p) => p.person_uid === personUid);
+  if (!person) return new Set();
+
+  // head's own UID is not stored in members[], so no need to delete self
+  if (person.person_data.family_members?.head) {
+    const members = new Set(person.person_data.family_members.members);
+    members.delete(personUid);
+    return members;
+  }
+
+  // person is a member — find the head and include them in the returned set
+  const headPerson = persons.find(
+    (p) =>
+      p.person_data.family_members?.head &&
+      p.person_data.family_members.members.includes(personUid)
+  );
+
+  if (headPerson) {
+    const members = new Set(headPerson.person_data.family_members.members);
+    members.add(headPerson.person_uid);
+    members.delete(personUid);
+    return members;
+  }
+
+  return new Set();
 };
 
 export const personsSortByName = (persons: PersonType[]) => {

@@ -14,8 +14,9 @@ import {
 } from '@states/settings';
 import { AssignmentCongregation } from '@definition/schedules';
 import { personsState } from '@states/persons';
-import { personGetDisplayName, speakerGetDisplayName } from '@utils/common';
+import { personGetDisplayName, speakerGetDetails } from '@utils/common';
 import { incomingSpeakersState } from '@states/visiting_speakers';
+import { speakersCongregationsState } from '@states/speakers_congregations';
 
 const usePersonComponent = ({
   week,
@@ -31,6 +32,7 @@ const usePersonComponent = ({
   const coDisplayName = useAtomValue(CODisplayNameState);
   const coFullname = useAtomValue(COFullnameState);
   const incomingSpeakers = useAtomValue(incomingSpeakersState);
+  const congregations = useAtomValue(speakersCongregationsState);
   const settings = useAtomValue(settingsState);
 
   const mmAuxCounselorDefaultEnabled = useMemo(() => {
@@ -108,20 +110,16 @@ const usePersonComponent = ({
         assignment === 'WM_Speaker_Part1' &&
         talkType?.value === 'visitingSpeaker'
       ) {
-        const speaker = incomingSpeakers.find(
-          (record) => record.person_uid === assigned?.value
-        );
+        const { name } = speakerGetDetails({
+          assigned,
+          speakers: incomingSpeakers,
+          congregations,
+          displayNameEnabled,
+          fullnameOption,
+        });
 
-        if (speaker) {
-          return {
-            name: speakerGetDisplayName(
-              speaker,
-              displayNameEnabled,
-              fullnameOption
-            ),
-            female: false,
-            active: false,
-          };
+        if (name.length > 0) {
+          return { name, female: false, active: false };
         }
       }
 
@@ -136,6 +134,12 @@ const usePersonComponent = ({
           fullnameOption
         );
         result.female = person.person_data.female.value;
+        result.active = assigned.value === userUID;
+      }
+
+      if (!person && assigned?.value?.length > 0 && assigned.name?.length > 0) {
+        result.name = assigned.name;
+        result.female = false;
         result.active = assigned.value === userUID;
       }
 
@@ -200,19 +204,25 @@ const usePersonComponent = ({
             result.female = false;
             result.active = assigned?.value === userUID;
           }
+
+          if (!person && assigned?.name?.length > 0) {
+            result.name = assigned.name;
+            result.female = false;
+            result.active = assigned.value === userUID;
+          }
         }
 
         if (talkType?.value === 'visitingSpeaker') {
-          const speaker = incomingSpeakers.find(
-            (record) => record.person_uid === assigned?.value
-          );
+          const { name } = speakerGetDetails({
+            assigned,
+            speakers: incomingSpeakers,
+            congregations,
+            displayNameEnabled,
+            fullnameOption,
+          });
 
-          if (speaker) {
-            result.name = speakerGetDisplayName(
-              speaker,
-              displayNameEnabled,
-              fullnameOption
-            );
+          if (name.length > 0) {
+            result.name = name;
             result.female = false;
             result.active = false;
           }
@@ -255,6 +265,7 @@ const usePersonComponent = ({
     coFullname,
     wsConductor,
     incomingSpeakers,
+    congregations,
     mmAuxCounselorDefaultEnabled,
     mmAuxCounselorDefault,
     schedule_id,

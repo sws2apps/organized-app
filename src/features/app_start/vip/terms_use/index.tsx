@@ -1,8 +1,9 @@
-import { Box, Stack } from '@mui/material';
+import { Box } from '@mui/material';
 import { useAppTranslation } from '@hooks/index';
 import useTermsUse from './useTermsUse';
 import Button from '@components/button';
 import Checkbox from '@components/checkbox';
+import DialogActions from '@components/dialog_actions';
 import Dialog from '../../../../components/dialog';
 import TextMarkup from '@components/text_markup';
 import Typography from '@components/typography';
@@ -76,7 +77,15 @@ const TermsUse = () => {
           }
         />
 
-        <Stack spacing="8px" width="100%">
+        <DialogActions>
+          <Button
+            variant="secondary"
+            onClick={handleRejectTerms}
+            sx={{ flex: 1 }}
+          >
+            {t('tr_cancel')}
+          </Button>
+
           <Button
             variant="main"
             disabled={!readComplete}
@@ -85,15 +94,7 @@ const TermsUse = () => {
           >
             {t('tr_next')}
           </Button>
-
-          <Button
-            variant="secondary"
-            onClick={handleRejectTerms}
-            sx={{ flex: 1 }}
-          >
-            {t('tr_cancel')}
-          </Button>
-        </Stack>
+        </DialogActions>
       </Box>
     </Dialog>
   );

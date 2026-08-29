@@ -33,6 +33,8 @@
   "tr_modeDark": "Maizina",
   "tr_autoThemeChange": "Atao mitovy ho azy amin’ny fisehon’ny fitaovana ampiasaiko",
   "tr_autoThemeChangeDesc": "Atao mitovy amin’izay ampiasainao amin’ity fitaovana ity ny endrika isehoan’ny Organized rehefa misafidy hoe mazava sa maizina",
+  "tr_hapticFeedback": "Haptic feedback",
+  "tr_hapticFeedbackDesc": "Vibrate when you interact with the app, if your device and browser support it",
   "tr_colorScheme": "Karazana loko ampiasaina",
   "tr_blue": "Manga",
   "tr_green": "Maitso",
