@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { UpcomingEventsListProps } from './index.types';
-import { UpcomingEventType } from '@definition/upcoming_events';
+import { groupEventsByYear } from '@services/app/upcoming_events';
 import useCurrentUser from '@hooks/useCurrentUser';
 
 const useUpcomingEventsList = ({ data }: UpcomingEventsListProps) => {
@@ -14,27 +14,7 @@ const useUpcomingEventsList = ({ data }: UpcomingEventsListProps) => {
     new Set()
   );
 
-  const eventsSortedByYear = useMemo(() => {
-    const yearMap = new Map<number, UpcomingEventType[]>();
-
-    for (const event of data) {
-      const dateStr = event.event_data?.start;
-
-      if (!dateStr) continue;
-
-      const year = new Date(dateStr).getFullYear();
-
-      if (!yearMap.has(year)) {
-        yearMap.set(year, []);
-      }
-
-      yearMap.get(year)!.push(event);
-    }
-
-    const sortedYears = Array.from(yearMap.keys()).sort((a, b) => a - b);
-
-    return sortedYears.map((year) => yearMap.get(year)!);
-  }, [data]);
+  const eventsSortedByYear = useMemo(() => groupEventsByYear(data), [data]);
 
   useEffect(() => {
     const handleScroll = () => {
