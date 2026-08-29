@@ -146,6 +146,8 @@
   "tr_useDisplayNameOthersDesc": "Mahusay para sa mga assignment o mga iskedyul ng paglilinis na may maraming content. Subukan kung anong opsyon ang mas mabuti",
   "tr_recordOnlineAttendance": "I-record ang online meeting attendance",
   "tr_recordOnlineAttendanceDesc": "Magdagdag ng 'Online' input field upang masundan ang online at in-person attendance",
+  "tr_recordDeafAttendance": "Record deaf attendance separately",
+  "tr_recordDeafAttendanceDesc": "For sign-language congregations: count deaf and hearing attendees separately, and report both on the S-88 form",
   "tr_kingdomHallAddressDesc": "Ibigay ang address upang ma-inform ang mga visiting speakers ng lokasyon",
   "tr_meetingSettings": "Meeting settings",
   "tr_midweek": "Midweek",
