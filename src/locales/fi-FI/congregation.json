@@ -146,6 +146,8 @@
   "tr_useDisplayNameOthersDesc": "Hyödyllinen tehtävä- tai siivousaikatauluissa, joissa on paljon sisältöä. Kokeile ja katso, mikä vaihtoehto toimii paremmin",
   "tr_recordOnlineAttendance": "Kirjaa verkkokokouksen läsnäolo",
   "tr_recordOnlineAttendanceDesc": "Lisää ’Online’-kenttä seuratakseen sekä verkkokokouksien että henkilökohtaisen läsnäolon",
+  "tr_recordDeafAttendance": "Record deaf attendance separately",
+  "tr_recordDeafAttendanceDesc": "For sign-language congregations: count deaf and hearing attendees separately, and report both on the S-88 form",
   "tr_kingdomHallAddressDesc": "Anna osoite, jotta vierailevat puhujat tietävät sijainnin",
   "tr_meetingSettings": "Kokouksen asetukset",
   "tr_midweek": "Viikkokokous",

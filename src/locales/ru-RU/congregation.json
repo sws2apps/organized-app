@@ -146,6 +146,8 @@
   "tr_useDisplayNameOthersDesc": "Полезно для графиков обязанностей или уборки зала с множеством контента. Попробуй и посмотри какая опция работает лучше",
   "tr_recordOnlineAttendance": "Записывать онлайн посещаемость встреч",
   "tr_recordOnlineAttendanceDesc": "Добавить поле «Онлайн» для отслеживания посещаемости как онлайн, так и вживую",
+  "tr_recordDeafAttendance": "Record deaf attendance separately",
+  "tr_recordDeafAttendanceDesc": "For sign-language congregations: count deaf and hearing attendees separately, and report both on the S-88 form",
   "tr_kingdomHallAddressDesc": "Укажи адрес для информирования приглашенных докладчиков о местонахождении встречи",
   "tr_meetingSettings": "Параметры встреч",
   "tr_midweek": "В будние дни",

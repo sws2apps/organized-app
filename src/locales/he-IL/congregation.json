@@ -146,6 +146,8 @@
   "tr_useDisplayNameOthersDesc": "שימושי עבור תורנויות או תוכניות ניקיון עם הרבה תוכן. נסה וראה איזו אפשרות עובדת טוב יותר",
   "tr_recordOnlineAttendance": "רשום נוכחות באסיפה אונליין",
   "tr_recordOnlineAttendanceDesc": "הוסף שדה קלט 'אונליין' כדי לעקוב אחר נוכחות הן אונליין והן פיזית",
+  "tr_recordDeafAttendance": "Record deaf attendance separately",
+  "tr_recordDeafAttendanceDesc": "For sign-language congregations: count deaf and hearing attendees separately, and report both on the S-88 form",
   "tr_kingdomHallAddressDesc": "ספק את הכתובת כדי ליידע נואמים אורחים על המיקום",
   "tr_meetingSettings": "הגדרות אסיפה",
   "tr_midweek": "אמצע שבוע",

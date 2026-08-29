@@ -146,6 +146,8 @@
   "tr_useDisplayNameOthersDesc": "E mea maitai no te mau hopoʻa aore rā te mau faanahoraa horoi e rahi roa te mau parau. E tamata e e hiʻo i te hoê faanahoraa e mea maitai aʻe",
   "tr_recordOnlineAttendance": "Te tapaʻo i te feia i tae mai i te rāvea na nia i te uira",
   "tr_recordOnlineAttendanceDesc": "Te tapiri i te hoê vāhi tomo ‘Na nia i te uira’ ia tapaʻo maitai i te feia i tae mai na nia i te uira e te feia i tae mai i te fare",
+  "tr_recordDeafAttendance": "Record deaf attendance separately",
+  "tr_recordDeafAttendanceDesc": "For sign-language congregations: count deaf and hearing attendees separately, and report both on the S-88 form",
   "tr_kingdomHallAddressDesc": "Te vāhi noho no te faaite i te vāhi o te rāvea i te mau orero tapiho",
   "tr_meetingSettings": "Te mau faanahoraa no te rāvea",
   "tr_midweek": "Te rāvea o te hepetoma",

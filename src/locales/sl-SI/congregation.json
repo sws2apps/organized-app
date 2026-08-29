@@ -146,6 +146,8 @@
   "tr_useDisplayNameOthersDesc": "Uporabno za razporede nalog ali razpored čiščenja z veliko vsebinami. Preizkusi, katera možnost deluje najbolje.",
   "tr_recordOnlineAttendance": "Zabeleži število prisotnih na shodu prek spleta",
   "tr_recordOnlineAttendanceDesc": "Dodaj vnosno polje 'Prek spleta', da bi spremljal prisotnost prek spleta in v živo",
+  "tr_recordDeafAttendance": "Ločeno beleži prisotnost gluhih",
+  "tr_recordDeafAttendanceDesc": "Za občine v znakovnem jeziku: gluhe in slišeče štejte ločeno ter poročajte o obeh na obrazcu S‑88",
   "tr_kingdomHallAddressDesc": "Vpiši naslov, da gostujoče govornike obvestiš o lokaciji",
   "tr_meetingSettings": "Nastavitve za shode",
   "tr_midweek": "Med tednom",
