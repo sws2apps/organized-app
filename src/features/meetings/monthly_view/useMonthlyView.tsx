@@ -16,7 +16,13 @@ import {
   userDataViewState,
 } from '@states/settings';
 import { sourcesFormattedState, sourcesState } from '@states/sources';
-import { SetStateAction, useCallback, useEffect, useState } from 'react';
+import {
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { useAtomValue } from 'jotai';
 
 const useMonthlyView = () => {
@@ -36,30 +42,57 @@ const useMonthlyView = () => {
     midweekMeetingClosingPrayerLinkedState
   );
 
-  const getWeeksByMonthAndYear = useCallback(
-    (year: number, month: number) => {
-      let weeks = [];
-      sourcesFormatted.forEach((srcYear) => {
-        if (srcYear.value == year) {
-          weeks = srcYear.months.find(
-            (formattedMonth) => formattedMonth.value == month
-          ).weeks;
-        }
-      });
-      return weeks;
+  // the material files a month under a `YYYY/MM` key, so that key is what the
+  // list, the selection and the lookup all speak
+  const getWeeksByMonth = useCallback(
+    (month: string) => {
+      for (const year of sourcesFormatted) {
+        const found = year.months.find((record) => record.value === month);
+
+        if (found) return found.weeks;
+      }
+
+      // a month without material simply has no weeks to show
+      return [];
     },
     [sourcesFormatted]
   );
 
   const currentYear = new Date().getFullYear().toString();
 
-  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
-  const [selectedWeeks, setSelectedWeeks] = useState(
-    getWeeksByMonthAndYear(parseInt(currentYear), selectedMonth)
+  // the months of this year that have material, newest first already
+  const thisYearMonths = useMemo(() => {
+    const year = sourcesFormatted.find(
+      (record) => record.value.toString() === currentYear
+    );
+
+    return (year?.months ?? []).map((month) => ({
+      value: month.value,
+      label: monthNames[Number(month.value.split('/')[1]) - 1],
+    }));
+  }, [sourcesFormatted, currentYear, monthNames]);
+
+  const [selectedMonth, setSelectedMonth] = useState(() => {
+    const today = new Date();
+
+    const thisMonth = `${today.getFullYear()}/${String(
+      today.getMonth() + 1
+    ).padStart(2, '0')}`;
+
+    const hasThisMonth = thisYearMonths.some(
+      (month) => month.value === thisMonth
+    );
+
+    // a congregation whose material stops short of today opens on its newest
+    return hasThisMonth ? thisMonth : (thisYearMonths[0]?.value ?? '');
+  });
+
+  const [selectedWeeks, setSelectedWeeks] = useState(() =>
+    getWeeksByMonth(selectedMonth)
   );
 
   const [weeksTypes, setWeeksTypes] = useState(
-    Array(selectedWeeks.length).fill(Week.NORMAL)
+    Array(selectedWeeks.length).fill({ value: Week.NORMAL })
   );
   const [ayfCount, setAyfCount] = useState(Array(selectedWeeks.length).fill(1));
   const [ayfParts1, setAyfParts1] = useState<AssignmentCode[]>(
@@ -118,12 +151,8 @@ const useMonthlyView = () => {
   const [addCustomModalWindowWeek, setAddCustomModalWindowWeek] =
     useState(null);
 
-  const thisYearMonths = sourcesFormatted
-    .find((year) => year.value.toString() === currentYear)
-    .months.toReversed()
-    .map((month) => monthNames[month.value]);
-
-  const monthName = thisYearMonths[selectedMonth];
+  const monthName =
+    thisYearMonths.find((month) => month.value === selectedMonth)?.label ?? '';
 
   const getWeekLocale = (date, monthName) => {
     return t('tr_longDateNoYearLocale', {
@@ -197,14 +226,17 @@ const useMonthlyView = () => {
   };
 
   useEffect(() => {
-    setSelectedWeeks(
-      getWeeksByMonthAndYear(parseInt(currentYear), selectedMonth)
-    );
-  }, [currentYear, getWeeksByMonthAndYear, selectedMonth]);
+    setSelectedWeeks(getWeeksByMonth(selectedMonth));
+  }, [getWeeksByMonth, selectedMonth]);
 
   useEffect(() => {
     selectedWeeks.forEach((value, index) => {
       const schedule = schedules.find((record) => record.weekOf === value);
+
+      if (!schedule) {
+        changeValueInArrayState(setWeeksTypes, index, { value: Week.NORMAL });
+        return;
+      }
 
       const weekType = schedule.midweek_meeting.week_type.find(
         (record) => record.type === dataView
@@ -231,6 +263,20 @@ const useMonthlyView = () => {
 
     selectedWeeks.forEach((value, index) => {
       const source = sources.find((record) => record.weekOf === value);
+
+      if (!source) {
+        changeValueInArrayState(setAyfCount, index, 1);
+
+        ayfPartsSetters.forEach((setter) =>
+          changeValueInArrayState(setter, index, null)
+        );
+
+        isTalkAYFPartsSetters.forEach((setter) =>
+          changeValueInArrayState(setter, index, false)
+        );
+
+        return;
+      }
 
       changeValueInArrayState(
         setAyfCount,
@@ -308,7 +354,7 @@ const useMonthlyView = () => {
 
         const lcSrcDefault =
           source.midweek_meeting[`lc_part${setterIndex + 1}`].title.default[
-          lang
+            lang
           ];
 
         const lcSrc = lcSrcOverride?.length > 0 ? lcSrcOverride : lcSrcDefault;

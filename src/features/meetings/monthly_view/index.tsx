@@ -29,6 +29,7 @@ const MonthlyView = () => {
     getWeekLocale,
     currentYear,
     selectedMonth,
+    monthName,
     thisYearMonths,
     setSelectedMonth,
     classCount,
@@ -91,15 +92,13 @@ const MonthlyView = () => {
             sx={{
               maxWidth: '196px',
             }}
-            value={selectedMonth.toString()}
-            onChange={(e) =>
-              setSelectedMonth(parseInt(e.target.value as string))
-            }
+            value={selectedMonth}
+            onChange={(e) => setSelectedMonth(e.target.value as string)}
           >
-            {thisYearMonths?.map((value, index) => {
+            {thisYearMonths?.map((month) => {
               return (
-                <MenuItem value={index} key={index}>
-                  {`${value} ${currentYear}`}
+                <MenuItem value={month.value} key={month.value}>
+                  {`${month.label} ${currentYear}`}
                 </MenuItem>
               );
             })}
@@ -108,10 +107,7 @@ const MonthlyView = () => {
             return (
               <WeekBadge
                 key={index}
-                text={getWeekLocale(
-                  new Date(value).getDate(),
-                  thisYearMonths[selectedMonth]
-                )}
+                text={getWeekLocale(new Date(value).getDate(), monthName)}
               />
             );
           })}
