@@ -373,3 +373,5 @@ export const pwaInstallPromptState = atom(
 );
 
 export const pwaStandaloneState = atom(false);
+
+export const pwaInstalledState = atom(false);

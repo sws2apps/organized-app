@@ -28,7 +28,7 @@ import { NavBarType } from './index.types';
 import useNavbar from './useNavbar';
 import AccountHeaderIcon from '@components/account_header_icon';
 import AppNotification from '@features/app_notification';
-import IosInstallDialog from '@features/app_install/ios_dialog';
+import InstallDialog from '@features/app_install/install_dialog';
 import Button from '@components/button';
 import DemoBanner from '@features/demo/banner';
 import LanguageSwitcher from '@features/language_switcher';
@@ -59,7 +59,6 @@ const menuStyle = {
 
 const NavBar = ({ isSupported }: NavBarType) => {
   const { t } = useAppTranslation();
-
 
   const [settingsAnimating, setSettingsAnimating] = useState(false);
 
@@ -93,8 +92,9 @@ const NavBar = ({ isSupported }: NavBarType) => {
     showInstallButton,
     handleInstallApp,
     InstallIcon,
-    iosDialogOpen,
-    handleCloseIosDialog,
+    installDialogOpen,
+    handleCloseInstallDialog,
+    installGuide,
     markLastNavBarButton,
   } = useNavbar();
 
@@ -614,9 +614,10 @@ const NavBar = ({ isSupported }: NavBarType) => {
       {navBarOptions.buttons && !tablet688Up && (
         <BottomMenu buttons={markLastNavBarButton(navBarOptions.buttons)} />
       )}
-      <IosInstallDialog
-        open={iosDialogOpen}
-        onClose={handleCloseIosDialog}
+      <InstallDialog
+        open={installDialogOpen}
+        onClose={handleCloseInstallDialog}
+        guide={installGuide}
       />
     </>
   );

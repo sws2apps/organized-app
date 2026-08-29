@@ -1,18 +1,37 @@
 import { useCallback, useEffect, useLayoutEffect } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { pwaInstallPromptState, pwaStandaloneState } from '@states/app';
+import {
+  pwaInstallPromptState,
+  pwaInstalledState,
+  pwaStandaloneState,
+} from '@states/app';
 import { BeforeInstallPromptEvent } from '@definition/app';
+import {
+  isInstalledAsRelatedApp,
+  isRunningStandalone,
+  pwaInstallGuide,
+} from '@utils/pwa';
 
 const STANDALONE_QUERY = '(display-mode: standalone)';
 
-const isStandaloneDisplay = () => {
-  if (typeof window === 'undefined') return false;
+// the app remembers being installed: a browser only admits it while running
+// as an app, which is never true in the tab the user is reading right now
+const INSTALLED_KEY = 'organized_pwa_installed';
 
-  if (typeof window.matchMedia === 'function') {
-    return window.matchMedia(STANDALONE_QUERY).matches;
+const rememberInstalled = () => {
+  try {
+    localStorage.setItem(INSTALLED_KEY, 'true');
+  } catch {
+    // a browser with no storage still works, it just asks again
   }
+};
 
-  return false;
+export const wasInstalled = () => {
+  try {
+    return localStorage.getItem(INSTALLED_KEY) === 'true';
+  } catch {
+    return false;
+  }
 };
 
 /**
@@ -25,6 +44,7 @@ const isStandaloneDisplay = () => {
 export const usePwaInstallListener = () => {
   const setInstallPrompt = useSetAtom(pwaInstallPromptState);
   const setStandalone = useSetAtom(pwaStandaloneState);
+  const setInstalled = useSetAtom(pwaInstalledState);
 
   useEffect(() => {
     const handleBeforeInstallPrompt = (event: Event) => {
@@ -35,11 +55,20 @@ export const usePwaInstallListener = () => {
 
     const handleAppInstalled = () => {
       setInstallPrompt(null);
-      setStandalone(isStandaloneDisplay());
+      setStandalone(isRunningStandalone());
+
+      rememberInstalled();
+      setInstalled(true);
     };
 
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
     window.addEventListener('appinstalled', handleAppInstalled);
+
+    // Chromium fires the prompt once, and for a returning visitor it does so
+    // before this effect runs: the script in the document head keeps it
+    if (window.deferredInstallPrompt) {
+      setInstallPrompt(window.deferredInstallPrompt);
+    }
 
     return () => {
       window.removeEventListener(
@@ -48,12 +77,12 @@ export const usePwaInstallListener = () => {
       );
       window.removeEventListener('appinstalled', handleAppInstalled);
     };
-  }, [setInstallPrompt, setStandalone]);
+  }, [setInstallPrompt, setInstalled, setStandalone]);
 
   // before paint: an installed app would otherwise show the install button
   // for one frame, while the standalone state still holds its initial value
   useLayoutEffect(() => {
-    setStandalone(isStandaloneDisplay());
+    setStandalone(isRunningStandalone());
 
     if (typeof window.matchMedia !== 'function') return;
 
@@ -69,30 +98,69 @@ export const usePwaInstallListener = () => {
       query.removeEventListener('change', handleDisplayModeChange);
     };
   }, [setStandalone]);
+
+  useLayoutEffect(() => {
+    if (wasInstalled()) setInstalled(true);
+  }, [setInstalled]);
+
+  useEffect(() => {
+    let active = true;
+
+    isInstalledAsRelatedApp().then((installed) => {
+      if (!active || !installed) return;
+
+      rememberInstalled();
+      setInstalled(true);
+    });
+
+    return () => {
+      active = false;
+    };
+  }, [setInstalled]);
 };
 
 const usePwaInstall = () => {
   const installPrompt = useAtomValue(pwaInstallPromptState);
   const isStandalone = useAtomValue(pwaStandaloneState);
+  const isKnownInstalled = useAtomValue(pwaInstalledState);
 
   const setInstallPrompt = useSetAtom(pwaInstallPromptState);
 
-  const isPwaInstallable = installPrompt !== null && !isStandalone;
+  const isInstalled = isStandalone || isKnownInstalled;
 
+  /**
+   * Opens the browser's own install prompt.
+   *
+   * @returns whether the prompt was shown, so the caller can fall back to
+   * telling the user where its command lives
+   */
   const installPwa = useCallback(async () => {
-    if (!installPrompt) return;
+    if (!installPrompt) return false;
 
-    await installPrompt.prompt();
+    // the event is good for one call only
+    setInstallPrompt(null);
+    window.deferredInstallPrompt = null;
 
-    const { outcome } = await installPrompt.userChoice;
+    try {
+      await installPrompt.prompt();
 
-    // a dismissed prompt can be shown again, an accepted one cannot
-    if (outcome === 'accepted') {
-      setInstallPrompt(null);
+      const { outcome } = await installPrompt.userChoice;
+
+      if (outcome === 'accepted') rememberInstalled();
+
+      return true;
+    } catch {
+      return false;
     }
   }, [installPrompt, setInstallPrompt]);
 
-  return { isPwaInstallable, installPwa, isStandalone };
+  return {
+    /** the browser can install the app without leaving the page */
+    hasPrompt: installPrompt !== null,
+    isInstalled,
+    installPwa,
+    guide: pwaInstallGuide(),
+  };
 };
 
 export default usePwaInstall;

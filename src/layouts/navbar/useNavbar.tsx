@@ -42,23 +42,21 @@ import { userSignOut } from '@services/firebase/auth';
 import NavBarButton from '@components/nav_bar_button';
 import { NavBarButtonProps } from '@components/nav_bar_button/index.types';
 
-const lacksNativeInstallSupport = (() => {
-  const ua = navigator.userAgent;
-  const isSafari = /Safari/i.test(ua) && !/Chrome|CriOS|FxiOS/i.test(ua);
-  const isIOS = /iPhone|iPod|iPad/i.test(ua);
-  return isSafari || isIOS;
-})();
-
 type IconComponent = ComponentType<{ color?: string }>;
 
 const useNavbar = () => {
   const navigate = useNavigate();
 
-  const { isPwaInstallable, installPwa: pwaInstall, isStandalone } =
-    usePwaInstall();
+  const {
+    hasPrompt,
+    isInstalled,
+    installPwa,
+    guide: installGuide,
+  } = usePwaInstall();
 
-  const [iosDialogOpen, setIosDialogOpen] = useState(false);
-  const handleCloseIosDialog = () => setIosDialogOpen(false);
+  const [installDialogOpen, setInstallDialogOpen] = useState(false);
+
+  const handleCloseInstallDialog = () => setInstallDialogOpen(false);
 
   const { laptopUp, tabletDown, tabletUp, desktopUp, tablet688Up } =
     useBreakpoints();
@@ -75,9 +73,9 @@ const useNavbar = () => {
 
   const openMore = Boolean(anchorEl);
 
-  const showInstallButton =
-    (isPwaInstallable || (lacksNativeInstallSupport && !isStandalone)) &&
-    !isStandalone;
+  // every browser installs the app one way or another, so the entry stays
+  // until it is installed: the ones without a prompt get the steps
+  const showInstallButton = !isInstalled;
 
   let InstallIcon: IconComponent = IconInstallTablet;
   if (tabletDown) {
@@ -154,13 +152,14 @@ const useNavbar = () => {
     window.open(`https://organized-app.com`, '_blank');
   };
 
-  const handleInstallApp = () => {
+  const handleInstallApp = async () => {
     handleCloseMore();
-    if (lacksNativeInstallSupport && !isPwaInstallable) {
-      setIosDialogOpen(true);
-    } else {
-      pwaInstall();
-    }
+
+    // the prompt can be gone by the time it is asked for, so the steps are
+    // the answer whenever it does not open
+    const prompted = hasPrompt ? await installPwa() : false;
+
+    if (!prompted) setInstallDialogOpen(true);
   };
 
   const handleDisconnectAccount = async () => {
@@ -266,8 +265,9 @@ const useNavbar = () => {
     showInstallButton,
     handleInstallApp,
     InstallIcon,
-    iosDialogOpen,
-    handleCloseIosDialog,
+    installDialogOpen,
+    handleCloseInstallDialog,
+    installGuide,
     markLastNavBarButton,
   };
 };
