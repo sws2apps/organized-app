@@ -33,6 +33,8 @@
   "tr_modeDark": "Tumma",
   "tr_autoThemeChange": "Automaattinen sovellusteeman vaihto",
   "tr_autoThemeChangeDesc": "Seuraa laitteen järjestelmäasetusta, kun valitset vaalean ja tumman tilan välillä",
+  "tr_hapticFeedback": "Haptic feedback",
+  "tr_hapticFeedbackDesc": "Vibrate when you interact with the app, if your device and browser support it",
   "tr_colorScheme": "Väriteema",
   "tr_blue": "Sininen",
   "tr_green": "Vihreä",

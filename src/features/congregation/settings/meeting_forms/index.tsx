@@ -1,5 +1,9 @@
 import { Box, Stack } from '@mui/material';
-import { useAppTranslation, useBreakpoints, useCurrentUser } from '@hooks/index';
+import {
+  useAppTranslation,
+  useBreakpoints,
+  useCurrentUser,
+} from '@hooks/index';
 import {
   CardSection,
   CardSectionContent,
@@ -13,7 +17,7 @@ import useMeetingForms from './useMeetingForms';
 import DisplayName from './display_name';
 import MenuItem from '@components/menuitem';
 import MidweekExactDate from './midweek_exact_date';
-
+import MultiDayDisplay from './multiday_display';
 import Select from '@components/select';
 import SourceLanguage from './source_language';
 import SwitchWithLabel from '@components/switch_with_label';
@@ -38,8 +42,11 @@ const MeetingForms = () => {
   return (
     <CardSection>
       <CardSectionHeader title={t('tr_meetinMaterialsTitle')} />
-      
-      <CardSectionContent marginTop="-8px !important" sx={{ '& > hr': { display: 'none' } }}>
+
+      <CardSectionContent
+        marginTop="-8px !important"
+        sx={{ '& > hr': { display: 'none' } }}
+      >
         {!isGroup && (
           <Stack spacing="16px">
             <AutoUpdateRow>
@@ -50,7 +57,9 @@ const MeetingForms = () => {
                   checked={sourceAutoUpdate}
                   onChange={handleSourceAutoUpdateToggle}
                   readOnly={
-                    !isMidweekEditor && !isWeekendEditor && !isPublicTalkCoordinator
+                    !isMidweekEditor &&
+                    !isWeekendEditor &&
+                    !isPublicTalkCoordinator
                   }
                 />
               </Box>
@@ -81,7 +90,7 @@ const MeetingForms = () => {
                 </Select>
               )}
             </AutoUpdateRow>
-              
+
             <Box>
               <SourceLanguage />
             </Box>
@@ -89,17 +98,27 @@ const MeetingForms = () => {
         )}
 
         <Box>
-          {!isGroup && <Divider color="var(--accent-200)" sx={{ mb: '16px' }} />}
-          <CardSubSectionHeader 
-            title={t('tr_formsAndSchedulesPreferences')} 
-            description={t('tr_formsAndSchedulesPreferencesDesc')} 
+          {!isGroup && (
+            <Divider color="var(--accent-200)" sx={{ mb: '16px' }} />
+          )}
+          <CardSubSectionHeader
+            title={t('tr_formsAndSchedulesPreferences')}
+            description={t('tr_formsAndSchedulesPreferencesDesc')}
           />
-          <Stack spacing="16px" sx={{ maxWidth: tabletUp ? '600px' : 'none', mt: '24px' }}>
+          <Stack
+            spacing="16px"
+            sx={{ maxWidth: tabletUp ? '600px' : 'none', mt: '24px' }}
+          >
             <MidweekExactDate />
             <SongsWeekend />
             <DisplayName />
           </Stack>
         </Box>
+
+        <Stack spacing="16px">
+          <CardSubSectionHeader title={t('tr_upcomingEvents')} />
+          <MultiDayDisplay />
+        </Stack>
       </CardSectionContent>
     </CardSection>
   );

@@ -142,6 +142,18 @@ const useGroupAdd = ({ onClose, onSuccess }: GroupAddProps) => {
         value: true,
       });
 
+      const eventsDisplay = structuredClone(
+        appSettings.cong_settings.events_multiday_display ||
+          settingSchema.cong_settings.events_multiday_display
+      );
+
+      eventsDisplay.push({
+        _deleted: false,
+        type: group.group_id,
+        updatedAt: new Date().toISOString(),
+        value: 'range',
+      });
+
       const onlineRecord = appSettings.cong_settings.attendance_online_record;
 
       onlineRecord.push({
@@ -151,9 +163,20 @@ const useGroupAdd = ({ onClose, onSuccess }: GroupAddProps) => {
         value: false,
       });
 
+      const deafRecord =
+        appSettings.cong_settings.attendance_deaf_record ||
+        structuredClone(settingSchema.cong_settings.attendance_deaf_record);
+
+      deafRecord.push({
+        _deleted: false,
+        type: group.group_id,
+        updatedAt: new Date().toISOString(),
+        value: false,
+      });
+
       const firstDayWeek =
         appSettings.cong_settings.first_day_week ||
-        settingSchema.cong_settings.first_day_week;
+        structuredClone(settingSchema.cong_settings.first_day_week);
 
       firstDayWeek.push({
         _deleted: false,
@@ -164,7 +187,7 @@ const useGroupAdd = ({ onClose, onSuccess }: GroupAddProps) => {
 
       const weekendSongs =
         appSettings.cong_settings.schedule_songs_weekend ||
-        settingSchema.cong_settings.schedule_songs_weekend;
+        structuredClone(settingSchema.cong_settings.schedule_songs_weekend);
 
       weekendSongs.push({
         _deleted: false,
@@ -194,7 +217,9 @@ const useGroupAdd = ({ onClose, onSuccess }: GroupAddProps) => {
         'cong_settings.fullname_option': fullnameOption,
         'cong_settings.short_date_format': shortDateFormat,
         'cong_settings.format_24h_enabled': format24h,
+        'cong_settings.events_multiday_display': eventsDisplay,
         'cong_settings.attendance_online_record': onlineRecord,
+        'cong_settings.attendance_deaf_record': deafRecord,
         'cong_settings.first_day_week': firstDayWeek,
         'cong_settings.schedule_songs_weekend': weekendSongs,
         'cong_settings.midweek_meeting': midweekMeeting,
