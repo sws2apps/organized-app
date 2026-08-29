@@ -146,6 +146,8 @@
   "tr_useDisplayNameOthersDesc": "Utile pour les programmes d'attributions ou de nettoyage avec beaucoup de contenu. Essayez et voyez quelle option fonctionne le mieux",
   "tr_recordOnlineAttendance": "Enregistrer l'assistance en ligne",
   "tr_recordOnlineAttendanceDesc": "Ajouter un champ 'En ligne' pour suivre à la fois l'assistance en ligne et en personne",
+  "tr_recordDeafAttendance": "Record deaf attendance separately",
+  "tr_recordDeafAttendanceDesc": "For sign-language congregations: count deaf and hearing attendees separately, and report both on the S-88 form",
   "tr_kingdomHallAddressDesc": "Fournir l'adresse pour informer les orateurs visiteurs du lieu",
   "tr_meetingSettings": "Paramètres des réunions",
   "tr_midweek": "Semaine",
