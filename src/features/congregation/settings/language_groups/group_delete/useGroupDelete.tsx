@@ -153,6 +153,20 @@ const useGroupDelete = ({ group }: GroupDeleteProps) => {
         findOnline.updatedAt = new Date().toISOString();
       }
 
+      const deafRecord = structuredClone(
+        settings.cong_settings.attendance_deaf_record ||
+          settingSchema.cong_settings.attendance_deaf_record
+      );
+
+      const findDeaf = deafRecord.find(
+        (record) => record.type === group.group_id
+      );
+
+      if (findDeaf) {
+        findDeaf._deleted = true;
+        findDeaf.updatedAt = new Date().toISOString();
+      }
+
       const midweekMeeting = structuredClone(
         settings.cong_settings.midweek_meeting
       );
@@ -220,6 +234,7 @@ const useGroupDelete = ({ group }: GroupDeleteProps) => {
         'cong_settings.format_24h_enabled': format24h,
         'cong_settings.events_multiday_display': eventsDisplay,
         'cong_settings.attendance_online_record': onlineRecord,
+        'cong_settings.attendance_deaf_record': deafRecord,
         'cong_settings.first_day_week': firstDayWeek,
         'cong_settings.schedule_songs_weekend': weekendSongs,
         'cong_settings.midweek_meeting': midweekMeeting,
