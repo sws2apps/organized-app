@@ -146,6 +146,8 @@
   "tr_useDisplayNameOthersDesc": "Hasznos a sok tartalommal rendelkező feladat- vagy takarítási beosztásokhoz. Próbáld ki és nézd meg, melyik beállítás működik jobban",
   "tr_recordOnlineAttendance": "Online jelenlét rögzítése az összejöveteleken",
   "tr_recordOnlineAttendanceDesc": "„Online” beviteli mező hozzáadása az online és személyes létszám nyomon követéséhez",
+  "tr_recordDeafAttendance": "Record deaf attendance separately",
+  "tr_recordDeafAttendanceDesc": "For sign-language congregations: count deaf and hearing attendees separately, and report both on the S-88 form",
   "tr_kingdomHallAddressDesc": "Add meg a címet, hogy a vendégelőadók tájékozódhassanak a helyszínről",
   "tr_meetingSettings": "Összejövetel beállításai",
   "tr_midweek": "Hét közbeni",
