@@ -33,6 +33,8 @@
   "tr_modeDark": "Dark",
   "tr_autoThemeChange": "Badilisha mwonekano wa programu kiotomatiki",
   "tr_autoThemeChangeDesc": "Fuata mipangilio ya mfumo wa kifaa chako unapochagua kati ya mwonekano wa mwangaza au giza",
+  "tr_hapticFeedback": "Haptic feedback",
+  "tr_hapticFeedbackDesc": "Vibrate when you interact with the app, if your device and browser support it",
   "tr_colorScheme": "Mpangilio wa rangi",
   "tr_blue": "Bluu",
   "tr_green": "Kijani",

@@ -33,6 +33,8 @@
   "tr_modeDark": "Maizina",
   "tr_autoThemeChange": "Atao mitovy ho azy ty raha miseho amy fitaova ampiasako",
   "tr_autoThemeChangeDesc": "Atao mitovy ho azy ty raha miseho amy fitaova ampiasako lafa mifily aho hoe atao mazava sa maìky",
+  "tr_hapticFeedback": "Haptic feedback",
+  "tr_hapticFeedbackDesc": "Vibrate when you interact with the app, if your device and browser support it",
   "tr_colorScheme": "Karazan'ny loko ampiasako",
   "tr_blue": "Bolè",
   "tr_green": "Maintso",

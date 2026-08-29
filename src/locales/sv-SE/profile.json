@@ -33,6 +33,8 @@
   "tr_modeDark": "Mörk",
   "tr_autoThemeChange": "Automatisk ändring av appens tema",
   "tr_autoThemeChangeDesc": "Följ din enhets systeminställning när du väljer mellan ljust och mörkt läge.",
+  "tr_hapticFeedback": "Haptic feedback",
+  "tr_hapticFeedbackDesc": "Vibrate when you interact with the app, if your device and browser support it",
   "tr_colorScheme": "Färgschema",
   "tr_blue": "Blått",
   "tr_green": "Grönt",

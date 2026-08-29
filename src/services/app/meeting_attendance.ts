@@ -15,21 +15,19 @@ import { dbMeetingAttendanceSave } from '@services/dexie/meeting_attendance';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode, getTranslation } from '@services/i18n/translation';
 
-const handleUpdateRecord = ({
+// Cloned record + data-view row (created if missing); clone keeps writes off the atom.
+const getWritableAttendance = ({
   index,
   month,
   type,
-  values,
   dataView,
 }: {
-  month: string;
   index: number;
-  values: AttendanceValues;
+  month: string;
   type: MeetingType;
   dataView: string;
 }) => {
   const attendances = store.get(meetingAttendanceState);
-
   const dbAttendance = attendances.find(
     (record) => record.month_date === month
   );
@@ -49,14 +47,39 @@ const handleUpdateRecord = ({
   let current = meetingRecord.find((record) => record.type === dataView);
 
   if (!current) {
-    meetingRecord.push({
+    current = {
       type: dataView,
       online: undefined,
       present: undefined,
       updatedAt: '',
-    });
-    current = meetingRecord.find((record) => record.type === dataView);
+    };
+    meetingRecord.push(current);
   }
+
+  return { attendance, current };
+};
+
+// every field of a week is written in one go: a deaf count and the count it
+// belongs to have to land together
+const handleUpdateRecord = ({
+  index,
+  month,
+  type,
+  values,
+  dataView,
+}: {
+  month: string;
+  index: number;
+  values: AttendanceValues;
+  type: MeetingType;
+  dataView: string;
+}) => {
+  const { attendance, current } = getWritableAttendance({
+    index,
+    month,
+    type,
+    dataView,
+  });
 
   const entries = Object.entries(values) as [AttendanceRecordField, string][];
 
@@ -105,6 +128,27 @@ const handlePresentSaveDb = async ({
 
 export const meetingAttendancePresentSave = debounce(handlePresentSaveDb, 10);
 
+// Both counts in one atomic write; the debounced save would drop a value.
+export const meetingAttendanceCountsSave = async ({
+  index,
+  month,
+  type,
+  counts,
+  dataView,
+}: {
+  index: number;
+  month: string;
+  type: MeetingType;
+  counts: { record: 'present' | 'online'; count: string }[];
+  dataView: string;
+}) => {
+  const values = Object.fromEntries(
+    counts.map(({ record, count }) => [record, count])
+  ) as AttendanceValues;
+
+  await handlePresentSaveDb({ index, month, type, values, dataView });
+};
+
 const sumField = (
   records: AttendanceCongregation[],
   field: AttendanceRecordField
@@ -129,7 +173,8 @@ export const meetingAttendanceGetStats = (
       ? weekData[meeting].filter((record) => record.type === category)
       : weekData[meeting];
 
-    const weekTotal = sumField(records, 'present') + sumField(records, 'online');
+    const weekTotal =
+      sumField(records, 'present') + sumField(records, 'online');
 
     if (weekTotal === 0) continue;
 
