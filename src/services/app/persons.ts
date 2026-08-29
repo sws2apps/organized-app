@@ -1,12 +1,19 @@
 import { store } from '@states/index';
 import {
+  AssignmentType,
   EnrollmentType,
   PersonType,
   PrivilegeType,
   TimeAwayType,
 } from '@definition/person';
-import { fullnameOptionState, userDataViewState } from '@states/settings';
-import { buildPersonFullname } from '@utils/common';
+import {
+  displayNameMeetingsEnableState,
+  fullnameOptionState,
+  midweekMeetingAuxClassQualificationsState,
+  midweekMeetingClassCountState,
+  userDataViewState,
+} from '@states/settings';
+import { buildPersonFullname, personGetDisplayName } from '@utils/common';
 import {
   addDays,
   dateFirstDayMonth,
@@ -15,6 +22,7 @@ import {
   formatDateShortMonth,
 } from '@utils/date';
 import { AppRoleType } from '@definition/app';
+import { AssignmentCode } from '@definition/assignment';
 import { fieldWithLanguageGroupsState } from '@states/field_service_groups';
 import { APP_READ_ONLY_ROLES } from '@constants/index';
 import { getTranslation } from '@services/i18n/translation';
@@ -210,6 +218,7 @@ export const personAssignmentsRemove = (person: PersonType) => {
 
   if (assignments) {
     assignments.values = [];
+    assignments.classroom_qualifications = [];
     assignments.updatedAt = new Date().toISOString();
   }
 
@@ -480,9 +489,30 @@ export const applyNameFilters = ({
   return filteredByName;
 };
 
+export const personAssignmentHasClassroom = (
+  assignment: AssignmentType | undefined,
+  code: AssignmentCode,
+  classroom: string
+) => {
+  const enabled = store.get(midweekMeetingAuxClassQualificationsState);
+  const classCount = store.get(midweekMeetingClassCountState);
+
+  // restrictions only apply when the auxiliary classroom is in use
+  if (!enabled || classCount < 2) return true;
+
+  const classrooms = assignment?.classroom_qualifications?.find(
+    (record) => record.code === code
+  )?.classrooms;
+
+  if (!classrooms || classrooms.length === 0) return true;
+
+  return classrooms.includes(classroom);
+};
+
 export const applyAssignmentFilters = (
   persons: PersonType[],
-  filtersKey: number[]
+  filtersKey: number[],
+  classroom?: string
 ) => {
   const dataView = store.get(userDataViewState);
 
@@ -497,12 +527,17 @@ export const applyAssignmentFilters = (
     for (const person of persons) {
       let isPassed = false;
 
-      const activeAssignments =
-        person.person_data.assignments.find((a) => a.type === dataView)
-          ?.values ?? [];
+      const personAssignments = person.person_data.assignments.find(
+        (a) => a.type === dataView
+      );
 
-      isPassed = activeAssignments.some((record) =>
-        assignments.includes(record)
+      const activeAssignments = personAssignments?.values ?? [];
+
+      isPassed = activeAssignments.some(
+        (record) =>
+          assignments.includes(record) &&
+          (!classroom ||
+            personAssignmentHasClassroom(personAssignments, record, classroom))
       );
 
       if (isPassed) {
@@ -952,6 +987,15 @@ export const personsFilterActiveTimeAway = (records: TimeAwayType[]) => {
     // Show if today is before or equal to endDatePlusCutoff
     return date >= limitDate;
   });
+};
+
+// main added this for the schedules; it goes through the shared builder so a
+// middle name is honoured here too
+export const personGetScheduleName = (person: PersonType) => {
+  const useDisplayName = store.get(displayNameMeetingsEnableState);
+  const fullnameOption = store.get(fullnameOptionState);
+
+  return personGetDisplayName(person, useDisplayName, fullnameOption);
 };
 
 export const personIsAway = (person: PersonType, date: string) => {

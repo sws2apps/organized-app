@@ -27,6 +27,8 @@ const AuxiliaryClassroom = () => {
     handleAuxCounselorMainPersonChange,
     auxClassAssignFSG,
     handleAuxClassAssignFSGToggle,
+    auxClassQualifications,
+    handleAuxClassQualificationsToggle,
   } = useAuxiliaryClassroom();
 
   return (
@@ -89,6 +91,14 @@ const AuxiliaryClassroom = () => {
             helper={t('tr_auxClassroomAssignServiceGroupDesc')}
             checked={auxClassAssignFSG}
             onChange={handleAuxClassAssignFSGToggle}
+            readOnly={!isMidweekEditor}
+          />
+
+          <SwitchWithLabel
+            label={t('tr_auxClassroomQualifications')}
+            helper={t('tr_auxClassroomQualificationsDesc')}
+            checked={auxClassQualifications}
+            onChange={handleAuxClassQualificationsToggle}
             readOnly={!isMidweekEditor}
           />
         </>

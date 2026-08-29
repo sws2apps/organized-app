@@ -12,6 +12,9 @@ import UpcomingEventDate from './UpcomingEventDate';
 const UpcomingEvent = ({ event }: UpcomingEventProps) => {
   const { t } = useAppTranslation();
 
+  const decoration =
+    decorationsForEvent[event.category] ?? decorationsForEvent.at(-1);
+
   const days = event.dates.map((date, index) => ({ ...date, index }));
 
   const splitIndex = Math.ceil(days.length / 2);
@@ -40,7 +43,7 @@ const UpcomingEvent = ({ event }: UpcomingEventProps) => {
               gap: '2px',
             }}
           >
-            {cloneElement(decorationsForEvent[event.category].icon, {
+            {cloneElement(decoration.icon, {
               size: 14,
               backgroundColor: 'none',
             })}
@@ -49,7 +52,7 @@ const UpcomingEvent = ({ event }: UpcomingEventProps) => {
               style={{ fontWeight: 500, fontSize: '11px', color: '#222222' }}
             >
               {event.category !== UpcomingEventCategory.Custom
-                ? t(decorationsForEvent[event.category].translationKey)
+                ? t(decoration.translationKey)
                 : event.custom}
             </Text>
           </View>
@@ -63,12 +66,12 @@ const UpcomingEvent = ({ event }: UpcomingEventProps) => {
           <UpcomingEventDate
             date={event.date}
             day={event.day}
-            title={event.time}
+            title={event.wholeDay ? t('tr_wholeDay') : event.time}
           />
         )}
 
         {event.duration === UpcomingEventDuration.MultipleDays &&
-          event.category !== UpcomingEventCategory.SpecialCampaignWeek && (
+          !event.showAsRange && (
             <View style={{ flexDirection: 'row', gap: '12px' }}>
               {dayColumns.map((column, columnIndex) => (
                 <View
@@ -105,7 +108,7 @@ const UpcomingEvent = ({ event }: UpcomingEventProps) => {
             </View>
           )}
 
-        {event.category === UpcomingEventCategory.SpecialCampaignWeek && (
+        {event.showAsRange && (
           <UpcomingEventDate
             range={event.datesRange}
             title={t('tr_everyDay')}
