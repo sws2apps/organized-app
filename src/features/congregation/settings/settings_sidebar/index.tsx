@@ -1,3 +1,4 @@
+import { isTest } from '@constants/index';
 import React, { Fragment, ReactNode, useCallback, useMemo } from 'react';
 import { Divider } from '@mui/material';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
@@ -46,10 +47,7 @@ type TabConfig = {
  * - Internal gap: dividers between tab items
  * - "Categories" title: h2 typography
  */
-const SettingsSidebar = ({
-  activeTab,
-  onTabChange,
-}: SettingsSidebarProps) => {
+const SettingsSidebar = ({ activeTab, onTabChange }: SettingsSidebarProps) => {
   const { t } = useAppTranslation();
   const { isGroup, isAdmin } = useCurrentUser();
 
@@ -82,7 +80,8 @@ const SettingsSidebar = ({
           renderIcon: (color) => <IconManageAccess color={color} />,
           label: t('tr_manageAccessFullTitle'),
           description: t('tr_manageAccessSidebarDesc'),
-          visible: isAdmin && !isGroup,
+          // no account is fetched while testing, so the tab is not offered
+          visible: isAdmin && !isGroup && !isTest,
         },
         {
           id: 'privacy' as SettingsTabId,
@@ -111,9 +110,7 @@ const SettingsSidebar = ({
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
-      const currentIndex = visibleTabs.findIndex(
-        (tab) => tab.id === activeTab
-      );
+      const currentIndex = visibleTabs.findIndex((tab) => tab.id === activeTab);
 
       let nextIndex: number | undefined;
 
@@ -148,7 +145,11 @@ const SettingsSidebar = ({
     <SidebarContainer>
       <Typography className="h2">{t('tr_settings')}</Typography>
 
-      <TabList role="tablist" aria-label={t('tr_settings')} onKeyDown={handleKeyDown}>
+      <TabList
+        role="tablist"
+        aria-label={t('tr_settings')}
+        onKeyDown={handleKeyDown}
+      >
         {visibleTabs.map((tab, index) => (
           <Fragment key={tab.id}>
             <SettingsTab
@@ -164,7 +165,10 @@ const SettingsSidebar = ({
               tabIndex={activeTab === tab.id ? 0 : -1}
             />
             {index < visibleTabs.length - 1 && (
-              <Divider key={`divider-${tab.id}`} sx={{ borderColor: 'var(--accent-200)' }} />
+              <Divider
+                key={`divider-${tab.id}`}
+                sx={{ borderColor: 'var(--accent-200)' }}
+              />
             )}
           </Fragment>
         ))}

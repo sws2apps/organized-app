@@ -1,4 +1,5 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { isTest } from '@constants/index';
 import { Box, Stack } from '@mui/material';
 import {
   CardSection,
@@ -29,10 +30,8 @@ import MinistrySettings from '@features/congregation/settings/ministry_settings'
 import PageTitle from '@components/page_title';
 import SettingsSidebar from '@features/congregation/settings/settings_sidebar';
 import useSettingsTabLabel from '@features/congregation/settings/settings_sidebar/useSettingsTabLabel';
-import CongregationPersons from '@features/congregation/app_access/congregation_persons';
-import CongregationVIP from '@features/congregation/app_access/congregation_vip';
+import UserAccounts from '@features/congregation/settings/user_accounts';
 import UserAdd from '@features/congregation/app_access/user_add';
-import useAllUsers from '../manage_access/all_users/useAllUsers';
 import NavBarButton from '@components/nav_bar_button';
 import { IconAddPerson } from '@components/icons';
 import useLanguageGroups from '@features/congregation/settings/language_groups/useLanguageGroups';
@@ -57,8 +56,13 @@ const CongregationSettings = () => {
     handleMobileTabSelect,
   } = useCongregationSettings();
 
-  const { userAddOpen, handleCloseUserAdd, isLoading, handleOpenUserAdd } =
-    useAllUsers();
+  // opening the settings must not ask for the accounts: the tab that shows
+  // them does that when it is mounted
+  const [userAddOpen, setUserAddOpen] = useState(false);
+
+  const handleOpenUserAdd = () => setUserAddOpen(true);
+
+  const handleCloseUserAdd = () => setUserAddOpen(false);
 
   const { languageGroups, fullAccess } = useLanguageGroups();
 
@@ -120,12 +124,8 @@ const CongregationSettings = () => {
           </Stack>
         );
       case 'user-accounts':
-        return (
-          <Stack spacing="16px">
-            <CongregationPersons isLoading={isLoading} />
-            <CongregationVIP isLoading={isLoading} />
-          </Stack>
-        );
+        // never in test mode, where no account may be requested
+        return isTest ? null : <UserAccounts />;
       case 'meetings':
         return (
           <Stack spacing="16px">
