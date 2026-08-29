@@ -146,6 +146,8 @@
   "tr_useDisplayNameOthersDesc": "Utile per gli incarichi o programmi di pulizia con molto contenuto. Sperimenta quale opzione funziona meglio",
   "tr_recordOnlineAttendance": "Registra la presenza alle adunanze online",
   "tr_recordOnlineAttendanceDesc": "Aggiungi un campo ’Online’ per tenere traccia delle presenze sia online che in persona",
+  "tr_recordDeafAttendance": "Record deaf attendance separately",
+  "tr_recordDeafAttendanceDesc": "For sign-language congregations: count deaf and hearing attendees separately, and report both on the S-88 form",
   "tr_kingdomHallAddressDesc": "Fornisci l'indirizzo per informare i relatori ospiti sulla posizione della sala",
   "tr_meetingSettings": "Impostazioni delle adunanze",
   "tr_midweek": "Adunanza infrasettimanale",
