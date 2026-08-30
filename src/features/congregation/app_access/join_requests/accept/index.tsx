@@ -9,6 +9,7 @@ import Autocomplete from '@components/autocomplete';
 import Button from '@components/button';
 import Checkbox from '@components/checkbox';
 import Dialog from '@components/dialog';
+import DialogActions from '@components/dialog_actions';
 import SwitchWithLabel from '@components/switch_with_label';
 import Typography from '@components/typography';
 
@@ -159,21 +160,14 @@ const AcceptRequest = (props: AcceptRequestProps) => {
           </Stack>
         </Stack>
 
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '8px',
-            width: '100%',
-          }}
-        >
-          <Button variant="main" onClick={handleConfirm}>
-            {t('tr_continue')}
-          </Button>
+        <DialogActions>
           <Button variant="secondary" onClick={handleClose}>
             {t('tr_cancel')}
           </Button>
-        </Box>
+          <Button variant="main" onClick={handleConfirm}>
+            {t('tr_continue')}
+          </Button>
+        </DialogActions>
       </Dialog>
     </>
   );

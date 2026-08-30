@@ -9,7 +9,7 @@ import { JWLangState, userDataViewState } from './settings';
 export const weekTypeState = atom<WeekType[]>([]);
 
 export const weekTypeLocaleState = atom((get) => {
-  const sourceLang = get(JWLangState);
+  const sourceLang = get(JWLangState).toUpperCase();
   const list = get(weekTypeState);
   const dataView = get(userDataViewState);
 
@@ -27,7 +27,8 @@ export const weekTypeLocaleState = atom((get) => {
     obj.sort_index = weekType.sort_index;
     obj.meeting = weekType.meeting;
     obj.language_group = weekType.language_group;
-    obj.week_type_name = weekType.week_type_name[sourceLang.toUpperCase()];
+    obj.week_type_name =
+      weekType.week_type_name[sourceLang] ?? weekType.week_type_name.E ?? '';
     newList.push(obj);
   }
 

@@ -8,6 +8,7 @@ import BibleStudiesList from './bible_studies_list';
 import BibleStudySelector from '../../bible_study_selector';
 import Button from '@components/button';
 import DatePicker from '@components/date_picker';
+import DialogActions from '@components/dialog_actions';
 import HoursCreditPresets from '../../hours_credit_presets';
 import HoursEditor from '@features/ministry/report/hours_editor';
 import StandardEditor from '@features/ministry/report/standard_editor';
@@ -153,14 +154,7 @@ const ServiceTime = (props: ServiceTimeProps) => {
         <BibleStudiesList />
       </FieldContainer>
 
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: tabletUp ? 'row' : 'column-reverse',
-          gap: '8px',
-          justifyContent: 'space-between',
-        }}
-      >
+      <DialogActions>
         <Button variant="secondary" onClick={onClose}>
           {t('tr_cancel')}
         </Button>
@@ -168,7 +162,7 @@ const ServiceTime = (props: ServiceTimeProps) => {
         <Button variant="main" onClick={handleSaveReport}>
           {isEdit ? t('tr_save') : t('tr_add')}
         </Button>
-      </Box>
+      </DialogActions>
     </Box>
   );
 };

@@ -32,7 +32,7 @@ const usePublicTalk = ({ week, dataView }: PublicTalkProps) => {
     return publicTalksAll.map((talk) => {
       return {
         talk_number: talk.talk_number,
-        talk_title: talk.talk_title[lang] ?? '',
+        talk_title: talk.talk_title[lang] ?? talk.talk_title.E ?? '',
       } as PublicTalkLocaleType;
     });
   }, [lang, publicTalksAll]);

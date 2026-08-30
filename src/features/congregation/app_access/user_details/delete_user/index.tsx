@@ -5,6 +5,7 @@ import { DeleteUserType } from './index.types';
 import useDeleteUser from './useDeleteUser';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
+import DialogActions from '@components/dialog_actions';
 import Typography from '@components/typography';
 import Markup from '@components/text_markup';
 
@@ -25,14 +26,10 @@ const DeleteUser = ({ open, onClose, user }: DeleteUserType) => {
         />
       </Box>
 
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '8px',
-          width: '100%',
-        }}
-      >
+      <DialogActions>
+        <Button variant="secondary" onClick={onClose}>
+          {t('tr_cancel')}
+        </Button>
         <Button
           variant="main"
           color="red"
@@ -42,10 +39,7 @@ const DeleteUser = ({ open, onClose, user }: DeleteUserType) => {
         >
           {t('tr_delete')}
         </Button>
-        <Button variant="secondary" onClick={onClose}>
-          {t('tr_cancel')}
-        </Button>
-      </Box>
+      </DialogActions>
     </Dialog>
   );
 };

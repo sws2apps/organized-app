@@ -71,6 +71,24 @@ body:
         For example: v.3.0.0
     validations:
       required: true
+  - type: input
+    attributes:
+      label: 'App UI language:'
+      description: |
+        The language the app interface is displayed in.
+      placeholder: |
+        For example: English, Malagasy, Spanish, etc
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: 'Meeting source materials language:'
+      description: |
+        The language your meeting materials are imported in, set in your congregation settings. It may sometimes differ from the app UI language.
+      placeholder: |
+        For example: French, Ukrainian, Italian, etc
+    validations:
+      required: true
   - type: textarea
     attributes:
       label: 'Additional information'

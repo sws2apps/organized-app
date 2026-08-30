@@ -33,6 +33,8 @@
   "tr_modeDark": "Temna",
   "tr_autoThemeChange": "Samodejna sprememba teme aplikacije",
   "tr_autoThemeChangeDesc": "Pri izbiri med svetlim in temnim načinom sledi sistemskim nastavitvam naprave",
+  "tr_hapticFeedback": "Haptični odziv",
+  "tr_hapticFeedbackDesc": "Ob interakciji z aplikacijo naprava zavibrira, če to podpirata tvoja naprava in brskalnik.",
   "tr_colorScheme": "Barvna shema",
   "tr_blue": "Modra",
   "tr_green": "Zelena",

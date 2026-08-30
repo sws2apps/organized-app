@@ -5,6 +5,7 @@ import { SchedulePublishProps } from './index.types';
 import useSchedulePublish from './useSchedulePublish';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
+import DialogActions from '@components/dialog_actions';
 import Divider from '@components/divider';
 import Typography from '@components/typography';
 import YearContainer from './year_container';
@@ -45,14 +46,10 @@ const SchedulePublish = (props: SchedulePublishProps) => {
         ))}
       </Stack>
 
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '8px',
-          width: '100%',
-        }}
-      >
+      <DialogActions>
+        <Button variant="secondary" onClick={props.onClose}>
+          {t('tr_cancel')}
+        </Button>
         <Button
           variant="main"
           disabled={isProcessing}
@@ -61,10 +58,7 @@ const SchedulePublish = (props: SchedulePublishProps) => {
         >
           {t('tr_publish')}
         </Button>
-        <Button variant="secondary" onClick={props.onClose}>
-          {t('tr_cancel')}
-        </Button>
-      </Box>
+      </DialogActions>
     </Dialog>
   );
 };

@@ -293,7 +293,7 @@ const handleMMAssignLCStandard = (
   let isElderPart = false;
 
   if (title.length > 0) {
-    noAssignLC = sourcesCheckLCAssignments(title, sourceLocale);
+    noAssignLC = sourcesCheckLCAssignments(title, desc, sourceLocale);
 
     if (!noAssignLC) {
       const lcAssign = schedule.midweek_meeting[
@@ -346,7 +346,7 @@ const handleMMAssignLCCustom = (
     lcPart3.desc.find((record) => record.type === dataView)?.value ?? '';
 
   if (title.length > 0) {
-    const noAssignLC = sourcesCheckLCAssignments(title, sourceLocale);
+    const noAssignLC = sourcesCheckLCAssignments(title, desc, sourceLocale);
 
     if (!noAssignLC) {
       main =

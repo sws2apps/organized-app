@@ -9,7 +9,9 @@ const NowIndicator = ({ type }: NowIndicatorProps) => {
     <Typography
       className="label-small-medium"
       textAlign="center"
-      color={`var(--${type}-meeting)`}
+      color={
+        type === 'midweek' ? 'var(--accent-dark)' : 'var(--weekend-meeting)'
+      }
     >
       • {t('tr_today')}
     </Typography>
