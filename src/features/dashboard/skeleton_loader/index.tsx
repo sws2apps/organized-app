@@ -1,13 +1,11 @@
 import { Box, Skeleton } from '@mui/material';
-import MinistryCardSkeletonLoader from './components/ministry_skeleton_loader';
-import MeetingCardSkeletonLoader from './components/meeting_skeleton_loader';
-import PersonsCardSkeletonLoader from './components/persons_skeleton_loader';
-import MeetingMaterialsCardSkeletonLoader from './components/meetings_materials_skeleton_loader';
-import ReportCardSkeletonLoader from './components/reports_skeleton_loader';
-import CongregationCardSkeletonLoader from './components/congregation_skeleton_loader';
-import AppCardSkeletonLoader from './components/app_skeleton_loader';
+import useDashboardSkeleton from './useDashboardSkeleton';
+import MinistryTimerSkeletonLoader from './components/ministry_header';
+import SkeletonLoaderCard from './components/skeleton_card';
 
 const DashboardSkeletonLoader = () => {
+  const { cards } = useDashboardSkeleton();
+
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
       <Box
@@ -44,13 +42,14 @@ const DashboardSkeletonLoader = () => {
           gridGap: '24px',
         }}
       >
-        <MinistryCardSkeletonLoader />
-        <MeetingCardSkeletonLoader />
-        <PersonsCardSkeletonLoader />
-        <MeetingMaterialsCardSkeletonLoader />
-        <ReportCardSkeletonLoader />
-        <CongregationCardSkeletonLoader />
-        <AppCardSkeletonLoader />
+        {cards.map((card) => (
+          <SkeletonLoaderCard
+            key={card.key}
+            items={card.items}
+            badges={card.badges}
+            header={card.key === 'ministry' && <MinistryTimerSkeletonLoader />}
+          />
+        ))}
       </Box>
     </Box>
   );
