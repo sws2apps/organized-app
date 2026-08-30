@@ -36,7 +36,7 @@
   "tr_hapticFeedback": "Haptic feedback",
   "tr_hapticFeedbackDesc": "Vibrate when you interact with the app, if your device and browser support it",
   "tr_forceReloadButton": "Force reload button on home page",
-  "tr_forceReloadButtonDesc": "Restarts the app to check for updates, keeping all your data. Also useful if sync hasn't run in a while",
+  "tr_forceReloadButtonDesc": "Restarts the app to check for updates or refresh sync. No data will be deleted.",
   "tr_colorScheme": "Color scheme",
   "tr_blue": "Blue",
   "tr_green": "Green",
