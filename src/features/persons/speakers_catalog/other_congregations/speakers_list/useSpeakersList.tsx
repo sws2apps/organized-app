@@ -10,6 +10,7 @@ const useSpeakersList = (cong_id: string, isEdit: boolean) => {
   const congregations = useAtomValue(speakersCongregationsState);
 
   const [speakers, setSpeakers] = useState(visitingSpeakers);
+  const [editSpeaker, setEditSpeaker] = useState('');
 
   const congregation = useMemo(() => {
     return congregations.find(
@@ -26,8 +27,16 @@ const useSpeakersList = (cong_id: string, isEdit: boolean) => {
   }, [filteredList, isEdit]);
 
   const handleVisitingSpeakersAdd = async (cong_id: string) => {
-    await dbVisitingSpeakersAdd(cong_id);
+    const person_uid = await dbVisitingSpeakersAdd(cong_id);
+
+    setEditSpeaker(person_uid);
   };
+
+  const handleOpenSpeakerEdit = (person_uid: string) => {
+    setEditSpeaker(person_uid);
+  };
+
+  const handleCloseSpeakerEdit = () => setEditSpeaker('');
 
   useEffect(() => {
     setSpeakers((prev) => {
@@ -53,7 +62,18 @@ const useSpeakersList = (cong_id: string, isEdit: boolean) => {
     });
   }, [visitingSpeakers]);
 
-  return { handleVisitingSpeakersAdd, incomingSpeakers, congregation };
+  const speakerToEdit = useMemo(() => {
+    return incomingSpeakers.find((record) => record.person_uid === editSpeaker);
+  }, [incomingSpeakers, editSpeaker]);
+
+  return {
+    handleVisitingSpeakersAdd,
+    incomingSpeakers,
+    congregation,
+    speakerToEdit,
+    handleOpenSpeakerEdit,
+    handleCloseSpeakerEdit,
+  };
 };
 
 export default useSpeakersList;

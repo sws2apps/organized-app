@@ -14,7 +14,10 @@ import SpeakerDetails from '@features/persons/speakers_catalog/speaker_details';
 import TextField from '@components/textfield';
 import Typography from '@components/typography';
 
-const IncomingSpeakerEdit = ({ speaker }: IncomingSpeakerEditType) => {
+const IncomingSpeakerEdit = ({
+  speaker,
+  showDelete = true,
+}: IncomingSpeakerEditType) => {
   const { t } = useAppTranslation();
 
   const { tabletDown } = useBreakpoints();
@@ -207,46 +210,52 @@ const IncomingSpeakerEdit = ({ speaker }: IncomingSpeakerEditType) => {
         }
       />
 
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          flexWrap: tablet600Down ? 'nowrap' : 'wrap',
-
-          gap: '8px',
-          justifyContent:
-            selectedTalks.length > 0 ? 'space-between' : 'flex-end',
-        }}
-      >
-        <Button
-          variant="small"
-          color="red"
-          startIcon={<IconDelete />}
+      {(showDelete || selectedTalks.length > 0) && (
+        <Box
           sx={{
-            height: '32px',
-            minHeight: '32px !important',
-            justifySelf: 'flex-end',
-            width: tablet600Down ? 'fit-content' : 'auto',
+            display: 'flex',
+            alignItems: 'center',
+            flexWrap: tablet600Down ? 'nowrap' : 'wrap',
+
+            gap: '8px',
+            justifyContent:
+              showDelete && selectedTalks.length > 0
+                ? 'space-between'
+                : 'flex-end',
           }}
-          onClick={() => handleDeleteSpeaker(speaker.person_uid)}
         >
-          {t('tr_delete')}
-        </Button>
-        {selectedTalks.length > 0 && (
-          <Button
-            variant="small"
-            startIcon={<IconSong />}
-            sx={{
-              height: '32px',
-              minHeight: '32px !important',
-              width: tablet600Down ? 'fit-content' : 'auto',
-            }}
-            onClick={handleOpenSpeakerDetails}
-          >
-            {t('tr_songs')}
-          </Button>
-        )}
-      </Box>
+          {showDelete && (
+            <Button
+              variant="small"
+              color="red"
+              startIcon={<IconDelete />}
+              sx={{
+                height: '32px',
+                minHeight: '32px !important',
+                justifySelf: 'flex-end',
+                width: tablet600Down ? 'fit-content' : 'auto',
+              }}
+              onClick={() => handleDeleteSpeaker(speaker.person_uid)}
+            >
+              {t('tr_delete')}
+            </Button>
+          )}
+          {selectedTalks.length > 0 && (
+            <Button
+              variant="small"
+              startIcon={<IconSong />}
+              sx={{
+                height: '32px',
+                minHeight: '32px !important',
+                width: tablet600Down ? 'fit-content' : 'auto',
+              }}
+              onClick={handleOpenSpeakerDetails}
+            >
+              {t('tr_songs')}
+            </Button>
+          )}
+        </Box>
+      )}
     </Box>
   );
 };

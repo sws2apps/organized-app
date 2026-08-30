@@ -114,6 +114,8 @@ export const dbVisitingSpeakersAdd = async (cong_id: string) => {
 
     await appDb.visiting_speakers.put(newSpeaker);
     await dbUpdateVisitingSpeakersMetadata();
+
+    return newSpeaker.person_uid;
   } catch (err) {
     console.error(err);
     throw new Error(err);

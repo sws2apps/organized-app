@@ -1,6 +1,6 @@
 import { VisitingSpeakerType } from '@definition/visiting_speakers';
 
-export type IncomingSpeakerEditType = {
+export type IncomingSpeakerRowEditType = {
   speaker: VisitingSpeakerType;
-  showDelete?: boolean;
+  onEdit: (person_uid: string) => void;
 };
