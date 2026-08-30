@@ -1667,6 +1667,32 @@ export const schedulesPersonHasMeetingConflict = ({
   });
 };
 
+export const schedulesPersonHasConsecutiveAssignment = ({
+  history,
+  week,
+  type,
+  person_uid,
+  dataView,
+}: {
+  history: AssignmentHistoryType[];
+  week: string;
+  type: AssignmentCode | undefined;
+  person_uid: string;
+  dataView: string;
+}) => {
+  if (!person_uid || week.length === 0 || type === undefined) return false;
+
+  const previousWeek = formatDate(addWeeks(week, -1), 'yyyy/MM/dd');
+
+  return history.some(
+    (record) =>
+      record.weekOf === previousWeek &&
+      record.assignment.person === person_uid &&
+      record.assignment.dataView === dataView &&
+      record.assignment.code === type
+  );
+};
+
 export const schedulesPersonLatest = ({
   persons,
   type,

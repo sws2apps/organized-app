@@ -25,6 +25,7 @@ import { Gender } from './index.types';
 import {
   schedulesGetData,
   schedulesGetMeetingDate,
+  schedulesPersonHasConsecutiveAssignment,
   schedulesPersonHasMeetingConflict,
   schedulesSaveAssignment,
 } from '@services/app/schedules';
@@ -396,6 +397,18 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
     });
   }, [value, assignmentsHistory, week, assignment, dataView]);
 
+  const isConsecutiveAssignment = useMemo(() => {
+    if (!value) return false;
+
+    return schedulesPersonHasConsecutiveAssignment({
+      history: assignmentsHistory,
+      week,
+      type,
+      person_uid: value.person_uid,
+      dataView,
+    });
+  }, [value, assignmentsHistory, week, type, dataView]);
+
   const meetingDate = useMemo(() => {
     const meeting = location.pathname.includes('midweek')
       ? 'midweek'
@@ -424,13 +437,8 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
       return t('tr_personAlreadyAssignmentMeeting');
     }
 
-    // check week assignments
-    const weekAssignments = personHistory.filter(
-      (record) => record.weekOf === week
-    );
-
-    if (weekAssignments.length > 1) {
-      return t('tr_personAlreadyAssignmentWeek');
+    if (isConsecutiveAssignment) {
+      return t('tr_personAssignedPreviousWeek');
     }
 
     const [currentYear, currentMonth] = week.split('/');
@@ -445,7 +453,16 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
     }
 
     return '';
-  }, [persons, value, week, personHistory, t, meetingDate, isMeetingConflict]);
+  }, [
+    persons,
+    value,
+    week,
+    personHistory,
+    t,
+    meetingDate,
+    isMeetingConflict,
+    isConsecutiveAssignment,
+  ]);
 
   const handleGenderChange = (
     e: MouseEvent<HTMLLabelElement>,
