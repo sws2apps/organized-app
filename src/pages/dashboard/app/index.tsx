@@ -26,7 +26,19 @@ const AppCard = () => {
     isConnected,
     isUserAdmin,
     requests_count,
+    showForceReload,
   } = useApp({ updatePwa });
+
+  const showCongregationSettings = !isGroup && (isAdmin || isElder);
+  const showGroupSettings = isGroup && isLanguageGroupOverseer;
+
+  const hasEntries =
+    isConnected ||
+    showCongregationSettings ||
+    showGroupSettings ||
+    showForceReload;
+
+  if (!hasEntries) return null;
 
   return (
     <DashboardCard header={t('tr_app')}>
@@ -41,7 +53,7 @@ const AppCard = () => {
         </ListItem>
       )}
 
-      {!isGroup && (isAdmin || isElder) && (
+      {showCongregationSettings && (
         <ListItem disablePadding>
           <DashboardMenu
             path="/congregation-settings"
@@ -51,7 +63,7 @@ const AppCard = () => {
         </ListItem>
       )}
 
-      {isGroup && isLanguageGroupOverseer && (
+      {showGroupSettings && (
         <ListItem disablePadding>
           <DashboardMenu
             path="/group-settings"
@@ -77,14 +89,16 @@ const AppCard = () => {
         </ListItem>
       )}
 
-      <ListItem disablePadding>
-        <DashboardMenu
-          icon={<IconRestart color="var(--black)" />}
-          primaryText={t('tr_forceReloadApp')}
-          secondaryText={t('tr_forceReloadAppDesc')}
-          onClick={handleForceReload}
-        />
-      </ListItem>
+      {showForceReload && (
+        <ListItem disablePadding>
+          <DashboardMenu
+            icon={<IconRestart color="var(--black)" />}
+            primaryText={t('tr_forceReloadApp')}
+            secondaryText={t('tr_forceReloadAppDesc')}
+            onClick={handleForceReload}
+          />
+        </ListItem>
+      )}
     </DashboardCard>
   );
 };

@@ -2,6 +2,7 @@ import { useEffect, useMemo } from 'react';
 import { useAtomValue } from 'jotai';
 import {
   congAccountConnectedState,
+  forceReloadEnabledState,
   isAppDataSyncingState,
   lastAppDataSyncState,
 } from '@states/app';
@@ -28,6 +29,7 @@ const useApp = ({ updatePwa }: { updatePwa: VoidFunction }) => {
   const isConnected = useAtomValue(congAccountConnectedState);
   const isUserAdmin = useAtomValue(adminRoleState);
   const joinRequestsCount = useAtomValue(joinRequestsCountState);
+  const showForceReload = useAtomValue(forceReloadEnabledState);
 
   const requests_count = useMemo(() => {
     if (joinRequestsCount === 0) return;
@@ -130,6 +132,7 @@ const useApp = ({ updatePwa }: { updatePwa: VoidFunction }) => {
     isConnected,
     isUserAdmin,
     requests_count,
+    showForceReload,
   };
 };
 
