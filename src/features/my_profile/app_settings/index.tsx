@@ -126,33 +126,6 @@ const AppSettings = () => {
             </Box>
           </SwitcherContainer>
 
-          <SwitcherContainer>
-            <Switch
-              checked={forceReload}
-              onChange={(e) => handleUpdateForceReload(e.target.checked)}
-            />
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: laptopUp ? 'center' : 'flex-start',
-                gap: '16px',
-                justifyContent: 'space-between',
-                flexGrow: 1,
-                flexDirection: laptopUp ? 'row' : 'column',
-              }}
-            >
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                <Typography>{t('tr_forceReloadButton')}</Typography>
-                <Typography
-                  className="label-small-regular"
-                  color="var(--grey-350)"
-                >
-                  {t('tr_forceReloadButtonDesc')}
-                </Typography>
-              </Box>
-            </Box>
-          </SwitcherContainer>
-
           {showHaptics && (
             <SwitcherContainer>
               <Switch
@@ -184,6 +157,33 @@ const AppSettings = () => {
             </SwitcherContainer>
           )}
         </Box>
+
+        <SwitcherContainer>
+          <Switch
+            checked={forceReload}
+            onChange={(e) => handleUpdateForceReload(e.target.checked)}
+          />
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: laptopUp ? 'center' : 'flex-start',
+              gap: '16px',
+              justifyContent: 'space-between',
+              flexGrow: 1,
+              flexDirection: laptopUp ? 'row' : 'column',
+            }}
+          >
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+              <Typography>{t('tr_forceReloadButton')}</Typography>
+              <Typography
+                className="label-small-regular"
+                color="var(--grey-350)"
+              >
+                {t('tr_forceReloadButtonDesc')}
+              </Typography>
+            </Box>
+          </Box>
+        </SwitcherContainer>
 
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           <Typography className="h4">{t('tr_colorScheme')}</Typography>
