@@ -137,8 +137,6 @@ const useMidweekEditor = () => {
 
   const handleCloseClearAll = () => setClearAll(false);
 
-
-
   return {
     isEdit,
     handleEditAssignments,

@@ -2,7 +2,7 @@ import { Locale } from 'date-fns';
 import { FullnameOption } from './settings';
 import { ReactNode } from 'react';
 
-export type ColorSchemeType = 'blue' | 'green' | 'purple' | 'orange';
+export type ColorSchemeType = 'blue' | 'green' | 'purple' | 'orange' | 'teal' | 'rose' | 'slate';
 
 export type SnackBarSeverityType = 'success' | 'error' | 'message-with-button';
 
@@ -90,9 +90,15 @@ export type UpdateStatusType = {
 
 export type BackupFileType = 'Organized' | 'Hourglass' | '';
 
+export type BeforeInstallPromptEvent = Event & {
+  prompt: () => Promise<void>;
+  userChoice: Promise<{ outcome: 'accepted' | 'dismissed'; platform: string }>;
+};
+
 export type NavBarOptionsType = {
   title?: string;
   secondaryTitle?: string;
   quickSettings?: VoidFunction;
+  onBack?: VoidFunction;
   buttons?: ReactNode;
 };

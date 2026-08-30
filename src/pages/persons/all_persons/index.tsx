@@ -17,6 +17,7 @@ import PersonsList from '@features/persons/list';
 import PersonsFilter from '@features/persons/filter';
 import PersonsSearch from '@features/persons/search';
 import NavBarButton from '@components/nav_bar_button';
+import NavBarButtonGroup from '@components/nav_bar_button_group';
 import ImportExport from '@features/persons/import_export';
 
 const PersonsAll = () => {
@@ -48,20 +49,18 @@ const PersonsAll = () => {
         title={t('tr_personsAll')}
         buttons={
           isPersonEditor && (
-            <>
+            <NavBarButtonGroup>
               <NavBarButton
                 text={t('tr_importExport')}
-                main={false}
                 icon={<IconImportExport />}
                 onClick={handleOpenExchange}
               ></NavBarButton>
               <NavBarButton
                 text={t('tr_btnAdd')}
-                main
                 icon={<IconAddPerson />}
                 onClick={handlePersonAdd}
               ></NavBarButton>
-            </>
+            </NavBarButtonGroup>
           )
         }
       />

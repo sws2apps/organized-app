@@ -11,6 +11,7 @@ import UserProfileDetails from '@features/my_profile/user_profile_details';
 import UserSessions from '@features/my_profile/sessions';
 import UserTimeAway from '@features/my_profile/user_time_away';
 import NavBarButton from '@components/nav_bar_button';
+import NavBarButtonGroup from '@components/nav_bar_button_group';
 
 const MyProfile = () => {
   const { t } = useAppTranslation();
@@ -38,13 +39,14 @@ const MyProfile = () => {
       <PageTitle
         title={t('tr_myProfile')}
         buttons={
-          <NavBarButton
-            text={t('tr_logOut')}
-            main
-            color="red"
-            icon={<IconLogout />}
-            onClick={handleOpenLogoutConfirm}
-          ></NavBarButton>
+          <NavBarButtonGroup>
+            <NavBarButton
+              text={t('tr_logOut')}
+              color="red"
+              icon={<IconLogout />}
+              onClick={handleOpenLogoutConfirm}
+            ></NavBarButton>
+          </NavBarButtonGroup>
         }
       />
 

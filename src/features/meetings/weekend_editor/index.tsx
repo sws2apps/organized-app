@@ -1,7 +1,6 @@
 import { Box } from '@mui/material';
 import {
   IconClose,
-  IconInfo,
   IconNavigateLeft,
   IconNavigateRight,
   IconTalk,
@@ -37,6 +36,7 @@ import AssignmentsWeekDelete from '../assignments_week_delete';
 import Button from '@components/button';
 import Divider from '@components/divider';
 import EventEditor from '../event_editor';
+import InfoNote from '@components/info_note';
 import Markup from '@components/text_markup';
 import MeetingSection from '../meeting_section';
 import PersonSelector from '../person_selector';
@@ -106,12 +106,7 @@ const WeekendEditor = () => {
       )}
 
       {weekDateLocale.length === 0 && (
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <IconInfo color="var(--accent-400)" />
-          <Typography color="var(--grey-400)">
-            {t('tr_infoSecondPlanMidweekMeeting')}
-          </Typography>
-        </Box>
+        <InfoNote message={t('tr_infoSecondPlanMidweekMeeting')} />
       )}
 
       {weekDateLocale.length > 0 && (
@@ -125,37 +120,50 @@ const WeekendEditor = () => {
                   display: 'flex',
                   flexDirection: 'row',
                   gap: '16px',
-                  justifyContent: tablet500Down ? 'space-between' : 'flex-start',
+                  justifyContent: tablet500Down
+                    ? 'space-between'
+                    : 'flex-start',
                   alignItems: 'center',
                   width: '100%',
                 }}
               >
                 <StyledNavigationArrowButton
-                  onClick={showWeekArrows.back ? handleChangeWeekBack : undefined}
+                  onClick={
+                    showWeekArrows.back ? handleChangeWeekBack : undefined
+                  }
                   tabIndex={showWeekArrows.back ? 0 : -1}
                   aria-disabled={showWeekArrows.back ? 'false' : 'true'}
                   sx={{ cursor: showWeekArrows.back ? 'pointer' : 'default' }}
                 >
                   <IconNavigateLeft
-                    color={showWeekArrows.back ? 'var(--black)' : 'var(--grey-300)'}
+                    color={
+                      showWeekArrows.back ? 'var(--black)' : 'var(--grey-300)'
+                    }
                   />
                 </StyledNavigationArrowButton>
 
                 <Typography
                   className="h2"
-                  sx={{ minWidth: tablet500Down ? 'auto' : '140px', textAlign: 'center' }}
+                  sx={{
+                    minWidth: tablet500Down ? 'auto' : '140px',
+                    textAlign: 'center',
+                  }}
                 >
                   {weekDateLocale}
                 </Typography>
 
                 <StyledNavigationArrowButton
-                  onClick={showWeekArrows.next ? handleChangeWeekNext : undefined}
+                  onClick={
+                    showWeekArrows.next ? handleChangeWeekNext : undefined
+                  }
                   tabIndex={showWeekArrows.next ? 0 : -1}
                   aria-disabled={showWeekArrows.next ? 'false' : 'true'}
                   sx={{ cursor: showWeekArrows.next ? 'pointer' : 'default' }}
                 >
                   <IconNavigateRight
-                    color={showWeekArrows.next ? 'var(--black)' : 'var(--grey-300)'}
+                    color={
+                      showWeekArrows.next ? 'var(--black)' : 'var(--grey-300)'
+                    }
                   />
                 </StyledNavigationArrowButton>
               </Box>

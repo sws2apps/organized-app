@@ -32,14 +32,15 @@ const MidweekContainer = () => {
         >
           <WeekSelector value={value} onChange={handleValueChange} />
 
-          <WeekScheduleHeader
-            week={week}
-            onCurrent={handleGoCurrent}
-          />
+          <WeekScheduleHeader week={week} onCurrent={handleGoCurrent} />
 
           {week && (
             <Stack spacing="24px">
-              <MidweekMeeting week={week} dataView={dataView} lastUpdated={scheduleLastUpdated} />
+              <MidweekMeeting
+                week={week}
+                dataView={dataView}
+                lastUpdated={scheduleLastUpdated}
+              />
 
               {views.map((view) => (
                 <SiblingAssignment

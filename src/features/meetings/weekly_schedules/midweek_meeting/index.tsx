@@ -1,4 +1,4 @@
-import { Stack } from '@mui/material';
+import { Box, Stack } from '@mui/material';
 import {
   DoubleFieldContainer,
   PrimaryFieldContainer,
@@ -134,6 +134,32 @@ const MidweekMeeting = (props: MidweekMeetingProps) => {
                   }
                 />
               </SecondaryFieldContainer>
+            </DoubleFieldContainer>
+          )}
+
+          {MIDWEEK_FULL.includes(weekType) && (
+            <DoubleFieldContainer
+              sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
+            >
+              <PrimaryFieldContainer>
+                {partTimings?.opening_comments && (
+                  <PartTiming time={partTimings.opening_comments} />
+                )}
+
+                <Box
+                  sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}
+                >
+                  <Typography
+                    className="h4"
+                    color="var(--treasures-from-gods-word)"
+                  >
+                    {`${t('tr_openingComments')} ${t('tr_partDuration', { time: 1 })}`}
+                  </Typography>
+                </Box>
+              </PrimaryFieldContainer>
+              <SecondaryFieldContainer
+                sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
+              />
             </DoubleFieldContainer>
           )}
 

@@ -1,5 +1,4 @@
 import { Box } from '@mui/material';
-import { IconInfo } from '@components/icons';
 import {
   useAppTranslation,
   useBreakpoints,
@@ -8,7 +7,7 @@ import {
 import { GroupsContainer } from './index.styles';
 import useFieldServiceGroups from './useFieldServiceGroups';
 import GroupItem from './group_item';
-import Typography from '@components/typography';
+import InfoNote from '@components/info_note';
 
 const FieldServiceGroupsContainer = () => {
   const { t } = useAppTranslation();
@@ -27,28 +26,17 @@ const FieldServiceGroupsContainer = () => {
             width: desktopUp ? '50%' : '100%',
             borderRadius: 'var(--radius-xl)',
             padding: '16px',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
             backgroundColor: 'var(--white)',
             border: '1px solid var(--accent-300)',
           }}
         >
-          <Typography color="var(--grey-350)">
-            <Box
-              component="span"
-              sx={{
-                verticalAlign: '-6px',
-                display: 'inline-flex',
-                marginRight: '4px',
-              }}
-            >
-              <IconInfo color="var(--grey-350)" />
-            </Box>
-            {isServiceCommittee
-              ? t('tr_noGroupsYet')
-              : t('tr_serviceGroupsListNone')}
-          </Typography>
+          <InfoNote
+            message={
+              isServiceCommittee
+                ? t('tr_noGroupsYet')
+                : t('tr_serviceGroupsListNone')
+            }
+          />
         </Box>
       )}
 

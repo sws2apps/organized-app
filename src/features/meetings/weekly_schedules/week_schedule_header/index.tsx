@@ -15,7 +15,8 @@ const WeekScheduleHeader = (props: WeekScheduleHeaderProps) => {
       sx={{
         display: 'grid',
         gridTemplateRows: showToCurrent ? '1fr' : '0fr',
-        transition: 'grid-template-rows 300ms ease-in-out, margin-bottom 300ms ease-in-out',
+        transition:
+          'grid-template-rows 300ms ease-in-out, margin-bottom 300ms ease-in-out',
         marginBottom: showToCurrent ? '16px' : '0px',
       }}
     >
@@ -28,49 +29,49 @@ const WeekScheduleHeader = (props: WeekScheduleHeaderProps) => {
           alignItems: 'center',
         }}
       >
-      <Box
-        component="button"
-        type="button"
-        disabled={!showToCurrent}
-        onClick={props.onCurrent}
-        sx={{
-          borderRadius: 'var(--radius-max)',
-          backgroundColor: 'var(--accent-150)',
-          border: 'none',
-          display: 'flex',
-          gap: '4px',
-          font: 'inherit',
-          alignItems: 'center',
-          padding: '4px 8px',
-          cursor: showToCurrent ? 'pointer' : 'default',
-          userSelect: 'none',
-          width: 'fit-content',
-          height: 'fit-content',
-          opacity: showToCurrent ? 1 : 0,
-          transition:
-            'opacity 300ms ease-in-out, background-color 200ms ease-in-out',
-          pointerEvents: showToCurrent ? 'auto' : 'none',
-          '&:hover': {
-            backgroundColor: showToCurrent
-              ? 'var(--accent-200)'
-              : 'var(--accent-150)',
-          },
-          '&:active': {
-            backgroundColor: showToCurrent
-              ? 'var(--accent-250)'
-              : 'var(--accent-150)',
-          },
-        }}
-      >
-        <IconDate width={22} height={22} color="var(--accent-dark)" />
-        <Typography
-          component="span"
-          className="body-small-semibold"
-          color="var(--accent-dark)"
+        <Box
+          component="button"
+          type="button"
+          disabled={!showToCurrent}
+          onClick={props.onCurrent}
+          sx={{
+            borderRadius: 'var(--radius-max)',
+            backgroundColor: 'var(--accent-150)',
+            border: 'none',
+            display: 'flex',
+            gap: '4px',
+            font: 'inherit',
+            alignItems: 'center',
+            padding: '4px 8px',
+            cursor: showToCurrent ? 'pointer' : 'default',
+            userSelect: 'none',
+            width: 'fit-content',
+            height: 'fit-content',
+            opacity: showToCurrent ? 1 : 0,
+            transition:
+              'opacity 300ms ease-in-out, background-color 200ms ease-in-out',
+            pointerEvents: showToCurrent ? 'auto' : 'none',
+            '&:hover': {
+              backgroundColor: showToCurrent
+                ? 'var(--accent-200)'
+                : 'var(--accent-150)',
+            },
+            '&:active': {
+              backgroundColor: showToCurrent
+                ? 'var(--accent-250)'
+                : 'var(--accent-150)',
+            },
+          }}
         >
-          {t('tr_toCurrentWeek')}
-        </Typography>
-      </Box>
+          <IconDate width={22} height={22} color="var(--accent-dark)" />
+          <Typography
+            component="span"
+            className="body-small-semibold"
+            color="var(--accent-dark)"
+          >
+            {t('tr_toCurrentWeek')}
+          </Typography>
+        </Box>
       </Box>
     </Box>
   );

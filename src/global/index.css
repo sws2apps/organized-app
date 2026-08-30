@@ -1,3 +1,10 @@
+:root {
+  --message-glow-small-offset-y: 4px;
+  --message-glow-small-blur: 12px;
+  --message-glow-small: 0px var(--message-glow-small-offset-y)
+    var(--message-glow-small-blur) 0px rgba(var(--accent-main-base), 0.24);
+}
+
 html {
   font-family: 'Inter', sans-serif;
   font-feature-settings: 'cv05';
@@ -7,6 +14,15 @@ html {
   html {
     font-family: 'Inter var', sans-serif;
   }
+}
+
+:root {
+  --accent-gradient-top: color-mix(in oklch, var(--accent-main), white 15%);
+  --btn-hover-overlay: rgba(var(--accent-dark-overlay-base), 0.22);
+}
+
+[data-theme='blue-light'] {
+  --accent-gradient-top: rgb(84, 110, 237);
 }
 
 body {

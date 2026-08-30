@@ -1,8 +1,9 @@
 import { Box } from '@mui/material';
-import { IconAdd, IconInfo } from '@icons/index';
+import { IconAdd } from '@icons/index';
 import { useAppTranslation } from '@hooks/index';
 import { TimeAwayEditorProps } from './index.types';
 import Button from '@components/button';
+import InfoNote from '@components/info_note';
 import Typography from '@components/typography';
 import TimeAwayItem from './time_away_item';
 
@@ -34,21 +35,7 @@ const TimeAwayEditor = ({
 
       {items.length === 0 && (
         <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
-          {desc && (
-            <Typography color="var(--grey-350)">
-              <Box
-                component="span"
-                sx={{
-                  verticalAlign: '-6px',
-                  display: 'inline-flex',
-                  marginRight: '4px',
-                }}
-              >
-                <IconInfo color="var(--grey-350)" />
-              </Box>
-              {desc}
-            </Typography>
-          )}
+          {desc && <InfoNote message={desc} />}
 
           {!readOnly && (
             <Button

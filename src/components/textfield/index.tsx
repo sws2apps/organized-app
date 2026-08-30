@@ -55,6 +55,13 @@ const TextField = (props: TextFieldTypeProps) => {
     });
   };
 
+  let labelColor = 'var(--accent-350)';
+  if (props.disabled) {
+    labelColor = 'var(--accent-200)';
+  } else if (success) {
+    labelColor = 'var(--green-main)';
+  }
+
   return (
     <MUITextField
       {...defaultProps}
@@ -65,17 +72,22 @@ const TextField = (props: TextFieldTypeProps) => {
           height: isMultiLine ? 'auto' : `${heightLocal}px`,
           paddingTop: isMultiLine ? '12px' : 'auto',
           paddingBottom: isMultiLine ? '12px' : 'auto',
+          paddingLeft: '12px',
+          paddingRight: '12px',
           display: 'flex',
           alignItems: 'center',
-          gap: '8px',
+          gap: '4px',
         },
         '.MuiInputBase-input': {
           overflow: isMultiLine ? 'unset' : 'hidden',
           textOverflow: isMultiLine ? 'unset' : 'ellipsis',
+          whiteSpace: isMultiLine ? 'unset' : 'nowrap',
           paddingTop: isMultiLine ? 'unset' : `calc(14.5px - ${varHeight}px)`,
           paddingBottom: isMultiLine
             ? 'unset'
             : `calc(14.5px - ${varHeight}px)`,
+          paddingLeft: '0px',
+          paddingRight: '0px',
           flex: '1 0 0',
           color:
             props.value || props.inputProps?.value
@@ -128,11 +140,11 @@ const TextField = (props: TextFieldTypeProps) => {
           },
         },
         '.MuiInputLabel-root': {
-          color: !props.disabled
-            ? success
-              ? 'var(--green-main)'
-              : 'var(--accent-350)'
-            : 'var(--accent-200)',
+          maxWidth: '100%',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
+          color: labelColor,
           '&.Mui-focused': {
             color: success ? 'var(--green-main)' : 'var(--accent-350)',
           },
@@ -158,9 +170,7 @@ const TextField = (props: TextFieldTypeProps) => {
         },
 
         '& .MuiAutocomplete-endAdornment .MuiSvgIcon-root': {
-          color: !props.disabled
-            ? 'var(--black)'
-            : 'var(--accent-200)',
+          color: props.disabled ? 'var(--accent-200)' : 'var(--black)',
           '& g path': {
             fill: 'var(--black)',
           },
@@ -192,11 +202,11 @@ const TextField = (props: TextFieldTypeProps) => {
               sx={{
                 height: 0,
                 maxHeight: 0,
-                marginRight: 0,
+                marginLeft: 0,
                 '& svg, & svg g, & svg g path': styleIconLocal
                   ? {
-                    fill: endIconLocal.props.color ?? 'var(--accent-350)',
-                  }
+                      fill: endIconLocal.props.color ?? 'var(--accent-350)',
+                    }
                   : {},
               }}
             >

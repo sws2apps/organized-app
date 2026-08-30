@@ -20,9 +20,7 @@ const MeetingSectionBadges = ({
 
   return (
     <>
-      {myAssignmentsTotal > 0 && (
-        <AssignmentBadge count={myAssignmentsTotal} />
-      )}
+      {myAssignmentsTotal > 0 && <AssignmentBadge count={myAssignmentsTotal} />}
 
       {lastUpdated && (
         <Badge

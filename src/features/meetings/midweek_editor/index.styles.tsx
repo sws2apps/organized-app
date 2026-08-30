@@ -12,4 +12,3 @@ export const PersonDoubleContainer = styled(Box)({
   flexDirection: 'column',
   gap: '16px',
 }) as unknown as typeof Box;
-

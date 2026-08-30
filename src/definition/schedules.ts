@@ -5,6 +5,8 @@ export type S140TemplateType = 'S140_default' | 'S140_app_normal';
 
 export type S89TemplateType = 'S89_1x1' | 'S89_4x1';
 
+// name and cong_name are stored when publishing: users without access to the
+// persons and speakers data can only display those
 export type AssignmentCongregation = {
   type: string;
   name: string;
@@ -13,6 +15,7 @@ export type AssignmentCongregation = {
   solo?: boolean;
   id?: string;
   _deleted?: true;
+  cong_name?: string;
 };
 
 export type WeekTypeCongregation = {

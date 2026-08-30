@@ -1,10 +1,19 @@
 {
-  "2026-01-20T00:00": {
+  "2026-07-01T00:00": {
+    "images": {
+      "img_01": {
+        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-color-schemes.svg",
+        "tr_title": "Nya färgscheman",
+        "tr_desc": "Fler sätt att göra Organized till ditt! Utforska nya färger i profilinställningarna, från stilrent monokromt till livfullt rosa."
+      },
+      "img_02": {
+        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-homescreen-shortcuts.svg",
+        "tr_title": "Genvägar på startskärmen",
+        "tr_desc": "Gå direkt till de viktigaste funktionerna, både på datorn och på mobila enheter."
+      }
+    },
     "improvements": {
-      "tr_note_01": "Visa statistik för tjänstegrupper och språkgrupper i registerkorten",
-      "tr_note_02": "Lägg till kommande händelse i en kalender",
-      "tr_note_03": "Omarbetad sidhuvudnavigering och tillagt en bottenmeny för mobil",
-      "tr_note_04": "Exportera schemat för bortatalare som PDF"
+      "tr_note_01": "Lade till en förinställning för tillgodoräknade timmar för skolan för församlingsäldste"
     }
   }
 }

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   AppBar,
   Box,
@@ -7,7 +8,6 @@ import {
   Menu,
   MenuItem,
   Toolbar,
-  useTheme,
 } from '@mui/material';
 import {
   IconAccount,
@@ -19,7 +19,7 @@ import {
   IconMail,
   IconArrowLink,
   IconLogout,
-  IconArrowBack,
+  IconNavigateLeft,
   IconSettings,
 } from '@icons/index';
 import { useAppTranslation, useFirebaseAuth } from '@hooks/index';
@@ -28,6 +28,7 @@ import { NavBarType } from './index.types';
 import useNavbar from './useNavbar';
 import AccountHeaderIcon from '@components/account_header_icon';
 import AppNotification from '@features/app_notification';
+import InstallDialog from '@features/app_install/install_dialog';
 import Button from '@components/button';
 import DemoBanner from '@features/demo/banner';
 import LanguageSwitcher from '@features/language_switcher';
@@ -37,7 +38,7 @@ import IconButton from '@components/icon_button';
 import BottomMenu from '@layouts/bottom_menu';
 
 const baseMenuStyle = {
-  padding: '8px 12px 8px 16px',
+  padding: '8px 12px 8px 12px',
   minHeight: '40px',
   height: '40px',
   gap: '8px',
@@ -50,7 +51,7 @@ const menuStyle = {
     '& p': {
       color: 'var(--accent-main)',
     },
-    '& svg, & svg g, & svg g path': {
+    '& svg, & svg g, & svg path, & svg rect': {
       fill: 'var(--accent-main)',
     },
   },
@@ -58,7 +59,8 @@ const menuStyle = {
 
 const NavBar = ({ isSupported }: NavBarType) => {
   const { t } = useAppTranslation();
-  const theme = useTheme();
+
+  const [settingsAnimating, setSettingsAnimating] = useState(false);
 
   const { isAuthenticated } = useFirebaseAuth();
 
@@ -82,11 +84,17 @@ const NavBar = ({ isSupported }: NavBarType) => {
     handleBack,
     accountType,
     tablet688Up,
-    handleDisonnectAccount,
+    handleDisconnectAccount,
     congName,
     fullname,
     navBarOptions,
     handleQuickSettings,
+    showInstallButton,
+    handleInstallApp,
+    InstallIcon,
+    installDialogOpen,
+    handleCloseInstallDialog,
+    installGuide,
     markLastNavBarButton,
   } = useNavbar();
 
@@ -191,7 +199,8 @@ const NavBar = ({ isSupported }: NavBarType) => {
                     <LanguageSwitcher
                       menuStyle={{
                         ...baseMenuStyle,
-                        padding: '8px 16px 8px 12px',
+                        padding: '8px 12px 8px 12px',
+                        marginRight: '4px',
                         transition: 'background-color 0.3s',
                         borderRadius: 'var(--radius-max)',
                         '&:hover': {
@@ -301,6 +310,30 @@ const NavBar = ({ isSupported }: NavBarType) => {
                             <ListItemText>
                               <Typography className="body-regular">
                                 {t('tr_myProfile')}
+                              </Typography>
+                            </ListItemText>
+                          </MenuItem>
+                        )}
+
+                        {showInstallButton && (
+                          <MenuItem
+                            disableRipple
+                            sx={menuStyle}
+                            onClick={handleInstallApp}
+                          >
+                            <ListItemIcon
+                              sx={{
+                                '&.MuiListItemIcon-root': {
+                                  width: '24px',
+                                  minWidth: '24px !important',
+                                },
+                              }}
+                            >
+                              <InstallIcon color="var(--black)" />
+                            </ListItemIcon>
+                            <ListItemText>
+                              <Typography className="body-regular">
+                                {t('tr_installApp')}
                               </Typography>
                             </ListItemText>
                           </MenuItem>
@@ -447,7 +480,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
                           <MenuItem
                             disableRipple
                             sx={menuStyle}
-                            onClick={handleDisonnectAccount}
+                            onClick={handleDisconnectAccount}
                           >
                             <ListItemIcon
                               sx={{
@@ -487,22 +520,12 @@ const NavBar = ({ isSupported }: NavBarType) => {
                     aria-label={t('tr_back')}
                     onClick={handleBack}
                     sx={{
-                      marginLeft: '-10px',
                       '&:hover': {
                         backgroundColor: 'var(--accent-200)',
-                        '& svg': {
-                          transform:
-                            theme.direction === 'rtl'
-                              ? 'translateX(-4px) scaleX(-1)'
-                              : 'translateX(4px)',
-                        },
-                      },
-                      '& svg': {
-                        transition: 'transform 0.2s ease-in-out',
                       },
                     }}
                   >
-                    <IconArrowBack color="var(--black)" />
+                    <IconNavigateLeft color="var(--black)" />
                   </IconButton>
                   <Box
                     sx={{
@@ -536,13 +559,28 @@ const NavBar = ({ isSupported }: NavBarType) => {
                   </Box>
                   {navBarOptions.quickSettings ? (
                     <IconButton
-                      onClick={handleQuickSettings}
+                      onClick={(e) => {
+                        handleQuickSettings(e);
+                        setSettingsAnimating(true);
+                        setTimeout(() => setSettingsAnimating(false), 250);
+                      }}
                       aria-label={t('tr_quickSettings')}
                       sx={{
                         marginRight: '-8px',
                         transition: 'background-color 50ms ease-in-out',
                         '&:hover': {
                           backgroundColor: 'var(--accent-200)',
+                          '& svg': {
+                            transform: settingsAnimating
+                              ? 'rotate(0deg)'
+                              : 'rotate(60deg)',
+                          },
+                        },
+                        '& svg': {
+                          transition: 'transform 0.25s ease-out',
+                          ...(settingsAnimating && {
+                            transform: 'rotate(0deg)',
+                          }),
                         },
                       }}
                     >
@@ -576,6 +614,11 @@ const NavBar = ({ isSupported }: NavBarType) => {
       {navBarOptions.buttons && !tablet688Up && (
         <BottomMenu buttons={markLastNavBarButton(navBarOptions.buttons)} />
       )}
+      <InstallDialog
+        open={installDialogOpen}
+        onClose={handleCloseInstallDialog}
+        guide={installGuide}
+      />
     </>
   );
 };

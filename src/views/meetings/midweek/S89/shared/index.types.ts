@@ -1,12 +1,14 @@
 export type S89ClassType = {
   name: string;
   checked?: boolean;
+  lang: string;
 };
 
 export type S89DetailsRowType = {
   field: string;
   value: string;
   align?: 'left' | 'center' | 'right' | 'justify';
+  lang: string;
 };
 
 export type S89ToBeGivenType = {

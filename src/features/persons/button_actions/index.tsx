@@ -4,6 +4,7 @@ import useButtonActions from './useButtonActions';
 import PersonDisqualifyConfirm from '../disqualify';
 import PersonQualifyConfirm from '../qualify';
 import NavBarButton from '@components/nav_bar_button';
+import NavBarButtonGroup from '@components/nav_bar_button_group';
 
 const PersonButtonActions = () => {
   const { t } = useAppTranslation();
@@ -28,7 +29,7 @@ const PersonButtonActions = () => {
   return (
     <>
       {isPersonEditor && (
-        <>
+        <NavBarButtonGroup>
           <PersonDisqualifyConfirm
             open={isDisqualify}
             onClose={handleDisqualifyCancel}
@@ -60,11 +61,10 @@ const PersonButtonActions = () => {
 
           <NavBarButton
             text={t('tr_save')}
-            main
             icon={<IconSave />}
             onClick={handleSavePerson}
           ></NavBarButton>
-        </>
+        </NavBarButtonGroup>
       )}
     </>
   );
