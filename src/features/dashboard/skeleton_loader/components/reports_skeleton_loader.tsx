@@ -50,13 +50,6 @@ const ReportCardSkeletonLoader = () => {
             }}
           />
         </SkeletonLoaderCardItem>
-        <Divider color="var(--accent-200)" />
-        <SkeletonLoaderCardItem>
-          <SkeletonLoaderCardGroup>
-            <SkeletonLoaderCardCircle variant="circular" />
-            <SkeletonLoaderCardText variant="rectangular" width={171} />
-          </SkeletonLoaderCardGroup>
-        </SkeletonLoaderCardItem>
       </SkeletonLoaderCardItems>
     </SkeletonLoaderCardContainer>
   );

@@ -5,6 +5,7 @@ import PersonsCardSkeletonLoader from './components/persons_skeleton_loader';
 import MeetingMaterialsCardSkeletonLoader from './components/meetings_materials_skeleton_loader';
 import ReportCardSkeletonLoader from './components/reports_skeleton_loader';
 import CongregationCardSkeletonLoader from './components/congregation_skeleton_loader';
+import AppCardSkeletonLoader from './components/app_skeleton_loader';
 
 const DashboardSkeletonLoader = () => {
   return (
@@ -49,6 +50,7 @@ const DashboardSkeletonLoader = () => {
         <MeetingMaterialsCardSkeletonLoader />
         <ReportCardSkeletonLoader />
         <CongregationCardSkeletonLoader />
+        <AppCardSkeletonLoader />
       </Box>
     </Box>
   );
