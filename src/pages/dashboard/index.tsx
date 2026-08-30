@@ -6,6 +6,7 @@ import {
   useCurrentUser,
 } from '@hooks/index';
 import useDashboard from './useDashboard';
+import useSharedHook from './useSharedHook';
 import ActivitiesCard from './activities';
 import AppCard from './app';
 import CongregationCard from './congregation';
@@ -35,6 +36,8 @@ const Dashboard = () => {
     isLanguageGroupOverseer,
     isSecretary,
   } = useCurrentUser();
+
+  const { showMeetingCard } = useSharedHook();
 
   const {
     firstName,
@@ -95,7 +98,7 @@ const Dashboard = () => {
 
         {isMeetingEditor && <MeetingsMaterialsCard />}
 
-        {(isAttendanceEditor ||
+        {((showMeetingCard && isAttendanceEditor) ||
           isSecretary ||
           isGroupOverseer ||
           isLanguageGroupOverseer) && <ReportsCard />}
