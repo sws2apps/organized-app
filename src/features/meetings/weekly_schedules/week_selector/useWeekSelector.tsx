@@ -78,7 +78,8 @@ const useWeekSelector = ({ onChange, value }: WeekSelectorProps) => {
       onChange?.(safeIndex);
     }
 
-    if (value) {
+    // the first week is index 0, which a truthiness check would skip
+    if (typeof value === 'number') {
       setCurrentTab(value);
     }
   }, [value, currentWeekIndex, onChange]);
