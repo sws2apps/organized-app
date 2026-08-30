@@ -68,6 +68,9 @@ const CongregationSettings = () => {
 
   const activeTabLabel = useSettingsTabLabel(activeTab);
 
+  // the accounts are never in play while testing, so nothing about them shows
+  const showUserAccounts = activeTab === 'user-accounts' && !isTest;
+
   // Reset to general tab when a language group is deleted while selected (#3)
   useEffect(() => {
     if (activeTab.startsWith('language-group-')) {
@@ -124,8 +127,7 @@ const CongregationSettings = () => {
           </Stack>
         );
       case 'user-accounts':
-        // never in test mode, where no account may be requested
-        return isTest ? null : <UserAccounts />;
+        return showUserAccounts ? <UserAccounts /> : null;
       case 'meetings':
         return (
           <Stack spacing="16px">
@@ -167,7 +169,7 @@ const CongregationSettings = () => {
       <PageContainer>
         <PageTitle
           title={pageTitle}
-          buttons={activeTab === 'user-accounts' ? addUserButton : undefined}
+          buttons={showUserAccounts ? addUserButton : undefined}
         />
 
         {userAddOpen && (
@@ -228,7 +230,7 @@ const CongregationSettings = () => {
 
   // Detail view — fullscreen sub-page with back navigation
   // Only add bottom padding when the BottomMenu will render (user-accounts has an Add button)
-  const hasBottomActions = !tablet688Up && activeTab === 'user-accounts';
+  const hasBottomActions = !tablet688Up && showUserAccounts;
 
   return (
     <PageContainer
@@ -240,7 +242,7 @@ const CongregationSettings = () => {
       <PageTitle
         title={activeTabLabel}
         secondaryTitle={pageTitle}
-        buttons={activeTab === 'user-accounts' ? addUserButton : undefined}
+        buttons={showUserAccounts ? addUserButton : undefined}
       />
 
       {userAddOpen && (
