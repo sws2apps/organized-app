@@ -146,6 +146,8 @@
   "tr_useDisplayNameOthersDesc": "Useful for duties or cleaning schedules with a lot of content. Try and see which option works better",
   "tr_recordOnlineAttendance": "Record online meeting attendance",
   "tr_recordOnlineAttendanceDesc": "Add an ’Online’ input field to track both online and in-person attendance",
+  "tr_recordDeafAttendance": "Record deaf attendance separately",
+  "tr_recordDeafAttendanceDesc": "For sign-language congregations: count deaf and hearing attendees separately, and report both on the S-88 form",
   "tr_kingdomHallAddressDesc": "Provide the address to inform visiting speakers of the location",
   "tr_meetingSettings": "Meeting settings",
   "tr_midweek": "Midweek",

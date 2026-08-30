@@ -146,6 +146,8 @@
   "tr_useDisplayNameOthersDesc": "Mety soa laha ampiasà amy listan'ny andraikitsy na amy fandahara fanadiova, ze ho mety fanazavà maromaro . Henteo noho andrambo ze mety aminareo. ",
   "tr_recordOnlineAttendance": "Isan’ny olo manatriky fivoria amy internet",
   "tr_recordOnlineAttendanceDesc": "Lasa misy hoe “Internet” lafa hampilitsy ty isan’ny mpanatriky",
+  "tr_recordDeafAttendance": "Record deaf attendance separately",
+  "tr_recordDeafAttendanceDesc": "For sign-language congregations: count deaf and hearing attendees separately, and report both on the S-88 form",
   "tr_kingdomHallAddressDesc": "Ampidiro ny adiresy mba ho fantatry ny mpandahateny mpitsidika ny toerana",
   "tr_meetingSettings": "Fanamboara amy fivoria",
   "tr_midweek": "Andavanandro",

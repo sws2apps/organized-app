@@ -146,6 +146,8 @@
   "tr_useDisplayNameOthersDesc": "Kasulik ülesannete või koristustöö kavade jaoks, kus on palju sisu. Proovi ja vaata, milline valik paremini töötab",
   "tr_recordOnlineAttendance": "Salvesta Zoomi osavõtt",
   "tr_recordOnlineAttendanceDesc": "Lisa 'Zoomis' sisendväljad, et jälgida nii veebis kui ka kohapeal osalemist",
+  "tr_recordDeafAttendance": "Record deaf attendance separately",
+  "tr_recordDeafAttendanceDesc": "For sign-language congregations: count deaf and hearing attendees separately, and report both on the S-88 form",
   "tr_kingdomHallAddressDesc": "Sisesta aadress, et teavitada kõnepidajaid koosoleku asukoha kohta",
   "tr_meetingSettings": "Koosoleku seaded",
   "tr_midweek": "Nädalasisene",

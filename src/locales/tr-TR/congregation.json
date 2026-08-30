@@ -146,6 +146,8 @@
   "tr_useDisplayNameOthersDesc": "Birçok içeriği olan görev veya temizlik programları için yararlıdır. Hangi seçeneğin daha iyi çalıştığını deneyin ve görün",
   "tr_recordOnlineAttendance": "Çevrimiçi ibadet katılımını kaydet",
   "tr_recordOnlineAttendanceDesc": "Çevrimiçi ve yüz yüze katılımı takip etmek için 'Çevrimiçi' giriş alanı ekleyin",
+  "tr_recordDeafAttendance": "Record deaf attendance separately",
+  "tr_recordDeafAttendanceDesc": "For sign-language congregations: count deaf and hearing attendees separately, and report both on the S-88 form",
   "tr_kingdomHallAddressDesc": "Misafir konuşmacılara konumu bildirmek için adresi verin",
   "tr_meetingSettings": "İbadet ayarları",
   "tr_midweek": "Hafta içi",

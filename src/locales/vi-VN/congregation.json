@@ -146,6 +146,8 @@
   "tr_useDisplayNameOthersDesc": "Useful for duties or cleaning schedules with a lot of content. Try and see which option works better",
   "tr_recordOnlineAttendance": "Ghi chép sự hiện diện trực tuyến",
   "tr_recordOnlineAttendanceDesc": "Thêm một trường 'Trực tuyến' để theo dõi cả sự hiện diện trực tuyến và trực tiếp",
+  "tr_recordDeafAttendance": "Record deaf attendance separately",
+  "tr_recordDeafAttendanceDesc": "For sign-language congregations: count deaf and hearing attendees separately, and report both on the S-88 form",
   "tr_kingdomHallAddressDesc": "Cung cấp địa chỉ để thông báo cho các diễn giả khách về vị trí",
   "tr_meetingSettings": "Cài đặt nhóm họp",
   "tr_midweek": "Giữa tuần",

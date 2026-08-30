@@ -146,6 +146,8 @@
   "tr_useDisplayNameOthersDesc": "Nützlich für Ordnungsdienst- oder Reinigungspläne mit viel Inhalt. Probier aus, welche Option besser funktioniert",
   "tr_recordOnlineAttendance": "Online-Zusammenkunft-Teilnahme aufzeichnen",
   "tr_recordOnlineAttendanceDesc": "Fügen Sie ein Eingabefeld 'Online' hinzu, um sowohl die Online- als auch die persönliche Teilnahme zu verfolgen",
+  "tr_recordDeafAttendance": "Record deaf attendance separately",
+  "tr_recordDeafAttendanceDesc": "For sign-language congregations: count deaf and hearing attendees separately, and report both on the S-88 form",
   "tr_kingdomHallAddressDesc": "Gib die Adresse an, um Gastredner über den Ort zu informieren",
   "tr_meetingSettings": "Zusammenkunft Anstellungen",
   "tr_midweek": "Unter der Woche",

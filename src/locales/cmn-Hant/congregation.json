@@ -146,6 +146,8 @@
   "tr_useDisplayNameOthersDesc": "對於內容較多的值日或清潔安排表很有用。嘗試看看哪個選項更好",
   "tr_recordOnlineAttendance": "記錄線上聚會出席人數",
   "tr_recordOnlineAttendanceDesc": "新增一個「在線上」輸入欄，以同時記錄線上和現場的出席人數",
+  "tr_recordDeafAttendance": "Record deaf attendance separately",
+  "tr_recordDeafAttendanceDesc": "For sign-language congregations: count deaf and hearing attendees separately, and report both on the S-88 form",
   "tr_kingdomHallAddressDesc": "請給外地講者提供聚會地址",
   "tr_meetingSettings": "Meeting settings",
   "tr_midweek": "Midweek",

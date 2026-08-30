@@ -90,6 +90,11 @@ export type UpdateStatusType = {
 
 export type BackupFileType = 'Organized' | 'Hourglass' | '';
 
+export type BeforeInstallPromptEvent = Event & {
+  prompt: () => Promise<void>;
+  userChoice: Promise<{ outcome: 'accepted' | 'dismissed'; platform: string }>;
+};
+
 export type NavBarOptionsType = {
   title?: string;
   secondaryTitle?: string;
