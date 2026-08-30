@@ -52,6 +52,7 @@
   "tr_weekendScheduleSaved": "The weekend schedule saved",
   "tr_weekendScheduleSavedDesc": "After creating the desired schedules, remember to publish them for the congregation.",
   "tr_personAlreadyAssignmentWeek": "This person already has an assignment this week",
+  "tr_personAlreadyAssignmentMeeting": "This person already has an assignment in this meeting",
   "tr_hostCongregation": "Host congregation",
   "tr_kingdomHallAddress": "Kingdom Hall address",
   "tr_clearAllAssignments": "Clear all assignments",
