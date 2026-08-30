@@ -54,6 +54,7 @@
   "tr_initialCallVariations": "०",
   "tr_returnVisitVariations": "०",
   "tr_lcNoAssignedVariations": "सङ्‍गठनको उपलब्धि|परिचालक निकायको अपडेट",
+  "tr_lcNoAssignedContentVariations": "Play the VIDEO",
   "tr_cbsLffWithPointsVariations": "lff पाठ {{ lesson }} बुँदा {{ points }}|lff पाठ {{ lesson }} बुँदा {{ points }}",
   "tr_cbsLffSectionOnlyVariations": "lff भाग",
   "tr_lcSourceElderVariations": "स्थानीय आवश्यकता",

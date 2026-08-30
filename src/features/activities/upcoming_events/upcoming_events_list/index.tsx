@@ -1,9 +1,8 @@
 import { Box, Typography } from '@mui/material';
-import { IconInfo } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import { UpcomingEventsListProps } from './index.types';
 import useUpcomingEventsList from './useUpcomingEventsList';
-import InfoTip from '@components/info_tip';
+import InfoNote from '@components/info_note';
 import UpcomingEvent from '../upcoming_event';
 
 const UpcomingEventsList = (props: UpcomingEventsListProps) => {
@@ -15,12 +14,7 @@ const UpcomingEventsList = (props: UpcomingEventsListProps) => {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
       {!props.isAdding && eventsSortedByYear.length === 0 && (
-        <InfoTip
-          isBig={false}
-          icon={<IconInfo />}
-          color="white"
-          text={t('tr_upcomingEventsEmpty')}
-        />
+        <InfoNote message={t('tr_upcomingEventsEmpty')} variant="card" />
       )}
 
       {eventsSortedByYear.length > 0 &&

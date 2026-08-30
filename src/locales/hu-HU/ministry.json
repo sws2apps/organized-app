@@ -136,5 +136,6 @@
   "tr_congregationReports": "Gyülekezeti jelentések",
   "tr_bibleStudiesMonthlyLess": "Nem állíthatod a Bibliatanulmányozások számát kevesebbre, mint ami a napi bejegyzésekből összegyűlt",
   "tr_hoursDecreaseError": "Nem lehet módosítani az órákat",
-  "tr_hoursDecreaseErrorDesc": "Nem állíthatod az órák számát kevesebbre, mint ami a napi bejegyzésekből összegyűlt"
+  "tr_hoursDecreaseErrorDesc": "Nem állíthatod az órák számát kevesebbre, mint ami a napi bejegyzésekből összegyűlt",
+  "tr_SCEL": "School for Congregation Elders"
 }

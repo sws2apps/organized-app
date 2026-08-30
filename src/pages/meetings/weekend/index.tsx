@@ -11,6 +11,7 @@ import WeekendEditor from '@features/meetings/weekend_editor';
 import WeekendExport from '@features/meetings/weekend_export';
 import WeekSelector from '@features/meetings/week_selector';
 import NavBarButton from '@components/nav_bar_button';
+import NavBarButtonGroup from '@components/nav_bar_button_group';
 
 const WeekendMeeting = () => {
   const { t } = useAppTranslation();
@@ -75,7 +76,7 @@ const WeekendMeeting = () => {
         quickSettings={handleOpenQuickSettings}
         buttons={
           hasWeeks && (
-            <>
+            <NavBarButtonGroup>
               <NavBarButton
                 text={t('tr_export')}
                 icon={<IconPrint />}
@@ -83,18 +84,18 @@ const WeekendMeeting = () => {
               ></NavBarButton>
               <NavBarButton
                 text={t('tr_autofill')}
+                main={!isConnected}
                 icon={<IconGenerate />}
                 onClick={handleOpenAutofill}
               ></NavBarButton>
               {isConnected && (
                 <NavBarButton
                   text={t('tr_publish')}
-                  main
                   icon={<IconPublish />}
                   onClick={handleOpenPublish}
                 ></NavBarButton>
               )}
-            </>
+            </NavBarButtonGroup>
           )
         }
       />

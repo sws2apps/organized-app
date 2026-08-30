@@ -20,7 +20,7 @@ const BibleStudySelector = (props: BibleStudySelectorProps) => {
     handleCloseEditor,
     bibleStudy,
     handleEditBibleStudy,
-    handleSelectBibleStudy,
+    handleToggleBibleStudy,
   } = useBibleSelector(props);
 
   return (
@@ -83,15 +83,19 @@ const BibleStudySelector = (props: BibleStudySelectorProps) => {
             },
           }}
         >
-          {bibleStudies.map((study) => (
-            <BibleStudyItem
-              key={study.person_uid}
-              bibleStudy={study}
-              onEdit={handleEditBibleStudy}
-              selected={props.handleCheckSelected(study)}
-              onSelect={(study) => handleSelectBibleStudy(study)}
-            />
-          ))}
+          {bibleStudies.map((study) => {
+            const selected = props.handleCheckSelected(study);
+
+            return (
+              <BibleStudyItem
+                key={study.person_uid}
+                bibleStudy={study}
+                onEdit={handleEditBibleStudy}
+                selected={selected}
+                onToggle={() => handleToggleBibleStudy(study, selected)}
+              />
+            );
+          })}
 
           <MenuItem
             onClick={handleAddNewBibleStudy}

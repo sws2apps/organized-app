@@ -5,6 +5,7 @@ import usePublicTalksList from './usePublicTalksList';
 import PageTitle from '@components/page_title';
 import PublicTalks from '@features/meeting_materials/public_talks';
 import NavBarButton from '@components/nav_bar_button';
+import NavBarButtonGroup from '@components/nav_bar_button_group';
 
 const PublicTalksList = () => {
   const { t } = useAppTranslation();
@@ -24,18 +25,19 @@ const PublicTalksList = () => {
       <PageTitle
         title={t('tr_publicTalksList')}
         buttons={
-          <NavBarButton
-            main
-            text={currentView === 'list' ? t('tr_tableView') : t('tr_listView')}
-            icon={
-              currentView === 'list' ? (
-                <IconSpreadsheet height={22} width={22} />
-              ) : (
-                <IconListView height={22} width={22} />
-              )
-            }
-            onClick={handleToggleView}
-          ></NavBarButton>
+          <NavBarButtonGroup>
+            <NavBarButton
+              text={currentView === 'list' ? t('tr_tableView') : t('tr_listView')}
+              icon={
+                currentView === 'list' ? (
+                  <IconSpreadsheet height={22} width={22} />
+                ) : (
+                  <IconListView height={22} width={22} />
+                )
+              }
+              onClick={handleToggleView}
+            ></NavBarButton>
+          </NavBarButtonGroup>
         }
       />
 

@@ -3,6 +3,7 @@ import { IconClose } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import { SongSelectorProps } from './index.types';
 import Dialog from '@components/dialog';
+import DialogActions from '@components/dialog_actions';
 import IconButton from '@components/icon_button';
 import Typography from '@components/typography';
 import useSongSelector from './useSongSelector';
@@ -73,14 +74,14 @@ const SongSelector = (props: SongSelectorProps) => {
           ))}
         </RadioGroup>
 
-        <Stack spacing="8px">
-          <Button variant="main" onClick={handleAddSong}>
-            {t('tr_addSong')}
-          </Button>
+        <DialogActions>
           <Button variant="secondary" onClick={handleClose}>
             {t('tr_skip')}
           </Button>
-        </Stack>
+          <Button variant="main" onClick={handleAddSong}>
+            {t('tr_addSong')}
+          </Button>
+        </DialogActions>
       </Stack>
     </Dialog>
   );

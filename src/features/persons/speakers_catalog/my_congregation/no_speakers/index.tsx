@@ -1,17 +1,10 @@
-import { Box } from '@mui/material';
-import { IconInfo } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
-import Typography from '@components/typography';
+import InfoNote from '@components/info_note';
 
 const NoSpeakers = () => {
   const { t } = useAppTranslation();
 
-  return (
-    <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-      <IconInfo color="var(--grey-350)" />
-      <Typography color="var(--grey-350)">{t('tr_noSpeakersYet')}</Typography>
-    </Box>
-  );
+  return <InfoNote message={t('tr_noSpeakersYet')} />;
 };
 
 export default NoSpeakers;

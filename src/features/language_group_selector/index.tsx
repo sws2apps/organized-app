@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Box, InputAdornment, SelectChangeEvent } from '@mui/material';
 import { IconCheck, IconJwHome, IconLanguageGroup } from '@components/icons';
 import { useBreakpoints } from '@hooks/index';
@@ -9,29 +10,40 @@ import Typography from '@components/typography';
 const LanguageGroupSelector = () => {
   const { tablet688Up } = useBreakpoints();
 
-  const { display, options, value, renderValue, handleChange } =
+  const [open, setOpen] = useState(false);
+
+  const { display, options, value, renderValue, handleChange, selectWidth } =
     useGroupLanguageSelector();
 
   if (!display) return <></>;
 
   return (
-    <Box width={tablet688Up ? 'unset' : '100%'}>
+    <Box width={tablet688Up ? 'unset' : '100%'} sx={{ minWidth: '100px' }}>
       <Select
         value={value}
+        open={open}
+        onOpen={() => setOpen(true)}
+        onClose={() => setOpen(false)}
         onChange={(e: SelectChangeEvent<string>) =>
           handleChange(e.target.value)
         }
         renderValue={(value: string) => renderValue(value)}
         sx={{
-          width: tablet688Up ? '250px' : '100%',
+          width: tablet688Up ? `${selectWidth}px` : '100%',
           '&.MuiInputBase-root': {
             backgroundColor: 'var(--white)',
             borderRadius: 'var(--radius-max)',
             '& > .MuiSelect-select': {
               color: 'var(--accent-dark)',
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              paddingRight: '32px !important',
             },
             '& > .MuiSelect-icon': {
               color: 'var(--accent-dark)',
+              transition: 'transform 0.2s ease-in-out',
+              transform: open ? 'rotate(180deg)' : 'rotate(0deg)',
             },
           },
         }}

@@ -11,6 +11,7 @@ import PersonsList from '@features/reports/field_service/persons_list';
 import ReportDetails from '@features/reports/field_service/report_details';
 import SelectorStats from '@features/reports/field_service/selector_stats';
 import NavBarButton from '@components/nav_bar_button';
+import NavBarButtonGroup from '@components/nav_bar_button_group';
 
 const FieldService = () => {
   const { t } = useAppTranslation();
@@ -19,7 +20,10 @@ const FieldService = () => {
 
   const { isSecretary, isGroup } = useCurrentUser();
 
-  const { editorOpen, handleOpenBranchReport } = useFieldService();
+  const { editorOpen, handleOpenBranchReport, selectedPersonName, handleBack } =
+    useFieldService();
+
+  const isPersonSubpage = !desktopUp && editorOpen;
 
   return (
     <Box
@@ -30,21 +34,29 @@ const FieldService = () => {
         paddingBottom: !tablet688Up ? '60px' : '0px',
       }}
     >
-      <PageTitle
-        title={t('tr_fieldServiceReports')}
-        buttons={
-          <>
-            {!isGroup && isSecretary && (
-              <NavBarButton
-                main
-                text={t('tr_createS1')}
-                icon={<IconPrepareReport />}
-                onClick={handleOpenBranchReport}
-              ></NavBarButton>
-            )}
-          </>
-        }
-      />
+      {isPersonSubpage ? (
+        <PageTitle
+          title={selectedPersonName}
+          secondaryTitle={t('tr_fieldServiceReports')}
+          onBack={handleBack}
+        />
+      ) : (
+        <PageTitle
+          title={t('tr_fieldServiceReports')}
+          buttons={
+            !isGroup &&
+            isSecretary && (
+              <NavBarButtonGroup>
+                <NavBarButton
+                  text={t('tr_createS1')}
+                  icon={<IconPrepareReport />}
+                  onClick={handleOpenBranchReport}
+                ></NavBarButton>
+              </NavBarButtonGroup>
+            )
+          }
+        />
+      )}
 
       <Box
         sx={{
@@ -57,7 +69,7 @@ const FieldService = () => {
         }}
       >
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          <SelectorStats />
+          <SelectorStats hideStats={isPersonSubpage} />
 
           {desktopUp && <PersonsList />}
 

@@ -1,4 +1,4 @@
-import { CSSProperties, LegacyRef, MutableRefObject } from 'react';
+import { CSSProperties, LegacyRef, MutableRefObject, MouseEvent } from 'react';
 import { CustomClassName } from '@definition/app';
 
 /**
@@ -40,6 +40,6 @@ export type TextMarkupTypeProps = {
   /**
    * Callback function for when an anchor element within the text is clicked.
    */
-  anchorClick?: () => void;
+  anchorClick?: (e: MouseEvent<HTMLAnchorElement>) => void;
   tagClassNames?: { [tag: string]: CustomClassName }; // New prop
 };

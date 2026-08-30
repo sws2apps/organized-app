@@ -1,10 +1,10 @@
 import { IconNotifications } from '@icons/index';
-import { Badge } from '@mui/material';
+import { Badge, SxProps, Theme } from '@mui/material';
 import useAppNotification from './useAppNotification';
 import ButtonIcon from '@components/icon_button';
 import NotificationContainer from './container';
 
-const AppNotification = () => {
+const AppNotification = ({ sx }: { sx?: SxProps<Theme> }) => {
   const {
     handleCloseNotification,
     handleToggleNotificationState,
@@ -14,7 +14,7 @@ const AppNotification = () => {
 
   return (
     <>
-      <ButtonIcon onClick={handleToggleNotificationState}>
+      <ButtonIcon onClick={handleToggleNotificationState} sx={sx}>
         <Badge
           badgeContent={count}
           slotProps={{

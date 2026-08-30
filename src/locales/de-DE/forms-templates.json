@@ -54,6 +54,7 @@
   "tr_initialCallVariations": "0",
   "tr_returnVisitVariations": "0",
   "tr_lcNoAssignedVariations": "Ergebnisse unserer organisierten Tätigkeit|Aktueller Lagebericht der Leitenden Körperschaft",
+  "tr_lcNoAssignedContentVariations": "Play the VIDEO",
   "tr_cbsLffWithPointsVariations": "lff Lektion {{ lesson }} Punkte {{ points }}|lff Lektion {{ lesson }} Punkt {{ points }}",
   "tr_cbsLffSectionOnlyVariations": "lff Abschnitt",
   "tr_lcSourceElderVariations": "Aktuelles",

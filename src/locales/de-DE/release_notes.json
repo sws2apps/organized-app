@@ -1,10 +1,19 @@
 {
-  "2026-01-20T00:00": {
+  "2026-07-01T00:00": {
+    "images": {
+      "img_01": {
+        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-color-schemes.svg",
+        "tr_title": "Neue Farbschemas",
+        "tr_desc": "Weitere Möglichkeiten, Organized personalisiert zu machen! Entdecke neue Farben in den Profileinstellungen, vom minimalen Monochrom bis zum gesättigte Pink."
+      },
+      "img_02": {
+        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-homescreen-shortcuts.svg",
+        "tr_title": "Startbildschirm-Verknüpfungen",
+        "tr_desc": "Springe direkt zu den wichtigsten Funktionen, sowohl auf Desktop- als auch auf mobilen Geräten."
+      }
+    },
     "improvements": {
-      "tr_note_01": "View field service and language groups statistics in Publishers records",
-      "tr_note_02": "Add upcoming event to a calendar",
-      "tr_note_03": "Redesigned header navigation and added bottom menu for mobile",
-      "tr_note_04": "Export outgoing speakers schedule as PDF"
+      "tr_note_01": "Stundengutschrift-Vorlage für die Schule der Ältesten hinzugefügt"
     }
   }
 }

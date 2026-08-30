@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import { useAppTranslation } from '@hooks/index';
 import useStart from './useStart';
-import AppLoading from '@components/loading';
+import LottieLoader from '@components/lottie_loader';
 import Typography from '@components/typography';
 
 const DemoStartup = () => {
@@ -13,30 +13,28 @@ const DemoStartup = () => {
     <Box sx={{ height: '70vh', display: 'flex' }}>
       <Box
         sx={{
-          maxWidth: '560px',
+          maxWidth: '540px',
           margin: 'auto',
           backgroundColor: 'var(--white)',
           border: '1px solid var(--accent-300)',
           borderRadius: 'var(--radius-xl)',
-          padding: '24px',
+          padding: '24px 32px',
           display: 'flex',
           gap: '24px',
-          flexDirection: 'column',
+          alignItems: 'center',
         }}
       >
-        <Typography className="h2">{t('tr_testAppMode')}</Typography>
+        <LottieLoader size={96} />
 
-        <AppLoading
-          type="lottie"
-          text={t('tr_testAppWaitForData')}
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            flexDirection: 'row',
-            padding: 0,
-            '.MuiTypography-root': { textAlign: 'left' },
-          }}
-        />
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+          <Typography className="h2" color="var(--black)">
+            {t('tr_testAppMode')}
+          </Typography>
+
+          <Typography className="body-small-regular" color="var(--grey-400)">
+            {t('tr_testAppWaitForData')}
+          </Typography>
+        </Box>
       </Box>
     </Box>
   );

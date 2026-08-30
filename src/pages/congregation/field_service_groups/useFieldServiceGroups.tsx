@@ -6,6 +6,7 @@ import { fieldGroupsState } from '@states/field_service_groups';
 import ExportGroups from '@features/congregation/field_service_groups/export_groups';
 import { displaySnackNotification } from '@services/states/app';
 import NavBarButton from '@components/nav_bar_button';
+import NavBarButtonGroup from '@components/nav_bar_button_group';
 
 const useFieldServiceGroups = () => {
   const { t } = useAppTranslation();
@@ -44,7 +45,7 @@ const useFieldServiceGroups = () => {
     if (!isServiceCommittee) return <></>;
 
     return (
-      <>
+      <NavBarButtonGroup>
         {groups.length > 0 && <ExportGroups />}
 
         {groups.length > 1 && (
@@ -57,11 +58,10 @@ const useFieldServiceGroups = () => {
 
         <NavBarButton
           text={t('tr_btnAdd')}
-          main
           onClick={handleOpenGroupAdd}
           icon={<IconAdd />}
         ></NavBarButton>
-      </>
+      </NavBarButtonGroup>
     );
   }, [isServiceCommittee, groups.length, t, handleOpenGroupAdd]);
 

@@ -40,9 +40,16 @@ const Tooltip: FC<CustomTooltipProps> = ({
 
   if (!show) return <>{children}</>;
 
+  const displayTitle =
+    typeof title === 'string' || typeof title === 'number' ? (
+      <Box component="span" sx={{ fontStyle: 'normal !important', fontFamily: 'inherit' }}>{title}</Box>
+    ) : (
+      title
+    );
+
   return (
     <MUITooltip
-      title={title}
+      title={displayTitle}
       followCursor={followCursor}
       enterDelay={getEnterDelay()}
       slots={{ transition: Grow }}
@@ -55,7 +62,7 @@ const Tooltip: FC<CustomTooltipProps> = ({
             maxWidth: '360px',
             color: 'var(--white)',
             fontSize: '12px',
-            fontStyle: 'normal',
+            fontStyle: 'normal !important',
             border: 'none',
           },
         },
