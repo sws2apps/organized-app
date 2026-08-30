@@ -9,7 +9,7 @@ import {
 import useReminders from './useReminders';
 import Button from '@components/button';
 import Typography from '@components/typography';
-import { EASING } from '@components/snackbar';
+import { EASING } from '@constants/index';
 import Divider from '@components/divider';
 import ReminderItem from './reminder_item';
 

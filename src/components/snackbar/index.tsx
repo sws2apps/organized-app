@@ -8,13 +8,9 @@ import {
   SnackbarCloseReason,
   SnackbarOrigin,
 } from '@mui/material';
+import { EASING } from '@constants/index';
 import { SnackbarPropsType } from './index.types';
 import InfoMessage from '@components/info-message';
-
-export const EASING = {
-  expoOut: 'cubic-bezier(0.16, 1, 0.3, 1)',
-  easeIn: 'cubic-bezier(0.55, 0, 1, 0.45)',
-};
 
 const GrowTransition = forwardRef<HTMLDivElement, GrowProps>(
   function GrowTransition(props, ref) {
