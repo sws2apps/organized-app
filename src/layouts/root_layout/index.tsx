@@ -108,7 +108,7 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
 
                   <Box sx={{ marginBottom: '32px' }}>
                     <MyAssignments />
-                    <Outlet />
+                    <Outlet context={{ updatePwa }} />
                   </Box>
                 </Suspense>
               )}

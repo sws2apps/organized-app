@@ -7,6 +7,7 @@ import {
 } from '@hooks/index';
 import useDashboard from './useDashboard';
 import ActivitiesCard from './activities';
+import AppCard from './app';
 import CongregationCard from './congregation';
 import LanguageGroupSelector from '@features/language_group_selector';
 import Markup from '@components/text_markup';
@@ -31,6 +32,8 @@ const Dashboard = () => {
     isElder,
     isAttendanceEditor,
     isGroupOverseer,
+    isLanguageGroupOverseer,
+    isSecretary,
   } = useCurrentUser();
 
   const {
@@ -92,9 +95,14 @@ const Dashboard = () => {
 
         {isMeetingEditor && <MeetingsMaterialsCard />}
 
-        {(isElder || isAttendanceEditor || isGroupOverseer) && <ReportsCard />}
+        {(isAttendanceEditor ||
+          isSecretary ||
+          isGroupOverseer ||
+          isLanguageGroupOverseer) && <ReportsCard />}
 
-        <CongregationCard />
+        {(isPublisher || isElder) && <CongregationCard />}
+
+        <AppCard />
       </Box>
 
       {newCongSnack && (

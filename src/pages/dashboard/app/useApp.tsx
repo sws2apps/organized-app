@@ -16,7 +16,7 @@ import { joinRequestsCountState } from '@states/congregation';
 import { dbMetadataReset } from '@services/dexie/metadata';
 import worker from '@services/worker/backupWorker';
 
-const useCongregation = () => {
+const useApp = ({ updatePwa }: { updatePwa: VoidFunction }) => {
   const { t } = useAppTranslation();
 
   const { user } = useFirebaseAuth();
@@ -72,6 +72,18 @@ const useCongregation = () => {
     worker.postMessage('startWorker');
   };
 
+  const handleForceReload = () => {
+    try {
+      updatePwa();
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     if (isConnected) {
       const svgIcon = document.querySelector('.organized-sync-icon');
@@ -114,10 +126,11 @@ const useCongregation = () => {
   return {
     secondaryText: getSecondaryText(),
     handleManualSync,
+    handleForceReload,
     isConnected,
     isUserAdmin,
     requests_count,
   };
 };
 
-export default useCongregation;
+export default useApp;
