@@ -23,6 +23,8 @@ const SpeakerEditPopup = (props: SpeakerEditPopupType) => {
 
   const {
     draft,
+    setContentElement,
+    minHeight,
     isNew,
     isValid,
     confirmDiscardOpen,
@@ -93,48 +95,96 @@ const SpeakerEditPopup = (props: SpeakerEditPopupType) => {
         </IconButton>
       </Box>
 
-      <Box sx={{ marginTop: '-16px', width: '100%', marginBottom: '-16px' }}>
-        <Tabs
-          value={tab}
-          onChange={handleTabChange}
-          tabs={[
-            {
-              label: t('tr_contactInfo'),
-              Component: (
-                <SpeakerInfoTab
-                  draft={draft}
-                  local={local}
-                  displayNameEnabled={displayNameEnabled}
-                  fullnameOption={fullnameOption}
-                  persons={personsAvailable}
-                  onFirstnameChange={handleFirstnameChange}
-                  onLastnameChange={handleLastnameChange}
-                  onDisplayNameChange={handleDisplayNameChange}
-                  onPrivilegeChange={handlePrivilegeChange}
-                  onEmailChange={handleEmailChange}
-                  onPhoneChange={handlePhoneChange}
-                  onNoteChange={handleNoteChange}
-                  onPersonChange={handlePersonChange}
-                />
-              ),
-            },
-            {
-              label: t('tr_speakerTalksSongs'),
-              Component: (
-                <SpeakerTalksTab
-                  publicTalks={publicTalks}
-                  selectedTalks={selectedTalks}
-                  talksWithSongs={talksWithSongs}
-                  onTalksUpdate={handleTalksUpdate}
-                  onTalksDelete={handleTalksDelete}
-                  onSongsUpdate={handleSongsTalkUpdate}
-                  onSongsDelete={handleSongsTalkDelete}
-                />
-              ),
-            },
-          ]}
-        />
-      </Box>
+      {local && (
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '16px',
+            width: '100%',
+          }}
+        >
+          <SpeakerInfoTab
+            draft={draft}
+            local={local}
+            displayNameEnabled={displayNameEnabled}
+            fullnameOption={fullnameOption}
+            persons={personsAvailable}
+            onFirstnameChange={handleFirstnameChange}
+            onLastnameChange={handleLastnameChange}
+            onDisplayNameChange={handleDisplayNameChange}
+            onPrivilegeChange={handlePrivilegeChange}
+            onEmailChange={handleEmailChange}
+            onPhoneChange={handlePhoneChange}
+            onNoteChange={handleNoteChange}
+            onPersonChange={handlePersonChange}
+          />
+
+          <SpeakerTalksTab
+            publicTalks={publicTalks}
+            selectedTalks={selectedTalks}
+            talksWithSongs={talksWithSongs}
+            onTalksUpdate={handleTalksUpdate}
+            onTalksDelete={handleTalksDelete}
+            onSongsUpdate={handleSongsTalkUpdate}
+            onSongsDelete={handleSongsTalkDelete}
+          />
+        </Box>
+      )}
+
+      {!local && (
+        <Box
+          sx={{
+            marginTop: '-16px',
+            width: '100%',
+            marginBottom: '-16px',
+            minHeight,
+          }}
+        >
+          <div ref={setContentElement}>
+            <Tabs
+              value={tab}
+              onChange={handleTabChange}
+              tabs={[
+                {
+                  label: t('tr_contactInfo'),
+                  Component: (
+                    <SpeakerInfoTab
+                      draft={draft}
+                      local={local}
+                      displayNameEnabled={displayNameEnabled}
+                      fullnameOption={fullnameOption}
+                      persons={personsAvailable}
+                      onFirstnameChange={handleFirstnameChange}
+                      onLastnameChange={handleLastnameChange}
+                      onDisplayNameChange={handleDisplayNameChange}
+                      onPrivilegeChange={handlePrivilegeChange}
+                      onEmailChange={handleEmailChange}
+                      onPhoneChange={handlePhoneChange}
+                      onNoteChange={handleNoteChange}
+                      onPersonChange={handlePersonChange}
+                    />
+                  ),
+                },
+                {
+                  label: t('tr_speakerTalksSongs'),
+                  Component: (
+                    <SpeakerTalksTab
+                      publicTalks={publicTalks}
+                      selectedTalks={selectedTalks}
+                      talksWithSongs={talksWithSongs}
+                      onTalksUpdate={handleTalksUpdate}
+                      onTalksDelete={handleTalksDelete}
+                      onSongsUpdate={handleSongsTalkUpdate}
+                      onSongsDelete={handleSongsTalkDelete}
+                    />
+                  ),
+                },
+              ]}
+            />
+          </div>
+        </Box>
+      )}
 
       <DialogActions>
         <Button variant="secondary" onClick={handleClose}>

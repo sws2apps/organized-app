@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useLayoutEffect, useMemo, useState } from 'react';
 import { UpdateSpec } from 'dexie';
 import { useAtomValue } from 'jotai';
 import { AssignmentCode } from '@definition/assignment';
@@ -123,6 +123,24 @@ const useSpeakerEditPopup = ({
         return [{ talk, songs }];
       });
   }, [draft.talks, publicTalks]);
+
+  const [contentElement, setContentElement] = useState<HTMLDivElement | null>(
+    null
+  );
+  const [minHeight, setMinHeight] = useState<number>();
+
+  // the contact info tab sets the floor, so switching tabs does not resize the
+  // dialog under the pointer. a callback ref is used so this runs as soon as
+  // the panel is in the document
+  useLayoutEffect(() => {
+    if (!contentElement || tab !== 0) return;
+
+    const height = contentElement.offsetHeight;
+
+    if (height > 0 && height !== minHeight) {
+      setMinHeight(height);
+    }
+  }, [contentElement, tab, minHeight]);
 
   const handleTabChange = (value: number) => setTab(value);
 
@@ -334,6 +352,8 @@ const useSpeakerEditPopup = ({
 
   return {
     draft,
+    setContentElement,
+    minHeight,
     isNew,
     isValid,
     confirmDiscardOpen,
