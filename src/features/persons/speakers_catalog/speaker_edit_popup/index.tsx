@@ -78,7 +78,7 @@ const SpeakerEditPopup = (props: SpeakerEditPopupType) => {
       >
         <Typography className="h2">{t('tr_unsavedChanges')}</Typography>
         <Typography color="var(--grey-400)">
-          {t('tr_speakerDiscardEditsDesc')}
+          {t('tr_unsavedChangesDesc')}
         </Typography>
 
         <DialogActions>
