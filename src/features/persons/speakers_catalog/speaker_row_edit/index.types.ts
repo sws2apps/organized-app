@@ -1,7 +1,6 @@
 import { VisitingSpeakerType } from '@definition/visiting_speakers';
 
-export type IncomingSpeakerEditPopupType = {
-  open: boolean;
-  onClose: VoidFunction;
+export type SpeakerRowEditType = {
   speaker: VisitingSpeakerType;
+  onEdit: (person_uid: string) => void;
 };

@@ -4,8 +4,8 @@ import { SpeakersListType } from './index.types';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useSpeakersList from './useSpeakersList';
 import Button from '@components/button';
-import IncomingSpeakerEditPopup from './edit_popup';
-import IncomingSpeakerRowEdit from './edit_row';
+import SpeakerEditPopup from '../../speaker_edit_popup';
+import SpeakerRowEdit from '../../speaker_row_edit';
 import SpeakerRowView from '../../speaker_row_view';
 import Typography from '@components/typography';
 
@@ -30,7 +30,7 @@ const SpeakersList = ({
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
       {speakerToEdit && (
-        <IncomingSpeakerEditPopup
+        <SpeakerEditPopup
           open={true}
           onClose={handleCloseSpeakerEdit}
           speaker={speakerToEdit}
@@ -109,7 +109,7 @@ const SpeakersList = ({
               !isEditMode || cong_synced ? (
                 <SpeakerRowView key={speaker.person_uid} speaker={speaker} />
               ) : (
-                <IncomingSpeakerRowEdit
+                <SpeakerRowEdit
                   key={speaker.person_uid}
                   speaker={speaker}
                   onEdit={handleOpenSpeakerEdit}

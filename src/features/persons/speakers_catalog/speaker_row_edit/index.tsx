@@ -1,20 +1,16 @@
 import { Box, IconButton } from '@mui/material';
 import { IconDelete, IconEdit } from '@components/icons';
-import { IncomingSpeakerRowEditType } from './index.types';
+import { SpeakerRowEditType } from './index.types';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
-import useEditRow from './useEditRow';
-import Button from '@components/button';
+import useSpeakerRowEdit from './useSpeakerRowEdit';
 import Typography from '@components/typography';
 
-const IncomingSpeakerRowEdit = ({
-  speaker,
-  onEdit,
-}: IncomingSpeakerRowEditType) => {
+const SpeakerRowEdit = ({ speaker, onEdit }: SpeakerRowEditType) => {
   const { t } = useAppTranslation();
 
-  const { mobile400Down, tabletDown } = useBreakpoints();
+  const { mobile400Down } = useBreakpoints();
 
-  const { name, talks, handleDeleteSpeaker } = useEditRow(speaker);
+  const { name, talks, handleDeleteSpeaker } = useSpeakerRowEdit(speaker);
 
   return (
     <Box
@@ -49,31 +45,22 @@ const IncomingSpeakerRowEdit = ({
         <Typography className="body-small-semibold">{talks}</Typography>
       </Box>
 
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-        {!tabletDown && (
-          <Button
-            variant="small"
-            color="accent"
-            onClick={() => onEdit(speaker.person_uid)}
-            sx={{ height: 'unset', minHeight: '32px', padding: 0 }}
-            startIcon={
-              <IconEdit width={20} height={20} color="var(--accent-main)" />
-            }
-          >
-            {t('tr_edit')}
-          </Button>
-        )}
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <IconButton
+          sx={{ padding: 0 }}
+          title={t('tr_edit')}
+          aria-label={t('tr_edit')}
+          onClick={() => onEdit(speaker.person_uid)}
+        >
+          <IconEdit width={20} height={20} color="var(--accent-main)" />
+        </IconButton>
 
-        {tabletDown && (
-          <IconButton
-            sx={{ padding: 0 }}
-            onClick={() => onEdit(speaker.person_uid)}
-          >
-            <IconEdit width={20} height={20} color="var(--accent-main)" />
-          </IconButton>
-        )}
-
-        <IconButton sx={{ padding: 0 }} onClick={handleDeleteSpeaker}>
+        <IconButton
+          sx={{ padding: 0 }}
+          title={t('tr_delete')}
+          aria-label={t('tr_delete')}
+          onClick={handleDeleteSpeaker}
+        >
           <IconDelete width={20} height={20} color="var(--red-main)" />
         </IconButton>
       </Box>
@@ -81,4 +68,4 @@ const IncomingSpeakerRowEdit = ({
   );
 };
 
-export default IncomingSpeakerRowEdit;
+export default SpeakerRowEdit;

@@ -53,6 +53,8 @@ export const dbVisitingSpeakersLocalCongSpeakerAdd = async (local: boolean) => {
 
     await appDb.visiting_speakers.put(newSpeaker);
     await dbUpdateVisitingSpeakersMetadata();
+
+    return newSpeaker.person_uid;
   } catch (err) {
     console.error(err);
     throw new Error(err);

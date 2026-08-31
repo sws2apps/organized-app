@@ -31,9 +31,19 @@ const useSpeakersOutgoing = () => {
 
   const [speakers, setSpeakers] = useState(options);
 
+  const [editSpeaker, setEditSpeaker] = useState('');
+
   const handleSpeakerAdd = async () => {
-    await dbVisitingSpeakersLocalCongSpeakerAdd(false);
+    const person_uid = await dbVisitingSpeakersLocalCongSpeakerAdd(false);
+
+    setEditSpeaker(person_uid);
   };
+
+  const handleOpenSpeakerEdit = (person_uid: string) => {
+    setEditSpeaker(person_uid);
+  };
+
+  const handleCloseSpeakerEdit = () => setEditSpeaker('');
 
   useEffect(() => {
     setSpeakers((prev) => {
@@ -59,7 +69,18 @@ const useSpeakersOutgoing = () => {
     });
   }, [options]);
 
-  return { speakers, handleSpeakerAdd, setSpeakers };
+  const speakerToEdit = useMemo(() => {
+    return speakers.find((record) => record.person_uid === editSpeaker);
+  }, [speakers, editSpeaker]);
+
+  return {
+    speakers,
+    handleSpeakerAdd,
+    setSpeakers,
+    speakerToEdit,
+    handleOpenSpeakerEdit,
+    handleCloseSpeakerEdit,
+  };
 };
 
 export default useSpeakersOutgoing;

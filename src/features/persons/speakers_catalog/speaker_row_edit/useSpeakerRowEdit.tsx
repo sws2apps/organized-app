@@ -4,7 +4,7 @@ import { VisitingSpeakerType } from '@definition/visiting_speakers';
 import { buildPersonFullname } from '@utils/common';
 import { dbVisitingSpeakersDelete } from '@services/dexie/visiting_speakers';
 
-const useEditRow = (speaker: VisitingSpeakerType) => {
+const useSpeakerRowEdit = (speaker: VisitingSpeakerType) => {
   const fullnameOption = useAtomValue(fullnameOptionState);
 
   const name = buildPersonFullname(
@@ -25,4 +25,4 @@ const useEditRow = (speaker: VisitingSpeakerType) => {
   return { name, talks, handleDeleteSpeaker };
 };
 
-export default useEditRow;
+export default useSpeakerRowEdit;

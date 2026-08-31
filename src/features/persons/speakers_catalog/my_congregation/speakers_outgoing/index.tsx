@@ -5,13 +5,20 @@ import { SpeakersOutgoingProps } from './index.types';
 import useSpeakersOutgoing from './useSpeakersOutgoing';
 import Button from '@components/button';
 import NoSpeakers from '../no_speakers';
-import SpeakerEditView from '../speaker_edit';
+import SpeakerEditPopup from '../../speaker_edit_popup';
+import SpeakerRowEdit from '../../speaker_row_edit';
 import SpeakerRowView from '../../speaker_row_view';
 
 const SpeakersOutgoing = ({ isEditMode }: SpeakersOutgoingProps) => {
   const { t } = useAppTranslation();
 
-  const { handleSpeakerAdd, speakers } = useSpeakersOutgoing();
+  const {
+    handleSpeakerAdd,
+    speakers,
+    speakerToEdit,
+    handleOpenSpeakerEdit,
+    handleCloseSpeakerEdit,
+  } = useSpeakersOutgoing();
 
   return (
     <Box
@@ -22,6 +29,16 @@ const SpeakersOutgoing = ({ isEditMode }: SpeakersOutgoingProps) => {
         marginBottom: '-24px',
       }}
     >
+      {speakerToEdit && (
+        <SpeakerEditPopup
+          open={true}
+          onClose={handleCloseSpeakerEdit}
+          speaker={speakerToEdit}
+          local
+          outgoing
+        />
+      )}
+
       {!isEditMode && speakers.length === 0 && <NoSpeakers />}
 
       {!isEditMode && (
@@ -49,10 +66,9 @@ const SpeakersOutgoing = ({ isEditMode }: SpeakersOutgoingProps) => {
           sx={{
             display: 'flex',
             flexDirection: 'column',
-            gap: '24px',
             '& > .MuiBox-root': {
               borderBottom: '1px solid var(--accent-200)',
-              paddingBottom: '10px',
+              padding: '4px 0',
             },
             '& > .MuiBox-root:last-child': {
               borderBottom: 'none',
@@ -60,10 +76,10 @@ const SpeakersOutgoing = ({ isEditMode }: SpeakersOutgoingProps) => {
           }}
         >
           {speakers.map((speaker) => (
-            <SpeakerEditView
+            <SpeakerRowEdit
               key={speaker.person_uid}
               speaker={speaker}
-              outgoing={true}
+              onEdit={handleOpenSpeakerEdit}
             />
           ))}
         </Box>
