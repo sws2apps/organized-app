@@ -176,7 +176,7 @@ const useCSVImport = () => {
    * @returns {Promise<{ speakers: SpeakerIncomingDetailsType[], congregations: CongregationIncomingDetailsType[] }>}
    */
   const parseFileToSpeakersAndCongs = async (
-    fileData: { contents: string | File; type: 'csv' },
+    fileData: { contents: string; type: 'csv' },
     selectedFields?: Record<string, boolean>
   ): Promise<{
     speakers: SpeakerIncomingDetailsType[];
