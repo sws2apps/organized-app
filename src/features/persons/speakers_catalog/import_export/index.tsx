@@ -172,6 +172,9 @@ const ImportExport = (props: ImportExportType) => {
                     {t('tr_tip_followStructure')}
                   </Box>
                   <Box className="body-small-regular" component="li">
+                    {t('tr_tip_emptyCongNameHandling')}
+                  </Box>
+                  <Box className="body-small-regular" component="li">
                     {t('tr_tip_enterYes')}
                   </Box>
                   <Box className="body-small-regular" component="li">

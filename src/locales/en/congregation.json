@@ -480,6 +480,7 @@
   "tr_tip_relevantColumns": "Fill in only the relevant columns. Leave the rest blank.",
   "tr_tip_groupHandling": "People will be added to groups if the group number exists in your congregation; any missing group numbers will be created automatically. Language groups will be assigned the highest number after processing.",
   "tr_tip_congsHandling": "Speakers will be added to congregations if the congregation exists in your records; any missing congregation will be created automatically.",
+  "tr_tip_emptyCongNameHandling": "If the congregation name is empty, the speaker will be added to the congregation from the row above. This way, you don't have to repeat the congregation name in every row. If there is no congregation name at all, the speaker will be added to your own congregation.",
   "tr_tip_speakersHandling": "Already existing speakers will NOT be updated with the new data.",
   "tr_importDataConfirm": "Confirm importing new data",
   "tr_importDataConfirmDesc": "Select the data you want to import to replace your records in Organized",
