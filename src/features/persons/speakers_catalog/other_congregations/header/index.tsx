@@ -1,3 +1,4 @@
+import { MouseEvent } from 'react';
 import { Box, IconButton } from '@mui/material';
 import {
   IconCheck,
@@ -32,14 +33,27 @@ const IncomingCongregationHeader = ({
 
   const { tablet600Down } = useBreakpoints();
 
+  const handleToggleExpand = () => onExpandChange(cong_number);
+
+  // the buttons sitting on the header do their own thing
+  const handleActionClick = (
+    event: MouseEvent<HTMLButtonElement>,
+    action: VoidFunction
+  ) => {
+    event.stopPropagation();
+    action();
+  };
+
   return (
     <Box
+      onClick={handleToggleExpand}
       sx={{
         display: 'flex',
         justifyContent: 'space-between',
         flexWrap: 'wrap',
         alignItems: 'center',
         gap: '16px',
+        cursor: 'pointer',
       }}
     >
       <Box
@@ -83,7 +97,10 @@ const IncomingCongregationHeader = ({
           </Typography>
         </Box>
         {tablet600Down && (
-          <IconButton onClick={() => onExpandChange(cong_number)}>
+          <IconButton
+            aria-expanded={expanded}
+            onClick={(e) => handleActionClick(e, handleToggleExpand)}
+          >
             <IconExpand
               color="var(--black)"
               sx={{
@@ -102,18 +119,23 @@ const IncomingCongregationHeader = ({
               className="congregation-actions"
               sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}
             >
-              <IconButton onClick={onDelete}>
+              <IconButton onClick={(e) => handleActionClick(e, onDelete)}>
                 <IconDelete color="var(--red-main)" />
               </IconButton>
 
-              <IconButton onClick={onEditModeChange}>
+              <IconButton
+                onClick={(e) => handleActionClick(e, onEditModeChange)}
+              >
                 {!editMode && <IconEdit color="var(--accent-main)" />}
                 {editMode && <IconCheck color="var(--accent-main)" />}
               </IconButton>
             </Box>
           )}
 
-          <IconButton onClick={() => onExpandChange(cong_number)}>
+          <IconButton
+            aria-expanded={expanded}
+            onClick={(e) => handleActionClick(e, handleToggleExpand)}
+          >
             <IconExpand
               color="var(--black)"
               sx={{

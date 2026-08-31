@@ -11,15 +11,12 @@ const useList = ({
   const [isExpanded, setIsExpanded] = useState(currentExpanded === id);
 
   const handleToggleEdit = () => {
-    setIsEditMode((prev) => {
-      if (!prev) {
-        setIsExpanded((prev) => {
-          if (!prev) return !prev;
-          return prev;
-        });
-      }
-      return !prev;
-    });
+    setIsEditMode((prev) => !prev);
+
+    // there is nothing to edit on a card that is closed
+    if (!isEditMode) {
+      onChangeCurrentExpanded(id);
+    }
   };
 
   const handleToggleExpanded = () => {
