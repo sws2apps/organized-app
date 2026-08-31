@@ -34,7 +34,10 @@ export const nextUnscheduledStart = (
     const dateStr = formatDate(candidate, 'yyyy/MM/dd');
     const taken = existing.some(
       (meeting) =>
-        meeting.meeting_data.group_id === groupId &&
+        // Legacy records may carry the group in `type` only — same fallback
+        // the meeting form uses to resolve the selected group.
+        (meeting.meeting_data.group_id ?? meeting.meeting_data.type) ===
+          groupId &&
         formatDate(new Date(meeting.meeting_data.start), 'yyyy/MM/dd') ===
           dateStr
     );

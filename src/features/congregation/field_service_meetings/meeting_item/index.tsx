@@ -97,6 +97,11 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
             opacity: 1,
           },
         },
+        // Keyboard users never trigger :hover — reveal the same controls when
+        // one of them takes focus, or they'd be tabbed to while invisible.
+        '&:focus-within .add-to-calendar, &:focus-within .edit-button': {
+          opacity: 1,
+        },
         gap: '12px',
         padding: tabletUp ? '24px' : '16px',
       }}

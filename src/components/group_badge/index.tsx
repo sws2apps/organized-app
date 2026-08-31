@@ -34,7 +34,10 @@ const GroupBadge = ({
         className={isSmall ? 'label-small-medium' : 'body-small-semibold'}
         color="inherit"
         noWrap={fullWidth}
-        sx={align === 'center' ? { textAlign: 'center' } : undefined}
+        sx={{
+          ...(fullWidth ? { minWidth: 0 } : {}),
+          ...(align === 'center' ? { textAlign: 'center' } : {}),
+        }}
       >
         {label}
       </Typography>

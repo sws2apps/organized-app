@@ -11,7 +11,10 @@ import { FieldServiceMeetingCategory } from '@definition/field_service_meetings'
  * - Everyone can view all meetings.
  * - A group overseer / assistant can create & edit their own group's meetings.
  * - The service overseer can create "Service overseer visit" meetings for any
- *   group, plus normal meetings in the group he belongs to.
+ *   group, plus normal meetings in the group he belongs to. A group overseer /
+ *   assistant can still edit a visit scheduled for his own group (creating one
+ *   stays restricted to the service overseer and admins, via the form's
+ *   category options).
  * - App admins can manage everything.
  * - Joint meetings can be managed by any group overseer / assistant.
  *

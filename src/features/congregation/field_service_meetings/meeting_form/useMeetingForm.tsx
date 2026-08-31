@@ -1,7 +1,10 @@
 import { useCallback, useEffect, useMemo, useState, useRef } from 'react';
 import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
-import { fieldWithLanguageGroupsState } from '@states/field_service_groups';
+import {
+  fieldServiceGroupsState,
+  fieldWithLanguageGroupsState,
+} from '@states/field_service_groups';
 import { fieldServiceMeetingsActiveState } from '@states/field_service_meetings';
 import { personsByViewState, personsState } from '@states/persons';
 import { formatDate } from '@utils/date';
@@ -38,6 +41,7 @@ const useMeetingForm = (
 ) => {
   const { t } = useAppTranslation();
   const groups = useAtomValue(fieldWithLanguageGroupsState);
+  const allGroups = useAtomValue(fieldServiceGroupsState);
   const persons = useAtomValue(personsByViewState);
   const allPersons = useAtomValue(personsState);
   const existingMeetings = useAtomValue(fieldServiceMeetingsActiveState);
@@ -96,13 +100,37 @@ const useMeetingForm = (
         ),
       }));
 
+    // The meeting's own group may have been deleted since it was scheduled.
+    // Keep it selectable (as categoryOptions does for the stored category) so
+    // editing doesn't silently turn the meeting into a joint one.
+    const currentGroupId = meeting.meeting_data.group_id;
+    if (
+      currentGroupId &&
+      !availableGroups.some((option) => option.id === currentGroupId)
+    ) {
+      const deleted = allGroups.find(
+        (group) => group.group_id === currentGroupId
+      );
+
+      availableGroups.push({
+        id: currentGroupId,
+        label: deleted
+          ? buildFieldServiceGroupLabel(
+              base,
+              deleted.group_data.sort_index + 1,
+              deleted.group_data.name
+            )
+          : base,
+      });
+    }
+
     // The "main" option represents a meeting that spans all groups, i.e. a
     // joint meeting — labelled to match the "Joint meeting" type.
     return [
       { id: 'main', label: t('tr_fieldServiceMeetingCategory_joint') },
       ...availableGroups,
     ];
-  }, [groups, t]);
+  }, [groups, allGroups, meeting.meeting_data.group_id, t]);
 
   const locationOptions = useMemo<LocationOption[]>(() => {
     return FIELD_SERVICE_MEETING_LOCATIONS.map((location) => ({
@@ -262,7 +290,13 @@ const useMeetingForm = (
   const updateStartPreservingDuration = useCallback(
     (mutate: (date: Date) => void) => {
       const base = new Date(formData.meeting_data.start);
+      // An empty or unparsable stored start would make toISOString() throw,
+      // so fall back to now before applying the change.
+      if (Number.isNaN(base.getTime())) {
+        base.setTime(Date.now());
+      }
       mutate(base);
+      if (Number.isNaN(base.getTime())) return;
       const newEnd = new Date(base.getTime() + meetingDuration);
       updateMeetingData({
         start: base.toISOString(),

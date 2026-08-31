@@ -36,6 +36,7 @@ const MeetingForm = ({
   const hour24 = useAtomValue(hour24FormatState);
   const [similarConfirmOpen, setSimilarConfirmOpen] = useState(false);
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   const {
     formData,
@@ -68,8 +69,14 @@ const MeetingForm = ({
 
   const handleConfirmDelete = async () => {
     setDeleteConfirmOpen(false);
-    if (!onDelete) return;
-    await onDelete(meeting);
+    if (!onDelete || deleting) return;
+
+    setDeleting(true);
+    try {
+      await onDelete(meeting);
+    } finally {
+      setDeleting(false);
+    }
   };
 
   // Validate first (shows inline errors if invalid), then warn about
@@ -284,39 +291,28 @@ const MeetingForm = ({
           flexWrap: 'wrap',
         }}
       >
-        {/* Left: Delete (edit mode) or Cancel (add mode — blue, not red) */}
-        {mode === 'edit' ? (
+        {/* Left: Delete (edit mode, when deleting is possible at all) */}
+        {mode === 'edit' && onDelete && (
           <Button
             variant="secondary"
             color="red"
             startIcon={<IconDelete />}
             onClick={handleDeleteClick}
-            disabled={saving}
+            disabled={saving || deleting}
           >
             {t('tr_delete')}
           </Button>
-        ) : (
-          <Button
-            variant="secondary"
-            startIcon={<IconClose />}
-            onClick={onClose}
-            disabled={saving}
-          >
-            {t('tr_cancel')}
-          </Button>
         )}
 
-        {/* Edit mode: always show Cancel alongside Done */}
-        {mode === 'edit' && (
-          <Button
-            variant="secondary"
-            startIcon={<IconClose />}
-            onClick={onClose}
-            disabled={saving}
-          >
-            {t('tr_cancel')}
-          </Button>
-        )}
+        {/* Cancel — blue, not red — in both modes */}
+        <Button
+          variant="secondary"
+          startIcon={<IconClose />}
+          onClick={onClose}
+          disabled={saving}
+        >
+          {t('tr_cancel')}
+        </Button>
 
         {/* Done is always clickable. Clicking with missing fields shows
             inline errors on the offending fields instead of a tooltip. */}

@@ -7,8 +7,6 @@ const InputTextField = forwardRef(function DatePickerInputField(
 ) {
   const heightLocal = 44;
 
-  const varHeight = (56 - heightLocal) / 2;
-
   // Allow consumers to shrink the input via slotProps.textField.sx.height.
   // Guard against array/function sx forms, which can't be inspected.
   const consumerHeight =
@@ -16,6 +14,18 @@ const InputTextField = forwardRef(function DatePickerInputField(
       ? (props.sx as { height?: string }).height
       : undefined;
   const customHeight = consumerHeight ?? `${heightLocal}px`;
+
+  // Input padding and the floating label offset must follow the height the
+  // input actually renders at, otherwise a consumer override (e.g. 48px)
+  // leaves the value and label vertically misaligned. Fall back to the local
+  // height for non-px units, which can't be resolved here.
+  const parsedHeight = Number.parseFloat(customHeight);
+  const effectiveHeight =
+    customHeight.trim().endsWith('px') && Number.isFinite(parsedHeight)
+      ? parsedHeight
+      : heightLocal;
+
+  const varHeight = (56 - effectiveHeight) / 2;
 
   return (
     <PickersTextField

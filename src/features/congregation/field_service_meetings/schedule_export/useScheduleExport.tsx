@@ -57,14 +57,17 @@ const createTemplateMonths = (
     formatted.dates.forEach((dateEntry, index) => {
       const currentDate = new Date(dateEntry.date);
       const monthIndex = currentDate.getMonth();
-      const key = `${formatted.year}-${monthIndex}`;
+      // Both parts of the key come from this date: a multi-day meeting can
+      // cross a year boundary, and the meeting's own year is its start year.
+      const year = currentDate.getFullYear();
+      const key = `${year}-${monthIndex}`;
 
       let monthEntry = monthMap.get(key);
       if (!monthEntry) {
         const titleMonth = monthNames[monthIndex] || '';
         monthEntry = {
           id: key,
-          title: `${titleMonth} ${formatted.year}`.trim(),
+          title: `${titleMonth} ${year}`.trim(),
           sortKey: formatted.start,
           days: new Map(),
         };

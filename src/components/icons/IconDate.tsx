@@ -31,7 +31,7 @@ const IconDate = ({
     // The mask was never functionally needed: the path already fits within the
     // 24 × 24 viewBox.
     <SvgIcon
-      className={`organized-icon-date ${className}`}
+      className={`organized-icon-date ${className ?? ''}`.trim()}
       viewBox="0 0 24 24"
       sx={{ width: `${width}px`, height: `${height}px`, ...sx }}
     >
