@@ -1,6 +1,7 @@
 export type FieldServiceMeetingTemplateMeeting = {
   id: string;
   time: string;
+  group: string;
   address: string;
   conductor: string;
 };

@@ -24,6 +24,10 @@ const FieldServiceMonth = ({ lang, month }: FieldServiceMonthProps) => {
             </Text>
           </View>
 
+          <Text style={[styles.headerCell, styles.columnGroup]}>
+            {t('tr_group', { lng: lang })}
+          </Text>
+
           <Text style={[styles.headerCell, styles.columnText]}>
             {t('tr_address', { lng: lang })}
           </Text>

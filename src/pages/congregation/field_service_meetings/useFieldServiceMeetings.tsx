@@ -6,7 +6,7 @@ import useFieldServiceMeetingsPermissions from '@features/congregation/field_ser
 
 const useFieldServiceMeetings = () => {
   const { isSecretary, isGroup } = useCurrentUser();
-  const { canCreate } = useFieldServiceMeetingsPermissions();
+  const { canCreate, canEditGroupTimes } = useFieldServiceMeetingsPermissions();
 
   const setEditingMeetingId = useSetAtom(fieldServiceMeetingsEditingIdState);
 
@@ -23,6 +23,10 @@ const useFieldServiceMeetings = () => {
   // governed by the role-aware permissions (group overseers, service overseer…).
   const canExport = !isGroup && isSecretary;
   const canManageMeetings = canCreate;
+  // Quick settings only holds the recurring meeting times, so offer it to the
+  // roles allowed to change them instead of everyone who can add a meeting —
+  // the others would only get a panel of read-only rows.
+  const canOpenQuickSettings = canEditGroupTimes();
 
   const handleOpenExport = useCallback(() => {
     setExportOpen(true);
@@ -46,6 +50,7 @@ const useFieldServiceMeetings = () => {
     quickSettingsOpen,
     canExport,
     canManageMeetings,
+    canOpenQuickSettings,
 
     // UI Handlers
     handleOpenExport,

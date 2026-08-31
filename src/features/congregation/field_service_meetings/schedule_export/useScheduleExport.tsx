@@ -5,6 +5,7 @@ import { saveAs } from 'file-saver';
 import { IconInfo } from '@components/icons';
 import {
   FieldServiceMeetingCategory,
+  FieldServiceMeetingFormattedType,
   FieldServiceMeetingType,
 } from '@definition/field_service_meetings';
 import { ScheduleExportScope, ScheduleExportType } from './index.types';
@@ -12,6 +13,7 @@ import { displaySnackNotification } from '@services/states/app';
 import {
   generateMonthNames,
   getMessageByCode,
+  getTranslation,
 } from '@services/i18n/translation';
 import { useAppTranslation } from '@hooks/index';
 import { fieldServiceMeetingsState } from '@states/field_service_meetings';
@@ -22,6 +24,31 @@ import { formatDate, getWeekDate } from '@utils/date';
 import { TemplateFieldServiceMeetings } from '@views/index';
 import { FieldServiceMeetingTemplateMonth } from '@views/meetings/field_service/index.types';
 import { filterMeetingsByDataView } from '../filter_meetings_by_data_view';
+
+/**
+ * Which group a printed row belongs to: the group's own name for a regular
+ * meeting, the category otherwise — mirroring the badges on the meeting card.
+ */
+const groupLabelForMeeting = (
+  meeting: FieldServiceMeetingFormattedType,
+  lng: string
+) => {
+  if (meeting.category === FieldServiceMeetingCategory.JointMeeting) {
+    return getTranslation({
+      key: 'tr_fieldServiceMeetingCategory_joint',
+      language: lng,
+    });
+  }
+
+  if (meeting.category === FieldServiceMeetingCategory.ServiceOverseerMeeting) {
+    return getTranslation({
+      key: 'tr_fieldServiceMeetingCategory_serviceOverseer',
+      language: lng,
+    });
+  }
+
+  return meeting.groupName ?? '';
+};
 
 const createTemplateMonths = (
   meetings: FieldServiceMeetingType[],
@@ -89,6 +116,7 @@ const createTemplateMonths = (
       dayEntry.meetings.push({
         id: `${formatted.uid}-${dayKey}-${index}`,
         time: formatted.time,
+        group: groupLabelForMeeting(formatted, lng),
         address: formatted.address ?? '',
         conductor: formatted.conductor ?? '',
         sortKey: `${dayKey}-${formatted.start}-${index}`,
@@ -116,9 +144,10 @@ const createTemplateMonths = (
             .toSorted((first, second) =>
               first.sortKey.localeCompare(second.sortKey)
             )
-            .map(({ id, time, address, conductor }) => ({
+            .map(({ id, time, group, address, conductor }) => ({
               id,
               time,
+              group,
               address,
               conductor,
             })),

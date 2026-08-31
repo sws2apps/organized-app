@@ -104,8 +104,16 @@ const styles = StyleSheet.create({
     fontSize: '10px',
     color: '#222222',
   },
+  groupCell: {
+    width: '124px',
+    padding: '4px 0 4px 4px',
+    borderLeftWidth: 1,
+    borderColor: BORDER_COLOR,
+    display: 'flex',
+    justifyContent: 'center',
+  },
   textCell: {
-    width: '211.5px',
+    width: '147.5px',
     padding: '4px 0 4px 4px',
     borderLeftWidth: 1,
     borderColor: BORDER_COLOR,
@@ -126,8 +134,11 @@ const styles = StyleSheet.create({
     width: '64px',
     paddingLeft: '4px',
   },
+  columnGroup: {
+    width: '120px',
+  },
   columnText: {
-    width: '207.5px',
+    width: '143.5px',
   },
 });
 

@@ -51,6 +51,25 @@ const createEmptyMeeting = (
   };
 };
 
+/**
+ * Whether a meeting falls inside a `yyyy/MM/dd` range. A meeting can span more
+ * than one day (a joint meeting weekend), so it belongs to every period its
+ * range touches, not only the one holding its start.
+ */
+const meetingOverlapsRange = (
+  meeting: FieldServiceMeetingType,
+  rangeStart: string,
+  rangeEnd: string
+) => {
+  const start = formatDate(new Date(meeting.meeting_data.start), 'yyyy/MM/dd');
+  const parsedEnd = new Date(meeting.meeting_data.end);
+  const end = Number.isNaN(parsedEnd.getTime())
+    ? start
+    : formatDate(parsedEnd, 'yyyy/MM/dd');
+
+  return start <= rangeEnd && (end < start ? start : end) >= rangeStart;
+};
+
 const useFieldServiceMeetings = () => {
   const { t } = useAppTranslation();
   const { my_group } = useCurrentUser();
@@ -97,14 +116,9 @@ const useFieldServiceMeetings = () => {
     const weekStartStr = formatDate(weekStart, 'yyyy/MM/dd');
     const weekEndStr = formatDate(weekEnd, 'yyyy/MM/dd');
 
-    return meetings.filter((record) => {
-      const meetingStart = formatDate(
-        new Date(record.meeting_data.start),
-        'yyyy/MM/dd'
-      );
-
-      return meetingStart >= weekStartStr && meetingStart <= weekEndStr;
-    });
+    return meetings.filter((record) =>
+      meetingOverlapsRange(record, weekStartStr, weekEndStr)
+    );
   }, [meetings, weekRangeDate]);
 
   const formattedMeetings = useMemo(
@@ -146,10 +160,12 @@ const useFieldServiceMeetings = () => {
     const year = weekRangeDate.getFullYear();
     const month = weekRangeDate.getMonth();
 
-    const inMonth = meetings.filter((record) => {
-      const date = new Date(record.meeting_data.start);
-      return date.getFullYear() === year && date.getMonth() === month;
-    });
+    const monthStartStr = formatDate(new Date(year, month, 1), 'yyyy/MM/dd');
+    const monthEndStr = formatDate(new Date(year, month + 1, 0), 'yyyy/MM/dd');
+
+    const inMonth = meetings.filter((record) =>
+      meetingOverlapsRange(record, monthStartStr, monthEndStr)
+    );
 
     return applyFilter(inMonth.map(fieldServiceMeetingData));
   }, [meetings, weekRangeDate, applyFilter]);

@@ -22,6 +22,10 @@ const FieldServiceDay = ({ day, isLast }: FieldServiceDayProps) => {
               <Text style={styles.timeText}>{meeting.time}</Text>
             </View>
 
+            <View style={styles.groupCell}>
+              <Text style={styles.cellText}>{meeting.group}</Text>
+            </View>
+
             <View style={styles.textCell}>
               <Text style={styles.cellText}>{meeting.address}</Text>
             </View>

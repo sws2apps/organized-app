@@ -41,15 +41,23 @@ const useMonthView = (meetings: FieldServiceMeetingFormattedType[]) => {
   const meetingsByDay = useMemo(() => {
     const map = new Map<string, MonthBadge[]>();
     for (const meeting of meetings) {
-      const dateStr = formatDate(new Date(meeting.startISO), 'yyyy/MM/dd');
       const color: GroupBadgeProps['color'] =
         meeting.category === FieldServiceMeetingCategory.RegularMeeting
           ? resolveGroupBadgeColor(groups, meeting.group_id)
           : 'accent-main';
 
-      const existing = map.get(dateStr) ?? [];
-      existing.push({ label: labelForMeeting(meeting), color });
-      map.set(dateStr, existing);
+      // A meeting can span several days (e.g. a joint meeting weekend), and
+      // `dates` already holds every one of them — the schedule export prints
+      // them the same way.
+      const dates = meeting.dates?.length
+        ? meeting.dates.map((entry) => entry.date)
+        : [formatDate(new Date(meeting.startISO), 'yyyy/MM/dd')];
+
+      for (const dateStr of dates) {
+        const existing = map.get(dateStr) ?? [];
+        existing.push({ label: labelForMeeting(meeting), color });
+        map.set(dateStr, existing);
+      }
     }
     return map;
   }, [meetings, groups, labelForMeeting]);

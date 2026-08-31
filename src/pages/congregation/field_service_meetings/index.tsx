@@ -21,6 +21,7 @@ const FieldServiceMeetings = () => {
     quickSettingsOpen,
     canExport,
     canManageMeetings,
+    canOpenQuickSettings,
     handleOpenExport,
     handleCloseExport,
     handleOpenQuickSettings,
@@ -70,7 +71,9 @@ const FieldServiceMeetings = () => {
       <PageTitle
         title={t('tr_fieldServiceMeetings')}
         buttons={actionButtons}
-        quickSettings={canManageMeetings ? handleOpenQuickSettings : undefined}
+        quickSettings={
+          canOpenQuickSettings ? handleOpenQuickSettings : undefined
+        }
       />
 
       {exportOpen && (
