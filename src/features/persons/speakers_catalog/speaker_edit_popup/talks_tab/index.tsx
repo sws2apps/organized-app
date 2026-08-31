@@ -30,10 +30,23 @@ const SpeakerTalksTab = ({
         <Box
           key={row.key}
           sx={{
+            position: 'relative',
             display: 'flex',
             flexDirection: 'column',
             gap: '12px',
             paddingBottom: '12px',
+            paddingLeft: '16px',
+            // the rail ties a talk to its songs without enclosing them
+            '&::before': {
+              content: '""',
+              position: 'absolute',
+              left: 0,
+              top: 0,
+              bottom: '12px',
+              width: '4px',
+              borderRadius: 'var(--radius-s) 0 0 var(--radius-s)',
+              backgroundColor: 'var(--accent-main)',
+            },
           }}
         >
           <Box sx={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
