@@ -14,6 +14,8 @@ const useSpeakerRowEdit = (speaker: VisitingSpeakerType) => {
     fullnameOption
   );
 
+  const note = speaker.speaker_data.person_notes.value;
+
   const talks = speaker.speaker_data.talks
     .filter((record) => record._deleted === false)
     .map((record) => record.talk_number)
@@ -33,6 +35,7 @@ const useSpeakerRowEdit = (speaker: VisitingSpeakerType) => {
 
   return {
     name,
+    note,
     talks,
     confirmDeleteOpen,
     handleOpenConfirmDelete,
