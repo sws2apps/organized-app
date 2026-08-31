@@ -1,6 +1,6 @@
 //src/features/persons/speakers_catalog/import_export/import/useImport.tsx
 import { useCallback, useState } from 'react';
-import { useDropzone } from 'react-dropzone';
+import { FileRejection, useDropzone } from 'react-dropzone';
 import { getMessageByCode } from '@services/i18n/translation';
 import { displaySnackNotification } from '@services/states/app';
 import useCSVImport from '../confirm_import/useCSVImport';
@@ -43,9 +43,13 @@ const useImport = (props: ImportType) => {
   const { getCSVHeaders } = useCSVImport();
 
   const onDrop = useCallback(
-    async (acceptedFiles: File[]) => {
+    async (acceptedFiles: File[], fileRejections: FileRejection[]) => {
       try {
         setIsProcessing(true);
+
+        if (fileRejections.length > 0) {
+          throw new Error('error_app_data_invalid-file');
+        }
 
         if (acceptedFiles.length !== 1) {
           throw new Error(
