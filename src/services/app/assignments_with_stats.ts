@@ -784,6 +784,8 @@ const getBlockedCodes = (
   viewFixedAssignments: FixedAssignmentsByCode | undefined,
   targetDataView: string
 ): Set<number> => {
+  // NOSONAR - S3516: the Set is mutated in the loop below
+  // False Positive: The analyzer doesn't detect that the Set is mutated in the loop above.
   const blockedCodes = new Set<number>();
   const viewFixedAssignmentsMap = viewFixedAssignments?.get(targetDataView);
   if (!viewFixedAssignmentsMap) return blockedCodes;
@@ -796,9 +798,8 @@ const getBlockedCodes = (
     const conflicts = ASSIGNMENT_CONFLICTS[Number(fixedCode)];
     conflicts?.forEach((c) => blockedCodes.add(c));
   }
-  // False Positive: The analyzer doesn't detect that the Set is mutated in the loop above.
-  // NOSONAR suppresses S3516 (Functions should not return the same value)
-  return blockedCodes; // NOSONAR
+
+  return blockedCodes;
 };
 
 /**
