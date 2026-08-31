@@ -812,9 +812,8 @@ const dbRestoreFieldServiceMeetings = async (
           accessCode,
         });
 
-        // clean up keys — copy the legacy top-level state only when it is
-        // newer than meeting_data, or a stale stamp would undo a later change
-        // (same rule as dbFieldServiceMeetingsCleanup).
+        // Copy the legacy top-level state only when it is newer, or a stale
+        // stamp undoes a later change (as dbFieldServiceMeetingsCleanup does).
         if (meeting.updatedAt) {
           if (meeting.updatedAt > meeting.meeting_data.updatedAt) {
             meeting.meeting_data._deleted = meeting._deleted ?? false;

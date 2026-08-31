@@ -1,14 +1,9 @@
 import { FieldServiceMeetingType } from '@definition/field_service_meetings';
 
 /**
- * Filter a meeting list by the active data view (main congregation, a language
- * group, …).
- *
- * - `'main'` shows everything.
- * - A group view shows meetings whose `type` or `group_id` matches that view,
- *   plus meetings explicitly typed `'main'`.
- *
- * Shared by the page hook and the schedule export so both filter identically.
+ * Filter meetings by the active data view: `'main'` shows everything, a group
+ * view shows its own meetings plus the ones typed `'main'`. Shared by the page
+ * hook and the schedule export so both filter identically.
  */
 export const filterMeetingsByDataView = (
   meetings: FieldServiceMeetingType[],

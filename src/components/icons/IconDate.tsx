@@ -16,20 +16,9 @@ const IconDate = ({
   className,
 }: IconProps) => {
   return (
-    // Render the path as a direct SvgIcon child (the correct MUI pattern).
-    // Previously the component wrapped the path in an inner <svg> + <mask>,
-    // which caused two problems:
-    //   1. The static mask id ("mask0_2473_21942") collides when multiple
-    //      IconDate instances appear in the same document — e.g. the calendar-
-    //      nav jump-to-today button AND the DatePicker open-picker icon both
-    //      exist on the meetings page simultaneously.  The second <g mask="url(#…)">
-    //      picks up the first mask (wrong SVG coordinate context) and the icon
-    //      becomes invisible.
-    //   2. The nested <svg> broke MUI's CSS fill cascade — styles targeting
-    //      ".MuiSvgIcon-root path" couldn't reach the path through the extra
-    //      SVG wrapper.
-    // The mask was never functionally needed: the path already fits within the
-    // 24 × 24 viewBox.
+    // The path is a direct SvgIcon child: the former <svg> + <mask> wrapper
+    // hid every instance after the first (the static mask id collided) and
+    // kept ".MuiSvgIcon-root path" styles from reaching the path.
     <SvgIcon
       className={`organized-icon-date ${className ?? ''}`.trim()}
       viewBox="0 0 24 24"

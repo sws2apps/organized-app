@@ -33,9 +33,8 @@ export const dbMetadataDefault = async () => {
       return;
     }
 
-    // Backfill the keys a later app version added: an installation that
-    // predates a table keeps metadata without it, and the export gate reads
-    // `send_local` as undefined — so that table would never sync.
+    // Backfill keys added by a later app version: without them the export
+    // gate reads `send_local` as undefined and never sends that table.
     const merged = { ...metadata.metadata };
 
     let changed = false;

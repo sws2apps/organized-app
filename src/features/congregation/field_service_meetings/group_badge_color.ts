@@ -2,21 +2,15 @@ import { GroupBadgeProps } from '@components/group_badge/index.types';
 import { FieldServiceGroupType } from '@definition/field_service_groups';
 
 /**
- * Map a field-service group's `sort_index` to its badge color token.
- *
- * Colors cycle `group-1 … group-10` (1-based) so any number of groups stays
- * within the available palette. Shared by the meeting card and the month view
- * so both surfaces color a group identically.
+ * Badge color token for a group's `sort_index`, cycling `group-1 … group-10`
+ * so any number of groups stays within the palette.
  */
 export const getGroupBadgeColor = (
   sortIndex: number
 ): GroupBadgeProps['color'] =>
   `group-${(sortIndex % 10) + 1}` as GroupBadgeProps['color'];
 
-/**
- * Badge color for a meeting's group: the group's cycled color when the group
- * exists, `accent-main` for joint / service-overseer meetings without one.
- */
+/** The group's color, or `accent-main` for a meeting without a group. */
 export const resolveGroupBadgeColor = (
   groups: FieldServiceGroupType[],
   groupId?: string

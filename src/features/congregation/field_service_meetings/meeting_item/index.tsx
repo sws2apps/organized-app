@@ -29,9 +29,7 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
 
   const locationIcon = getLocationIcon(meeting.location, 'var(--grey-400)');
 
-  // Only render an address as a link when it really is a web URL — a bare
-  // "http…" prefix check also matches text that would resolve as a relative
-  // path once put in an href.
+  // A bare "http…" prefix would also match text that becomes a relative href.
   const isWebAddress = /^https?:\/\//i.test(meeting.address ?? '');
 
   const groupBadgeColor = useMemo(
@@ -95,15 +93,13 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
     <Card
       className="meeting-item"
       sx={{
-        // Reveal add-to-calendar and edit button on hover (desktop only —
-        // pointer:fine ensures touch devices always show them).
+        // Reveal both controls on hover, where hovering exists.
         '&:hover .add-to-calendar, &:hover .edit-button': {
           '@media (hover: hover) and (pointer: fine)': {
             opacity: 1,
           },
         },
-        // Keyboard users never trigger :hover — reveal the same controls when
-        // one of them takes focus, or they'd be tabbed to while invisible.
+        // Keyboard users never trigger :hover, so reveal on focus too.
         '&:focus-within .add-to-calendar, &:focus-within .edit-button': {
           opacity: 1,
         },
@@ -111,7 +107,6 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
         padding: tabletUp ? '24px' : '16px',
       }}
     >
-      {/* Header: title + edit / badges */}
       <Box
         sx={{
           display: 'flex',
@@ -137,9 +132,8 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
             <Box
               className="edit-button"
               sx={{
-                // Hidden-until-hover only where hovering is possible: a
-                // desktop-width touch device never fires :hover, and would
-                // otherwise keep the button invisible for good.
+                // Hide only where hover exists: a desktop-width touch device
+                // never fires :hover and would keep the button invisible.
                 opacity: 1,
                 '@media (hover: hover) and (pointer: fine)': {
                   opacity: desktopUp ? 0 : 1,
@@ -190,7 +184,6 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
         </Box>
       </Box>
 
-      {/* Content: switches from column to row at the desktop breakpoint */}
       <Box
         sx={{
           display: 'flex',
@@ -198,7 +191,6 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
           gap: '12px',
         }}
       >
-        {/* Inner horizontal row: date/time pill + conductor/address */}
         <Box
           sx={{
             display: 'flex',
@@ -208,7 +200,6 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
             gap: '12px',
           }}
         >
-          {/* Date / time pill */}
           <Box
             sx={{
               backgroundColor: 'var(--accent-150)',
@@ -234,14 +225,12 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
             </Typography>
           </Box>
 
-          {/* Conductor + address / link */}
           <Box
             sx={{
               display: 'flex',
               flexDirection: 'column',
               flex: 1,
-              // Allow the column to shrink so long links/addresses wrap
-              // instead of forcing the row wider than the viewport.
+              // Let long links wrap instead of widening the row.
               minWidth: 0,
               gap: '4px',
             }}
@@ -289,9 +278,7 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
           </Box>
         </Box>
 
-        {/* Add-to-calendar action.
-            Desktop: in-line, hidden until hover (small auto-sized button).
-            Mobile/tablet: full-width centered button below the info row. */}
+        {/* Desktop: inline, hidden until hover. Below: full-width button. */}
         <Box
           className="add-to-calendar"
           sx={{

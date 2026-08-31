@@ -51,7 +51,6 @@ const useMeetingForm = (
   const congAddress = useAtomValue(congAddressState);
   const { isAdmin, isServiceOverseer } = useFieldServiceMeetingsPermissions();
 
-  // Person assigned as the congregation's service overseer (person_uid)
   const serviceOverseerUid =
     settings.cong_settings.responsabilities?.service ?? '';
 
@@ -59,13 +58,11 @@ const useMeetingForm = (
     structuredClone(meeting)
   );
   const [saving, setSaving] = useState(false);
-  // Track whether the user has attempted to submit (triggers inline errors).
   const [attempted, setAttempted] = useState(false);
   const lastMeetingUidRef = useRef(meeting.meeting_uid);
 
-  // Sync with upstream only when the meeting identity changes (different UID).
-  // Resetting on every reference change (same UID, new object) would wipe
-  // in-progress edits.
+  // Only sync on a different uid: resetting on every new object with the same
+  // uid would wipe in-progress edits.
   useEffect(() => {
     if (lastMeetingUidRef.current !== meeting.meeting_uid) {
       lastMeetingUidRef.current = meeting.meeting_uid;
@@ -100,9 +97,8 @@ const useMeetingForm = (
         ),
       }));
 
-    // The meeting's own group may have been deleted since it was scheduled.
-    // Keep it selectable (as categoryOptions does for the stored category) so
-    // editing doesn't silently turn the meeting into a joint one.
+    // Keep a since-deleted group selectable, or editing would silently turn
+    // the meeting into a joint one.
     const currentGroupId = meeting.meeting_data.group_id;
     if (
       currentGroupId &&
@@ -124,8 +120,7 @@ const useMeetingForm = (
       });
     }
 
-    // The "main" option represents a meeting that spans all groups, i.e. a
-    // joint meeting — labelled to match the "Joint meeting" type.
+    // "main" spans all groups — labelled to match the "Joint meeting" type.
     return [
       { id: 'main', label: t('tr_fieldServiceMeetingCategory_joint') },
       ...availableGroups,
@@ -140,8 +135,7 @@ const useMeetingForm = (
     }));
   }, [t]);
 
-  // All persons resolved to options — used to display the currently stored
-  // conductor (which may be outside the qualified/filtered suggestion list).
+  // Needed to display a stored conductor outside the suggestion list.
   const allPersonOptions = useMemo<ConductorOption[]>(() => {
     return allPersons
       .map((person) => ({
@@ -151,8 +145,7 @@ const useMeetingForm = (
       .filter((option) => option.label.trim().length > 0);
   }, [allPersons, useDisplayName, fullnameOption]);
 
-  // Brothers qualified to conduct field service meetings (have the
-  // "Field service meeting conductor" qualification in the current view).
+  // Brothers holding the conductor qualification in the current view.
   const qualifiedOptions = useMemo<ConductorOption[]>(() => {
     return persons
       .filter((person) =>
@@ -180,10 +173,8 @@ const useMeetingForm = (
     groupOptions,
   ]);
 
-  // Conductor suggestions are qualified brothers, narrowed by context:
-  // - Joint / all groups: every qualified brother in the congregation.
-  // - A specific group: qualified brothers who belong to that group.
-  // The field still allows free entry, so this only shapes the suggestions.
+  // Qualified brothers, narrowed to the selected group. The field stays free
+  // entry, so this only shapes the suggestions.
   const conductorOptions = useMemo<ConductorOption[]>(() => {
     if (selectedGroup.id === 'main') return qualifiedOptions;
     const group = groups.find((g) => g.group_id === selectedGroup.id);
@@ -194,7 +185,6 @@ const useMeetingForm = (
     return qualifiedOptions.filter((option) => memberUids.has(option.id));
   }, [selectedGroup.id, groups, qualifiedOptions]);
 
-  // The current conductor as an option (resolved name) or a free-typed string.
   const conductorValue = useMemo<ConductorOption | string | null>(() => {
     const current = formData.meeting_data.conductor;
     if (!current) return null;
@@ -216,9 +206,8 @@ const useMeetingForm = (
     [formData.meeting_data.category]
   );
 
-  // Only the service overseer (or an admin) may create "Service overseer
-  // visit" meetings. The meeting's own category is always kept available so an
-  // existing meeting can still be edited.
+  // Only the service overseer (or an admin) may create a "Service overseer
+  // visit"; a meeting's stored category always stays available for editing.
   const categoryOptions = useMemo<FieldServiceMeetingCategory[]>(() => {
     return FIELD_SERVICE_MEETING_CATEGORIES.filter((category) => {
       if (category === FieldServiceMeetingCategory.ServiceOverseerMeeting) {
@@ -247,8 +236,7 @@ const useMeetingForm = (
     [formData.meeting_data.start, formData.meeting_data.conductor]
   );
 
-  // Another (non-deleted) meeting already exists for the same group, day and
-  // time — used to warn about a likely duplicate before saving.
+  // Another meeting at the same group, day and time — warns before saving.
   const isSimilarMeeting = useMemo(() => {
     const start = new Date(formData.meeting_data.start);
     if (Number.isNaN(start.getTime())) return false;
@@ -290,8 +278,7 @@ const useMeetingForm = (
   const updateStartPreservingDuration = useCallback(
     (mutate: (date: Date) => void) => {
       const base = new Date(formData.meeting_data.start);
-      // An empty or unparsable stored start would make toISOString() throw,
-      // so fall back to now before applying the change.
+      // An unparsable start would make toISOString() throw.
       if (Number.isNaN(base.getTime())) {
         base.setTime(Date.now());
       }

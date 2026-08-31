@@ -38,13 +38,7 @@ const CalendarNavigation = () => {
 
   return (
     <Card>
-      {/*
-        Navigation row + view-mode toggle.
-        Tablet+ (≥ 480 px): single flex-row — [← label →] on the left,
-          [Week | Month] on the right.
-        Mobile (< 480 px): flex-column — [← label →] spans full width
-          (arrows pushed to the edges via space-between), toggle sits below.
-      */}
+      {/* Tablet+: [← label →] and the toggle share a row; mobile stacks. */}
       <Box
         sx={{
           display: 'flex',
@@ -54,7 +48,6 @@ const CalendarNavigation = () => {
           gap: '12px',
         }}
       >
-        {/* Previous / label / next */}
         <Box
           sx={{
             display: 'flex',
@@ -80,11 +73,7 @@ const CalendarNavigation = () => {
             >
               {periodLabel}
             </Typography>
-            {/*
-              The jump-to-today control always reserves its slot so the label
-              never shifts horizontally; it becomes visible only when the
-              displayed period is not the current one.
-            */}
+            {/* Always reserves its slot so the label never shifts. */}
             <Tooltip
               show={!isCurrentPeriod}
               title={
@@ -118,8 +107,7 @@ const CalendarNavigation = () => {
           </IconButton>
         </Box>
 
-        {/* Week / Month toggle */}
-        {/* Mobile: stretches to full card width; tablet+: auto-sized */}
+        {/* Week / Month toggle — full width on mobile */}
         <Box sx={{ alignSelf: tabletUp ? 'center' : 'stretch' }}>
           <ButtonGroup
             fullWidth={!tabletUp}

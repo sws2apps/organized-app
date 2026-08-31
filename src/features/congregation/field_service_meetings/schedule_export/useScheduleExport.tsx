@@ -25,10 +25,7 @@ import { TemplateFieldServiceMeetings } from '@views/index';
 import { FieldServiceMeetingTemplateMonth } from '@views/meetings/field_service/index.types';
 import { filterMeetingsByDataView } from '../filter_meetings_by_data_view';
 
-/**
- * Which group a printed row belongs to: the group's own name for a regular
- * meeting, the category otherwise — mirroring the badges on the meeting card.
- */
+/** Group name for a regular meeting, the category otherwise. */
 const groupLabelForMeeting = (
   meeting: FieldServiceMeetingFormattedType,
   lng: string
@@ -84,8 +81,8 @@ const createTemplateMonths = (
     formatted.dates.forEach((dateEntry, index) => {
       const currentDate = new Date(dateEntry.date);
       const monthIndex = currentDate.getMonth();
-      // Both parts of the key come from this date: a multi-day meeting can
-      // cross a year boundary, and the meeting's own year is its start year.
+      // The meeting's own year is its start year, which a multi-day meeting
+      // can outlive — take both parts from this date.
       const year = currentDate.getFullYear();
       const key = `${year}-${monthIndex}`;
 

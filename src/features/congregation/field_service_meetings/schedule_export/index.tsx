@@ -113,8 +113,7 @@ const ScheduleExport = ({
           variant="main"
           endIcon={isProcessing ? <IconLoading /> : undefined}
           onClick={handleExportSchedule}
-          // Kept clickable while the range is incomplete: clicking marks the
-          // missing week fields instead of leaving a dead button.
+          // Clicking with no range marks the missing fields, so stay enabled.
           disabled={isProcessing}
         >
           {t('tr_next')}

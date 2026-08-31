@@ -6,11 +6,7 @@ import {
 import { useAppTranslation } from '@hooks/index';
 import RecurringTimes from './recurring_times';
 
-/**
- * Congregation settings card for field service meeting preferences.
- * Currently holds the per-group recurring meeting times — the same editor that
- * appears in the page's quick settings.
- */
+/** Settings card holding the per-group recurring meeting times. */
 const FieldServiceMeetingSettings = () => {
   const { t } = useAppTranslation();
 

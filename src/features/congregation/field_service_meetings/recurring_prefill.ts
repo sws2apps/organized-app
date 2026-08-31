@@ -4,10 +4,7 @@ import { formatDate } from '@utils/date';
 
 const MEETING_DEFAULT_DURATION_MS = 60 * 60 * 1000;
 
-/**
- * How many weeks ahead to scan for the next date that has no existing meeting
- * for the group before giving up and using the first candidate anyway.
- */
+/** Weeks to scan for a free date before using the first candidate anyway. */
 const MAX_WEEKS_LOOKAHEAD = 12;
 
 /**
@@ -34,8 +31,7 @@ export const nextUnscheduledStart = (
     const dateStr = formatDate(candidate, 'yyyy/MM/dd');
     const taken = existing.some(
       (meeting) =>
-        // Legacy records may carry the group in `type` only — same fallback
-        // the meeting form uses to resolve the selected group.
+        // Legacy records may carry the group in `type` only.
         (meeting.meeting_data.group_id ?? meeting.meeting_data.type) ===
           groupId &&
         formatDate(new Date(meeting.meeting_data.start), 'yyyy/MM/dd') ===

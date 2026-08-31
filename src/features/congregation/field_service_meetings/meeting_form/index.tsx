@@ -79,8 +79,7 @@ const MeetingForm = ({
     }
   };
 
-  // Validate first (shows inline errors if invalid), then warn about
-  // duplicates, then save.
+  // Validate (shows inline errors), warn about duplicates, then save.
   const handleDone = () => {
     if (!validate()) return;
     if (isSimilarMeeting) {
@@ -105,8 +104,7 @@ const MeetingForm = ({
       )}
       sx={{
         padding: '24px',
-        // Disabled fields (e.g. a locked conductor) should read as muted in
-        // both light and dark themes instead of MUI's hardcoded faded black.
+        // MUI's hardcoded faded black doesn't work in the dark theme.
         '& .MuiInputBase-input.Mui-disabled': {
           WebkitTextFillColor: 'var(--accent-350)',
         },
@@ -118,11 +116,7 @@ const MeetingForm = ({
           : t('tr_editFieldServiceMeeting')}
       </Typography>
 
-      {/*
-        Type / Group / Conductor.
-        Desktop: three columns. Mobile: Type spans the full width, with
-        Group + Conductor sharing the row below.
-      */}
+      {/* Desktop: three columns. Mobile: Type spans the row above the rest. */}
       <Box
         sx={{
           display: 'grid',
@@ -190,14 +184,8 @@ const MeetingForm = ({
       </Typography>
 
       {/*
-        Details.
-        Laptop+ (≥ 768 px): three equal columns —
-          [Date + Start time (flex row)] | [Location] | [Address]
-        Below 768 px: two-column grid, four separate cells —
-          [Date]     [Start time]
-          [Location] [Address]
-        This avoids the Date + Time flex-box collapsing vertically when the
-        first column of a 3-col grid is too narrow to hold both pickers.
+        Laptop+: [Date + time] | [Location] | [Address]. Below: a 2×2 grid —
+        a 3-column layout leaves the first column too narrow for both pickers.
       */}
       <Box
         sx={{
@@ -291,7 +279,7 @@ const MeetingForm = ({
           flexWrap: 'wrap',
         }}
       >
-        {/* Left: Delete (edit mode, when deleting is possible at all) */}
+        {/* Delete, when deleting is possible at all */}
         {mode === 'edit' && onDelete && (
           <Button
             variant="secondary"
@@ -304,7 +292,6 @@ const MeetingForm = ({
           </Button>
         )}
 
-        {/* Cancel — blue, not red — in both modes */}
         <Button
           variant="secondary"
           startIcon={<IconClose />}
@@ -314,8 +301,7 @@ const MeetingForm = ({
           {t('tr_cancel')}
         </Button>
 
-        {/* Done is always clickable. Clicking with missing fields shows
-            inline errors on the offending fields instead of a tooltip. */}
+        {/* Always clickable: missing fields are marked inline on click. */}
         <Button
           variant="secondary"
           startIcon={<IconCheck />}

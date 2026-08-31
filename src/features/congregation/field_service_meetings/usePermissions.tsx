@@ -12,9 +12,8 @@ import { FieldServiceMeetingCategory } from '@definition/field_service_meetings'
  * - A group overseer / assistant can create & edit their own group's meetings.
  * - The service overseer can create "Service overseer visit" meetings for any
  *   group, plus normal meetings in the group he belongs to. A group overseer /
- *   assistant can still edit a visit scheduled for his own group (creating one
- *   stays restricted to the service overseer and admins, via the form's
- *   category options).
+ *   assistant may edit a visit scheduled for his own group; creating one stays
+ *   with the service overseer and admins (see the form's category options).
  * - App admins can manage everything.
  * - Joint meetings can be managed by any group overseer / assistant.
  *
@@ -44,8 +43,7 @@ const useFieldServiceMeetingsPermissions = () => {
     return ids;
   }, [groups, userUID]);
 
-  // Groups the user simply belongs to (used for the service overseer's
-  // own-group normal-meeting rule).
+  // Groups the user belongs to (for the service overseer's own-group rule).
   const myMemberGroupIds = useMemo(() => {
     const ids = new Set<string>();
     for (const group of groups) {
@@ -89,11 +87,8 @@ const useFieldServiceMeetingsPermissions = () => {
     ]
   );
 
-  // Recurring times live in cong_settings, and the sync worker only exports
-  // cong_settings for setting editors (admins, language-group overseers,
-  // schedule editors). Wider access here would let group overseers make
-  // changes that never leave the device — restrict to admins until the
-  // settings export gate covers group overseers too.
+  // The worker only exports cong_settings for setting editors, so wider access
+  // here would let group overseers make changes that never leave the device.
   const canEditGroupTimes = useCallback(() => isAdmin, [isAdmin]);
 
   const canCreate = isAdmin || isAnyGroupLead || isServiceOverseer;

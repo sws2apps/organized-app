@@ -201,10 +201,8 @@ const MonthView = ({ meetings, onSelectDay }: MonthViewProps) => {
   const { tabletUp } = useBreakpoints();
   const { weeks, weekdayLabels } = useMonthView(meetings);
 
-  // A cell belongs to the rendered calendar "block" when it is an in-month day
-  // or a *leading* blank (any blank in the first week, i.e. before the 1st).
-  // Trailing blanks (after the last day) are excluded so the grid steps away at
-  // the end while still showing dividers at the beginning.
+  // In-month days and leading blanks form the drawn block; trailing blanks
+  // stay outside it so the grid steps away at the end.
   const inBlock = (cell: MonthDayCell | undefined, week: number) =>
     cell !== undefined && (cell.inMonth || week === 0);
 

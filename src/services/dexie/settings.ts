@@ -331,12 +331,9 @@ type FieldServiceMeetingTimeType = NonNullable<
 >[number];
 
 /**
- * Change one group's recurring field service meeting time.
- *
- * The whole array has to be written back, so the read-modify-write runs inside
- * a transaction and reads the stored settings rather than a render snapshot —
- * two quick edits (or edits from the settings card and the quick settings
- * panel at once) would otherwise overwrite each other.
+ * Change one group's recurring field service meeting time. The whole array has
+ * to be written back, so the read-modify-write runs in a transaction over the
+ * stored settings — two concurrent edits would otherwise overwrite each other.
  */
 export const dbAppSettingsUpdateFieldServiceMeetingTime = async (
   groupId: string,

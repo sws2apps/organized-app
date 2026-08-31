@@ -1,10 +1,7 @@
 import { forwardRef, Ref } from 'react';
 import { PickersTextField, PickersTextFieldProps } from '@mui/x-date-pickers';
 
-/**
- * The pixel value an sx `height` resolves to, or null when it can't be known
- * here (a percentage, another unit, or a responsive value).
- */
+/** The pixel value an sx `height` resolves to, or null when it can't be known. */
 const pixelHeight = (height: string | number): number | null => {
   if (typeof height === 'number') {
     return height > 1 ? height : null;
@@ -25,24 +22,20 @@ const InputTextField = forwardRef(function DatePickerInputField(
 ) {
   const heightLocal = 44;
 
-  // Allow consumers to shrink the input via slotProps.textField.sx.height.
-  // Guard against array/function sx forms, which can't be inspected.
+  // Consumers set the height via slotProps.textField.sx; array and function
+  // sx forms can't be inspected.
   const consumerHeight =
     props.sx && !Array.isArray(props.sx) && typeof props.sx === 'object'
       ? (props.sx as { height?: unknown }).height
       : undefined;
 
-  const isUsableHeight =
-    typeof consumerHeight === 'string' || typeof consumerHeight === 'number';
+  const customHeight =
+    typeof consumerHeight === 'string' || typeof consumerHeight === 'number'
+      ? consumerHeight
+      : `${heightLocal}px`;
 
-  const customHeight = isUsableHeight ? consumerHeight : `${heightLocal}px`;
-
-  // Input padding and the floating label offset must follow the height the
-  // input actually renders at, otherwise a consumer override (e.g. 48px)
-  // leaves the value and label vertically misaligned. Anything that can't be
-  // resolved to pixels here — responsive objects, other units, and the MUI
-  // shorthand where a number of 1 or less means a percentage — keeps the
-  // local height.
+  // Padding and the label offset follow the rendered height, or a consumer
+  // override leaves them misaligned.
   const effectiveHeight = pixelHeight(customHeight) ?? heightLocal;
 
   const varHeight = (56 - effectiveHeight) / 2;
@@ -62,9 +55,8 @@ const InputTextField = forwardRef(function DatePickerInputField(
           alignItems: 'center',
           gap: '8px',
         },
-        // Same fix as date_picker/view/input.tsx: the sections container must
-        // flex-fill the space left after the icon button. `width: 'auto'`
-        // lets sections overflow and push the clock icon outside the input.
+        // The sections must fill the space left after the icon button, or
+        // they overflow and push the clock icon outside the input.
         '.MuiPickersSectionList-root, .MuiPickersInputBase-sectionsContainer': {
           flex: '1 1 auto',
           overflow: 'hidden',

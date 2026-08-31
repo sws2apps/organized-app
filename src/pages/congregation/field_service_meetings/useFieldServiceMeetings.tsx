@@ -10,8 +10,7 @@ const useFieldServiceMeetings = () => {
 
   const setEditingMeetingId = useSetAtom(fieldServiceMeetingsEditingIdState);
 
-  // Discard any open add/edit form when the page unmounts so it does not
-  // reappear on the next visit (the editing id lives in a shared atom).
+  // The editing id is a shared atom: drop it so no form reopens on return.
   useEffect(() => {
     return () => setEditingMeetingId(null);
   }, [setEditingMeetingId]);
@@ -19,13 +18,11 @@ const useFieldServiceMeetings = () => {
   const [exportOpen, setExportOpen] = useState(false);
   const [quickSettingsOpen, setQuickSettingsOpen] = useState(false);
 
-  // Exporting the schedule stays with secretaries/admins; creating meetings is
-  // governed by the role-aware permissions (group overseers, service overseer…).
+  // Exporting stays with secretaries/admins; adding follows the role rules.
   const canExport = !isGroup && isSecretary;
   const canManageMeetings = canCreate;
-  // Quick settings only holds the recurring meeting times, so offer it to the
-  // roles allowed to change them instead of everyone who can add a meeting —
-  // the others would only get a panel of read-only rows.
+  // Quick settings only holds the recurring times: anyone who cannot change
+  // them would open a panel of read-only rows.
   const canOpenQuickSettings = canEditGroupTimes();
 
   const handleOpenExport = useCallback(() => {
@@ -45,14 +42,12 @@ const useFieldServiceMeetings = () => {
   }, []);
 
   return {
-    // UI State
     exportOpen,
     quickSettingsOpen,
     canExport,
     canManageMeetings,
     canOpenQuickSettings,
 
-    // UI Handlers
     handleOpenExport,
     handleCloseExport,
     handleOpenQuickSettings,

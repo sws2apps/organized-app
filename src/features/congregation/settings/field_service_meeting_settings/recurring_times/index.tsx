@@ -9,9 +9,9 @@ import { hour24FormatState } from '@states/settings';
 import useRecurringTimes from './useRecurringTimes';
 
 /**
- * Per-group editor for the recurring field service meeting day & time.
- * Reused on the Congregation settings page and in the page's quick settings.
- * The surrounding heading/description is provided by the parent surface.
+ * Per-group editor for the recurring meeting day & time, shown both in the
+ * congregation settings and in the page's quick settings. The heading and
+ * description come from the parent surface.
  */
 const RecurringTimes = () => {
   const { t } = useAppTranslation();

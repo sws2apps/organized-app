@@ -31,8 +31,7 @@ const createEmptyMeeting = (
   const start = new Date();
   const end = new Date(start.getTime() + 60 * 60 * 1000);
 
-  // Note: top-level _deleted/updatedAt are legacy-only fields (migrated away
-  // by dbFieldServiceMeetingsCleanup) — only meeting_data carries state.
+  // Top-level _deleted/updatedAt are legacy-only: only meeting_data has state.
   return {
     meeting_uid: meetingUid,
     meeting_data: {
@@ -52,9 +51,8 @@ const createEmptyMeeting = (
 };
 
 /**
- * Whether a meeting falls inside a `yyyy/MM/dd` range. A meeting can span more
- * than one day (a joint meeting weekend), so it belongs to every period its
- * range touches, not only the one holding its start.
+ * Whether a meeting touches a `yyyy/MM/dd` range. A meeting can span days, so
+ * it belongs to every period it overlaps, not only the one holding its start.
  */
 const meetingOverlapsRange = (
   meeting: FieldServiceMeetingType,
@@ -63,11 +61,13 @@ const meetingOverlapsRange = (
 ) => {
   const start = formatDate(new Date(meeting.meeting_data.start), 'yyyy/MM/dd');
   const parsedEnd = new Date(meeting.meeting_data.end);
-  const end = Number.isNaN(parsedEnd.getTime())
+  const parsedEndStr = Number.isNaN(parsedEnd.getTime())
     ? start
     : formatDate(parsedEnd, 'yyyy/MM/dd');
 
-  return start <= rangeEnd && (end < start ? start : end) >= rangeStart;
+  const end = parsedEndStr < start ? start : parsedEndStr;
+
+  return start <= rangeEnd && end >= rangeStart;
 };
 
 const useFieldServiceMeetings = () => {
@@ -81,31 +81,27 @@ const useFieldServiceMeetings = () => {
   const filterId = useAtomValue(fieldServiceMeetingsFilterState);
   const weekRangeDate = useAtomValue(fieldServiceMeetingsWeekRangeState);
 
-  // Shared atom: the page (add flow) and the container (edit flow) both use
-  // this hook, so local state would give each its own out-of-sync copy.
+  // Shared atom: the page (add) and the container (edit) both use this hook,
+  // so local state would give each its own out-of-sync copy.
   const [editingMeetingId, setEditingMeetingId] = useAtom(
     fieldServiceMeetingsEditingIdState
   );
 
-  // Filter a meeting list by the current data view (main, language group, …).
   const applyDataView = useCallback(
     (list: FieldServiceMeetingType[]) =>
       filterMeetingsByDataView(list, dataView),
     [dataView]
   );
 
-  // All (non-deleted) meetings in the current data view — includes past ones,
-  // since both the week and month views can navigate to earlier periods.
+  // Includes past meetings: both views can navigate to earlier periods.
   const meetings = useMemo(
     () => applyDataView(allMeetings),
     [applyDataView, allMeetings]
   );
 
-  // Filter meetings by week range
   const meetingsInWeekRange = useMemo(() => {
-    // Snap to Monday so the list matches the Mon–Sun range shown in the
-    // navigation header (the atom may hold any weekday, e.g. from "Today"
-    // or a day click in the month grid). getWeekDate mutates — pass a copy.
+    // Snap to Monday to match the range in the header; the atom may hold any
+    // weekday. getWeekDate mutates — pass a copy.
     const weekStart = getWeekDate(new Date(weekRangeDate));
     weekStart.setHours(0, 0, 0, 0);
 
@@ -126,7 +122,6 @@ const useFieldServiceMeetings = () => {
     [meetingsInWeekRange]
   );
 
-  // Shared chip-filter (All / My group / Joint / Online).
   const applyFilter = useCallback(
     (list: FieldServiceMeetingFormattedType[]) => {
       if (filterId === 'my-group') {
@@ -155,7 +150,6 @@ const useFieldServiceMeetings = () => {
     [applyFilter, formattedMeetings]
   );
 
-  // Meetings for the whole displayed month (used by the month view).
   const monthMeetings = useMemo(() => {
     const year = weekRangeDate.getFullYear();
     const month = weekRangeDate.getMonth();
@@ -172,12 +166,12 @@ const useFieldServiceMeetings = () => {
 
   const isCreating = editingMeetingId === 'new';
 
-  // The draft below is rebuilt whenever meetings or settings change (e.g. a
-  // sync coming in). A fresh uid each time would look like a different meeting
-  // to the form and wipe whatever has been typed, so pin it to the session.
+  // The draft is rebuilt whenever meetings or settings change (e.g. an
+  // incoming sync); a fresh uid would look like another meeting to the form
+  // and wipe what has been typed.
   const newMeetingUid = useMemo(
     () => crypto.randomUUID(),
-    // A new uid per editing session is exactly the intent here.
+    // A new uid per editing session is the intent.
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [editingMeetingId]
   );
@@ -259,7 +253,7 @@ const useFieldServiceMeetings = () => {
     [setEditingMeetingId]
   );
 
-  // Persist a meeting (save or soft-delete), notify and close the form.
+  // Save or soft-delete, then notify and close the form.
   const persistMeeting = useCallback(
     async (payload: FieldServiceMeetingType, successMessageKey: string) => {
       try {

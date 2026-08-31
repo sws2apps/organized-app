@@ -15,7 +15,6 @@ const FieldServiceMeetings = () => {
   const { t } = useAppTranslation();
   const { tablet688Up } = useBreakpoints();
 
-  // Page-level UI state (dialogs, permissions).
   const {
     exportOpen,
     quickSettingsOpen,
@@ -28,7 +27,6 @@ const FieldServiceMeetings = () => {
     handleCloseQuickSettings,
   } = useFieldServiceMeetings();
 
-  // Feature-level business logic (shared with the container below).
   const {
     isCreating,
     editingMeeting,

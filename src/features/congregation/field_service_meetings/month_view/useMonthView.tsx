@@ -18,12 +18,10 @@ const useMonthView = (meetings: FieldServiceMeetingFormattedType[]) => {
   const referenceDate = useAtomValue(fieldServiceMeetingsWeekRangeState);
   const groups = useAtomValue(fieldWithLanguageGroupsState);
 
-  // Not memoized: the labels are locale-derived and must refresh when the app
-  // language changes (matching the other generateWeekday consumers).
+  // Not memoized: the labels must follow the app language.
   const weekdayLabels = generateWeekday();
 
-  // Badge label: group name when set, otherwise "Group N" (both pre-computed
-  // as `groupName`); joint/service overseer meetings use their category name.
+  // Badge label: `groupName`, or the category for joint / overseer meetings.
   const labelForMeeting = useMemo(() => {
     return (meeting: FieldServiceMeetingFormattedType): string => {
       if (meeting.category === FieldServiceMeetingCategory.JointMeeting) {
@@ -46,9 +44,7 @@ const useMonthView = (meetings: FieldServiceMeetingFormattedType[]) => {
           ? resolveGroupBadgeColor(groups, meeting.group_id)
           : 'accent-main';
 
-      // A meeting can span several days (e.g. a joint meeting weekend), and
-      // `dates` already holds every one of them — the schedule export prints
-      // them the same way.
+      // A meeting can span days, and `dates` holds every one of them.
       const dates = meeting.dates?.length
         ? meeting.dates.map((entry) => entry.date)
         : [formatDate(new Date(meeting.startISO), 'yyyy/MM/dd')];
