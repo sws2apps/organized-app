@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { fullnameOptionState } from '@states/settings';
 import { VisitingSpeakerType } from '@definition/visiting_speakers';
@@ -18,11 +19,26 @@ const useSpeakerRowEdit = (speaker: VisitingSpeakerType) => {
     .map((record) => record.talk_number)
     .join(', ');
 
+  const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
+
+  const handleOpenConfirmDelete = () => setConfirmDeleteOpen(true);
+
+  const handleCloseConfirmDelete = () => setConfirmDeleteOpen(false);
+
   const handleDeleteSpeaker = async () => {
+    setConfirmDeleteOpen(false);
+
     await dbVisitingSpeakersDelete(speaker.person_uid);
   };
 
-  return { name, talks, handleDeleteSpeaker };
+  return {
+    name,
+    talks,
+    confirmDeleteOpen,
+    handleOpenConfirmDelete,
+    handleCloseConfirmDelete,
+    handleDeleteSpeaker,
+  };
 };
 
 export default useSpeakerRowEdit;

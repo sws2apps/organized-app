@@ -1,8 +1,10 @@
+import { useState } from 'react';
 import { Box, Collapse } from '@mui/material';
 import { IncomingCongregationType } from './index.types';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useList from './useList';
 import CongregationInfoEdit from '../congregation_info/edit';
+import DeleteConfirm from '../../delete_confirm';
 import CongregationInfoView from '../congregation_info/view';
 import IncomingCongregationHeader from '../header';
 import SpeakersList from '../speakers_list';
@@ -31,6 +33,18 @@ const IncomingCongregation = ({
 
   const { tablet600Down } = useBreakpoints();
 
+  const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
+
+  const handleOpenConfirmDelete = () => setConfirmDeleteOpen(true);
+
+  const handleCloseConfirmDelete = () => setConfirmDeleteOpen(false);
+
+  const handleConfirmDelete = async () => {
+    setConfirmDeleteOpen(false);
+
+    await handleDeleteCongregation();
+  };
+
   return (
     <Box
       sx={{
@@ -55,6 +69,18 @@ const IncomingCongregation = ({
         },
       }}
     >
+      {confirmDeleteOpen && (
+        <DeleteConfirm
+          open={confirmDeleteOpen}
+          title={t('tr_deleteIncomingCongregationTitle', {
+            congregationName: congregation.cong_data.cong_name.value,
+          })}
+          description={t('tr_deleteIncomingCongregationDesc')}
+          onCancel={handleCloseConfirmDelete}
+          onConfirm={handleConfirmDelete}
+        />
+      )}
+
       <IncomingCongregationHeader
         cong_name={congregation.cong_data.cong_name.value}
         cong_number={congregation.cong_data.cong_number.value}
@@ -63,7 +89,7 @@ const IncomingCongregation = ({
         expanded={isExpanded}
         onEditModeChange={handleToggleEdit}
         onExpandChange={handleToggleExpanded}
-        onDelete={handleDeleteCongregation}
+        onDelete={handleOpenConfirmDelete}
       />
 
       <Collapse in={isExpanded} unmountOnExit>
@@ -82,7 +108,7 @@ const IncomingCongregation = ({
                 variant="small"
                 startIcon={<IconDelete />}
                 color="red"
-                onClick={handleDeleteCongregation}
+                onClick={handleOpenConfirmDelete}
                 sx={{ width: tablet600Down ? 'fit-content' : 'auto' }}
               >
                 {t('tr_delete')}

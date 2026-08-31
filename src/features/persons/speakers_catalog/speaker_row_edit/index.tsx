@@ -2,6 +2,7 @@ import { Box, IconButton } from '@mui/material';
 import { IconDelete, IconEdit } from '@components/icons';
 import { SpeakerRowEditType } from './index.types';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
+import DeleteConfirm from '../delete_confirm';
 import useSpeakerRowEdit from './useSpeakerRowEdit';
 import Typography from '@components/typography';
 
@@ -10,7 +11,14 @@ const SpeakerRowEdit = ({ speaker, onEdit }: SpeakerRowEditType) => {
 
   const { mobile400Down } = useBreakpoints();
 
-  const { name, talks, handleDeleteSpeaker } = useSpeakerRowEdit(speaker);
+  const {
+    name,
+    talks,
+    confirmDeleteOpen,
+    handleOpenConfirmDelete,
+    handleCloseConfirmDelete,
+    handleDeleteSpeaker,
+  } = useSpeakerRowEdit(speaker);
 
   return (
     <Box
@@ -59,11 +67,23 @@ const SpeakerRowEdit = ({ speaker, onEdit }: SpeakerRowEditType) => {
           sx={{ padding: 0 }}
           title={t('tr_delete')}
           aria-label={t('tr_delete')}
-          onClick={handleDeleteSpeaker}
+          onClick={handleOpenConfirmDelete}
         >
           <IconDelete width={20} height={20} color="var(--red-main)" />
         </IconButton>
       </Box>
+
+      {confirmDeleteOpen && (
+        <DeleteConfirm
+          open={confirmDeleteOpen}
+          title={t('tr_deleteSpeakerTitle', {
+            speakerName: name.length === 0 ? t('tr_speaker') : name,
+          })}
+          description={t('tr_deleteSpeakerDesc')}
+          onCancel={handleCloseConfirmDelete}
+          onConfirm={handleDeleteSpeaker}
+        />
+      )}
     </Box>
   );
 };
