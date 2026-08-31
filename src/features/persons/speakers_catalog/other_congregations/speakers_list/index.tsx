@@ -26,7 +26,7 @@ const SpeakersList = ({
     isAdding,
     handleOpenSpeakerEdit,
     handleCloseSpeakerEdit,
-  } = useSpeakersList(cong_id, isEditMode);
+  } = useSpeakersList(cong_id);
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>

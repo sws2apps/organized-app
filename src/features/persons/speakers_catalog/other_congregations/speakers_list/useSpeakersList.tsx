@@ -1,14 +1,13 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { visitingSpeakersActiveState } from '@states/visiting_speakers';
 import { speakersCongregationsState } from '@states/speakers_congregations';
 import { speakersSortByName } from '@services/app/visiting_speakers';
 
-const useSpeakersList = (cong_id: string, isEdit: boolean) => {
+const useSpeakersList = (cong_id: string) => {
   const visitingSpeakers = useAtomValue(visitingSpeakersActiveState);
   const congregations = useAtomValue(speakersCongregationsState);
 
-  const [speakers, setSpeakers] = useState(visitingSpeakers);
   const [editSpeaker, setEditSpeaker] = useState('');
   const [isAdding, setIsAdding] = useState(false);
 
@@ -18,13 +17,13 @@ const useSpeakersList = (cong_id: string, isEdit: boolean) => {
     );
   }, [congregations, cong_id]);
 
-  const filteredList = useMemo(() => {
-    return speakers.filter((record) => record.speaker_data.cong_id === cong_id);
-  }, [speakers, cong_id]);
-
   const incomingSpeakers = useMemo(() => {
-    return isEdit ? filteredList : speakersSortByName(filteredList);
-  }, [filteredList, isEdit]);
+    const records = visitingSpeakers.filter(
+      (record) => record.speaker_data.cong_id === cong_id
+    );
+
+    return speakersSortByName(records);
+  }, [visitingSpeakers, cong_id]);
 
   const handleVisitingSpeakersAdd = () => setIsAdding(true);
 
@@ -36,30 +35,6 @@ const useSpeakersList = (cong_id: string, isEdit: boolean) => {
     setEditSpeaker('');
     setIsAdding(false);
   };
-
-  useEffect(() => {
-    setSpeakers((prev) => {
-      const data = prev.filter((record) =>
-        visitingSpeakers.some((s) => s.person_uid === record.person_uid)
-      );
-
-      for (const speaker of visitingSpeakers) {
-        const index = data.findIndex(
-          (record) => record.person_uid === speaker.person_uid
-        );
-
-        if (index !== -1) {
-          data[index] = speaker;
-        }
-
-        if (index === -1) {
-          data.push(speaker);
-        }
-      }
-
-      return data;
-    });
-  }, [visitingSpeakers]);
 
   const speakerToEdit = useMemo(() => {
     return incomingSpeakers.find((record) => record.person_uid === editSpeaker);

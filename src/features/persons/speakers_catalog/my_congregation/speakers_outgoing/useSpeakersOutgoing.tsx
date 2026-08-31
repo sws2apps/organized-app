@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { outgoingSpeakersState } from '@states/visiting_speakers';
 
@@ -10,7 +10,7 @@ const useSpeakersOutgoing = () => {
   const persons = useAtomValue(personsActiveState);
   const personsByView = useAtomValue(personsByViewState);
 
-  const options = useMemo(() => {
+  const speakers = useMemo(() => {
     const data = speakersSortByName(outgoingSpeakers);
 
     return data.filter((record) => {
@@ -28,8 +28,6 @@ const useSpeakersOutgoing = () => {
     });
   }, [outgoingSpeakers, personsByView, persons]);
 
-  const [speakers, setSpeakers] = useState(options);
-
   const [editSpeaker, setEditSpeaker] = useState('');
   const [isAdding, setIsAdding] = useState(false);
 
@@ -44,30 +42,6 @@ const useSpeakersOutgoing = () => {
     setIsAdding(false);
   };
 
-  useEffect(() => {
-    setSpeakers((prev) => {
-      const data = prev.filter((record) =>
-        options.some((s) => s.person_uid === record.person_uid)
-      );
-
-      for (const speaker of options) {
-        const index = data.findIndex(
-          (record) => record.person_uid === speaker.person_uid
-        );
-
-        if (index !== -1) {
-          data[index] = speaker;
-        }
-
-        if (index === -1) {
-          data.push(speaker);
-        }
-      }
-
-      return data;
-    });
-  }, [options]);
-
   const speakerToEdit = useMemo(() => {
     return speakers.find((record) => record.person_uid === editSpeaker);
   }, [speakers, editSpeaker]);
@@ -75,7 +49,6 @@ const useSpeakersOutgoing = () => {
   return {
     speakers,
     handleSpeakerAdd,
-    setSpeakers,
     speakerToEdit,
     isAdding,
     handleOpenSpeakerEdit,
