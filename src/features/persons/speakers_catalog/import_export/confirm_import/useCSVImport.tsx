@@ -202,9 +202,17 @@ const useCSVImport = () => {
     let currentCongregation = createEmptyCongregation();
     currentCongregation.cong_name = 'OwnCongregation';
 
+    const congNameMapping = headerMapping.find(
+      (m) => m.field.key.toLowerCase() === 'congregation.cong_name'
+    );
+
     for (const row of dataRows) {
       try {
-        if (row['congregation.cong_name']) {
+        const congNameValue = congNameMapping
+          ? (row[congNameMapping.header] ?? '').trim()
+          : '';
+
+        if (congNameValue) {
           currentCongregation = createEmptyCongregation();
         }
 
