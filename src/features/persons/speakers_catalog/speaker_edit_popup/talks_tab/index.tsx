@@ -25,7 +25,7 @@ const SpeakerTalksTab = ({
   const { songs, talkOptions, songValues } = useTalksTab(publicTalks, rows);
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
       {rows.map((row) => (
         <Box
           key={row.key}
@@ -36,14 +36,15 @@ const SpeakerTalksTab = ({
             gap: '16px',
             padding: '16px 16px 16px 20px',
             borderRadius: 'var(--radius-l)',
+            border: '1px solid var(--accent-200)',
             backgroundColor: 'var(--accent-100)',
             // the rail ties a talk to its songs without enclosing them
             '&::before': {
               content: '""',
               position: 'absolute',
-              left: 0,
-              top: 0,
-              bottom: 0,
+              left: '-1px',
+              top: '-1px',
+              bottom: '-1px',
               width: '4px',
               borderRadius: 'var(--radius-l) 0 0 var(--radius-l)',
               backgroundColor: 'var(--accent-main)',
