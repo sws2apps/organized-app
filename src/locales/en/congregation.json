@@ -467,7 +467,6 @@
   "tr_dragOrClick": "Drag or click to upload",
   "tr_uploadJsonFile": "Upload a file in JSON format",
   "tr_uploadCSVFile": "Upload a file in CSV format",
-  "tr_uploadCSVorExcelFile": "Upload a file in CSV or Excel format",
   "tr_templateFillingTips": "Template filling tips",
   "tr_tip_followStructure": "Follow the template structure and formatting. Don’t change column headers.",
   "tr_tip_dateFormat": "Please write dates in the format specified in the settings, such as {{ dateExample }}.",

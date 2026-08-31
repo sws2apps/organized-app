@@ -1,6 +1,6 @@
 //src/features/persons/speakers_catalog/import_export/import/useImport.tsx
 import { useCallback, useState } from 'react';
-import { FileWithPath, useDropzone } from 'react-dropzone';
+import { useDropzone } from 'react-dropzone';
 import { getMessageByCode } from '@services/i18n/translation';
 import { displaySnackNotification } from '@services/states/app';
 import useCSVImport from '../confirm_import/useCSVImport';
@@ -26,7 +26,7 @@ const decodeCsvFile = async (file: File): Promise<string> => {
   }
 
   // If the replacement character (U+FFFD) is found, UTF-8 decoding failed
-  // → Fallback to Windows-1252 (standard for German Excel CSV export)
+  // → Fallback to Windows-1252
   if (text.includes('\uFFFD')) {
     text = new TextDecoder('windows-1252').decode(bytes);
   }
@@ -40,10 +40,10 @@ const useImport = (props: ImportType) => {
   const onNext = props.onNext;
 
   const { SPEAKER_FIELD_META } = useSpeakersImportConfig();
-  const { getCSVHeaders, getExcelHeaders } = useCSVImport();
+  const { getCSVHeaders } = useCSVImport();
 
   const onDrop = useCallback(
-    async (acceptedFiles: FileWithPath[]) => {
+    async (acceptedFiles: File[]) => {
       try {
         setIsProcessing(true);
 
@@ -56,18 +56,10 @@ const useImport = (props: ImportType) => {
         }
 
         const file = acceptedFiles[0];
-        const isExcel = file.name.toLowerCase().endsWith('.xlsx');
 
-        // For CSV: encoding-safe text content; for Excel: leave empty
-        const contents = isExcel ? '' : await decodeCsvFile(file);
+        const contents = await decodeCsvFile(file);
 
-        // Read headers depending on the file type
-        let fileHeaders: string[];
-        if (isExcel) {
-          fileHeaders = await getExcelHeaders(file);
-        } else {
-          fileHeaders = getCSVHeaders(contents);
-        }
+        const fileHeaders = getCSVHeaders(contents);
 
         // Automatically select fields if they exist in the header
         const selectedFields: Record<string, boolean> = {};
@@ -115,16 +107,13 @@ const useImport = (props: ImportType) => {
         });
       }
     },
-    [setFileData, onNext, SPEAKER_FIELD_META, getCSVHeaders, getExcelHeaders]
+    [setFileData, onNext, SPEAKER_FIELD_META, getCSVHeaders]
   );
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
     accept: {
       'text/csv': ['.csv'],
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': [
-        '.xlsx',
-      ],
     },
     maxFiles: 1,
     maxSize: 20971520, // 20 MB

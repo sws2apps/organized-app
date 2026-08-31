@@ -150,14 +150,11 @@ const useConfirmImport = (props: ConfirmImportProps) => {
     try {
       setIsProcessing(true);
 
-      const fileName = props.filedata?.file?.name ?? '';
-      const fileType: 'xlsx' | 'csv' = fileName.toLowerCase().endsWith('.xlsx')
-        ? 'xlsx'
-        : 'csv';
+      const fileType = 'csv';
 
       const parsedData = await parseFileToSpeakersAndCongs(
         {
-          contents: fileType === 'xlsx' ? props.filedata!.file : csvContents,
+          contents: csvContents,
           type: fileType,
         },
         selectedFields

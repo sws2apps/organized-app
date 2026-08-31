@@ -54,7 +54,7 @@ const Import = (props: ImportType) => {
               className="label-small-regular"
               color="var(--accent-400)"
             >
-              {t('tr_uploadCSVorExcelFile')}
+              {t('tr_uploadCSVFile')}
             </Typography>
           </Stack>
         </Box>

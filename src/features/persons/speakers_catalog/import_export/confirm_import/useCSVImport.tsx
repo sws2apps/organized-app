@@ -1,6 +1,5 @@
 // src/features/persons/speakers_catalog/import_export/confirm_import/useCSVImport.tsx
 import Papa from 'papaparse';
-import readXlsxFile from 'read-excel-file';
 import appDb from '@db/appDb';
 import {
   dbSpeakersCongregationsCreate,
@@ -105,71 +104,6 @@ const useCSVImport = () => {
     return parsed.data;
   };
 
-  /**
-   * Safely converts any possible Excel cell value into a trimmed string.
-   * Handles null, undefined, primitive types, and specifically formats Date objects.
-   * Prevents SonarQube S6551 by avoiding implicit object-to-string coercion.
-   *
-   * @param {unknown} cell - The raw cell value returned by the Excel parser.
-   * @returns {string} The formatted string representation of the cell value.
-   */
-  const cellToString = (cell: unknown): string => {
-    if (cell == null) {
-      // Covers null and undefined (empty cells)
-      return '';
-    }
-
-    if (cell instanceof Date) {
-      // Case 1: Time-only values (Excel internally stores times with years around 1900)
-      const isExcelTimeOnly = cell.getUTCFullYear() < 1905;
-
-      if (isExcelTimeOnly) {
-        // Extract time in HH:mm format using UTC to avoid timezone shifts
-        const hours = cell.getUTCHours().toString().padStart(2, '0');
-        const minutes = cell.getUTCMinutes().toString().padStart(2, '0');
-
-        return `${hours}:${minutes}`;
-      }
-
-      // Case 2: Actual dates -> Format as DD.MM.YYYY
-      const day = cell.getUTCDate().toString().padStart(2, '0');
-      const month = (cell.getUTCMonth() + 1).toString().padStart(2, '0');
-      const year = cell.getUTCFullYear();
-
-      return `${day}.${month}.${year}`;
-    }
-
-    if (typeof cell === 'object') {
-      // Fallback for unexpected objects to prevent "[object Object]" stringification
-      return JSON.stringify(cell);
-    }
-
-    // Safely convert primitives (string, number, boolean) and trim whitespace
-    return String(cell as string | number | boolean).trim();
-  };
-
-  const parseExcel = async (file: File): Promise<RowData[]> => {
-    try {
-      const rawRows = (await readXlsxFile(file, { sheet: 1 })) as unknown[][];
-
-      if (rawRows.length < 1) return [];
-
-      const headers = rawRows[0].map((h) => cellToString(h));
-      const dataRows = rawRows.slice(1);
-
-      return dataRows.map((row) => {
-        const rowObj: RowData = {};
-        headers.forEach((header, index) => {
-          rowObj[header] = cellToString(row[index]);
-        });
-        return rowObj;
-      });
-    } catch (err) {
-      console.error('Excel parsing error:', err);
-      return [];
-    }
-  };
-
   type MappedHeader = { header: string; field: SpeakerFieldMeta };
 
   /**
@@ -233,16 +167,16 @@ const useCSVImport = () => {
   };
 
   /**
-   * Parses file contents (CSV string or Excel file) into structured arrays of speakers and congregations.
+   * Parses file contents (CSV string) into structured arrays of speakers and congregations.
    * It groups speakers under their respective congregations. If a row omits congregation details,
    * the speaker inherits the previous row's congregation.
    *
-   * @param {Object} fileData - The file information containing the type ('csv' | 'xlsx') and the actual contents.
+   * @param {Object} fileData - The file information containing the type ('csv') and the actual contents.
    * @param {Record<string, boolean>} [selectedFields] - Optional filter object to determine which mapped fields should be imported.
    * @returns {Promise<{ speakers: SpeakerIncomingDetailsType[], congregations: CongregationIncomingDetailsType[] }>}
    */
   const parseFileToSpeakersAndCongs = async (
-    fileData: { contents: string | File; type: 'csv' | 'xlsx' },
+    fileData: { contents: string | File; type: 'csv' },
     selectedFields?: Record<string, boolean>
   ): Promise<{
     speakers: SpeakerIncomingDetailsType[];
@@ -250,10 +184,7 @@ const useCSVImport = () => {
   }> => {
     let dataRows: RowData[] = [];
 
-    // Parse the data based on the provided file type
-    if (fileData.type === 'xlsx' && fileData.contents instanceof File) {
-      dataRows = await parseExcel(fileData.contents);
-    } else if (typeof fileData.contents === 'string') {
+    if (typeof fileData.contents === 'string') {
       dataRows = parseCSV(fileData.contents);
     }
 
@@ -306,19 +237,6 @@ const useCSVImport = () => {
       transformHeader: (header: string) => header.trim(),
     });
     return parsed.meta.fields || [];
-  };
-
-  const getExcelHeaders = async (file: File): Promise<string[]> => {
-    try {
-      const rawRows = (await readXlsxFile(file, { sheet: 1 })) as unknown[][];
-
-      if (rawRows.length > 0) {
-        return rawRows[0].map((h) => cellToString(h));
-      }
-    } catch (e: unknown) {
-      console.error(e);
-    }
-    return [];
   };
 
   // --- Import helpers -------------------------------------------------------
@@ -644,7 +562,6 @@ const useCSVImport = () => {
   return {
     detectDelimiter,
     getCSVHeaders,
-    getExcelHeaders,
     getSpeakerPaths,
     getSpeakerPathsTranslated,
     parseFileToSpeakersAndCongs,
