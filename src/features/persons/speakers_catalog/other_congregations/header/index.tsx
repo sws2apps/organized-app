@@ -14,7 +14,6 @@ import {
 } from '@hooks/index';
 import { IncomingCongregationHeaderType } from './index.types';
 import Tooltip from '@components/tooltip';
-import useHeader from './useHeader';
 import Typography from '@components/typography';
 
 const IncomingCongregationHeader = ({
@@ -29,11 +28,7 @@ const IncomingCongregationHeader = ({
 }: IncomingCongregationHeaderType) => {
   const { t } = useAppTranslation();
 
-  const { laptopDown } = useBreakpoints();
-
   const { isPublicTalkCoordinator } = useCurrentUser();
-
-  const { handleHideDelete, handleShowDelete, showDelete } = useHeader();
 
   const { tablet600Down } = useBreakpoints();
 
@@ -46,8 +41,6 @@ const IncomingCongregationHeader = ({
         alignItems: 'center',
         gap: '16px',
       }}
-      onMouseEnter={handleShowDelete}
-      onMouseLeave={handleHideDelete}
     >
       <Box
         sx={{
@@ -105,18 +98,19 @@ const IncomingCongregationHeader = ({
       {!tablet600Down && (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           {isPublicTalkCoordinator && (
-            <>
-              {(laptopDown || showDelete) && (
-                <IconButton onClick={onDelete}>
-                  <IconDelete color="var(--red-main)" />
-                </IconButton>
-              )}
+            <Box
+              className="congregation-actions"
+              sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}
+            >
+              <IconButton onClick={onDelete}>
+                <IconDelete color="var(--red-main)" />
+              </IconButton>
 
               <IconButton onClick={onEditModeChange}>
                 {!editMode && <IconEdit color="var(--accent-main)" />}
                 {editMode && <IconCheck color="var(--accent-main)" />}
               </IconButton>
-            </>
+            </Box>
           )}
 
           <IconButton onClick={() => onExpandChange(cong_number)}>

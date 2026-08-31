@@ -7,7 +7,6 @@ import CongregationInfoView from '../congregation_info/view';
 import IncomingCongregationHeader from '../header';
 import SpeakersList from '../speakers_list';
 import Tabs from '@components/tabs';
-import useHeader from '../header/useHeader';
 import Button from '@components/button';
 import { IconCheck, IconDelete, IconEdit } from '@components/icons';
 
@@ -30,8 +29,6 @@ const IncomingCongregation = ({
     onChangeCurrentExpanded,
   });
 
-  const { showDelete } = useHeader();
-
   const { tablet600Down } = useBreakpoints();
 
   return (
@@ -43,6 +40,19 @@ const IncomingCongregation = ({
         padding: '8px 16px',
         borderRadius: 'var(--radius-xl)',
         width: '100%',
+        // the actions belong to the card, so they appear with it
+        '& .congregation-actions': {
+          opacity: 0,
+          pointerEvents: 'none',
+          transition: 'opacity 150ms ease-in-out',
+        },
+        '&:hover .congregation-actions, &:focus-within .congregation-actions': {
+          opacity: 1,
+          pointerEvents: 'auto',
+        },
+        '@media (hover: none)': {
+          '& .congregation-actions': { opacity: 1, pointerEvents: 'auto' },
+        },
       }}
     >
       <IncomingCongregationHeader
@@ -67,7 +77,7 @@ const IncomingCongregation = ({
               gap: '8px',
             }}
           >
-            {(tablet600Down || showDelete) && (
+            {tablet600Down && (
               <Button
                 variant="small"
                 startIcon={<IconDelete />}
