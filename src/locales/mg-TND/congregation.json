@@ -366,7 +366,9 @@
   "tr_createMasterKeyIntroDesc": "Ity kaody ity no hiarovana ny rakitra ampiasain’ny fiangonana, ohatra hoe tatitra, lisitry ny olona. Ilaina koa izy io rehefa hampiditra na hitahiry rakitra na hanao fanovana lehibe ao amin’ny fanamboarana.",
   "tr_hallC": "3",
   "tr_FR": "Mpisava lalana maharitra",
+  "tr_FRI": "Infirm regular pioneer",
   "tr_FS": "Mpisava lalana manokana",
+  "tr_FSI": "Infirm special pioneer",
   "tr_incomingCongregationOnlineNoSpeakers": "Tsy mbola misy mpandahateny mpitsidika ity fiangonana ity ao amin’ny firaketany. Miresaha amin’izy ireo raha ilaina.",
   "tr_incomingCongregationOnlinePending": "Tsy mbola neken’ity fiangonana ity ny fangatahanao hahita ny lisitry ny mpandahateny ao amin’ny fiangonany. Azonao resahina ry zareo raha ilaina.",
   "tr_incomingCongregationOnlineDisapproved": "Tsy neken’ity fiangonana ity ny fangatahanao hahita ny lisitry ny mpandahateny ao amin’ny fiangonany. Azonao resahina ry zareo raha ilaina.",
@@ -523,5 +525,8 @@
   "tr_maximumAmountOfGroupsIs10": "10 ny isa ambony indrindra azo ampidirina",
   "tr_personAwayNotice": "Tsy eo: {{ date }}",
   "tr_weekendTemplateShowSongs": "Hampiseho ny hira amin’ny fandaharana faran’ny herinandro",
-  "tr_personalDetails": "Personal details"
+  "tr_personalDetails": "Personal details",
+  "tr_midweekMeetingDay": "Midweek meeting day",
+  "tr_infirmPioneer": "Infirm pioneer",
+  "tr_infirmPioneerNoGoal": "As an infirm pioneer, you can serve as much as you are able without a yearly hour goal."
 }

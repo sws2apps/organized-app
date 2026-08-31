@@ -366,7 +366,9 @@
   "tr_createMasterKeyIntroDesc": "Essa chave encripta com segurança os dados da sua congregação, incluindo relatórios e pessoas, e é necessária para ações administrativas, como exportar/importar dados ou fazer alterações significativas para as configurações.",
   "tr_hallC": "2",
   "tr_FR": "Pioneiro regular",
+  "tr_FRI": "Infirm regular pioneer",
   "tr_FS": "Pioneiro especial",
+  "tr_FSI": "Infirm special pioneer",
   "tr_incomingCongregationOnlineNoSpeakers": "Essa congregação não tem nenhum orador visitante adicionado aos seus registos. Se necessário, pode entrar em contacto com eles.",
   "tr_incomingCongregationOnlinePending": "A congregação ainda não aprovou o pedido para visualizar a lista de oradores que fazem discursos fora. Se necessário, pode entrar em contacto com eles.",
   "tr_incomingCongregationOnlineDisapproved": "A congregação rejeitou o pedido para visualizar a lista de oradores que fazem discursos fora. Se necessário, pode entrar em contacto com eles.",
@@ -523,5 +525,8 @@
   "tr_maximumAmountOfGroupsIs10": "O número máximo de grupos de serviço de campo são 10",
   "tr_personAwayNotice": "Esta pessoa está ausente: {{ date }}",
   "tr_weekendTemplateShowSongs": "Mostrar os cânticos na escala da reunião de fim de semana",
-  "tr_personalDetails": "Dados pessoais"
+  "tr_personalDetails": "Dados pessoais",
+  "tr_midweekMeetingDay": "Midweek meeting day",
+  "tr_infirmPioneer": "Infirm pioneer",
+  "tr_infirmPioneerNoGoal": "As an infirm pioneer, you can serve as much as you are able without a yearly hour goal."
 }
