@@ -67,6 +67,30 @@ const SpeakerEditPopup = (props: SpeakerEditPopupType) => {
       : ''
     : buildPersonFullname(draft.lastname, draft.firstname, fullnameOption);
 
+  if (confirmDiscardOpen) {
+    return (
+      <Dialog
+        onClose={handleKeepEditing}
+        open={open}
+        sx={{ padding: '16px', gap: '16px' }}
+      >
+        <Typography className="h2">{t('tr_unsavedChanges')}</Typography>
+        <Typography color="var(--grey-400)">
+          {t('tr_speakerDiscardEditsDesc')}
+        </Typography>
+
+        <DialogActions>
+          <Button variant="secondary" onClick={handleKeepEditing}>
+            {t('tr_continueEditing')}
+          </Button>
+          <Button variant="main" color="red" onClick={handleDiscard}>
+            {t('tr_discardChanges')}
+          </Button>
+        </DialogActions>
+      </Dialog>
+    );
+  }
+
   return (
     <Dialog
       onClose={handleClose}
@@ -194,28 +218,6 @@ const SpeakerEditPopup = (props: SpeakerEditPopupType) => {
           {isNew ? t('tr_add') : t('tr_save')}
         </Button>
       </DialogActions>
-
-      {confirmDiscardOpen && (
-        <Dialog
-          onClose={handleKeepEditing}
-          open={confirmDiscardOpen}
-          sx={{ padding: '16px', gap: '16px' }}
-        >
-          <Typography className="h2">{t('tr_unsavedChanges')}</Typography>
-          <Typography color="var(--grey-400)">
-            {t('tr_speakerDiscardEditsDesc')}
-          </Typography>
-
-          <DialogActions>
-            <Button variant="secondary" onClick={handleKeepEditing}>
-              {t('tr_continueEditing')}
-            </Button>
-            <Button variant="main" color="red" onClick={handleDiscard}>
-              {t('tr_discardChanges')}
-            </Button>
-          </DialogActions>
-        </Dialog>
-      )}
     </Dialog>
   );
 };

@@ -7,8 +7,13 @@ import {
   IconEdit,
   IconExpand,
 } from '@components/icons';
-import { useBreakpoints, useCurrentUser } from '@hooks/index';
+import {
+  useAppTranslation,
+  useBreakpoints,
+  useCurrentUser,
+} from '@hooks/index';
 import { IncomingCongregationHeaderType } from './index.types';
+import Tooltip from '@components/tooltip';
 import useHeader from './useHeader';
 import Typography from '@components/typography';
 
@@ -22,6 +27,8 @@ const IncomingCongregationHeader = ({
   cong_synced,
   onDelete,
 }: IncomingCongregationHeaderType) => {
+  const { t } = useAppTranslation();
+
   const { laptopDown } = useBreakpoints();
 
   const { isPublicTalkCoordinator } = useCurrentUser();
@@ -52,8 +59,20 @@ const IncomingCongregationHeader = ({
         }}
       >
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          {cong_synced && <IconCloud />}
-          {!cong_synced && <IconCloudOff color="var(--grey-300)" />}
+          {cong_synced && (
+            <Tooltip title={t('tr_congregationShared')}>
+              <Box sx={{ display: 'flex' }}>
+                <IconCloud />
+              </Box>
+            </Tooltip>
+          )}
+          {!cong_synced && (
+            <Tooltip title={t('tr_congregationManual')}>
+              <Box sx={{ display: 'flex' }}>
+                <IconCloudOff color="var(--grey-300)" />
+              </Box>
+            </Tooltip>
+          )}
 
           <Typography className="h4" color="var(--grey-400)">
             {cong_name}

@@ -20,6 +20,10 @@ const SpeakerTalksTab = ({
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+      <Typography className="body-small-regular" color="var(--grey-400)">
+        {t('tr_speakerTalksSongsEditDesc')}
+      </Typography>
+
       <AutocompleteMultiple
         fullWidth={true}
         options={publicTalks}
