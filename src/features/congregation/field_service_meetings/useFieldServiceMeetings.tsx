@@ -24,14 +24,17 @@ import useFieldServiceMeetingsPermissions from './usePermissions';
 import { getGroupRecurringStart } from './recurring_prefill';
 import { filterMeetingsByDataView } from './filter_meetings_by_data_view';
 
-const createEmptyMeeting = (dataView: string): FieldServiceMeetingType => {
+const createEmptyMeeting = (
+  dataView: string,
+  meetingUid: string
+): FieldServiceMeetingType => {
   const start = new Date();
   const end = new Date(start.getTime() + 60 * 60 * 1000);
 
   // Note: top-level _deleted/updatedAt are legacy-only fields (migrated away
   // by dbFieldServiceMeetingsCleanup) — only meeting_data carries state.
   return {
-    meeting_uid: crypto.randomUUID(),
+    meeting_uid: meetingUid,
     meeting_data: {
       _deleted: false,
       updatedAt: start.toISOString(),
@@ -153,11 +156,21 @@ const useFieldServiceMeetings = () => {
 
   const isCreating = editingMeetingId === 'new';
 
+  // The draft below is rebuilt whenever meetings or settings change (e.g. a
+  // sync coming in). A fresh uid each time would look like a different meeting
+  // to the form and wipe whatever has been typed, so pin it to the session.
+  const newMeetingUid = useMemo(
+    () => crypto.randomUUID(),
+    // A new uid per editing session is exactly the intent here.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [editingMeetingId]
+  );
+
   const editingMeeting = useMemo(() => {
     if (!editingMeetingId) return null;
 
     if (editingMeetingId === 'new') {
-      const base = createEmptyMeeting(dataView);
+      const base = createEmptyMeeting(dataView, newMeetingUid);
 
       // Pre-fill the group with the overseer's/assistant's own group.
       const leadGroupId =
@@ -190,6 +203,7 @@ const useFieldServiceMeetings = () => {
     return meeting ? structuredClone(meeting) : null;
   }, [
     editingMeetingId,
+    newMeetingUid,
     meetings,
     dataView,
     my_group,

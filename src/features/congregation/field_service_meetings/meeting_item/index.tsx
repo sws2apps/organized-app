@@ -29,6 +29,11 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
 
   const locationIcon = getLocationIcon(meeting.location, 'var(--grey-400)');
 
+  // Only render an address as a link when it really is a web URL — a bare
+  // "http…" prefix check also matches text that would resolve as a relative
+  // path once put in an href.
+  const isWebAddress = /^https?:\/\//i.test(meeting.address ?? '');
+
   const groupBadgeColor = useMemo(
     () => resolveGroupBadgeColor(groups, meeting.group_id),
     [groups, meeting.group_id]
@@ -132,7 +137,13 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
             <Box
               className="edit-button"
               sx={{
-                opacity: desktopUp ? 0 : 1,
+                // Hidden-until-hover only where hovering is possible: a
+                // desktop-width touch device never fires :hover, and would
+                // otherwise keep the button invisible for good.
+                opacity: 1,
+                '@media (hover: hover) and (pointer: fine)': {
+                  opacity: desktopUp ? 0 : 1,
+                },
                 transition: 'opacity 0.15s ease-in-out',
                 flexShrink: 0,
               }}
@@ -249,7 +260,7 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
                 sx={{ minWidth: 0 }}
               >
                 {locationIcon}
-                {meeting.address?.startsWith('http') ? (
+                {isWebAddress ? (
                   <Link
                     href={meeting.address}
                     target="_blank"
@@ -289,7 +300,10 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
             justifyContent: 'center',
             flex: '0 0 auto',
             width: desktopUp ? 'auto' : '100%',
-            opacity: desktopUp ? 0 : 1,
+            opacity: 1,
+            '@media (hover: hover) and (pointer: fine)': {
+              opacity: desktopUp ? 0 : 1,
+            },
             transition: 'opacity 0.15s ease-in-out',
           }}
         >

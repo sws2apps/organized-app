@@ -24,7 +24,6 @@ const ScheduleExport = ({
     handleExportSchedule,
     handleSetEndWeek,
     handleSetStartWeek,
-    isValid,
     showValidationErrors,
     isStartWeekMissing,
     isEndWeekMissing,
@@ -114,7 +113,9 @@ const ScheduleExport = ({
           variant="main"
           endIcon={isProcessing ? <IconLoading /> : undefined}
           onClick={handleExportSchedule}
-          disabled={isProcessing || !isValid}
+          // Kept clickable while the range is incomplete: clicking marks the
+          // missing week fields instead of leaving a dead button.
+          disabled={isProcessing}
         >
           {t('tr_next')}
         </Button>
