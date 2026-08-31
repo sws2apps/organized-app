@@ -16,6 +16,7 @@ const SpeakersLocal = ({ isEditMode }: SpeakersLocalProps) => {
     handleSpeakerAdd,
     speakers,
     speakerToEdit,
+    isAdding,
     handleOpenSpeakerEdit,
     handleCloseSpeakerEdit,
   } = useSpeakersLocal();
@@ -29,7 +30,7 @@ const SpeakersLocal = ({ isEditMode }: SpeakersLocalProps) => {
         marginBottom: '-24px',
       }}
     >
-      {speakerToEdit && (
+      {(speakerToEdit || isAdding) && (
         <SpeakerEditPopup
           open={true}
           onClose={handleCloseSpeakerEdit}

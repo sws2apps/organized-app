@@ -23,28 +23,36 @@ const dbUpdateVisitingSpeakersMetadata = async () => {
   await appDb.metadata.put(metadata);
 };
 
-export const dbVisitingSpeakersLocalCongSpeakerAdd = async (local: boolean) => {
+const dbSpeakersLocalCongregationGet = async () => {
+  const settings = await appDb.app_settings.get(1);
+  const congName = settings.cong_settings.cong_name;
+  const congregations = await appDb.speakers_congregations.toArray();
+
+  const congExist = congregations.find(
+    (record) => record.cong_data.cong_name.value === congName
+  );
+
+  if (!congExist) {
+    await dbSpeakersCongregationsCreateLocal();
+  }
+
+  const congregationsNew = await appDb.speakers_congregations.toArray();
+
+  return congregationsNew.find(
+    (record) => record.cong_data.cong_name.value === congName
+  );
+};
+
+export const dbVisitingSpeakersLocalCongSpeakerAdd = async (
+  local: boolean,
+  person_uid: string,
+  changes: UpdateSpec<VisitingSpeakerType>
+) => {
   try {
-    const settings = await appDb.app_settings.get(1);
-    const congName = settings.cong_settings.cong_name;
-    const congregations = await appDb.speakers_congregations.toArray();
-
-    const congExist = congregations.find(
-      (record) => record.cong_data.cong_name.value === congName
-    );
-
-    if (!congExist) {
-      await dbSpeakersCongregationsCreateLocal();
-    }
-
-    const congregationsNew = await appDb.speakers_congregations.toArray();
-
-    const congLocal = congregationsNew.find(
-      (record) => record.cong_data.cong_name.value === congName
-    );
+    const congLocal = await dbSpeakersLocalCongregationGet();
 
     const newSpeaker = structuredClone(vistingSpeakerSchema);
-    newSpeaker.person_uid = crypto.randomUUID();
+    newSpeaker.person_uid = person_uid;
     newSpeaker.speaker_data.cong_id = congLocal.id;
     newSpeaker.speaker_data.local = {
       value: local,
@@ -52,6 +60,7 @@ export const dbVisitingSpeakersLocalCongSpeakerAdd = async (local: boolean) => {
     };
 
     await appDb.visiting_speakers.put(newSpeaker);
+    await appDb.visiting_speakers.update(newSpeaker.person_uid, changes);
     await dbUpdateVisitingSpeakersMetadata();
 
     return newSpeaker.person_uid;
@@ -108,13 +117,17 @@ export const dbVisitingSpeakersUpdate = async (
   }
 };
 
-export const dbVisitingSpeakersAdd = async (cong_id: string) => {
+export const dbVisitingSpeakersAdd = async (
+  cong_id: string,
+  changes: UpdateSpec<VisitingSpeakerType>
+) => {
   try {
     const newSpeaker = structuredClone(vistingSpeakerSchema);
     newSpeaker.person_uid = crypto.randomUUID();
     newSpeaker.speaker_data.cong_id = cong_id;
 
     await appDb.visiting_speakers.put(newSpeaker);
+    await appDb.visiting_speakers.update(newSpeaker.person_uid, changes);
     await dbUpdateVisitingSpeakersMetadata();
 
     return newSpeaker.person_uid;

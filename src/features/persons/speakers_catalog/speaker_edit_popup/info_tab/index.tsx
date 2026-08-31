@@ -1,6 +1,5 @@
 import { Box, FormControlLabel, RadioGroup } from '@mui/material';
 import { FullnameOption } from '@definition/settings';
-import { IconMale } from '@components/icons';
 import { SpeakerInfoTabType } from './index.types';
 import { buildPersonFullname } from '@utils/common';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
@@ -72,23 +71,11 @@ const SpeakerInfoTab = ({
       >
         <TextField
           label={t('tr_firstname')}
-          styleIcon={false}
-          startIcon={
-            fullnameOption === FullnameOption.FIRST_BEFORE_LAST ? (
-              <IconMale />
-            ) : undefined
-          }
           value={draft.firstname}
           onChange={(e) => onFirstnameChange(e.target.value)}
         />
         <TextField
           label={t('tr_lastname')}
-          styleIcon={false}
-          startIcon={
-            fullnameOption === FullnameOption.LAST_BEFORE_FIRST ? (
-              <IconMale />
-            ) : undefined
-          }
           value={draft.lastname}
           onChange={(e) => onLastnameChange(e.target.value)}
         />

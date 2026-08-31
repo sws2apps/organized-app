@@ -23,17 +23,19 @@ const SpeakersList = ({
     incomingSpeakers,
     congregation,
     speakerToEdit,
+    isAdding,
     handleOpenSpeakerEdit,
     handleCloseSpeakerEdit,
   } = useSpeakersList(cong_id, isEditMode);
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-      {speakerToEdit && (
+      {(speakerToEdit || isAdding) && (
         <SpeakerEditPopup
           open={true}
           onClose={handleCloseSpeakerEdit}
           speaker={speakerToEdit}
+          cong_id={cong_id}
         />
       )}
 
@@ -125,7 +127,7 @@ const SpeakersList = ({
           variant="tertiary"
           startIcon={<IconAdd />}
           sx={{ width: '100%' }}
-          onClick={() => handleVisitingSpeakersAdd(cong_id)}
+          onClick={handleVisitingSpeakersAdd}
         >
           {t('tr_speakersAdd')}
         </Button>

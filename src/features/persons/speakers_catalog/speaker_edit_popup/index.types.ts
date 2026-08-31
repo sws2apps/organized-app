@@ -3,7 +3,8 @@ import { VisitingSpeakerType } from '@definition/visiting_speakers';
 export type SpeakerEditPopupType = {
   open: boolean;
   onClose: VoidFunction;
-  speaker: VisitingSpeakerType;
+  speaker?: VisitingSpeakerType;
+  cong_id?: string;
   local?: boolean;
   outgoing?: boolean;
 };

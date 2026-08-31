@@ -15,7 +15,7 @@ import Tabs from '@components/tabs';
 import Typography from '@components/typography';
 
 const SpeakerEditPopup = (props: SpeakerEditPopupType) => {
-  const { open, onClose, local = false } = props;
+  const { open, local = false } = props;
 
   const { t } = useAppTranslation();
 
@@ -23,6 +23,12 @@ const SpeakerEditPopup = (props: SpeakerEditPopupType) => {
 
   const {
     draft,
+    isNew,
+    isValid,
+    confirmDiscardOpen,
+    handleClose,
+    handleKeepEditing,
+    handleDiscard,
     tab,
     handleTabChange,
     displayNameEnabled,
@@ -60,7 +66,11 @@ const SpeakerEditPopup = (props: SpeakerEditPopupType) => {
     : buildPersonFullname(draft.lastname, draft.firstname, fullnameOption);
 
   return (
-    <Dialog onClose={onClose} open={open} sx={{ padding: '16px', gap: '16px' }}>
+    <Dialog
+      onClose={handleClose}
+      open={open}
+      sx={{ padding: '16px', gap: '16px' }}
+    >
       <Box
         sx={{
           display: 'flex',
@@ -72,9 +82,13 @@ const SpeakerEditPopup = (props: SpeakerEditPopupType) => {
         }}
       >
         <Typography className="h2">
-          {name.length === 0 ? t('tr_speaker') : name}
+          {name.length === 0
+            ? isNew
+              ? t('tr_speakersAdd')
+              : t('tr_speaker')
+            : name}
         </Typography>
-        <IconButton onClick={onClose}>
+        <IconButton onClick={handleClose}>
           <IconClose color="var(--black)" />
         </IconButton>
       </Box>
@@ -123,13 +137,35 @@ const SpeakerEditPopup = (props: SpeakerEditPopupType) => {
       </Box>
 
       <DialogActions>
-        <Button variant="secondary" onClick={onClose}>
+        <Button variant="secondary" onClick={handleClose}>
           {t('tr_cancel')}
         </Button>
-        <Button variant="main" onClick={handleSave}>
-          {t('tr_save')}
+        <Button variant="main" disabled={!isValid} onClick={handleSave}>
+          {isNew ? t('tr_add') : t('tr_save')}
         </Button>
       </DialogActions>
+
+      {confirmDiscardOpen && (
+        <Dialog
+          onClose={handleKeepEditing}
+          open={confirmDiscardOpen}
+          sx={{ padding: '16px', gap: '16px' }}
+        >
+          <Typography className="h2">{t('tr_unsavedChanges')}</Typography>
+          <Typography color="var(--grey-400)">
+            {t('tr_speakerDiscardEditsDesc')}
+          </Typography>
+
+          <DialogActions>
+            <Button variant="secondary" onClick={handleKeepEditing}>
+              {t('tr_continueEditing')}
+            </Button>
+            <Button variant="main" color="red" onClick={handleDiscard}>
+              {t('tr_discardChanges')}
+            </Button>
+          </DialogActions>
+        </Dialog>
+      )}
     </Dialog>
   );
 };

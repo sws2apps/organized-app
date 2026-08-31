@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
-import { dbVisitingSpeakersAdd } from '@services/dexie/visiting_speakers';
 import { visitingSpeakersActiveState } from '@states/visiting_speakers';
 import { speakersCongregationsState } from '@states/speakers_congregations';
 import { speakersSortByName } from '@services/app/visiting_speakers';
@@ -11,6 +10,7 @@ const useSpeakersList = (cong_id: string, isEdit: boolean) => {
 
   const [speakers, setSpeakers] = useState(visitingSpeakers);
   const [editSpeaker, setEditSpeaker] = useState('');
+  const [isAdding, setIsAdding] = useState(false);
 
   const congregation = useMemo(() => {
     return congregations.find(
@@ -26,17 +26,16 @@ const useSpeakersList = (cong_id: string, isEdit: boolean) => {
     return isEdit ? filteredList : speakersSortByName(filteredList);
   }, [filteredList, isEdit]);
 
-  const handleVisitingSpeakersAdd = async (cong_id: string) => {
-    const person_uid = await dbVisitingSpeakersAdd(cong_id);
-
-    setEditSpeaker(person_uid);
-  };
+  const handleVisitingSpeakersAdd = () => setIsAdding(true);
 
   const handleOpenSpeakerEdit = (person_uid: string) => {
     setEditSpeaker(person_uid);
   };
 
-  const handleCloseSpeakerEdit = () => setEditSpeaker('');
+  const handleCloseSpeakerEdit = () => {
+    setEditSpeaker('');
+    setIsAdding(false);
+  };
 
   useEffect(() => {
     setSpeakers((prev) => {
@@ -71,6 +70,7 @@ const useSpeakersList = (cong_id: string, isEdit: boolean) => {
     incomingSpeakers,
     congregation,
     speakerToEdit,
+    isAdding,
     handleOpenSpeakerEdit,
     handleCloseSpeakerEdit,
   };

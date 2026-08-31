@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { outgoingSpeakersState } from '@states/visiting_speakers';
 
-import { dbVisitingSpeakersLocalCongSpeakerAdd } from '@services/dexie/visiting_speakers';
 import { speakersSortByName } from '@services/app/visiting_speakers';
 import { personsActiveState, personsByViewState } from '@states/persons';
 
@@ -32,18 +31,18 @@ const useSpeakersOutgoing = () => {
   const [speakers, setSpeakers] = useState(options);
 
   const [editSpeaker, setEditSpeaker] = useState('');
+  const [isAdding, setIsAdding] = useState(false);
 
-  const handleSpeakerAdd = async () => {
-    const person_uid = await dbVisitingSpeakersLocalCongSpeakerAdd(false);
-
-    setEditSpeaker(person_uid);
-  };
+  const handleSpeakerAdd = () => setIsAdding(true);
 
   const handleOpenSpeakerEdit = (person_uid: string) => {
     setEditSpeaker(person_uid);
   };
 
-  const handleCloseSpeakerEdit = () => setEditSpeaker('');
+  const handleCloseSpeakerEdit = () => {
+    setEditSpeaker('');
+    setIsAdding(false);
+  };
 
   useEffect(() => {
     setSpeakers((prev) => {
@@ -78,6 +77,7 @@ const useSpeakersOutgoing = () => {
     handleSpeakerAdd,
     setSpeakers,
     speakerToEdit,
+    isAdding,
     handleOpenSpeakerEdit,
     handleCloseSpeakerEdit,
   };

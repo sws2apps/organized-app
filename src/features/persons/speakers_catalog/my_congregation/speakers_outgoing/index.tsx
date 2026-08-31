@@ -16,6 +16,7 @@ const SpeakersOutgoing = ({ isEditMode }: SpeakersOutgoingProps) => {
     handleSpeakerAdd,
     speakers,
     speakerToEdit,
+    isAdding,
     handleOpenSpeakerEdit,
     handleCloseSpeakerEdit,
   } = useSpeakersOutgoing();
@@ -29,7 +30,7 @@ const SpeakersOutgoing = ({ isEditMode }: SpeakersOutgoingProps) => {
         marginBottom: '-24px',
       }}
     >
-      {speakerToEdit && (
+      {(speakerToEdit || isAdding) && (
         <SpeakerEditPopup
           open={true}
           onClose={handleCloseSpeakerEdit}

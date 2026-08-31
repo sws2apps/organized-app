@@ -6,7 +6,11 @@ import { PublicTalkLocaleType } from '@definition/public_talks';
 import { SongType } from '@definition/songs';
 import { SpeakerDraftType, SpeakerEditPopupType } from './index.types';
 import { VisitingSpeakerType } from '@definition/visiting_speakers';
-import { dbVisitingSpeakersUpdate } from '@services/dexie/visiting_speakers';
+import {
+  dbVisitingSpeakersAdd,
+  dbVisitingSpeakersLocalCongSpeakerAdd,
+  dbVisitingSpeakersUpdate,
+} from '@services/dexie/visiting_speakers';
 import { generateDisplayName } from '@utils/common';
 import { myCongSpeakersState } from '@states/visiting_speakers';
 import { personsByViewState } from '@states/persons';
@@ -19,24 +23,41 @@ import {
 
 const buildDraft = (
   speaker: SpeakerEditPopupType['speaker']
-): SpeakerDraftType => ({
-  person_uid: speaker.person_uid,
-  firstname: speaker.speaker_data.person_firstname.value,
-  lastname: speaker.speaker_data.person_lastname.value,
-  displayName: speaker.speaker_data.person_display_name.value,
-  privilege: speaker.speaker_data.elder.value
-    ? 'elder'
-    : speaker.speaker_data.ministerial_servant.value
-      ? 'ms'
-      : '',
-  email: speaker.speaker_data.person_email.value,
-  phone: speaker.speaker_data.person_phone.value,
-  note: speaker.speaker_data.person_notes.value,
-  talks: structuredClone(speaker.speaker_data.talks),
-});
+): SpeakerDraftType => {
+  if (!speaker) {
+    return {
+      person_uid: '',
+      firstname: '',
+      lastname: '',
+      displayName: '',
+      privilege: '',
+      email: '',
+      phone: '',
+      note: '',
+      talks: [],
+    };
+  }
+
+  return {
+    person_uid: speaker.person_uid,
+    firstname: speaker.speaker_data.person_firstname.value,
+    lastname: speaker.speaker_data.person_lastname.value,
+    displayName: speaker.speaker_data.person_display_name.value,
+    privilege: speaker.speaker_data.elder.value
+      ? 'elder'
+      : speaker.speaker_data.ministerial_servant.value
+        ? 'ms'
+        : '',
+    email: speaker.speaker_data.person_email.value,
+    phone: speaker.speaker_data.person_phone.value,
+    note: speaker.speaker_data.person_notes.value,
+    talks: structuredClone(speaker.speaker_data.talks),
+  };
+};
 
 const useSpeakerEditPopup = ({
   speaker,
+  cong_id,
   local,
   outgoing,
   onClose,
@@ -48,8 +69,12 @@ const useSpeakerEditPopup = ({
   const congSpeakers = useAtomValue(myCongSpeakersState);
   const dataView = useAtomValue(userDataViewState);
 
-  const [draft, setDraft] = useState(() => buildDraft(speaker));
+  const [initial] = useState(() => buildDraft(speaker));
+  const [draft, setDraft] = useState(initial);
   const [tab, setTab] = useState(0);
+  const [confirmDiscardOpen, setConfirmDiscardOpen] = useState(false);
+
+  const isNew = !speaker;
 
   const persons = useMemo(() => {
     return activePersons.filter((record) => {
@@ -224,6 +249,30 @@ const useSpeakerEditPopup = ({
     });
   };
 
+  const isDirty = useMemo(() => {
+    return JSON.stringify(draft) !== JSON.stringify(initial);
+  }, [draft, initial]);
+
+  const isValid = local
+    ? draft.person_uid.length > 0
+    : draft.firstname.trim().length > 0 || draft.lastname.trim().length > 0;
+
+  const handleClose = () => {
+    if (isDirty) {
+      setConfirmDiscardOpen(true);
+      return;
+    }
+
+    onClose();
+  };
+
+  const handleKeepEditing = () => setConfirmDiscardOpen(false);
+
+  const handleDiscard = () => {
+    setConfirmDiscardOpen(false);
+    onClose();
+  };
+
   const handleSave = async () => {
     const updatedAt = new Date().toISOString();
 
@@ -231,7 +280,7 @@ const useSpeakerEditPopup = ({
       'speaker_data.talks': draft.talks,
     };
 
-    if (local) {
+    if (local && !isNew) {
       if (draft.person_uid !== speaker.person_uid) {
         changes['person_uid'] = draft.person_uid;
         changes['speaker_data.local'] = { value: !outgoing, updatedAt };
@@ -264,13 +313,33 @@ const useSpeakerEditPopup = ({
       changes['speaker_data.person_notes'] = { value: draft.note, updatedAt };
     }
 
-    await dbVisitingSpeakersUpdate(changes, speaker.person_uid);
+    if (isNew && local) {
+      await dbVisitingSpeakersLocalCongSpeakerAdd(
+        !outgoing,
+        draft.person_uid,
+        changes
+      );
+    }
+
+    if (isNew && !local && cong_id) {
+      await dbVisitingSpeakersAdd(cong_id, changes);
+    }
+
+    if (!isNew) {
+      await dbVisitingSpeakersUpdate(changes, speaker.person_uid);
+    }
 
     onClose();
   };
 
   return {
     draft,
+    isNew,
+    isValid,
+    confirmDiscardOpen,
+    handleClose,
+    handleKeepEditing,
+    handleDiscard,
     tab,
     handleTabChange,
     displayNameEnabled,
