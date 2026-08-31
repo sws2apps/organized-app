@@ -19,7 +19,9 @@ import { generateDisplayName } from '@utils/common';
 import { myCongSpeakersState } from '@states/visiting_speakers';
 import { personsByViewState } from '@states/persons';
 import { publicTalksLocaleState } from '@states/public_talks';
+import { speakersCongregationsState } from '@states/speakers_congregations';
 import {
+  congNameState,
   displayNameMeetingsEnableState,
   fullnameOptionState,
   userDataViewState,
@@ -72,6 +74,8 @@ const useSpeakerEditPopup = ({
   const activePersons = useAtomValue(personsByViewState);
   const congSpeakers = useAtomValue(myCongSpeakersState);
   const dataView = useAtomValue(userDataViewState);
+  const congName = useAtomValue(congNameState);
+  const congregations = useAtomValue(speakersCongregationsState);
 
   const [initial] = useState(() => buildDraft(speaker));
   const [draft, setDraft] = useState(initial);
@@ -82,6 +86,17 @@ const useSpeakerEditPopup = ({
   >([]);
 
   const isNew = !speaker;
+
+  const congregationName = useMemo(() => {
+    if (local) return congName;
+
+    const id = speaker?.speaker_data.cong_id ?? cong_id;
+
+    return (
+      congregations.find((record) => record.id === id)?.cong_data.cong_name
+        .value ?? ''
+    );
+  }, [local, speaker, cong_id, congregations, congName]);
 
   const persons = useMemo(() => {
     return activePersons.filter((record) => {
@@ -385,6 +400,7 @@ const useSpeakerEditPopup = ({
 
   return {
     draft,
+    congregationName,
     setContentElement,
     minHeight,
     isNew,

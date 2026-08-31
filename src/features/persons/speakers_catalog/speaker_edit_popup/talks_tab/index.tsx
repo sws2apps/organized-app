@@ -1,4 +1,4 @@
-import { Box, IconButton } from '@mui/material';
+import { Box } from '@mui/material';
 import { IconAdd, IconDelete } from '@components/icons';
 import { PublicTalkLocaleType } from '@definition/public_talks';
 import { SongLocaleType } from '@definition/songs';
@@ -8,6 +8,7 @@ import useTalksTab from './useTalksTab';
 import Autocomplete from '@components/autocomplete';
 import AutocompleteMultiple from '@components/autocomplete_multiple';
 import Button from '@components/button';
+import IconButton from '@components/icon_button';
 import MiniChip from '@components/mini_chip';
 import Typography from '@components/typography';
 
@@ -25,16 +26,17 @@ const SpeakerTalksTab = ({
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
-      <Typography className="body-small-regular" color="var(--grey-400)">
-        {t('tr_speakerTalksSongsEditDesc')}
-      </Typography>
-
       {rows.map((row) => (
         <Box
           key={row.key}
-          sx={{ display: 'flex', flexDirection: 'column', gap: '12px' }}
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '12px',
+            paddingBottom: '12px',
+          }}
         >
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
             <Box sx={{ flex: 1 }}>
               <Autocomplete
                 label={t('tr_publicTalk')}
@@ -65,22 +67,17 @@ const SpeakerTalksTab = ({
             </Box>
 
             <IconButton
+              color="error"
               sx={{
+                borderRadius: 'var(--radius-m)',
                 width: '48px',
                 height: '48px',
-                flexShrink: 0,
-                borderRadius: 'var(--radius-l)',
-                border: '1px solid var(--accent-300)',
-                '&:hover': {
-                  backgroundColor: 'var(--red-secondary)',
-                  borderColor: 'var(--red-main)',
-                },
               }}
               title={t('tr_delete')}
               aria-label={t('tr_delete')}
               onClick={() => onRowRemove(row)}
             >
-              <IconDelete width={22} height={22} color="var(--red-main)" />
+              <IconDelete color="var(--red-main)" />
             </IconButton>
           </Box>
 

@@ -23,6 +23,7 @@ const SpeakerEditPopup = (props: SpeakerEditPopupType) => {
 
   const {
     draft,
+    congregationName,
     setContentElement,
     minHeight,
     isNew,
@@ -106,13 +107,20 @@ const SpeakerEditPopup = (props: SpeakerEditPopupType) => {
           width: '100%',
         }}
       >
-        <Typography className="h2">
-          {name.length === 0
-            ? isNew
-              ? t('tr_speakersAdd')
-              : t('tr_speaker')
-            : name}
-        </Typography>
+        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+          <Typography className="h2">
+            {name.length === 0
+              ? isNew
+                ? t('tr_speakersAdd')
+                : t('tr_speaker')
+              : name}
+          </Typography>
+          {congregationName.length > 0 && (
+            <Typography className="body-small-regular" color="var(--grey-350)">
+              {congregationName}
+            </Typography>
+          )}
+        </Box>
         <IconButton onClick={handleClose}>
           <IconClose color="var(--black)" />
         </IconButton>
