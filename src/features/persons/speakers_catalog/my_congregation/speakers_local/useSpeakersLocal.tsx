@@ -3,14 +3,16 @@ import { useAtomValue } from 'jotai';
 import { localSpeakersState } from '@states/visiting_speakers';
 import { speakersSortByName } from '@services/app/visiting_speakers';
 import { personsActiveState, personsByViewState } from '@states/persons';
+import { fullnameOptionState } from '@states/settings';
 
 const useSeakersLocal = () => {
   const localSpeakers = useAtomValue(localSpeakersState);
   const persons = useAtomValue(personsActiveState);
   const personsByView = useAtomValue(personsByViewState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
 
   const speakers = useMemo(() => {
-    const data = speakersSortByName(localSpeakers);
+    const data = speakersSortByName(localSpeakers, fullnameOption);
 
     return data.filter((record) => {
       const person = persons.some(
@@ -25,7 +27,7 @@ const useSeakersLocal = () => {
 
       return personInView;
     });
-  }, [localSpeakers, personsByView, persons]);
+  }, [localSpeakers, personsByView, persons, fullnameOption]);
 
   const [editSpeaker, setEditSpeaker] = useState('');
   const [isAdding, setIsAdding] = useState(false);

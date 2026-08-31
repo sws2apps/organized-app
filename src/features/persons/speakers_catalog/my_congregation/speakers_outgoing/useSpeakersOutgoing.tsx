@@ -4,14 +4,16 @@ import { outgoingSpeakersState } from '@states/visiting_speakers';
 
 import { speakersSortByName } from '@services/app/visiting_speakers';
 import { personsActiveState, personsByViewState } from '@states/persons';
+import { fullnameOptionState } from '@states/settings';
 
 const useSpeakersOutgoing = () => {
   const outgoingSpeakers = useAtomValue(outgoingSpeakersState);
   const persons = useAtomValue(personsActiveState);
   const personsByView = useAtomValue(personsByViewState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
 
   const speakers = useMemo(() => {
-    const data = speakersSortByName(outgoingSpeakers);
+    const data = speakersSortByName(outgoingSpeakers, fullnameOption);
 
     return data.filter((record) => {
       const person = persons.some(
@@ -26,7 +28,7 @@ const useSpeakersOutgoing = () => {
 
       return personInView;
     });
-  }, [outgoingSpeakers, personsByView, persons]);
+  }, [outgoingSpeakers, personsByView, persons, fullnameOption]);
 
   const [editSpeaker, setEditSpeaker] = useState('');
   const [isAdding, setIsAdding] = useState(false);

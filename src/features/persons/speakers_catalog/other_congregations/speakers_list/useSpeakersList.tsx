@@ -2,11 +2,13 @@ import { useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { visitingSpeakersActiveState } from '@states/visiting_speakers';
 import { speakersCongregationsState } from '@states/speakers_congregations';
+import { fullnameOptionState } from '@states/settings';
 import { speakersSortByName } from '@services/app/visiting_speakers';
 
 const useSpeakersList = (cong_id: string) => {
   const visitingSpeakers = useAtomValue(visitingSpeakersActiveState);
   const congregations = useAtomValue(speakersCongregationsState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
 
   const [editSpeaker, setEditSpeaker] = useState('');
   const [isAdding, setIsAdding] = useState(false);
@@ -22,8 +24,8 @@ const useSpeakersList = (cong_id: string) => {
       (record) => record.speaker_data.cong_id === cong_id
     );
 
-    return speakersSortByName(records);
-  }, [visitingSpeakers, cong_id]);
+    return speakersSortByName(records, fullnameOption);
+  }, [visitingSpeakers, cong_id, fullnameOption]);
 
   const handleVisitingSpeakersAdd = () => setIsAdding(true);
 
