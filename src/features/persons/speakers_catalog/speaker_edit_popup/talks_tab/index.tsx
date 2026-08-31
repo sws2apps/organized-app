@@ -8,7 +8,6 @@ import useTalksTab from './useTalksTab';
 import Autocomplete from '@components/autocomplete';
 import AutocompleteMultiple from '@components/autocomplete_multiple';
 import Button from '@components/button';
-import Divider from '@components/divider';
 import MiniChip from '@components/mini_chip';
 import Typography from '@components/typography';
 
@@ -25,7 +24,7 @@ const SpeakerTalksTab = ({
   const { songs, talkOptions, songValues } = useTalksTab(publicTalks, rows);
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
       <Typography className="body-small-regular" color="var(--grey-400)">
         {t('tr_speakerTalksSongsEditDesc')}
       </Typography>
@@ -33,7 +32,7 @@ const SpeakerTalksTab = ({
       {rows.map((row) => (
         <Box
           key={row.key}
-          sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}
+          sx={{ display: 'flex', flexDirection: 'column', gap: '12px' }}
         >
           <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <Box sx={{ flex: 1 }}>
@@ -66,12 +65,22 @@ const SpeakerTalksTab = ({
             </Box>
 
             <IconButton
-              sx={{ padding: 0 }}
+              sx={{
+                width: '48px',
+                height: '48px',
+                flexShrink: 0,
+                borderRadius: 'var(--radius-l)',
+                border: '1px solid var(--accent-300)',
+                '&:hover': {
+                  backgroundColor: 'var(--red-secondary)',
+                  borderColor: 'var(--red-main)',
+                },
+              }}
               title={t('tr_delete')}
               aria-label={t('tr_delete')}
               onClick={() => onRowRemove(row)}
             >
-              <IconDelete width={20} height={20} color="var(--red-main)" />
+              <IconDelete width={22} height={22} color="var(--red-main)" />
             </IconButton>
           </Box>
 
@@ -116,8 +125,6 @@ const SpeakerTalksTab = ({
               ))
             }
           />
-
-          <Divider color="var(--accent-200)" />
         </Box>
       ))}
 
