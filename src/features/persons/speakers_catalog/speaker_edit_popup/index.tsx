@@ -121,7 +121,7 @@ const SpeakerEditPopup = (props: SpeakerEditPopupType) => {
             </Typography>
           )}
         </Box>
-        <IconButton onClick={handleClose}>
+        <IconButton aria-label={t('tr_close')} onClick={handleClose}>
           <IconClose color="var(--black)" />
         </IconButton>
       </Box>

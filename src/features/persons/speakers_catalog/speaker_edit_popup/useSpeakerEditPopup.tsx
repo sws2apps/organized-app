@@ -1,6 +1,8 @@
 import { useLayoutEffect, useMemo, useState } from 'react';
 import { UpdateSpec } from 'dexie';
 import { useAtomValue } from 'jotai';
+import { useAppTranslation } from '@hooks/index';
+import { displaySnackNotification } from '@services/states/app';
 import { AssignmentCode } from '@definition/assignment';
 import { PublicTalkLocaleType } from '@definition/public_talks';
 import { SongLocaleType } from '@definition/songs';
@@ -83,6 +85,8 @@ const useSpeakerEditPopup = ({
   outgoing,
   onClose,
 }: SpeakerEditPopupType) => {
+  const { t } = useAppTranslation();
+
   const displayNameEnabled = useAtomValue(displayNameMeetingsEnableState);
   const fullnameOption = useAtomValue(fullnameOptionState);
   const publicTalks = useAtomValue(publicTalksLocaleState);
@@ -364,23 +368,37 @@ const useSpeakerEditPopup = ({
       changes['speaker_data.person_notes'] = { value: draft.note, updatedAt };
     }
 
-    if (isNew && local) {
-      await dbVisitingSpeakersLocalCongSpeakerAdd(
-        !outgoing,
-        draft.person_uid,
-        changes
-      );
-    }
+    try {
+      if (isNew && local) {
+        await dbVisitingSpeakersLocalCongSpeakerAdd(
+          !outgoing,
+          draft.person_uid,
+          changes
+        );
+      }
 
-    if (isNew && !local && cong_id) {
-      await dbVisitingSpeakersAdd(cong_id, changes);
-    }
+      if (isNew && !local) {
+        if (!cong_id) {
+          throw new Error('The congregation of this speaker is unknown.');
+        }
 
-    if (!isNew) {
-      await dbVisitingSpeakersUpdate(changes, speaker.person_uid);
-    }
+        await dbVisitingSpeakersAdd(cong_id, changes);
+      }
 
-    onClose();
+      if (!isNew) {
+        await dbVisitingSpeakersUpdate(changes, speaker.person_uid);
+      }
+
+      onClose();
+    } catch (error) {
+      console.error(error);
+
+      displaySnackNotification({
+        severity: 'error',
+        header: t('error_app_generic-title'),
+        message: (error as Error).message,
+      });
+    }
   };
 
   return {

@@ -1,11 +1,15 @@
 import { useState } from 'react';
 import { useAtomValue } from 'jotai';
+import { useAppTranslation } from '@hooks/index';
+import { displaySnackNotification } from '@services/states/app';
 import { fullnameOptionState } from '@states/settings';
 import { VisitingSpeakerType } from '@definition/visiting_speakers';
 import { buildPersonFullname } from '@utils/common';
 import { dbVisitingSpeakersDelete } from '@services/dexie/visiting_speakers';
 
 const useSpeakerRowEdit = (speaker: VisitingSpeakerType) => {
+  const { t } = useAppTranslation();
+
   const fullnameOption = useAtomValue(fullnameOptionState);
 
   const name = buildPersonFullname(
@@ -28,9 +32,19 @@ const useSpeakerRowEdit = (speaker: VisitingSpeakerType) => {
   const handleCloseConfirmDelete = () => setConfirmDeleteOpen(false);
 
   const handleDeleteSpeaker = async () => {
-    setConfirmDeleteOpen(false);
+    try {
+      await dbVisitingSpeakersDelete(speaker.person_uid);
 
-    await dbVisitingSpeakersDelete(speaker.person_uid);
+      setConfirmDeleteOpen(false);
+    } catch (error) {
+      console.error(error);
+
+      displaySnackNotification({
+        severity: 'error',
+        header: t('error_app_generic-title'),
+        message: (error as Error).message,
+      });
+    }
   };
 
   return {

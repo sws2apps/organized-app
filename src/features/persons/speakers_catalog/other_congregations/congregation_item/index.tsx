@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Box, Collapse } from '@mui/material';
 import { IncomingCongregationType } from './index.types';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
+import { displaySnackNotification } from '@services/states/app';
 import useList from './useList';
 import CongregationInfoEdit from '../congregation_info/edit';
 import DeleteConfirm from '../../delete_confirm';
@@ -40,9 +41,19 @@ const IncomingCongregation = ({
   const handleCloseConfirmDelete = () => setConfirmDeleteOpen(false);
 
   const handleConfirmDelete = async () => {
-    setConfirmDeleteOpen(false);
+    try {
+      await handleDeleteCongregation();
 
-    await handleDeleteCongregation();
+      setConfirmDeleteOpen(false);
+    } catch (error) {
+      console.error(error);
+
+      displaySnackNotification({
+        severity: 'error',
+        header: t('error_app_generic-title'),
+        message: (error as Error).message,
+      });
+    }
   };
 
   return (

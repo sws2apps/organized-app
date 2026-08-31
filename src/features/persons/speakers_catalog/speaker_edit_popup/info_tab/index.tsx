@@ -109,6 +109,11 @@ const SpeakerInfoTab = ({
           control={<Radio />}
           label={<Typography>{t('tr_ministerialServant')}</Typography>}
         />
+        <FormControlLabel
+          value=""
+          control={<Radio />}
+          label={<Typography>{t('tr_none')}</Typography>}
+        />
       </RadioGroup>
 
       <Box
