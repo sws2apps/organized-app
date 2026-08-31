@@ -91,10 +91,10 @@ const SpeakerInfoTab = ({
 
       <RadioGroup
         sx={{
-          marginLeft: '4px',
           flexDirection: 'row',
           gap: tabletDown ? '16px' : '24px',
           flexWrap: 'wrap',
+          '& .MuiFormControlLabel-root': { marginLeft: 0, marginRight: 0 },
         }}
         value={draft.privilege}
         onChange={(e) => onPrivilegeChange(e.target.value)}

@@ -19,11 +19,18 @@ export type SpeakerDraftType = {
   email: string;
   phone: string;
   note: string;
-  talks: VisitingSpeakerType['speaker_data']['talks'];
 };
 
 export type SpeakerTalkRowType = {
   key: string;
   talk: PublicTalkLocaleType | null;
+  songs: number[];
+};
+
+// the editable state of the talks tab: rows keep their own order and hold on
+// to their songs, so nothing moves when a talk is changed or cleared
+export type SpeakerTalkStateType = {
+  key: string;
+  talk_number: number | null;
   songs: number[];
 };

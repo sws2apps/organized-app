@@ -8,6 +8,7 @@ import {
   SpeakerDraftType,
   SpeakerEditPopupType,
   SpeakerTalkRowType,
+  SpeakerTalkStateType,
 } from './index.types';
 import { VisitingSpeakerType } from '@definition/visiting_speakers';
 import {
@@ -40,7 +41,6 @@ const buildDraft = (
       email: '',
       phone: '',
       note: '',
-      talks: [],
     };
   }
 
@@ -57,8 +57,23 @@ const buildDraft = (
     email: speaker.speaker_data.person_email.value,
     phone: speaker.speaker_data.person_phone.value,
     note: speaker.speaker_data.person_notes.value,
-    talks: structuredClone(speaker.speaker_data.talks),
   };
+};
+
+const buildRows = (
+  speaker: SpeakerEditPopupType['speaker']
+): SpeakerTalkStateType[] => {
+  if (!speaker) return [];
+
+  return speaker.speaker_data.talks
+    .filter((record) => record._deleted === false)
+    .map((record) => ({
+      key: `talk-${record.talk_number}`,
+      talk_number: record.talk_number,
+      songs: structuredClone(record.talk_songs).sort((a, b) =>
+        a < b ? -1 : 1
+      ),
+    }));
 };
 
 const useSpeakerEditPopup = ({
@@ -81,9 +96,8 @@ const useSpeakerEditPopup = ({
   const [draft, setDraft] = useState(initial);
   const [tab, setTab] = useState(0);
   const [confirmDiscardOpen, setConfirmDiscardOpen] = useState(false);
-  const [pendingRows, setPendingRows] = useState<
-    { key: string; songs: number[] }[]
-  >([]);
+  const [initialRows] = useState(() => buildRows(speaker));
+  const [rows, setRows] = useState(initialRows);
 
   const isNew = !speaker;
 
@@ -116,32 +130,15 @@ const useSpeakerEditPopup = ({
     );
   }, [persons, congSpeakers, draft.person_uid]);
 
-  // one row per talk, plus the rows the user has opened but not filled in yet
   const talkRows = useMemo<SpeakerTalkRowType[]>(() => {
-    const saved = draft.talks
-      .filter((record) => record._deleted === false)
-      .flatMap((record) => {
-        const talk = publicTalks.find(
-          (item) => item.talk_number === record.talk_number
-        );
-
-        if (!talk) return [];
-
-        const songs = structuredClone(record.talk_songs).sort((a, b) =>
-          a < b ? -1 : 1
-        );
-
-        return [{ key: `talk-${record.talk_number}`, talk, songs }];
-      });
-
-    const pending = pendingRows.map((record) => ({
-      key: record.key,
-      talk: null,
-      songs: record.songs,
+    return rows.map((row) => ({
+      key: row.key,
+      talk:
+        publicTalks.find((item) => item.talk_number === row.talk_number) ??
+        null,
+      songs: row.songs,
     }));
-
-    return [...saved, ...pending];
-  }, [draft.talks, publicTalks, pendingRows]);
+  }, [rows, publicTalks]);
 
   const [contentElement, setContentElement] = useState<HTMLDivElement | null>(
     null
@@ -206,93 +203,29 @@ const useSpeakerEditPopup = ({
   const handlePersonChange = (value: string) =>
     setDraft((prev) => ({ ...prev, person_uid: value }));
 
-  const talkUpsert = (talk_number: number, songs: number[]) => {
-    setDraft((prev) => {
-      const talks = structuredClone(prev.talks);
-      const findTalk = talks.find(
-        (record) => record.talk_number === talk_number
-      );
-
-      if (findTalk) {
-        findTalk._deleted = false;
-        findTalk.talk_songs = songs;
-        findTalk.updatedAt = new Date().toISOString();
-      }
-
-      if (!findTalk) {
-        talks.push({
-          _deleted: false,
-          talk_number,
-          talk_songs: songs,
-          updatedAt: new Date().toISOString(),
-        });
-      }
-
-      talks.sort((a, b) => (a.talk_number > b.talk_number ? 1 : -1));
-
-      return { ...prev, talks };
-    });
-  };
-
-  const talkDrop = (talk_number: number) => {
-    setDraft((prev) => {
-      const talks = structuredClone(prev.talks);
-      const findTalk = talks.find(
-        (record) => record.talk_number === talk_number
-      );
-
-      if (findTalk) {
-        findTalk._deleted = true;
-        findTalk.updatedAt = new Date().toISOString();
-      }
-
-      return { ...prev, talks };
-    });
-  };
-
   const handleRowAdd = () => {
-    setPendingRows((prev) => [
+    setRows((prev) => [
       ...prev,
-      { key: crypto.randomUUID(), songs: [] },
+      { key: crypto.randomUUID(), talk_number: null, songs: [] },
     ]);
   };
 
   const handleRowRemove = (row: SpeakerTalkRowType) => {
-    if (row.talk) {
-      talkDrop(row.talk.talk_number);
-      return;
-    }
-
-    setPendingRows((prev) => prev.filter((record) => record.key !== row.key));
+    setRows((prev) => prev.filter((record) => record.key !== row.key));
   };
 
+  // a row keeps its place and its songs, whichever talk is on it
   const handleRowTalkChange = (
     row: SpeakerTalkRowType,
     talk: PublicTalkLocaleType | null
   ) => {
-    if (row.talk && row.talk.talk_number === talk?.talk_number) return;
-
-    // the row had a talk and it was cleared: keep the songs in an empty row
-    if (row.talk && !talk) {
-      talkDrop(row.talk.talk_number);
-      setPendingRows((prev) => [
-        ...prev,
-        { key: crypto.randomUUID(), songs: row.songs },
-      ]);
-      return;
-    }
-
-    if (!talk) return;
-
-    if (row.talk) {
-      talkDrop(row.talk.talk_number);
-    }
-
-    if (!row.talk) {
-      setPendingRows((prev) => prev.filter((record) => record.key !== row.key));
-    }
-
-    talkUpsert(talk.talk_number, row.songs);
+    setRows((prev) =>
+      prev.map((record) =>
+        record.key === row.key
+          ? { ...record, talk_number: talk?.talk_number ?? null }
+          : record
+      )
+    );
   };
 
   const handleRowSongsChange = (
@@ -301,23 +234,68 @@ const useSpeakerEditPopup = ({
   ) => {
     const values = songs.map((record) => record.song_number);
 
-    if (row.talk) {
-      talkUpsert(row.talk.talk_number, values);
-      return;
-    }
-
-    setPendingRows((prev) =>
+    setRows((prev) =>
       prev.map((record) =>
         record.key === row.key ? { ...record, songs: values } : record
       )
     );
   };
 
+  // rows are folded back into the stored talks on save, keeping the entries
+  // that were deleted along the way so a sync can still resolve them
+  const buildTalks = () => {
+    const updatedAt = new Date().toISOString();
+    const talks = structuredClone(speaker?.speaker_data.talks ?? []);
+
+    for (const entry of talks) {
+      const row = rows.find(
+        (record) => record.talk_number === entry.talk_number
+      );
+
+      if (!row) {
+        if (!entry._deleted) {
+          entry._deleted = true;
+          entry.updatedAt = updatedAt;
+        }
+
+        continue;
+      }
+
+      const songsChanged =
+        JSON.stringify(entry.talk_songs) !== JSON.stringify(row.songs);
+
+      if (entry._deleted || songsChanged) {
+        entry._deleted = false;
+        entry.talk_songs = row.songs;
+        entry.updatedAt = updatedAt;
+      }
+    }
+
+    for (const row of rows) {
+      if (row.talk_number === null) continue;
+
+      const exists = talks.some(
+        (entry) => entry.talk_number === row.talk_number
+      );
+
+      if (exists) continue;
+
+      talks.push({
+        _deleted: false,
+        talk_number: row.talk_number,
+        talk_songs: row.songs,
+        updatedAt,
+      });
+    }
+
+    return talks;
+  };
+
   const isDirty = useMemo(() => {
-    if (pendingRows.some((record) => record.songs.length > 0)) return true;
+    if (JSON.stringify(rows) !== JSON.stringify(initialRows)) return true;
 
     return JSON.stringify(draft) !== JSON.stringify(initial);
-  }, [draft, initial, pendingRows]);
+  }, [draft, initial, rows, initialRows]);
 
   const isValid = local
     ? draft.person_uid.length > 0
@@ -343,7 +321,7 @@ const useSpeakerEditPopup = ({
     const updatedAt = new Date().toISOString();
 
     const changes: UpdateSpec<VisitingSpeakerType> = {
-      'speaker_data.talks': draft.talks,
+      'speaker_data.talks': buildTalks(),
     };
 
     if (local && !isNew) {

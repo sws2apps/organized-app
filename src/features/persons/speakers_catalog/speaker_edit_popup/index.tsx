@@ -8,6 +8,7 @@ import { useAppTranslation } from '@hooks/index';
 import useSpeakerEditPopup from './useSpeakerEditPopup';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
+import Divider from '@components/divider';
 import DialogActions from '@components/dialog_actions';
 import SpeakerInfoTab from './info_tab';
 import SpeakerTalksTab from './talks_tab';
@@ -137,6 +138,8 @@ const SpeakerEditPopup = (props: SpeakerEditPopupType) => {
             minHeight: 0,
             overflowX: 'hidden',
             overflowY: 'auto',
+            paddingTop: '8px',
+            paddingRight: '4px',
           }}
         >
           <SpeakerInfoTab
@@ -154,6 +157,8 @@ const SpeakerEditPopup = (props: SpeakerEditPopupType) => {
             onNoteChange={handleNoteChange}
             onPersonChange={handlePersonChange}
           />
+
+          <Divider color="var(--accent-200)" />
 
           <SpeakerTalksTab
             publicTalks={publicTalks}
@@ -176,6 +181,7 @@ const SpeakerEditPopup = (props: SpeakerEditPopupType) => {
             flex: 1,
             overflowX: 'hidden',
             overflowY: 'auto',
+            paddingRight: '4px',
           }}
         >
           <div ref={setContentElement}>
