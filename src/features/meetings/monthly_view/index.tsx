@@ -29,6 +29,7 @@ const MonthlyView = () => {
     getWeekLocale,
     currentYear,
     selectedMonth,
+    monthName,
     thisYearMonths,
     setSelectedMonth,
     classCount,
@@ -55,6 +56,7 @@ const MonthlyView = () => {
     lcNoAssignParts1,
     lcNoAssignParts2,
     hasCustomPart,
+    customPartEnabled,
     lcCount,
     setOpenAddCustomModalWindow,
     openAddCustomModalWindow,
@@ -91,15 +93,13 @@ const MonthlyView = () => {
             sx={{
               maxWidth: '196px',
             }}
-            value={selectedMonth.toString()}
-            onChange={(e) =>
-              setSelectedMonth(parseInt(e.target.value as string))
-            }
+            value={selectedMonth}
+            onChange={(e) => setSelectedMonth(e.target.value as string)}
           >
-            {thisYearMonths?.map((value, index) => {
+            {thisYearMonths?.map((month) => {
               return (
-                <MenuItem value={index} key={index}>
-                  {`${value} ${currentYear}`}
+                <MenuItem value={month.value} key={month.value}>
+                  {`${month.label} ${currentYear}`}
                 </MenuItem>
               );
             })}
@@ -108,10 +108,7 @@ const MonthlyView = () => {
             return (
               <WeekBadge
                 key={index}
-                text={getWeekLocale(
-                  new Date(value).getDate(),
-                  thisYearMonths[selectedMonth]
-                )}
+                text={getWeekLocale(new Date(value).getDate(), monthName)}
               />
             );
           })}
@@ -1004,18 +1001,22 @@ const MonthlyView = () => {
                     </WeekHoverBox>
                   ) : (
                     <Box sx={{ flex: 1 }} key={`lc-part3-${index}`}>
-                      <Button
-                        variant="small"
-                        startIcon={<IconCustom />}
-                        onClick={() => {
-                          setAddCustomModalWindowWeek(value);
-                          setOpenAddCustomModalWindow(true);
-                          handleAddCustomLCPart(value);
-                        }}
-                        sx={{ height: '44px', width: '100%' }}
-                      >
-                        {t('tr_addCustom')}
-                      </Button>
+                      {/* a week whose material has not arrived has nothing to
+                          attach a custom part to */}
+                      {customPartEnabled[index] && (
+                        <Button
+                          variant="small"
+                          startIcon={<IconCustom />}
+                          onClick={() => {
+                            setAddCustomModalWindowWeek(value);
+                            setOpenAddCustomModalWindow(true);
+                            handleAddCustomLCPart(value);
+                          }}
+                          sx={{ height: '44px', width: '100%' }}
+                        >
+                          {t('tr_addCustom')}
+                        </Button>
+                      )}
                     </Box>
                   );
                 })}

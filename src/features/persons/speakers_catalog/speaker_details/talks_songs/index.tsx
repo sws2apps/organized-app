@@ -3,6 +3,7 @@ import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { SpeakerTalksSongsType } from './index.types';
 import useTalksSongs from './useTalksSongs';
 import Button from '@components/button';
+import DialogActions from '@components/dialog_actions';
 import Typography from '@components/typography';
 import SongsTalk from '../../songs_talk';
 
@@ -55,21 +56,14 @@ const SpeakerTalksSongs = ({ speaker, onClose }: SpeakerTalksSongsType) => {
       </Box>
 
       {isPublicTalkCoordinator && !cong_synced && (
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '8px',
-            width: '100%',
-          }}
-        >
-          <Button variant="main" onClick={handleToggleEdit}>
-            {isEdit ? t('tr_done') : t('tr_songsEdit')}
-          </Button>
+        <DialogActions>
           <Button variant="secondary" onClick={onClose}>
             {t('tr_cancel')}
           </Button>
-        </Box>
+          <Button variant="main" onClick={handleToggleEdit}>
+            {isEdit ? t('tr_done') : t('tr_songsEdit')}
+          </Button>
+        </DialogActions>
       )}
 
       {(!isPublicTalkCoordinator || cong_synced) && (

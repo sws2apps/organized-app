@@ -3,17 +3,17 @@
     "images": {
       "img_01": {
         "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-color-schemes.svg",
-        "tr_title": "New color schemes",
-        "tr_desc": "More ways to make Organized yours! Explore new colors in profile settings, from minimal monochrome to vibrant pink."
+        "tr_title": "Nya färgscheman",
+        "tr_desc": "Fler sätt att göra Organized till ditt! Utforska nya färger i profilinställningarna, från stilrent monokromt till livfullt rosa."
       },
       "img_02": {
         "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-homescreen-shortcuts.svg",
-        "tr_title": "Home screen shortcuts",
-        "tr_desc": "Jump straight to the most important features, on both desktop and mobile devices."
+        "tr_title": "Genvägar på startskärmen",
+        "tr_desc": "Gå direkt till de viktigaste funktionerna, både på datorn och på mobila enheter."
       }
     },
     "improvements": {
-      "tr_note_01": "Added school for congregation elders credit hour preset"
+      "tr_note_01": "Lade till en förinställning för tillgodoräknade timmar för skolan för församlingsäldste"
     }
   }
 }

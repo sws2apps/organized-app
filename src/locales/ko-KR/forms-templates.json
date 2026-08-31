@@ -54,6 +54,7 @@
   "tr_initialCallVariations": "0",
   "tr_returnVisitVariations": "0",
   "tr_lcNoAssignedVariations": "우리의 조직이 이루고 있는 일들|중앙장로회 보고",
+  "tr_lcNoAssignedContentVariations": "Play the VIDEO",
   "tr_cbsLffWithPointsVariations": "lff {{ lesson }}과 요점 {{ points }} | lff {{ lesson }}과 요점 {{ points }}",
   "tr_cbsLffSectionOnlyVariations": "lff 부분",
   "tr_lcSourceElderVariations": "회중의 필요",

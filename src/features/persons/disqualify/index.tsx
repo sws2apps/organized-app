@@ -1,6 +1,7 @@
 import { Box } from '@mui/material';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
+import DialogActions from '@components/dialog_actions';
 import Typography from '@components/typography';
 import { useAppTranslation } from '@hooks/index';
 import { PersonDisqualifyConfirmType } from './index.types';
@@ -20,21 +21,14 @@ const PersonDisqualifyConfirm = ({
           {t('tr_markDisqualifiedDesc')}
         </Typography>
       </Box>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '8px',
-          width: '100%',
-        }}
-      >
-        <Button variant="main" onClick={onConfirm} color="red">
-          {t('tr_disqualify')}
-        </Button>
+      <DialogActions>
         <Button variant="secondary" onClick={onClose}>
           {t('tr_cancel')}
         </Button>
-      </Box>
+        <Button variant="main" onClick={onConfirm} color="red">
+          {t('tr_disqualify')}
+        </Button>
+      </DialogActions>
     </Dialog>
   );
 };

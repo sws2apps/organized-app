@@ -14,6 +14,7 @@ import useCircuitOverseer from './useCircuitOverseer';
 import TextField from '@components/textfield';
 import WeeksList from './weeks_list';
 import { Stack } from '@mui/material';
+import COMidweekMeetingDay from './co_midweek_meeting_day';
 
 const CircuitOverseer = () => {
   const { t } = useAppTranslation();
@@ -73,6 +74,8 @@ const CircuitOverseer = () => {
               slotProps={{ input: { readOnly: !isAdmin } }}
             />
           </TwoColumnsRow>
+
+          <COMidweekMeetingDay />
 
           {displayNameEnabled && (
             <TextField

@@ -5,6 +5,7 @@ import { DeleteCodeType } from './index.types';
 import useDeleteCode from './useDeleteCode';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
+import DialogActions from '@components/dialog_actions';
 import Typography from '@components/typography';
 
 const DeleteCode = ({ open, onClose, user }: DeleteCodeType) => {
@@ -22,14 +23,10 @@ const DeleteCode = ({ open, onClose, user }: DeleteCodeType) => {
         </Typography>
       </Box>
 
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '8px',
-          width: '100%',
-        }}
-      >
+      <DialogActions>
+        <Button variant="secondary" onClick={onClose}>
+          {t('tr_cancel')}
+        </Button>
         <Button
           variant="main"
           color="red"
@@ -39,10 +36,7 @@ const DeleteCode = ({ open, onClose, user }: DeleteCodeType) => {
         >
           {t('tr_delete')}
         </Button>
-        <Button variant="secondary" onClick={onClose}>
-          {t('tr_cancel')}
-        </Button>
-      </Box>
+      </DialogActions>
     </Dialog>
   );
 };

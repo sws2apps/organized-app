@@ -5,8 +5,14 @@ import { AssignmentCheckListColors } from '@definition/app';
 import { personCurrentDetailsState } from '@states/persons';
 import { setPersonCurrentDetails } from '@services/states/persons';
 import { AssignmentCode } from '@definition/assignment';
-import { userDataViewState } from '@states/settings';
+import {
+  midweekMeetingAuxClassQualificationsState,
+  midweekMeetingClassCountState,
+  userDataViewState,
+} from '@states/settings';
 import { languageGroupsState } from '@states/field_service_groups';
+import { CLASSROOM_QUALIFICATIONS_ASSIGNMENT } from '@constants/index';
+import { clearClassroomQualification } from '@utils/assignments';
 import { personIsFR, personIsFS } from '@services/app/persons';
 
 const useAssignments = () => {
@@ -15,6 +21,10 @@ const useAssignments = () => {
   const person = useAtomValue(personCurrentDetailsState);
   const dataView = useAtomValue(userDataViewState);
   const languageGroups = useAtomValue(languageGroupsState);
+  const classCount = useAtomValue(midweekMeetingClassCountState);
+  const auxClassQualifications = useAtomValue(
+    midweekMeetingAuxClassQualificationsState
+  );
 
   const male = person.person_data.male.value;
   const disqualified = person.person_data.disqualified.value;
@@ -37,6 +47,70 @@ const useAssignments = () => {
       []
     );
   }, [person, dataView]);
+
+  const classrooms = useMemo(() => {
+    return [
+      { id: '1', label: t('tr_mainHall') },
+      { id: '2', label: t('tr_auxClass1') },
+    ];
+  }, [t]);
+
+  const handleClassroomsChange = (
+    code: AssignmentCode,
+    selected: string[]
+  ) => {
+    const newPerson = structuredClone(person);
+
+    let personAssignments = newPerson.person_data.assignments.find(
+      (a) => a.type === dataView
+    );
+
+    if (!personAssignments) {
+      personAssignments = { type: dataView, values: [], updatedAt: '' };
+      newPerson.person_data.assignments.push(personAssignments);
+    }
+
+    const qualifications = (
+      personAssignments.classroom_qualifications ?? []
+    ).filter((record) => record.code !== code);
+
+    const isAllClassrooms = classrooms.every((classroom) =>
+      selected.includes(classroom.id)
+    );
+
+    if (!isAllClassrooms) {
+      qualifications.push({ code, classrooms: selected });
+    }
+
+    personAssignments.classroom_qualifications = qualifications;
+    personAssignments.updatedAt = new Date().toISOString();
+
+    setPersonCurrentDetails(newPerson);
+  };
+
+  const getSelectedClassrooms = (code: AssignmentCode) => {
+    const selected = person.person_data.assignments
+      .find((a) => a.type === dataView)
+      ?.classroom_qualifications?.find(
+        (record) => record.code === code
+      )?.classrooms;
+
+    if (!selected || selected.length === 0) {
+      return classrooms.map((classroom) => classroom.id);
+    }
+
+    return selected;
+  };
+
+  const classroomQualifications =
+    auxClassQualifications && classCount === 2
+      ? {
+          codes: CLASSROOM_QUALIFICATIONS_ASSIGNMENT,
+          classrooms,
+          getSelected: getSelectedClassrooms,
+          onChange: handleClassroomsChange,
+        }
+      : undefined;
 
   const assignments = useMemo(() => {
     return [
@@ -251,6 +325,8 @@ const useAssignments = () => {
           personAssignments.values = personAssignments.values.filter(
             (c) => c !== item.code
           );
+
+          clearClassroomQualification(personAssignments, item.code);
         }
       }
     }
@@ -337,6 +413,8 @@ const useAssignments = () => {
         personAssignments.values = personAssignments.values.filter(
           (c) => c !== code
         );
+
+        clearClassroomQualification(personAssignments, code);
       }
     }
 
@@ -346,6 +424,7 @@ const useAssignments = () => {
   return {
     assignments,
     checkedItems,
+    classroomQualifications,
     handleToggleAssignment,
     handleToggleGroup,
     male,

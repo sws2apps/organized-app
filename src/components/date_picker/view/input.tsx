@@ -27,32 +27,35 @@ const InputTextField = forwardRef(function DatePickerInputField(
           height: customHeight,
           paddingTop: 'auto',
           paddingBottom: 'auto',
+          paddingLeft: '12px',
+          paddingRight: '12px',
           display: 'flex',
           alignItems: 'center',
-          gap: '8px',
+          gap: '4px',
         },
-        // The sections container must grow to fill the space left after the
-        // icon button, not to its intrinsic content width.  `width: 'auto'`
-        // was removing MUI X's intended `flex: 1` behaviour and letting the
-        // sections overflow — which pushed the calendar icon outside the
-        // outlined-input's `overflow: hidden` boundary (invisible icon).
-        // `overflow: hidden` here clips the date text when the field is narrow
-        // instead of letting it spill outside (ellipsis-style clipping).
-        '.MuiPickersSectionList-root, .MuiPickersInputBase-sectionsContainer': {
+        '.MuiPickersInputBase-sectionsContainer': {
+          display: 'block',
+          width: '100%',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
+        },
+        // The section list must fill the space left after the icon button, not
+        // its intrinsic content width, or the sections overflow and push the
+        // calendar icon outside the outlined input (invisible icon).
+        '.MuiPickersSectionList-root': {
           flex: '1 1 auto',
           overflow: 'hidden',
           minWidth: 0,
         },
-        // The icon button must never shrink — it gets its full 40 px regardless
-        // of how narrow the field becomes.
-        '.MuiInputAdornment-root': {
-          flexShrink: 0,
-        },
         '.MuiPickersInputBase-input': {
           overflow: 'hidden',
           textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
           paddingTop: `calc(14.5px - ${varHeight}px)`,
           paddingBottom: `calc(14.5px - ${varHeight}px)`,
+          paddingLeft: '0px',
+          paddingRight: '0px',
           flex: '1 0 0',
           color:
             props.value || props.inputProps['value']
@@ -60,10 +63,16 @@ const InputTextField = forwardRef(function DatePickerInputField(
               : 'var(--accent-400)',
           cursor: props.disabled && 'not-allowed',
         },
-        '.MuiPickersInput-root:before': {
+        '.MuiInputAdornment-root': {
+          margin: 0,
+          // Never shrink: the icon button keeps its full width no matter how
+          // narrow the field becomes.
+          flexShrink: 0,
+        },
+        '.MuiInput-root:before': {
           borderBottom: '1px solid var(--accent-300) !important',
         },
-        '.MuiPickersInput-root:after': {
+        '.MuiInput-root:after': {
           borderBottom: '1px solid var(--accent-main)',
         },
         '.MuiPickersInput-root:hover:before': {
@@ -99,6 +108,10 @@ const InputTextField = forwardRef(function DatePickerInputField(
           },
         },
         '.MuiInputLabel-root': {
+          maxWidth: '100%',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
           color: !props.disabled ? 'var(--accent-350)' : 'var(--accent-200)',
           '&.Mui-focused': {
             color: 'var(--accent-350)',

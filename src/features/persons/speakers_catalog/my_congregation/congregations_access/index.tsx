@@ -4,6 +4,7 @@ import { useAppTranslation } from '@hooks/index';
 import useCongregationsAccess from './useCongregationsAccess';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
+import DialogActions from '@components/dialog_actions';
 import OutgoingSpeakersListActive from './active';
 import OutgoingSpeakersListInactive from './inactive';
 import TextMarkup from '@components/text_markup';
@@ -69,14 +70,14 @@ const OutgoingSpeakersAccess = ({ open, onClose }: CongregationAccessType) => {
             color="var(--grey-400)"
           />
 
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            <Button variant="main" color="red" onClick={handleRevokeAccess}>
-              {t('tr_delete')}
-            </Button>
+          <DialogActions>
             <Button variant="secondary" onClick={() => handleSetDelete(null)}>
               {t('tr_cancel')}
             </Button>
-          </Box>
+            <Button variant="main" color="red" onClick={handleRevokeAccess}>
+              {t('tr_delete')}
+            </Button>
+          </DialogActions>
         </Box>
       )}
     </Dialog>

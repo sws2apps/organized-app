@@ -222,6 +222,24 @@ export const dbVisitingSpeakersDummy = async () => {
       talk_songs: [20, 34, 99],
       updatedAt: new Date().toISOString(),
     },
+    {
+      _deleted: false,
+      talk_number: 48,
+      talk_songs: [57, 89],
+      updatedAt: new Date().toISOString(),
+    },
+    {
+      _deleted: false,
+      talk_number: 102,
+      talk_songs: [15, 72],
+      updatedAt: new Date().toISOString(),
+    },
+    {
+      _deleted: false,
+      talk_number: 135,
+      talk_songs: [3, 110],
+      updatedAt: new Date().toISOString(),
+    },
   ];
 
   const speaker2 = structuredClone(vistingSpeakerSchema);
@@ -239,6 +257,18 @@ export const dbVisitingSpeakersDummy = async () => {
       _deleted: false,
       talk_number: 150,
       talk_songs: [45, 120],
+      updatedAt: new Date().toISOString(),
+    },
+    {
+      _deleted: false,
+      talk_number: 71,
+      talk_songs: [28, 95],
+      updatedAt: new Date().toISOString(),
+    },
+    {
+      _deleted: false,
+      talk_number: 118,
+      talk_songs: [62, 140],
       updatedAt: new Date().toISOString(),
     },
   ];
@@ -299,6 +329,18 @@ export const dbVisitingSpeakersDummy = async () => {
         talk_songs: [20, 34, 99],
         updatedAt: new Date().toISOString(),
       },
+      {
+        _deleted: false,
+        talk_number: 12,
+        talk_songs: [53, 107],
+        updatedAt: new Date().toISOString(),
+      },
+      {
+        _deleted: false,
+        talk_number: 163,
+        talk_songs: [31, 88],
+        updatedAt: new Date().toISOString(),
+      },
     ],
   };
 
@@ -348,6 +390,24 @@ export const dbVisitingSpeakersDummy = async () => {
         _deleted: false,
         talk_number: 85,
         talk_songs: [11, 38],
+        updatedAt: new Date().toISOString(),
+      },
+      {
+        _deleted: false,
+        talk_number: 141,
+        talk_songs: [67, 133],
+        updatedAt: new Date().toISOString(),
+      },
+      {
+        _deleted: false,
+        talk_number: 29,
+        talk_songs: [5, 78],
+        updatedAt: new Date().toISOString(),
+      },
+      {
+        _deleted: false,
+        talk_number: 174,
+        talk_songs: [42, 114],
         updatedAt: new Date().toISOString(),
       },
     ],
@@ -401,6 +461,18 @@ export const dbVisitingSpeakersDummy = async () => {
         talk_songs: [20, 34, 99],
         updatedAt: new Date().toISOString(),
       },
+      {
+        _deleted: false,
+        talk_number: 94,
+        talk_songs: [19, 75],
+        updatedAt: new Date().toISOString(),
+      },
+      {
+        _deleted: false,
+        talk_number: 156,
+        talk_songs: [36, 101],
+        updatedAt: new Date().toISOString(),
+      },
     ],
   };
 
@@ -452,6 +524,87 @@ export const dbVisitingSpeakersDummy = async () => {
         talk_songs: [11, 38],
         updatedAt: new Date().toISOString(),
       },
+      {
+        _deleted: false,
+        talk_number: 110,
+        talk_songs: [24, 92],
+        updatedAt: new Date().toISOString(),
+      },
+      {
+        _deleted: false,
+        talk_number: 183,
+        talk_songs: [7, 58],
+        updatedAt: new Date().toISOString(),
+      },
+      {
+        _deleted: false,
+        talk_number: 64,
+        talk_songs: [41, 126],
+        updatedAt: new Date().toISOString(),
+      },
+    ],
+  };
+
+  const speaker3Cong2 = structuredClone(vistingSpeakerSchema);
+  speaker3Cong2.person_uid = crypto.randomUUID();
+  speaker3Cong2._deleted = {
+    value: false,
+    updatedAt: new Date().toISOString(),
+  };
+  speaker3Cong2.speaker_data = {
+    cong_id: incomingCongs.at(1).id,
+    elder: { value: true, updatedAt: new Date().toISOString() },
+    ministerial_servant: {
+      value: false,
+      updatedAt: new Date().toISOString(),
+    },
+    person_firstname: {
+      value: 'Derek',
+      updatedAt: new Date().toISOString(),
+    },
+    person_lastname: {
+      value: 'Whitman',
+      updatedAt: new Date().toISOString(),
+    },
+    person_display_name: {
+      value: generateDisplayName('Whitman', 'Derek'),
+      updatedAt: new Date().toISOString(),
+    },
+    person_email: {
+      value: 'derek-whitman@fakemail.com',
+      updatedAt: new Date().toISOString(),
+    },
+    person_notes: { value: '', updatedAt: new Date().toISOString() },
+    person_phone: {
+      value: '+44 652-804-3319',
+      updatedAt: new Date().toISOString(),
+    },
+    local: { value: false, updatedAt: new Date().toISOString() },
+    talks: [
+      {
+        _deleted: false,
+        talk_number: 18,
+        talk_songs: [13, 69],
+        updatedAt: new Date().toISOString(),
+      },
+      {
+        _deleted: false,
+        talk_number: 130,
+        talk_songs: [50, 117],
+        updatedAt: new Date().toISOString(),
+      },
+      {
+        _deleted: false,
+        talk_number: 75,
+        talk_songs: [33, 91],
+        updatedAt: new Date().toISOString(),
+      },
+      {
+        _deleted: false,
+        talk_number: 188,
+        talk_songs: [2, 146],
+        updatedAt: new Date().toISOString(),
+      },
     ],
   };
 
@@ -460,6 +613,7 @@ export const dbVisitingSpeakersDummy = async () => {
     speaker2Cong1,
     speaker1Cong2,
     speaker2Cong2,
+    speaker3Cong2,
   ]);
 };
 
