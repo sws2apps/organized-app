@@ -123,12 +123,27 @@ const useSpeakerEditPopup = ({
   }, [activePersons, dataView]);
 
   const personsAvailable = useMemo(() => {
-    return persons.filter(
+    const available = persons.filter(
       (record) =>
         record.person_uid === draft.person_uid ||
         !congSpeakers.some((s) => s.person_uid === record.person_uid)
     );
-  }, [persons, congSpeakers, draft.person_uid]);
+
+    // the speaker on record stays on the list even if they no longer carry
+    // the assignment, so their name does not fall out of the dialog
+    const assigned = activePersons.find(
+      (record) => record.person_uid === draft.person_uid
+    );
+
+    if (
+      assigned &&
+      !available.some((record) => record.person_uid === assigned.person_uid)
+    ) {
+      return [assigned, ...available];
+    }
+
+    return available;
+  }, [persons, activePersons, congSpeakers, draft.person_uid]);
 
   const talkRows = useMemo<SpeakerTalkRowType[]>(() => {
     return rows.map((row) => ({

@@ -89,7 +89,11 @@ const SpeakerTalksTab = ({
                 height: '48px',
               }}
               title={t('tr_delete')}
-              aria-label={t('tr_delete')}
+              aria-label={
+                row.talk
+                  ? `${t('tr_delete')} ${row.talk.talk_number}. ${row.talk.talk_title}`
+                  : t('tr_delete')
+              }
               onClick={() => onRowRemove(row)}
             >
               <IconDelete color="var(--red-main)" />
