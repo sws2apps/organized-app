@@ -36,8 +36,7 @@ const SpeakerEditPopup = (props: SpeakerEditPopupType) => {
     displayNameEnabled,
     publicTalks,
     personsAvailable,
-    selectedTalks,
-    talksWithSongs,
+    talkRows,
     handleFirstnameChange,
     handleLastnameChange,
     handleDisplayNameChange,
@@ -46,10 +45,10 @@ const SpeakerEditPopup = (props: SpeakerEditPopupType) => {
     handlePhoneChange,
     handleNoteChange,
     handlePersonChange,
-    handleTalksUpdate,
-    handleTalksDelete,
-    handleSongsTalkUpdate,
-    handleSongsTalkDelete,
+    handleRowAdd,
+    handleRowRemove,
+    handleRowTalkChange,
+    handleRowSongsChange,
     handleSave,
   } = useSpeakerEditPopup(props);
 
@@ -126,6 +125,10 @@ const SpeakerEditPopup = (props: SpeakerEditPopupType) => {
             flexDirection: 'column',
             gap: '16px',
             width: '100%',
+            flex: 1,
+            minHeight: 0,
+            overflowX: 'hidden',
+            overflowY: 'auto',
           }}
         >
           <SpeakerInfoTab
@@ -146,12 +149,11 @@ const SpeakerEditPopup = (props: SpeakerEditPopupType) => {
 
           <SpeakerTalksTab
             publicTalks={publicTalks}
-            selectedTalks={selectedTalks}
-            talksWithSongs={talksWithSongs}
-            onTalksUpdate={handleTalksUpdate}
-            onTalksDelete={handleTalksDelete}
-            onSongsUpdate={handleSongsTalkUpdate}
-            onSongsDelete={handleSongsTalkDelete}
+            rows={talkRows}
+            onRowAdd={handleRowAdd}
+            onRowRemove={handleRowRemove}
+            onTalkChange={handleRowTalkChange}
+            onSongsChange={handleRowSongsChange}
           />
         </Box>
       )}
@@ -163,6 +165,9 @@ const SpeakerEditPopup = (props: SpeakerEditPopupType) => {
             width: '100%',
             marginBottom: '-16px',
             minHeight,
+            flex: 1,
+            overflowX: 'hidden',
+            overflowY: 'auto',
           }}
         >
           <div ref={setContentElement}>
@@ -195,12 +200,11 @@ const SpeakerEditPopup = (props: SpeakerEditPopupType) => {
                   Component: (
                     <SpeakerTalksTab
                       publicTalks={publicTalks}
-                      selectedTalks={selectedTalks}
-                      talksWithSongs={talksWithSongs}
-                      onTalksUpdate={handleTalksUpdate}
-                      onTalksDelete={handleTalksDelete}
-                      onSongsUpdate={handleSongsTalkUpdate}
-                      onSongsDelete={handleSongsTalkDelete}
+                      rows={talkRows}
+                      onRowAdd={handleRowAdd}
+                      onRowRemove={handleRowRemove}
+                      onTalkChange={handleRowTalkChange}
+                      onSongsChange={handleRowSongsChange}
                     />
                   ),
                 },

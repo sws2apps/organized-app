@@ -1,3 +1,4 @@
+import { PublicTalkLocaleType } from '@definition/public_talks';
 import { VisitingSpeakerType } from '@definition/visiting_speakers';
 
 export type SpeakerEditPopupType = {
@@ -19,4 +20,10 @@ export type SpeakerDraftType = {
   phone: string;
   note: string;
   talks: VisitingSpeakerType['speaker_data']['talks'];
+};
+
+export type SpeakerTalkRowType = {
+  key: string;
+  talk: PublicTalkLocaleType | null;
+  songs: number[];
 };

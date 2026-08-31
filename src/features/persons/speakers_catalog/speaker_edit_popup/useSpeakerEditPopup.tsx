@@ -3,8 +3,12 @@ import { UpdateSpec } from 'dexie';
 import { useAtomValue } from 'jotai';
 import { AssignmentCode } from '@definition/assignment';
 import { PublicTalkLocaleType } from '@definition/public_talks';
-import { SongType } from '@definition/songs';
-import { SpeakerDraftType, SpeakerEditPopupType } from './index.types';
+import { SongLocaleType } from '@definition/songs';
+import {
+  SpeakerDraftType,
+  SpeakerEditPopupType,
+  SpeakerTalkRowType,
+} from './index.types';
 import { VisitingSpeakerType } from '@definition/visiting_speakers';
 import {
   dbVisitingSpeakersAdd,
@@ -73,6 +77,9 @@ const useSpeakerEditPopup = ({
   const [draft, setDraft] = useState(initial);
   const [tab, setTab] = useState(0);
   const [confirmDiscardOpen, setConfirmDiscardOpen] = useState(false);
+  const [pendingRows, setPendingRows] = useState<
+    { key: string; songs: number[] }[]
+  >([]);
 
   const isNew = !speaker;
 
@@ -94,20 +101,9 @@ const useSpeakerEditPopup = ({
     );
   }, [persons, congSpeakers, draft.person_uid]);
 
-  const selectedTalks = useMemo(() => {
-    return draft.talks
-      .filter((record) => record._deleted === false)
-      .flatMap((record) => {
-        const talk = publicTalks.find(
-          (item) => item.talk_number === record.talk_number
-        );
-
-        return talk ? [talk] : [];
-      });
-  }, [draft.talks, publicTalks]);
-
-  const talksWithSongs = useMemo(() => {
-    return draft.talks
+  // one row per talk, plus the rows the user has opened but not filled in yet
+  const talkRows = useMemo<SpeakerTalkRowType[]>(() => {
+    const saved = draft.talks
       .filter((record) => record._deleted === false)
       .flatMap((record) => {
         const talk = publicTalks.find(
@@ -120,9 +116,17 @@ const useSpeakerEditPopup = ({
           a < b ? -1 : 1
         );
 
-        return [{ talk, songs }];
+        return [{ key: `talk-${record.talk_number}`, talk, songs }];
       });
-  }, [draft.talks, publicTalks]);
+
+    const pending = pendingRows.map((record) => ({
+      key: record.key,
+      talk: null,
+      songs: record.songs,
+    }));
+
+    return [...saved, ...pending];
+  }, [draft.talks, publicTalks, pendingRows]);
 
   const [contentElement, setContentElement] = useState<HTMLDivElement | null>(
     null
@@ -187,28 +191,26 @@ const useSpeakerEditPopup = ({
   const handlePersonChange = (value: string) =>
     setDraft((prev) => ({ ...prev, person_uid: value }));
 
-  const handleTalksUpdate = (value: PublicTalkLocaleType[]) => {
+  const talkUpsert = (talk_number: number, songs: number[]) => {
     setDraft((prev) => {
       const talks = structuredClone(prev.talks);
+      const findTalk = talks.find(
+        (record) => record.talk_number === talk_number
+      );
 
-      for (const selected of value) {
-        const findTalk = talks.find(
-          (record) => record.talk_number === selected.talk_number
-        );
+      if (findTalk) {
+        findTalk._deleted = false;
+        findTalk.talk_songs = songs;
+        findTalk.updatedAt = new Date().toISOString();
+      }
 
-        if (findTalk) {
-          findTalk._deleted = false;
-          findTalk.updatedAt = new Date().toISOString();
-        }
-
-        if (!findTalk) {
-          talks.push({
-            _deleted: false,
-            talk_number: selected.talk_number,
-            talk_songs: [],
-            updatedAt: new Date().toISOString(),
-          });
-        }
+      if (!findTalk) {
+        talks.push({
+          _deleted: false,
+          talk_number,
+          talk_songs: songs,
+          updatedAt: new Date().toISOString(),
+        });
       }
 
       talks.sort((a, b) => (a.talk_number > b.talk_number ? 1 : -1));
@@ -217,7 +219,7 @@ const useSpeakerEditPopup = ({
     });
   };
 
-  const handleTalksDelete = (talk_number: number) => {
+  const talkDrop = (talk_number: number) => {
     setDraft((prev) => {
       const talks = structuredClone(prev.talks);
       const findTalk = talks.find(
@@ -233,43 +235,74 @@ const useSpeakerEditPopup = ({
     });
   };
 
-  const handleSongsTalkUpdate = (talk_number: number, songs: SongType[]) => {
-    setDraft((prev) => {
-      const talks = structuredClone(prev.talks);
-      const findTalk = talks.find(
-        (record) => record.talk_number === talk_number
-      );
-
-      if (findTalk) {
-        findTalk.talk_songs = songs.map((record) => record.song_number);
-        findTalk.updatedAt = new Date().toISOString();
-      }
-
-      return { ...prev, talks };
-    });
+  const handleRowAdd = () => {
+    setPendingRows((prev) => [
+      ...prev,
+      { key: crypto.randomUUID(), songs: [] },
+    ]);
   };
 
-  const handleSongsTalkDelete = (talk_number: number, song: number) => {
-    setDraft((prev) => {
-      const talks = structuredClone(prev.talks);
-      const findTalk = talks.find(
-        (record) => record.talk_number === talk_number
-      );
+  const handleRowRemove = (row: SpeakerTalkRowType) => {
+    if (row.talk) {
+      talkDrop(row.talk.talk_number);
+      return;
+    }
 
-      if (findTalk) {
-        findTalk.talk_songs = findTalk.talk_songs.filter(
-          (record) => record !== song
-        );
-        findTalk.updatedAt = new Date().toISOString();
-      }
+    setPendingRows((prev) => prev.filter((record) => record.key !== row.key));
+  };
 
-      return { ...prev, talks };
-    });
+  const handleRowTalkChange = (
+    row: SpeakerTalkRowType,
+    talk: PublicTalkLocaleType | null
+  ) => {
+    if (row.talk && row.talk.talk_number === talk?.talk_number) return;
+
+    // the row had a talk and it was cleared: keep the songs in an empty row
+    if (row.talk && !talk) {
+      talkDrop(row.talk.talk_number);
+      setPendingRows((prev) => [
+        ...prev,
+        { key: crypto.randomUUID(), songs: row.songs },
+      ]);
+      return;
+    }
+
+    if (!talk) return;
+
+    if (row.talk) {
+      talkDrop(row.talk.talk_number);
+    }
+
+    if (!row.talk) {
+      setPendingRows((prev) => prev.filter((record) => record.key !== row.key));
+    }
+
+    talkUpsert(talk.talk_number, row.songs);
+  };
+
+  const handleRowSongsChange = (
+    row: SpeakerTalkRowType,
+    songs: SongLocaleType[]
+  ) => {
+    const values = songs.map((record) => record.song_number);
+
+    if (row.talk) {
+      talkUpsert(row.talk.talk_number, values);
+      return;
+    }
+
+    setPendingRows((prev) =>
+      prev.map((record) =>
+        record.key === row.key ? { ...record, songs: values } : record
+      )
+    );
   };
 
   const isDirty = useMemo(() => {
+    if (pendingRows.some((record) => record.songs.length > 0)) return true;
+
     return JSON.stringify(draft) !== JSON.stringify(initial);
-  }, [draft, initial]);
+  }, [draft, initial, pendingRows]);
 
   const isValid = local
     ? draft.person_uid.length > 0
@@ -366,8 +399,7 @@ const useSpeakerEditPopup = ({
     fullnameOption,
     publicTalks,
     personsAvailable,
-    selectedTalks,
-    talksWithSongs,
+    talkRows,
     handleFirstnameChange,
     handleLastnameChange,
     handleDisplayNameChange,
@@ -376,10 +408,10 @@ const useSpeakerEditPopup = ({
     handlePhoneChange,
     handleNoteChange,
     handlePersonChange,
-    handleTalksUpdate,
-    handleTalksDelete,
-    handleSongsTalkUpdate,
-    handleSongsTalkDelete,
+    handleRowAdd,
+    handleRowRemove,
+    handleRowTalkChange,
+    handleRowSongsChange,
     handleSave,
   };
 };
