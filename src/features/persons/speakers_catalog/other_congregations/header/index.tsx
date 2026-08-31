@@ -35,7 +35,6 @@ const IncomingCongregationHeader = ({
 
   const handleToggleExpand = () => onExpandChange(cong_number);
 
-  // the buttons sitting on the header do their own thing
   const handleActionClick = (
     event: MouseEvent<HTMLButtonElement>,
     action: VoidFunction

@@ -38,7 +38,6 @@ const SpeakerTalksTab = ({
             borderRadius: 'var(--radius-l)',
             border: '1px solid var(--accent-200)',
             backgroundColor: 'var(--accent-100)',
-            // the rail ties a talk to its songs without enclosing them
             '&::before': {
               content: '""',
               position: 'absolute',

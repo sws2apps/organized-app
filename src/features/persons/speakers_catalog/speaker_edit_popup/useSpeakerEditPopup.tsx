@@ -129,8 +129,6 @@ const useSpeakerEditPopup = ({
         !congSpeakers.some((s) => s.person_uid === record.person_uid)
     );
 
-    // the speaker on record stays on the list even if they no longer carry
-    // the assignment, so their name does not fall out of the dialog
     const assigned = activePersons.find(
       (record) => record.person_uid === draft.person_uid
     );
@@ -160,9 +158,6 @@ const useSpeakerEditPopup = ({
   );
   const [minHeight, setMinHeight] = useState<number>();
 
-  // the contact info tab sets the floor, so switching tabs does not resize the
-  // dialog under the pointer. a callback ref is used so this runs as soon as
-  // the panel is in the document
   useLayoutEffect(() => {
     if (!contentElement || tab !== 0) return;
 
@@ -229,7 +224,6 @@ const useSpeakerEditPopup = ({
     setRows((prev) => prev.filter((record) => record.key !== row.key));
   };
 
-  // a row keeps its place and its songs, whichever talk is on it
   const handleRowTalkChange = (
     row: SpeakerTalkRowType,
     talk: PublicTalkLocaleType | null
@@ -256,8 +250,6 @@ const useSpeakerEditPopup = ({
     );
   };
 
-  // rows are folded back into the stored talks on save, keeping the entries
-  // that were deleted along the way so a sync can still resolve them
   const buildTalks = () => {
     const updatedAt = new Date().toISOString();
     const talks = structuredClone(speaker?.speaker_data.talks ?? []);

@@ -54,7 +54,6 @@ const IncomingCongregation = ({
         padding: '8px 16px',
         borderRadius: 'var(--radius-xl)',
         width: '100%',
-        // the actions belong to the card, so they appear with it
         '& .congregation-actions': {
           opacity: 0,
           pointerEvents: 'none',

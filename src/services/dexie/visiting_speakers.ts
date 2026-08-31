@@ -87,17 +87,14 @@ export const dbVisitingSpeakersUpdate = async (
   person_uid: string
 ) => {
   try {
-    // check if deleted speaker
     const speaker = changes.person_uid
       ? await appDb.visiting_speakers.get(changes.person_uid)
       : undefined;
 
     if (speaker) {
-      // restore deleted
       speaker._deleted = { value: false, updatedAt: new Date().toISOString() };
       speaker.speaker_data.talks = [];
 
-      // delete temp record
       const temp = await appDb.visiting_speakers.get(person_uid);
       temp._deleted = { value: true, updatedAt: new Date().toISOString() };
 
@@ -216,7 +213,6 @@ export const dbVisitingSpeakersDummy = async () => {
       .values.includes(AssignmentCode.WM_Speaker)
   );
 
-  // add outgoing speakers
   const localCong = congregations.find(
     (record) =>
       record.cong_data.cong_name.value === settings.cong_settings.cong_name
@@ -292,7 +288,6 @@ export const dbVisitingSpeakersDummy = async () => {
 
   await appDb.visiting_speakers.bulkAdd([speaker1, speaker2]);
 
-  // add incoming speakers
   const incomingCongs = congregations.filter(
     (record) =>
       record.cong_data.cong_name.value !== settings.cong_settings.cong_name

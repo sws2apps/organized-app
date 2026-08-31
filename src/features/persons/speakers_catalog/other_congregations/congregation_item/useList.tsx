@@ -13,7 +13,6 @@ const useList = ({
   const handleToggleEdit = () => {
     setIsEditMode((prev) => !prev);
 
-    // there is nothing to edit on a card that is closed
     if (!isEditMode) {
       onChangeCurrentExpanded(id);
     }

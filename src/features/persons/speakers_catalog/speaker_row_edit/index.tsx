@@ -22,8 +22,6 @@ const SpeakerRowEdit = ({ speaker, onEdit }: SpeakerRowEditType) => {
   } = useSpeakerRowEdit(speaker);
 
   return (
-    // the wrapper keeps the row clear of the spacing the list puts on its
-    // children, so it lines up with the same row in view mode
     <Box>
       {confirmDeleteOpen && (
         <DeleteConfirm

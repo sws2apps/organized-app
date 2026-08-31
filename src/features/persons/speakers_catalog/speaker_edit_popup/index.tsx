@@ -58,8 +58,6 @@ const SpeakerEditPopup = (props: SpeakerEditPopupType) => {
     (person) => person.person_uid === draft.person_uid
   );
 
-  // for a speaker of the local congregation the name follows the person on
-  // record, falling back to the name stored on the speaker
   const name =
     local && localName
       ? buildPersonFullname(

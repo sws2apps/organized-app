@@ -9,7 +9,6 @@ const useTalksTab = (
 ) => {
   const songs = useAtomValue(songsLocaleState);
 
-  // a talk can only be on the speaker once, so hide the ones already picked
   const talkOptions = (row: SpeakerTalkRowType) => {
     return publicTalks.filter((talk) => {
       if (row.talk?.talk_number === talk.talk_number) return true;
