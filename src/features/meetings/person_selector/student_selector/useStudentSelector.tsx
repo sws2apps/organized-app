@@ -11,6 +11,7 @@ import {
   JWLangLocaleState,
   JWLangState,
   midweekMeetingAssigFSGState,
+  midweekMeetingAuxClassQualificationsState,
   midweekMeetingClassCountState,
   shortDateFormatState,
   userDataViewState,
@@ -35,7 +36,11 @@ import { fieldGroupsState } from '@states/field_service_groups';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { formatDate } from '@utils/date';
-import { personGetFamilyMemberUIDs, personIsAway } from '@services/app/persons';
+import {
+  personAssignmentHasClassroom,
+  personGetFamilyMemberUIDs,
+  personIsAway,
+} from '@services/app/persons';
 
 const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
   const location = useLocation();
@@ -55,6 +60,9 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
   const classCount = useAtomValue(midweekMeetingClassCountState);
   const serviceGroups = useAtomValue(fieldGroupsState);
   const congAssignFSG = useAtomValue(midweekMeetingAssigFSGState);
+  const congAuxClassQualifications = useAtomValue(
+    midweekMeetingAuxClassQualificationsState
+  );
 
   const [gender, setGender] = useState<Gender>('male');
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
@@ -70,6 +78,10 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
 
   const isAssistant = useMemo(() => {
     return assignment.includes('Assistant');
+  }, [assignment]);
+
+  const classroom = useMemo(() => {
+    return assignment.endsWith('_B') ? '2' : '1';
   }, [assignment]);
 
   const assignedFSG = useMemo(() => {
@@ -162,8 +174,35 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
     [assignmentsHistory, shortDateFormat, t, displayNameEnabled, fullnameOption]
   );
 
+  const personAssigned = useMemo(() => {
+    if (week.length === 0) return null;
+
+    const path = ASSIGNMENT_PATH[assignment];
+
+    if (!path) return null;
+
+    const assigned = schedulesGetData(
+      schedule,
+      path,
+      dataView
+    ) as AssignmentCongregation;
+
+    const person = persons.find(
+      (record) => record.person_uid === assigned?.value
+    );
+
+    return person || null;
+  }, [week, assignment, dataView, schedule, persons]);
+
   const options = useMemo(() => {
+    const checkClassrooms = congAuxClassQualifications && classCount === 2;
+
     const filteredPersons = persons.filter((record) => {
+      // keep the currently assigned person visible even when a
+      // classroom restriction would exclude them
+      const skipClassrooms =
+        !checkClassrooms || record.person_uid === personAssigned?.person_uid;
+
       if (showGroupToggle && groupChecked) {
         const findInGroup = serviceGroups.find((g) =>
           g.group_data.members.some((m) => m.person_uid === record.person_uid)
@@ -174,13 +213,17 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
         if (findInGroup.group_id !== assignedFSG) return false;
       }
 
-      const activeAssignments =
-        record.person_data.assignments.find((a) => a.type === dataView)
-          ?.values ?? [];
+      const personAssignments = record.person_data.assignments.find(
+        (a) => a.type === dataView
+      );
+
+      const activeAssignments = personAssignments?.values ?? [];
 
       if (!isAssistant) {
         return (
           activeAssignments.includes(type) &&
+          (skipClassrooms ||
+            personAssignmentHasClassroom(personAssignments, type, classroom)) &&
           ((gender === 'male' && record.person_data.male.value) ||
             (gender === 'female' && record.person_data.female.value))
         );
@@ -188,8 +231,11 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
 
       if (!mainStudentAssigned) return false;
 
-      const hasAssistantRole = activeAssignments.some((a) =>
-        ASSISTANT_ASSIGNMENT.includes(a)
+      const hasAssistantRole = activeAssignments.some(
+        (a) =>
+          ASSISTANT_ASSIGNMENT.includes(a) &&
+          (skipClassrooms ||
+            personAssignmentHasClassroom(personAssignments, a, classroom))
       );
 
       if (!hasAssistantRole) return false;
@@ -255,6 +301,10 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
     persons,
     type,
     isAssistant,
+    classroom,
+    classCount,
+    congAuxClassQualifications,
+    personAssigned,
     gender,
     dataView,
     assignedFSG,
@@ -265,26 +315,6 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
     familyMemberUIDs,
     buildPersonOption,
   ]);
-
-  const personAssigned = useMemo(() => {
-    if (week.length === 0) return null;
-
-    const path = ASSIGNMENT_PATH[assignment];
-
-    if (!path) return null;
-
-    const assigned = schedulesGetData(
-      schedule,
-      path,
-      dataView
-    ) as AssignmentCongregation;
-
-    const person = persons.find(
-      (record) => record.person_uid === assigned?.value
-    );
-
-    return person || null;
-  }, [week, assignment, dataView, schedule, persons]);
 
   const showGenderSelector = useMemo(() => {
     if (isAssistant) {
@@ -318,7 +348,15 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
     }
 
     return false;
-  }, [isAssistant, type, source, assignment, lang, sourceLocale, mainStudentAssigned]);
+  }, [
+    isAssistant,
+    type,
+    source,
+    assignment,
+    lang,
+    sourceLocale,
+    mainStudentAssigned,
+  ]);
 
   const showHeader = useMemo(
     () => showGenderSelector || showGroupToggle,
@@ -457,7 +495,9 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
 
   let mainStudentGender: 'male' | 'female' | null = null;
   if (mainStudentAssigned) {
-    mainStudentGender = mainStudentAssigned.person_data.male.value ? 'male' : 'female';
+    mainStudentGender = mainStudentAssigned.person_data.male.value
+      ? 'male'
+      : 'female';
   }
 
   return {
