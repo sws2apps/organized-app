@@ -1,6 +1,24 @@
 import { forwardRef, Ref } from 'react';
 import { PickersTextField, PickersTextFieldProps } from '@mui/x-date-pickers';
 
+/**
+ * The pixel value an sx `height` resolves to, or null when it can't be known
+ * here (a percentage, another unit, or a responsive value).
+ */
+const pixelHeight = (height: string | number): number | null => {
+  if (typeof height === 'number') {
+    return height > 1 ? height : null;
+  }
+
+  const trimmed = height.trim();
+
+  if (!trimmed.endsWith('px')) return null;
+
+  const parsed = Number.parseFloat(trimmed);
+
+  return Number.isFinite(parsed) ? parsed : null;
+};
+
 const InputTextField = forwardRef(function DatePickerInputField(
   props: PickersTextFieldProps,
   ref: Ref<HTMLDivElement>
@@ -11,19 +29,21 @@ const InputTextField = forwardRef(function DatePickerInputField(
   // Guard against array/function sx forms, which can't be inspected.
   const consumerHeight =
     props.sx && !Array.isArray(props.sx) && typeof props.sx === 'object'
-      ? (props.sx as { height?: string }).height
+      ? (props.sx as { height?: unknown }).height
       : undefined;
-  const customHeight = consumerHeight ?? `${heightLocal}px`;
+
+  const isUsableHeight =
+    typeof consumerHeight === 'string' || typeof consumerHeight === 'number';
+
+  const customHeight = isUsableHeight ? consumerHeight : `${heightLocal}px`;
 
   // Input padding and the floating label offset must follow the height the
   // input actually renders at, otherwise a consumer override (e.g. 48px)
-  // leaves the value and label vertically misaligned. Fall back to the local
-  // height for non-px units, which can't be resolved here.
-  const parsedHeight = Number.parseFloat(customHeight);
-  const effectiveHeight =
-    customHeight.trim().endsWith('px') && Number.isFinite(parsedHeight)
-      ? parsedHeight
-      : heightLocal;
+  // leaves the value and label vertically misaligned. Anything that can't be
+  // resolved to pixels here — responsive objects, other units, and the MUI
+  // shorthand where a number of 1 or less means a percentage — keeps the
+  // local height.
+  const effectiveHeight = pixelHeight(customHeight) ?? heightLocal;
 
   const varHeight = (56 - effectiveHeight) / 2;
 
