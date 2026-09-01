@@ -35,6 +35,11 @@ export type SpeakerImportResult = {
 
 type RowData = Record<string, string>;
 
+export type RowErrorType = {
+  line: number;
+  reasons: string[];
+};
+
 const useCSVImport = () => {
   const { t } = useAppTranslation();
   const { SPEAKER_FIELD_META } = useSpeakersImportConfig();
@@ -141,14 +146,11 @@ const useCSVImport = () => {
     );
   };
 
-  /**
-   * Processes a single data row, applies the mapped handlers, and updates the draft object.
-   * Returns true if the speaker has a valid lastname and should be included.
-   */
   const processRowData = (
     row: RowData,
     headerMapping: MappedHeader[],
-    draft: SpeakerImportDraftType
+    draft: SpeakerImportDraftType,
+    errors: string[]
   ): boolean => {
     for (const mapping of headerMapping) {
       const value = row[mapping.header];
@@ -158,12 +160,24 @@ const useCSVImport = () => {
       try {
         mapping.field.handler(draft, value);
       } catch (error) {
-        console.error(`Error handling field ${mapping.header}:`, error);
+        const reason = error instanceof Error ? error.message : String(error);
+
+        errors.push(
+          reason.startsWith('tr_') ? t(reason) : `${mapping.header}: ${reason}`
+        );
       }
     }
+    if (!draft.speaker.lastname) {
+      const hasAnyValue = Object.values(row).some((v) => v && v.trim() !== '');
 
-    // Check if speaker has required minimum data
-    return !!draft.speaker.lastname;
+      if (hasAnyValue) {
+        errors.push(t('tr_importRowMissingLastname'));
+      }
+
+      return false;
+    }
+
+    return true;
   };
 
   /**
@@ -181,6 +195,8 @@ const useCSVImport = () => {
   ): Promise<{
     speakers: SpeakerIncomingDetailsType[];
     congregations: CongregationIncomingDetailsType[];
+    lines: number[];
+    rowErrors: RowErrorType[];
   }> => {
     let dataRows: RowData[] = [];
 
@@ -188,7 +204,9 @@ const useCSVImport = () => {
       dataRows = parseCSV(fileData.contents);
     }
 
-    dataRows = checkAndRemoveTranslationRow(dataRows);
+    const rowsWithoutTranslation = checkAndRemoveTranslationRow(dataRows);
+    const lineOffset = rowsWithoutTranslation.length < dataRows.length ? 3 : 2;
+    dataRows = rowsWithoutTranslation;
 
     const headerMapping = buildHeaderMapping(
       dataRows,
@@ -198,6 +216,8 @@ const useCSVImport = () => {
 
     const resultSpeakers: SpeakerIncomingDetailsType[] = [];
     const resultCongregations: CongregationIncomingDetailsType[] = [];
+    const resultLines: number[] = [];
+    const rowErrors: RowErrorType[] = [];
 
     let currentCongregation = createEmptyCongregation();
     currentCongregation.cong_name = 'OwnCongregation';
@@ -206,7 +226,9 @@ const useCSVImport = () => {
       (m) => m.field.key.toLowerCase() === 'congregation.cong_name'
     );
 
-    for (const row of dataRows) {
+    for (const [index, row] of dataRows.entries()) {
+      const line = index + lineOffset;
+
       try {
         const congNameValue = congNameMapping
           ? (row[congNameMapping.header] ?? '').trim()
@@ -221,19 +243,33 @@ const useCSVImport = () => {
           speaker: createEmptySpeaker(),
         };
 
-        // --- OUTSOURCED ROW LOGIC ---
-        const isValid = processRowData(row, headerMapping, draft);
+        const fieldErrors: string[] = [];
+        const isValid = processRowData(row, headerMapping, draft, fieldErrors);
+
+        if (fieldErrors.length > 0) {
+          rowErrors.push({ line, reasons: fieldErrors });
+          continue;
+        }
 
         if (!isValid) continue;
 
         resultCongregations.push(draft.congregation);
         resultSpeakers.push(draft.speaker);
+        resultLines.push(line);
       } catch (error) {
-        console.error('Row parsing error:', row, error);
+        rowErrors.push({
+          line,
+          reasons: [error instanceof Error ? error.message : String(error)],
+        });
       }
     }
 
-    return { speakers: resultSpeakers, congregations: resultCongregations };
+    return {
+      speakers: resultSpeakers,
+      congregations: resultCongregations,
+      lines: resultLines,
+      rowErrors,
+    };
   };
 
   const getCSVHeaders = (csvText: string): string[] => {
@@ -371,14 +407,20 @@ const useCSVImport = () => {
     return finalCongUid;
   };
 
-  /**
-   * Formats the aggregated error counts into a readable summary string,
-   * sorted by descending occurrence count.
-   */
-  const formatErrorSummary = (errorCounts: Map<string, number>): string =>
+  const formatErrorSummary = (
+    errorCounts: Map<string, { count: number; lines: number[] }>
+  ): string =>
     Array.from(errorCounts.entries())
-      .sort((a, b) => b[1] - a[1])
-      .map(([message, count]) => `${count} x ${message}`)
+      .sort((a, b) => b[1].count - a[1].count)
+      .map(([message, { count, lines }]) => {
+        const suffix =
+          lines.length > 0
+            ? ` (${t('tr_csvRows')}: ${lines.slice(0, 10).join(', ')}${
+                lines.length > 10 ? ', …' : ''
+              })`
+            : '';
+        return `${count} x ${message}${suffix}`;
+      })
       .join('. ');
 
   /**
@@ -430,11 +472,7 @@ const useCSVImport = () => {
       existingPersonUid = findExistingPersonUid(speaker, ctx.persons);
 
       if (!existingPersonUid) {
-        throw new Error(
-          t('tr_speakerNotFoundInOwnCongregation', {
-            name: `${speaker.firstname} ${speaker.lastname}`,
-          })
-        );
+        throw new Error(t('tr_speakerNotFoundInOwnCongregation'));
       }
     }
 
@@ -494,12 +532,27 @@ const useCSVImport = () => {
   const addSpeakersToDB = async (data: {
     speakers: SpeakerIncomingDetailsType[];
     congregations: CongregationIncomingDetailsType[];
+    lines: number[];
+    rowErrors: RowErrorType[];
   }): Promise<SpeakerImportResult> => {
     let successCount = 0;
-    const errorCounts = new Map<string, number>();
+    const errorCounts = new Map<string, { count: number; lines: number[] }>();
     const successfullyImported: VisitingSpeakerType[] = [];
 
-    // Fetch necessary baseline data from the local database for validation and deduplication
+    const addError = (reason: string, line?: number) => {
+      const entry = errorCounts.get(reason) ?? { count: 0, lines: [] };
+      entry.count++;
+      if (line !== undefined) entry.lines.push(line);
+      errorCounts.set(reason, entry);
+    };
+
+    // Fehler aus der Parse-Phase (ungültige Vorträge, fehlende Nachnamen)
+    for (const rowError of data.rowErrors) {
+      for (const reason of rowError.reasons) {
+        addError(reason, rowError.line);
+      }
+    }
+
     const existingCongs = await appDb.speakers_congregations.toArray();
     const existingVisitingSpeakers = await appDb.visiting_speakers.toArray();
     const settings = await appDb.app_settings.get(1);
@@ -508,18 +561,14 @@ const useCSVImport = () => {
     if (!settings) {
       return {
         successCount: 0,
-        totalCount: data.speakers.length,
+        totalCount: data.speakers.length + data.rowErrors.length,
         errorReason: 'Settings not found',
         successfullyImported: [],
       };
     }
 
     const ownCongName = settings.cong_settings.cong_name;
-
-    // Build lookup maps to quickly resolve local congregation UUIDs by name and vice versa
     const { congUidMap, congNameMap } = buildCongregationMaps(existingCongs);
-
-    // Build a Set of composite keys to detect existing speakers and prevent duplicates
     const existingSpeakerKeys = buildExistingSpeakerKeys(
       existingVisitingSpeakers,
       congUidMap
@@ -534,8 +583,9 @@ const useCSVImport = () => {
       existingSpeakerKeys,
     };
 
-    // Iterate over all parsed rows to process and persist them
     for (let i = 0; i < data.speakers.length; i++) {
+      const line = data.lines[i];
+
       try {
         const result = await processRow(
           data.speakers[i],
@@ -547,21 +597,17 @@ const useCSVImport = () => {
           successfullyImported.push(result.speaker);
           successCount++;
         } else {
-          errorCounts.set(
-            result.reason,
-            (errorCounts.get(result.reason) ?? 0) + 1
-          );
+          addError(result.reason, line);
         }
       } catch (error: unknown) {
-        // Aggregate parsing and validation errors instead of crashing the entire import
         const errorMsg = error instanceof Error ? error.message : String(error);
-        errorCounts.set(errorMsg, (errorCounts.get(errorMsg) ?? 0) + 1);
+        addError(errorMsg, line);
       }
     }
 
     return {
       successCount,
-      totalCount: data.speakers.length,
+      totalCount: data.speakers.length + data.rowErrors.length,
       errorReason: formatErrorSummary(errorCounts),
       successfullyImported,
     };
