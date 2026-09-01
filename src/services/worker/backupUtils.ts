@@ -31,6 +31,29 @@ import { DelegatedFieldServiceReportType } from '@definition/delegated_field_ser
 import { UpcomingEventType } from '@definition/upcoming_events';
 import { formatDate } from '@utils/date';
 import { APP_READ_ONLY_ROLES } from '@constants/index';
+import { AppRoleType } from '@definition/app';
+
+const isAdminRole = (userRole: AppRoleType[]) =>
+  userRole.includes('admin') ||
+  userRole.includes('secretary') ||
+  userRole.includes('coordinator');
+
+/**
+ * Roles with a UI for congregation-wide field service reports. Must stay in
+ * sync with the /reports/field-service route guard in App.tsx.
+ */
+const isCongReportsViewer = (userRole: AppRoleType[]) =>
+  isAdminRole(userRole) ||
+  userRole.includes('group_overseers') ||
+  userRole.includes('language_group_overseers');
+
+/** Senders also include elders. */
+const canSendCongReports = (userRole: AppRoleType[]) =>
+  isCongReportsViewer(userRole) || userRole.includes('elder');
+
+/** Receivers also include publishers. */
+const canReceiveCongReports = (userRole: AppRoleType[]) =>
+  isCongReportsViewer(userRole) || userRole.includes('publisher');
 
 const personIsElder = (person: PersonType) => {
   const hasActive = person?.person_data.privileges?.find(
@@ -254,9 +277,9 @@ export const dbGetMetadata = async () => {
   const userRole = settings.user_settings.cong_role;
 
   const isSecretary = userRole.includes('secretary');
-  const isCoordinator = userRole.includes('coordinator');
-  const isAdmin = userRole.includes('admin') || isSecretary || isCoordinator;
+  const isAdmin = isAdminRole(userRole);
   const isPublisher = isAdmin || userRole.includes('publisher');
+  const isCongReportsReceiver = canReceiveCongReports(userRole);
   const isGroupOverseer = isAdmin || userRole.includes('group_overseers');
   const isLanguageGroupOverseer =
     isAdmin || userRole.includes('language_group_overseers');
@@ -282,6 +305,9 @@ export const dbGetMetadata = async () => {
     delete result.user_bible_studies;
     delete result.user_field_service_reports;
     delete result.delegated_field_service_reports;
+  }
+
+  if (!isCongReportsReceiver) {
     delete result.cong_field_service_reports;
   }
 
@@ -1049,13 +1075,7 @@ const dbRestoreCongReports = async (
 
     const userRole = settings.user_settings.cong_role;
 
-    const secretaryRole = userRole.includes('secretary');
-    const coordinatorRole = userRole.includes('coordinator');
-    const adminRole =
-      userRole.includes('admin') || secretaryRole || coordinatorRole;
-    const publisherRole = userRole.includes('publisher');
-
-    const allowRestore = adminRole || publisherRole;
+    const allowRestore = canReceiveCongReports(userRole);
 
     if (allowRestore) {
       const remoteData = (
@@ -1638,16 +1658,11 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
 
     const { user_settings, cong_settings } = settings;
 
-    const secretaryRole = userRole.includes('secretary');
-    const coordinatorRole = userRole.includes('coordinator');
-    const elderRole = userRole.includes('elder');
-    const groupOverseerRole = userRole.includes('group_overseers');
     const languageGroupOverseerRole = userRole.includes(
       'language_group_overseers'
     );
 
-    const adminRole =
-      userRole.includes('admin') || secretaryRole || coordinatorRole;
+    const adminRole = isAdminRole(userRole);
 
     const serviceCommitteeRole =
       adminRole || userRole.some((role) => role === 'service_overseer');
@@ -1843,10 +1858,7 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
 
         // include field service reports
         if (
-          (adminRole ||
-            elderRole ||
-            groupOverseerRole ||
-            languageGroupOverseerRole) &&
+          canSendCongReports(userRole) &&
           metadata.metadata.cong_field_service_reports.send_local
         ) {
           const backupReports = cong_field_service_reports.map((report) => {
