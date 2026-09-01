@@ -75,56 +75,71 @@ export const updateSpeakerMS = (
   if (value) speaker.is_elder = false;
 };
 
-/**
- * PARSER FÜR DAS MUSTER: "1 (5, 90), 4 (6,20)"
- * Erkennt:
- * - "1" -> Vortrag 1, keine Lieder
- * - "1 (5)" -> Vortrag 1, Lied 5
- * - "1 (5, 90)" -> Vortrag 1, Lieder 5 und 90
- */
+export class TalksListParseError extends Error {
+  constructor(
+    readonly input: string,
+    readonly position: number
+  ) {
+    super('tr_importTalksInvalidFormat');
+    this.name = 'TalksListParseError';
+  }
+}
+
+const TALK_TOKEN_REGEX = /(\d+)\s*(?:\(([^)]*)\))?\s*/y;
+
+export const parseSpeakerTalks = (value: string): IncomingTalkType[] => {
+  const input = value.trim();
+  if (input.length === 0) return [];
+
+  const talks: IncomingTalkType[] = [];
+  let pos = 0;
+
+  while (pos < input.length) {
+    TALK_TOKEN_REGEX.lastIndex = pos;
+    const match = TALK_TOKEN_REGEX.exec(input);
+
+    if (match === null) {
+      throw new TalksListParseError(input, pos);
+    }
+
+    const talkNum = Number.parseInt(match[1], 10);
+    if (Number.isNaN(talkNum) || talkNum <= 0) {
+      throw new TalksListParseError(input, pos);
+    }
+
+    const songs = match[2]
+      ? match[2]
+          .split(/[,;]/)
+          .map((s) => Number.parseInt(s.trim(), 10))
+          .filter((n) => !Number.isNaN(n) && n > 0)
+      : [];
+
+    talks.push({ number: talkNum, songs });
+    pos = TALK_TOKEN_REGEX.lastIndex;
+
+    if (pos < input.length) {
+      if (input[pos] !== ',' && input[pos] !== ';') {
+        throw new TalksListParseError(input, pos);
+      }
+      pos++;
+      while (pos < input.length && /\s/.test(input[pos])) pos++;
+
+      if (pos === input.length) {
+        throw new TalksListParseError(input, pos);
+      }
+    }
+  }
+
+  return talks;
+};
+
 export const updateSpeakerTalks = (
   speaker: SpeakerIncomingDetailsType,
   value: string
 ): void => {
-  const talksResult: IncomingTalkType[] = [];
-
-  // Regex Erklärung:
-  // (\d+)       -> Gruppe 1: Die Vortragsnummer (zwingend)
-  // \s* -> Beliebige Leerzeichen
-  // (?:         -> Beginn einer optionalen Gruppe (für die Lieder)
-  //   \(        -> Eine echte öffnende Klammer
-  //   ([^)]*)   -> Gruppe 2: Alles bis zur schließenden Klammer (die Lieder)
-  //   \)        -> Eine echte schließende Klammer
-  // )?          -> Die ganze Klammer-Gruppe ist optional
-  const regex = /(\d+)\s*(?:\(([^)]*)\))?/g;
-
-  let match;
-
-  // Wir iterieren durch alle Treffer im String
-  while ((match = regex.exec(value)) !== null) {
-    const talkNum = Number.parseInt(match[1], 10);
-
-    // Lieder extrahieren (Gruppe 2), falls vorhanden
-    let songs: number[] = [];
-    if (match[2]) {
-      songs = match[2]
-        .split(/[,;]/) // Trennt Lieder bei Komma oder Semikolon
-        .map((s) => Number.parseInt(s.trim(), 10))
-        .filter((n) => !Number.isNaN(n) && n > 0);
-    }
-
-    if (!Number.isNaN(talkNum) && talkNum > 0) {
-      talksResult.push({
-        number: talkNum,
-        songs: songs,
-      });
-    }
-  }
-
-  speaker.talks = talksResult;
+  speaker.talks = parseSpeakerTalks(value);
 };
 
-// 4. Mapper Update
 export const convertToDatabaseSpeaker = (
   incoming: SpeakerIncomingDetailsType,
   congId: string,
