@@ -6,6 +6,14 @@ import useCSVImport from './useCSVImport';
 import useSpeakersImportConfig from './useSpeakersImportConfig';
 import { ConfirmImportProps } from './index.types';
 
+/**
+ * Hook backing the confirm step of the speakers CSV import. Manages the
+ * field/group checkbox selection and runs the two-phase import (parse,
+ * then persist) when the user confirms.
+ *
+ * Selection rule applied throughout: only fields whose key exists in the
+ * CSV header row are selectable; fields missing from the file are disabled.
+ */
 const useConfirmImport = (props: ConfirmImportProps) => {
   const { t } = useAppTranslation();
 
@@ -42,6 +50,16 @@ const useConfirmImport = (props: ConfirmImportProps) => {
     }
   }, [props.filedata, initialSelected]);
 
+  /**
+   * Toggles a single field and derives the checkbox state of its group.
+   *
+   * The group state is computed inside the `setSelectedFields` updater so it
+   * always operates on the freshest field map – reading the closed-over
+   * `selectedFields` instead would lag one render behind (stale state).
+   *
+   * @param {string} fieldKey - The field key to toggle (e.g. "speaker.firstname").
+   * @param {boolean} checked - Whether the field is selected.
+   */
   const handleSelectField = (fieldKey: string, checked: boolean) => {
     const field = SPEAKER_FIELD_META.find((f) => f.key === fieldKey);
 
@@ -69,6 +87,10 @@ const useConfirmImport = (props: ConfirmImportProps) => {
     });
   };
 
+  /**
+   * True when every field available in the CSV file is selected.
+   * False when the file contains no known fields at all.
+   */
   const selectedAll = useMemo(() => {
     const availableFields = SPEAKER_FIELD_META.filter((f) =>
       csvHeaders.includes(f.key)
@@ -80,7 +102,11 @@ const useConfirmImport = (props: ConfirmImportProps) => {
     );
   }, [selectedFields, SPEAKER_FIELD_META, csvHeaders]);
 
-  const inderterminate = useMemo(() => {
+  /**
+   * True when some – but not all – available fields are selected; drives the
+   * indeterminate visual state of the select-all checkbox.
+   */
+  const indeterminate = useMemo(() => {
     const availableFields = SPEAKER_FIELD_META.filter((f) =>
       csvHeaders.includes(f.key)
     );
@@ -91,6 +117,13 @@ const useConfirmImport = (props: ConfirmImportProps) => {
     return selectedCount > 0 && selectedCount < availableFields.length;
   }, [selectedFields, csvHeaders, SPEAKER_FIELD_META]);
 
+  /**
+   * Selects or deselects all fields available in the CSV file and updates
+   * all group checkboxes accordingly. Groups without any available field
+   * keep their current state.
+   *
+   * @param {ChangeEvent<HTMLInputElement>} event - The checkbox change event.
+   */
   const handleSelectAll = (event: ChangeEvent<HTMLInputElement>) => {
     const checked = event.target.checked;
 
@@ -118,7 +151,14 @@ const useConfirmImport = (props: ConfirmImportProps) => {
     setSelectedFields(newFieldSelections);
   };
 
-  const handleSelectData = (groupKey: string, checked: boolean) => {
+  /**
+   * Selects or deselects a whole group: all of its fields available in the
+   * CSV file are toggled, fields not present in the file stay untouched.
+   *
+   * @param {string} groupKey - The group to toggle (e.g. "speaker").
+   * @param {boolean} checked - Whether the group should be selected.
+   */
+  const handleSelectGroup = (groupKey: string, checked: boolean) => {
     setSelected((prev) => ({
       ...prev,
       [groupKey]: checked,
@@ -140,6 +180,15 @@ const useConfirmImport = (props: ConfirmImportProps) => {
     }));
   };
 
+  /**
+   * Runs the import on confirm: parses the selected fields from the file,
+   * persists the valid rows, and shows the outcome (success count plus the
+   * aggregated error summary with affected CSV rows) as a snack notification.
+   *
+   * Closes the dialog after a completed run; it stays open when no valid
+   * data was found or an unexpected error occurred. Does nothing while an
+   * import is already running or no field is selected.
+   */
   const handleImportData = async () => {
     if (isProcessing) return;
 
@@ -213,10 +262,10 @@ const useConfirmImport = (props: ConfirmImportProps) => {
   return {
     isProcessing,
     handleImportData,
-    handleSelectData,
+    handleSelectData: handleSelectGroup,
     selected,
     selectedAll,
-    inderterminate,
+    inderterminate: indeterminate,
     handleSelectAll,
     csvContents,
     handleSelectField,

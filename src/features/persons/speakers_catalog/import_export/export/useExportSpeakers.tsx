@@ -24,6 +24,15 @@ import {
 
 type ExportFormat = 'xlsx' | 'csv';
 
+/**
+ * Hook backing the export step of the speakers catalog: builds the export
+ * matrix for the selected fields and downloads it as XLSX or CSV.
+ *
+ * Both formats share the same layout: row 1 contains the technical field
+ * keys, row 2 the localized labels, followed by the data rows. The import
+ * relies on this structure – its translation-row detection strips row 2.
+ * Keep the two in sync when changing the header layout.
+ */
 const useExportSpeakers = () => {
   const { t } = useAppTranslation();
   const lng = useAtomValue(JWLangLocaleState);
@@ -33,13 +42,20 @@ const useExportSpeakers = () => {
 
   const [isProcessing, setIsProcessing] = useState(false);
 
-  // Resolve the contact person (name/email/phone) for a given cong role.
-  // The own congregation does not store coordinator / public_talk_coordinator
-  // contact details in `speakers_congregations`; instead the coordinator is
-  // referenced via `settings.cong_settings.responsabilities.coordinator`
-  // (person_uid) and the public talk coordinator is the user holding the
-  // `public_talk_schedule` role. Both are resolved against the `persons`
-  // table to obtain name, email and phone.
+  /**
+   * Resolves the contact details (name/email/phone) for a role of the own
+   * congregation. The own congregation does not store coordinator contacts in
+   * `speakers_congregations`; instead the coordinator is referenced via
+   * `settings.cong_settings.responsabilities.coordinator` (person_uid) and the
+   * public talk coordinator is the user holding the `public_talk_schedule`
+   * role. Both are resolved against the persons table.
+   *
+   * @param {'coordinator' | 'public_talk_coordinator'} role - Which contact to resolve.
+   * @param {SettingsType | undefined} settings - The app settings (source of the coordinator uid).
+   * @param {PersonType[]} personsList - All locally stored persons.
+   * @param {CongregationUserType[]} users - The congregation users (source of the talk coordinator role).
+   * @returns {{ name: string; email: string; phone: string }} The contact details; empty strings when not resolvable.
+   */
   const getOwnCongContact = (
     role: 'coordinator' | 'public_talk_coordinator',
     settings: SettingsType | undefined,
@@ -74,6 +90,14 @@ const useExportSpeakers = () => {
     };
   };
 
+  /**
+   * Extracts one field value from a speaker record for the export matrix.
+   * Booleans are rendered as "yes" / "" to match the import format.
+   *
+   * @param {VisitingSpeakerType} speaker - The speaker record.
+   * @param {string} field - The field key (e.g. "speaker.firstname").
+   * @returns {string} The cell value; empty for unknown keys or missing values.
+   */
   const getSpeakerValue = (
     speaker: VisitingSpeakerType,
     field: string
@@ -98,6 +122,18 @@ const useExportSpeakers = () => {
     }
   };
 
+  /**
+   * Extracts one congregation field value for the export matrix. For the own
+   * congregation the values come from the app settings (coordinator contacts
+   * are resolved via persons/roles); for guest congregations from the
+   * `speakers_congregations` record.
+   *
+   * @param {SpeakersCongregationsType | undefined} congregation - The speaker's congregation record, if known.
+   * @param {SettingsType | undefined} settings - The app settings (only used for the own congregation).
+   * @param {boolean} isOwnCongregation - Whether the row belongs to the own congregation.
+   * @param {string} field - The field key (e.g. "congregation.cong_name").
+   * @returns {string} The cell value; empty for unknown keys or missing data.
+   */
   const getCongregationValue = (
     congregation: SpeakersCongregationsType | undefined,
     settings: SettingsType | undefined,
@@ -221,6 +257,15 @@ const useExportSpeakers = () => {
     }
   };
 
+  /**
+   * Formats a speaker's active talks as an import-compatible talk list,
+   * e.g. "1 (5, 90), 4". The separator follows the user's locale
+   * (arrayInCsvSeparator), and the import parser accepts both "," and ";" –
+   * so an exported file can be edited and re-imported directly.
+   *
+   * @param {VisitingSpeakerType} speaker - The speaker record.
+   * @returns {string} The formatted talk list; empty when no active talks exist.
+   */
   const formatTalks = (speaker: VisitingSpeakerType): string => {
     const listSeparator = arrayInCsvSeparator();
     const joinedSeparator = listSeparator + ' ';
@@ -240,6 +285,22 @@ const useExportSpeakers = () => {
     return talks.join(joinedSeparator);
   };
 
+  /**
+   * Builds the export file for the selected fields and triggers the download.
+   *
+   * Steps: load speakers, congregations, persons and settings; resolve the
+   * own congregation's LOCAL record id (speaker_data.cong_id refers to
+   * speakers_congregations.id, not the remote cong_id); drop deleted records
+   * and speakers of unknown congregations; enrich own-congregation speakers
+   * with their persons-table data (their speaker_data holds placeholders);
+   * sanitize every cell against spreadsheet formula injection.
+   *
+   * @param {Record<string, boolean>} selectedFields - Field selection from the dialog (key -> included).
+   * @param {ExportFormat} [format] - The export format, defaults to "xlsx".
+   * @returns {Promise<void>} Resolves when the download was triggered.
+   * @throws Rethrows any failure after showing an error notification, so the
+   *         dialog knows NOT to close.
+   */
   const handleExport = async (
     selectedFields: Record<string, boolean>,
     format: ExportFormat = 'xlsx'
@@ -252,12 +313,6 @@ const useExportSpeakers = () => {
       const persons = await appDb.persons.toArray();
       const settings = await appDb.app_settings.get(1);
 
-      // Determine the own congregation's record id in `speakers_congregations`.
-      // The `cong_id` stored in `app_settings.cong_settings.cong_id` is the
-      // remote congregation id, NOT the local record id used as
-      // `speaker_data.cong_id`. The local record id is the `id` of the
-      // `speakers_congregations` entry whose `cong_name` matches the
-      // congregation name from settings.
       const myCongName = settings?.cong_settings.cong_name;
       const myCongRecord = congregations.find(
         (c) =>
@@ -265,6 +320,7 @@ const useExportSpeakers = () => {
           c.cong_data.cong_name.value === myCongName &&
           !!c.id
       );
+      // resolve own congregation's local record id (see hook JSDoc)
       const myCongId = myCongRecord?.id;
 
       // Collect all valid external congregation IDs
@@ -396,11 +452,21 @@ const useExportSpeakers = () => {
         icon: <IconError color="var(--white)" />,
       });
 
-      // IMPORTANT: Rethrow error so the dialog knows NOT to close
       throw error;
     }
   };
 
+  /**
+   * Writes the export matrix as an XLSX file. Row 1 holds the technical keys,
+   * row 2 the localized labels (both bold and sticky); column widths are
+   * chosen by field type.
+   *
+   * @param {string[]} headerKeys - Technical field keys, first row.
+   * @param {string[]} headerLabels - Localized labels, second row.
+   * @param {string[][]} dataRows - The sanitized cell values.
+   * @param {typeof SPEAKER_FIELD_META} exportFields - The selected fields (used for column widths).
+   * @returns {Promise<void>} Resolves when the file download was triggered.
+   */
   const exportAsExcel = async (
     headerKeys: string[],
     headerLabels: string[],
@@ -445,6 +511,17 @@ const useExportSpeakers = () => {
     });
   };
 
+  /**
+   * Writes the export matrix as a CSV file with the locale-specific column
+   * delimiter. A UTF-8 BOM is prepended so Excel detects the encoding
+   * correctly (mirroring the BOM handling of the import's decodeCsvFile);
+   * all cells are quoted.
+   *
+   * @param {string[]} headerKeys - Technical field keys, first row.
+   * @param {string[]} headerLabels - Localized labels, second row.
+   * @param {string[][]} dataRows - The sanitized cell values.
+   * @returns {Promise<void>} Resolves when the file download was triggered.
+   */
   const exportAsCSV = async (
     headerKeys: string[],
     headerLabels: string[],

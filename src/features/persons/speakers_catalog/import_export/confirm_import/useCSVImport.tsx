@@ -26,32 +26,67 @@ import useSpeakersImportConfig, {
   SpeakerFieldMeta,
 } from './useSpeakersImportConfig';
 
+/**
+ * Aggregated outcome of {@link addSpeakersToDB}.
+ */
 export type SpeakerImportResult = {
+  /** Number of speakers actually persisted. */
   successCount: number;
+  /** Number of CSV data rows processed (imported + rejected). */
   totalCount: number;
+  /** Human-readable summary of all aggregated error reasons; empty when none occurred. */
   errorReason: string;
+  /** The speaker records that were successfully written to the database. */
   successfullyImported: VisitingSpeakerType[];
 };
 
+/** One parsed CSV data row: maps (trimmed) column headers to raw cell values. */
 type RowData = Record<string, string>;
 
 export type RowErrorType = {
+  /** 1-based line number within the uploaded CSV file (header = line 1). */
   line: number;
+  /** All validation messages collected for this row (already localized). */
   reasons: string[];
 };
 
+/**
+ * Hook providing the CSV import pipeline for the speakers catalog: parsing
+ * the uploaded file into speaker/congregation drafts and persisting them
+ * with deduplication and aggregated error reporting.
+ */
 const useCSVImport = () => {
   const { t } = useAppTranslation();
   const { SPEAKER_FIELD_META } = useSpeakersImportConfig();
 
+  /**
+   * Returns the technical field keys of all configured import fields
+   * (e.g. "speaker.firstname"), as used in the CSV header row.
+   *
+   * @returns {string[]} The field keys in configuration order.
+   */
   const getSpeakerPaths = (): string[] => {
     return SPEAKER_FIELD_META.map((field) => field.key);
   };
 
+  /**
+   * Returns the localized labels of all configured import fields. Used to
+   * detect the translated label row that template files contain below the
+   * technical header row.
+   *
+   * @returns {string[]} The translated field labels in configuration order.
+   */
   const getSpeakerPathsTranslated = (): string[] => {
     return SPEAKER_FIELD_META.map((field) => t(field.label));
   };
 
+  /**
+   * Auto-detects the column delimiter of a CSV text by letting PapaParse
+   * inspect the first line.
+   *
+   * @param {string} csvText - The raw CSV file contents.
+   * @returns {string} The detected delimiter, falling back to ",".
+   */
   const detectDelimiter = (csvText: string): string => {
     const { meta } = Papa.parse<RowData>(csvText, {
       preview: 1,
@@ -61,6 +96,17 @@ const useCSVImport = () => {
     return meta.delimiter ?? ',';
   };
 
+  /**
+   * Detects and removes the optional second row of template files that
+   * contains the translated column labels instead of actual data.
+   *
+   * Heuristic: the row counts as a translation row if more than 30% of its
+   * filled cells match known field labels, or if at least 3 cells match –
+   * a real speaker would hardly be named exactly "First Name" "Last Name".
+   *
+   * @param {RowData[]} dataRows - All parsed data rows (without the technical header).
+   * @returns {RowData[]} The rows without the translation row, or the input unchanged.
+   */
   const checkAndRemoveTranslationRow = (dataRows: RowData[]): RowData[] => {
     if (dataRows.length === 0) return dataRows;
 
@@ -94,6 +140,13 @@ const useCSVImport = () => {
     return dataRows;
   };
 
+  /**
+   * Parses raw CSV text into row objects using the first line as headers.
+   * Parser errors are logged but do not abort the import.
+   *
+   * @param {string} csvText - The raw CSV file contents.
+   * @returns {RowData[]} The parsed data rows (empty lines are dropped).
+   */
   const parseCSV = (csvText: string): RowData[] => {
     const parsed = Papa.parse<RowData>(csvText, {
       header: true,
@@ -109,16 +162,18 @@ const useCSVImport = () => {
     return parsed.data;
   };
 
+  /** Associates a CSV column header with the import field it maps to. */
   type MappedHeader = { header: string; field: SpeakerFieldMeta };
 
   /**
-   * Extracts and maps file headers to the configured import fields.
-   * Filters out fields that are not selected or not found in the configuration.
+   * Maps the CSV column headers to the configured import fields, matching
+   * case-insensitively. Columns without a matching field – and fields the
+   * user deselected in the confirm step – are excluded.
    *
-   * @param {RowData[]} dataRows - The parsed data rows from the file.
-   * @param {SpeakerFieldMeta[]} fieldMeta - The configuration metadata for speaker fields.
-   * @param {Record<string, boolean>} [selectedFields] - Optional filter object.
-   * @returns {MappedHeader[]} The filtered header mapping.
+   * @param {RowData[]} dataRows - The parsed data rows (used to read the header names).
+   * @param {SpeakerFieldMeta[]} fieldMeta - The field configuration to map against.
+   * @param {Record<string, boolean>} [selectedFields] - Optional field selection; when given, only selected fields are mapped.
+   * @returns {MappedHeader[]} The resolved header/field pairs in column order.
    */
   const buildHeaderMapping = (
     dataRows: RowData[],
@@ -129,23 +184,38 @@ const useCSVImport = () => {
 
     const headers = Object.keys(dataRows[0]);
 
-    return (
-      headers
-        .map((header) => {
-          const field = fieldMeta.find(
-            (f) => f.key.toLowerCase() === header.toLowerCase()
-          );
-          return { header, field };
-        })
-        // Type Guard: Tells TypeScript that 'field' is guaranteed to exist after this filter
-        .filter((item): item is MappedHeader => {
-          if (!item.field) return false;
-          if (selectedFields) return !!selectedFields[item.field.key];
-          return true;
-        })
-    );
+    return headers
+      .map((header) => {
+        const field = fieldMeta.find(
+          (f) => f.key.toLowerCase() === header.toLowerCase()
+        );
+        return { header, field };
+      })
+
+      .filter((item): item is MappedHeader => {
+        if (!item.field) return false;
+        if (selectedFields) return !!selectedFields[item.field.key];
+        return true;
+      });
   };
 
+  /**
+   * Applies every mapped field handler to one CSV row, filling the draft.
+   * Handler failures (e.g. a malformed talk list) are collected as localized
+   * messages in `errors` instead of aborting; messages looking like an i18n
+   * key ("tr_…") are translated first, anything else is prefixed with the
+   * column header for context.
+   *
+   * A row is only importable if a last name was set. Rows containing data
+   * but no last name are reported via `errors` as well; completely empty
+   * rows fail silently by design.
+   *
+   * @param {RowData} row - The CSV row to process.
+   * @param {MappedHeader[]} headerMapping - The resolved header/field mapping.
+   * @param {SpeakerImportDraftType} draft - The draft to fill (mutated in place).
+   * @param {string[]} errors - Collector receiving one localized message per failed field.
+   * @returns {boolean} True if the row may be imported, false otherwise.
+   */
   const processRowData = (
     row: RowData,
     headerMapping: MappedHeader[],
@@ -181,13 +251,24 @@ const useCSVImport = () => {
   };
 
   /**
-   * Parses file contents (CSV string) into structured arrays of speakers and congregations.
-   * It groups speakers under their respective congregations. If a row omits congregation details,
-   * the speaker inherits the previous row's congregation.
+   * Parses the uploaded CSV file into speakers and congregations. Speakers
+   * are grouped under their congregation: a row without congregation values
+   * inherits the previous row's congregation; rows before the first
+   * congregation entry belong to the user's own congregation.
    *
-   * @param {Object} fileData - The file information containing the type ('csv') and the actual contents.
-   * @param {Record<string, boolean>} [selectedFields] - Optional filter object to determine which mapped fields should be imported.
-   * @returns {Promise<{ speakers: SpeakerIncomingDetailsType[], congregations: CongregationIncomingDetailsType[] }>}
+   * Rows with invalid fields are skipped entirely (no partial import) and
+   * reported in `rowErrors` with their CSV line number. Line numbers are
+   * 1-based and account for the header row and the optional translation row;
+   * they can drift slightly when the file contains blank lines, since those
+   * are dropped during parsing.
+   *
+   * @param {Object} fileData - The uploaded file payload.
+   * @param {string} fileData.contents - The raw CSV text.
+   * @param {'csv'} fileData.type - The file type discriminator.
+   * @param {Record<string, boolean>} [selectedFields] - Optional field selection from the confirm step.
+   * @returns {Promise<{ speakers: SpeakerIncomingDetailsType[]; congregations: CongregationIncomingDetailsType[]; lines: number[]; rowErrors: RowErrorType[] }>}
+   *          `speakers` and `congregations` are aligned by index; `lines[i]`
+   *          is the CSV line number of `speakers[i]`.
    */
   const parseFileToSpeakersAndCongs = async (
     fileData: { contents: string; type: 'csv' },
@@ -272,6 +353,13 @@ const useCSVImport = () => {
     };
   };
 
+  /**
+   * Reads only the header row of a CSV text. Used right after file selection
+   * to offer the field checkboxes in the confirm step.
+   *
+   * @param {string} csvText - The raw CSV file contents.
+   * @returns {string[]} The trimmed column headers in file order.
+   */
   const getCSVHeaders = (csvText: string): string[] => {
     const parsed = Papa.parse<RowData>(csvText, {
       header: true,
@@ -286,8 +374,14 @@ const useCSVImport = () => {
   // --- Import helpers -------------------------------------------------------
 
   /**
-   * Composite key (congUid|firstname|lastname) used to detect duplicate speakers.
-   * Centralized here so the key format cannot drift between call sites.
+   * Builds the composite key (congUid|firstname|lastname) used to detect
+   * duplicate speakers. Centralized here so the key format cannot drift
+   * between call sites.
+   *
+   * @param {string} congUid - The local record id of the congregation.
+   * @param {string} firstname - The speaker's first name.
+   * @param {string} lastname - The speaker's last name.
+   * @returns {string} The normalized composite key (trimmed, lowercased).
    */
   const buildSpeakerKey = (
     congUid: string,
@@ -296,6 +390,15 @@ const useCSVImport = () => {
   ): string =>
     `${congUid}|${firstname.trim().toLowerCase()}|${lastname.trim().toLowerCase()}`;
 
+  /**
+   * Looks up the person record matching a speaker by first and last name
+   * (case-insensitive). Used for speakers of the own congregation, whose
+   * data lives in the persons table rather than in speaker_data.
+   *
+   * @param {SpeakerIncomingDetailsType} speaker - The speaker to find.
+   * @param {PersonType[]} persons - All locally stored persons.
+   * @returns {string | undefined} The matching person_uid, or undefined if none exists.
+   */
   const findExistingPersonUid = (
     speaker: SpeakerIncomingDetailsType,
     persons: PersonType[]
@@ -313,7 +416,11 @@ const useCSVImport = () => {
 
   /**
    * Builds the two lookup maps (UUID -> name and name -> UUID) for all active
-   * congregations currently stored in the local database.
+   * congregations currently stored in the local database. Soft-deleted
+   * records and records without an id are ignored.
+   *
+   * @param {SpeakersCongregationsType[]} existingCongs - All stored congregation records.
+   * @returns {{ congUidMap: Map<string, string>; congNameMap: Map<string, string> }} The two lookup maps.
    */
   const buildCongregationMaps = (
     existingCongs: SpeakersCongregationsType[]
@@ -335,8 +442,13 @@ const useCSVImport = () => {
   };
 
   /**
-   * Builds a Set of composite speaker keys for all active visiting speakers that
-   * are linked to a known local congregation UUID. Used to detect duplicates.
+   * Builds a set of composite speaker keys for all active visiting speakers
+   * linked to a known local congregation UUID. Used to detect duplicates
+   * before importing.
+   *
+   * @param {VisitingSpeakerType[]} existingVisitingSpeakers - All stored visiting speakers.
+   * @param {Map<string, string>} congUidMap - Known local congregation UUIDs.
+   * @returns {Set<string>} The composite keys of the existing speakers.
    */
   const buildExistingSpeakerKeys = (
     existingVisitingSpeakers: VisitingSpeakerType[],
@@ -357,8 +469,20 @@ const useCSVImport = () => {
     );
 
   /**
-   * Resolves the local database UUID for a given congregation.
-   * If the congregation does not exist locally, it creates it.
+   * Resolves the local database UUID for a congregation, creating the record
+   * when it does not exist yet. Rows of the own congregation always resolve
+   * to the local, unsynced record (identified by an empty remote cong_id) –
+   * never to a synced congregation that happens to share the name. Resolved
+   * ids are cached in the lookup maps.
+   *
+   * @param {CongregationIncomingDetailsType} congregation - The congregation data of the current row.
+   * @param {string} congKey - The congregation name used as map key.
+   * @param {boolean} isOwnCongregation - Whether the row belongs to the user's own congregation.
+   * @param {string} ownCongName - The own congregation's name from the app settings.
+   * @param {Map<string, string>} congNameMap - Name -> UUID lookup (updated on cache miss).
+   * @param {Map<string, string>} congUidMap - UUID -> name lookup (updated on cache miss).
+   * @param {SpeakersCongregationsType[]} existingCongs - Known congregation records (extended when the own record is created).
+   * @returns {Promise<string | undefined>} The local congregation UUID, or undefined if it could not be resolved.
    */
   const resolveCongregationUid = async (
     congregation: CongregationIncomingDetailsType,
@@ -407,6 +531,14 @@ const useCSVImport = () => {
     return finalCongUid;
   };
 
+  /**
+   * Formats the aggregated errors into a readable summary string, sorted by
+   * descending occurrence count. Affected CSV line numbers are appended per
+   * reason, capped at 10 to keep the notification readable.
+   *
+   * @param {Map<string, { count: number; lines: number[] }>} errorCounts - Aggregated errors keyed by message.
+   * @returns {string} The formatted summary, e.g. "3 x Speaker already exists (CSV rows: 5, 9, 11)".
+   */
   const formatErrorSummary = (
     errorCounts: Map<string, { count: number; lines: number[] }>
   ): string =>
@@ -439,6 +571,9 @@ const useCSVImport = () => {
    * @param {Set<string>} ctx.existingSpeakerKeys - A Set of composite keys used to track and prevent duplicate speakers.
    * @returns {Promise<{ kind: 'ok'; speaker: VisitingSpeakerType } | { kind: 'skipped'; reason: string }>}
    *          A discriminated union indicating whether the speaker was successfully imported or skipped.
+   * @throws {Error} If the speaker belongs to the own congregation but no
+   *         matching person record exists, or if the congregation UUID
+   *         cannot be resolved.
    */
   const processRow = async (
     speaker: SpeakerIncomingDetailsType,
@@ -520,14 +655,19 @@ const useCSVImport = () => {
   };
 
   /**
-   * Processes arrays of parsed speakers and congregations and imports them into the local database.
-   * It handles deduplication of congregations and speakers, resolves local person UUIDs for the
-   * user's own congregation, and aggregates any validation errors encountered during the import.
+   * Imports the parsed speakers into the local database: resolves or creates
+   * their congregations, skips duplicates and already-synced congregations,
+   * and requires speakers of the own congregation to exist in the persons
+   * table. Errors from both phases (parsing and persisting) are aggregated
+   * by message together with their CSV line numbers – a single faulty row
+   * never aborts the whole import.
    *
    * @param {Object} data - The parsed import data.
-   * @param {SpeakerIncomingDetailsType[]} data.speakers - Array of speaker records to import.
-   * @param {CongregationIncomingDetailsType[]} data.congregations - Array of congregation records corresponding to the speakers.
-   * @returns {Promise<SpeakerImportResult>} An object containing import statistics, error summaries, and the successfully imported speaker records.
+   * @param {SpeakerIncomingDetailsType[]} data.speakers - Speaker records to import.
+   * @param {CongregationIncomingDetailsType[]} data.congregations - Congregation per speaker, aligned by index.
+   * @param {number[]} data.lines - CSV line number per speaker, aligned by index.
+   * @param {RowErrorType[]} data.rowErrors - Rows already rejected during parsing.
+   * @returns {Promise<SpeakerImportResult>} Import statistics, the formatted error summary and the imported records.
    */
   const addSpeakersToDB = async (data: {
     speakers: SpeakerIncomingDetailsType[];
@@ -546,7 +686,7 @@ const useCSVImport = () => {
       errorCounts.set(reason, entry);
     };
 
-    // Fehler aus der Parse-Phase (ungültige Vorträge, fehlende Nachnamen)
+    // carry over errors from the parse phase (invalid talk lists, missing last names)
     for (const rowError of data.rowErrors) {
       for (const reason of rowError.reasons) {
         addError(reason, rowError.line);

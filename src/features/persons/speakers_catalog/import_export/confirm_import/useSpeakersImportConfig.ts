@@ -13,8 +13,6 @@ import {
   updatePublicTalkCoordinatorEmail,
   updatePublicTalkCoordinatorPhone,
 } from '@utils/congregations';
-
-// NEUE IMPORTE:
 import {
   updateSpeakerFirstname,
   updateSpeakerLastname,
@@ -26,38 +24,57 @@ import {
   SpeakerIncomingDetailsType,
 } from '@utils/speakers';
 
-import { CongregationIncomingDetailsType } from '@definition/speakers_congregations'; // Oder wo der Typ liegt
+import { CongregationIncomingDetailsType } from '@definition/speakers_congregations';
 
-// Der Draft-Typ nutzt jetzt die echten Typen
+/**
+ * Draft that import field handlers fill step by step: one congregation
+ * (shared by consecutive rows until a new congregation name appears) and
+ * one speaker per CSV row.
+ */
 export type SpeakerImportDraftType = {
   congregation: CongregationIncomingDetailsType;
   speaker: SpeakerIncomingDetailsType;
 };
 
+/**
+ * Configuration of a single importable CSV column.
+ */
 export interface SpeakerFieldMeta {
+  /** Column key as written in the CSV header row (matched case-insensitively). */
   key: string;
+  /** i18n key of the column label shown in the UI and the template file. */
   label: string;
+  /** Group id used to cluster fields in the confirm/export checkboxes. */
   group: string;
+  /** i18n key of the group heading. */
   groupLabel: string;
+  /**
+   * Applies the raw cell value to the draft (mutated in place). May throw;
+   * if `error.message` starts with "tr_" it is treated as an i18n key and
+   * translated during error reporting.
+   */
   handler: (draft: SpeakerImportDraftType, value: string) => void;
+  /** Four sample values, used as the example rows in the template download. */
   examples: readonly [string, string, string, string];
 }
 
-/* // Factory nutzt jetzt die echten Factories
-export const createEmptySpeakerDraft = (): SpeakerImportDraftType => ({
-  congregation: createEmptyCongregation(),
-  speaker: createEmptySpeaker(),
-}); */
-
+/**
+ * Central configuration of the speakers import/export: describes every
+ * supported CSV column (key, label, grouping, example values) and the
+ * handler that applies a raw cell value to the import draft.
+ *
+ * Consumed by the import, confirm and export steps as well as the template
+ * download – changing a key or label here affects all of them.
+ */
 const useSpeakersImportConfig = () => {
-  // Hilfsfunktion für Boolean (Ja/Nein/1/0)
+  // parse boolean flag ("yes" / "1" / "true")
   const toBool = (v: string) => {
     const lower = v.toLowerCase().trim();
     return lower === 'yes' || lower === '1' || lower === 'true';
   };
 
   const SPEAKER_FIELD_META: SpeakerFieldMeta[] = useMemo(() => {
-    // 1. REDNER DATEN (Speaker) - Jetzt mit echten Handlern
+    // 1. speaker fields
     const SPEAKER_FIELDS: SpeakerFieldMeta[] = [
       {
         key: 'speaker.firstname',
@@ -109,10 +126,10 @@ const useSpeakersImportConfig = () => {
       },
     ];
 
-    // 2. VORTRÄGE (Talks) - Nutzt den speziellen Split-Handler
+    // 2. talks
     const TALK_FIELDS: SpeakerFieldMeta[] = [
       {
-        key: 'speaker.talks', // Key angepasst, da es jetzt im Speaker-Objekt liegt
+        key: 'speaker.talks',
         label: 'tr_publicTalks',
         group: 'talks',
         groupLabel: 'tr_publicTalks',
@@ -121,7 +138,7 @@ const useSpeakersImportConfig = () => {
       },
     ];
 
-    // 3. VERSAMMLUNG (Congregation)
+    //3. congregation
     const CONG_FIELDS: SpeakerFieldMeta[] = [
       {
         key: 'congregation.cong_name',
@@ -187,7 +204,7 @@ const useSpeakersImportConfig = () => {
       },
     ];
 
-    // 4. KONTAKTE (Coordinators)
+    // 4. contacts
     const CONTACT_FIELDS: SpeakerFieldMeta[] = [
       {
         key: 'congregation.coordinator.name',

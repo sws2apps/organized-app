@@ -7,6 +7,18 @@ import useCSVImport from '../confirm_import/useCSVImport';
 import useSpeakersImportConfig from '../confirm_import/useSpeakersImportConfig';
 import type { ImportType } from './index.types';
 
+/**
+ * Reads an uploaded CSV file and returns its text content, handling the
+ * encodings that Excel typically produces.
+ *
+ * Strategy: decode as UTF-8 first and strip a UTF-8 BOM if present. If the
+ * result contains the Unicode replacement character (U+FFFD), the file was
+ * not valid UTF-8 and is decoded again as Windows-1252 – which covers
+ * legacy CSV exports from Western European Excel installations.
+ *
+ * @param {File} file - The uploaded CSV file.
+ * @returns {Promise<string>} The decoded text content.
+ */
 const decodeCsvFile = async (file: File): Promise<string> => {
   const buffer = await file.arrayBuffer();
   const bytes = new Uint8Array(buffer);
@@ -34,6 +46,12 @@ const decodeCsvFile = async (file: File): Promise<string> => {
   return text;
 };
 
+/**
+ * Hook backing the upload step of the speakers import wizard. Accepts a
+ * single CSV file via drag & drop or file picker, decodes it, reads its
+ * headers and hands the prepared data – including a preselection of all
+ * fields found in the file – to the confirm step via `setFileData`.
+ */
 const useImport = (props: ImportType) => {
   const [isProcessing, setIsProcessing] = useState(false);
   const setFileData = props.setFileData;
@@ -42,6 +60,21 @@ const useImport = (props: ImportType) => {
   const { SPEAKER_FIELD_META } = useSpeakersImportConfig();
   const { getCSVHeaders } = useCSVImport();
 
+  /**
+   * Handles the dropzone result: validates the selection, decodes the file
+   * and builds the initial field/group preselection from its headers.
+   *
+   * Follows the react-dropzone contract: files that fail validation (wrong
+   * type, too large, more than one) arrive in `fileRejections` while
+   * `acceptedFiles` stays empty – rejections therefore get their own error
+   * message instead of the generic "no file selected" one.
+   *
+   * Errors thrown with an "error_…" code as message are translated via
+   * getMessageByCode in the catch block; anything else is shown raw.
+   *
+   * @param {File[]} acceptedFiles - Files that passed the dropzone validation.
+   * @param {FileRejection[]} fileRejections - Rejected files with their error reasons.
+   */
   const onDrop = useCallback(
     async (acceptedFiles: File[], fileRejections: FileRejection[]) => {
       try {
@@ -124,13 +157,10 @@ const useImport = (props: ImportType) => {
     multiple: false,
   });
 
-  const clearFile = () => setFileData(null);
-
   return {
     getRootProps,
     getInputProps,
     isProcessing,
-    clearFile,
   };
 };
 

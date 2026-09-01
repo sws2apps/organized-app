@@ -9,6 +9,12 @@ import {
 import { format, parseISO } from 'date-fns';
 import useDateFormat from '@features/congregation/settings/meeting_forms/date_format/useDateFormat';
 
+/**
+ * Hook providing the downloadable CSV template for the speakers import.
+ * The template mirrors the export layout: row 1 contains the technical
+ * field keys, row 2 the localized labels, followed by the example rows
+ * from the field configuration.
+ */
 const useTemplateDownload = () => {
   const { t } = useAppTranslation();
 
@@ -16,6 +22,19 @@ const useTemplateDownload = () => {
 
   const { shortDateFormat } = useDateFormat();
 
+  /**
+   * Builds the template's CSV content.
+   *
+   * Layout matches the export format: a header row of technical keys, a
+   * second row of localized labels (which the import detects and strips via
+   * its translation-row heuristic), then one example row per example value
+   * of each field. ISO dates in the examples are rendered in the user's
+   * configured short date format. Example values containing the column
+   * delimiter have it replaced by the in-field separator, so they never
+   * break the column structure.
+   *
+   * @returns {string} The CSV content (without BOM).
+   */
   const generateCSVTemplate = useCallback(() => {
     const delimiter = getCSVDelimiterByNumberFormat();
 
@@ -56,6 +75,12 @@ const useTemplateDownload = () => {
     ].join('\n');
   }, [SPEAKER_FIELD_META, t, shortDateFormat]);
 
+  /**
+   * Triggers the download of the generated template as
+   * "speakers_import_template.csv". A UTF-8 BOM is prepended so Excel
+   * detects the encoding correctly. Does nothing in browsers without
+   * download attribute support.
+   */
   const downloadTemplate = useCallback(() => {
     const csvContent = generateCSVTemplate();
 
@@ -77,7 +102,6 @@ const useTemplateDownload = () => {
   }, [generateCSVTemplate]);
 
   return {
-    generateCSVTemplate,
     downloadTemplate,
   };
 };
