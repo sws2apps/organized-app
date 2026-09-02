@@ -199,12 +199,16 @@ export const parseSpeakerTalks = (value: string): IncomingTalkType[] => {
       throw new TalksListParseError(input, pos);
     }
 
-    const songs = match[2]
-      ? match[2]
-          .split(/[,;]/)
-          .map((s) => Number.parseInt(s.trim(), 10))
-          .filter((n) => !Number.isNaN(n) && n > 0)
-      : [];
+    const songs: number[] = [];
+    if (match[2] && match[2].trim() !== '') {
+      for (const raw of match[2].split(/[,;]/)) {
+        const song = raw.trim();
+        if (!/^\d$/.test(song) || Number.parseInt(song, 10) <= 0) {
+          throw new TalksListParseError(input, pos);
+        }
+        songs.push(Number.parseInt(song, 10));
+      }
+    }
 
     talks.push({ number: talkNum, songs });
     pos = TALK_TOKEN_REGEX.lastIndex;
