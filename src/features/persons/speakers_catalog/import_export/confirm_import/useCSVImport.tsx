@@ -251,6 +251,48 @@ const useCSVImport = () => {
   };
 
   /**
+   * Parses a single CSV row: starts a new congregation when the mapped
+   * congregation-name column carries a value, fills the draft via the field
+   * handlers and validates it.
+   *
+   * @returns The (possibly newly created) congregation, all validation
+   *          errors, and the parsed speaker – undefined when the row is
+   *          not importable (e.g. empty or without last name).
+   */
+  const parseDataRow = (
+    row: RowData,
+    headerMapping: MappedHeader[],
+    congNameMapping: MappedHeader | undefined,
+    currentCongregation: CongregationIncomingDetailsType
+  ): {
+    congregation: CongregationIncomingDetailsType;
+    errors: string[];
+    speaker?: SpeakerIncomingDetailsType;
+  } => {
+    const congNameValue = congNameMapping
+      ? (row[congNameMapping.header] ?? '').trim()
+      : '';
+
+    const congregation = congNameValue
+      ? createEmptyCongregation()
+      : currentCongregation;
+
+    const draft: SpeakerImportDraftType = {
+      congregation,
+      speaker: createEmptySpeaker(),
+    };
+
+    const errors: string[] = [];
+    const isValid = processRowData(row, headerMapping, draft, errors);
+
+    return {
+      congregation,
+      errors,
+      speaker: isValid ? draft.speaker : undefined,
+    };
+  };
+
+  /**
    * Parses the uploaded CSV file into speakers and congregations. Speakers
    * are grouped under their congregation: a row without congregation values
    * inherits the previous row's congregation; rows before the first
@@ -311,31 +353,24 @@ const useCSVImport = () => {
       const line = index + lineOffset;
 
       try {
-        const congNameValue = congNameMapping
-          ? (row[congNameMapping.header] ?? '').trim()
-          : '';
+        const result = parseDataRow(
+          row,
+          headerMapping,
+          congNameMapping,
+          currentCongregation
+        );
 
-        if (congNameValue) {
-          currentCongregation = createEmptyCongregation();
-        }
+        currentCongregation = result.congregation;
 
-        const draft: SpeakerImportDraftType = {
-          congregation: currentCongregation,
-          speaker: createEmptySpeaker(),
-        };
-
-        const fieldErrors: string[] = [];
-        const isValid = processRowData(row, headerMapping, draft, fieldErrors);
-
-        if (fieldErrors.length > 0) {
-          rowErrors.push({ line, reasons: fieldErrors });
+        if (result.errors.length > 0) {
+          rowErrors.push({ line, reasons: result.errors });
           continue;
         }
 
-        if (!isValid) continue;
+        if (!result.speaker) continue;
 
-        resultCongregations.push(draft.congregation);
-        resultSpeakers.push(draft.speaker);
+        resultCongregations.push(result.congregation);
+        resultSpeakers.push(result.speaker);
         resultLines.push(line);
       } catch (error) {
         rowErrors.push({
