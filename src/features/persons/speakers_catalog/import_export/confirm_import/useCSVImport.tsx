@@ -580,13 +580,14 @@ const useCSVImport = () => {
     Array.from(errorCounts.entries())
       .sort((a, b) => b[1].count - a[1].count)
       .map(([message, { count, lines }]) => {
-        const suffix =
-          lines.length > 0
-            ? ` (${t('tr_csvRows')}: ${lines.slice(0, 10).join(', ')}${
-                lines.length > 10 ? ', …' : ''
-              })`
-            : '';
-        return `${count} x ${message}${suffix}`;
+        if (lines.length === 0) {
+          return `${count} x ${message}`;
+        }
+
+        const visibleLines = lines.slice(0, 10).join(', ');
+        const moreIndicator = lines.length > 10 ? ', …' : '';
+
+        return `${count} x ${message} (${t('tr_csvRows')}: ${visibleLines}${moreIndicator})`;
       })
       .join('. ');
 

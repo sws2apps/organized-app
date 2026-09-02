@@ -151,6 +151,67 @@ export class TalksListParseError extends Error {
   }
 }
 
+const DIGITS_ONLY_REGEX = /^\d+$/;
+
+/**
+ * Parses the songs block of a single talk token (the part in parentheses).
+ *
+ * @param {string | undefined} rawSongs - The captured songs text, e.g. "5, 90".
+ * @param {string} input - The complete input string (for error context).
+ * @param {number} position - Offset of the current token (for error context).
+ * @returns {number[]} The validated song numbers; empty when no songs given.
+ * @throws {TalksListParseError} If a song entry is not a positive number.
+ */
+const parseSongs = (
+  rawSongs: string | undefined,
+  input: string,
+  position: number
+): number[] => {
+  if (!rawSongs || rawSongs.trim() === '') return [];
+
+  const songs: number[] = [];
+
+  for (const raw of rawSongs.split(/[,;]/)) {
+    const song = raw.trim();
+    const num = Number.parseInt(song, 10);
+
+    if (!DIGITS_ONLY_REGEX.test(song) || num <= 0) {
+      throw new TalksListParseError(input, position);
+    }
+
+    songs.push(num);
+  }
+
+  return songs;
+};
+
+/**
+ * Consumes the separator between two talk entries ("," or ";") plus any
+ * following whitespace and returns the position of the next token.
+ *
+ * @param {string} input - The complete input string.
+ * @param {number} position - Offset right after the previous token.
+ * @returns {number} Offset of the next token.
+ * @throws {TalksListParseError} If no separator exists or the input ends
+ *         right after one.
+ */
+const skipEntrySeparator = (input: string, position: number): number => {
+  let pos = position;
+
+  if (input[pos] !== ',' && input[pos] !== ';') {
+    throw new TalksListParseError(input, pos);
+  }
+
+  pos++;
+  while (pos < input.length && /\s/.test(input[pos])) pos++;
+
+  if (pos === input.length) {
+    throw new TalksListParseError(input, pos);
+  }
+
+  return pos;
+};
+
 // Sticky token (flag "y"): matches ONLY exactly at lastIndex.
 // Group 1: talk number (required), Group 2: optional songs in parentheses
 const TALK_TOKEN_REGEX = /(\d+)\s*(?:\(([^)]*)\))?\s*/y;
@@ -162,6 +223,8 @@ const TALK_TOKEN_REGEX = /(\d+)\s*(?:\(([^)]*)\))?\s*/y;
  * - "1"          -> talk 1, no songs
  * - "1 (5)"      -> talk 1 with song 5
  * - "1 (5, 90)"  -> talk 1 with songs 5 and 90 (songs separated by "," or ";")
+ * - songs must be positive integers; entries like "1 (abc)" or "1 (0)"
+ *   are rejected, not silently dropped
  *
  * Unlike a global regex search, the ENTIRE input is validated using sticky
  * token matching: any unmatched character (e.g. an unclosed parenthesis or
@@ -173,7 +236,8 @@ const TALK_TOKEN_REGEX = /(\d+)\s*(?:\(([^)]*)\))?\s*/y;
  * @returns {IncomingTalkType[]} The parsed talks in input order; an empty
  *          array for blank input.
  * @throws {TalksListParseError} If any part of the input does not match
- *         the expected pattern.
+ *         the expected pattern – including malformed or non-positive song
+ *         numbers inside the parentheses.
  *
  * @example
  * parseSpeakerTalks('1 (5, 90), 4');
@@ -199,30 +263,11 @@ export const parseSpeakerTalks = (value: string): IncomingTalkType[] => {
       throw new TalksListParseError(input, pos);
     }
 
-    const songs: number[] = [];
-    if (match[2] && match[2].trim() !== '') {
-      for (const raw of match[2].split(/[,;]/)) {
-        const song = raw.trim();
-        if (!/^\d$/.test(song) || Number.parseInt(song, 10) <= 0) {
-          throw new TalksListParseError(input, pos);
-        }
-        songs.push(Number.parseInt(song, 10));
-      }
-    }
-
-    talks.push({ number: talkNum, songs });
+    talks.push({ number: talkNum, songs: parseSongs(match[2], input, pos) });
     pos = TALK_TOKEN_REGEX.lastIndex;
 
     if (pos < input.length) {
-      if (input[pos] !== ',' && input[pos] !== ';') {
-        throw new TalksListParseError(input, pos);
-      }
-      pos++;
-      while (pos < input.length && /\s/.test(input[pos])) pos++;
-
-      if (pos === input.length) {
-        throw new TalksListParseError(input, pos);
-      }
+      pos = skipEntrySeparator(input, pos);
     }
   }
 
