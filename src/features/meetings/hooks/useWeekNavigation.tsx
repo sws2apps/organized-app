@@ -2,7 +2,10 @@ import { useCallback, useEffect, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { sourcesFormattedState } from '@states/sources';
 
-const useWeekNavigation = (selectedWeek: string, setSelectedWeek: (value: string) => void) => {
+const useWeekNavigation = (
+  selectedWeek: string,
+  setSelectedWeek: (value: string) => void
+) => {
   const weeksSource = useAtomValue(sourcesFormattedState);
 
   const [showWeekArrows, setShowWeekArrows] = useState({

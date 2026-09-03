@@ -28,7 +28,9 @@ const ButtonGroup = ({ buttons }: ButtonGroupType) => {
     >
       {buttons.map((button, index) => {
         const labelText = React.Children.toArray(button.children)
-          .map((c) => (typeof c === 'string' || typeof c === 'number' ? String(c) : ''))
+          .map((c) =>
+            typeof c === 'string' || typeof c === 'number' ? String(c) : ''
+          )
           .join('');
         return (
           <Button
@@ -67,4 +69,3 @@ const ButtonGroup = ({ buttons }: ButtonGroupType) => {
 };
 
 export default ButtonGroup;
-

@@ -1,15 +1,8 @@
 import { useAppTranslation } from '@hooks/index';
+import { MeetingSectionBadgesProps } from './index.types';
 import AssignmentBadge from '../assignment_badge';
 import Badge from '@components/badge';
 import WeekTypeBadge from '@features/meetings/week_type_badge';
-
-import { Week } from '@definition/week_type';
-
-type MeetingSectionBadgesProps = {
-  myAssignmentsTotal: number;
-  lastUpdated?: string;
-  weekType: Week;
-};
 
 const MeetingSectionBadges = ({
   myAssignmentsTotal,
@@ -20,7 +13,7 @@ const MeetingSectionBadges = ({
 
   return (
     <>
-      {myAssignmentsTotal > 0 && <AssignmentBadge count={myAssignmentsTotal} />}
+      {myAssignmentsTotal && <AssignmentBadge count={myAssignmentsTotal} />}
 
       {lastUpdated && (
         <Badge

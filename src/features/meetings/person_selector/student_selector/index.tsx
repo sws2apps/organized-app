@@ -233,12 +233,8 @@ const StudentSelector = (props: PersonSelectorType) => {
                           <FormControlLabel
                             value="family"
                             control={<Radio />}
-                            label={
-                              <Typography>{t('tr_family')}</Typography>
-                            }
-                            onClick={(e) =>
-                              handleGenderChange(e, 'family')
-                            }
+                            label={<Typography>{t('tr_family')}</Typography>}
+                            onClick={(e) => handleGenderChange(e, 'family')}
                           />
                         )}
                       </>
