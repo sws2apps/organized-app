@@ -1,5 +1,9 @@
 import { Box } from '@mui/material';
-import { useAppTranslation, useCurrentUser, useBreakpoints } from '@hooks/index';
+import {
+  useAppTranslation,
+  useCurrentUser,
+  useBreakpoints,
+} from '@hooks/index';
 import useDayTime from './useDayTime';
 import DaySelector from '@components/day_selector';
 import TimePicker from '@components/time_picker';
@@ -19,7 +23,14 @@ const DayTime = () => {
   } = useDayTime();
 
   return (
-    <Box sx={{ display: 'flex', gap: '16px', flexDirection: tabletUp ? 'row' : 'column', alignItems: tabletUp ? 'center' : 'stretch' }}>
+    <Box
+      sx={{
+        display: 'flex',
+        gap: '16px',
+        flexDirection: tabletUp ? 'row' : 'column',
+        alignItems: tabletUp ? 'center' : 'stretch',
+      }}
+    >
       <DaySelector
         label={t('tr_meetingDay')}
         value={meetingDay}

@@ -13,7 +13,6 @@ export const DetailsGrid = styled(Box, {
   gridTemplateColumns: '1fr',
   gap: '16px',
   [theme.breakpoints.up('desktop')]: {
-    gridTemplateColumns:
-      $layout === 'popup' ? '1fr 1fr' : 'repeat(3, 1fr)',
+    gridTemplateColumns: $layout === 'popup' ? '1fr 1fr' : 'repeat(3, 1fr)',
   },
 })) as unknown as FC<BoxProps & DetailsGridOwnProps>;

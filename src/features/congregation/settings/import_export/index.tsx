@@ -21,11 +21,15 @@ const ImportExport = (props: ImportExportType) => {
           {props.inline ? (
             <CardSectionHeader
               title={t('tr_importExportTitle')}
-              description={value === 0 ? t('tr_exportDesc') : t('tr_importDesc')}
+              description={
+                value === 0 ? t('tr_exportDesc') : t('tr_importDesc')
+              }
             />
           ) : (
             <>
-              <Typography className="h2">{t('tr_importExportTitle')}</Typography>
+              <Typography className="h2">
+                {t('tr_importExportTitle')}
+              </Typography>
 
               <Typography color="var(--grey-400)">
                 {value === 0 ? t('tr_exportDesc') : t('tr_importDesc')}

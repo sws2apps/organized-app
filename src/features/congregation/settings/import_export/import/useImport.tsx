@@ -79,7 +79,8 @@ const useImport = ({ onNext }: ImportType) => {
 
         console.error(error);
 
-        const errorMessage = error instanceof Error ? error.message : String(error);
+        const errorMessage =
+          error instanceof Error ? error.message : String(error);
 
         displaySnackNotification({
           severity: 'error',
@@ -88,12 +89,7 @@ const useImport = ({ onNext }: ImportType) => {
         });
       }
     },
-    [
-      setBackupFileName,
-      setBackupFileContents,
-      setBackupFileType,
-      FEATURE_FLAGS,
-    ]
+    [setBackupFileName, setBackupFileContents, setBackupFileType, FEATURE_FLAGS]
   );
 
   const { getRootProps, getInputProps, acceptedFiles } = useDropzone({

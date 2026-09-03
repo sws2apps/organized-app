@@ -15,7 +15,8 @@ const Import = (props: ImportType) => {
   const { t } = useAppTranslation();
 
   const { desktopUp } = useBreakpoints();
-  const { getInputProps, getRootProps, isProcessing, hasFile, handleNext } = useImport(props);
+  const { getInputProps, getRootProps, isProcessing, hasFile, handleNext } =
+    useImport(props);
   const backupFileName = useAtomValue(backupFileNameState);
 
   return (
@@ -67,7 +68,11 @@ const Import = (props: ImportType) => {
         </Button>
 
         {!desktopUp && props.onClose && (
-          <Button variant="secondary" onClick={props.onClose} disabled={isProcessing}>
+          <Button
+            variant="secondary"
+            onClick={props.onClose}
+            disabled={isProcessing}
+          >
             {t('tr_cancel')}
           </Button>
         )}

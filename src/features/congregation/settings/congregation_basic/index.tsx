@@ -98,7 +98,6 @@ const CongregationBasic = () => {
         </CardSectionContent>
       </CardSection>
 
-
       {isAdmin && !isGroup && (
         <DeleteRow>
           <DeleteCongregation />

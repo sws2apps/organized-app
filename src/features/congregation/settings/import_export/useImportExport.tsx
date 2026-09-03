@@ -22,7 +22,12 @@ const useImportExport = ({ onClose, inline }: ImportExportType) => {
       },
       {
         label: t('tr_import'),
-        Component: <Import onClose={inline ? undefined : onClose} onNext={handleOpenConfirm} />,
+        Component: (
+          <Import
+            onClose={inline ? undefined : onClose}
+            onNext={handleOpenConfirm}
+          />
+        ),
       },
     ];
   }, [t, onClose, inline]);

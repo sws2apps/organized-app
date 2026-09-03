@@ -8,8 +8,7 @@ type DropZoneOwnProps = {
 };
 
 export const DropZone = styled(Box, {
-  shouldForwardProp: (prop) =>
-    prop !== '$hasFile' && prop !== '$isProcessing',
+  shouldForwardProp: (prop) => prop !== '$hasFile' && prop !== '$isProcessing',
 })<DropZoneOwnProps>(({ $hasFile = false, $isProcessing = false }) => ({
   border: $hasFile
     ? '1px solid var(--accent-300)'

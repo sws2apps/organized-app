@@ -1,5 +1,9 @@
 import { Stack } from '@mui/material';
-import { CardSection, CardSectionContent, CardSectionHeader } from '../shared_styles';
+import {
+  CardSection,
+  CardSectionContent,
+  CardSectionHeader,
+} from '../shared_styles';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import useMeetingSettings from './useMeetingSettings';
 import SwitchWithLabel from '@components/switch_with_label';
@@ -26,11 +30,11 @@ const MeettingSettings = () => {
         title={t('tr_meetingSettings')}
         description={t('tr_weeklyMeetingsDesc')}
       />
-      <CardSectionContent 
+      <CardSectionContent
         marginTop="-8px !important"
-        sx={{ 
+        sx={{
           '& > hr': { display: 'none' },
-          '& [role="tabpanel"] > div': { paddingBottom: '0 !important' } 
+          '& [role="tabpanel"] > div': { paddingBottom: '0 !important' },
         }}
       >
         <Stack spacing="16px">

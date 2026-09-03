@@ -19,7 +19,11 @@ const CongregationAdmin = () => {
       {usersList.length === 0 && (
         <EmptyStateRow>
           <IconInfo color="var(--accent-400)" sx={{ flexShrink: 0 }} />
-          <Typography className="body-small-regular" color="var(--accent-400)" sx={{ wordBreak: 'break-word' }}>
+          <Typography
+            className="body-small-regular"
+            color="var(--accent-400)"
+            sx={{ wordBreak: 'break-word' }}
+          >
             {t('tr_noUsersAdded')}
           </Typography>
         </EmptyStateRow>
@@ -33,7 +37,9 @@ const CongregationAdmin = () => {
               variant="admin"
               name={user.person_name}
               secondary={user.person_role}
-              clickOnUserAccountItem={() => handleOpenUserDetails(user.person_id)}
+              clickOnUserAccountItem={() =>
+                handleOpenUserDetails(user.person_id)
+              }
             />
           ))}
         </UserListContainer>
@@ -43,4 +49,3 @@ const CongregationAdmin = () => {
 };
 
 export default CongregationAdmin;
-
