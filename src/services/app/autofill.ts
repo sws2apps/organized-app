@@ -1110,9 +1110,9 @@ export const schedulesStartAutofill = async (
   start: string,
   end: string,
   meeting: 'midweek' | 'weekend'
-) => {
+): Promise<number> => {
   try {
-    if (start.length === 0 || end.length === 0) return;
+    if (start.length === 0 || end.length === 0) return 0;
 
     const schedules = store.get(schedulesState);
     const sources = store.get(sourcesState);
@@ -1138,6 +1138,8 @@ export const schedulesStartAutofill = async (
       return isValid;
     });
 
+    if (weeksList.length === 0) return 0;
+
     if (meeting === 'midweek') {
       await handleAutofillMidweek(weeksList);
     }
@@ -1145,6 +1147,8 @@ export const schedulesStartAutofill = async (
     if (meeting === 'weekend') {
       await handleAutofillWeekend(weeksList);
     }
+
+    return weeksList.length;
   } catch (error) {
     throw new Error(`autofill error: ${error.message}`);
   }
