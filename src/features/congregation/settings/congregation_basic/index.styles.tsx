@@ -4,22 +4,24 @@ import { Box } from '@mui/material';
 export const HeaderRow = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexWrap: 'wrap',
-  gap: '16px',
-  marginBottom: '8px',
   flexDirection: 'column',
+  gap: '24px',
   [theme.breakpoints.up('desktop')]: {
     flexDirection: 'row',
     alignItems: 'flex-start',
+    gap: '16px',
   },
 })) as unknown as typeof Box;
 
 export const FieldsRow = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
-  gap: '12px',
+  gap: '16px',
   width: '100%',
-  [theme.breakpoints.up('desktop')]: {
+  [theme.breakpoints.up('tablet')]: {
     flexDirection: 'row',
+  },
+  [theme.breakpoints.up('desktop')]: {
     width: 'auto',
   },
 })) as unknown as typeof Box;
