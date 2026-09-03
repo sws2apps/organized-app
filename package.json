@@ -61,7 +61,7 @@
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-dropzone": "^20.1.1",
-    "react-i18next": "^17.0.8",
+    "react-i18next": "^17.0.12",
     "react-lottie-player": "^2.1.0",
     "react-pdf-html": "^2.1.5",
     "react-photo-view": "^1.2.7",
