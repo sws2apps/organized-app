@@ -29,7 +29,10 @@ const useCongregationSettings = () => {
 
   const openTab = useCallback(
     (next: TabId, replace: boolean) => {
-      navigate(`${basePath}/${next}`, { replace });
+      navigate(`${basePath}/${next}`, {
+        replace,
+        state: replace ? undefined : { fromSettingsList: true },
+      });
     },
     [basePath, navigate]
   );
@@ -45,14 +48,22 @@ const useCongregationSettings = () => {
   );
 
   const handleBackToList = useCallback(() => {
+    if (location.state?.fromSettingsList) {
+      navigate(-1);
+      return;
+    }
+
     navigate(basePath, { replace: true });
-  }, [basePath, navigate]);
+  }, [basePath, location.state, navigate]);
+
+  const handleLeaveSettings = useCallback(() => navigate('/'), [navigate]);
 
   return {
     activeTab,
     basePath,
     selectedTab,
     handleBackToList,
+    handleLeaveSettings,
     handleMobileTabSelect,
     handleTabChange,
     isUnknownTab,

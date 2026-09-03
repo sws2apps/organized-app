@@ -55,6 +55,7 @@ const CongregationSettings = () => {
   const {
     activeTab,
     handleBackToList,
+    handleLeaveSettings,
     handleMobileTabSelect,
     handleTabChange,
     isUnknownTab,
@@ -171,6 +172,7 @@ const CongregationSettings = () => {
       <PageContainer>
         <PageTitle
           title={pageTitle}
+          onBack={handleLeaveSettings}
           buttons={showUserAccounts ? addUserButton : undefined}
         />
 
@@ -211,7 +213,7 @@ const CongregationSettings = () => {
   if (mobileView === 'list') {
     return (
       <PageContainer>
-        <PageTitle title={pageTitle} />
+        <PageTitle title={pageTitle} onBack={handleLeaveSettings} />
 
         {userAddOpen && (
           <UserAdd open={userAddOpen} onClose={handleCloseUserAdd} />
