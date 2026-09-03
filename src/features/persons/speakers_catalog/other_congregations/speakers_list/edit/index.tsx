@@ -2,8 +2,6 @@ import { Box, FormControlLabel, RadioGroup } from '@mui/material';
 import { IconDelete, IconMale, IconSong } from '@components/icons';
 import { IncomingSpeakerEditType } from './index.types';
 import { FullnameOption } from '@definition/settings';
-//fix: i think it was intended to use PublicTalkLocaleType here, but it was importing PublicTalkType which caused errors in index.tsx
-//import { PublicTalkType } from '@definition/public_talks';
 import { PublicTalkLocaleType } from '@definition/public_talks';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useEdit from './useEdit';

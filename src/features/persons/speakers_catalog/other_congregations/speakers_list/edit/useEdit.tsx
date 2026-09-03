@@ -11,8 +11,6 @@ import {
 } from '@services/dexie/visiting_speakers';
 import { generateDisplayName } from '@utils/common';
 import { publicTalksLocaleState } from '@states/public_talks';
-//fix: i think it was intended to use PublicTalkLocaleType here, but it was importing PublicTalkType which caused errors in index.tsx
-//import { PublicTalkType } from '@definition/public_talks';
 import { SongType } from '@definition/songs';
 import { PublicTalkLocaleType } from '@definition/public_talks';
 
