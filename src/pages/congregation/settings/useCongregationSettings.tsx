@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router';
 import {
   DEFAULT_SETTINGS_TAB,
@@ -7,6 +7,8 @@ import {
 } from '@features/congregation/settings/settings_sidebar/index.types';
 
 type MobileView = 'list' | 'detail';
+
+export type NavigationDirection = 'forward' | 'backward' | 'none';
 
 const useCongregationSettings = () => {
   const navigate = useNavigate();
@@ -26,6 +28,15 @@ const useCongregationSettings = () => {
   const mobileView: MobileView = selectedTab ? 'detail' : 'list';
 
   const isUnknownTab = tab !== undefined && selectedTab === undefined;
+
+  const [renderedView, setRenderedView] = useState(mobileView);
+  const [navigationDirection, setNavigationDirection] =
+    useState<NavigationDirection>('none');
+
+  if (renderedView !== mobileView) {
+    setRenderedView(mobileView);
+    setNavigationDirection(mobileView === 'detail' ? 'forward' : 'backward');
+  }
 
   const openTab = useCallback(
     (next: TabId, replace: boolean) => {
@@ -68,6 +79,7 @@ const useCongregationSettings = () => {
     handleTabChange,
     isUnknownTab,
     mobileView,
+    navigationDirection,
   };
 };
 

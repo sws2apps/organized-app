@@ -11,6 +11,7 @@ import {
   SplitLayout,
   ContentArea,
   CenteredAction,
+  NavigationView,
 } from './index.styles';
 import {
   useAppTranslation,
@@ -60,6 +61,7 @@ const CongregationSettings = () => {
     handleTabChange,
     isUnknownTab,
     mobileView,
+    navigationDirection,
     selectedTab,
   } = useCongregationSettings();
 
@@ -219,7 +221,7 @@ const CongregationSettings = () => {
           <UserAdd open={userAddOpen} onClose={handleCloseUserAdd} />
         )}
 
-        <Stack spacing="16px">
+        <NavigationView direction={navigationDirection}>
           <SettingsSidebar
             activeTab={selectedTab}
             onTabChange={handleMobileTabSelect}
@@ -228,7 +230,7 @@ const CongregationSettings = () => {
             activeTab={selectedTab}
             onTabChange={handleMobileTabSelect}
           />
-        </Stack>
+        </NavigationView>
       </PageContainer>
     );
   }
@@ -255,7 +257,9 @@ const CongregationSettings = () => {
         <UserAdd open={userAddOpen} onClose={handleCloseUserAdd} />
       )}
 
-      {renderContent()}
+      <NavigationView key={activeTab} direction={navigationDirection}>
+        {renderContent()}
+      </NavigationView>
     </PageContainer>
   );
 };
