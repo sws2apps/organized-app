@@ -1,72 +1,63 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { SettingsTabId } from '@features/congregation/settings/settings_sidebar';
+import { useCallback, useMemo } from 'react';
+import { useLocation, useNavigate, useParams } from 'react-router';
+import {
+  DEFAULT_SETTINGS_TAB,
+  TabId,
+  isSettingsTab,
+} from '@features/congregation/settings/settings_sidebar/index.types';
 
-export type TabId = SettingsTabId | `language-group-${string}`;
 type MobileView = 'list' | 'detail';
 
 const useCongregationSettings = () => {
-  const [activeTab, setActiveTab] = useState<TabId>('general');
-  const [mobileView, setMobileView] = useState<MobileView>('list');
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { tab } = useParams();
 
-  const mobileViewRef = useRef(mobileView);
-  mobileViewRef.current = mobileView;
-
-  const handleTabChange = useCallback((tab: TabId) => {
-    setActiveTab(tab);
-  }, []);
-
-  /** Called by the mobile list when a category is tapped. */
-  const handleMobileTabSelect = useCallback(
-    (tab: TabId) => {
-      setActiveTab(tab);
-      if (mobileViewRef.current === 'detail') {
-        // Already in detail view — replace, don't push another entry
-        globalThis.history.replaceState({ settingsDetailView: true }, '');
-      } else {
-        // Only push one entry when transitioning from list → detail
-        setMobileView('detail');
-        globalThis.history.pushState({ settingsDetailView: true }, '');
-      }
-    },
-    []
+  const basePath = useMemo(
+    () => `/${location.pathname.split('/').filter(Boolean)[0] ?? ''}`,
+    [location.pathname]
   );
 
-  // Listen for popstate to intercept the browser/system back button.
-  // Only intercept events for our own synthetic history entries.
-  useEffect(() => {
-    const onPopState = (event: PopStateEvent) => {
-      if (mobileViewRef.current === 'detail') {
-        if (event.state?.settingsDetailView) {
-          // If we are already in detail view, and the new state is ALSO detail view, do nothing.
-          // This happens if they navigate forward, or if there's multiple pushed states.
-        } else {
-          // Navigating back from the detail view pushes us to a state without `settingsDetailView`.
-          setMobileView('list');
-        }
-      } else if (mobileViewRef.current === 'list' && event.state?.settingsDetailView) {
-        // Navigating forward from list view into a detail view state.
-        setMobileView('detail');
-      }
-    };
+  const selectedTab: TabId | undefined =
+    tab && isSettingsTab(tab) ? tab : undefined;
 
-    globalThis.addEventListener('popstate', onPopState);
-    return () => {
-      globalThis.removeEventListener('popstate', onPopState);
-      // Clean up the synthetic history entry if we unmount while in detail view
-      if (mobileViewRef.current === 'detail') {
-        globalThis.history.replaceState({}, '');
-      }
-    };
-  }, []);
+  const activeTab = selectedTab ?? DEFAULT_SETTINGS_TAB;
+
+  const mobileView: MobileView = selectedTab ? 'detail' : 'list';
+
+  const isUnknownTab = tab !== undefined && selectedTab === undefined;
+
+  const openTab = useCallback(
+    (next: TabId, replace: boolean) => {
+      navigate(`${basePath}/${next}`, { replace });
+    },
+    [basePath, navigate]
+  );
+
+  const handleTabChange = useCallback(
+    (next: TabId) => openTab(next, true),
+    [openTab]
+  );
+
+  const handleMobileTabSelect = useCallback(
+    (next: TabId) => openTab(next, false),
+    [openTab]
+  );
+
+  const handleBackToList = useCallback(() => {
+    navigate(basePath, { replace: true });
+  }, [basePath, navigate]);
 
   return {
     activeTab,
-    handleTabChange,
-    mobileView,
-    setMobileView,
+    basePath,
+    selectedTab,
+    handleBackToList,
     handleMobileTabSelect,
+    handleTabChange,
+    isUnknownTab,
+    mobileView,
   };
 };
 
 export default useCongregationSettings;
-

@@ -18,6 +18,10 @@ import {
   useCurrentUser,
 } from '@hooks/index';
 import useCongregationSettings from './useCongregationSettings';
+import {
+  isLanguageGroupTab,
+  languageGroupIdFromTab,
+} from '@features/congregation/settings/settings_sidebar/index.types';
 import CircuitOverseer from '@features/congregation/settings/circuit_overseer';
 import CongregationBasic from '@features/congregation/settings/congregation_basic';
 import CongregationPrivacy from '@features/congregation/settings/congregation_privacy';
@@ -50,10 +54,12 @@ const CongregationSettings = () => {
 
   const {
     activeTab,
-    handleTabChange,
-    mobileView,
-    setMobileView,
+    handleBackToList,
     handleMobileTabSelect,
+    handleTabChange,
+    isUnknownTab,
+    mobileView,
+    selectedTab,
   } = useCongregationSettings();
 
   // opening the settings must not ask for the accounts: the tab that shows
@@ -71,17 +77,19 @@ const CongregationSettings = () => {
   // the accounts are never in play while testing, so nothing about them shows
   const showUserAccounts = activeTab === 'user-accounts' && !isTest;
 
-  // Reset to general tab when a language group is deleted while selected (#3)
   useEffect(() => {
-    if (activeTab.startsWith('language-group-')) {
-      const groupId = activeTab.replace('language-group-', '');
-      const exists = languageGroups.some((g) => g.group_id === groupId);
-      if (!exists) {
-        handleTabChange('general');
-        if (mobileView === 'detail') setMobileView('list');
-      }
-    }
-  }, [languageGroups, activeTab, handleTabChange, mobileView, setMobileView]);
+    if (isUnknownTab) handleBackToList();
+  }, [isUnknownTab, handleBackToList]);
+
+  // a group can be deleted while its own tab is open
+  useEffect(() => {
+    if (!isLanguageGroupTab(activeTab)) return;
+
+    const groupId = languageGroupIdFromTab(activeTab);
+    const exists = languageGroups.some((g) => g.group_id === groupId);
+
+    if (!exists) handleBackToList();
+  }, [languageGroups, activeTab, handleBackToList]);
 
   const pageTitle = isGroup
     ? t('tr_groupSettings')
@@ -97,8 +105,8 @@ const CongregationSettings = () => {
   );
 
   const renderContent = () => {
-    if (activeTab.startsWith('language-group-')) {
-      const groupId = activeTab.replace('language-group-', '');
+    if (isLanguageGroupTab(activeTab)) {
+      const groupId = languageGroupIdFromTab(activeTab);
       const group = languageGroups.find((g) => g.group_id === groupId);
       if (!group) return null;
 
@@ -106,7 +114,7 @@ const CongregationSettings = () => {
         <Stack spacing="16px">
           <GroupInfo
             open={true}
-            onClose={() => handleTabChange('general')}
+            onClose={handleBackToList}
             group={group}
             inline
           />
@@ -151,13 +159,7 @@ const CongregationSettings = () => {
       case 'app-config':
         return <AppConfig />;
       case 'import-export':
-        return (
-          <ImportExport
-            open={true}
-            onClose={() => handleTabChange('general')}
-            inline
-          />
-        );
+        return <ImportExport open={true} onClose={handleBackToList} inline />;
       default:
         return null;
     }
@@ -189,6 +191,7 @@ const CongregationSettings = () => {
             <SettingsSidebar
               activeTab={activeTab}
               onTabChange={handleTabChange}
+              enableKeyboardNavigation
             />
             <LanguageGroups
               activeTab={activeTab}
@@ -216,11 +219,11 @@ const CongregationSettings = () => {
 
         <Stack spacing="16px">
           <SettingsSidebar
-            activeTab={activeTab}
+            activeTab={selectedTab}
             onTabChange={handleMobileTabSelect}
           />
           <LanguageGroups
-            activeTab={activeTab}
+            activeTab={selectedTab}
             onTabChange={handleMobileTabSelect}
           />
         </Stack>
@@ -242,6 +245,7 @@ const CongregationSettings = () => {
       <PageTitle
         title={activeTabLabel}
         secondaryTitle={pageTitle}
+        onBack={handleBackToList}
         buttons={showUserAccounts ? addUserButton : undefined}
       />
 

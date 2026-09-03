@@ -20,4 +20,3 @@ export const TabList = styled(Box)({
   flexDirection: 'column',
   gap: '6px',
 }) as unknown as typeof Box;
-

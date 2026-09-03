@@ -2,29 +2,32 @@ import { Fragment } from 'react';
 import { Stack, Divider } from '@mui/material';
 import { IconAdd, IconInfo } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
-import { TabId } from '@pages/congregation/settings/useCongregationSettings';
+import {
+  TabId,
+  languageGroupTab,
+} from '@features/congregation/settings/settings_sidebar/index.types';
 import useLanguageGroups from './useLanguageGroups';
 import GroupAdd from './group_add';
 import LanguageGroup from './language_group';
 import Typography from '@components/typography';
 import Button from '@components/button';
-import { GroupsContainer, GroupsHeader, GroupItemsList, EmptyStateRow } from './index.styles';
+import {
+  GroupsContainer,
+  GroupsHeader,
+  GroupItemsList,
+  EmptyStateRow,
+} from './index.styles';
 
 type LanguageGroupsProps = {
-  activeTab: TabId;
+  activeTab?: TabId;
   onTabChange: (tab: TabId) => void;
 };
 
 const LanguageGroups = ({ activeTab, onTabChange }: LanguageGroupsProps) => {
   const { t } = useAppTranslation();
 
-  const {
-    isAdd,
-    handleCloseAdd,
-    handleOpenAdd,
-    languageGroups,
-    fullAccess,
-  } = useLanguageGroups();
+  const { isAdd, handleCloseAdd, handleOpenAdd, languageGroups, fullAccess } =
+    useLanguageGroups();
 
   return (
     <Stack spacing="16px" sx={{ width: '100%' }}>
@@ -34,21 +37,27 @@ const LanguageGroups = ({ activeTab, onTabChange }: LanguageGroupsProps) => {
           onClose={handleCloseAdd}
           onSuccess={(groupId) => {
             handleCloseAdd();
-            onTabChange(`language-group-${groupId}`);
+            onTabChange(languageGroupTab(groupId));
           }}
         />
       )}
 
       <GroupsContainer
         sx={{
-          backgroundColor: languageGroups.length === 0 ? 'var(--accent-150)' : 'var(--white)',
-          border: languageGroups.length === 0 ? '1px dashed var(--accent-300)' : '1px solid var(--accent-300)',
+          backgroundColor:
+            languageGroups.length === 0 ? 'var(--accent-150)' : 'var(--white)',
+          border:
+            languageGroups.length === 0
+              ? '1px dashed var(--accent-300)'
+              : '1px solid var(--accent-300)',
         }}
       >
         <GroupsHeader>
-          <Typography 
-            className="h3" 
-            color={languageGroups.length > 0 ? 'var(--black)' : 'var(--accent-400)'}
+          <Typography
+            className="h3"
+            color={
+              languageGroups.length > 0 ? 'var(--black)' : 'var(--accent-400)'
+            }
             sx={{ flexGrow: 1, marginInlineEnd: '16px', textAlign: 'start' }}
           >
             {t('tr_langGroups')}
@@ -71,11 +80,14 @@ const LanguageGroups = ({ activeTab, onTabChange }: LanguageGroupsProps) => {
               <Fragment key={group.group_id}>
                 <LanguageGroup
                   group={group}
-                  active={activeTab === `language-group-${group.group_id}`}
-                  onClick={() => onTabChange(`language-group-${group.group_id}`)}
+                  active={activeTab === languageGroupTab(group.group_id)}
+                  onClick={() => onTabChange(languageGroupTab(group.group_id))}
                 />
                 {index < languageGroups.length - 1 && (
-                  <Divider key={`divider-${group.group_id}`} sx={{ borderColor: 'var(--accent-200)' }} />
+                  <Divider
+                    key={`divider-${group.group_id}`}
+                    sx={{ borderColor: 'var(--accent-200)' }}
+                  />
                 )}
               </Fragment>
             ))}
@@ -85,7 +97,11 @@ const LanguageGroups = ({ activeTab, onTabChange }: LanguageGroupsProps) => {
         {languageGroups.length === 0 && (
           <EmptyStateRow>
             <IconInfo color="var(--accent-400)" sx={{ flexShrink: 0 }} />
-            <Typography className="body-small-regular" color="var(--accent-400)" sx={{ wordBreak: 'break-word' }}>
+            <Typography
+              className="body-small-regular"
+              color="var(--accent-400)"
+              sx={{ wordBreak: 'break-word' }}
+            >
               {t('tr_noLanguageGroupsYet')}
             </Typography>
           </EmptyStateRow>

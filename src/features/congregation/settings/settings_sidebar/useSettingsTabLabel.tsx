@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
+import { isLanguageGroupTab } from './index.types';
 
 /**
  * Hook that returns the display label for a given settings tab id.
@@ -22,7 +23,7 @@ const useSettingsTabLabel = (tabId: string): string => {
     [t]
   );
 
-  if (tabId.startsWith('language-group-')) {
+  if (isLanguageGroupTab(tabId)) {
     return isGroup ? t('tr_groupSettings') : t('tr_languageGroup');
   }
 

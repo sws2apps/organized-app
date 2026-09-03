@@ -187,6 +187,10 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
                   path: '/congregation-settings',
                   element: <CongregationSettings />,
                 },
+                {
+                  path: '/congregation-settings/:tab',
+                  element: <CongregationSettings />,
+                },
                 { path: '/publisher-records', element: <PublisherRecord /> },
                 {
                   path: '/publisher-records/:id',
@@ -270,6 +274,10 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
               children: [
                 {
                   path: '/group-settings',
+                  element: <CongregationSettings />,
+                },
+                {
+                  path: '/group-settings/:tab',
                   element: <CongregationSettings />,
                 },
               ],

@@ -14,21 +14,12 @@ import {
 import SettingsTab from '@components/settings_tab';
 import Typography from '@components/typography';
 import { SidebarContainer, TabList } from './index.styles';
-
-export type SettingsTabId =
-  | 'general'
-  | 'meetings'
-  | 'privacy'
-  | 'ministry'
-  | 'app-config'
-  | 'user-accounts'
-  | 'import-export';
-
-import { TabId } from '@pages/congregation/settings/useCongregationSettings';
+import { SettingsTabId, TabId } from './index.types';
 
 type SettingsSidebarProps = {
-  activeTab: TabId;
+  activeTab?: TabId;
   onTabChange: (tab: SettingsTabId) => void;
+  enableKeyboardNavigation?: boolean;
 };
 
 type TabConfig = {
@@ -47,7 +38,11 @@ type TabConfig = {
  * - Internal gap: dividers between tab items
  * - "Categories" title: h2 typography
  */
-const SettingsSidebar = ({ activeTab, onTabChange }: SettingsSidebarProps) => {
+const SettingsSidebar = ({
+  activeTab,
+  onTabChange,
+  enableKeyboardNavigation = false,
+}: SettingsSidebarProps) => {
   const { t } = useAppTranslation();
   const { isGroup, isAdmin } = useCurrentUser();
 
@@ -110,6 +105,8 @@ const SettingsSidebar = ({ activeTab, onTabChange }: SettingsSidebarProps) => {
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
+      if (!enableKeyboardNavigation) return;
+
       const currentIndex = visibleTabs.findIndex((tab) => tab.id === activeTab);
 
       let nextIndex: number | undefined;
@@ -138,7 +135,7 @@ const SettingsSidebar = ({ activeTab, onTabChange }: SettingsSidebarProps) => {
         onTabChange(visibleTabs[nextIndex].id);
       }
     },
-    [activeTab, visibleTabs, onTabChange]
+    [activeTab, enableKeyboardNavigation, visibleTabs, onTabChange]
   );
 
   return (
@@ -162,7 +159,7 @@ const SettingsSidebar = ({ activeTab, onTabChange }: SettingsSidebarProps) => {
               aria-selected={activeTab === tab.id}
               aria-controls={`settings-tabpanel-${tab.id}`}
               id={`settings-tab-${tab.id}`}
-              tabIndex={activeTab === tab.id ? 0 : -1}
+              tabIndex={!activeTab || activeTab === tab.id ? 0 : -1}
             />
             {index < visibleTabs.length - 1 && (
               <Divider
