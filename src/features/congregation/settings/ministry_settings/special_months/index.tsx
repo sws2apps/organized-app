@@ -1,5 +1,9 @@
 import { Box } from '@mui/material';
-import { useAppTranslation, useBreakpoints, useCurrentUser } from '@hooks/index';
+import {
+  useAppTranslation,
+  useBreakpoints,
+  useCurrentUser,
+} from '@hooks/index';
 import useSpecialMonths from './useSpecialMonths';
 import Checkbox from '@components/checkbox';
 import MenuItem from '@components/menuitem';
@@ -28,7 +32,7 @@ const SpecialMonths = () => {
           label={t('tr_serviceYearAlt', { year: option.year })}
           multiple
           value={option.selected}
-          renderValue={(values: string[]) => (
+          renderValue={(values) => (
             <Box
               sx={{
                 overflow: 'hidden',
@@ -36,7 +40,7 @@ const SpecialMonths = () => {
                 whiteSpace: 'nowrap',
               }}
             >
-              {handleFormatMonths(values)}
+              {handleFormatMonths(values as string[])}
             </Box>
           )}
           onChange={(e) =>

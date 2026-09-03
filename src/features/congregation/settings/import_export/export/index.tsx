@@ -41,7 +41,7 @@ const Export = (props: ExportType) => {
           <Button
             variant="main"
             onClick={handleDownload}
-            endIcon={isProcessing && <IconLoading />}
+            endIcon={isProcessing ? <IconLoading /> : undefined}
           >
             {t('tr_download')}
           </Button>
@@ -51,7 +51,7 @@ const Export = (props: ExportType) => {
           <Button
             variant="main"
             onClick={handleDownload}
-            endIcon={isProcessing && <IconLoading />}
+            endIcon={isProcessing ? <IconLoading /> : undefined}
           >
             {t('tr_export')}
           </Button>

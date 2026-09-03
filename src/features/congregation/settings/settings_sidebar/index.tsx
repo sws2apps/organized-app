@@ -51,28 +51,28 @@ const SettingsSidebar = ({
       [
         {
           id: 'general' as SettingsTabId,
-          renderIcon: (color) => <IconCongregation color={color} />,
+          renderIcon: (color: string) => <IconCongregation color={color} />,
           label: t('tr_general'),
           description: t('tr_basicCongregationInformation'),
           visible: true,
         },
         {
           id: 'meetings' as SettingsTabId,
-          renderIcon: (color) => <IconPodium color={color} />,
+          renderIcon: (color: string) => <IconPodium color={color} />,
           label: t('tr_meetingsAndMaterials'),
           description: t('tr_meetingSettingsSidebarDesc'),
           visible: true,
         },
         {
           id: 'ministry' as SettingsTabId,
-          renderIcon: (color) => <IconDoor color={color} />,
+          renderIcon: (color: string) => <IconDoor color={color} />,
           label: t('tr_ministry'),
           description: t('tr_ministrySidebarDesc'),
           visible: !isGroup,
         },
         {
           id: 'user-accounts' as SettingsTabId,
-          renderIcon: (color) => <IconManageAccess color={color} />,
+          renderIcon: (color: string) => <IconManageAccess color={color} />,
           label: t('tr_manageAccessFullTitle'),
           description: t('tr_manageAccessSidebarDesc'),
           // no account is fetched while testing, so the tab is not offered
@@ -80,21 +80,21 @@ const SettingsSidebar = ({
         },
         {
           id: 'privacy' as SettingsTabId,
-          renderIcon: (color) => <IconLock color={color} />,
+          renderIcon: (color: string) => <IconLock color={color} />,
           label: t('tr_securityAndPrivacy'),
           description: t('tr_privacySidebarDesc'),
           visible: !isGroup,
         },
         {
           id: 'app-config' as SettingsTabId,
-          renderIcon: (color) => <IconCustomSchedule color={color} />,
+          renderIcon: (color: string) => <IconCustomSchedule color={color} />,
           label: t('tr_appConfiguration'),
           description: t('tr_appConfigSidebarDesc'),
           visible: !isGroup,
         },
         {
           id: 'import-export' as SettingsTabId,
-          renderIcon: (color) => <IconImportExport color={color} />,
+          renderIcon: (color: string) => <IconImportExport color={color} />,
           label: t('tr_importExport'),
           description: t('tr_importExportSidebarDesc'),
           visible: isAdmin && !isGroup,
