@@ -21,7 +21,6 @@ export const TABLE_ENCRYPTION_MAP = {
     privileges: 'shared',
     enrollments: 'shared',
     emergency_contacts: 'shared',
-    categories: 'shared',
     bethelite: 'shared',
     bethel_commuter: 'shared',
     ldc_volunteer: 'shared',
