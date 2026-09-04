@@ -11,7 +11,6 @@ const WeekendContainer = () => {
   const { views } = useSiblingAssignments();
 
   const {
-    currentWeekVisible,
     handleGoCurrent,
     handleValueChange,
     value,
@@ -33,16 +32,15 @@ const WeekendContainer = () => {
         >
           <WeekSelector value={value} onChange={handleValueChange} />
 
-          <WeekScheduleHeader
-            currentVisible={currentWeekVisible}
-            week={week}
-            onCurrent={handleGoCurrent}
-            lastUpdated={scheduleLastUpdated}
-          />
+          <WeekScheduleHeader week={week} onCurrent={handleGoCurrent} />
 
           {week && (
             <Stack spacing="24px">
-              <WeekendMeeting week={week} dataView={dataView} />
+              <WeekendMeeting
+                week={week}
+                dataView={dataView}
+                lastUpdated={scheduleLastUpdated}
+              />
 
               {views.map((view) => (
                 <SiblingAssignment

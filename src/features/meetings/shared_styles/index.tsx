@@ -1,6 +1,8 @@
 import { styled } from '@mui/system';
 import { Box } from '@mui/material';
 
+export { default as StyledNavigationArrowButton } from './navigation_arrow_button';
+
 export const DoubleFieldContainer = styled(Box)({
   display: 'flex',
   gap: '16px',
