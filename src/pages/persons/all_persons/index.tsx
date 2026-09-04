@@ -36,6 +36,10 @@ const PersonsAll = () => {
     handleCloseExchange,
   } = useAllPersons();
 
+  const isFilterSubpage = !desktopUp && isPanelOpen;
+
+  const handleCloseFilter = () => setIsPanelOpen(false);
+
   return (
     <Box
       sx={{
@@ -46,8 +50,11 @@ const PersonsAll = () => {
       }}
     >
       <PageTitle
-        title={t('tr_personsAll')}
+        title={isFilterSubpage ? t('tr_filters') : t('tr_personsAll')}
+        secondaryTitle={isFilterSubpage ? t('tr_personsAll') : undefined}
+        onBack={isFilterSubpage ? handleCloseFilter : undefined}
         buttons={
+          !isFilterSubpage &&
           isPersonEditor && (
             <NavBarButtonGroup>
               <NavBarButton
@@ -90,7 +97,9 @@ const PersonsAll = () => {
               flexDirection: 'column',
             }}
           >
-            <Box sx={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
+            <Box
+              sx={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}
+            >
               <Box sx={{ flexGrow: 1, minWidth: 0 }}>
                 <PersonsSearch />
               </Box>
@@ -132,14 +141,24 @@ const PersonsAll = () => {
                     flexDirection: 'column',
                   }}
                 >
-                  <Box sx={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      gap: '16px',
+                      alignItems: 'flex-start',
+                    }}
+                  >
                     <Box sx={{ flexGrow: 1, minWidth: 0 }}>
                       <PersonsSearch />
                     </Box>
                     <Button
                       variant="secondary"
                       disableAutoStretch
-                      sx={{ flexShrink: 0, height: '48px', padding: '8px 16px' }}
+                      sx={{
+                        flexShrink: 0,
+                        height: '48px',
+                        padding: '8px 16px',
+                      }}
                       onClick={() => setIsPanelOpen((prev) => !prev)}
                       endIcon={
                         isPanelOpen ? <IconPanelOpen /> : <IconPanelClose />
@@ -168,11 +187,13 @@ const PersonsAll = () => {
                     backgroundColor: 'var(--white)',
                     border: '1px solid var(--accent-300)',
                     borderRadius: 'var(--radius-xl)',
-                    padding: '16px',
                     width: '100%',
+                    overflow: 'hidden',
                   }}
                 >
-                  <PersonsFilter />
+                  <Box sx={{ padding: '16px' }}>
+                    <PersonsFilter hideTitle />
+                  </Box>
                 </Box>
               </Box>
             </Slide>
