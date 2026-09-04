@@ -8,31 +8,39 @@ import Typography from '@components/typography';
  * @param props The props for the TabLabel component.
  */
 const TabLabel = ({ label, badge, selected }: TabLabelProps) => {
+  // only plain text is rendered twice to reserve the width of its bold
+  // variant: a component label would run its effects and repeat its ids
+  const isText = typeof label === 'string' || typeof label === 'number';
+
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-      <Box
-        sx={{
-          display: 'grid',
-          justifyItems: 'center',
-          '& > *': { gridArea: '1 / 1' },
-        }}
-      >
+      {isText ? (
         <Box
-          className="h4"
-          aria-hidden={!selected}
-          sx={{ visibility: selected ? 'visible' : 'hidden' }}
+          sx={{
+            display: 'grid',
+            justifyItems: 'center',
+            '& > *': { gridArea: '1 / 1' },
+          }}
         >
-          {label}
-        </Box>
+          <Box
+            className="h4"
+            aria-hidden={!selected}
+            sx={{ visibility: selected ? 'visible' : 'hidden' }}
+          >
+            {label}
+          </Box>
 
-        <Box
-          className="body-regular"
-          aria-hidden={selected}
-          sx={{ visibility: selected ? 'hidden' : 'visible' }}
-        >
-          {label}
+          <Box
+            className="body-regular"
+            aria-hidden={selected}
+            sx={{ visibility: selected ? 'hidden' : 'visible' }}
+          >
+            {label}
+          </Box>
         </Box>
-      </Box>
+      ) : (
+        <Box className={selected ? 'h4' : 'body-regular'}>{label}</Box>
+      )}
 
       {typeof badge === 'number' && (
         <Box
