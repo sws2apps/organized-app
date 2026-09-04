@@ -43,11 +43,11 @@ const useWeeklySchedules = () => {
   const tabs = useMemo(() => {
     const result = [
       {
-        label: t('tr_midweekMeeting'),
+        label: t('tr_midweek'),
         Component: <MidweekContainer />,
       },
       {
-        label: t('tr_weekendMeeting'),
+        label: t('tr_weekend'),
         Component: <WeekendContainer />,
       },
     ];
