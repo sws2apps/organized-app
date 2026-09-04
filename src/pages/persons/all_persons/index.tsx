@@ -38,7 +38,12 @@ const PersonsAll = () => {
 
   const isFilterSubpage = !desktopUp && isPanelOpen;
 
-  const handleCloseFilter = () => setIsPanelOpen(false);
+  const handleCloseFilter = () => {
+    setIsPanelOpen(false);
+
+    // the filters can be scrolled far past where the list starts
+    window.scroll({ top: 0 });
+  };
 
   return (
     <Box
