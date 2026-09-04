@@ -173,8 +173,9 @@ export const schedulesMidweekInfo = (week: string) => {
   }
 
   const languageWeekType =
-    schedule.midweek_meeting.week_type.find((record) => record.type !== 'main')
-      ?.value ?? Week.NORMAL;
+    schedule.midweek_meeting?.week_type?.find(
+      (record) => record.type !== 'main'
+    )?.value ?? Week.NORMAL;
 
   const countAux =
     classCount > 1 &&
@@ -895,10 +896,12 @@ export const schedulesGetHistoryDetails = ({
     history.assignment.classroom = '2';
   }
 
-  if (assignment.includes('MM_Chairman')) {
+  if (assignment.includes('MM_Chairman_A')) {
     history.assignment.code = AssignmentCode.MM_Chairman;
   }
-
+  if (assignment.includes('MM_Chairman_B')) {
+    history.assignment.code = AssignmentCode.MM_AuxiliaryCounselor;
+  }
   if (assignment === 'MM_Chairman_A') {
     history.assignment.title = getTranslation({
       key: 'tr_chairmanMidwekMeetingHistory',
@@ -2024,17 +2027,20 @@ export const schedulesAutofillUpdateHistory = ({
   assigned: AssignmentCongregation;
   history: AssignmentHistoryType[];
 }) => {
+  const dataView = store.get(userDataViewState);
   // remove record from history
   const previousIndex = history.findIndex(
     (record) =>
-      record.weekOf === schedule.weekOf && record.assignment.key === assignment
+      record.weekOf === schedule.weekOf &&
+      record.assignment.key === assignment &&
+      record.assignment.dataView === dataView
   );
 
-  if (previousIndex !== -1) history.splice(previousIndex, 1);
-
-  if (assigned.value !== '') {
+  if (previousIndex !== -1 && assigned.value === '') {
+    history.splice(previousIndex, 1);
+  } else if (assigned.value !== '') {
     const lang = store.get(JWLangState);
-    const dataView = store.get(userDataViewState);
+
     const shortDateFormat = store.get(shortDateFormatState);
     const sources = store.get(sourcesState);
     const talks = store.get(publicTalksState);
@@ -2052,14 +2058,12 @@ export const schedulesAutofillUpdateHistory = ({
       talks,
     });
 
-    history.push(historyDetails);
+    if (previousIndex === -1) {
+      history.push(historyDetails);
+    } else {
+      history.splice(previousIndex, 1, historyDetails);
+    }
   }
-
-  history.sort((a, b) =>
-    new Date(b.weekOf)
-      .toISOString()
-      .localeCompare(new Date(a.weekOf).toISOString())
-  );
 };
 
 export const schedulesAutofillSaveAssignment = ({
@@ -2149,8 +2153,9 @@ export const schedulesS89Data = (schedule: SchedWeekType, dataView: string) => {
   if (hasNoMeeting) return result;
 
   const languageWeekType =
-    schedule.midweek_meeting.week_type.find((record) => record.type !== 'main')
-      ?.value ?? Week.NORMAL;
+    schedule.midweek_meeting?.week_type?.find(
+      (record) => record.type !== 'main'
+    )?.value ?? Week.NORMAL;
 
   for (const assignment of assignments) {
     // skip aux class assignments for language group
@@ -2435,8 +2440,9 @@ export const schedulesMidweekData = (
     )?.value ?? Week.NORMAL;
 
   const languageWeekType =
-    schedule.midweek_meeting.week_type.find((record) => record.type !== 'main')
-      ?.value ?? Week.NORMAL;
+    schedule.midweek_meeting?.week_type?.find(
+      (record) => record.type !== 'main'
+    )?.value ?? Week.NORMAL;
 
   result.week_type = week_type;
   result.no_meeting = WEEK_TYPE_NO_MEETING.includes(week_type);

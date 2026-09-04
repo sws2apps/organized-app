@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { useSetAtom } from 'jotai';
+import { useSetAtom, useAtomValue } from 'jotai';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { ScheduleAutofillType } from './index.types';
 import { schedulesStartAutofill } from '@services/app/autofill';
+import { languageGroupsState } from '@states/field_service_groups';
 import { selectedWeekState } from '@states/schedules';
 
 const useScheduleAutofill = (
@@ -13,6 +14,7 @@ const useScheduleAutofill = (
   const [startWeek, setStartWeek] = useState('');
   const [endWeek, setEndWeek] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
+  const languageGroups = useAtomValue(languageGroupsState);
 
   const setSelectedWeek = useSetAtom(selectedWeekState);
 
@@ -22,11 +24,10 @@ const useScheduleAutofill = (
 
   const handleStartAutoFill = async () => {
     if (startWeek.length === 0 || endWeek.length === 0) return;
-
     try {
       setIsProcessing(true);
 
-      await schedulesStartAutofill(startWeek, endWeek, meeting);
+      await schedulesStartAutofill(startWeek, endWeek, meeting, languageGroups);
 
       setSelectedWeek(startWeek);
 
@@ -37,10 +38,11 @@ const useScheduleAutofill = (
 
       setIsProcessing(false);
       onClose?.();
+      const errMessage = error instanceof Error ? error.message : String(error);
 
       displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
-        message: getMessageByCode(error.message),
+        message: getMessageByCode(errMessage),
         severity: 'error',
       });
     }
