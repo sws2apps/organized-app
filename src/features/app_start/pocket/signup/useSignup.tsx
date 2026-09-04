@@ -109,6 +109,9 @@ const useSignup = () => {
       'user_settings.account_type': 'pocket',
       'user_settings.lastname': app_settings.user_settings.lastname,
       'user_settings.firstname': app_settings.user_settings.firstname,
+      ...(app_settings.user_settings.middlename && {
+        'user_settings.middlename': app_settings.user_settings.middlename,
+      }),
       'user_settings.user_local_uid': app_settings.user_settings.user_local_uid,
       'user_settings.user_members_delegate':
         app_settings.user_settings.user_members_delegate,

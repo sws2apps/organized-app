@@ -10,13 +10,15 @@ export const speakersSortByName = (speakers: VisitingSpeakerType[]) => {
     const fullnameA = buildPersonFullname(
       a.speaker_data.person_lastname.value,
       a.speaker_data.person_firstname.value,
-      fullnameOption
+      fullnameOption,
+      a.speaker_data.person_middlename?.value
     );
 
     const fullnameB = buildPersonFullname(
       b.speaker_data.person_lastname.value,
       b.speaker_data.person_firstname.value,
-      fullnameOption
+      fullnameOption,
+      b.speaker_data.person_middlename?.value
     );
 
     if (fullnameA === '') return 1;

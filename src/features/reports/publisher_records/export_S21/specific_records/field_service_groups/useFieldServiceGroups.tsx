@@ -77,7 +77,8 @@ const useFieldServiceGroups = ({ onExport }: FieldServiceGroupsProps) => {
               label: buildPersonFullname(
                 person.person_data.person_lastname.value,
                 person.person_data.person_firstname.value,
-                fullnameOption
+                fullnameOption,
+                person.person_data.person_middlename?.value
               ),
             };
           })

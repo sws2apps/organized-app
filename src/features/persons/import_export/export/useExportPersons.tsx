@@ -22,8 +22,8 @@ const useExportPersons = () => {
   const personGetGroup = (person_uid: string) => {
     return groups.find((group) =>
       group.group_data.members.some(
-        (member) => member.person_uid === person_uid,
-      ),
+        (member) => member.person_uid === person_uid
+      )
     );
   };
 
@@ -37,6 +37,7 @@ const useExportPersons = () => {
       const header_row: Row = [
         { value: t('tr_lastname', { lng }), fontWeight: 'bold' },
         { value: t('tr_firstname', { lng }), fontWeight: 'bold' },
+        { value: t('tr_middlename', { lng }), fontWeight: 'bold' },
         { value: t('tr_phoneNumber', { lng }), fontWeight: 'bold' },
         { value: t('tr_address', { lng }), fontWeight: 'bold' },
         { value: t('tr_emergencyContacts', { lng }), fontWeight: 'bold' },
@@ -49,7 +50,7 @@ const useExportPersons = () => {
         .filter(
           (person) =>
             person.person_data.publisher_baptized.active.value ||
-            person.person_data.publisher_unbaptized.active.value,
+            person.person_data.publisher_unbaptized.active.value
         )
         .map((person) => {
           const group = personGetGroup(person.person_uid);
@@ -80,6 +81,7 @@ const useExportPersons = () => {
           return [
             { value: person.person_data.person_lastname.value },
             { value: person.person_data.person_firstname.value },
+            { value: person.person_data.person_middlename?.value || '' },
             { value: person.person_data.phone.value, type: String },
             { value: person.person_data.address.value },
             { value: emergencyContacts.join('; ') },
@@ -94,6 +96,7 @@ const useExportPersons = () => {
         stickyRowsCount: 1,
         columns: [
           { width: 30 },
+          { width: 35 },
           { width: 35 },
           { width: 45 },
           { width: 45 },
@@ -112,7 +115,7 @@ const useExportPersons = () => {
         header: getMessageByCode('error_app_generic-title'),
         message: error.message,
         severity: 'error',
-        icon: <IconError color='var(--white)' />,
+        icon: <IconError color="var(--white)" />,
       });
     }
   };
