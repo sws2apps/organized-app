@@ -18,12 +18,14 @@ const AppReminders = () => {
 
   const { tablet688Up } = useBreakpoints();
 
-  const { reminders, reminderMeTomorrow } = useReminders();
+  const { reminders, isOpen, reminderMeTomorrow, handleRemindersHidden } =
+    useReminders();
 
   return (
     <Slide
       direction="left"
-      in={reminders.length > 0}
+      in={isOpen}
+      onExited={handleRemindersHidden}
       mountOnEnter
       unmountOnExit
       easing={{
