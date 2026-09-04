@@ -30,7 +30,6 @@ const WeeklySchedules = () => {
         }}
       >
         <ScrollableTabs
-          indicatorMode
           appearance="plain"
           tabs={tabs}
           value={value}

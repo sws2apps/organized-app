@@ -3,10 +3,7 @@ import { TabLabelProps } from './index.types';
 import Typography from '@components/typography';
 
 /**
- * Renders the content of a tab.
- *
- * Both typographies are stacked in the same grid cell so that the tab keeps
- * the width of its bold state and the neighboring tabs never shift.
+ * A custom tab label component.
  *
  * @param props The props for the TabLabel component.
  */

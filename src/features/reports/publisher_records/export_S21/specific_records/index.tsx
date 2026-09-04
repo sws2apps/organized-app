@@ -20,7 +20,7 @@ const SpecificRecords = (props: SpecificRecordsProps) => {
         </Typography>
       </Stack>
 
-      <ScrollableTabs appearance="plain" tabs={tabs} value={0} indicatorMode />
+      <ScrollableTabs appearance="plain" tabs={tabs} value={0} />
     </>
   );
 };

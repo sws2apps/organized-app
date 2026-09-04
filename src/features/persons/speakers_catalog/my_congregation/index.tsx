@@ -44,12 +44,7 @@ const MyCongregation = () => {
         >
           <VisibilityToggle />
 
-          <ScrollableTabs
-            appearance="plain"
-            indicatorMode
-            tabs={tabs}
-            value={0}
-          />
+          <ScrollableTabs appearance="plain" tabs={tabs} value={0} />
         </Box>
       </Collapse>
     </Box>

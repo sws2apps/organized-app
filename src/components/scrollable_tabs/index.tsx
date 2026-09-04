@@ -15,6 +15,8 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import Typography from '@components/typography';
 
+const TAB_HEIGHT = '48px';
+
 /**
  * Component that renders scrollable tabs.
  *
@@ -22,10 +24,8 @@ import Typography from '@components/typography';
 function ScrollableTabs({
   tabs,
   value,
-  indicatorMode,
   onChange,
   className,
-  minHeight = '48px',
   layout = 'auto',
   appearance = 'chip',
   sx,
@@ -33,6 +33,8 @@ function ScrollableTabs({
   const { tabletDown, tabletUp } = useBreakpoints();
 
   const variant = layout === 'stretch' && tabletUp ? 'fullWidth' : 'scrollable';
+
+  const hasIndicator = appearance === 'plain';
 
   const [valueOfActivePanel, setValueOfActivePanel] = useState(value ?? false);
 
@@ -43,7 +45,7 @@ function ScrollableTabs({
    * @param newValue The new value of the active tab.
    */
   const handleChange = (event: SyntheticEvent, newValue: number) => {
-    if (!indicatorMode) {
+    if (!hasIndicator) {
       event.preventDefault();
     }
 
@@ -73,12 +75,12 @@ function ScrollableTabs({
             className={className}
             slotProps={{
               indicator: {
-                hidden: !indicatorMode,
+                hidden: !hasIndicator,
                 sx: {
-                  backgroundColor: indicatorMode
+                  backgroundColor: hasIndicator
                     ? 'var(--accent-main)'
                     : 'transparent',
-                  borderRadius: indicatorMode && '16px 16px 0px 0px',
+                  borderRadius: hasIndicator && '16px 16px 0px 0px',
                   height: '4px',
                 },
               },
@@ -105,7 +107,7 @@ function ScrollableTabs({
                 height: '36px',
               },
               alignItems: 'center',
-              minHeight,
+              minHeight: TAB_HEIGHT,
               [`& .${tabsClasses.flexContainer}`]: {
                 gap: '4px',
               },
@@ -127,8 +129,8 @@ function ScrollableTabs({
                   icon={icon}
                   iconPosition="end"
                   sx={{
-                    minHeight,
-                    height: minHeight,
+                    minHeight: TAB_HEIGHT,
+                    height: TAB_HEIGHT,
                     minWidth: '20px',
                   }}
                 />

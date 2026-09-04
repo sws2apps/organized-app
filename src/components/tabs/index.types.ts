@@ -78,11 +78,6 @@ export interface CustomTabProps extends TabOwnProps {
   value?: number | boolean;
 
   /**
-   * A boolean indicating whether to display the indicator.
-   */
-  indicatorMode?: boolean;
-
-  /**
    * Callback function triggered when the active tab changes.
    * Provides the new active tab index as a parameter.
    *
@@ -99,12 +94,6 @@ export interface CustomTabProps extends TabOwnProps {
    * The width of the tabs. (Default: auto)
    */
   layout?: TabsLayout;
-
-  /**
-   * Minimum height for the tab component.
-   * Useful for ensuring consistent tab sizes.
-   */
-  minHeight?: string;
 
   /**
    * The action component to be displayed with the tab.

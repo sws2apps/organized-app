@@ -7,7 +7,7 @@ const PublisherTabs = () => {
 
   return (
     <Card sx={{ flex: 1, width: '100%' }}>
-      <ScrollableTabs appearance="plain" indicatorMode tabs={tabs} value={0} />
+      <ScrollableTabs appearance="plain" tabs={tabs} value={0} />
     </Card>
   );
 };
