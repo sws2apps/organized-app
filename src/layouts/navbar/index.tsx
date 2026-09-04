@@ -519,11 +519,34 @@ const NavBar = ({ isSupported }: NavBarType) => {
                   <IconButton
                     aria-label={t('tr_back')}
                     onClick={handleBack}
-                    sx={{
-                      '&:hover': {
-                        backgroundColor: 'var(--accent-200)',
+                    sx={(theme) => ({
+                      marginLeft: '-10px',
+                      '@media (hover: hover)': {
+                        '&:hover': {
+                          backgroundColor: 'var(--accent-200)',
+                          '& svg': {
+                            transform:
+                              theme.direction === 'rtl'
+                                ? 'translateX(4px) scaleX(-1)'
+                                : 'translateX(-4px)',
+                          },
+                        },
                       },
-                    }}
+                      '@media (hover: none)': {
+                        '&:active': {
+                          backgroundColor: 'var(--accent-200)',
+                          '& svg': {
+                            transform:
+                              theme.direction === 'rtl'
+                                ? 'translateX(4px) scaleX(-1)'
+                                : 'translateX(-4px)',
+                          },
+                        },
+                      },
+                      '& svg': {
+                        transition: 'transform 0.2s ease-in-out',
+                      },
+                    })}
                   >
                     <IconNavigateLeft color="var(--black)" />
                   </IconButton>
@@ -531,7 +554,8 @@ const NavBar = ({ isSupported }: NavBarType) => {
                     sx={{
                       display: 'flex',
                       flexDirection: 'column',
-                      marginLeft: '-8px',
+                      marginLeft: tablet688Up ? '-8px' : 0,
+                      alignItems: tablet688Up ? 'flex-start' : 'center',
                     }}
                   >
                     <Typography
@@ -541,6 +565,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
                         whiteSpace: 'nowrap',
                         textOverflow: 'ellipsis',
                         overflow: 'hidden',
+                        textAlign: tablet688Up ? 'start' : 'center',
                       }}
                     >
                       {navBarOptions.title}
@@ -552,6 +577,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
                         whiteSpace: 'nowrap',
                         textOverflow: 'ellipsis',
                         overflow: 'hidden',
+                        textAlign: tablet688Up ? 'start' : 'center',
                       }}
                     >
                       {navBarOptions.secondaryTitle}
@@ -568,12 +594,24 @@ const NavBar = ({ isSupported }: NavBarType) => {
                       sx={{
                         marginRight: '-8px',
                         transition: 'background-color 50ms ease-in-out',
-                        '&:hover': {
-                          backgroundColor: 'var(--accent-200)',
-                          '& svg': {
-                            transform: settingsAnimating
-                              ? 'rotate(0deg)'
-                              : 'rotate(60deg)',
+                        '@media (hover: hover)': {
+                          '&:hover': {
+                            backgroundColor: 'var(--accent-200)',
+                            '& svg': {
+                              transform: settingsAnimating
+                                ? 'rotate(0deg)'
+                                : 'rotate(60deg)',
+                            },
+                          },
+                        },
+                        '@media (hover: none)': {
+                          '&:active': {
+                            backgroundColor: 'var(--accent-200)',
+                            '& svg': {
+                              transform: settingsAnimating
+                                ? 'rotate(0deg)'
+                                : 'rotate(60deg)',
+                            },
                           },
                         },
                         '& svg': {
@@ -588,7 +626,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
                     </IconButton>
                   ) : (
                     !tablet688Up && (
-                      <Box sx={{ width: '22px', height: '22px' }} />
+                      <Box sx={{ width: '40px', height: '40px' }} />
                     )
                   )}
                 </Box>

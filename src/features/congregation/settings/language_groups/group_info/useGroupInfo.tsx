@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { displaySnackNotification } from '@services/states/app';
@@ -37,6 +37,16 @@ const useGroupInfo = ({ group, onClose }: GroupInfoProps) => {
   const [circuit, setCircuit] = useState(circuitNumber);
   const [language, setLanguage] = useState(jwLang.toUpperCase());
   const [groupEdit, setGroupEdit] = useState(group);
+  const isInitialRender = useRef(true);
+  const isProcessingRef = useRef(false);
+  const pendingSaveRef = useRef(false);
+  const hasUnsavedEditRef = useRef(false);
+
+  // Always points at the save handler of the latest render, so a save that is
+  // started later (by the debounce timer, after an in-flight save, or when the
+  // editor unmounts) writes the latest values instead of the ones captured
+  // when the earlier save began.
+  const handleSaveChangeRef = useRef<() => Promise<void>>(null);
 
   const handleClose = () => onClose?.();
 
@@ -56,7 +66,7 @@ const useGroupInfo = ({ group, onClose }: GroupInfoProps) => {
 
   const handleLanguageChange = (value: string) => setLanguage(value);
 
-  const handleSaveChange = async () => {
+  const handleSaveChange = useCallback(async () => {
     if (
       groupEdit.group_data.name.length === 0 ||
       circuit.length === 0 ||
@@ -65,12 +75,17 @@ const useGroupInfo = ({ group, onClose }: GroupInfoProps) => {
       return;
     }
 
-    if (isProcessing) return;
+    if (isProcessingRef.current) {
+      pendingSaveRef.current = true;
+      return;
+    }
 
     try {
       setIsProcessing(true);
+      isProcessingRef.current = true;
 
-      groupEdit.group_data.updatedAt = new Date().toISOString();
+      const groupToSave = structuredClone(groupEdit);
+      groupToSave.group_data.updatedAt = new Date().toISOString();
 
       const sourceLanguages = structuredClone(
         settings.cong_settings.source_material.language
@@ -106,7 +121,7 @@ const useGroupInfo = ({ group, onClose }: GroupInfoProps) => {
         'cong_settings.cong_circuit': circuits,
       });
 
-      await dbFieldServiceGroupSave(groupEdit);
+      await dbFieldServiceGroupSave(groupToSave);
 
       if (activeGroupLanguageChanged) {
         await refreshLocaleDerivedData();
@@ -117,27 +132,60 @@ const useGroupInfo = ({ group, onClose }: GroupInfoProps) => {
           console.error(error);
         }
       }
-
-      setIsProcessing(false);
-
-      handleClose();
     } catch (error) {
-      setIsProcessing(false);
-
       console.error(error);
+
+      const errorMessage =
+        error instanceof Error ? error.message : String(error);
 
       displaySnackNotification({
         severity: 'error',
         header: t('error_app_generic-title'),
-        message: (error as Error).message,
+        message: errorMessage,
       });
+    } finally {
+      setIsProcessing(false);
+      isProcessingRef.current = false;
+      if (pendingSaveRef.current) {
+        pendingSaveRef.current = false;
+        handleSaveChangeRef.current?.();
+      }
     }
-  };
+  }, [circuit, dataView, group.group_id, groupEdit, language, settings, t]);
 
   useEffect(() => {
     setCircuit(circuitNumber);
     setLanguage(jwLang.toUpperCase());
   }, [circuitNumber, jwLang]);
+
+  handleSaveChangeRef.current = handleSaveChange;
+
+  useEffect(() => {
+    if (isInitialRender.current) {
+      isInitialRender.current = false;
+      return;
+    }
+
+    hasUnsavedEditRef.current = true;
+
+    const timer = setTimeout(() => {
+      hasUnsavedEditRef.current = false;
+      handleSaveChangeRef.current?.();
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [groupEdit, circuit, language]);
+
+  // an edit made less than a second before leaving the group would otherwise
+  // be lost with the pending timer, so it is saved right away instead
+  useEffect(() => {
+    return () => {
+      if (!hasUnsavedEditRef.current) return;
+
+      hasUnsavedEditRef.current = false;
+      handleSaveChangeRef.current?.();
+    };
+  }, []);
 
   return {
     handleClose,
@@ -145,7 +193,6 @@ const useGroupInfo = ({ group, onClose }: GroupInfoProps) => {
     groupEdit,
     handleNameChange,
     handleCircuitChange,
-    handleSaveChange,
     handleLanguageChange,
     circuit,
     handleGroupChange,

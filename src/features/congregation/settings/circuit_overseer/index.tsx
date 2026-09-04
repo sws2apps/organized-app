@@ -1,9 +1,5 @@
 import { FullnameOption } from '@definition/settings';
-import {
-  useAppTranslation,
-  useBreakpoints,
-  useCurrentUser,
-} from '@hooks/index';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import {
   CardSection,
   CardSectionContent,
@@ -18,8 +14,6 @@ import COMidweekMeetingDay from './co_midweek_meeting_day';
 
 const CircuitOverseer = () => {
   const { t } = useAppTranslation();
-
-  const { tablet600Up } = useBreakpoints();
 
   const { isAdmin } = useCurrentUser();
 
@@ -44,17 +38,14 @@ const CircuitOverseer = () => {
         description={t('tr_circuitOverseerSettingDesc')}
       />
 
-      <CardSectionContent>
+      <CardSectionContent sx={{ '& > hr': { display: 'none' } }}>
         <Stack spacing="16px">
           <TwoColumnsRow
             sx={{
-              flexDirection: tablet600Up
-                ? fullnameOption === FullnameOption.FIRST_BEFORE_LAST
+              flexDirection:
+                fullnameOption === FullnameOption.FIRST_BEFORE_LAST
                   ? 'row'
-                  : 'row-reverse'
-                : fullnameOption === FullnameOption.FIRST_BEFORE_LAST
-                  ? 'column'
-                  : 'column-reverse',
+                  : 'row-reverse',
             }}
           >
             <TextField

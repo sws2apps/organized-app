@@ -13,6 +13,7 @@ import { assignmentsHistoryState } from '@states/schedules';
 import { addWeeks, formatDate } from '@utils/date';
 import { AssignmentHistoryType } from '@definition/schedules';
 import { resolveAssignmentDate } from '@utils/assignments';
+import { congregationSettingsTabPath } from '@features/congregation/settings/settings_sidebar/index.types';
 
 const useMyAssignments = () => {
   const navigate = useNavigate();
@@ -105,7 +106,7 @@ const useMyAssignments = () => {
   const handleClose = () => setOpen(false);
 
   const handleOpenManageAccess = () => {
-    navigate('/manage-access');
+    navigate(congregationSettingsTabPath('user-accounts'));
     setOpen(false);
   };
 

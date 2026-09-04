@@ -29,22 +29,34 @@ const Export = (props: ExportType) => {
         </Box>
       </Stack>
 
-      <DialogActions>
-        <Button
-          variant="secondary"
-          disabled={isProcessing}
-          onClick={props.onClose}
-        >
-          {t('tr_cancel')}
-        </Button>
-        <Button
-          variant="main"
-          onClick={handleDownload}
-          endIcon={isProcessing && <IconLoading />}
-        >
-          {t('tr_download')}
-        </Button>
-      </DialogActions>
+      {props.onClose ? (
+        <DialogActions>
+          <Button
+            variant="secondary"
+            disabled={isProcessing}
+            onClick={props.onClose}
+          >
+            {t('tr_cancel')}
+          </Button>
+          <Button
+            variant="main"
+            onClick={handleDownload}
+            endIcon={isProcessing ? <IconLoading /> : undefined}
+          >
+            {t('tr_download')}
+          </Button>
+        </DialogActions>
+      ) : (
+        <Stack spacing="8px">
+          <Button
+            variant="main"
+            onClick={handleDownload}
+            endIcon={isProcessing ? <IconLoading /> : undefined}
+          >
+            {t('tr_export')}
+          </Button>
+        </Stack>
+      )}
     </Stack>
   );
 };

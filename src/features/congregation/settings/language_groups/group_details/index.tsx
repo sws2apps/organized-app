@@ -1,10 +1,11 @@
-import { Box, SelectChangeEvent, Stack } from '@mui/material';
+import { SelectChangeEvent } from '@mui/material';
 import {
   useAppTranslation,
   useBreakpoints,
   useCurrentUser,
 } from '@hooks/index';
 import { LanguageGroupDetailsProps } from './index.types';
+import { DetailsGrid } from './index.styles';
 import SourceLanguageSelector from '@components/source_language_selector';
 import TextField from '@components/textfield';
 
@@ -15,36 +16,30 @@ const LanguageGroupDetails = ({
   onCircuitChange,
   onLanguageChange,
   onNameChange,
+  layout = 'row',
 }: LanguageGroupDetailsProps) => {
   const { t } = useAppTranslation();
 
-  const { tabletUp } = useBreakpoints();
+  const { desktopUp } = useBreakpoints();
 
   const { isAdmin } = useCurrentUser();
 
   return (
-    <Stack spacing="16px">
-      <Box
+    <DetailsGrid $layout={layout}>
+      <TextField
+        label={t('tr_groupNameLabel')}
+        value={name}
+        onChange={(e) => onNameChange(e.target.value)}
         sx={{
-          display: 'flex',
-          flexDirection: tabletUp ? 'row' : 'column',
-          gap: tabletUp ? '8px' : '16px',
+          gridColumn: desktopUp && layout === 'popup' ? '1 / -1' : 'auto',
         }}
-      >
-        <TextField
-          label={t('tr_groupNameLabel')}
-          value={name}
-          onChange={(e) => onNameChange(e.target.value)}
-          sx={{ flex: 1 }}
-        />
+      />
 
-        <TextField
-          label={t('tr_circuitNumber')}
-          value={circuit}
-          onChange={(e) => onCircuitChange(e.target.value)}
-          sx={{ flex: tabletUp ? 0.6 : 1 }}
-        />
-      </Box>
+      <TextField
+        label={t('tr_circuitNumber')}
+        value={circuit}
+        onChange={(e) => onCircuitChange(e.target.value)}
+      />
 
       <SourceLanguageSelector
         readOnly={!isAdmin}
@@ -54,7 +49,7 @@ const LanguageGroupDetails = ({
           onLanguageChange(e.target.value)
         }
       />
-    </Stack>
+    </DetailsGrid>
   );
 };
 
