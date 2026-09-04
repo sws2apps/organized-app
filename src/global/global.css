@@ -666,13 +666,13 @@
   }
 
   .h2-caps {
-    font-size: 18px;
+    font-size: 16px;
     text-decoration: none;
     font-weight: 450;
     font-style: normal;
     font-stretch: normal;
-    letter-spacing: 0.18px;
-    line-height: 22px;
+    letter-spacing: 0.16px;
+    line-height: 20px;
     text-indent: 0px;
     text-transform: uppercase;
   }
@@ -777,13 +777,13 @@
   }
 
   .h2-caps {
-    font-size: 20px;
+    font-size: 18px;
     text-decoration: none;
     font-weight: 450;
     font-style: normal;
     font-stretch: normal;
-    letter-spacing: 0.2px;
-    line-height: 24px;
+    letter-spacing: 0.18px;
+    line-height: 22px;
     text-indent: 0px;
     text-transform: uppercase;
   }
