@@ -34,6 +34,8 @@ import { personGetDisplayName, speakerGetDisplayName } from '@utils/common';
 import {
   schedulesGetData,
   schedulesGetMeetingDate,
+  schedulesPersonHasConsecutiveAssignment,
+  schedulesPersonHasMeetingConflict,
   schedulesSaveAssignment,
 } from '@services/app/schedules';
 import { ASSIGNMENT_PATH } from '@constants/index';
@@ -405,6 +407,30 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
     );
   }, [value, assignmentsHistory]);
 
+  const isMeetingConflict = useMemo(() => {
+    if (!value) return false;
+
+    return schedulesPersonHasMeetingConflict({
+      history: assignmentsHistory,
+      week,
+      assignment,
+      person_uid: value.person_uid,
+      dataView,
+    });
+  }, [value, assignmentsHistory, week, assignment, dataView]);
+
+  const isConsecutiveAssignment = useMemo(() => {
+    if (!value) return false;
+
+    return schedulesPersonHasConsecutiveAssignment({
+      history: assignmentsHistory,
+      week,
+      type,
+      person_uid: value.person_uid,
+      dataView,
+    });
+  }, [value, assignmentsHistory, week, type, dataView]);
+
   const meetingDate = useMemo(() => {
     const meeting = location.pathname.includes('midweek')
       ? 'midweek'
@@ -429,13 +455,12 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
       return timeAwayNotice;
     }
 
-    // check week assignments
-    const weekAssignments = personHistory.filter(
-      (record) => record.weekOf === week
-    );
+    if (isMeetingConflict) {
+      return t('tr_personAlreadyAssignmentMeeting');
+    }
 
-    if (weekAssignments.length > 1) {
-      return t('tr_personAlreadyAssignmentWeek');
+    if (isConsecutiveAssignment) {
+      return t('tr_personAssignedPreviousWeek');
     }
 
     // check monthly assignments
@@ -468,6 +493,8 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
     isLinkedPart,
     persons,
     meetingDate,
+    isMeetingConflict,
+    isConsecutiveAssignment,
   ]);
 
   const defaultInputValue = useMemo(() => {
@@ -586,6 +613,7 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
     inputValue,
     handleValueChange,
     isLinkedPart,
+    isMeetingConflict,
   };
 };
 
