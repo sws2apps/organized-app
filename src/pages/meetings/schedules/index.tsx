@@ -30,26 +30,10 @@ const WeeklySchedules = () => {
         }}
       >
         <ScrollableTabs
-          indicatorMode
+          appearance="plain"
           tabs={tabs}
           value={value}
           onChange={handleScheduleChange}
-          sx={{
-            '& button.Mui-selected': {
-              color: 'var(--accent-main)',
-              background: 'unset',
-              borderRadius: 'var(--radius-s)',
-            },
-            '& button.Mui-selected:hover': {
-              background: 'var(--accent-150)',
-              borderRadius: 'var(--radius-s)',
-            },
-            '& .MuiTab-root:not(.Mui-selected):hover': {
-              background: 'var(--accent-150)',
-              borderRadius: 'var(--radius-s)',
-            },
-            '& span.MuiTouchRipple-root': { borderRadius: 'var(--radius-s)' },
-          }}
         />
       </Box>
     </Box>
