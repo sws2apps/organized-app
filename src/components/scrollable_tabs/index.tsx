@@ -112,11 +112,12 @@ function ScrollableTabs({
             }}
           >
             {tabs.map(
-              ({ label, icon, className }, index): ReactNode => (
+              ({ label, badge, icon, className }, index): ReactNode => (
                 <Tab
                   label={
                     <TabLabel
                       label={label}
+                      badge={badge}
                       selected={valueOfActivePanel === index}
                     />
                   }

@@ -99,11 +99,12 @@ const Tabs = ({
             sx={tabsSharedStyles('plain')}
           >
             {tabs.map(
-              ({ label, className }, index): ReactNode => (
+              ({ label, badge, className }, index): ReactNode => (
                 <Tab
                   label={
                     <TabLabel
                       label={label}
+                      badge={badge}
                       selected={valueOfActivePanel === index}
                     />
                   }

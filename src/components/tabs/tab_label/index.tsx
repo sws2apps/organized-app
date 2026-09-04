@@ -2,26 +2,58 @@ import { Box } from '@mui/material';
 import { TabLabelProps } from './index.types';
 import Typography from '@components/typography';
 
-const TabLabel = ({ label, selected }: TabLabelProps) => {
+/**
+ * Renders the content of a tab.
+ *
+ * Both typographies are stacked in the same grid cell so that the tab keeps
+ * the width of its bold state and the neighboring tabs never shift.
+ *
+ * @param props The props for the TabLabel component.
+ */
+const TabLabel = ({ label, badge, selected }: TabLabelProps) => {
   return (
-    <Box sx={{ display: 'grid', '& > *': { gridArea: '1 / 1' } }}>
-      <Typography
-        className="h4"
-        color="inherit"
-        aria-hidden={!selected}
-        sx={{ visibility: selected ? 'visible' : 'hidden' }}
+    <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+      <Box
+        sx={{
+          display: 'grid',
+          justifyItems: 'center',
+          '& > *': { gridArea: '1 / 1' },
+        }}
       >
-        {label}
-      </Typography>
+        <Box
+          className="h4"
+          aria-hidden={!selected}
+          sx={{ visibility: selected ? 'visible' : 'hidden' }}
+        >
+          {label}
+        </Box>
 
-      <Typography
-        className="body-regular"
-        color="inherit"
-        aria-hidden={selected}
-        sx={{ visibility: selected ? 'hidden' : 'visible' }}
-      >
-        {label}
-      </Typography>
+        <Box
+          className="body-regular"
+          aria-hidden={selected}
+          sx={{ visibility: selected ? 'hidden' : 'visible' }}
+        >
+          {label}
+        </Box>
+      </Box>
+
+      {typeof badge === 'number' && (
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: '24px',
+            height: '24px',
+            borderRadius: 'var(--radius-s)',
+            backgroundColor: 'var(--accent-150)',
+          }}
+        >
+          <Typography className="body-small-semibold" color="inherit">
+            {badge}
+          </Typography>
+        </Box>
+      )}
     </Box>
   );
 };

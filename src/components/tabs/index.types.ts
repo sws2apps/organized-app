@@ -47,6 +47,11 @@ export interface CustomTabProps extends TabOwnProps {
     label: string | ReactNode;
 
     /**
+     * The number displayed in a badge next to the label.
+     */
+    badge?: number;
+
+    /**
      * The component to be rendered in the tab.
      */
     Component?: ReactNode;
