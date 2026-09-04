@@ -173,8 +173,9 @@ export const schedulesMidweekInfo = (week: string) => {
   }
 
   const languageWeekType =
-    schedule.midweek_meeting.week_type.find((record) => record.type !== 'main')
-      ?.value ?? Week.NORMAL;
+    schedule.midweek_meeting?.week_type?.find(
+      (record) => record.type !== 'main'
+    )?.value ?? Week.NORMAL;
 
   const countAux =
     classCount > 1 &&
@@ -2152,8 +2153,9 @@ export const schedulesS89Data = (schedule: SchedWeekType, dataView: string) => {
   if (hasNoMeeting) return result;
 
   const languageWeekType =
-    schedule.midweek_meeting.week_type.find((record) => record.type !== 'main')
-      ?.value ?? Week.NORMAL;
+    schedule.midweek_meeting?.week_type?.find(
+      (record) => record.type !== 'main'
+    )?.value ?? Week.NORMAL;
 
   for (const assignment of assignments) {
     // skip aux class assignments for language group
@@ -2438,8 +2440,9 @@ export const schedulesMidweekData = (
     )?.value ?? Week.NORMAL;
 
   const languageWeekType =
-    schedule.midweek_meeting.week_type.find((record) => record.type !== 'main')
-      ?.value ?? Week.NORMAL;
+    schedule.midweek_meeting?.week_type?.find(
+      (record) => record.type !== 'main'
+    )?.value ?? Week.NORMAL;
 
   result.week_type = week_type;
   result.no_meeting = WEEK_TYPE_NO_MEETING.includes(week_type);
