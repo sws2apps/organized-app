@@ -22,9 +22,21 @@ export type TabsPanelProps = {
 };
 
 /**
+ * The look of the tabs.
+ * - `chip` - fully rounded tabs, used for the date and period selectors.
+ * - `plain` - lightly rounded tabs, used wherever tabs switch a page section.
+ */
+export type TabsAppearance = 'chip' | 'plain';
+
+/**
  * Custom props for the Tab component.
  */
 export interface CustomTabProps extends TabOwnProps {
+  /**
+   * The look of the tabs. (Default: chip)
+   */
+  appearance?: TabsAppearance;
+
   /**
    * An array of tabs containing label and corresponding component.
    */

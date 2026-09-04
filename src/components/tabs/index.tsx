@@ -1,6 +1,8 @@
 import { ReactNode, SyntheticEvent, useEffect, useState } from 'react';
 import { Tabs as MUITabs, Tab, Box } from '@mui/material';
 import { TabsPanelProps, CustomTabProps } from './index.types';
+import { tabsSharedStyles } from './index.styles';
+import TabLabel from './tab_label';
 import useBreakpoints from '@hooks/useBreakpoints';
 
 /**
@@ -94,21 +96,19 @@ const Tabs = ({
                 },
               },
             }}
-            sx={{
-              '& button.Mui-selected': { color: 'var(--accent-main)' },
-              '& button:not(.Mui-selected)': { color: 'var(--grey-350)' },
-              // Programatically changing color of ripple (wave) when click happens:
-              '& span.MuiTouchRipple-rippleVisible': {
-                color: 'var(--accent-main)',
-              },
-            }}
+            sx={tabsSharedStyles('plain')}
           >
             {tabs.map(
               ({ label, className }, index): ReactNode => (
                 <Tab
-                  label={label}
+                  label={
+                    <TabLabel
+                      label={label}
+                      selected={valueOfActivePanel === index}
+                    />
+                  }
                   key={index}
-                  className={`${valueOfActivePanel === index ? 'h4' : 'body-regular'} ${className}`}
+                  className={className}
                   {...a11yProps(index)}
                 />
               )

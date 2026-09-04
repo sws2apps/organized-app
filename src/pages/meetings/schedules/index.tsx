@@ -31,17 +31,10 @@ const WeeklySchedules = () => {
       >
         <ScrollableTabs
           indicatorMode
+          appearance="plain"
           tabs={tabs}
           value={value}
           onChange={handleScheduleChange}
-          sx={{
-            '& button.Mui-selected': {
-              color: 'var(--accent-main)',
-              background: 'unset',
-              borderRadius: 'unset',
-            },
-            '& span.MuiTouchRipple-root': { borderRadius: 'var(--radius-l)' },
-          }}
         />
       </Box>
     </Box>

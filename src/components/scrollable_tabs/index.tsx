@@ -9,6 +9,8 @@ import { Box, Tab, Tabs, tabsClasses } from '@mui/material';
 import { useBreakpoints } from '@hooks/index';
 import { CustomTabPanel } from '@components/tabs';
 import { CustomTabProps } from '@components/tabs/index.types';
+import { tabsSharedStyles } from '@components/tabs/index.styles';
+import TabLabel from '@components/tabs/tab_label';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import Typography from '@components/typography';
@@ -26,6 +28,7 @@ function ScrollableTabs({
   variant = 'scrollable',
   minHeight = '48px',
   tabsCountOnScreen = 0,
+  appearance = 'chip',
   sx,
 }: CustomTabProps) {
   const { tabletDown } = useBreakpoints();
@@ -89,26 +92,7 @@ function ScrollableTabs({
                 color: 'var(--accent-main)',
                 '&.Mui-disabled': { opacity: 0.3 },
               },
-              '& button.Mui-selected': {
-                color: 'var(--accent-main)',
-                background: 'var(--accent-150)',
-                borderRadius: 'var(--radius-max)',
-              },
-              '& .MuiTab-root:not(.Mui-selected)': {
-                color: 'var(--grey-350)',
-                '&:hover': {
-                  background:
-                    'color-mix(in srgb, var(--accent-150) 38%, transparent)',
-                  borderRadius: 'var(--radius-max)',
-                },
-              },
-              // Programatically changing color of ripple (wave) when click happens:
-              '& span.MuiTouchRipple-rippleVisible': {
-                color: 'var(--accent-main)',
-              },
-              '& span.MuiTouchRipple-root': {
-                borderRadius: 'var(--radius-max)',
-              },
+              ...tabsSharedStyles(appearance),
               '& .MuiSvgIcon-root g path': {
                 fill: 'var(--accent-400)',
               },
@@ -130,7 +114,12 @@ function ScrollableTabs({
             {tabs.map(
               ({ label, icon, className }, index): ReactNode => (
                 <Tab
-                  label={label}
+                  label={
+                    <TabLabel
+                      label={label}
+                      selected={valueOfActivePanel === index}
+                    />
+                  }
                   key={index}
                   className={className}
                   icon={icon}
@@ -143,13 +132,6 @@ function ScrollableTabs({
                         ? `calc(100% / ${tabsCountOnScreen})`
                         : 'auto',
                     minWidth: '20px',
-                    fontSize: 16,
-                    textTransform: 'none',
-                    ':not(&.Mui-selected)': { fontWeight: 400 },
-                    '&.Mui-Selected': {
-                      fontWeight: 600,
-                      fontSize: 18,
-                    },
                   }}
                 />
               )

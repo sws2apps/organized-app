@@ -20,19 +20,7 @@ const SpecificRecords = (props: SpecificRecordsProps) => {
         </Typography>
       </Stack>
 
-      <ScrollableTabs
-        tabs={tabs}
-        value={0}
-        indicatorMode
-        sx={{
-          '& button.Mui-selected': {
-            color: 'var(--accent-main)',
-            background: 'unset',
-            borderRadius: 'unset',
-          },
-          '& span.MuiTouchRipple-root': { borderRadius: 'unset' },
-        }}
-      />
+      <ScrollableTabs appearance="plain" tabs={tabs} value={0} indicatorMode />
     </>
   );
 };
