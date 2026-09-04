@@ -1,0 +1,32 @@
+import { SvgIcon, SxProps, Theme } from '@mui/material';
+
+type IconProps = {
+  color?: string;
+  width?: number;
+  height?: number;
+  sx?: SxProps<Theme>;
+  className?: string;
+};
+
+const IconPinSymbolSquircle = ({
+  color = '#222222',
+  width = 24,
+  height = 24,
+  sx = {},
+  className,
+}: IconProps) => {
+  return (
+    <SvgIcon
+      className={['organized-icon-pin-symbol-squircle', className].filter(Boolean).join(' ')}
+      sx={{ width: `${width}px`, height: `${height}px`, ...sx }}
+      viewBox="-1 -1 18 18"
+    >
+        <path
+          d="M14.3248 3.15937C16.4813 6.00593 16.4813 9.93938 14.3248 12.7859C13.0277 14.4982 11.0943 15.6145 8.9628 15.8817C5.41939 16.326 2.01292 14.3592 0.625949 11.0684C-0.208354 9.08889 -0.208353 6.85642 0.62595 4.87689C2.01292 1.58607 5.41939 -0.380653 8.9628 0.0636075C11.0943 0.330844 13.0277 1.44708 14.3248 3.15937Z"
+          fill={color}
+        />
+    </SvgIcon>
+  );
+};
+
+export default IconPinSymbolSquircle;

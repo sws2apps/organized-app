@@ -1,11 +1,15 @@
 import { ChangeEvent, useCallback, useState } from 'react';
 import { useAtomValue } from 'jotai';
-import { isMFAEnabledState } from '@states/app';
+import {
+  congAccountConnectedState,
+  isMFAEnabledState,
+} from '@states/app';
 import { accountTypeState } from '@states/settings';
 
 const useSecurity = () => {
   const isMFAEnabled = useAtomValue(isMFAEnabledState);
   const accountType = useAtomValue(accountTypeState);
+  const isConnected = useAtomValue(congAccountConnectedState);
 
   const [isOpenMFAEnable, setIsOpenMFAEnable] = useState(false);
   const [isOpenMFADisable, setIsOpenMFADisable] = useState(false);
@@ -42,6 +46,7 @@ const useSecurity = () => {
     isAccountDelete,
     handleOpenDelete,
     handleCloseDelete,
+    isConnected,
   };
 };
 
