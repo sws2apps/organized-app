@@ -1,11 +1,10 @@
 import { useState } from 'react';
-import { useSetAtom } from 'jotai';
+import { useSetAtom, useAtomValue } from 'jotai';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { ScheduleAutofillType } from './index.types';
 import { schedulesStartAutofill } from '@services/app/autofill';
 import { languageGroupsState } from '@states/field_service_groups';
-import { useAtomValue } from 'jotai';
 import { selectedWeekState } from '@states/schedules';
 
 const useScheduleAutofill = (
