@@ -23,36 +23,51 @@ const dbUpdateVisitingSpeakersMetadata = async () => {
   await appDb.metadata.put(metadata);
 };
 
-export const dbVisitingSpeakersLocalCongSpeakerAdd = async (local: boolean) => {
+const dbSpeakersLocalCongregationGet = async () => {
+  const settings = await appDb.app_settings.get(1);
+  const congName = settings.cong_settings.cong_name;
+  const congregations = await appDb.speakers_congregations.toArray();
+
+  const congExist = congregations.find(
+    (record) => record.cong_data.cong_name.value === congName
+  );
+
+  if (!congExist) {
+    await dbSpeakersCongregationsCreateLocal();
+  }
+
+  const congregationsNew = await appDb.speakers_congregations.toArray();
+
+  return congregationsNew.find(
+    (record) => record.cong_data.cong_name.value === congName
+  );
+};
+
+export const dbVisitingSpeakersLocalCongSpeakerAdd = async (
+  local: boolean,
+  person_uid: string,
+  changes: UpdateSpec<VisitingSpeakerType>
+) => {
   try {
-    const settings = await appDb.app_settings.get(1);
-    const congName = settings.cong_settings.cong_name;
-    const congregations = await appDb.speakers_congregations.toArray();
-
-    const congExist = congregations.find(
-      (record) => record.cong_data.cong_name.value === congName
-    );
-
-    if (!congExist) {
-      await dbSpeakersCongregationsCreateLocal();
-    }
-
-    const congregationsNew = await appDb.speakers_congregations.toArray();
-
-    const congLocal = congregationsNew.find(
-      (record) => record.cong_data.cong_name.value === congName
-    );
+    const congLocal = await dbSpeakersLocalCongregationGet();
 
     const newSpeaker = structuredClone(vistingSpeakerSchema);
-    newSpeaker.person_uid = crypto.randomUUID();
+    newSpeaker.person_uid = person_uid;
     newSpeaker.speaker_data.cong_id = congLocal.id;
     newSpeaker.speaker_data.local = {
       value: local,
       updatedAt: new Date().toISOString(),
     };
 
-    await appDb.visiting_speakers.put(newSpeaker);
+    // one transaction, so a failed update leaves no empty speaker behind
+    await appDb.transaction('rw', appDb.visiting_speakers, async () => {
+      await appDb.visiting_speakers.put(newSpeaker);
+      await appDb.visiting_speakers.update(newSpeaker.person_uid, changes);
+    });
+
     await dbUpdateVisitingSpeakersMetadata();
+
+    return newSpeaker.person_uid;
   } catch (err) {
     console.error(err);
     throw new Error(err);
@@ -76,17 +91,14 @@ export const dbVisitingSpeakersUpdate = async (
   person_uid: string
 ) => {
   try {
-    // check if deleted speaker
     const speaker = changes.person_uid
       ? await appDb.visiting_speakers.get(changes.person_uid)
       : undefined;
 
     if (speaker) {
-      // restore deleted
       speaker._deleted = { value: false, updatedAt: new Date().toISOString() };
       speaker.speaker_data.talks = [];
 
-      // delete temp record
       const temp = await appDb.visiting_speakers.get(person_uid);
       temp._deleted = { value: true, updatedAt: new Date().toISOString() };
 
@@ -106,14 +118,24 @@ export const dbVisitingSpeakersUpdate = async (
   }
 };
 
-export const dbVisitingSpeakersAdd = async (cong_id: string) => {
+export const dbVisitingSpeakersAdd = async (
+  cong_id: string,
+  changes: UpdateSpec<VisitingSpeakerType>
+) => {
   try {
     const newSpeaker = structuredClone(vistingSpeakerSchema);
     newSpeaker.person_uid = crypto.randomUUID();
     newSpeaker.speaker_data.cong_id = cong_id;
 
-    await appDb.visiting_speakers.put(newSpeaker);
+    // one transaction, so a failed update leaves no empty speaker behind
+    await appDb.transaction('rw', appDb.visiting_speakers, async () => {
+      await appDb.visiting_speakers.put(newSpeaker);
+      await appDb.visiting_speakers.update(newSpeaker.person_uid, changes);
+    });
+
     await dbUpdateVisitingSpeakersMetadata();
+
+    return newSpeaker.person_uid;
   } catch (err) {
     console.error(err);
     throw new Error(err);
@@ -199,7 +221,6 @@ export const dbVisitingSpeakersDummy = async () => {
       .values.includes(AssignmentCode.WM_Speaker)
   );
 
-  // add outgoing speakers
   const localCong = congregations.find(
     (record) =>
       record.cong_data.cong_name.value === settings.cong_settings.cong_name
@@ -275,7 +296,6 @@ export const dbVisitingSpeakersDummy = async () => {
 
   await appDb.visiting_speakers.bulkAdd([speaker1, speaker2]);
 
-  // add incoming speakers
   const incomingCongs = congregations.filter(
     (record) =>
       record.cong_data.cong_name.value !== settings.cong_settings.cong_name

@@ -1,13 +1,15 @@
+import { useState } from 'react';
 import { Box, Collapse } from '@mui/material';
 import { IncomingCongregationType } from './index.types';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
+import { displaySnackNotification } from '@services/states/app';
 import useList from './useList';
 import CongregationInfoEdit from '../congregation_info/edit';
+import DeleteConfirm from '../../delete_confirm';
 import CongregationInfoView from '../congregation_info/view';
 import IncomingCongregationHeader from '../header';
 import SpeakersList from '../speakers_list';
 import Tabs from '@components/tabs';
-import useHeader from '../header/useHeader';
 import Button from '@components/button';
 import { IconCheck, IconDelete, IconEdit } from '@components/icons';
 
@@ -30,9 +32,29 @@ const IncomingCongregation = ({
     onChangeCurrentExpanded,
   });
 
-  const { showDelete } = useHeader();
-
   const { tablet600Down } = useBreakpoints();
+
+  const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
+
+  const handleOpenConfirmDelete = () => setConfirmDeleteOpen(true);
+
+  const handleCloseConfirmDelete = () => setConfirmDeleteOpen(false);
+
+  const handleConfirmDelete = async () => {
+    try {
+      await handleDeleteCongregation();
+
+      setConfirmDeleteOpen(false);
+    } catch (error) {
+      console.error(error);
+
+      displaySnackNotification({
+        severity: 'error',
+        header: t('error_app_generic-title'),
+        message: (error as Error).message,
+      });
+    }
+  };
 
   return (
     <Box
@@ -43,8 +65,32 @@ const IncomingCongregation = ({
         padding: '8px 16px',
         borderRadius: 'var(--radius-xl)',
         width: '100%',
+        '& .congregation-actions': {
+          opacity: 0,
+          pointerEvents: 'none',
+          transition: 'opacity 150ms ease-in-out',
+        },
+        '&:hover .congregation-actions, &:focus-within .congregation-actions': {
+          opacity: 1,
+          pointerEvents: 'auto',
+        },
+        '@media (hover: none)': {
+          '& .congregation-actions': { opacity: 1, pointerEvents: 'auto' },
+        },
       }}
     >
+      {confirmDeleteOpen && (
+        <DeleteConfirm
+          open={confirmDeleteOpen}
+          title={t('tr_deleteIncomingCongregationTitle', {
+            congregationName: congregation.cong_data.cong_name.value,
+          })}
+          description={t('tr_deleteIncomingCongregationDesc')}
+          onCancel={handleCloseConfirmDelete}
+          onConfirm={handleConfirmDelete}
+        />
+      )}
+
       <IncomingCongregationHeader
         cong_name={congregation.cong_data.cong_name.value}
         cong_number={congregation.cong_data.cong_number.value}
@@ -53,7 +99,7 @@ const IncomingCongregation = ({
         expanded={isExpanded}
         onEditModeChange={handleToggleEdit}
         onExpandChange={handleToggleExpanded}
-        onDelete={handleDeleteCongregation}
+        onDelete={handleOpenConfirmDelete}
       />
 
       <Collapse in={isExpanded} unmountOnExit>
@@ -67,12 +113,12 @@ const IncomingCongregation = ({
               gap: '8px',
             }}
           >
-            {(tablet600Down || showDelete) && (
+            {tablet600Down && (
               <Button
                 variant="small"
                 startIcon={<IconDelete />}
                 color="red"
-                onClick={handleDeleteCongregation}
+                onClick={handleOpenConfirmDelete}
                 sx={{ width: tablet600Down ? 'fit-content' : 'auto' }}
               >
                 {t('tr_delete')}
