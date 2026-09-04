@@ -51,6 +51,8 @@ const Tabs = ({
   onChange,
   actionComponent,
   showTabs = true,
+  // the plain look is what every caller renders today; a chip is opt-in
+  appearance = 'plain',
 }: CustomTabProps) => {
   const [valueOfActivePanel, setValueOfActivePanel] = useState(value || 0);
   const { tabletDown } = useBreakpoints();
@@ -96,7 +98,7 @@ const Tabs = ({
                 },
               },
             }}
-            sx={tabsSharedStyles('plain')}
+            sx={tabsSharedStyles(appearance)}
           >
             {tabs.map(
               ({ label, badge, className }, index): ReactNode => (
