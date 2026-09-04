@@ -29,6 +29,7 @@ const SpeakerEditPopup = (props: SpeakerEditPopupType) => {
     minHeight,
     isNew,
     isValid,
+    isProcessing,
     confirmDiscardOpen,
     handleClose,
     handleKeepEditing,
@@ -231,7 +232,11 @@ const SpeakerEditPopup = (props: SpeakerEditPopupType) => {
         <Button variant="secondary" onClick={handleClose}>
           {t('tr_cancel')}
         </Button>
-        <Button variant="main" disabled={!isValid} onClick={handleSave}>
+        <Button
+          variant="main"
+          disabled={!isValid || isProcessing}
+          onClick={handleSave}
+        >
           {isNew ? t('tr_add') : t('tr_save')}
         </Button>
       </DialogActions>

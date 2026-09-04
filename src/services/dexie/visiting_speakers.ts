@@ -59,8 +59,12 @@ export const dbVisitingSpeakersLocalCongSpeakerAdd = async (
       updatedAt: new Date().toISOString(),
     };
 
-    await appDb.visiting_speakers.put(newSpeaker);
-    await appDb.visiting_speakers.update(newSpeaker.person_uid, changes);
+    // one transaction, so a failed update leaves no empty speaker behind
+    await appDb.transaction('rw', appDb.visiting_speakers, async () => {
+      await appDb.visiting_speakers.put(newSpeaker);
+      await appDb.visiting_speakers.update(newSpeaker.person_uid, changes);
+    });
+
     await dbUpdateVisitingSpeakersMetadata();
 
     return newSpeaker.person_uid;
@@ -123,8 +127,12 @@ export const dbVisitingSpeakersAdd = async (
     newSpeaker.person_uid = crypto.randomUUID();
     newSpeaker.speaker_data.cong_id = cong_id;
 
-    await appDb.visiting_speakers.put(newSpeaker);
-    await appDb.visiting_speakers.update(newSpeaker.person_uid, changes);
+    // one transaction, so a failed update leaves no empty speaker behind
+    await appDb.transaction('rw', appDb.visiting_speakers, async () => {
+      await appDb.visiting_speakers.put(newSpeaker);
+      await appDb.visiting_speakers.update(newSpeaker.person_uid, changes);
+    });
+
     await dbUpdateVisitingSpeakersMetadata();
 
     return newSpeaker.person_uid;

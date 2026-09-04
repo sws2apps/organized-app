@@ -102,6 +102,7 @@ const useSpeakerEditPopup = ({
   const [confirmDiscardOpen, setConfirmDiscardOpen] = useState(false);
   const [initialRows] = useState(() => buildRows(speaker));
   const [rows, setRows] = useState(initialRows);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const isNew = !speaker;
 
@@ -233,11 +234,16 @@ const useSpeakerEditPopup = ({
     talk: PublicTalkLocaleType | null
   ) => {
     setRows((prev) =>
-      prev.map((record) =>
-        record.key === row.key
-          ? { ...record, talk_number: talk?.talk_number ?? null }
-          : record
-      )
+      prev.map((record) => {
+        if (record.key !== row.key) return record;
+
+        const talk_number = talk?.talk_number ?? null;
+
+        // the songs belong to the talk, so a different talk starts without them
+        const songs = talk_number === record.talk_number ? record.songs : [];
+
+        return { ...record, talk_number, songs };
+      })
     );
   };
 
@@ -264,7 +270,13 @@ const useSpeakerEditPopup = ({
       );
 
       if (!row) {
-        if (!entry._deleted) {
+        // only a talk the user saw and removed is deleted: one that arrived
+        // through a sync while the popup was open is left as it is
+        const wasShown = initialRows.some(
+          (record) => record.talk_number === entry.talk_number
+        );
+
+        if (wasShown && !entry._deleted) {
           entry._deleted = true;
           entry.updatedAt = updatedAt;
         }
@@ -329,6 +341,8 @@ const useSpeakerEditPopup = ({
   };
 
   const handleSave = async () => {
+    if (isProcessing) return;
+
     const updatedAt = new Date().toISOString();
 
     const changes: UpdateSpec<VisitingSpeakerType> = {
@@ -343,32 +357,68 @@ const useSpeakerEditPopup = ({
     }
 
     if (!local) {
-      changes['speaker_data.person_firstname'] = {
-        value: draft.firstname,
-        updatedAt,
-      };
-      changes['speaker_data.person_lastname'] = {
-        value: draft.lastname,
-        updatedAt,
-      };
-      changes['speaker_data.person_display_name'] = {
-        value: draft.displayName,
-        updatedAt,
-      };
-      changes['speaker_data.elder'] = {
-        value: draft.privilege === 'elder',
-        updatedAt,
-      };
-      changes['speaker_data.ministerial_servant'] = {
-        value: draft.privilege === 'ms',
-        updatedAt,
-      };
-      changes['speaker_data.person_email'] = { value: draft.email, updatedAt };
-      changes['speaker_data.person_phone'] = { value: draft.phone, updatedAt };
-      changes['speaker_data.person_notes'] = { value: draft.note, updatedAt };
+      // only the fields the user changed are written, so an untouched field
+      // keeps its timestamp and a newer value from a sync is not overwritten
+      const changed = (field: keyof SpeakerDraftType) =>
+        isNew || draft[field] !== initial[field];
+
+      if (changed('firstname')) {
+        changes['speaker_data.person_firstname'] = {
+          value: draft.firstname,
+          updatedAt,
+        };
+      }
+
+      if (changed('lastname')) {
+        changes['speaker_data.person_lastname'] = {
+          value: draft.lastname,
+          updatedAt,
+        };
+      }
+
+      if (changed('displayName')) {
+        changes['speaker_data.person_display_name'] = {
+          value: draft.displayName,
+          updatedAt,
+        };
+      }
+
+      if (changed('privilege')) {
+        changes['speaker_data.elder'] = {
+          value: draft.privilege === 'elder',
+          updatedAt,
+        };
+        changes['speaker_data.ministerial_servant'] = {
+          value: draft.privilege === 'ms',
+          updatedAt,
+        };
+      }
+
+      if (changed('email')) {
+        changes['speaker_data.person_email'] = {
+          value: draft.email,
+          updatedAt,
+        };
+      }
+
+      if (changed('phone')) {
+        changes['speaker_data.person_phone'] = {
+          value: draft.phone,
+          updatedAt,
+        };
+      }
+
+      if (changed('note')) {
+        changes['speaker_data.person_notes'] = {
+          value: draft.note,
+          updatedAt,
+        };
+      }
     }
 
     try {
+      setIsProcessing(true);
+
       if (isNew && local) {
         await dbVisitingSpeakersLocalCongSpeakerAdd(
           !outgoing,
@@ -398,6 +448,8 @@ const useSpeakerEditPopup = ({
         header: t('error_app_generic-title'),
         message: (error as Error).message,
       });
+    } finally {
+      setIsProcessing(false);
     }
   };
 
@@ -408,6 +460,7 @@ const useSpeakerEditPopup = ({
     minHeight,
     isNew,
     isValid,
+    isProcessing,
     confirmDiscardOpen,
     handleClose,
     handleKeepEditing,
