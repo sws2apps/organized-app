@@ -23,13 +23,21 @@ const usePersonDetails = () => {
     return person.person_data.publisher_baptized.active.value;
   }, [person]);
 
+  // the shared record may still hold the previously opened person until the
+  // effect below replaces it, so the title is read from the route instead
   const personName = useMemo(() => {
+    const record = isNewPerson
+      ? person
+      : persons.find((item) => item.person_uid === id);
+
+    if (!record) return '';
+
     return buildPersonFullname(
-      person.person_data.person_lastname.value,
-      person.person_data.person_firstname.value,
+      record.person_data.person_lastname.value,
+      record.person_data.person_firstname.value,
       fullnameOption
     );
-  }, [person, fullnameOption]);
+  }, [id, isNewPerson, person, persons, fullnameOption]);
 
   const male = useMemo(() => {
     return person.person_data.male.value;
