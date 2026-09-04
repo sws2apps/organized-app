@@ -88,7 +88,12 @@ import {
   generateDateFromTime,
   timeAddMinutes,
 } from '@utils/date';
-import { applyAssignmentFilters, personIsAway, personIsElder } from './persons';
+import {
+  applyAssignmentFilters,
+  personIsAway,
+  personIsElder,
+  personSkipsAutofill,
+} from './persons';
 import { personsByViewState } from '@states/persons';
 import { personsStateFind } from '@services/states/persons';
 import {
@@ -1704,6 +1709,10 @@ export const schedulesSelectRandomPerson = (data: {
     (record) => !personIsAway(record, meetingDate || data.week)
   );
 
+  personsElligible = personsElligible.filter(
+    (record) => !personSkipsAutofill(record)
+  );
+
   if (data.isElderPart) {
     personsElligible = personsElligible.filter((record) =>
       personIsElder(record)
@@ -1734,7 +1743,7 @@ export const schedulesSelectRandomPerson = (data: {
     personsElligible = applyAssignmentFilters(persons, [
       data.type,
       AssignmentCode.WM_Speaker,
-    ]);
+    ]).filter((record) => !personSkipsAutofill(record));
   }
 
   if (personsElligible.length > 0) {

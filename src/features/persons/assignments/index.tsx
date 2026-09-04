@@ -2,6 +2,8 @@ import { Box, Grid } from '@mui/material';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import useAssignments from './useAssignments';
 import AssignmentGroup from '../assignment_group';
+import Divider from '@components/divider';
+import SwitchWithLabel from '@components/switch_with_label';
 import Typography from '@components/typography';
 
 const PersonAssignments = () => {
@@ -17,6 +19,8 @@ const PersonAssignments = () => {
     handleToggleGroup,
     male,
     disqualified,
+    autofillSkipped,
+    handleToggleAutofillSkipped,
   } = useAssignments();
 
   return (
@@ -54,6 +58,16 @@ const PersonAssignments = () => {
           </Grid>
         ))}
       </Grid>
+
+      <Divider color="var(--accent-200)" />
+
+      <SwitchWithLabel
+        label={t('tr_skipDuringAutofill')}
+        helper={t('tr_skipDuringAutofillDesc')}
+        checked={autofillSkipped}
+        onChange={handleToggleAutofillSkipped}
+        readOnly={!isPersonEditor || disqualified}
+      />
     </Box>
   );
 };

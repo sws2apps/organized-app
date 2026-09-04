@@ -240,6 +240,8 @@
   "tr_assigment": "Assigment",
   "tr_markDisqualifiedDesc": "Disqualified persons cannot participate in meeting parts until re-qualified.",
   "tr_disqualified": "Disqualified",
+  "tr_skipDuringAutofill": "Skip during autofill",
+  "tr_skipDuringAutofillDesc": "Allow assigning meeting parts to this person manually only. Autofill will not select this person.",
   "tr_timeAwayAddedSuccess": "Time away added",
   "tr_timeAwayAddedSuccessDesc": "Thanks for keeping your availability up-to-date",
   "tr_appointSubstituteSpeaker": "Appoint a substitution for visiting speakers",
