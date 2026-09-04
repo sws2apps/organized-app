@@ -42,8 +42,8 @@ const useScheduleAutofill = (
       const errMessage = error instanceof Error ? error.message : String(error);
 
       displaySnackNotification({
-        header: getMessageByCode('error_app_generic-title') ?? 'Fehler',
-        message: getMessageByCode(errMessage) ?? errMessage,
+        header: getMessageByCode('error_app_generic-title'),
+        message: getMessageByCode(errMessage),
         severity: 'error',
       });
     }
