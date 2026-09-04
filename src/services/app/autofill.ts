@@ -55,7 +55,7 @@ const handleGetWeekType = (schedule: SchedWeekType) => {
   const dataView = store.get(userDataViewState);
 
   return (
-    schedule.midweek_meeting.week_type.find(
+    schedule.midweek_meeting?.week_type?.find(
       (record) => record.type === dataView
     )?.value ?? Week.NORMAL
   );
@@ -106,7 +106,7 @@ const handleMMAssignChairman = (
     }
 
     const languageWeekType =
-      schedule.midweek_meeting.week_type.find(
+      schedule.midweek_meeting?.week_type?.find(
         (record) => record.type !== 'main'
       )?.value ?? Week.NORMAL;
 
@@ -161,9 +161,9 @@ const handleMMAssignCBSConductor = (
     let assignPart = true;
 
     const mainWeekType =
-      schedule.midweek_meeting.week_type.find(
+      schedule.midweek_meeting?.week_type?.find(
         (record) => record.type === 'main'
-      ).value || Week.NORMAL;
+      )?.value || Week.NORMAL;
 
     if (dataView !== 'main' && mainWeekType === Week.CO_VISIT) {
       assignPart = false;
@@ -394,8 +394,8 @@ const handleMMAssignCBSReader = (
   let assignPart = true;
 
   const mainWeekType =
-    schedule.midweek_meeting.week_type.find((record) => record.type === 'main')
-      .value || Week.NORMAL;
+    schedule.midweek_meeting?.week_type?.find((record) => record.type === 'main')
+      ?.value || Week.NORMAL;
 
   if (dataView !== 'main' && mainWeekType === Week.CO_VISIT) {
     assignPart = false;
@@ -437,9 +437,9 @@ const handleMMAssignPrayer = (
   let main = '';
   let selected: PersonType;
 
-  const prayer = schedule.midweek_meeting[
+  const prayer = (schedule.midweek_meeting?.[
     `${type.toLowerCase()}_prayer`
-  ] as AssignmentCongregation[];
+  ] ?? []) as AssignmentCongregation[];
 
   main = prayer.find((record) => record.type === dataView)?.value ?? '';
 
@@ -519,7 +519,7 @@ const handleMMAssignAYFStudent = (
   const weekType = handleGetWeekType(schedule);
 
   const languageWeekType =
-    schedule.midweek_meeting.week_type.find((record) => record.type !== 'main')
+    schedule.midweek_meeting?.week_type?.find((record) => record.type !== 'main')
       ?.value ?? Week.NORMAL;
 
   const assignAux =
@@ -631,7 +631,7 @@ const handleMMAssignAYFAssistant = (
   const weekType = handleGetWeekType(schedule);
 
   const languageWeekType =
-    schedule.midweek_meeting.week_type.find((record) => record.type !== 'main')
+    schedule.midweek_meeting?.week_type?.find((record) => record.type !== 'main')
       ?.value ?? Week.NORMAL;
 
   const assignAux =
@@ -763,7 +763,7 @@ const handleAutofillMidweek = async (weeksList: SchedWeekType[]) => {
     if (noMeeting) continue;
 
     const languageWeekType =
-      schedule.midweek_meeting.week_type.find(
+      schedule.midweek_meeting?.week_type?.find(
         (record) => record.type !== 'main'
       )?.value ?? Week.NORMAL;
 
@@ -1110,9 +1110,9 @@ export const schedulesStartAutofill = async (
   start: string,
   end: string,
   meeting: 'midweek' | 'weekend'
-) => {
+): Promise<number> => {
   try {
-    if (start.length === 0 || end.length === 0) return;
+    if (start.length === 0 || end.length === 0) return 0;
 
     const schedules = store.get(schedulesState);
     const sources = store.get(sourcesState);
@@ -1123,18 +1123,22 @@ export const schedulesStartAutofill = async (
 
       if (!isValid) return false;
 
-      const source = sources.find((src) => src.weekOf === schedule.weekOf)!;
+      const source = sources.find((src) => src.weekOf === schedule.weekOf);
+
+      if (!source) return false;
 
       if (meeting === 'midweek') {
-        if (!source.midweek_meeting.week_date_locale[lang]) return false;
+        if (!source.midweek_meeting?.week_date_locale?.[lang]) return false;
       }
 
       if (meeting === 'weekend') {
-        if (!source.weekend_meeting.w_study[lang]) return false;
+        if (!source.weekend_meeting?.w_study?.[lang]) return false;
       }
 
       return isValid;
     });
+
+    if (weeksList.length === 0) return 0;
 
     if (meeting === 'midweek') {
       await handleAutofillMidweek(weeksList);
@@ -1143,6 +1147,8 @@ export const schedulesStartAutofill = async (
     if (meeting === 'weekend') {
       await handleAutofillWeekend(weeksList);
     }
+
+    return weeksList.length;
   } catch (error) {
     throw new Error(`autofill error: ${error.message}`);
   }
