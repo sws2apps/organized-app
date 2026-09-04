@@ -132,30 +132,27 @@ const SessionItem = (props: SessionItemType) => {
             )}
 
             <Tooltip title={ip} placement="top">
-              <Box
-                component="button"
+              <Button
+                variant="small"
+                disableAutoStretch
+                minHeight={20}
+                ariaLabel={`${t('tr_copy')}: ${ip}`}
+                endIcon={<IconCopy />}
                 onClick={handleCopyAddress}
                 sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '4px',
-                  height: '20px',
                   padding: '2px 6px',
-                  cursor: 'pointer',
-                  border: 'none',
                   borderRadius: 'var(--radius-xs)',
                   backgroundColor: 'var(--grey-150)',
                   color: 'var(--grey-400)',
-                  '&:hover': { backgroundColor: 'var(--accent-200)' },
+                  fontWeight: 400,
+                  '& .MuiButton-endIcon': { marginLeft: '4px' },
                   '& svg': { height: '14px', width: '14px' },
                   '& svg, & svg g, & svg g path': { fill: 'var(--grey-400)' },
+                  '&:hover': { backgroundColor: 'var(--accent-200)' },
                 }}
               >
-                <Typography className="body-small-regular" color="inherit">
-                  {shortenAddress(ip)}
-                </Typography>
-                <IconCopy />
-              </Box>
+                {shortenAddress(ip)}
+              </Button>
             </Tooltip>
           </Box>
         </Box>
