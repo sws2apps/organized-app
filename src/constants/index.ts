@@ -1129,3 +1129,10 @@ export const WEEK_TYPE_ASSIGNMENT_CODES = new Map<Week, Set<AssignmentCode>>([
   ],
   [Week.NO_MEETING, new Set<AssignmentCode>()],
 ]);
+
+// the curves the app animates with: a quick settle on the way in, a plain
+// acceleration on the way out
+export const EASING = {
+  expoOut: 'cubic-bezier(0.16, 1, 0.3, 1)',
+  easeIn: 'cubic-bezier(0.55, 0, 1, 0.45)',
+};

@@ -1838,9 +1838,9 @@ export const schedulesStartAutofill = async (
   end: string,
   meeting: 'midweek' | 'weekend',
   languageGroups: FieldServiceGroupType[]
-) => {
+): Promise<number> => {
   try {
-    if (start.length === 0 || end.length === 0) return;
+    if (start.length === 0 || end.length === 0) return 0;
 
     const { modifiedWeeks, updatedSchedules } = handleDynamicAssignmentAutofill(
       start,
