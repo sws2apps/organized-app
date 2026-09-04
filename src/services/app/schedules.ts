@@ -1627,6 +1627,46 @@ export const schedulesPersonNoConsecutivePart = ({
   return selected;
 };
 
+const isConflictExemptAssignment = (assignment: AssignmentFieldType) =>
+  assignment.endsWith('OpeningPrayer') ||
+  assignment.endsWith('ClosingPrayer') ||
+  assignment.endsWith('CircuitOverseer') ||
+  assignment === 'WM_Speaker_Outgoing';
+
+export const schedulesPersonHasMeetingConflict = ({
+  history,
+  week,
+  assignment,
+  person_uid,
+  dataView,
+}: {
+  history: AssignmentHistoryType[];
+  week: string;
+  assignment: AssignmentFieldType;
+  person_uid: string;
+  dataView: string;
+}) => {
+  if (!person_uid || week.length === 0) return false;
+
+  if (isConflictExemptAssignment(assignment)) return false;
+
+  const meeting = assignment.startsWith('WM_') ? 'WM_' : 'MM_';
+
+  return history.some((record) => {
+    const key = record.assignment.key;
+
+    if (!key) return false;
+    if (record.weekOf !== week) return false;
+    if (record.assignment.person !== person_uid) return false;
+    if (record.assignment.dataView !== dataView) return false;
+    if (!key.startsWith(meeting)) return false;
+    if (key === assignment) return false; // the field being edited
+    if (isConflictExemptAssignment(key)) return false;
+
+    return true;
+  });
+};
+
 export const schedulesPersonLatest = ({
   persons,
   type,

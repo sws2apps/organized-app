@@ -34,6 +34,7 @@ import { personGetDisplayName, speakerGetDisplayName } from '@utils/common';
 import {
   schedulesGetData,
   schedulesGetMeetingDate,
+  schedulesPersonHasMeetingConflict,
   schedulesSaveAssignment,
 } from '@services/app/schedules';
 import { ASSIGNMENT_PATH } from '@constants/index';
@@ -405,6 +406,18 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
     );
   }, [value, assignmentsHistory]);
 
+  const isMeetingConflict = useMemo(() => {
+    if (!value) return false;
+
+    return schedulesPersonHasMeetingConflict({
+      history: assignmentsHistory,
+      week,
+      assignment,
+      person_uid: value.person_uid,
+      dataView,
+    });
+  }, [value, assignmentsHistory, week, assignment, dataView]);
+
   const meetingDate = useMemo(() => {
     const meeting = location.pathname.includes('midweek')
       ? 'midweek'
@@ -427,6 +440,10 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
 
     if (timeAwayNotice) {
       return timeAwayNotice;
+    }
+
+    if (isMeetingConflict) {
+      return t('tr_personAlreadyAssignmentMeeting');
     }
 
     // check week assignments
@@ -468,6 +485,7 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
     isLinkedPart,
     persons,
     meetingDate,
+    isMeetingConflict,
   ]);
 
   const defaultInputValue = useMemo(() => {
@@ -586,6 +604,7 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
     inputValue,
     handleValueChange,
     isLinkedPart,
+    isMeetingConflict,
   };
 };
 
