@@ -4,6 +4,7 @@ export type TimerRecordType = {
   state: TimerState;
   value: number;
   start: number;
+  date?: number;
 };
 
 export type UserFieldServiceDailyReportType = {
