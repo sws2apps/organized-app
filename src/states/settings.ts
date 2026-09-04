@@ -650,6 +650,16 @@ export const hoursCreditsEnabledState = atom((get) => {
   return settings.user_settings.hour_credits_enabled.value;
 });
 
+export const meetingDutiesExportSettingsState = atom((get) => {
+  const settings = get(settingsState);
+  const exportSettings = settings.user_settings.meeting_duties_export;
+
+  return {
+    orientation: exportSettings?.orientation.value ?? 'portrait',
+    fontSize: exportSettings?.font_size.value ?? 10,
+  } as const;
+});
+
 export const publishersSortState = atom((get) => {
   const settings = get(settingsState);
 
@@ -669,4 +679,66 @@ export const isElderState = atom((get) => {
   if (accountType === 'pocket') return false;
 
   return userRole.includes('elder');
+});
+
+export const meetingDutiesState = atom((get) => {
+  const settings = get(settingsState);
+  const dataView = get(userDataViewState);
+
+  if (!settings.cong_settings.meeting_duties) return;
+
+  return settings.cong_settings.meeting_duties.find(
+    (record) => record.type === dataView && !record._deleted.value
+  );
+});
+
+export const dutiesConflictPreventState = atom((get) => {
+  const settings = get(settingsState);
+  const dataView = get(userDataViewState);
+
+  if (!settings.cong_settings.meeting_duties) return false;
+
+  const duties = settings.cong_settings.meeting_duties.find(
+    (record) => record.type === dataView
+  );
+
+  if (!duties) return false;
+
+  return duties.conflict_prevent?.value ?? false;
+});
+
+export const dutiesAudioVideoCombinedState = atom((get) => {
+  const duties = get(meetingDutiesState);
+
+  return duties?.av_combined?.value ?? false;
+});
+
+export const dutiesMicrophoneSectionsState = atom((get) => {
+  const settings = get(settingsState);
+  const dataView = get(userDataViewState);
+
+  if (!settings.cong_settings.meeting_duties) return false;
+
+  const duties = settings.cong_settings.meeting_duties.find(
+    (record) => record.type === dataView
+  );
+
+  if (!duties) return false;
+
+  return duties.mic_sections?.value ?? false;
+});
+
+export const dutiesCustomState = atom((get) => {
+  const settings = get(settingsState);
+  const dataView = get(userDataViewState);
+
+  if (!settings.cong_settings.meeting_duties) return [];
+
+  const duties = settings.cong_settings.meeting_duties.find(
+    (record) => record.type === dataView
+  );
+
+  if (!duties) return [];
+
+  return duties.custom?.filter((record) => !record._deleted) ?? [];
 });

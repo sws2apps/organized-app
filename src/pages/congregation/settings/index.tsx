@@ -11,6 +11,7 @@ import CongregationBasic from '@features/congregation/settings/congregation_basi
 import CongregationPrivacy from '@features/congregation/settings/congregation_privacy';
 import ImportExport from '@features/congregation/settings/import_export';
 import LanguageGroups from '@features/congregation/settings/language_groups';
+import MeetingDutiesSettings from '@features/congregation/settings/meeting_duties';
 import MeetingForms from '@features/congregation/settings/meeting_forms';
 import MinistrySettings from '@features/congregation/settings/ministry_settings';
 import PageTitle from '@components/page_title';
@@ -22,7 +23,7 @@ const CongregationSettings = () => {
 
   const { desktopUp, tablet688Up } = useBreakpoints();
 
-  const { isGroup, isAdmin } = useCurrentUser();
+  const { isGroup, isAdmin, isDutiesEditor } = useCurrentUser();
 
   const { handleCloseExchange, isDataExchangeOpen, handleOpenExchange } =
     useCongregationSettings();
@@ -88,6 +89,8 @@ const CongregationSettings = () => {
           >
             <MeetingForms />
 
+            {isDutiesEditor && <MeetingDutiesSettings />}
+
             {!isGroup && (
               <>
                 <MinistrySettings />
@@ -104,6 +107,8 @@ const CongregationSettings = () => {
 
           <CongregationBasic />
           <MeetingForms />
+
+          {isDutiesEditor && <MeetingDutiesSettings />}
 
           {!isGroup && (
             <>

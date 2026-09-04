@@ -33,7 +33,10 @@ const useAssignmentGroup = (male: boolean) => {
     if (male) isDisabled = false;
 
     if (!male) {
-      if (id === 'applyFieldMinistryPart') isDisabled = false;
+      // duties: hospitality and custom duties are open to sisters
+      if (id === 'applyFieldMinistryPart' || id === 'duties') {
+        isDisabled = false;
+      }
     }
 
     return isDisabled;
@@ -88,6 +91,8 @@ const useAssignmentGroup = (male: boolean) => {
       if (code === AssignmentCode.MM_MakingDisciples) isDisabled = false;
       if (code === AssignmentCode.MM_ExplainingBeliefs) isDisabled = false;
       if (code === AssignmentCode.MM_AssistantOnly) isDisabled = false;
+      if (code === AssignmentCode.DUTIES_Hospitality) isDisabled = false;
+      if (code === AssignmentCode.DUTIES_Custom) isDisabled = false;
     }
     return isDisabled;
   };
@@ -101,7 +106,12 @@ const useAssignmentGroup = (male: boolean) => {
   };
 
   const isDisabledByGender = (id: string) => {
-    return !male && id !== 'applyFieldMinistryPart' && id !== 'ministry';
+    return (
+      !male &&
+      id !== 'applyFieldMinistryPart' &&
+      id !== 'ministry' &&
+      id !== 'duties'
+    );
   };
 
   const getTooltipsForAssignmentTitles = (

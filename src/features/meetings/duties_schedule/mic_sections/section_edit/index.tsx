@@ -1,0 +1,113 @@
+import { Stack } from '@mui/material';
+import { useAppTranslation } from '@hooks/index';
+import { DUTIES_MAX } from '@features/congregation/settings/meeting_duties/shared/constants';
+import { SectionEditProps } from '../index.types';
+import useSectionEdit from './useSectionEdit';
+import Button from '@components/button';
+import Checkbox from '@components/checkbox';
+import Dialog from '@components/dialog';
+import MenuItem from '@components/menuitem';
+import Select from '@components/select';
+import TextField from '@components/textfield';
+import Typography from '@components/typography';
+
+// a name that fits the column of a printed schedule
+const SECTION_NAME_MAX = 40;
+
+const NAME_ERRORS = {
+  required: 'tr_fillRequiredField',
+  duplicate: 'tr_sectionNameTaken',
+} as const;
+
+const SectionEdit = (props: SectionEditProps) => {
+  const { t } = useAppTranslation();
+
+  const {
+    name,
+    amount,
+    parts,
+    selectedParts,
+    nameError,
+    handleNameChange,
+    handleAmountChange,
+    handleTogglePart,
+    handleSave,
+  } = useSectionEdit(props);
+
+  return (
+    <Dialog onClose={props.onClose} open={props.open}>
+      <Stack spacing="24px" width="100%">
+        <Typography className="h2">
+          {props.type === 'add' ? t('tr_sectionAdd') : t('tr_sectionEdit')}
+        </Typography>
+
+        {/* the amount is a single digit: side by side it leaves the title
+            the room it needs, and only a phone is too narrow for both */}
+        <Stack
+          direction={{ mobile: 'column', tablet: 'row' }}
+          spacing={{ mobile: '24px', tablet: '16px' }}
+          sx={{ alignItems: { mobile: 'stretch', tablet: 'flex-start' } }}
+        >
+          <TextField
+            label={t('tr_title')}
+            value={name}
+            onChange={handleNameChange}
+            error={!!nameError}
+            helperText={nameError ? t(NAME_ERRORS[nameError]) : undefined}
+            slotProps={{ htmlInput: { maxLength: SECTION_NAME_MAX } }}
+            sx={{ flex: 1 }}
+          />
+
+          <Select
+            label={t('tr_amountLabel')}
+            value={amount}
+            onChange={handleAmountChange}
+            sx={{ width: { mobile: '100%', tablet: '120px' }, flexShrink: 0 }}
+          >
+            {DUTIES_MAX.map((num) => (
+              <MenuItem key={num} value={num}>
+                <Typography>{num}</Typography>
+              </MenuItem>
+            ))}
+          </Select>
+        </Stack>
+
+        <Stack spacing="4px">
+          <Typography className="body-small-semibold" color="var(--grey-400)">
+            {t('tr_sectionParts')}
+          </Typography>
+
+          <Typography className="label-small-regular" color="var(--grey-350)">
+            {t('tr_sectionPartsDesc')}
+          </Typography>
+
+          {parts.length === 0 && (
+            <Typography className="label-small-regular" color="var(--grey-350)">
+              {t('tr_sectionPartsNone')}
+            </Typography>
+          )}
+
+          {parts.map((part) => (
+            <Checkbox
+              key={part.key}
+              label={part.label}
+              checked={selectedParts.includes(part.key)}
+              onChange={() => handleTogglePart(part.key)}
+            />
+          ))}
+        </Stack>
+
+        <Stack spacing="8px">
+          <Button variant="main" onClick={handleSave}>
+            {t('tr_done')}
+          </Button>
+          <Button variant="secondary" onClick={props.onClose}>
+            {t('tr_cancel')}
+          </Button>
+        </Stack>
+      </Stack>
+    </Dialog>
+  );
+};
+
+export default SectionEdit;

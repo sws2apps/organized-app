@@ -1,16 +1,18 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'react-router';
 import { useAtom, useAtomValue } from 'jotai';
+import { MeetingType } from '@definition/app';
 import { monthNamesState } from '@states/app';
-import { MonthItemType } from './index.types';
 import { schedulesWeekAssignmentsInfo } from '@services/app/schedules';
 import { schedulesState, selectedWeekState } from '@states/schedules';
 import {
+  meetingDutiesState,
   meetingExactDateState,
   midweekMeetingWeekdayState,
   weekendMeetingWeekdayState,
 } from '@states/settings';
 import { addDays } from '@utils/date';
+import { MonthItemType } from './index.types';
 
 const useMonthItem = ({
   month,
@@ -27,11 +29,14 @@ const useMonthItem = ({
   const meetingExactDate = useAtomValue(meetingExactDateState);
   const midweekDay = useAtomValue(midweekMeetingWeekdayState);
   const weekendDay = useAtomValue(weekendMeetingWeekdayState);
+  const dutiesConfig = useAtomValue(meetingDutiesState);
 
   const [total, setTotal] = useState(0);
   const [assigned, setAssigned] = useState(0);
 
-  const meeting = useMemo(() => {
+  const meeting: MeetingType = useMemo(() => {
+    if (location.pathname === '/meeting-duties') return 'duties';
+
     return location.pathname === '/midweek-meeting' ? 'midweek' : 'weekend';
   }, [location.pathname]);
 
@@ -51,7 +56,7 @@ const useMonthItem = ({
   const meeting_month = useMemo(() => {
     if (!selectedWeek) return;
 
-    let toAdd: number;
+    let toAdd = 0;
 
     if (meeting === 'midweek') {
       toAdd = meetingExactDate ? midweekDay : 0;
@@ -88,7 +93,8 @@ const useMonthItem = ({
     }
 
     return { total, assigned };
-  }, [weeks, schedules, meeting]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [weeks, schedules, meeting, dutiesConfig]);
 
   const handleToggleExpand = () => {
     if (currentExpanded === month) {
