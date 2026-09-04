@@ -25,13 +25,14 @@ function ScrollableTabs({
   indicatorMode,
   onChange,
   className,
-  variant = 'scrollable',
   minHeight = '48px',
-  tabsCountOnScreen = 0,
+  layout = 'auto',
   appearance = 'chip',
   sx,
 }: CustomTabProps) {
-  const { tabletDown } = useBreakpoints();
+  const { tabletDown, tabletUp } = useBreakpoints();
+
+  const variant = layout === 'stretch' && tabletUp ? 'fullWidth' : 'scrollable';
 
   const [valueOfActivePanel, setValueOfActivePanel] = useState(value ?? false);
 
@@ -128,10 +129,6 @@ function ScrollableTabs({
                   sx={{
                     minHeight,
                     height: minHeight,
-                    width:
-                      tabsCountOnScreen !== 0
-                        ? `calc(100% / ${tabsCountOnScreen})`
-                        : 'auto',
                     minWidth: '20px',
                   }}
                 />

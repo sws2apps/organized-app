@@ -1,5 +1,5 @@
 import { ReactElement, ReactNode } from 'react';
-import { SxProps, TabOwnProps, TabsOwnProps, Theme } from '@mui/material';
+import { SxProps, TabOwnProps, Theme } from '@mui/material';
 
 /**
  * Props for the TabsPanel component.
@@ -27,6 +27,14 @@ export type TabsPanelProps = {
  * - `plain` - lightly rounded tabs, used wherever tabs switch a page section.
  */
 export type TabsAppearance = 'chip' | 'plain';
+
+/**
+ * The width of the tabs.
+ * - `auto` - every tab takes the width of its own label.
+ * - `stretch` - the tabs share the full width from the tablet breakpoint up,
+ *   and fall back to `auto` on smaller screens.
+ */
+export type TabsLayout = 'auto' | 'stretch';
 
 /**
  * Custom props for the Tab component.
@@ -88,22 +96,15 @@ export interface CustomTabProps extends TabOwnProps {
   className?: string;
 
   /**
-   * The variant of the tabs, aligning with the MUI `TabsOwnProps` variant.
-   * Examples include `"scrollable"` or `"standard"`.
+   * The width of the tabs. (Default: auto)
    */
-  variant?: TabsOwnProps['variant'];
+  layout?: TabsLayout;
 
   /**
    * Minimum height for the tab component.
    * Useful for ensuring consistent tab sizes.
    */
   minHeight?: string;
-
-  /**
-   * The number of tabs that should be displayed on the screen at once.
-   * Useful for responsive layouts or custom tab implementations.
-   */
-  tabsCountOnScreen?: number;
 
   /**
    * The action component to be displayed with the tab.
