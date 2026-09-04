@@ -226,6 +226,20 @@ const useGroupAdd = ({ onClose, onSuccess }: GroupAddProps) => {
         'cong_settings.weekend_meeting': weekendMeeting,
       });
 
+      // the settings page no longer has a switch for language groups: having
+      // one is what turns them on for selectors, attendance and reports
+      const languageGroupsEnabled =
+        !Array.isArray(appSettings.cong_settings.language_groups) &&
+        appSettings.cong_settings.language_groups.enabled.value;
+
+      if (!languageGroupsEnabled) {
+        await dbAppSettingsUpdate({
+          'cong_settings.language_groups': {
+            enabled: { value: true, updatedAt: new Date().toISOString() },
+          },
+        });
+      }
+
       await refreshLocaleDerivedData();
 
       try {

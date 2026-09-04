@@ -40,6 +40,13 @@ const useGroupInfo = ({ group, onClose }: GroupInfoProps) => {
   const isInitialRender = useRef(true);
   const isProcessingRef = useRef(false);
   const pendingSaveRef = useRef(false);
+  const hasUnsavedEditRef = useRef(false);
+
+  // Always points at the save handler of the latest render, so a save that is
+  // started later (by the debounce timer, after an in-flight save, or when the
+  // editor unmounts) writes the latest values instead of the ones captured
+  // when the earlier save began.
+  const handleSaveChangeRef = useRef<() => Promise<void>>(null);
 
   const handleClose = () => onClose?.();
 
@@ -141,7 +148,7 @@ const useGroupInfo = ({ group, onClose }: GroupInfoProps) => {
       isProcessingRef.current = false;
       if (pendingSaveRef.current) {
         pendingSaveRef.current = false;
-        handleSaveChange();
+        handleSaveChangeRef.current?.();
       }
     }
   }, [circuit, dataView, group.group_id, groupEdit, language, settings, t]);
@@ -151,11 +158,6 @@ const useGroupInfo = ({ group, onClose }: GroupInfoProps) => {
     setLanguage(jwLang.toUpperCase());
   }, [circuitNumber, jwLang]);
 
-  // Keep a ref to the latest save handler so the debounce timer always
-  // calls the current version without needing it in the dependency array
-  // (adding an async fn with many deps would cause the effect to re-run
-  // on isProcessing changes and create an infinite save loop).
-  const handleSaveChangeRef = useRef(handleSaveChange);
   handleSaveChangeRef.current = handleSaveChange;
 
   useEffect(() => {
@@ -164,12 +166,26 @@ const useGroupInfo = ({ group, onClose }: GroupInfoProps) => {
       return;
     }
 
+    hasUnsavedEditRef.current = true;
+
     const timer = setTimeout(() => {
-      handleSaveChangeRef.current();
+      hasUnsavedEditRef.current = false;
+      handleSaveChangeRef.current?.();
     }, 1000);
 
     return () => clearTimeout(timer);
   }, [groupEdit, circuit, language]);
+
+  // an edit made less than a second before leaving the group would otherwise
+  // be lost with the pending timer, so it is saved right away instead
+  useEffect(() => {
+    return () => {
+      if (!hasUnsavedEditRef.current) return;
+
+      hasUnsavedEditRef.current = false;
+      handleSaveChangeRef.current?.();
+    };
+  }, []);
 
   return {
     handleClose,

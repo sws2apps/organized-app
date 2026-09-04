@@ -1,33 +1,22 @@
-import { useMemo } from 'react';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
-import { isLanguageGroupTab } from './index.types';
+import { TabId, isLanguageGroupTab } from './index.types';
+import useSettingsTabs from './useSettingsTabs';
 
 /**
  * Hook that returns the display label for a given settings tab id.
  * Used by the mobile sub-page to populate the navbar title.
  */
-const useSettingsTabLabel = (tabId: string): string => {
+const useSettingsTabLabel = (tabId: TabId): string => {
   const { t } = useAppTranslation();
   const { isGroup } = useCurrentUser();
 
-  const labelMap = useMemo<Record<string, string>>(
-    () => ({
-      general: t('tr_general'),
-      meetings: t('tr_meetingsAndMaterials'),
-      privacy: t('tr_securityAndPrivacy'),
-      ministry: t('tr_ministry'),
-      'app-config': t('tr_appConfiguration'),
-      'user-accounts': t('tr_manageAccessFullTitle'),
-      'import-export': t('tr_importExport'),
-    }),
-    [t]
-  );
+  const tabs = useSettingsTabs();
 
   if (isLanguageGroupTab(tabId)) {
     return isGroup ? t('tr_groupSettings') : t('tr_languageGroup');
   }
 
-  return labelMap[tabId] ?? '';
+  return tabs.find((tab) => tab.id === tabId)?.label ?? '';
 };
 
 export default useSettingsTabLabel;

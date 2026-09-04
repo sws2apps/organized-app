@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { isTest } from '@constants/index';
 import { Box, Stack } from '@mui/material';
 import {
   CardSection,
@@ -65,8 +64,6 @@ const CongregationSettings = () => {
     selectedTab,
   } = useCongregationSettings();
 
-  // opening the settings must not ask for the accounts: the tab that shows
-  // them does that when it is mounted
   const [userAddOpen, setUserAddOpen] = useState(false);
 
   const handleOpenUserAdd = () => setUserAddOpen(true);
@@ -77,8 +74,9 @@ const CongregationSettings = () => {
 
   const activeTabLabel = useSettingsTabLabel(activeTab);
 
-  // the accounts are never in play while testing, so nothing about them shows
-  const showUserAccounts = activeTab === 'user-accounts' && !isTest;
+  // the tab is only reachable when the accounts may be loaded, and mounting it
+  // is what fetches them
+  const showUserAccounts = activeTab === 'user-accounts';
 
   useEffect(() => {
     if (isUnknownTab) handleBackToList();
@@ -116,6 +114,7 @@ const CongregationSettings = () => {
       return (
         <Stack spacing="16px">
           <GroupInfo
+            key={group.group_id}
             open={true}
             onClose={handleBackToList}
             group={group}
@@ -138,7 +137,7 @@ const CongregationSettings = () => {
           </Stack>
         );
       case 'user-accounts':
-        return showUserAccounts ? <UserAccounts /> : null;
+        return <UserAccounts />;
       case 'meetings':
         return (
           <Stack spacing="16px">
@@ -203,7 +202,17 @@ const CongregationSettings = () => {
             />
           </Box>
 
-          <ContentArea>{renderContent()}</ContentArea>
+          <ContentArea
+            role="tabpanel"
+            id={`settings-tabpanel-${activeTab}`}
+            aria-labelledby={
+              isLanguageGroupTab(activeTab)
+                ? undefined
+                : `settings-tab-${activeTab}`
+            }
+          >
+            {renderContent()}
+          </ContentArea>
         </SplitLayout>
       </PageContainer>
     );

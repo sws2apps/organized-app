@@ -28,6 +28,6 @@ export const isLanguageGroupTab = (tab: string): tab is LanguageGroupTabId =>
 export const languageGroupIdFromTab = (tab: LanguageGroupTabId) =>
   tab.slice(LANGUAGE_GROUP_TAB_PREFIX.length);
 
-export const isSettingsTab = (tab: string): tab is TabId =>
-  isLanguageGroupTab(tab) ||
-  (SETTINGS_TAB_IDS as readonly string[]).includes(tab);
+/** Route of a tab on the congregation settings page. */
+export const congregationSettingsTabPath = (tab: SettingsTabId) =>
+  `/congregation-settings/${tab}`;

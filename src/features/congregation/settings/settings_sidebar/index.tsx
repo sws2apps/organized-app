@@ -1,33 +1,16 @@
-import { isTest } from '@constants/index';
-import React, { Fragment, ReactNode, useCallback, useMemo } from 'react';
+import React, { Fragment, useCallback } from 'react';
 import { Divider } from '@mui/material';
-import { useAppTranslation, useCurrentUser } from '@hooks/index';
-import {
-  IconCongregation,
-  IconLock,
-  IconDoor,
-  IconCustomSchedule,
-  IconImportExport,
-  IconManageAccess,
-  IconPodium,
-} from '@components/icons';
+import { useAppTranslation } from '@hooks/index';
 import SettingsTab from '@components/settings_tab';
 import Typography from '@components/typography';
 import { SidebarContainer, TabList } from './index.styles';
 import { SettingsTabId, TabId } from './index.types';
+import useSettingsTabs from './useSettingsTabs';
 
 type SettingsSidebarProps = {
   activeTab?: TabId;
   onTabChange: (tab: SettingsTabId) => void;
   enableKeyboardNavigation?: boolean;
-};
-
-type TabConfig = {
-  id: SettingsTabId;
-  renderIcon: (color: string) => ReactNode;
-  label: string;
-  description: string;
-  visible: boolean;
 };
 
 /**
@@ -44,64 +27,8 @@ const SettingsSidebar = ({
   enableKeyboardNavigation = false,
 }: SettingsSidebarProps) => {
   const { t } = useAppTranslation();
-  const { isGroup, isAdmin } = useCurrentUser();
 
-  const visibleTabs = useMemo<TabConfig[]>(
-    () =>
-      [
-        {
-          id: 'general' as SettingsTabId,
-          renderIcon: (color: string) => <IconCongregation color={color} />,
-          label: t('tr_general'),
-          description: t('tr_basicCongregationInformation'),
-          visible: true,
-        },
-        {
-          id: 'meetings' as SettingsTabId,
-          renderIcon: (color: string) => <IconPodium color={color} />,
-          label: t('tr_meetingsAndMaterials'),
-          description: t('tr_meetingSettingsSidebarDesc'),
-          visible: true,
-        },
-        {
-          id: 'ministry' as SettingsTabId,
-          renderIcon: (color: string) => <IconDoor color={color} />,
-          label: t('tr_ministry'),
-          description: t('tr_ministrySidebarDesc'),
-          visible: !isGroup,
-        },
-        {
-          id: 'user-accounts' as SettingsTabId,
-          renderIcon: (color: string) => <IconManageAccess color={color} />,
-          label: t('tr_manageAccessFullTitle'),
-          description: t('tr_manageAccessSidebarDesc'),
-          // no account is fetched while testing, so the tab is not offered
-          visible: isAdmin && !isGroup && !isTest,
-        },
-        {
-          id: 'privacy' as SettingsTabId,
-          renderIcon: (color: string) => <IconLock color={color} />,
-          label: t('tr_securityAndPrivacy'),
-          description: t('tr_privacySidebarDesc'),
-          visible: !isGroup,
-        },
-        {
-          id: 'app-config' as SettingsTabId,
-          renderIcon: (color: string) => <IconCustomSchedule color={color} />,
-          label: t('tr_appConfiguration'),
-          description: t('tr_appConfigSidebarDesc'),
-          visible: !isGroup,
-        },
-        {
-          id: 'import-export' as SettingsTabId,
-          renderIcon: (color: string) => <IconImportExport color={color} />,
-          label: t('tr_importExport'),
-          description: t('tr_importExportSidebarDesc'),
-          visible: isAdmin && !isGroup,
-        },
-      ].filter((tab) => tab.visible),
-    [t, isGroup, isAdmin]
-  );
+  const visibleTabs = useSettingsTabs();
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
