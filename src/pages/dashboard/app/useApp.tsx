@@ -2,6 +2,7 @@ import { useEffect, useMemo } from 'react';
 import { useAtomValue } from 'jotai';
 import {
   congAccountConnectedState,
+  forceReloadEnabledState,
   isAppDataSyncingState,
   lastAppDataSyncState,
 } from '@states/app';
@@ -16,7 +17,7 @@ import { joinRequestsCountState } from '@states/congregation';
 import { dbMetadataReset } from '@services/dexie/metadata';
 import worker from '@services/worker/backupWorker';
 
-const useCongregation = () => {
+const useApp = ({ updatePwa }: { updatePwa: VoidFunction }) => {
   const { t } = useAppTranslation();
 
   const { user } = useFirebaseAuth();
@@ -28,6 +29,7 @@ const useCongregation = () => {
   const isConnected = useAtomValue(congAccountConnectedState);
   const isUserAdmin = useAtomValue(adminRoleState);
   const joinRequestsCount = useAtomValue(joinRequestsCountState);
+  const showForceReload = useAtomValue(forceReloadEnabledState);
 
   const requests_count = useMemo(() => {
     if (joinRequestsCount === 0) return;
@@ -72,6 +74,18 @@ const useCongregation = () => {
     worker.postMessage('startWorker');
   };
 
+  const handleForceReload = () => {
+    try {
+      updatePwa();
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     if (isConnected) {
       const svgIcon = document.querySelector('.organized-sync-icon');
@@ -114,10 +128,12 @@ const useCongregation = () => {
   return {
     secondaryText: getSecondaryText(),
     handleManualSync,
+    handleForceReload,
     isConnected,
     isUserAdmin,
     requests_count,
+    showForceReload,
   };
 };
 
-export default useCongregation;
+export default useApp;

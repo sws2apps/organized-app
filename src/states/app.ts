@@ -358,6 +358,11 @@ export const colorSchemeState = atomWithStorage<ColorSchemeType>(
   'blue'
 );
 
+export const forceReloadEnabledState = atomWithStorage(
+  'force_reload_enabled',
+  false
+);
+
 export const isEmailSentState = atom(false);
 
 export const devAuthLinkState = atom('');

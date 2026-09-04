@@ -1,6 +1,5 @@
 import { ListItem } from '@mui/material';
 import {
-  IconPublisherRecordCard,
   IconPublishersReports,
   IconReportToBranch,
   IconVisitors,
@@ -20,7 +19,6 @@ const ReportsCard = () => {
     isSecretary,
     isGroupOverseer,
     isLanguageGroupOverseer,
-    isElder,
     isGroup,
   } = useCurrentUser();
 
@@ -52,16 +50,6 @@ const ReportsCard = () => {
             icon={<IconReportToBranch color="var(--black)" />}
             primaryText={t('tr_branchOfficeReport')}
             path="/reports/branch-office"
-          />
-        </ListItem>
-      )}
-
-      {isElder && (
-        <ListItem disablePadding>
-          <DashboardMenu
-            icon={<IconPublisherRecordCard color="var(--black)" />}
-            primaryText={t('tr_publishersRecords')}
-            path="/publisher-records"
           />
         </ListItem>
       )}
