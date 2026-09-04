@@ -176,5 +176,7 @@
   "tr_fontSize": "Font size",
   "tr_small": "Small",
   "tr_normal": "Normal",
-  "tr_large": "Large"
+  "tr_large": "Large",
+  "tr_chooseFields": "Choose export fields",
+  "tr_chooseFieldsDesc": "Please select the fields you want to include in the export file."
 }

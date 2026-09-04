@@ -4,7 +4,7 @@ import { FullnameOption } from '@definition/settings';
 import { SpeakersCongregationsType } from '@definition/speakers_congregations';
 import { VisitingSpeakerType } from '@definition/visiting_speakers';
 
-export const convertStringToBoolean = (value) => {
+export const convertStringToBoolean = (value: string) => {
   switch (value) {
     case 'true':
       return true;

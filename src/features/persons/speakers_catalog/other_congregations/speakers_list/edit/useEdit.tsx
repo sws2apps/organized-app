@@ -11,8 +11,8 @@ import {
 } from '@services/dexie/visiting_speakers';
 import { generateDisplayName } from '@utils/common';
 import { publicTalksLocaleState } from '@states/public_talks';
-import { PublicTalkType } from '@definition/public_talks';
 import { SongType } from '@definition/songs';
+import { PublicTalkLocaleType } from '@definition/public_talks';
 
 const useEdit = (speaker: VisitingSpeakerType) => {
   const fullnameOption = useAtomValue(fullnameOptionState);
@@ -31,7 +31,7 @@ const useEdit = (speaker: VisitingSpeakerType) => {
   const [displayName, setDisplayName] = useState(
     speaker.speaker_data.person_display_name.value
   );
-  const [addedTalk, setAddedTalk] = useState({} as PublicTalkType);
+  const [addedTalk, setAddedTalk] = useState({} as PublicTalkLocaleType);
   const [selectedSongs, setSelectedSongs] = useState<number[]>([]);
   const [openSongAdd, setOpenSongAdd] = useState(false);
   const [openSpeakerDetails, setOpenSpeakerDetails] = useState(false);
@@ -213,7 +213,7 @@ const useEdit = (speaker: VisitingSpeakerType) => {
     );
   };
 
-  const handleTalksUpdate = async (value: PublicTalkType[]) => {
+  const handleTalksUpdate = async (value: PublicTalkLocaleType[]) => {
     const talks = structuredClone(speaker.speaker_data.talks);
 
     for (const selectedTalk of value) {

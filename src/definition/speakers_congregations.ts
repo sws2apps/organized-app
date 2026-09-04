@@ -2,7 +2,7 @@ import { IncomingCongregationResponseType } from './api';
 
 export type SpeakersCongregationsType = {
   _deleted: { value: boolean; updatedAt: string };
-  id?: string;
+  id?: string; // this seems to be the relevant id but why ist it optional?
   cong_data: {
     cong_id: string;
     cong_number: { value: string; updatedAt: string };
