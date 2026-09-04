@@ -2,7 +2,8 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Box } from '@mui/material';
 import { PaneSwitcherProps } from './index.types';
 
-const SWITCH_DURATION = 260;
+// mirrors the --motion-base token the panes animate with
+const SWITCH_DURATION = 240;
 
 // panes slide out by their own width, plus the page padding when they are
 // allowed to leave the container, so they clear the edge of the screen
@@ -24,6 +25,7 @@ const PaneSwitcher = ({ panes, value, fullBleed, sx }: PaneSwitcherProps) => {
 
   const [height, setHeight] = useState<number>();
   const [isSwitching, setIsSwitching] = useState(false);
+  const isFirstValue = useRef(true);
 
   useLayoutEffect(() => {
     const pane = paneRefs.current[value];
@@ -42,6 +44,13 @@ const PaneSwitcher = ({ panes, value, fullBleed, sx }: PaneSwitcherProps) => {
   // while the panes slide past each other both of them need their full height,
   // otherwise the taller one gets cut in the middle of the animation
   useLayoutEffect(() => {
+    // nothing slides on mount, so reserving the tallest pane would only make
+    // the page jump once the reservation ends
+    if (isFirstValue.current) {
+      isFirstValue.current = false;
+      return;
+    }
+
     setIsSwitching(true);
 
     const timer = setTimeout(() => setIsSwitching(false), SWITCH_DURATION);
