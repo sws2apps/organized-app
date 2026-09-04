@@ -7,6 +7,8 @@ import Typography from '@components/typography';
 const PersonComponent = (props: PersonComponentProps) => {
   const { personData } = usePersonComponent(props);
 
+  if (!personData?.name) return null;
+
   return (
     <Box
       sx={{

@@ -17,11 +17,12 @@ import { sourcesState } from '@states/sources';
 import { personsState } from '@states/persons';
 import { AssignmentCode } from '@definition/assignment';
 import { schedulesGetMeetingDate } from '@services/app/schedules';
+import useWeekNavigation from '@features/meetings/hooks/useWeekNavigation';
 
 const useWeekendEditor = () => {
   const navigate = useNavigate();
 
-  const selectedWeek = useAtomValue(selectedWeekState);
+  const [selectedWeek, setSelectedWeek] = useAtom(selectedWeekState);
   const schedules = useAtomValue(schedulesState);
   const sources = useAtomValue(sourcesState);
   const dataView = useAtomValue(userDataViewState);
@@ -33,6 +34,9 @@ const useWeekendEditor = () => {
   const [songSelectorOpen, setSongSelectorOpen] = useAtom(
     weekendSongSelectorOpenState
   );
+
+  const { handleChangeWeekBack, handleChangeWeekNext, showWeekArrows } =
+    useWeekNavigation(selectedWeek, setSelectedWeek);
 
   const [state, setState] = useState({
     openPublicTalk: true,
@@ -173,6 +177,9 @@ const useWeekendEditor = () => {
     showPartsForGroup,
     weekType,
     dataView,
+    handleChangeWeekBack,
+    handleChangeWeekNext,
+    showWeekArrows,
   };
 };
 

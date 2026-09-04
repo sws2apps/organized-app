@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
-import { useAppTranslation, useIntersectionObserver } from '@hooks/index';
+import { useAppTranslation } from '@hooks/index';
 import { schedulesState } from '@states/schedules';
 import { addMonths, formatDate, getWeekDate } from '@utils/date';
 import { JWLangState, userDataViewState } from '@states/settings';
@@ -11,11 +11,6 @@ import { monthShortNamesState } from '@states/app';
 import { sourcesState } from '@states/sources';
 
 const useWeekendContainer = () => {
-  const currentWeekVisible = useIntersectionObserver({
-    root: '.schedules-view-week-selector .MuiTabs-scroller',
-    selector: '.schedules-current-week',
-  });
-
   const { t } = useAppTranslation();
 
   const schedules = useAtomValue(schedulesState);
@@ -121,7 +116,6 @@ const useWeekendContainer = () => {
     handleGoCurrent,
     handleValueChange,
     week,
-    currentWeekVisible,
     scheduleLastUpdated,
     noSchedule,
     dataView,
