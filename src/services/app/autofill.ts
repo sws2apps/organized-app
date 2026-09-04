@@ -1849,7 +1849,7 @@ export const schedulesStartAutofill = async (
       meeting
     );
 
-    if (!modifiedWeeks || modifiedWeeks.length === 0) return;
+    if (!modifiedWeeks || modifiedWeeks.length === 0) return 0;
 
     await dbSchedBulkUpdate(modifiedWeeks);
 
@@ -1857,6 +1857,7 @@ export const schedulesStartAutofill = async (
 
     const newFullHistory = schedulesBuildHistoryList();
     store.set(assignmentsHistoryState, newFullHistory);
+    return modifiedWeeks.length;
   } catch (error) {
     throw new Error(
       `autofill error: ${error instanceof Error ? error.message : String(error)}`
