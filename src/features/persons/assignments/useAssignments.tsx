@@ -13,6 +13,7 @@ import {
 import { languageGroupsState } from '@states/field_service_groups';
 import { CLASSROOM_QUALIFICATIONS_ASSIGNMENT } from '@constants/index';
 import { clearClassroomQualification } from '@utils/assignments';
+import { personIsFR, personIsFS } from '@services/app/persons';
 
 const useAssignments = () => {
   const { t } = useAppTranslation();
@@ -27,13 +28,17 @@ const useAssignments = () => {
 
   const male = person.person_data.male.value;
   const disqualified = person.person_data.disqualified.value;
+  const isPioneer = personIsFR(person) || personIsFS(person);
 
   const duplicateAssignmentsGroup = useMemo(() => {
     return ['ministry'];
   }, []);
 
   const duplicateAssignmentsCode = useMemo(() => {
-    return [AssignmentCode.MINISTRY_HOURS_CREDIT];
+    return [
+      AssignmentCode.MINISTRY_HOURS_CREDIT,
+      AssignmentCode.MINISTRY_FS_CONDUCTOR,
+    ];
   }, []);
 
   const checkedItems = useMemo(() => {
@@ -207,6 +212,10 @@ const useAssignments = () => {
             code: AssignmentCode.MINISTRY_HOURS_CREDIT,
             name: t('tr_reportHoursCredit'),
           },
+          {
+            code: AssignmentCode.MINISTRY_FS_CONDUCTOR,
+            name: t('tr_fieldServiceMeetingConductor'),
+          },
         ],
       },
     ];
@@ -263,6 +272,15 @@ const useAssignments = () => {
           ) {
             continue;
           }
+        }
+
+        // Ministry items have independent eligibility: hours credit is for
+        // pioneers, the field service meeting conductor is for brothers.
+        if (item.code === AssignmentCode.MINISTRY_HOURS_CREDIT && !isPioneer) {
+          continue;
+        }
+        if (item.code === AssignmentCode.MINISTRY_FS_CONDUCTOR && !male) {
+          continue;
         }
 
         for (const view of views) {

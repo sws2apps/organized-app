@@ -326,6 +326,53 @@ export const dbAppSettingsCreatePublishersSort = async () => {
   await appDb.app_settings.put(newSettings);
 };
 
+type FieldServiceMeetingTimeType = NonNullable<
+  SettingsType['cong_settings']['field_service_meeting_times']
+>[number];
+
+/**
+ * Change one group's recurring field service meeting time. The whole array has
+ * to be written back, so the read-modify-write runs in a transaction over the
+ * stored settings — two concurrent edits would otherwise overwrite each other.
+ */
+export const dbAppSettingsUpdateFieldServiceMeetingTime = async (
+  groupId: string,
+  mutate: (record: FieldServiceMeetingTimeType) => void
+) => {
+  await appDb.transaction(
+    'rw',
+    appDb.app_settings,
+    appDb.metadata,
+    async () => {
+      const settings = await appDb.app_settings.get(1);
+
+      if (!settings) return;
+
+      const times = structuredClone(
+        settings.cong_settings.field_service_meeting_times ?? []
+      );
+
+      let record = times.find((item) => item.type === groupId);
+
+      if (!record) {
+        record = {
+          type: groupId,
+          weekday: { value: null, updatedAt: '' },
+          time: { value: '', updatedAt: '' },
+        };
+
+        times.push(record);
+      }
+
+      mutate(record);
+
+      await dbAppSettingsUpdate({
+        'cong_settings.field_service_meeting_times': times,
+      });
+    }
+  );
+};
+
 export const dbAppSettingsUpdateCongNumber = async () => {
   const settings = await appDb.app_settings.get(1);
 

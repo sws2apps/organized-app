@@ -33,6 +33,7 @@ const DatePicker = ({
   hideNav,
   error,
   helperText,
+  sx = {},
 }: CustomDatePickerProps) => {
   // Years below this threshold are transient artifacts of typing the year
   // section (e.g. 0002 while entering 2026) and must not be propagated.
@@ -125,7 +126,7 @@ const DatePicker = ({
 
   return (
     <ClickAwayListener onClickAway={() => setOpen(false)}>
-      <Box sx={{ width: '100%' }}>
+      <Box sx={[{ width: '100%' }, ...(Array.isArray(sx) ? sx : [sx])]}>
         <DesktopDatePicker
           readOnly={readOnly}
           minDate={minDate}
@@ -180,6 +181,7 @@ const DatePicker = ({
             },
             textField: {
               value: valueTmp,
+              sx,
               onClick: () => {
                 if (readOnly) return;
                 setOpen(true);

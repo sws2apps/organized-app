@@ -9,6 +9,14 @@ const InputTextField = forwardRef(function DatePickerInputField(
 
   const varHeight = (56 - heightLocal) / 2;
 
+  // Allow consumers to shrink the input via slotProps.textField.sx.height.
+  // Guard against array/function sx forms, which can't be inspected.
+  const consumerHeight =
+    props.sx && !Array.isArray(props.sx) && typeof props.sx === 'object'
+      ? (props.sx as { height?: string }).height
+      : undefined;
+  const customHeight = consumerHeight ?? `${heightLocal}px`;
+
   return (
     <PickersTextField
       {...props}
@@ -16,7 +24,7 @@ const InputTextField = forwardRef(function DatePickerInputField(
       fullWidth
       sx={{
         '.MuiPickersInputBase-root': {
-          height: `${heightLocal}px`,
+          height: customHeight,
           paddingTop: 'auto',
           paddingBottom: 'auto',
           paddingLeft: '12px',
@@ -31,6 +39,14 @@ const InputTextField = forwardRef(function DatePickerInputField(
           overflow: 'hidden',
           textOverflow: 'ellipsis',
           whiteSpace: 'nowrap',
+        },
+        // The section list must fill the space left after the icon button, not
+        // its intrinsic content width, or the sections overflow and push the
+        // calendar icon outside the outlined input (invisible icon).
+        '.MuiPickersSectionList-root': {
+          flex: '1 1 auto',
+          overflow: 'hidden',
+          minWidth: 0,
         },
         '.MuiPickersInputBase-input': {
           overflow: 'hidden',
@@ -49,6 +65,9 @@ const InputTextField = forwardRef(function DatePickerInputField(
         },
         '.MuiInputAdornment-root': {
           margin: 0,
+          // Never shrink: the icon button keeps its full width no matter how
+          // narrow the field becomes.
+          flexShrink: 0,
         },
         '.MuiInput-root:before': {
           borderBottom: '1px solid var(--accent-300) !important',
@@ -104,7 +123,11 @@ const InputTextField = forwardRef(function DatePickerInputField(
 
         '& .MuiSvgIcon-root': {
           fill: 'var(--accent-350)',
-          '& g, & g path': {
+          // Cover both icon structures:
+          // • icons that wrap content in <g><path> (e.g. IconClock with mask)
+          // • icons that put <path> directly inside SvgIcon (e.g. IconDate
+          //   after the mask-removal refactor)
+          '& g, & g path, & path': {
             fill: 'var(--accent-350) !important',
           },
         },
