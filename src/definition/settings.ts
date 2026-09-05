@@ -1,3 +1,4 @@
+import { HallInfo } from '@definition/hall_attendant';
 import { AppRoleType } from './app';
 import { AssignmentFieldType } from './assignment';
 import { UpcomingEventDisplayType } from './upcoming_events';
@@ -43,6 +44,7 @@ export type SpecialMonthType = {
 export type SettingsType = {
   id: number;
   cong_settings: {
+    hall_attendant_info?: HallInfo[];
     country_code: string;
     cong_id: string;
     cong_number: { value: string; updatedAt: string };

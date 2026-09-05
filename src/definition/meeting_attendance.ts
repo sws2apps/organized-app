@@ -1,6 +1,8 @@
+import { MeetingType } from '@definition/app';
+
 export type AttendanceCongregation = {
-  present: number;
-  online: number;
+  present?: number;
+  online?: number;
   present_deaf?: number;
   online_deaf?: number;
   type: string;
@@ -14,6 +16,15 @@ export type AttendanceRecordField =
   | 'online_deaf';
 
 export type AttendanceValues = Partial<Record<AttendanceRecordField, string>>;
+
+export type AttendanceSaveParams = {
+  month: string;
+  index: number;
+  type: MeetingType;
+  dataView: string;
+  values: AttendanceValues;
+  recordDeaf?: boolean;
+};
 
 export type WeeklyAttendance = {
   midweek: AttendanceCongregation[];

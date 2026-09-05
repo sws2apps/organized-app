@@ -1,3 +1,9 @@
+import { isHallAttendant } from '@utils/hall_attendant';
+import { mergeHallInfo } from '@utils/hall_info';
+import {
+  getAttendanceDataViews,
+  getAttendanceForUpload,
+} from '@utils/meeting_attendance';
 // to minimize the size of the worker file, we recreate all its needed functions in this file
 
 import appDb from '@db/appDb';
@@ -258,8 +264,6 @@ export const dbGetMetadata = async () => {
   const isAdmin = userRole.includes('admin') || isSecretary || isCoordinator;
   const isPublisher = isAdmin || userRole.includes('publisher');
   const isGroupOverseer = isAdmin || userRole.includes('group_overseers');
-  const isLanguageGroupOverseer =
-    isAdmin || userRole.includes('language_group_overseers');
   const isElder =
     accountType === 'vip' && (isAdmin || userRole.includes('elder'));
   const isScheduleEditor =
@@ -275,8 +279,10 @@ export const dbGetMetadata = async () => {
   const isPersonViewer = isScheduleEditor || isElder;
   const isPersonMinimal = !isPersonViewer;
 
-  const isAttendanceTracker =
-    isAdmin || userRole.some((role) => role === 'attendance_tracking');
+  const currentPerson = await appDb.persons.get(
+    settings.user_settings.user_local_uid
+  );
+  const attendanceViews = getAttendanceDataViews(currentPerson, userRole);
 
   if (!isPublisher) {
     delete result.user_bible_studies;
@@ -300,7 +306,7 @@ export const dbGetMetadata = async () => {
     delete result.schedules;
   }
 
-  if (!isAttendanceTracker && !isLanguageGroupOverseer) {
+  if (attendanceViews?.length === 0) {
     delete result.meeting_attendance;
   }
 
@@ -571,69 +577,82 @@ const dbRestoreSettings = async (
       masterKey,
     });
 
-    const settings = await appDb.app_settings.get(1);
+    await appDb.transaction('rw', appDb.app_settings, async () => {
+      const settings = await appDb.app_settings.get(1);
+      if (!settings) throw new Error('error_app_generic-desc');
+      const hallInfo =
+        settings.cong_settings.hall_attendant_info ||
+        remoteSettings.cong_settings.hall_attendant_info
+          ? mergeHallInfo(
+              settings.cong_settings.hall_attendant_info,
+              remoteSettings.cong_settings.hall_attendant_info
+            )
+          : undefined;
+      const localSettings = structuredClone(settings);
 
-    const localSettings = structuredClone(settings);
+      convertObjectToArray(remoteSettings);
+      convertObjectToArray(localSettings);
 
-    convertObjectToArray(remoteSettings);
-    convertObjectToArray(localSettings);
+      syncFromRemote(localSettings, remoteSettings);
 
-    syncFromRemote(localSettings, remoteSettings);
-
-    if (backupData.metadata.user_settings) {
-      localSettings.user_settings.cong_role =
-        remoteSettings.user_settings.cong_role;
-      localSettings.user_settings.user_local_uid =
-        remoteSettings.user_settings.user_local_uid;
-      localSettings.user_settings.user_members_delegate =
-        remoteSettings.user_settings.user_members_delegate;
-    }
-
-    if (
-      backupData.metadata.cong_settings &&
-      localSettings.user_settings.account_type === 'vip'
-    ) {
-      // force to use local value
-      localSettings.cong_settings.cong_new = settings.cong_settings.cong_new;
-      localSettings.cong_settings.cong_migrated =
-        settings.cong_settings.cong_migrated ?? false;
-
-      if (localSettings?.cong_settings['source_material_auto_import']) {
-        delete localSettings.cong_settings['source_material_auto_import'];
+      if (backupData.metadata.user_settings) {
+        localSettings.user_settings.cong_role =
+          remoteSettings.user_settings.cong_role;
+        localSettings.user_settings.user_local_uid =
+          remoteSettings.user_settings.user_local_uid;
+        localSettings.user_settings.user_members_delegate =
+          remoteSettings.user_settings.user_members_delegate;
       }
 
-      const midweekSettings =
-        localSettings?.cong_settings.midweek_meeting || [];
+      if (
+        backupData.metadata.cong_settings &&
+        localSettings.user_settings.account_type === 'vip'
+      ) {
+        localSettings.cong_settings.cong_new = settings.cong_settings.cong_new;
+        localSettings.cong_settings.cong_migrated =
+          settings.cong_settings.cong_migrated ?? false;
 
-      for (const midweekSetting of midweekSettings) {
-        if (midweekSetting['opening_prayer_auto_assigned']) {
-          delete midweekSetting['opening_prayer_auto_assigned'];
+        if (localSettings?.cong_settings['source_material_auto_import']) {
+          delete localSettings.cong_settings['source_material_auto_import'];
         }
 
-        if (midweekSetting['closing_prayer_auto_assigned']) {
-          delete midweekSetting['closing_prayer_auto_assigned'];
+        const midweekSettings =
+          localSettings?.cong_settings.midweek_meeting || [];
+
+        for (const midweekSetting of midweekSettings) {
+          if (midweekSetting['opening_prayer_auto_assigned']) {
+            delete midweekSetting['opening_prayer_auto_assigned'];
+          }
+
+          if (midweekSetting['closing_prayer_auto_assigned']) {
+            delete midweekSetting['closing_prayer_auto_assigned'];
+          }
         }
       }
-    }
 
-    if (
-      backupData.metadata.cong_settings &&
-      localSettings.user_settings.account_type === 'pocket'
-    ) {
-      for (const [key, value] of Object.entries(remoteSettings.cong_settings)) {
-        localSettings.cong_settings[key] = value;
+      if (
+        backupData.metadata.cong_settings &&
+        localSettings.user_settings.account_type === 'pocket'
+      ) {
+        for (const [key, value] of Object.entries(
+          remoteSettings.cong_settings
+        )) {
+          localSettings.cong_settings[key] = value;
+        }
       }
-    }
 
-    if (!backupData.metadata.user_settings) {
-      delete localSettings.user_settings;
-    }
+      if (hallInfo) localSettings.cong_settings.hall_attendant_info = hallInfo;
 
-    if (!backupData.metadata.cong_settings) {
-      delete localSettings.cong_settings;
-    }
+      if (!backupData.metadata.user_settings) {
+        delete localSettings.user_settings;
+      }
 
-    await appDb.app_settings.update(1, localSettings);
+      if (!backupData.metadata.cong_settings) {
+        delete localSettings.cong_settings;
+      }
+
+      await appDb.app_settings.update(1, localSettings);
+    });
   } catch (error) {
     throw new Error(`settings: ${error.message}`);
   }
@@ -1215,30 +1234,32 @@ const dbRestoreMeetingAttendance = async (
       return data;
     });
 
-    const localData = await appDb.meeting_attendance.toArray();
+    await appDb.transaction('rw', appDb.meeting_attendance, async () => {
+      const localData = await appDb.meeting_attendance.toArray();
 
-    const dataToUpdate: MeetingAttendanceType[] = [];
+      const dataToUpdate: MeetingAttendanceType[] = [];
 
-    for (const remoteItem of remoteData) {
-      const localItem = localData.find(
-        (record) => record.month_date === remoteItem.month_date
-      );
+      for (const remoteItem of remoteData) {
+        const localItem = localData.find(
+          (record) => record.month_date === remoteItem.month_date
+        );
 
-      if (!localItem) {
-        dataToUpdate.push(remoteItem);
+        if (!localItem) {
+          dataToUpdate.push(remoteItem);
+        }
+
+        if (localItem) {
+          const newItem = structuredClone(localItem);
+          syncFromRemote(newItem, remoteItem);
+
+          dataToUpdate.push(newItem);
+        }
       }
 
-      if (localItem) {
-        const newItem = structuredClone(localItem);
-        syncFromRemote(newItem, remoteItem);
-
-        dataToUpdate.push(newItem);
+      if (dataToUpdate.length > 0) {
+        await appDb.meeting_attendance.bulkPut(dataToUpdate);
       }
-    }
-
-    if (dataToUpdate.length > 0) {
-      await appDb.meeting_attendance.bulkPut(dataToUpdate);
-    }
+    });
   } catch (error) {
     throw new Error(`meeting_attendance: ${error.message}`);
   }
@@ -1632,6 +1653,8 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
       upcoming_events,
     } = await dbGetTableData();
 
+    if (!settings || !metadata) throw new Error('error_app_generic-desc');
+
     const dataSync = settings.cong_settings.data_sync.value;
     const accountType = settings.user_settings.account_type;
     const userRole = settings.user_settings.cong_role;
@@ -1669,11 +1692,6 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
 
     const isPublisher = userRole.includes('publisher');
 
-    const attendanceTracker =
-      adminRole ||
-      languageGroupOverseerRole ||
-      userRole.includes('attendance_tracking');
-
     const userBaseSettings = {
       firstname: user_settings.firstname,
       lastname: user_settings.lastname,
@@ -1682,6 +1700,7 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
     const myPerson = persons.find(
       (record) => record.person_uid === user_settings.user_local_uid
     );
+    const attendanceViews = getAttendanceDataViews(myPerson, userRole);
 
     if (dataSync) {
       if (accountType === 'vip') {
@@ -1692,6 +1711,9 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
         // include settings data
         if (settingEditor) {
           const localSettings = structuredClone(settings);
+          if (!adminRole && !userRole.includes('hall_attendant_info')) {
+            delete localSettings.cong_settings.hall_attendant_info;
+          }
 
           encryptObject({
             data: localSettings,
@@ -1895,24 +1917,6 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
           }
         }
 
-        // include meeting attendance
-        if (
-          attendanceTracker &&
-          metadata.metadata.meeting_attendance.send_local
-        ) {
-          const backupAttendance = meeting_attendance.map((attendance) => {
-            encryptObject({
-              data: attendance,
-              table: 'meeting_attendance',
-              accessCode,
-            });
-
-            return attendance;
-          });
-
-          obj.meeting_attendance = backupAttendance;
-        }
-
         // for admin role
         if (adminRole) {
           // include branch reports
@@ -2031,6 +2035,8 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
               }
             }
 
+            if (isHallAttendant(person)) userRole.push('hall_attendant');
+
             userRole = Array.from(new Set(userRole));
 
             let roleChanged = false;
@@ -2109,6 +2115,47 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
 
           obj.persons = [person];
         }
+      }
+
+      if (
+        attendanceViews?.length !== 0 &&
+        metadata.metadata.meeting_attendance.send_local
+      ) {
+        obj.meeting_attendance = getAttendanceForUpload(
+          meeting_attendance,
+          attendanceViews
+        ).map((attendance) => {
+          encryptObject({
+            data: attendance,
+            table: 'meeting_attendance',
+            accessCode,
+          });
+          return attendance;
+        });
+      }
+
+      if (
+        (adminRole || userRole.includes('hall_attendant_info')) &&
+        metadata.metadata.cong_settings.send_local &&
+        settings.cong_settings.hall_attendant_info
+      ) {
+        const hallSettings = {
+          hall_attendant_info: structuredClone(
+            settings.cong_settings.hall_attendant_info
+          ),
+        };
+        encryptObject({
+          data: hallSettings,
+          table: 'app_settings',
+          accessCode,
+        });
+        obj.app_settings = {
+          ...obj.app_settings,
+          cong_settings: {
+            ...obj.app_settings?.cong_settings,
+            ...hallSettings,
+          },
+        };
       }
 
       // include publisher bible studies and field reports

@@ -22,9 +22,11 @@ const WeekBox = (props: WeekBoxProps) => {
     fields,
     values,
     handleValueChange,
+    flushField,
     total,
     box_label,
     noMeeting,
+    canEdit,
     clickerEnabled,
     clickerOpen,
     clickerTitle,
@@ -105,12 +107,13 @@ const WeekBox = (props: WeekBoxProps) => {
                   label={field.label}
                   value={values[field.name]}
                   onChange={handleValueChange(field.name)}
+                  onBlur={() => flushField(field.name)}
                   onFocus={
                     counted
                       ? () => handleFieldFocus(field.name as ClickerTab)
                       : undefined
                   }
-                  disabled={noMeeting}
+                  disabled={noMeeting || !canEdit}
                   slotProps={{
                     htmlInput: { className: 'h4' },
                   }}

@@ -410,6 +410,7 @@ export const LANGUAGE_LIST: LanguageItem[] = [
 ].sort((a, b) => a.code.localeCompare(b.code));
 
 export const APP_READ_ONLY_ROLES: AppRoleType[] = [
+  'hall_attendant',
   'view_schedules',
   'elder',
   'ms',
@@ -425,6 +426,7 @@ export const APP_ROLES: AppRoleType[] = [
   'weekend_schedule',
   'public_talk_schedule',
   'attendance_tracking',
+  'hall_attendant_info',
   'secretary',
   'service_overseer',
   ...APP_READ_ONLY_ROLES,
@@ -655,6 +657,10 @@ export const WEEKEND_WITH_WTSTUDY = [
 ];
 
 export const TIMER_KEY = 'organized_timer';
+
+export const ATTENDANCE_AUTOSAVE_DELAY = 300;
+
+export const DEFAULT_MEETING_WEEKDAYS = { midweek: 2, weekend: 6 } as const;
 
 // the curves the app animates with: a quick settle on the way in, a plain
 // acceleration on the way out

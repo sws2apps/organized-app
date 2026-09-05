@@ -11,5 +11,10 @@ export const StyledContentBox = styled(Box, {
   padding: '4px 8px',
   alignSelf: 'stretch',
   borderRadius: 'var(--radius-m)',
-  background: size === 'small' ? `var(--${color}-150)` : `var(--${color})`,
+  background:
+    size === 'small'
+      ? color === 'red'
+        ? 'var(--red-secondary)'
+        : `var(--${color}-150)`
+      : `var(--${color})`,
 }));
