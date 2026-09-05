@@ -24,6 +24,10 @@ import { firstDayWeekState } from '@states/settings';
 import { LANGUAGE_LIST } from './constants';
 
 // lazy loading
+const HallAttendant = lazy(() => import('@pages/meetings/hall_attendant'));
+const HallEmergency = lazy(
+  () => import('@pages/meetings/hall_attendant/emergency')
+);
 const Dashboard = lazy(() => import('@pages/dashboard'));
 const MyProfile = lazy(() => import('@pages/my_profile'));
 const PersonsAll = lazy(() => import('@pages/persons/all_persons'));
@@ -86,6 +90,7 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
     isElder,
     isPersonEditor,
     isAttendanceEditor,
+    canUseHallAttendant,
     isAppointed,
     isMidweekEditor,
     isWeekendEditor,
@@ -216,6 +221,16 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
               children: [{ path: '/persons/new', element: <PersonDetails /> }],
             },
 
+            {
+              element: <RouteProtected allowed={canUseHallAttendant} />,
+              children: [
+                { path: '/hall-attendant', element: <HallAttendant /> },
+                {
+                  path: '/hall-attendant/emergency',
+                  element: <HallEmergency />,
+                },
+              ],
+            },
             // attendance editor routes
             {
               element: <RouteProtected allowed={isAttendanceEditor} />,

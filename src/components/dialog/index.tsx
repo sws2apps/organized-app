@@ -10,7 +10,15 @@ import { DialogProps } from './index.types';
  * @param {SxProps} props.sx - Custom styling for the dialog content.
  * @returns {JSX.Element} CustomDialog component.
  */
-const Dialog = ({ open, onClose, children, sx, PaperProps }: DialogProps) => {
+const Dialog = ({
+  open,
+  onClose,
+  children,
+  sx,
+  PaperProps,
+  fullScreen = false,
+  ariaLabel,
+}: DialogProps) => {
   /**
    * Handles the dialog close event.
    * @param {string} reason - The reason for closing the dialog.
@@ -26,20 +34,24 @@ const Dialog = ({ open, onClose, children, sx, PaperProps }: DialogProps) => {
   return (
     <MUIDialog
       fullWidth
+      fullScreen={fullScreen}
+      aria-label={ariaLabel}
       open={open}
       onClose={handleClose}
       sx={{
         boxSizing: 'border-box',
         '.MuiPaper-root': {
-          margin: { mobile: '16px', tablet: '24px', desktop: '32px' },
+          margin: fullScreen
+            ? 0
+            : { mobile: '16px', tablet: '24px', desktop: '32px' },
         },
       }}
       PaperProps={
         PaperProps || {
           className: 'pop-up-shadow',
           style: {
-            maxWidth: '560px',
-            borderRadius: 'var(--radius-xl)',
+            maxWidth: fullScreen ? 'none' : '560px',
+            borderRadius: fullScreen ? 0 : 'var(--radius-xl)',
             backgroundColor: 'var(--white)',
           },
         }

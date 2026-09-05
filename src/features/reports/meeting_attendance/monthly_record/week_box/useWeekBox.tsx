@@ -1,5 +1,5 @@
-import { ChangeEvent, useEffect, useMemo, useRef, useState } from 'react';
-import { useAtomValue } from 'jotai';
+import { ChangeEvent, useMemo, useRef, useState } from 'react';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { Week } from '@definition/week_type';
 import {
   WEEK_TYPE_LANGUAGE_GROUPS,
@@ -11,15 +11,17 @@ import {
   useIsTouchDevice,
 } from '@hooks/index';
 import { ClickerSaveValues, ClickerTab } from '../clicker_mode/index.types';
+import { addDays, formatDate, getWeekDate, weeksInMonth } from '@utils/date';
 import {
-  addWeeks,
-  firstWeekMonth,
-  formatDate,
-  getWeekDate,
-  weeksInMonth,
-} from '@utils/date';
-import { WeekBoxField, WeekBoxProps, WeekBoxValues } from './index.types';
-import { meetingAttendanceState } from '@states/meeting_attendance';
+  WeekBoxDraft,
+  WeekBoxField,
+  WeekBoxProps,
+  WeekBoxValues,
+} from './index.types';
+import {
+  meetingAttendanceState,
+  meetingAttendanceSaveState,
+} from '@states/meeting_attendance';
 import {
   AttendanceValues,
   WeeklyAttendance,
@@ -28,11 +30,9 @@ import {
   attendanceDeafRecordState,
   attendanceOnlineRecordState,
   userDataViewState,
+  settingsState,
+  COMidweekMeetingDayState,
 } from '@states/settings';
-import {
-  meetingAttendanceCountsSave,
-  meetingAttendancePresentSave,
-} from '@services/app/meeting_attendance';
 import { monthShortNamesState } from '@states/app';
 import { schedulesState } from '@states/schedules';
 import { schedulesGetMeetingDate } from '@services/app/schedules';
@@ -44,17 +44,11 @@ const EMPTY_VALUES: WeekBoxValues = {
   onlineDeaf: '',
 };
 
-const sumCounts = (a: string, b: string) => {
-  if (a.length === 0 && b.length === 0) return '';
-
-  return String(+a + +b);
-};
-
 // stored counts include the deaf attendees, so the hearing input holds the rest
 const hearingCount = (total?: number, deaf?: number) => {
   const hearing = (total || 0) - (deaf || 0);
 
-  return hearing > 0 ? String(hearing) : '';
+  return total === undefined ? '' : String(Math.max(0, hearing));
 };
 
 const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
@@ -64,11 +58,14 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
   const { laptopDown } = useBreakpoints();
 
   const attendances = useAtomValue(meetingAttendanceState);
+  const saveAttendanceRecord = useSetAtom(meetingAttendanceSaveState);
   const dataView = useAtomValue(userDataViewState);
   const recordOnline = useAtomValue(attendanceOnlineRecordState);
   const recordDeaf = useAtomValue(attendanceDeafRecordState);
   const months = useAtomValue(monthShortNamesState);
   const schedules = useAtomValue(schedulesState);
+  const settings = useAtomValue(settingsState);
+  useAtomValue(COMidweekMeetingDayState);
 
   const currentView = view || dataView;
 
@@ -76,10 +73,8 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
   const [clickerOpen, setClickerOpen] = useState(false);
 
   const schedule = useMemo(() => {
-    const weeks = schedules.filter((record) => record.weekOf.includes(month));
-    const week = weeks.at(index - 1);
-
-    return week;
+    const week = weeksInMonth(month)[index - 1];
+    return schedules.find((record) => record.weekOf === week);
   }, [schedules, month, index]);
 
   const weekRecord = useMemo(() => {
@@ -113,7 +108,19 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
     };
   }, [weekRecord, recordDeaf]);
 
-  const [values, setValues] = useState(initialValues);
+  const recordKey = `${month}-${index}-${type}-${currentView}-${recordDeaf}-${recordOnline}`;
+  const [drafts, setDrafts] = useState<WeekBoxDraft>({
+    key: recordKey,
+    values: {},
+  });
+  const versions = useRef<Partial<Record<keyof WeekBoxValues, number>>>({});
+  const values = useMemo(
+    () => ({
+      ...initialValues,
+      ...(drafts.key === recordKey ? drafts.values : {}),
+    }),
+    [initialValues, drafts, recordKey]
+  );
 
   const weeksList = useMemo(() => {
     const weeks = weeksInMonth(month);
@@ -172,20 +179,21 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
     );
   }, [type, schedule, currentView]);
 
-  const box_label = useMemo(() => {
-    const [year, monthValue] = month.split('/').map(Number);
-
-    const firstWeek = firstWeekMonth(year, monthValue);
-
-    const week = formatDate(firstWeek, 'yyyy/MM/dd');
+  const box_label = (() => {
+    const week = weeksList[index - 1];
 
     const meetingDateInit = schedulesGetMeetingDate({
       week,
       meeting: type,
-      dataView: view,
+      dataView: currentView,
     });
-
-    const meetingDate = addWeeks(meetingDateInit.date, index - 1);
+    const weekday =
+      settings.cong_settings[`${type}_meeting`].find(
+        (record) => record.type === currentView
+      )?.weekday.value ?? (type === 'midweek' ? 2 : 5);
+    const meetingDate = meetingDateInit.date
+      ? new Date(meetingDateInit.date)
+      : addDays(new Date(week), weekday);
 
     const monthIndex = meetingDate.getMonth();
     const date = meetingDate.getDate();
@@ -196,7 +204,7 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
     });
 
     return dateLabel;
-  }, [month, type, index, t, months, view]);
+  })();
 
   const detailed = recordOnline || recordDeaf;
 
@@ -235,63 +243,58 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
     return fields.reduce((acc, field) => acc + (+values[field.name] || 0), 0);
   }, [fields, values]);
 
-  const savedValues = useRef(initialValues);
-
-  // saving one field echoes back the whole record, so only fields that changed in
-  // the database are refreshed, otherwise a slow echo overwrites a newer input
-  useEffect(() => {
-    const previous = savedValues.current;
-    savedValues.current = initialValues;
-
-    setValues((current) => {
-      const fieldNames = Object.keys(current) as (keyof WeekBoxValues)[];
-
-      return fieldNames.reduce(
-        (acc, field) => ({
-          ...acc,
-          [field]:
-            initialValues[field] === previous[field]
-              ? current[field]
-              : initialValues[field],
-        }),
-        {} as WeekBoxValues
-      );
-    });
-  }, [initialValues]);
-
-  const saveAttendance = (newValues: WeekBoxValues) => {
-    const counts: AttendanceValues = {
-      present: recordDeaf
-        ? sumCounts(newValues.present, newValues.presentDeaf)
-        : newValues.present,
-    };
-
-    if (recordDeaf) {
-      counts.present_deaf = newValues.presentDeaf;
+  const saveAttendance = async (changes: Partial<WeekBoxValues>) => {
+    if (noMeeting) return;
+    const changedFields = Object.keys(changes) as (keyof WeekBoxValues)[];
+    if (changedFields.length === 0) return;
+    const revision = Object.fromEntries(
+      changedFields.map((field) => {
+        versions.current[field] = (versions.current[field] ?? 0) + 1;
+        return [field, versions.current[field]];
+      })
+    );
+    setDrafts((current) => ({
+      key: recordKey,
+      values: {
+        ...(current.key === recordKey ? current.values : {}),
+        ...changes,
+      },
+    }));
+    const counts: AttendanceValues = {};
+    for (const field of changedFields) {
+      const storedField =
+        field === 'presentDeaf'
+          ? 'present_deaf'
+          : field === 'onlineDeaf'
+            ? 'online_deaf'
+            : field;
+      counts[storedField] = changes[field];
     }
-
-    if (recordOnline) {
-      counts.online = recordDeaf
-        ? sumCounts(newValues.online, newValues.onlineDeaf)
-        : newValues.online;
-    }
-
-    if (recordOnline && recordDeaf) {
-      counts.online_deaf = newValues.onlineDeaf;
-    }
-
-    meetingAttendancePresentSave({
+    await saveAttendanceRecord({
       values: counts,
+      recordDeaf,
       index,
       month,
       type,
       dataView: currentView,
     });
+    setDrafts((current) => {
+      if (current.key !== recordKey) return current;
+      const next = { ...current.values };
+      for (const field of changedFields) {
+        if (versions.current[field] === revision[field]) delete next[field];
+      }
+      return { key: recordKey, values: next };
+    });
   };
 
   const handleValueChange =
     (field: keyof WeekBoxValues) => (e: ChangeEvent<HTMLInputElement>) => {
-      if (e.target.value.match(/\D/)) {
+      if (
+        e.target.validity.badInput ||
+        e.target.value.match(/\D/) ||
+        !Number.isSafeInteger(Number(e.target.value))
+      ) {
         e.preventDefault();
         return;
       }
@@ -299,10 +302,7 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
       const tmpValue = e.target.value;
       const value = tmpValue === '' ? '' : String(+tmpValue);
 
-      const newValues = { ...values, [field]: value };
-
-      setValues(newValues);
-      saveAttendance(newValues);
+      void saveAttendance({ [field]: value });
     };
 
   const clickerEnabled = (laptopDown || isTouchDevice) && !noMeeting;
@@ -322,31 +322,11 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
 
   const handleClickerClose = () => setClickerOpen(false);
 
-  const handleClickerSave = (values: ClickerSaveValues) => {
-    const counts: { record: 'present' | 'online'; count: string }[] = [];
-
-    if (values.present !== undefined) {
-      const value = values.present.toString();
-      setPresent(value);
-      counts.push({ record: 'present', count: value });
-    }
-
-    if (values.online !== undefined) {
-      const value = values.online.toString();
-      setOnline(value);
-      counts.push({ record: 'online', count: value });
-    }
-
-    if (counts.length === 0) return;
-
-    // One atomic write; the debounced single-field save would drop a value.
-    meetingAttendanceCountsSave({
-      index,
-      month,
-      type,
-      counts,
-      dataView: view || dataView,
-    });
+  const handleClickerSave = (counts: ClickerSaveValues) => {
+    const next: Partial<WeekBoxValues> = {};
+    if (counts.present !== undefined) next.present = String(counts.present);
+    if (counts.online !== undefined) next.online = String(counts.online);
+    void saveAttendance(next);
   };
 
   return {

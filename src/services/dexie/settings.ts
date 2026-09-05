@@ -9,6 +9,7 @@ import { AssignmentCode } from '@definition/assignment';
 import { getRandomArrayItem } from '@utils/common';
 import { LANGUAGE_LIST } from '@constants/index';
 import appDb from '@db/appDb';
+import { dbPersonsBulkSave } from '@services/dexie/persons';
 
 export const dbAppSettingsGet = async () => {
   const current = await appDb.app_settings.get(1);
@@ -112,8 +113,18 @@ export const dbAppSettingsBuildTest = async () => {
   const person = persons.find((record) =>
     record.person_data.assignments
       .at(0)
-      .values.includes(AssignmentCode.WM_WTStudyConductor)
+      ?.values.includes(AssignmentCode.WM_WTStudyConductor)
   );
+
+  const assignments = person?.person_data.assignments.find(
+    (record) => record.type === baseSettings.user_settings.data_view.value
+  );
+  if (!person || !assignments) throw new Error('error_app_generic-desc');
+  if (!assignments.values.includes(AssignmentCode.DUTIES_HallAttendant)) {
+    assignments.values.push(AssignmentCode.DUTIES_HallAttendant);
+    assignments.updatedAt = new Date().toISOString();
+    await dbPersonsBulkSave([person]);
+  }
 
   const filteredPersons = persons.filter(
     (record) => record.person_uid !== person.person_uid

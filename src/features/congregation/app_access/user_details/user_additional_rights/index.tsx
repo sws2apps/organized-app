@@ -8,9 +8,11 @@ import Typography from '@components/typography';
 const UserAdditionalRights = () => {
   const { t } = useAppTranslation();
 
-  const { isProcessing } = useUserDetails();
+  const { currentUser, isProcessing } = useUserDetails();
 
   const {
+    isHallInfoEditor,
+    handleToggleHallInfo,
     isMidweek,
     handleToggleMidweek,
     isPublicTalk,
@@ -32,32 +34,42 @@ const UserAdditionalRights = () => {
       </Typography>
 
       <SwitchContainer>
-        <SwitchWithLabel
-          label={t('tr_midweekMeetingScheduling')}
-          readOnly={isProcessing}
-          checked={isMidweek}
-          onChange={handleToggleMidweek}
-        />
+        {currentUser?.profile.global_role === 'vip' && (
+          <>
+            <SwitchWithLabel
+              label={t('tr_midweekMeetingScheduling')}
+              readOnly={isProcessing}
+              checked={isMidweek}
+              onChange={handleToggleMidweek}
+            />
 
-        <SwitchWithLabel
-          label={t('tr_weekendMeetingScheduling')}
-          readOnly={isProcessing}
-          checked={isWeekend}
-          onChange={handleToggleWeekend}
-        />
+            <SwitchWithLabel
+              label={t('tr_weekendMeetingScheduling')}
+              readOnly={isProcessing}
+              checked={isWeekend}
+              onChange={handleToggleWeekend}
+            />
 
-        <SwitchWithLabel
-          label={t('tr_publicTalkScheduling')}
-          readOnly={isProcessing}
-          checked={isPublicTalk}
-          onChange={handleTogglePublicTalk}
-        />
+            <SwitchWithLabel
+              label={t('tr_publicTalkScheduling')}
+              readOnly={isProcessing}
+              checked={isPublicTalk}
+              onChange={handleTogglePublicTalk}
+            />
 
+            <SwitchWithLabel
+              label={t('tr_attendanceRecordTracking')}
+              readOnly={isProcessing}
+              checked={isAttendance}
+              onChange={handleToggleAttendance}
+            />
+          </>
+        )}
         <SwitchWithLabel
-          label={t('tr_attendanceRecordTracking')}
+          label={t('tr_editHallAttendantInfo')}
           readOnly={isProcessing}
-          checked={isAttendance}
-          onChange={handleToggleAttendance}
+          checked={isHallInfoEditor}
+          onChange={handleToggleHallInfo}
         />
       </SwitchContainer>
     </>

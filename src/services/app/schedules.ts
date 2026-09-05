@@ -3234,10 +3234,10 @@ export const schedulesGetMeetingDate = ({
   const schedule = schedules.find((record) => record.weekOf === week);
   const source = sources.find((record) => record.weekOf === week);
 
-  if (!schedule || !source) return { locale, date };
+  if (!schedule) return { locale, date };
 
   if (meeting === 'midweek' && forPrint && !useExact) {
-    locale = source.midweek_meeting.week_date_locale[lang] ?? '';
+    locale = source?.midweek_meeting.week_date_locale[lang] ?? '';
   }
 
   const weekTypes = schedule[`${meeting}_meeting`]

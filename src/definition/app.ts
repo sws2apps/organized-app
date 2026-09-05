@@ -2,7 +2,14 @@ import { Locale } from 'date-fns';
 import { FullnameOption } from './settings';
 import { ReactNode } from 'react';
 
-export type ColorSchemeType = 'blue' | 'green' | 'purple' | 'orange' | 'teal' | 'rose' | 'slate';
+export type ColorSchemeType =
+  | 'blue'
+  | 'green'
+  | 'purple'
+  | 'orange'
+  | 'teal'
+  | 'rose'
+  | 'slate';
 
 export type SnackBarSeverityType = 'success' | 'error' | 'message-with-button';
 
@@ -62,6 +69,8 @@ export type AppRoleType =
   | 'weekend_schedule'
   | 'public_talk_schedule'
   | 'attendance_tracking'
+  | 'hall_attendant_info'
+  | 'hall_attendant'
   | 'publisher'
   | 'view_schedules'
   | 'elder'

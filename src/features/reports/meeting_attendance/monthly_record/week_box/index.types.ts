@@ -14,6 +14,11 @@ export type WeekBoxValues = {
   onlineDeaf: string;
 };
 
+export type WeekBoxDraft = {
+  key: string;
+  values: Partial<WeekBoxValues>;
+};
+
 export type WeekBoxField = {
   name: keyof WeekBoxValues;
   label: string;

@@ -3,6 +3,8 @@ import { DialogProps as MUIDialogProps, SxProps, Theme } from '@mui/material';
 
 export type DialogProps = PropsWithChildren & {
   open: boolean;
+  fullScreen?: boolean;
+  ariaLabel?: string;
   onClose: VoidFunction;
   sx?: SxProps<Theme>;
   PaperProps?: MUIDialogProps['PaperProps'];

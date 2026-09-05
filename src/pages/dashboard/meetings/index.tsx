@@ -1,5 +1,6 @@
 import { ListItem } from '@mui/material';
 import {
+  IconHallSecurity,
   IconAssignment,
   IconCalendarWeek,
   IconDiamond,
@@ -15,14 +16,18 @@ import DashboardMenu from '@features/dashboard/menu';
 const MeetingsCard = ({ assignmentCount }: MeetingsCardProps) => {
   const { t } = useAppTranslation();
 
-  const { isMidweekEditor, isWeekendEditor, isPublicTalkCoordinator } =
-    useCurrentUser();
+  const {
+    isMidweekEditor,
+    isWeekendEditor,
+    isPublicTalkCoordinator,
+    canUseHallAttendant,
+  } = useCurrentUser();
 
   const { showMeetingCard, showMidweek, showWeekend } = useSharedHook();
 
   const { handleOpenMyAssignments } = useMeetings();
 
-  if (!showMeetingCard) return null;
+  if (!showMeetingCard && !canUseHallAttendant) return null;
 
   return (
     <DashboardCard header={t('tr_meetings')}>
@@ -58,6 +63,15 @@ const MeetingsCard = ({ assignmentCount }: MeetingsCardProps) => {
             icon={<IconTalk color="var(--black)" />}
             primaryText={t('tr_weekendMeeting')}
             path="/weekend-meeting"
+          />
+        </ListItem>
+      )}
+      {canUseHallAttendant && (
+        <ListItem disablePadding>
+          <DashboardMenu
+            icon={<IconHallSecurity color="var(--black)" />}
+            primaryText={t('tr_hallAttendantMode')}
+            path="/hall-attendant"
           />
         </ListItem>
       )}

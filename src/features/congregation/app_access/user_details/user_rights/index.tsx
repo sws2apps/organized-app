@@ -52,18 +52,16 @@ const UserRights = () => {
         </Box>
       </Box>
 
-      {currentUser.profile.global_role === 'vip' && (
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '12px',
-          }}
-        >
-          <UserMainRoles />
-          <UserAdditionalRights />
-        </Box>
-      )}
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '12px',
+        }}
+      >
+        {currentUser.profile.global_role === 'vip' && <UserMainRoles />}
+        <UserAdditionalRights />
+      </Box>
     </DetailsContainer>
   );
 };
