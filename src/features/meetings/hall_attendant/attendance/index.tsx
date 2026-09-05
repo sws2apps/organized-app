@@ -21,6 +21,7 @@ const HallAttendance = (props: WeekBoxProps & { dateLabel: string }) => {
     flushField,
     recordOnline,
     noMeeting,
+    canEdit,
     total,
   } = useWeekBox(props);
   const online = Number(values.online || 0) + Number(values.onlineDeaf || 0);
@@ -45,6 +46,7 @@ const HallAttendance = (props: WeekBoxProps & { dateLabel: string }) => {
                 )}
                 <TextField
                   type="number"
+                  disabled={!canEdit}
                   value={values[field.name]}
                   onChange={handleValueChange(field.name)}
                   onBlur={() => flushField(field.name)}

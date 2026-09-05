@@ -10,8 +10,13 @@ export const autosaveDraftsState = atom<
   Record<string, Record<string, AutosaveDraft>>
 >({});
 
-export const hasUnsavedDraftsState = atom((get) =>
-  Object.values(get(autosaveDraftsState)).some((record) =>
-    Object.values(record).some((draft) => draft.status !== 'saved')
-  )
-);
+export const hasUnsavedDraftsState = atom((get) => {
+  const scope = get(autosaveScopeState);
+  return Object.entries(get(autosaveDraftsState)).some(([key, record]) => {
+    const [draftScope] = JSON.parse(key) as [string, string];
+    return (
+      draftScope === scope &&
+      Object.values(record).some((draft) => draft.status !== 'saved')
+    );
+  });
+});

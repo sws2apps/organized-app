@@ -14,7 +14,10 @@ import {
 import { ClickerSaveValues, ClickerTab } from '../clicker_mode/index.types';
 import { addDays, formatDate, getWeekDate, weeksInMonth } from '@utils/date';
 import { WeekBoxField, WeekBoxProps, WeekBoxValues } from './index.types';
-import { meetingAttendanceState } from '@states/meeting_attendance';
+import {
+  attendanceEditableViewsState,
+  meetingAttendanceState,
+} from '@states/meeting_attendance';
 import { WeeklyAttendance } from '@definition/meeting_attendance';
 import {
   attendanceDeafRecordState,
@@ -58,6 +61,9 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
   useAtomValue(COMidweekMeetingDayState);
 
   const currentView = view || dataView;
+  const editableViews = useAtomValue(attendanceEditableViewsState);
+  const canEdit =
+    editableViews === undefined || editableViews.includes(currentView);
 
   const [focusedField, setFocusedField] = useState<ClickerTab | null>(null);
   const [clickerOpen, setClickerOpen] = useState(false);
@@ -219,7 +225,7 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
   const { values, setValue, saveValues, flushField } = useAttendanceDrafts({
     initialValues,
     recordKey,
-    disabled: noMeeting,
+    disabled: noMeeting || !canEdit,
     params: { month, index, type, dataView: currentView, recordDeaf },
   });
 
@@ -244,7 +250,7 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
       setValue(field, value);
     };
 
-  const clickerEnabled = (laptopDown || isTouchDevice) && !noMeeting;
+  const clickerEnabled = (laptopDown || isTouchDevice) && !noMeeting && canEdit;
 
   const clickerTitle = useMemo(() => {
     const meetingLabel =
@@ -280,6 +286,7 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
     total,
     box_label,
     noMeeting,
+    canEdit,
     clickerEnabled,
     clickerOpen,
     clickerTitle,
