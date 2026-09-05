@@ -1,3 +1,4 @@
+import { useId } from 'react';
 import {
   IconAdd,
   IconCall,
@@ -24,6 +25,8 @@ import NavBarButtonGroup from '@components/nav_bar_button_group';
 import BottomMenu from '@layouts/bottom_menu';
 
 const HallEmergency = () => {
+  const deleteTitleId = useId();
+  const pageTitleId = useId();
   const { t } = useAppTranslation();
   const { desktopUp, tablet688Up } = useBreakpoints();
   const navigate = useNavigate();
@@ -58,11 +61,13 @@ const HallEmergency = () => {
       <Dialog
         open={editing && !!contactToDelete}
         onClose={() => setDeleteContactId(null)}
-        ariaLabel={t('tr_hallDeleteNumber')}
+        ariaLabelledBy={deleteTitleId}
         sx={{ padding: '24px' }}
       >
         <Stack spacing="8px">
-          <Typography className="h2">{t('tr_hallDeleteNumber')}</Typography>
+          <Typography id={deleteTitleId} className="h2">
+            {t('tr_hallDeleteNumber')}
+          </Typography>
           <Typography color="var(--grey-400)" sx={{ overflowWrap: 'anywhere' }}>
             {t('tr_hallDeleteNumberDesc', {
               name:
@@ -99,6 +104,7 @@ const HallEmergency = () => {
       />
       {!tablet688Up && (
         <SubpageNavbar
+          titleId={pageTitleId}
           title={t('tr_hallEmergency')}
           secondaryTitle={t('tr_hallAttendantMode')}
           backLabel={t('tr_back')}
@@ -217,7 +223,7 @@ const HallEmergency = () => {
       open
       fullScreen
       onClose={() => navigate('/hall-attendant')}
-      ariaLabel={t('tr_hallEmergency')}
+      ariaLabelledBy={pageTitleId}
       PaperProps={{ sx: { backgroundColor: 'var(--accent-100)' } }}
       sx={{ padding: 0, gap: 0, alignItems: 'stretch' }}
     >

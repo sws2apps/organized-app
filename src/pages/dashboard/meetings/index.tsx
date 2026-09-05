@@ -31,21 +31,25 @@ const MeetingsCard = ({ assignmentCount }: MeetingsCardProps) => {
 
   return (
     <DashboardCard header={t('tr_meetings')}>
-      <ListItem disablePadding>
-        <DashboardMenu
-          icon={<IconAssignment color="var(--black)" />}
-          primaryText={t('tr_viewMyAssignments')}
-          badgeText={assignmentCount ? assignmentCount.toString() : ''}
-          onClick={handleOpenMyAssignments}
-        />
-      </ListItem>
-      <ListItem disablePadding>
-        <DashboardMenu
-          icon={<IconCalendarWeek color="var(--black)" />}
-          primaryText={t('tr_viewAssignmentsSchedule')}
-          path="/weekly-schedules"
-        />
-      </ListItem>
+      {showMeetingCard && (
+        <>
+          <ListItem disablePadding>
+            <DashboardMenu
+              icon={<IconAssignment color="var(--black)" />}
+              primaryText={t('tr_viewMyAssignments')}
+              badgeText={assignmentCount ? assignmentCount.toString() : ''}
+              onClick={handleOpenMyAssignments}
+            />
+          </ListItem>
+          <ListItem disablePadding>
+            <DashboardMenu
+              icon={<IconCalendarWeek color="var(--black)" />}
+              primaryText={t('tr_viewAssignmentsSchedule')}
+              path="/weekly-schedules"
+            />
+          </ListItem>
+        </>
+      )}
 
       {showMidweek && isMidweekEditor && (
         <ListItem disablePadding>

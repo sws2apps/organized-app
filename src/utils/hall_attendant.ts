@@ -27,6 +27,20 @@ export const isHallAttendant = (
       record.values?.includes(AssignmentCode.DUTIES_HallAttendant)
   );
 
+export const getHallAttendantViews = (
+  person: HallAttendantPerson | undefined,
+  roles: AppRoleType[] = []
+) => {
+  if (!isHallAttendant(person, undefined, roles)) return [];
+  return Array.from(
+    new Set(
+      (person?.person_data?.assignments ?? [])
+        .filter((record) => isHallAttendant(person, record.type, roles))
+        .map((record) => record.type)
+    )
+  );
+};
+
 export const getHallMeeting = (
   today: Date,
   midweekDay: number,

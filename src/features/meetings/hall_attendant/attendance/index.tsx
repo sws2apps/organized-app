@@ -14,8 +14,15 @@ import Button from '@components/button';
 const HallAttendance = (props: WeekBoxProps & { dateLabel: string }) => {
   const { t } = useAppTranslation();
   const navigate = useNavigate();
-  const { values, fields, handleValueChange, recordOnline, noMeeting, total } =
-    useWeekBox(props);
+  const {
+    values,
+    fields,
+    handleValueChange,
+    flushField,
+    recordOnline,
+    noMeeting,
+    total,
+  } = useWeekBox(props);
   const online = Number(values.online || 0) + Number(values.onlineDeaf || 0);
   return (
     <Card>
@@ -40,6 +47,7 @@ const HallAttendance = (props: WeekBoxProps & { dateLabel: string }) => {
                   type="number"
                   value={values[field.name]}
                   onChange={handleValueChange(field.name)}
+                  onBlur={() => flushField(field.name)}
                   label={
                     field.name === 'present'
                       ? fields.some((f) => f.name === 'presentDeaf')

@@ -658,6 +658,8 @@ export const WEEKEND_WITH_WTSTUDY = [
 
 export const TIMER_KEY = 'organized_timer';
 
+export const ATTENDANCE_AUTOSAVE_DELAY = 300;
+
 // the curves the app animates with: a quick settle on the way in, a plain
 // acceleration on the way out
 export const EASING = {

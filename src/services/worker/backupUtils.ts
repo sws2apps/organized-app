@@ -1,5 +1,9 @@
 import { isHallAttendant } from '@utils/hall_attendant';
 import { mergeHallInfo } from '@utils/hall_info';
+import {
+  getAttendanceDataViews,
+  getAttendanceForUpload,
+} from '@utils/meeting_attendance';
 // to minimize the size of the worker file, we recreate all its needed functions in this file
 
 import appDb from '@db/appDb';
@@ -260,8 +264,6 @@ export const dbGetMetadata = async () => {
   const isAdmin = userRole.includes('admin') || isSecretary || isCoordinator;
   const isPublisher = isAdmin || userRole.includes('publisher');
   const isGroupOverseer = isAdmin || userRole.includes('group_overseers');
-  const isLanguageGroupOverseer =
-    isAdmin || userRole.includes('language_group_overseers');
   const isElder =
     accountType === 'vip' && (isAdmin || userRole.includes('elder'));
   const isScheduleEditor =
@@ -280,10 +282,7 @@ export const dbGetMetadata = async () => {
   const currentPerson = await appDb.persons.get(
     settings.user_settings.user_local_uid
   );
-  const isAttendanceTracker =
-    isAdmin ||
-    isHallAttendant(currentPerson, undefined, userRole) ||
-    userRole.some((role) => role === 'attendance_tracking');
+  const attendanceViews = getAttendanceDataViews(currentPerson, userRole);
 
   if (!isPublisher) {
     delete result.user_bible_studies;
@@ -307,7 +306,7 @@ export const dbGetMetadata = async () => {
     delete result.schedules;
   }
 
-  if (!isAttendanceTracker && !isLanguageGroupOverseer) {
+  if (attendanceViews?.length === 0) {
     delete result.meeting_attendance;
   }
 
@@ -1693,11 +1692,6 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
 
     const isPublisher = userRole.includes('publisher');
 
-    const attendanceTracker =
-      adminRole ||
-      languageGroupOverseerRole ||
-      userRole.includes('attendance_tracking');
-
     const userBaseSettings = {
       firstname: user_settings.firstname,
       lastname: user_settings.lastname,
@@ -1706,6 +1700,7 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
     const myPerson = persons.find(
       (record) => record.person_uid === user_settings.user_local_uid
     );
+    const attendanceViews = getAttendanceDataViews(myPerson, userRole);
 
     if (dataSync) {
       if (accountType === 'vip') {
@@ -2123,11 +2118,13 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
       }
 
       if (
-        (attendanceTracker || isHallAttendant(myPerson, undefined, userRole)) &&
+        attendanceViews?.length !== 0 &&
         metadata.metadata.meeting_attendance.send_local
       ) {
-        obj.meeting_attendance = meeting_attendance.map((record) => {
-          const attendance = structuredClone(record);
+        obj.meeting_attendance = getAttendanceForUpload(
+          meeting_attendance,
+          attendanceViews
+        ).map((attendance) => {
           encryptObject({
             data: attendance,
             table: 'meeting_attendance',

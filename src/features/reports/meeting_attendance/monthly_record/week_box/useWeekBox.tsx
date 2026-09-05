@@ -1,5 +1,5 @@
-import { ChangeEvent, useMemo, useRef, useState } from 'react';
-import { useAtomValue, useSetAtom } from 'jotai';
+import { ChangeEvent, useMemo, useState } from 'react';
+import { useAtomValue } from 'jotai';
 import { Week } from '@definition/week_type';
 import {
   WEEK_TYPE_LANGUAGE_GROUPS,
@@ -12,20 +12,9 @@ import {
 } from '@hooks/index';
 import { ClickerSaveValues, ClickerTab } from '../clicker_mode/index.types';
 import { addDays, formatDate, getWeekDate, weeksInMonth } from '@utils/date';
-import {
-  WeekBoxDraft,
-  WeekBoxField,
-  WeekBoxProps,
-  WeekBoxValues,
-} from './index.types';
-import {
-  meetingAttendanceState,
-  meetingAttendanceSaveState,
-} from '@states/meeting_attendance';
-import {
-  AttendanceValues,
-  WeeklyAttendance,
-} from '@definition/meeting_attendance';
+import { WeekBoxField, WeekBoxProps, WeekBoxValues } from './index.types';
+import { meetingAttendanceState } from '@states/meeting_attendance';
+import { WeeklyAttendance } from '@definition/meeting_attendance';
 import {
   attendanceDeafRecordState,
   attendanceOnlineRecordState,
@@ -36,6 +25,7 @@ import {
 import { monthShortNamesState } from '@states/app';
 import { schedulesState } from '@states/schedules';
 import { schedulesGetMeetingDate } from '@services/app/schedules';
+import useAttendanceDrafts from '@features/reports/meeting_attendance/monthly_record/week_box/useAttendanceDrafts';
 
 const EMPTY_VALUES: WeekBoxValues = {
   present: '',
@@ -58,7 +48,6 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
   const { laptopDown } = useBreakpoints();
 
   const attendances = useAtomValue(meetingAttendanceState);
-  const saveAttendanceRecord = useSetAtom(meetingAttendanceSaveState);
   const dataView = useAtomValue(userDataViewState);
   const recordOnline = useAtomValue(attendanceOnlineRecordState);
   const recordDeaf = useAtomValue(attendanceDeafRecordState);
@@ -109,19 +98,6 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
   }, [weekRecord, recordDeaf]);
 
   const recordKey = `${month}-${index}-${type}-${currentView}-${recordDeaf}-${recordOnline}`;
-  const [drafts, setDrafts] = useState<WeekBoxDraft>({
-    key: recordKey,
-    values: {},
-  });
-  const versions = useRef<Partial<Record<keyof WeekBoxValues, number>>>({});
-  const values = useMemo(
-    () => ({
-      ...initialValues,
-      ...(drafts.key === recordKey ? drafts.values : {}),
-    }),
-    [initialValues, drafts, recordKey]
-  );
-
   const weeksList = useMemo(() => {
     const weeks = weeksInMonth(month);
     return weeks;
@@ -239,54 +215,16 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
     return result;
   }, [recordDeaf, recordOnline, box_label, t]);
 
+  const { values, setValue, saveValues, flushField } = useAttendanceDrafts({
+    initialValues,
+    recordKey,
+    disabled: noMeeting,
+    params: { month, index, type, dataView: currentView, recordDeaf },
+  });
+
   const total = useMemo(() => {
     return fields.reduce((acc, field) => acc + (+values[field.name] || 0), 0);
   }, [fields, values]);
-
-  const saveAttendance = async (changes: Partial<WeekBoxValues>) => {
-    if (noMeeting) return;
-    const changedFields = Object.keys(changes) as (keyof WeekBoxValues)[];
-    if (changedFields.length === 0) return;
-    const revision = Object.fromEntries(
-      changedFields.map((field) => {
-        versions.current[field] = (versions.current[field] ?? 0) + 1;
-        return [field, versions.current[field]];
-      })
-    );
-    setDrafts((current) => ({
-      key: recordKey,
-      values: {
-        ...(current.key === recordKey ? current.values : {}),
-        ...changes,
-      },
-    }));
-    const counts: AttendanceValues = {};
-    for (const field of changedFields) {
-      const storedField =
-        field === 'presentDeaf'
-          ? 'present_deaf'
-          : field === 'onlineDeaf'
-            ? 'online_deaf'
-            : field;
-      counts[storedField] = changes[field];
-    }
-    await saveAttendanceRecord({
-      values: counts,
-      recordDeaf,
-      index,
-      month,
-      type,
-      dataView: currentView,
-    });
-    setDrafts((current) => {
-      if (current.key !== recordKey) return current;
-      const next = { ...current.values };
-      for (const field of changedFields) {
-        if (versions.current[field] === revision[field]) delete next[field];
-      }
-      return { key: recordKey, values: next };
-    });
-  };
 
   const handleValueChange =
     (field: keyof WeekBoxValues) => (e: ChangeEvent<HTMLInputElement>) => {
@@ -302,7 +240,7 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
       const tmpValue = e.target.value;
       const value = tmpValue === '' ? '' : String(+tmpValue);
 
-      void saveAttendance({ [field]: value });
+      setValue(field, value);
     };
 
   const clickerEnabled = (laptopDown || isTouchDevice) && !noMeeting;
@@ -326,7 +264,7 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
     const next: Partial<WeekBoxValues> = {};
     if (counts.present !== undefined) next.present = String(counts.present);
     if (counts.online !== undefined) next.online = String(counts.online);
-    void saveAttendance(next);
+    saveValues(next);
   };
 
   return {
@@ -337,6 +275,7 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
     fields,
     values,
     handleValueChange,
+    flushField,
     total,
     box_label,
     noMeeting,

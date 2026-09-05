@@ -18,7 +18,9 @@ const Dialog = ({
   PaperProps,
   fullScreen = false,
   ariaLabel,
+  ariaLabelledBy,
 }: DialogProps) => {
+  const labelledBy = ariaLabelledBy ?? PaperProps?.['aria-labelledby'];
   /**
    * Handles the dialog close event.
    * @param {string} reason - The reason for closing the dialog.
@@ -35,7 +37,7 @@ const Dialog = ({
     <MUIDialog
       fullWidth
       fullScreen={fullScreen}
-      aria-label={ariaLabel}
+      aria-labelledby={labelledBy}
       open={open}
       onClose={handleClose}
       sx={{
@@ -46,16 +48,19 @@ const Dialog = ({
             : { mobile: '16px', tablet: '24px', desktop: '32px' },
         },
       }}
-      PaperProps={
-        PaperProps || {
+      PaperProps={{
+        ...(PaperProps || {
           className: 'pop-up-shadow',
           style: {
             maxWidth: fullScreen ? 'none' : '560px',
             borderRadius: fullScreen ? 0 : 'var(--radius-xl)',
             backgroundColor: 'var(--white)',
           },
-        }
-      }
+        }),
+        ...(labelledBy
+          ? { 'aria-labelledby': labelledBy, 'aria-label': undefined }
+          : { 'aria-label': ariaLabel ?? PaperProps?.['aria-label'] }),
+      }}
       slotProps={{
         backdrop: {
           style: {

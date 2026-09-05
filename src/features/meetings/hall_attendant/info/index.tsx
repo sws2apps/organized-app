@@ -1,3 +1,4 @@
+import { useId } from 'react';
 import { Stack } from '@mui/material';
 import { useAppTranslation } from '@hooks/index';
 import useHallInfo from '@features/meetings/hall_attendant/info/useHallInfo';
@@ -13,6 +14,7 @@ import InfoNote from '@components/info_note';
 import { IconAdd, IconCheck, IconDelete, IconEdit } from '@components/icons';
 
 const HallNotes = () => {
+  const deleteTitleId = useId();
   const { t } = useAppTranslation();
   const {
     info,
@@ -34,11 +36,13 @@ const HallNotes = () => {
       <Dialog
         open={editing && !!noteToDelete}
         onClose={() => setDeleteNoteId(null)}
-        ariaLabel={t('tr_hallDeleteNote')}
+        ariaLabelledBy={deleteTitleId}
         sx={{ padding: '24px' }}
       >
         <Stack spacing="8px">
-          <Typography className="h2">{t('tr_hallDeleteNote')}</Typography>
+          <Typography id={deleteTitleId} className="h2">
+            {t('tr_hallDeleteNote')}
+          </Typography>
           <Typography color="var(--grey-400)">
             {t('tr_hallDeleteNoteDesc')}
           </Typography>
