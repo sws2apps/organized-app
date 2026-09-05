@@ -2,6 +2,7 @@ import { ChangeEvent, useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { Week } from '@definition/week_type';
 import {
+  DEFAULT_MEETING_WEEKDAYS,
   WEEK_TYPE_LANGUAGE_GROUPS,
   WEEK_TYPE_NO_MEETING,
 } from '@constants/index';
@@ -166,7 +167,7 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
     const weekday =
       settings.cong_settings[`${type}_meeting`].find(
         (record) => record.type === currentView
-      )?.weekday.value ?? (type === 'midweek' ? 2 : 5);
+      )?.weekday.value ?? DEFAULT_MEETING_WEEKDAYS[type];
     const meetingDate = meetingDateInit.date
       ? new Date(meetingDateInit.date)
       : addDays(new Date(week), weekday);

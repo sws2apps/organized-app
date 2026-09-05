@@ -22,6 +22,7 @@ import RouteProtected from '@components/route_protected';
 import { determineAppLocale } from '@services/app';
 import { firstDayWeekState } from '@states/settings';
 import { LANGUAGE_LIST } from './constants';
+import useUnsavedDrafts from '@hooks/useUnsavedDrafts';
 
 // lazy loading
 const HallAttendant = lazy(() => import('@pages/meetings/hall_attendant'));
@@ -84,6 +85,7 @@ const rtlCache = createCache({
 });
 
 const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
+  useUnsavedDrafts();
   const {
     isAdmin,
     isPublisher,

@@ -1,12 +1,13 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { useSetAtom } from 'jotai';
 import { ATTENDANCE_AUTOSAVE_DELAY } from '@constants/index';
+import { AutosaveDraft } from '@definition/autosave';
 import { AttendanceValues } from '@definition/meeting_attendance';
 import { meetingAttendanceSaveState } from '@states/meeting_attendance';
+import useAutosaveDrafts from '@hooks/useAutosaveDrafts';
 import {
   AttendanceDraftsProps,
   AttendancePendingSave,
-  WeekBoxDraft,
   WeekBoxValues,
 } from '@features/reports/meeting_attendance/monthly_record/week_box/index.types';
 
@@ -17,18 +18,80 @@ const useAttendanceDrafts = ({
   params,
 }: AttendanceDraftsProps) => {
   const saveAttendanceRecord = useSetAtom(meetingAttendanceSaveState);
-  const revision = useRef(0);
-  const [drafts, setDrafts] = useState<WeekBoxDraft>({
-    key: recordKey,
-    values: {},
-  });
-  const { key: pendingKey, saves: pending } = useMemo(
+  const { key, drafts, getDrafts, updateDrafts, isCurrentScope } =
+    useAutosaveDrafts(`attendance:${recordKey}`);
+  const { month, index, type, dataView, recordDeaf } = params;
+  const { saves: pending } = useMemo(
     () => ({
-      key: recordKey,
+      key,
       saves: new Map<keyof WeekBoxValues, AttendancePendingSave>(),
     }),
-    [recordKey]
+    [key]
   );
+
+  const persist = useCallback(
+    async (entries: Record<string, AutosaveDraft>) => {
+      if (disabled || !isCurrentScope()) return;
+      const latest = getDrafts();
+      const fields = Object.keys(entries).filter(
+        (field) =>
+          latest[field]?.revision === entries[field].revision &&
+          ['pending', 'failed'].includes(latest[field].status)
+      ) as (keyof WeekBoxValues)[];
+      if (!fields.length) return;
+      const counts: AttendanceValues = {};
+      for (const field of fields) {
+        const storedField =
+          field === 'presentDeaf'
+            ? 'present_deaf'
+            : field === 'onlineDeaf'
+              ? 'online_deaf'
+              : field;
+        counts[storedField] = entries[field].value;
+      }
+      const setStatus = (status: AutosaveDraft['status']) =>
+        updateDrafts((current) => {
+          const next = { ...current };
+          for (const field of fields) {
+            if (current[field]?.revision === entries[field].revision) {
+              next[field] = { ...current[field], status };
+            }
+          }
+          return next;
+        });
+      setStatus('saving');
+      const success = await saveAttendanceRecord({
+        month,
+        index,
+        type,
+        dataView,
+        recordDeaf,
+        values: counts,
+      });
+      setStatus(success ? 'saved' : 'failed');
+    },
+    [
+      disabled,
+      isCurrentScope,
+      getDrafts,
+      updateDrafts,
+      saveAttendanceRecord,
+      month,
+      index,
+      type,
+      dataView,
+      recordDeaf,
+    ]
+  );
+
+  const retryFailed = useCallback(() => {
+    const entries = Object.fromEntries(
+      Object.entries(getDrafts()).filter(
+        ([, draft]) => draft.status === 'failed'
+      )
+    );
+    void persist(entries);
+  }, [getDrafts, persist]);
 
   useEffect(() => {
     const flush = () => {
@@ -37,10 +100,13 @@ const useAttendanceDrafts = ({
         void task.save();
       }
       pending.clear();
+      retryFailed();
     };
     const handleVisibility = () => {
       if (document.visibilityState === 'hidden') flush();
+      else retryFailed();
     };
+    retryFailed();
     window.addEventListener('pagehide', flush);
     document.addEventListener('visibilitychange', handleVisibility);
     return () => {
@@ -48,84 +114,48 @@ const useAttendanceDrafts = ({
       document.removeEventListener('visibilitychange', handleVisibility);
       flush();
     };
-  }, [pending]);
+  }, [pending, retryFailed]);
 
   useEffect(() => {
-    setDrafts((current) => {
-      if (current.key !== recordKey) return current;
-      const next = { ...current.values };
+    updateDrafts((current) => {
+      const next = { ...current };
       let changed = false;
       for (const field of Object.keys(next) as (keyof WeekBoxValues)[]) {
         const draft = next[field];
-        if (draft?.status === 'saved' && initialValues[field] === draft.value) {
+        if (draft.status === 'saved' && initialValues[field] === draft.value) {
           delete next[field];
           changed = true;
         }
       }
-      return changed ? { ...current, values: next } : current;
+      return changed ? next : current;
     });
-  }, [drafts, initialValues, recordKey]);
+  }, [drafts, initialValues, updateDrafts]);
 
   const values = useMemo(() => {
     const result = { ...initialValues };
-    if (drafts.key === recordKey) {
-      for (const field of Object.keys(
-        drafts.values
-      ) as (keyof WeekBoxValues)[]) {
-        const draft = drafts.values[field];
-        if (draft) result[field] = draft.value;
-      }
+    for (const field of Object.keys(drafts) as (keyof WeekBoxValues)[]) {
+      result[field] = drafts[field].value;
     }
     return result;
-  }, [drafts, initialValues, recordKey]);
+  }, [drafts, initialValues]);
 
   const prepareSave = (changes: Partial<WeekBoxValues>) => {
-    const fields = Object.keys(changes) as (keyof WeekBoxValues)[];
-    if (disabled || !fields.length) return;
-    const currentRevision = ++revision.current;
-    const entries: WeekBoxDraft['values'] = {};
-    const counts: AttendanceValues = {};
-    for (const field of fields) {
+    if (disabled || !isCurrentScope()) return;
+    const entries: Record<string, AutosaveDraft> = {};
+    for (const field of Object.keys(changes) as (keyof WeekBoxValues)[]) {
+      const value = changes[field];
+      if (value === undefined) continue;
       clearTimeout(pending.get(field)?.timer);
       pending.delete(field);
       entries[field] = {
-        value: changes[field]!,
-        revision: currentRevision,
+        value,
+        revision: crypto.randomUUID(),
         status: 'pending',
       };
-      const storedField =
-        field === 'presentDeaf'
-          ? 'present_deaf'
-          : field === 'onlineDeaf'
-            ? 'online_deaf'
-            : field;
-      counts[storedField] = changes[field];
     }
-    setDrafts((current) => ({
-      key: pendingKey,
-      values: {
-        ...(current.key === pendingKey ? current.values : {}),
-        ...entries,
-      },
-    }));
-    const setStatus = (status: 'saving' | 'saved' | 'failed') => {
-      setDrafts((current) => {
-        if (current.key !== pendingKey) return current;
-        const next = { ...current.values };
-        for (const field of fields) {
-          const draft = next[field];
-          if (draft?.revision === currentRevision) {
-            next[field] = { ...draft, status };
-          }
-        }
-        return { ...current, values: next };
-      });
-    };
-    return async () => {
-      setStatus('saving');
-      const success = await saveAttendanceRecord({ ...params, values: counts });
-      setStatus(success ? 'saved' : 'failed');
-    };
+    if (!Object.keys(entries).length) return;
+    updateDrafts((current) => ({ ...current, ...entries }));
+    return () => persist(entries);
   };
 
   const setValue = (field: keyof WeekBoxValues, value: string) => {
@@ -148,11 +178,9 @@ const useAttendanceDrafts = ({
       clearTimeout(task.timer);
       pending.delete(field);
       void task.save();
-    } else if (
-      drafts.key === recordKey &&
-      drafts.values[field]?.status === 'failed'
-    ) {
-      saveValues({ [field]: drafts.values[field].value });
+    } else {
+      const draft = getDrafts()[field];
+      if (draft?.status === 'failed') void persist({ [field]: draft });
     }
   };
 

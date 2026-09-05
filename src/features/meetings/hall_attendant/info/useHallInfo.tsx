@@ -1,12 +1,19 @@
 import { useState } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { HallContact, HallNote } from '@definition/hall_attendant';
-import { hallInfoState, hallInfoUpdateState } from '@states/hall_attendant';
+import {
+  hallInfoState,
+  hallInfoUpdateState,
+  hallInfoDiscardDraftsState,
+} from '@states/hall_attendant';
 import { useCurrentUser } from '@hooks/index';
+import { autosaveScopeState } from '@states/autosave';
 
 const useHallInfo = () => {
   const info = useAtomValue(hallInfoState);
+  const scope = useAtomValue(autosaveScopeState);
   const update = useSetAtom(hallInfoUpdateState);
+  const discardDrafts = useSetAtom(hallInfoDiscardDraftsState);
   const { canEditHallInfo } = useCurrentUser();
   const [editing, setEditing] = useState(false);
   const [deleteContactId, setDeleteContactId] = useState<string | null>(null);
@@ -35,11 +42,11 @@ const useHallInfo = () => {
         revision: crypto.randomUUID(),
       });
     });
-  const changeNote = (
+  const changeNote = async (
     id: string,
     changes: Partial<Pick<HallNote, 'title' | 'text' | '_deleted'>>
-  ) =>
-    update((row, timestamp) => {
+  ) => {
+    const success = await update((row, timestamp) => {
       const item = row.notes.find((note) => note.id === id);
       if (item && !item._deleted)
         Object.assign(item, changes, {
@@ -47,11 +54,15 @@ const useHallInfo = () => {
           revision: crypto.randomUUID(),
         });
     });
-  const changeContact = (
+    if (success && changes._deleted)
+      discardDrafts([`note:${id}:title`, `note:${id}:text`], scope, info.type);
+    return success;
+  };
+  const changeContact = async (
     id: string,
     changes: Partial<Pick<HallContact, 'title' | 'phone' | '_deleted'>>
-  ) =>
-    update((row, timestamp) => {
+  ) => {
+    const success = await update((row, timestamp) => {
       const item = row.contacts.find((contact) => contact.id === id);
       if (item && !item._deleted)
         Object.assign(item, changes, {
@@ -59,6 +70,14 @@ const useHallInfo = () => {
           revision: crypto.randomUUID(),
         });
     });
+    if (success && changes._deleted)
+      discardDrafts(
+        [`contact:${id}:title`, `contact:${id}:phone`],
+        scope,
+        info.type
+      );
+    return success;
+  };
   const changeInstructions = (value: string) =>
     update((row, timestamp) => {
       row.instructions = {

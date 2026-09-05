@@ -130,6 +130,7 @@ const HallEmergency = () => {
           <CardHeader color="red" header={t('tr_hallEmergencyInstructions')} />
           {editing ? (
             <TextField
+              draftKey="instructions"
               key={info.type}
               multiline
               minRows={8}
@@ -154,6 +155,7 @@ const HallEmergency = () => {
             editing ? (
               <Stack key={contact.id} spacing="8px">
                 <TextField
+                  draftKey={`contact:${contact.id}:title`}
                   label={t('tr_hallNoteTitle')}
                   value={contact.title}
                   onSave={(value) =>
@@ -161,6 +163,7 @@ const HallEmergency = () => {
                   }
                 />
                 <TextField
+                  draftKey={`contact:${contact.id}:phone`}
                   type="tel"
                   label={t('tr_hallPhone')}
                   value={contact.phone}

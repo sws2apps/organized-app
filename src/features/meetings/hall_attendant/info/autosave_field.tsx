@@ -1,46 +1,76 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect } from 'react';
+import { useAtomValue, useStore } from 'jotai';
 import TextField from '@components/textfield';
 import { TextFieldTypeProps } from '@components/textfield/index.types';
+import { AutosaveDraft } from '@definition/autosave';
+import { userDataViewState } from '@states/settings';
+import useAutosaveDrafts from '@hooks/useAutosaveDrafts';
 
 const AutosaveField = ({
   value,
+  draftKey,
   onSave,
   onBlur,
-  onFocus,
   ...props
 }: TextFieldTypeProps & {
+  draftKey: string;
   onSave: (value: string) => Promise<boolean>;
 }) => {
-  const [draft, setDraft] = useState(value);
-  const focused = useRef(false);
-  const saved = useRef(value);
-  const revision = useRef(0);
-  const pending = useRef(false);
+  const store = useStore();
+  const view = useAtomValue(userDataViewState);
+  const { drafts, getDrafts, updateDrafts, isCurrentScope } = useAutosaveDrafts(
+    JSON.stringify(['hall-info', view, draftKey])
+  );
+  const draft = drafts.text;
   useEffect(() => {
-    saved.current = value;
-    if (!focused.current && !pending.current) setDraft(value);
-  }, [value]);
+    updateDrafts((current) => {
+      if (current.text?.status === 'saved' && current.text.value === value)
+        return {};
+      return current;
+    });
+  }, [draft, value, updateDrafts]);
+
+  const save = useCallback(
+    async (entry: AutosaveDraft) => {
+      const current = getDrafts().text;
+      if (
+        !isCurrentScope() ||
+        store.get(userDataViewState) !== view ||
+        current?.revision !== entry.revision ||
+        !['pending', 'failed'].includes(current.status)
+      )
+        return;
+      const setStatus = (status: AutosaveDraft['status']) =>
+        updateDrafts((current) =>
+          current.text?.revision === entry.revision
+            ? { text: { ...current.text, status } }
+            : current
+        );
+      setStatus('saving');
+      const success = await onSave(entry.value);
+      setStatus(success ? 'saved' : 'failed');
+    },
+    [getDrafts, isCurrentScope, updateDrafts, onSave, store, view]
+  );
+
   return (
     <TextField
       {...props}
-      value={draft}
-      onFocus={(event) => {
-        focused.current = true;
-        onFocus?.(event);
-      }}
+      value={draft?.value ?? value}
+      error={draft?.status === 'failed' || props.error}
       onBlur={(event) => {
-        focused.current = false;
-        if (!pending.current) setDraft(saved.current);
+        const current = getDrafts().text;
+        if (current?.status === 'failed') void save(current);
         onBlur?.(event);
       }}
-      onChange={async (event) => {
-        const currentRevision = ++revision.current;
-        pending.current = true;
-        setDraft(event.target.value);
-        const success = await onSave(event.target.value);
-        if (currentRevision !== revision.current) return;
-        pending.current = false;
-        if (!success || !focused.current) setDraft(saved.current);
+      onChange={(event) => {
+        const entry: AutosaveDraft = {
+          value: event.target.value,
+          revision: crypto.randomUUID(),
+          status: 'pending',
+        };
+        updateDrafts(() => ({ text: entry }));
+        void save(entry);
       }}
     />
   );

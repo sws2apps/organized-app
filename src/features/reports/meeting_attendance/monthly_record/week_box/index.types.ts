@@ -15,20 +15,6 @@ export type WeekBoxValues = {
   onlineDeaf: string;
 };
 
-export type WeekBoxDraft = {
-  key: string;
-  values: Partial<
-    Record<
-      keyof WeekBoxValues,
-      {
-        value: string;
-        revision: number;
-        status: 'pending' | 'saving' | 'saved' | 'failed';
-      }
-    >
-  >;
-};
-
 export type AttendanceDraftsProps = {
   initialValues: WeekBoxValues;
   recordKey: string;

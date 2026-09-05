@@ -660,6 +660,8 @@ export const TIMER_KEY = 'organized_timer';
 
 export const ATTENDANCE_AUTOSAVE_DELAY = 300;
 
+export const DEFAULT_MEETING_WEEKDAYS = { midweek: 2, weekend: 6 } as const;
+
 // the curves the app animates with: a quick settle on the way in, a plain
 // acceleration on the way out
 export const EASING = {

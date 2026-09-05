@@ -74,11 +74,13 @@ const HallNotes = () => {
             {editing ? (
               <>
                 <TextField
+                  draftKey={`note:${note.id}:title`}
                   label={t('tr_hallNoteTitle')}
                   value={note.title}
                   onSave={(value) => changeNote(note.id, { title: value })}
                 />
                 <TextField
+                  draftKey={`note:${note.id}:text`}
                   multiline
                   minRows={3}
                   label={t('tr_hallNoteBody')}
