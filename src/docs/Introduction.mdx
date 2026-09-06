@@ -1,0 +1,123 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Docs/Introduction" />
+
+# Organized component library
+
+This Storybook documents the global, reusable UI components that live in
+`src/components/`. Every story renders the **real component** inside the same
+provider tree the app uses (Jotai store, Dexie live queries, MUI theme, date
+localization, React Query, router and i18n), so what you see here is what
+publishers see in the app.
+
+## Running it
+
+```bash
+npm run storybook        # dev server on http://localhost:6006
+npm run build-storybook  # static build in storybook-static/
+npm run test:storybook   # run every story as a Vitest browser test (Chromium)
+```
+
+`test:storybook` needs a Playwright browser once per machine:
+
+```bash
+npx playwright install chromium
+```
+
+## Switching themes
+
+Use the **Theme** toolbar menu to preview a story in any of the 8 app themes
+(`blue`, `green`, `purple`, `orange` × `light`/`dark`). The decorator sets the
+same `data-theme` attribute and Jotai atoms the app's theme switcher uses, so
+CSS variables from `src/global/global.css` resolve exactly as in production.
+
+## Writing a story
+
+Stories live next to the component in `index.stories.tsx` and use CSF3:
+
+```tsx
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import { expect, fn } from 'storybook/test';
+import Button from './index';
+
+const meta = {
+  title: 'Components/Button',
+  component: Button,
+  args: { onClick: fn(), children: 'Save' },
+  tags: ['autodocs'],
+} satisfies Meta<typeof Button>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Main: Story = {
+  args: { variant: 'main' },
+  play: async ({ canvas, userEvent, args }) => {
+    await userEvent.click(canvas.getByRole('button', { name: 'Save' }));
+    await expect(args.onClick).toHaveBeenCalledTimes(1);
+  },
+};
+```
+
+Guidelines:
+
+- Import the component from `./index` and pass **realistic props** — a story
+  with empty `args` documents nothing.
+- Use `fn()` from `storybook/test` for callbacks so they show up in the
+  Actions panel and can be asserted in `play` functions.
+- Add a `play` function for the primary interaction (click, type, toggle).
+  It runs in Chromium through `npm run test:storybook` and in CI.
+- Prefer `tags: ['autodocs']` so the props table is generated from the
+  TypeScript types in `index.types.ts`.
+- Never invent colors or spacing: use the CSS variables documented in
+  [Design tokens](?path=/docs/docs-design-tokens--docs).
+
+## Mocking the backend
+
+[Mock Service Worker](https://mswjs.io) is registered globally. Default handlers
+in `.storybook/msw-handlers.ts` mirror the real `sws2apps-api` routes used by
+`@services/api` (countries, congregation search, feature flags). Override them
+per story when needed:
+
+```tsx
+import { http, HttpResponse } from 'msw';
+
+export const Offline: Story = {
+  parameters: {
+    msw: {
+      handlers: [
+        http.get('*/api/v3/congregations/countries', () =>
+          HttpResponse.error()
+        ),
+      ],
+    },
+  },
+};
+```
+
+## Seeding app state
+
+Components that read Jotai atoms can be seeded through the shared store:
+
+```tsx
+import { store } from '@states/index';
+import { featureFlagsState } from '@states/app';
+
+const meta = {
+  decorators: [
+    (Story) => {
+      store.set(featureFlagsState, { MY_FLAG: true });
+      return <Story />;
+    },
+  ],
+};
+```
+
+## Addons
+
+| Addon    | Purpose                                                    |
+| -------- | ---------------------------------------------------------- |
+| Docs     | Autodocs pages generated from TypeScript props and JSDoc   |
+| A11y     | axe-core accessibility audit for the selected story        |
+| Vitest   | Runs stories as browser tests (`npm run test:storybook`)   |
+| Controls | Edit props live; callbacks are logged in the Actions panel |
