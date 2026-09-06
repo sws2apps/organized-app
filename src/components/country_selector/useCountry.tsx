@@ -80,7 +80,7 @@ const useCountry = ({
       return;
     }
 
-    if (value === null) {
+    if (!value) {
       setSelected(null);
       return;
     }
