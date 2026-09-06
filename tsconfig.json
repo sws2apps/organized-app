@@ -5,7 +5,12 @@
     "esModuleInterop": true,
     "moduleResolution": "bundler",
     "module": "ESNext",
-    "types": ["@svgx/vite-plugin-react", "node", "vite/client"],
+    "types": [
+      "@svgx/vite-plugin-react",
+      "node",
+      "vite/client",
+      "msw-storybook-addon/csf3"
+    ],
     "lib": ["ESNext", "DOM"],
     "target": "ESNext",
     "resolveJsonModule": true,
@@ -31,5 +36,5 @@
       "@views/*": ["./src/views/*"]
     }
   },
-  "include": ["src/**/*", "types/**/*"]
+  "include": ["src/**/*", "types/**/*", ".storybook/**/*"]
 }

@@ -18,7 +18,13 @@
     "generate:css": "node converter/css/convert.js && prettier  converter/css/tokens.json src/global/global.css src/global/global.ts --write",
     "generate:icons": "node converter/svg/convert.js && prettier src/components/icons --write",
     "locales:unused": "tsx unused-i18n-keys.ts",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "storybook": "storybook dev -p 6006",
+    "prestorybook": "msw init",
+    "build-storybook": "storybook build",
+    "prebuild-storybook": "msw init",
+    "test:storybook": "vitest --project storybook run",
+    "pretest:storybook": "msw init"
   },
   "eslintConfig": {
     "extends": [
@@ -83,6 +89,10 @@
     "@eslint/js": "^9.36.0",
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
+    "@storybook/addon-a11y": "^10.6.0",
+    "@storybook/addon-docs": "^10.6.0",
+    "@storybook/addon-vitest": "^10.6.0",
+    "@storybook/react-vite": "^10.6.0",
     "@svgr/plugin-prettier": "^8.1.0",
     "@svgx/vite-plugin-react": "^1.0.1",
     "@types/file-saver": "^2.0.7",
@@ -94,6 +104,7 @@
     "@types/styled-components": "^5.1.36",
     "@typescript-eslint/eslint-plugin": "^8.61.1",
     "@vitejs/plugin-react": "^5.1.4",
+    "@vitest/browser-playwright": "^4.1.11",
     "conventional-changelog-conventionalcommits": "^9.3.1",
     "cypress": "^15.17.0",
     "eslint": "^9.39.2",
@@ -105,19 +116,25 @@
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-react-refresh": "^0.5.2",
+    "eslint-plugin-storybook": "^10.6.0",
     "globals": "^17.11.0",
     "husky": "^9.1.7",
     "lint-staged": "^16.3.3",
+    "msw": "^2.15.0",
+    "msw-storybook-addon": "^3.0.0",
+    "playwright": "^1.63.0",
     "prettier": "^3.8.4",
     "react-refresh": "^0.18.0",
     "rollup": "^4.59.0",
     "semantic-release": "^25.0.9",
     "serve": "^14.2.6",
+    "storybook": "^10.6.0",
     "tsx": "^4.21.0",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.61.1",
     "vite-plugin-eslint": "^1.8.1",
     "vite-plugin-package-version": "^1.1.0",
+    "vitest": "^4.1.11",
     "workbox-build": "^7.4.1"
   },
   "engines": {
@@ -134,5 +151,10 @@
     "cypress@15.17.0": true,
     "protobufjs@7.5.8": true,
     "unrs-resolver@1.7.11": true
+  },
+  "msw": {
+    "workerDirectory": [
+      ".storybook/public"
+    ]
   }
 }
