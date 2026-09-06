@@ -97,21 +97,23 @@ export const Offline: Story = {
 
 ## Seeding app state
 
-Components that read Jotai atoms can be seeded through the shared store:
+Components that read Jotai atoms can be seeded through the shared store. The
+store is shared by all stories, so reset what you set in the cleanup function:
 
 ```tsx
 import { store } from '@states/index';
 import { featureFlagsState } from '@states/app';
 
 const meta = {
-  decorators: [
-    (Story) => {
-      store.set(featureFlagsState, { MY_FLAG: true });
-      return <Story />;
-    },
-  ],
+  beforeEach: () => {
+    store.set(featureFlagsState, { MY_FLAG: true });
+
+    return () => store.set(featureFlagsState, {});
+  },
 };
 ```
+
+The React Query cache is cleared automatically before every story.
 
 ## Addons
 

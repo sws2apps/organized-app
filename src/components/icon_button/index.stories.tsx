@@ -21,7 +21,7 @@ export const Default: Story = {
   },
 };
 
-export const Error: Story = {
+export const ErrorState: Story = {
   args: {
     'aria-label': 'Delete',
     color: 'error',

@@ -28,7 +28,7 @@ export const Default: Story = {
           <Button variant="secondary" disableAutoStretch>
             Cancel
           </Button>
-          <Button variant="main" color="var(--red-main)" disableAutoStretch>
+          <Button variant="main" color="red" disableAutoStretch>
             Delete
           </Button>
         </div>

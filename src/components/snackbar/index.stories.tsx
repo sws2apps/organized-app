@@ -14,7 +14,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Error: Story = {
+export const ErrorState: Story = {
   args: {
     variant: 'error',
     messageHeader: 'Sync failed',

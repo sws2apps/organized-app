@@ -53,7 +53,7 @@ export const Destructive: Story = {
   args: {
     variant: 'secondary',
     children: 'Delete',
-    color: 'var(--red-main)',
+    color: 'red',
     startIcon: <IconDelete />,
   },
 };

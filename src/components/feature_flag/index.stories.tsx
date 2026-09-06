@@ -12,12 +12,11 @@ const meta = {
     flag: 'STORYBOOK_DEMO',
     children: <Typography>Rendered because the flag is enabled.</Typography>,
   },
-  decorators: [
-    (Story) => {
-      store.set(featureFlagsState, { STORYBOOK_DEMO: true });
-      return <Story />;
-    },
-  ],
+  beforeEach: () => {
+    store.set(featureFlagsState, { STORYBOOK_DEMO: true });
+
+    return () => store.set(featureFlagsState, {});
+  },
   tags: ['autodocs'],
 } satisfies Meta<typeof FeatureFlag>;
 

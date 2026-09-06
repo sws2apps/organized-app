@@ -45,7 +45,7 @@ export const WithHelperText: Story = {
   args: { value: '', helperText: 'Choose the meeting to schedule' },
 };
 
-export const Error: Story = {
+export const ErrorState: Story = {
   args: { value: '', error: true, helperText: 'Meeting is required' },
 };
 

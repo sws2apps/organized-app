@@ -41,7 +41,7 @@ export const WithHelperText: Story = {
   args: { helperText: 'We will send a verification code to this address.' },
 };
 
-export const Error: Story = {
+export const ErrorState: Story = {
   args: {
     defaultValue: 'not-an-email',
     error: true,

@@ -32,6 +32,7 @@ export const Default: Story = {
 
 export const WithValue: Story = {
   args: {
+    autoLoad: true,
     value: {
       countryCode: 'US',
       countryName: 'United States',

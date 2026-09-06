@@ -24,5 +24,5 @@ export const Dashed: Story = {
 };
 
 export const Colored: Story = {
-  args: { color: 'var(--accent-main)', height: 2 },
+  args: { color: 'var(--red-main)', height: 2 },
 };

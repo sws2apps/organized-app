@@ -2,6 +2,7 @@ import type { Decorator, Preview } from '@storybook/react-vite';
 import { mswLoader } from 'msw-storybook-addon/csf3';
 import { ColorSchemeType } from '../src/definition/app';
 import { AppProviders, AppTheme } from './providers';
+import { queryClient } from './query-client';
 import { handlers } from './msw-handlers';
 import '../src/global/global.css';
 import '../src/global/index.css';
@@ -30,6 +31,11 @@ const withAppProviders: Decorator = (Story) => (
 const preview: Preview = {
   decorators: [withAppTheme, withAppProviders],
   loaders: [mswLoader()],
+  // Stories share one QueryClient (and the app's Jotai store); drop cached
+  // requests so a story never shows data fetched by a previous one.
+  beforeEach: () => {
+    queryClient.clear();
+  },
   globalTypes: {
     theme: {
       description: 'Organized color scheme (data-theme attribute)',

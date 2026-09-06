@@ -1,7 +1,7 @@
 import { ReactNode, useEffect } from 'react';
 import { MemoryRouter } from 'react-router';
 import { Provider, useAtomValue } from 'jotai';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClientProvider } from '@tanstack/react-query';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
@@ -14,13 +14,10 @@ import {
 } from '../src/states/app';
 import { DatabaseWrapper } from '../src/wrapper/index';
 import { ColorSchemeType } from '../src/definition/app';
+import { queryClient } from './query-client';
 
 // API calls resolve against the Storybook origin, where MSW intercepts them.
 store.set(apiHostState, '/');
-
-const queryClient = new QueryClient({
-  defaultOptions: { queries: { retry: false } },
-});
 
 /**
  * Mirrors what `src/main.tsx` and the theme switcher do in the real app:

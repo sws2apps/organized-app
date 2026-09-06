@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import Button from '@components/button';
-import IconButton from '@components/icon_button';
 import { IconInfo } from '@components/icons';
 import Tooltip from './index';
 
@@ -27,11 +26,7 @@ export const Default: Story = {
 export const IconVariant: Story = {
   args: {
     variant: 'icon',
-    children: (
-      <IconButton aria-label="More information">
-        <IconInfo />
-      </IconButton>
-    ),
+    children: <IconInfo />,
   },
 };
 
