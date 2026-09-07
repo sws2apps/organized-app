@@ -1432,6 +1432,20 @@ export const handleDynamicAssignmentAutofill = (
   const sourceLocale = store.get(JWLangLocaleState);
   const isPublicTalkCoordinator = store.get(isPublicTalkCoordinatorState);
 
+  // Skip autofill if the active language group has disabled this meeting type.
+  // 'main' and groups without the flag (legacy data) stay active, mirroring
+  // the isMidweekActive/isWeekendActive handling in getAssignmentsWithStats.
+  const activeGroup = languageGroups.find((g) => g.group_id === dataView);
+
+  const isMeetingActive =
+    (meeting_type === 'midweek'
+      ? activeGroup?.group_data.midweek_meeting
+      : activeGroup?.group_data.weekend_meeting) ?? true;
+
+  if (!isMeetingActive) {
+    return { modifiedWeeks: [], updatedSchedules: schedules };
+  }
+
   const relevantViews = getDataViewsWithMeetings(settings, languageGroups);
   const weeksList = schedules.filter(
     (record) => record.weekOf >= start && record.weekOf <= end
