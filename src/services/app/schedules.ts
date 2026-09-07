@@ -173,7 +173,7 @@ export const schedulesMidweekInfo = (week: string) => {
   }
 
   const languageWeekType =
-    schedule.midweek_meeting?.week_type?.find(
+    schedule.midweek_meeting.week_type.find(
       (record) => record.type !== 'main'
     )?.value ?? Week.NORMAL;
 
@@ -2153,7 +2153,7 @@ export const schedulesS89Data = (schedule: SchedWeekType, dataView: string) => {
   if (hasNoMeeting) return result;
 
   const languageWeekType =
-    schedule.midweek_meeting?.week_type?.find(
+    schedule.midweek_meeting.week_type.find(
       (record) => record.type !== 'main'
     )?.value ?? Week.NORMAL;
 
@@ -2440,7 +2440,7 @@ export const schedulesMidweekData = (
     )?.value ?? Week.NORMAL;
 
   const languageWeekType =
-    schedule.midweek_meeting?.week_type?.find(
+    schedule.midweek_meeting.week_type.find(
       (record) => record.type !== 'main'
     )?.value ?? Week.NORMAL;
 
