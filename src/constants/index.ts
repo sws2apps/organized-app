@@ -659,18 +659,24 @@ const ASSIGNMENT_PATHS_SECTIONS = {
   },
 } as const;
 
+type FlattenSectionKeys<T extends Record<string, Record<string, unknown>>> = {
+  [S in keyof T]: Extract<keyof T[S], string>;
+}[keyof T];
+
 const extractPaths = <
   T extends Record<string, Record<string, { path: string }>>,
 >(
   sections: T
-) => {
+): Record<FlattenSectionKeys<T>, string> => {
   const result: Record<string, string> = {};
+
   Object.values(sections).forEach((section) => {
     Object.entries(section).forEach(([key, value]) => {
       result[key] = value.path;
     });
   });
-  return result;
+
+  return result as Record<FlattenSectionKeys<T>, string>;
 };
 
 const extractConfigs = <
