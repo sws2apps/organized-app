@@ -24,7 +24,7 @@ import {
 import { Week } from '@definition/week_type';
 import { dbSchedBulkUpdate } from '@services/dexie/schedules';
 import { store } from '@states/index';
-import { personsByViewState } from '@states/persons';
+import { personsActiveState } from '@states/persons';
 import {
   assignmentsHistoryState,
   isPublicTalkCoordinatorState,
@@ -1424,7 +1424,11 @@ export const handleDynamicAssignmentAutofill = (
   // Get data from store
   const sources = structuredClone(store.get(sourcesState));
   const fullHistory = structuredClone(store.get(assignmentsHistoryState));
-  const persons = structuredClone(store.get(personsByViewState));
+  // Use the full active persons list instead of the view-scoped one:
+  // statistics, opportunity scores and weighting factors must be computed
+  // congregation-wide. The candidate pool for the active view is still
+  // restricted via eligibilityMapView in filterCandidates.
+  const persons = structuredClone(store.get(personsActiveState));
   const schedules = structuredClone(store.get(schedulesState));
   const settings = structuredClone(store.get(settingsState));
   const dataView = store.get(userDataViewState);
