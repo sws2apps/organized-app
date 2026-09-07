@@ -1452,7 +1452,7 @@ export const handleDynamicAssignmentAutofill = (
 
   addImplicitAssistantEligibility(persons);
 
-  // getting fixed and linked assignments from settings
+  // getting ignored, fixed and linked assignments from settings
   const checkAssignmentsSettingsResult = processAssignmentSettings(
     settings,
     isPublicTalkCoordinator
