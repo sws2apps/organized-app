@@ -1,5 +1,8 @@
 import { InformationBoardCategory } from '@definition/information_board';
+import BranchLetters from '@features/congregation/information_board/branch_letters';
+import FrequentlyUsedInformation from '@features/congregation/information_board/frequently_used_information';
 import GeneralInformation from '@features/congregation/information_board/general_information';
+import LocalAnnouncements from '@features/congregation/information_board/local_announcements';
 import { infoBoardSelectedCategory } from '@states/information_board';
 import { useAtomValue } from 'jotai';
 import { ReactNode, useCallback, useState } from 'react';
@@ -12,9 +15,9 @@ const useInformationBoard = () => {
 
   const categoriesPages: Record<InformationBoardCategory, ReactNode> = {
     general_information: <GeneralInformation />,
-    local_announcements: null,
-    branch_letters: null,
-    frequently_used_information: null,
+    local_announcements: <LocalAnnouncements />,
+    branch_letters: <BranchLetters />,
+    frequently_used_information: <FrequentlyUsedInformation />,
   };
 
   const currentCategory = categoriesPages[activeCategory];

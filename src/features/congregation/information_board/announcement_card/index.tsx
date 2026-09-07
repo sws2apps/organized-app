@@ -58,7 +58,7 @@ const IBAnnouncementCard = (props: IBAnnouncementCardProps) => {
         </Stack>
 
         <Stack alignItems="flex-end" spacing="8px" sx={{ flexShrink: 0 }}>
-          {props.pinned && (
+          {props.pinned && !props.onPin && (
             <Stack
               direction="row"
               spacing="4px"
@@ -83,7 +83,7 @@ const IBAnnouncementCard = (props: IBAnnouncementCardProps) => {
                 </IconButton>
               )}
               {props.onPin && (
-                <IconButton color="primary">
+                <IconButton color="primary" onClick={props.onPin}>
                   {props.pinned ? (
                     <IconUnpin color="var(--accent-main)" />
                   ) : (
@@ -92,7 +92,7 @@ const IBAnnouncementCard = (props: IBAnnouncementCardProps) => {
                 </IconButton>
               )}
               {props.onDelete && (
-                <IconButton color="error">
+                <IconButton color="error" onClick={props.onDelete}>
                   <IconDelete color="var(--red-main)" />
                 </IconButton>
               )}
