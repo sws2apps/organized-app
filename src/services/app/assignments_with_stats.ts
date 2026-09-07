@@ -323,8 +323,18 @@ const getCorrectionCounts = (
  * @returns A Map linking each `AssignmentCode` to its configured weekly frequency (typically 1 or 2).
  */
 const EXCLUDED_DEFAULT_CODES = new Set([
-  AssignmentCode.MINISTRY_HOURS_CREDIT,
+  //these codes are no longer in use or are not relevant in regards to task assignment
+  //it would be useful to derive the used codes from ASSIGNMENT_SECTIONS instead to have a single source of truth in the future
+  AssignmentCode.MM_InitialCall,
+  AssignmentCode.MM_ReturnVisit,
+  AssignmentCode.MM_BibleStudy,
+  AssignmentCode.MM_InitialCallVideo,
+  AssignmentCode.MM_ReturnVisitVideo,
+  AssignmentCode.MM_Other,
+  AssignmentCode.MM_Memorial,
+  AssignmentCode.MM_MemorialVideo,
   AssignmentCode.WM_SpeakerSymposium,
+  AssignmentCode.MINISTRY_HOURS_CREDIT,
 ]);
 
 const TWO_CLASS_DOUBLED_CODES = new Set<AssignmentCode>([
