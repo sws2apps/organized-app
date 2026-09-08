@@ -1,10 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useSetAtom } from 'jotai';
 import { apiCongregationUsersGet } from '@services/api/congregation';
 import { congregationUsersState } from '@states/congregation';
 
-const useAllUsers = () => {
+/**
+ * Reads the accounts of the congregation.
+ *
+ * It belongs to the tab that shows them rather than to the settings page: the
+ * request is made when a user opens that tab, and never merely because the
+ * settings were opened.
+ */
+const useCongregationUsers = () => {
   const { data, isFetching, isLoading } = useQuery({
     queryKey: ['congregation_users'],
     queryFn: apiCongregationUsersGet,
@@ -13,24 +20,13 @@ const useAllUsers = () => {
 
   const setUsers = useSetAtom(congregationUsersState);
 
-  const [userAddOpen, setUserAddOpen] = useState(false);
-
-  const handleOpenUserAdd = () => setUserAddOpen(true);
-
-  const handleCloseUserAdd = () => setUserAddOpen(false);
-
   useEffect(() => {
     if (!isFetching && data && Array.isArray(data)) {
       setUsers(data);
     }
   }, [isFetching, data, setUsers]);
 
-  return {
-    userAddOpen,
-    handleCloseUserAdd,
-    isLoading,
-    handleOpenUserAdd,
-  };
+  return { isLoading };
 };
 
-export default useAllUsers;
+export default useCongregationUsers;

@@ -6,6 +6,7 @@ import { congregationUsersState } from '@states/congregation';
 import { personCurrentDetailsState } from '@states/persons';
 import { shortDateFormatState } from '@states/settings';
 import { formatDate } from '@utils/date';
+import { congregationSettingsTabPath } from '@features/congregation/settings/settings_sidebar/index.types';
 
 const useAppUserProfile = () => {
   const navigate = useNavigate();
@@ -57,7 +58,7 @@ const useAppUserProfile = () => {
       return;
     }
 
-    navigate(`/manage-access`);
+    navigate(congregationSettingsTabPath('user-accounts'));
   };
 
   return { user, userDescription, navigateToManageAccess };

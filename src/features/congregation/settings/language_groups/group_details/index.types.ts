@@ -5,4 +5,5 @@ export type LanguageGroupDetailsProps = {
   onCircuitChange: (value: string) => void;
   language: string;
   onLanguageChange: (value: string) => void;
+  layout?: 'row' | 'popup';
 };

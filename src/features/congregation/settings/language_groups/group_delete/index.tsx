@@ -5,7 +5,6 @@ import useGroupDelete from './useGroupDelete';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
 import DialogActions from '@components/dialog_actions';
-import IconButton from '@components/icon_button';
 import IconLoading from '@components/icon_loading';
 import Typography from '@components/typography';
 
@@ -49,9 +48,14 @@ const GroupDelete = (props: GroupDeleteProps) => {
         </DialogActions>
       </Dialog>
 
-      <IconButton onClick={handleOpen} sx={{ padding: 0.2 }}>
-        <IconDelete color="var(--red-main)" />
-      </IconButton>
+      <Button
+        variant="secondary"
+        color="red"
+        onClick={handleOpen}
+        startIcon={<IconDelete />}
+      >
+        {t('tr_deleteLanguageGroup')}
+      </Button>
     </>
   );
 };
