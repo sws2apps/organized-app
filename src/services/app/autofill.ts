@@ -422,11 +422,16 @@ const filterAssignmentKeysByPublicTalkType = (
     )?.value || 'localSpeaker';
   if (publicTalkType !== 'localSpeaker') {
     relevantAssignmentKeys = relevantAssignmentKeys.filter(
-      (key) =>
-        !['WM_Speaker_Part1', 'WM_Speaker_Part2', 'WM_ClosingPrayer'].includes(
-          key
-        )
+      (key) => !['WM_Speaker_Part1', 'WM_Speaker_Part2'].includes(key)
     );
+
+    // Visiting/host/group speakers give the closing prayer themselves;
+    // a recording has no attached speaker, so the prayer stays fillable
+    if (publicTalkType !== 'jwStreamRecording') {
+      relevantAssignmentKeys = relevantAssignmentKeys.filter(
+        (key) => key !== 'WM_ClosingPrayer'
+      );
+    }
   }
 
   return relevantAssignmentKeys;
