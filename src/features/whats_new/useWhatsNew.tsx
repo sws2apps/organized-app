@@ -26,14 +26,21 @@ const useWhatsNew = () => {
   }, [i18n]);
 
   const version = useMemo(() => {
-    const releasesDates = Object.keys(releases);
-    return releasesDates.sort().reverse().at(0);
+    // notes for a release still to come are already translated, but announcing
+    // them before that date would describe an app the user does not have yet
+    const today = new Date().toISOString().slice(0, 16);
+
+    return Object.keys(releases)
+      .filter((releaseDate) => releaseDate <= today)
+      .sort()
+      .reverse()
+      .at(0);
   }, [releases]);
 
   const handleClose = () => {
     setOpen(false);
 
-    if (!isTest) {
+    if (!isTest && version) {
       const saved = localStorage.getItem(STORAGE_KEY);
       const lsVersion = (saved ? JSON.parse(saved) : {}) as UpdateStatusType;
 
@@ -67,6 +74,9 @@ const useWhatsNew = () => {
 
   useEffect(() => {
     const checkReleaseNotes = () => {
+      // every release is still ahead: nothing to announce on this device
+      if (!version) return;
+
       let showUpdate = true;
 
       const tmp = localStorage.getItem(STORAGE_KEY);
@@ -79,7 +89,7 @@ const useWhatsNew = () => {
       }
 
       if (showUpdate) {
-        const { improvements, images } = releases[version] || releases['next'];
+        const { improvements, images } = releases[version];
 
         if (improvements) {
           const formattedImprovements = Object.values(improvements);
