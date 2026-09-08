@@ -31,17 +31,24 @@ const WhatsNew = () => {
       open={open}
       onClose={handleClose}
       sx={{ padding: '24px', position: 'relative' }}
-    >
-      <Stack spacing="8px" width="100%">
+      header={
         <Box
           sx={{
             display: 'flex',
             flexDirection: 'row',
             justifyContent: 'space-between',
-            alignItems: 'center',
+            alignItems: 'flex-start',
+            gap: '8px',
+            width: '100%',
           }}
         >
-          <Typography className="h2">{t('tr_newOrganizedUpdate')}</Typography>
+          <Stack spacing="2px">
+            <Typography className="h2">{t('tr_newOrganizedUpdate')}</Typography>
+
+            <Typography color="var(--grey-400)">
+              {t('tr_newOrganizedUpdateDesc')}
+            </Typography>
+          </Stack>
 
           {!isLoading && images.length > 0 && (
             <IconButton onClick={handleClose}>
@@ -49,12 +56,19 @@ const WhatsNew = () => {
             </IconButton>
           )}
         </Box>
-
-        <Typography color="var(--grey-400)">
-          {t('tr_newOrganizedUpdateDesc')}
-        </Typography>
-      </Stack>
-
+      }
+      actions={
+        !isLoading && (
+          <ButtonsAction
+            slides={images}
+            current={currentImage}
+            onClose={handleClose}
+            onNext={handleNextAction}
+            onBack={handleBackAction}
+          />
+        )
+      }
+    >
       {isLoading && <WaitingLoader size={72} variant="standard" />}
 
       {!isLoading && (
@@ -74,14 +88,6 @@ const WhatsNew = () => {
               showHeader={images.length > 0}
             />
           )}
-
-          <ButtonsAction
-            slides={images}
-            current={currentImage}
-            onClose={handleClose}
-            onNext={handleNextAction}
-            onBack={handleBackAction}
-          />
         </>
       )}
     </Dialog>

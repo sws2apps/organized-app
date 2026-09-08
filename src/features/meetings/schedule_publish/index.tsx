@@ -21,14 +21,34 @@ const SchedulePublish = (props: SchedulePublishProps) => {
   } = useSchedulePublish(props);
 
   return (
-    <Dialog onClose={props.onClose} open={props.open} sx={{ padding: '24px' }}>
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-        <Typography className="h3">{t('tr_publishSchedules')}</Typography>
-        <Typography color="var(--grey-400)">
-          {t('tr_publishSchedulesDesc')}
-        </Typography>
-      </Box>
-
+    <Dialog
+      onClose={props.onClose}
+      open={props.open}
+      sx={{ padding: '24px' }}
+      header={
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <Typography className="h3">{t('tr_publishSchedules')}</Typography>
+          <Typography color="var(--grey-400)">
+            {t('tr_publishSchedulesDesc')}
+          </Typography>
+        </Box>
+      }
+      actions={
+        <DialogActions>
+          <Button variant="secondary" onClick={props.onClose}>
+            {t('tr_cancel')}
+          </Button>
+          <Button
+            variant="main"
+            disabled={isProcessing}
+            onClick={handlePublishSchedule}
+            endIcon={isProcessing && <IconLoading />}
+          >
+            {t('tr_publish')}
+          </Button>
+        </DialogActions>
+      }
+    >
       <Stack
         direction="row"
         spacing="24px"
@@ -45,20 +65,6 @@ const SchedulePublish = (props: SchedulePublishProps) => {
           />
         ))}
       </Stack>
-
-      <DialogActions>
-        <Button variant="secondary" onClick={props.onClose}>
-          {t('tr_cancel')}
-        </Button>
-        <Button
-          variant="main"
-          disabled={isProcessing}
-          onClick={handlePublishSchedule}
-          endIcon={isProcessing && <IconLoading />}
-        >
-          {t('tr_publish')}
-        </Button>
-      </DialogActions>
     </Dialog>
   );
 };

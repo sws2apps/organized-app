@@ -9,6 +9,7 @@ import Autocomplete from '@components/autocomplete';
 import Button from '@components/button';
 import Checkbox from '@components/checkbox';
 import Dialog from '@components/dialog';
+import ScrollArea from '@components/scroll_area';
 import DialogActions from '@components/dialog_actions';
 import SwitchWithLabel from '@components/switch_with_label';
 import Typography from '@components/typography';
@@ -56,9 +57,14 @@ const AcceptRequest = (props: AcceptRequestProps) => {
           {t('tr_joinRequestsAcceptDesc')}
         </Typography>
 
-        <Stack
-          spacing="24px"
-          sx={{ maxHeight: '300px', overflow: 'auto', padding: '8px 0' }}
+        <ScrollArea
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '24px',
+            maxHeight: '300px',
+            padding: '8px 0',
+          }}
         >
           <Autocomplete
             label={t('tr_bindWithRecord')}
@@ -158,7 +164,7 @@ const AcceptRequest = (props: AcceptRequestProps) => {
               />
             </SwitchContainer>
           </Stack>
-        </Stack>
+        </ScrollArea>
 
         <DialogActions>
           <Button variant="secondary" onClick={handleClose}>
