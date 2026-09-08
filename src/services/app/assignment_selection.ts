@@ -801,7 +801,7 @@ export const sortCandidatesMultiLevel = (
       return isSameWeek && isSamePerson && isSameDataView && isRelevantMeeting;
     }).length;
 
-    // --- NEW: Only for alternative "_A" tasks: how long since room 1? ---
+    // --- Only for alternative "_A" tasks: how long since room 1? ---
     const weeksSinceLastRoom2 =
       sortStrategy === 'alternative' && room1SwapEligibleTask
         ? getWeeksSinceLastRoom2(
