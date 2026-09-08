@@ -81,6 +81,10 @@ export const importDummyPersons = async (showLoading?: boolean) => {
         person_uid: crypto.randomUUID(),
         person_data: {
           disqualified: { value: false, updatedAt: new Date().toISOString() },
+          autofill_skipped: {
+            value: false,
+            updatedAt: new Date().toISOString(),
+          },
           female: {
             value: user.gender === 'female',
             updatedAt: new Date().toISOString(),
