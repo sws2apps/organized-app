@@ -1,10 +1,9 @@
 import { useState } from 'react';
-import { useSetAtom, useAtomValue } from 'jotai';
+import { useSetAtom } from 'jotai';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { ScheduleAutofillType } from './index.types';
 import { schedulesStartAutofill } from '@services/app/autofill';
-import { languageGroupsState } from '@states/field_service_groups';
 import { selectedWeekState } from '@states/schedules';
 
 const useScheduleAutofill = (
@@ -14,7 +13,6 @@ const useScheduleAutofill = (
   const [startWeek, setStartWeek] = useState('');
   const [endWeek, setEndWeek] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
-  const languageGroups = useAtomValue(languageGroupsState);
 
   const setSelectedWeek = useSetAtom(selectedWeekState);
 
@@ -27,7 +25,7 @@ const useScheduleAutofill = (
     try {
       setIsProcessing(true);
 
-      await schedulesStartAutofill(startWeek, endWeek, meeting, languageGroups);
+      await schedulesStartAutofill(startWeek, endWeek, meeting);
 
       setSelectedWeek(startWeek);
 

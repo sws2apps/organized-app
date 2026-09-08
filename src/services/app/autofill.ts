@@ -12,7 +12,6 @@ import {
 import { STUDENT_TASK_CODES } from '@constants/assignmentConflicts';
 import { MeetingType } from '@definition/app';
 import { AssignmentCode, AssignmentFieldType } from '@definition/assignment';
-import { FieldServiceGroupType } from '@definition/field_service_groups';
 import { PersonType } from '@definition/person';
 import { AssignmentHistoryType, SchedWeekType } from '@definition/schedules';
 import { SettingsType } from '@definition/settings';
@@ -65,6 +64,7 @@ import {
   sourcesCheckLCAssignments,
   sourcesCheckLCElderAssignment,
 } from './sources';
+import { fieldServiceGroupsState } from '@states/field_service_groups';
 
 /**
  * Represents a single assignment task waiting to be filled by the autofill algorithm.
@@ -1415,7 +1415,7 @@ export const addImplicitAssistantEligibility = (persons: PersonType[]) => {
 export const handleDynamicAssignmentAutofill = (
   start: string,
   end: string,
-  languageGroups: FieldServiceGroupType[],
+  //languageGroups: FieldServiceGroupType[],
   meeting_type: MeetingType
 ): {
   modifiedWeeks: SchedWeekType[];
@@ -1429,6 +1429,9 @@ export const handleDynamicAssignmentAutofill = (
   // congregation-wide. The candidate pool for the active view is still
   // restricted via eligibilityMapView in filterCandidates.
   const persons = structuredClone(store.get(personsActiveState));
+  const rawLanguageGroups = store
+    .get(fieldServiceGroupsState)
+    .filter((g) => g.group_data.language_group && !g.group_data._deleted);
   const schedules = structuredClone(store.get(schedulesState));
   const settings = structuredClone(store.get(settingsState));
   const dataView = store.get(userDataViewState);
@@ -1439,7 +1442,7 @@ export const handleDynamicAssignmentAutofill = (
   // Skip autofill if the active language group has disabled this meeting type.
   // 'main' and groups without the flag (legacy data) stay active, mirroring
   // the isMidweekActive/isWeekendActive handling in getAssignmentsWithStats.
-  const activeGroup = languageGroups.find((g) => g.group_id === dataView);
+  const activeGroup = rawLanguageGroups.find((g) => g.group_id === dataView);
 
   const isMeetingActive =
     (meeting_type === 'midweek'
@@ -1450,7 +1453,7 @@ export const handleDynamicAssignmentAutofill = (
     return { modifiedWeeks: [], updatedSchedules: schedules };
   }
 
-  const relevantViews = getDataViewsWithMeetings(settings, languageGroups);
+  const relevantViews = getDataViewsWithMeetings(settings, rawLanguageGroups);
   const weeksList = schedules.filter(
     (record) => record.weekOf >= start && record.weekOf <= end
   );
@@ -1496,7 +1499,7 @@ export const handleDynamicAssignmentAutofill = (
     statsSources,
     statsSchedules,
     settings,
-    languageGroups,
+    rawLanguageGroups,
     sourceLocale
   );
 
@@ -1514,7 +1517,7 @@ export const handleDynamicAssignmentAutofill = (
   );
 
   const eligibilityMapView =
-    getEligiblePersonsPerDataViewAndCode(persons, languageGroups).get(
+    getEligiblePersonsPerDataViewAndCode(persons, rawLanguageGroups).get(
       dataView
     ) ?? new Map<AssignmentCode, Set<string>>();
 
@@ -1855,8 +1858,7 @@ const processingTasks = ({
 export const schedulesStartAutofill = async (
   start: string,
   end: string,
-  meeting: 'midweek' | 'weekend',
-  languageGroups: FieldServiceGroupType[]
+  meeting: 'midweek' | 'weekend'
 ): Promise<number> => {
   try {
     if (start.length === 0 || end.length === 0) return 0;
@@ -1864,7 +1866,6 @@ export const schedulesStartAutofill = async (
     const { modifiedWeeks, updatedSchedules } = handleDynamicAssignmentAutofill(
       start,
       end,
-      languageGroups,
       meeting
     );
 
