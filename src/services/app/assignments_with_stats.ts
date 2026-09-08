@@ -582,6 +582,24 @@ export const getAssignmentsWithStats = (
       const variableCount = variableAssignmentCounts.get(code);
       // undefined means the code is NOT a variable part (e.g., Chairman, Prayer) → use static frequency
       // A numeric value (always > 0) means the code IS variable → use observed frequency
+      // TODO(follow-up PR): `undefined` doubles as "not a variable part".
+      // Strictly, it can also mean "variable code with zero resolved
+      // occurrences" (e.g. an LC part that was a video in every week of
+      // the window) — in that case the static fallback below assigns a
+      // frequency to a code that never actually occurred.
+      // Accepted for now because the practical impact is minimal:
+      //  - the stats window always spans >= 4 months (see subMonths(start, 4)
+      //    in autofill.ts), where LC parts and assistant parts realistically
+      //    occur at least once;
+      //  - legacy codes that could be absent for months (InitialCall,
+      //    ReturnVisit, BibleStudy, ...) are excluded via EXCLUDED_DEFAULT_CODES;
+      //  - the residual risk (rare codes like MM_Discussion/MM_Talk) only
+      //    skews fairness weighting slightly, never creates wrong assignments.
+      // Planned fix: track variable-code membership explicitly (e.g. a
+      // VARIABLE_ASSIGNMENT_CODES set covering STUDENT_ASSIGNMENT,
+      // MM_Discussion, MM_AssistantOnly, MM_LCPart) and use
+      // `(variableCount ?? 0) / relevantWeeksCount` for those codes so that
+      // zero occurrences yield a real frequency of 0.
 
       let variableFrequency: number;
       if (relevantWeeksCount > 0) {
