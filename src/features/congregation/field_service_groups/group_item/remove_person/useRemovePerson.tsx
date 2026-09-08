@@ -25,7 +25,8 @@ const useRemovePerson = ({ group_id, index, member }: RemovePersonProps) => {
     const name = buildPersonFullname(
       person.person_data.person_lastname.value,
       person.person_data.person_firstname.value,
-      fullnameOption
+      fullnameOption,
+      person.person_data.person_middlename?.value
     );
 
     return name;

@@ -25,18 +25,18 @@ const PersonBasicInfo = () => {
     age,
     handleToggleGender,
     handleChangeFirstname,
+    handleChangeMiddlename,
     handleChangeLastname,
     handleChangeDisplayName,
     handleChangeAddress,
     handleChangeEmailAddress,
     handleChangePhone,
     ageToYearsAndMonths,
-    nameFlex,
     isInactive,
     displayNameEnabled,
     isCurrentPersonMemberOfAFamily,
     familyHeadName,
-    isFamilyHead
+    isFamilyHead,
   } = useBasicInfo();
 
   return (
@@ -130,8 +130,7 @@ const PersonBasicInfo = () => {
             display: 'flex',
             gap: '16px',
             alignItems: 'center',
-            justifyContent: 'space-between',
-            flexDirection: nameFlex,
+            flexWrap: 'wrap',
           }}
         >
           <TextField
@@ -139,12 +138,21 @@ const PersonBasicInfo = () => {
             value={person.person_data.person_firstname.value}
             onChange={(e) => handleChangeFirstname(e.target.value)}
             slotProps={{ input: { readOnly: !isPersonEditor } }}
+            sx={{ flex: '1 0 200px' }}
+          />
+          <TextField
+            label={t('tr_middlename')}
+            value={person.person_data.person_middlename?.value || ''}
+            onChange={(e) => handleChangeMiddlename(e.target.value)}
+            slotProps={{ input: { readOnly: !isPersonEditor } }}
+            sx={{ flex: '1 0 200px' }}
           />
           <TextField
             label={t('tr_lastname')}
             value={person.person_data.person_lastname.value}
             onChange={(e) => handleChangeLastname(e.target.value)}
             slotProps={{ input: { readOnly: !isPersonEditor } }}
+            sx={{ flex: '1 0 200px' }}
           />
         </Box>
         {displayNameEnabled && (

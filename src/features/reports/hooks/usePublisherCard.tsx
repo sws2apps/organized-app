@@ -11,7 +11,7 @@ import { personsState } from '@states/persons';
 import { PersonType } from '@definition/person';
 import { congFieldServiceReportsState } from '@states/field_service_reports';
 import {
-  fullnameOptionState,
+  printFullnameOptionState,
   JWLangLocaleState,
   JWLangState,
   shortDateFormatState,
@@ -33,7 +33,7 @@ const usePublisherCard = () => {
   const persons = useAtomValue(personsState);
   const reports = useAtomValue(congFieldServiceReportsState);
   const dateFormat = useAtomValue(shortDateFormatState);
-  const fullnameOption = useAtomValue(fullnameOptionState);
+  const fullnameOption = useAtomValue(printFullnameOptionState);
   const sourceLocale = useAtomValue(JWLangLocaleState);
 
   const years = useMemo(() => {
@@ -77,7 +77,8 @@ const usePublisherCard = () => {
     card.name = buildPersonFullname(
       person.person_data.person_lastname.value,
       person.person_data.person_firstname.value,
-      fullnameOption
+      fullnameOption,
+      person.person_data.person_middlename?.value
     );
 
     const isElder = personIsPrivilegeYearActive(person, 'elder', year);
