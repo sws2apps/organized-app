@@ -3,17 +3,26 @@
     "images": {
       "img_01": {
         "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-color-schemes.svg",
-        "tr_title": "New color schemes",
+        "tr_title": "Uued värviskeemid",
         "tr_desc": "More ways to make Organized yours! Explore new colors in profile settings, from minimal monochrome to vibrant pink."
       },
       "img_02": {
         "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-homescreen-shortcuts.svg",
-        "tr_title": "Home screen shortcuts",
+        "tr_title": "Koduekraani otsetee",
         "tr_desc": "Jump straight to the most important features, on both desktop and mobile devices."
       }
     },
     "improvements": {
       "tr_note_01": "Added school for congregation elders credit hour preset"
+    }
+  },
+  "2026-09-01T00:00": {
+    "images": {
+      "img_01": {
+        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-click-counter.svg",
+        "tr_title": "Tap to count on mobile devices",
+        "tr_desc": "Tap the attendance count field and hit the counter button to open full-screen clicker mode. Counting made fast, easy, and intuitive."
+      }
     }
   }
 }
