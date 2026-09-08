@@ -1514,8 +1514,9 @@ export const handleDynamicAssignmentAutofill = (
   );
 
   const eligibilityMapView =
-    getEligiblePersonsPerDataViewAndCode(persons).get(dataView) ??
-    new Map<AssignmentCode, Set<string>>();
+    getEligiblePersonsPerDataViewAndCode(persons, languageGroups).get(
+      dataView
+    ) ?? new Map<AssignmentCode, Set<string>>();
 
   // Collection array for all tasks to be planned in the given schedule weeks
 

@@ -93,9 +93,22 @@ export const getLanguageKey = (
  * @returns Map<DataViewKey, Map<AssignmentCode, Set<string>>>
  */
 export const getEligiblePersonsPerDataViewAndCode = (
-  persons: PersonType[]
+  persons: PersonType[],
+  languageGroups: FieldServiceGroupType[]
 ): Map<string, Map<AssignmentCode, Set<string>>> => {
   const map = new Map<string, Map<AssignmentCode, Set<string>>>();
+
+  // Current membership per language group. Needed because group-specific
+  // assignment records survive a member's removal (handleMembersChange
+  // only updates group_data.members), so qualification alone would keep
+  // former members eligible.
+  const groupMembers = new Map<string, Set<string>>();
+  languageGroups.forEach((g) => {
+    groupMembers.set(
+      g.group_id,
+      new Set(g.group_data.members.map((m) => m.person_uid))
+    );
+  });
 
   persons.forEach((person) => {
     // 1. Filter: Person must exist and be active
@@ -112,6 +125,11 @@ export const getEligiblePersonsPerDataViewAndCode = (
     // 2. Iterate all assignments and add UIDs to the map
     person.person_data.assignments.forEach((assignment) => {
       const viewType = assignment.type;
+
+      // Skip stale group qualifications: only current members count
+      if (viewType !== 'main' && !groupMembers.get(viewType)?.has(uid)) {
+        return;
+      }
 
       if (Array.isArray(assignment.values)) {
         assignment.values.forEach((code) => {
@@ -540,7 +558,10 @@ export const getAssignmentsWithStats = (
   const stats: AssignmentStatisticsComplete = new Map();
   const relevantViews = getDataViewsWithMeetings(settings, languageGroups);
 
-  const eligiblePersonsAll = getEligiblePersonsPerDataViewAndCode(persons);
+  const eligiblePersonsAll = getEligiblePersonsPerDataViewAndCode(
+    persons,
+    languageGroups
+  );
 
   relevantViews.forEach((view) => {
     const statsForView: AssignmentStatisticsView = new Map();
