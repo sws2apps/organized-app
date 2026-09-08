@@ -156,7 +156,9 @@ export const schedulesMidweekInfo = (week: string) => {
   const coName = store.get(COFullnameState);
 
   const source = sources.find((record) => record.weekOf === week);
+  if (!source) return { total: 0, assigned: 0 };
   const schedule = schedules.find((record) => record.weekOf === week);
+  if (!schedule) return { total: 0, assigned: 0 };
 
   let total = 0;
   let assigned = 0;
@@ -173,9 +175,8 @@ export const schedulesMidweekInfo = (week: string) => {
   }
 
   const languageWeekType =
-    schedule.midweek_meeting.week_type.find(
-      (record) => record.type !== 'main'
-    )?.value ?? Week.NORMAL;
+    schedule.midweek_meeting.week_type.find((record) => record.type !== 'main')
+      ?.value ?? Week.NORMAL;
 
   const countAux =
     classCount > 1 &&
@@ -1229,6 +1230,7 @@ export const schedulesUpdateHistory = (
     const dataView = store.get(userDataViewState);
     const schedules = store.get(schedulesState);
     const schedule = schedules.find((record) => record.weekOf === week);
+    if (!schedule) return;
 
     if (!schedule_id) {
       const path = ASSIGNMENT_PATH[item];
@@ -1347,6 +1349,7 @@ export const schedulesSaveAssignment = async (
     const newSchedule = schedules.find(
       (record) => record.weekOf === schedule.weekOf
     );
+    if (!newSchedule) return;
 
     const outgoingTalks = structuredClone(
       newSchedule.weekend_meeting.outgoing_talks
@@ -1355,6 +1358,7 @@ export const schedulesSaveAssignment = async (
     const outgoingSchedule = outgoingTalks.find(
       (record) => record.id === schedule_id
     );
+    if (!outgoingSchedule) return;
 
     const speaker = value as PersonType;
 
@@ -2153,9 +2157,8 @@ export const schedulesS89Data = (schedule: SchedWeekType, dataView: string) => {
   if (hasNoMeeting) return result;
 
   const languageWeekType =
-    schedule.midweek_meeting.week_type.find(
-      (record) => record.type !== 'main'
-    )?.value ?? Week.NORMAL;
+    schedule.midweek_meeting.week_type.find((record) => record.type !== 'main')
+      ?.value ?? Week.NORMAL;
 
   for (const assignment of assignments) {
     // skip aux class assignments for language group
@@ -2440,9 +2443,8 @@ export const schedulesMidweekData = (
     )?.value ?? Week.NORMAL;
 
   const languageWeekType =
-    schedule.midweek_meeting.week_type.find(
-      (record) => record.type !== 'main'
-    )?.value ?? Week.NORMAL;
+    schedule.midweek_meeting.week_type.find((record) => record.type !== 'main')
+      ?.value ?? Week.NORMAL;
 
   result.week_type = week_type;
   result.no_meeting = WEEK_TYPE_NO_MEETING.includes(week_type);
@@ -3188,6 +3190,7 @@ export const scheduleDeleteWeekendOutgoingTalk = async (
   const outgoingTalk = outgoingSchedule.find(
     (record) => record.id === schedule_id
   );
+  if (!outgoingTalk) return;
 
   outgoingTalk.congregation = {
     name: '',
