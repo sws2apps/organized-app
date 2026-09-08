@@ -21,7 +21,7 @@
       "img_01": {
         "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-click-counter.svg",
         "tr_title": "Tap to count on mobile devices",
-        "tr_desc": "Tap the attendance count field and hit the counter button to open full-screen clicker mode. Counting made fast, easy, and intuitive."
+        "tr_desc": "Tap an attendance count field, then hit Counter for a full-screen tally. Fast, easy, and intuitive."
       }
     },
     "improvements": {
