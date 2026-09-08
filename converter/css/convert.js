@@ -196,6 +196,52 @@ for (const [theme, details] of Object.entries(tokens.colors)) {
 
 // converting font tokens to css properties
 
+// rem font sizes, with line heights and letter spacings relative to them, so
+// every text style follows the root font size set for the chosen font size
+const REM_BASE = 16;
+
+const roundFontValue = (value) => Math.round(value * 100000) / 100000;
+
+const fontDeclarations = (values, { withMargin = false } = {}) => {
+  const fontSize = values.fontSize;
+
+  let result = '';
+
+  for (let [key, value] of Object.entries(values)) {
+    if (key === 'paragraphSpacing' || key === 'fontFamily') continue;
+
+    const isFontSize = key === 'fontSize';
+    const isLineHeight = key === 'lineHeight';
+    const isLetterSpacing = key === 'letterSpacing';
+
+    if (key === 'paragraphIndent') key = 'text-indent';
+    if (key === 'textCase') key = 'text-transform';
+
+    const property = key
+      .split(/(?=[A-Z])/g)
+      .map((text) => text.toLocaleLowerCase())
+      .join('-');
+
+    if (typeof value === 'number' && key !== 'fontWeight') {
+      if (isFontSize) {
+        value = `${roundFontValue(value / REM_BASE)}rem`;
+      } else if (isLineHeight && typeof fontSize === 'number') {
+        value = `${roundFontValue(value / fontSize)}`;
+      } else if (isLetterSpacing && typeof fontSize === 'number') {
+        value = `${roundFontValue(value / fontSize)}em`;
+      } else if (withMargin && key === 'margin') {
+        value = `${value}px 0px`;
+      } else {
+        value = `${value}px`;
+      }
+    }
+
+    result += `${property}: ${value};\n`;
+  }
+
+  return result;
+};
+
 // check if common fonts
 const allFonts = Object.keys(tokens.font).filter(
   (font) => font !== 'mobile' && font !== 'pdf-templates'
@@ -218,24 +264,7 @@ if (Object.keys(common).length > 0) {
   for (const [font, details] of Object.entries(common)) {
     const className = font.replace('m-', '');
     data += `.${className} {\n`;
-
-    for (let [key, value] of Object.entries(details.value)) {
-      if (key !== 'paragraphSpacing' && key !== 'fontFamily') {
-        if (key === 'paragraphIndent') key = 'text-indent';
-        if (key === 'textCase') key = 'text-transform';
-
-        let property = key
-          .split(/(?=[A-Z])/g)
-          .map((text) => text.toLocaleLowerCase())
-          .join('-');
-
-        if (typeof value === 'number' && key !== 'fontWeight')
-          value = `${value}px`;
-
-        data += `${property}: ${value};\n`;
-      }
-    }
-
+    data += fontDeclarations(details.value);
     data += '}\n\n';
   }
 }
@@ -246,24 +275,7 @@ data += `@media (max-width: 768px) {\n`;
 for (const [font, details] of Object.entries(tokens.font.mobile)) {
   const className = font.replace('m-', '');
   data += `.${className} {\n`;
-
-  for (let [key, value] of Object.entries(details.value)) {
-    if (key !== 'paragraphSpacing' && key !== 'fontFamily') {
-      if (key === 'paragraphIndent') key = 'text-indent';
-      if (key === 'textCase') key = 'text-transform';
-
-      let property = key
-        .split(/(?=[A-Z])/g)
-        .map((text) => text.toLocaleLowerCase())
-        .join('-');
-
-      if (typeof value === 'number' && key !== 'fontWeight')
-        value = `${value}px`;
-
-      data += `${property}: ${value};\n`;
-    }
-  }
-
+  data += fontDeclarations(details.value);
   data += '}\n\n';
 }
 data += '}\n\n';
@@ -278,24 +290,7 @@ for (const [className, details] of Object.entries(tokens.font)) {
     !Object.keys(common).includes(className)
   ) {
     data += `.${className} {\n`;
-    for (let [key, value] of Object.entries(details.value)) {
-      if (key !== 'paragraphSpacing' && key !== 'fontFamily') {
-        if (key === 'paragraphIndent') key = 'text-indent';
-        if (key === 'textCase') key = 'text-transform';
-
-        let property = key
-          .split(/(?=[A-Z])/g)
-          .map((text) => text.toLocaleLowerCase())
-          .join('-');
-
-        if (key === 'margin') value = `${value}px 0px`;
-        if (typeof value === 'number' && key !== 'fontWeight')
-          value = `${value}px`;
-
-        data += `${property}: ${value};\n`;
-      }
-    }
-
+    data += fontDeclarations(details.value, { withMargin: true });
     data += '}\n\n';
   }
 }

@@ -132,8 +132,8 @@ const ImportExport = (props: ImportExportType) => {
                   sx={{
                     fontFamily: 'Inter',
                     fontWeight: 550,
-                    fontSize: '16px',
-                    lineHeight: '20px',
+                    fontSize: '1rem',
+                    lineHeight: 1.25,
                     flex: 'none',
                     order: 0,
                     flexGrow: 0,

@@ -13,12 +13,13 @@ const LabelBadge = ({
     sx={{
       backgroundColor: 'var(--accent-150)',
       borderRadius: 'var(--radius-s)',
-      width: '24px',
+      minWidth: '24px',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      height: '24px',
-      fontSize: '14px',
+      minHeight: '24px',
+      padding: '0 6px',
+      fontSize: '0.875rem',
       opacity: 1,
       transition: 'opacity 0.2s',
     }}

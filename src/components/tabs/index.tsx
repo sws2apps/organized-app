@@ -85,6 +85,11 @@ const Tabs = ({
           <MUITabs
             value={valueOfActivePanel}
             onChange={handleChange}
+            // scrollable, so long labels stay reachable on narrow screens
+            variant="scrollable"
+            // buttons for mouse users, plain swiping on touch, as in
+            // scrollable_tabs
+            scrollButtons={tabletDown ? false : 'auto'}
             slotProps={{
               indicator: {
                 sx: {

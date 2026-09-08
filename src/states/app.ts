@@ -7,6 +7,7 @@ import {
 } from '@services/i18n/translation';
 import { localStorageGetItem } from '@utils/common';
 import {
+  AppFontSizeType,
   BackupFileType,
   BeforeInstallPromptEvent,
   ColorSchemeType,
@@ -14,9 +15,9 @@ import {
   SnackBarSeverityType,
 } from '@definition/app';
 import { createTheme, Direction, MenuProps } from '@mui/material';
-import { atomWithStorage } from 'jotai/utils';
+import { atomWithStorage, createJSONStorage } from 'jotai/utils';
 import { CountryResponseType } from '@definition/api';
-import { LANGUAGE_LIST } from '@constants/index';
+import { APP_FONT_SIZES, LANGUAGE_LIST } from '@constants/index';
 
 export const appThemeNameState = atomWithStorage('theme', 'light');
 
@@ -356,6 +357,24 @@ export const navBarOptionsState = atom<NavBarOptionsType>({});
 export const colorSchemeState = atomWithStorage<ColorSchemeType>(
   'color',
   'blue'
+);
+
+const fontSizeStorage = createJSONStorage<AppFontSizeType>(() => localStorage);
+
+// kept out of the synced user settings on purpose: display preference per device
+export const appFontSizeState = atomWithStorage<AppFontSizeType>(
+  'font_size',
+  'normal',
+  {
+    ...fontSizeStorage,
+    getItem: (key, initialValue) => {
+      const value = fontSizeStorage.getItem(key, initialValue);
+
+      return APP_FONT_SIZES.includes(value) ? value : initialValue;
+    },
+  },
+  // read the stored value on init, so the first render already has it
+  { getOnInit: true }
 );
 
 export const isEmailSentState = atom(false);

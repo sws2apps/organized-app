@@ -8,6 +8,16 @@
 html {
   font-family: 'Inter', sans-serif;
   font-feature-settings: 'cv05';
+  /* percentages, so the browser or OS font preference stays the baseline */
+  font-size: 100%;
+}
+
+html[data-font-size='small'] {
+  font-size: 87.5%;
+}
+
+html[data-font-size='large'] {
+  font-size: 112.5%;
 }
 
 @supports (font-variation-settings: normal) {
@@ -33,6 +43,19 @@ body {
 
 p {
   margin: 0;
+}
+
+/* long words (German, Malagasy) must break rather than widen the page,
+   which larger text sizes on narrow screens would otherwise cause */
+p,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: anywhere;
 }
 
 span .text-markup {

@@ -110,7 +110,7 @@ const PersonBasicInfo = () => {
               width: 'fit-content',
             }}
           >
-            <Typography fontSize={16} color="var(--accent-dark)">
+            <Typography fontSize="1rem" color="var(--accent-dark)">
               {t('tr_family')}: {familyHeadName}
             </Typography>
           </Box>

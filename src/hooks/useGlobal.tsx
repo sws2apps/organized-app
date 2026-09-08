@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { createTheme } from '@mui/material/styles';
 import { useAtomValue } from 'jotai';
 import {
+  appFontSizeState,
   appSnackOpenState,
   congAccountConnectedState,
   isDarkThemeState,
@@ -29,6 +30,7 @@ const useGlobal = () => {
   const coordinatorRole = useAtomValue(coordinatorRoleState);
   const secretaryRole = useAtomValue(secretaryRoleState);
   const isCongAccountConnected = useAtomValue(congAccountConnectedState);
+  const appFontSize = useAtomValue(appFontSizeState);
 
   const [activeTheme, setActiveTheme] = useState(darkTheme);
   const [isLoading, setIsLoading] = useState(true);
@@ -41,6 +43,11 @@ const useGlobal = () => {
       disconnectCongAccount();
     }
   }, [isNavigatorOnline]);
+
+  // also covers a change made in another tab, where only the atom updates
+  useEffect(() => {
+    document.documentElement.dataset.fontSize = appFontSize;
+  }, [appFontSize]);
 
   useEffect(() => {
     if (isLight) {

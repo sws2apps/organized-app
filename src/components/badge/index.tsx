@@ -119,13 +119,16 @@ const Badge = (props: BadgePropsType) => {
     }
   };
 
+  const filledMinHeight = filled ? '24px' : '28px';
+  const bigBadgeMinHeight = props.multiLine ? 'unset' : filledMinHeight;
+
   return (
     <>
       {size === 'small' && (
         <Box
           sx={{
             border: '2px',
-            height: props.multiLine ? 'unset' : '20px',
+            minHeight: props.multiLine ? 'unset' : '20px',
             background: getBackgroundColor(),
             display: 'flex',
             flexDirection: 'row',
@@ -133,6 +136,7 @@ const Badge = (props: BadgePropsType) => {
             gap: '4px',
             padding: '2px 6px',
             flexShrink: '0',
+            maxWidth: '100%',
             width: fullWidth ? '100%' : 'auto',
             justifyContent: centerContent ? 'center' : 'flex-start',
             borderStyle: borderStyle || 'none',
@@ -148,9 +152,9 @@ const Badge = (props: BadgePropsType) => {
             <BadgeTypography
               className={className}
               sx={{
-                fontSize: '12px',
+                fontSize: '0.75rem',
                 fontWeight: '400',
-                lineHeight: '16px',
+                lineHeight: 1.34,
                 color: getColor(),
               }}
             >
@@ -164,7 +168,7 @@ const Badge = (props: BadgePropsType) => {
           sx={{
             border: '1px',
             borderColor: 'var(--accent-350)',
-            height: props.multiLine ? 'unset' : '22px',
+            minHeight: props.multiLine ? 'unset' : '22px',
             background: getBackgroundColor(),
             display: 'flex',
             flexDirection: 'row',
@@ -172,6 +176,7 @@ const Badge = (props: BadgePropsType) => {
             padding: '2px 8px',
             gap: '4px',
             flexShrink: '0',
+            maxWidth: '100%',
             width: fullWidth ? '100%' : 'auto',
             justifyContent: centerContent ? 'center' : 'flex-start',
             borderStyle: borderStyle || 'none',
@@ -187,9 +192,9 @@ const Badge = (props: BadgePropsType) => {
             <BadgeTypography
               className={className}
               sx={{
-                fontSize: '14px',
+                fontSize: '0.875rem',
                 fontWeight: '520',
-                lineHeight: '16px',
+                lineHeight: 1.15,
                 color: getColor(),
               }}
             >
@@ -202,7 +207,7 @@ const Badge = (props: BadgePropsType) => {
         <Box
           sx={{
             border: '4px',
-            height: props.multiLine ? 'unset' : filled ? '24px' : '28px',
+            minHeight: bigBadgeMinHeight,
             background: getBackgroundColor(),
             display: 'flex',
             flexDirection: 'row',
@@ -210,6 +215,7 @@ const Badge = (props: BadgePropsType) => {
             gap: filled ? '10px' : '8px',
             padding: filled ? '2px 6px' : '4px 8px',
             flexShrink: '0',
+            maxWidth: '100%',
             width: fullWidth ? '100%' : 'auto',
             justifyContent: centerContent ? 'center' : 'flex-start',
             borderStyle: borderStyle || 'none',
@@ -226,9 +232,9 @@ const Badge = (props: BadgePropsType) => {
               <BadgeTypography
                 className={className}
                 sx={{
-                  fontSize: '16px',
+                  fontSize: '1rem',
                   fontWeight: '420',
-                  lineHeight: '20px',
+                  lineHeight: 1.25,
                   color: getColor(),
                 }}
               >

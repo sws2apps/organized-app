@@ -150,12 +150,12 @@ function ScrollableTabs({
                         ? `calc(100% / ${tabsCountOnScreen})`
                         : 'auto',
                     minWidth: '20px',
-                    fontSize: 16,
+                    fontSize: '1rem',
                     textTransform: 'none',
                     ':not(&.Mui-selected)': { fontWeight: 400 },
                     '&.Mui-Selected': {
                       fontWeight: 600,
-                      fontSize: 18,
+                      fontSize: '1.125rem',
                     },
                   }}
                 />
