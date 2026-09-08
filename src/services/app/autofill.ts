@@ -395,7 +395,7 @@ const filterAssignmentKeysByWeektype = (
  * This function checks the schedule to determine if the public talk is handled by a local speaker.
  * If the talk type is NOT 'localSpeaker' (e.g., it is a visiting speaker), the standard
  * assignment keys for the Public Talk Speaker (`WM_Speaker_Part1`, `WM_Speaker_Part2`)
- * are removed from the list.
+ * are removed from the list and also the closing prayer is removed.
  *
  * This prevents the autofill algorithm from attempting to assign a local publisher
  * to a slot that is already reserved for an external or visiting speaker.
@@ -418,7 +418,10 @@ const filterAssignmentKeysByPublicTalkType = (
     )?.value || 'localSpeaker';
   if (publicTalkType !== 'localSpeaker') {
     relevantAssignmentKeys = relevantAssignmentKeys.filter(
-      (key) => !['WM_Speaker_Part1', 'WM_Speaker_Part2'].includes(key)
+      (key) =>
+        !['WM_Speaker_Part1', 'WM_Speaker_Part2', 'WM_ClosingPrayer'].includes(
+          key
+        )
     );
   }
 
