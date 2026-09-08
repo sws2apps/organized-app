@@ -17,7 +17,7 @@ import {
   personsWeightingMetrics,
 } from './assignments_with_stats';
 import { AssignmentTask } from './autofill';
-import { personAssignmentHasClassroom } from './persons';
+import { personAssignmentHasClassroom } from '@services/app/persons';
 
 /**
  * Represents the calendar-week distances to a person's closest past and future assignments.
