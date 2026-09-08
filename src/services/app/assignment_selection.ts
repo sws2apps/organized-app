@@ -17,6 +17,7 @@ import {
   personsWeightingMetrics,
 } from './assignments_with_stats';
 import { AssignmentTask } from './autofill';
+import { personAssignmentHasClassroom } from './persons';
 
 /**
  * Represents the calendar-week distances to a person's closest past and future assignments.
@@ -627,6 +628,18 @@ const compareByAlternativeStrategy = (
   }
   return 0;
 };
+//small helper function to check if a person is qualified for a specific classroom assignment based on their assignment history and the task's data view and code.
+const isQualifiedForClassroom = (
+  person: PersonType,
+  task: AssignmentTask,
+  classroom: string
+): boolean => {
+  const personAssignments = person.person_data.assignments.find(
+    (a) => a.type === task.dataView
+  );
+
+  return personAssignmentHasClassroom(personAssignments, task.code, classroom);
+};
 
 //MARK: MAIN SORT FUNCTION
 /**
@@ -867,7 +880,9 @@ export const sortCandidatesMultiLevel = (
     if (
       metaFirst &&
       metaSecond &&
-      metaSecond.weeksSinceLastRoom2 < metaFirst.weeksSinceLastRoom2
+      metaSecond.weeksSinceLastRoom2 < metaFirst.weeksSinceLastRoom2 &&
+      // Skip the swap if the demoted candidate cannot actually take Room 2
+      isQualifiedForClassroom(first, task, '2')
     ) {
       [sortedResult[0], sortedResult[1]] = [sortedResult[1], sortedResult[0]];
     }
