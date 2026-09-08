@@ -23,6 +23,15 @@
         "tr_title": "Tap to count on mobile devices",
         "tr_desc": "Tap the attendance count field and hit the counter button to open full-screen clicker mode. Counting made fast, easy, and intuitive."
       }
+    },
+    "improvements": {
+      "tr_note_01": "Install the app to your desktop or phone from the profile menu",
+      "tr_note_02": "Set up student assignment qualifications flexibly for main hall or auxiliary classroom",
+      "tr_note_03": "Sign-language congregations can record deaf meeting attendance separately",
+      "tr_note_04": "Autofill one week at a time in the midweek meeting monthly view on desktop",
+      "tr_note_05": "Assign any family member as assistant",
+      "tr_note_06": "Mark infirm pioneers to release them from the yearly hour goal",
+      "tr_note_07": "Pick orientation and font size for the field service group PDF export"
     }
   }
 }
