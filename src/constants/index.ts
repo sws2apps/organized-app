@@ -800,7 +800,8 @@ export const WEEK_TYPE_ASSIGNMENT_PATH_KEYS = new Map<
     getSectionKeys(
       AssignmentSectionName.MM_CHAIRMAN,
       AssignmentSectionName.MM_AYF_PART,
-      AssignmentSectionName.MM_LC
+      AssignmentSectionName.MM_LC,
+      AssignmentSectionName.MM_CBS
     ),
   ],
 
@@ -808,7 +809,8 @@ export const WEEK_TYPE_ASSIGNMENT_PATH_KEYS = new Map<
     Week.LIVING_PART,
     getSectionKeys(
       AssignmentSectionName.MM_CHAIRMAN,
-      AssignmentSectionName.MM_LC
+      AssignmentSectionName.MM_LC,
+      AssignmentSectionName.MM_CBS
     ),
   ],
 
