@@ -1302,8 +1302,9 @@ export const schedulesRandomChooseTalks = async (
   // Select ~100 talks evenly spread across all valid talks
   const poolSize = Math.min(100, validTalks.length);
   const step = validTalks.length / poolSize;
-  const talkPool = Array.from({ length: poolSize }, (_, i) =>
-    validTalks[Math.floor(i * step)]
+  const talkPool = Array.from(
+    { length: poolSize },
+    (_, i) => validTalks[Math.floor(i * step)]
   );
 
   // Shuffle the pool for natural randomness within even distribution
@@ -1358,7 +1359,7 @@ export const dbSchedulesAutoFill = async () => {
     },
   });
 
-  await schedulesStartAutofill(start, end, 'weekend', groups);
+  await schedulesStartAutofill(start, end, 'weekend');
 
   // assign only midweek once in a 3 months
   const startDate = new Date(start);
@@ -1426,21 +1427,18 @@ export const dbSchedulesAutoFill = async () => {
     },
   });
 
-  await schedulesStartAutofill(start, end, 'midweek', groups);
+  await schedulesStartAutofill(start, end, 'midweek');
 
   await schedulesRandomChooseTalks(start, end);
 
-  await schedulesStartAutofill(start, end, 'weekend', groups);
+  await schedulesStartAutofill(start, end, 'weekend');
 };
 
 /**
  * Add outgoing talk schedule entries — 2 speakers assigned to
  * different congregations on separate weeks.
  */
-const dbSchedulesFillOutgoingTalks = async (
-  start: string,
-  end: string
-) => {
+const dbSchedulesFillOutgoingTalks = async (start: string, end: string) => {
   const schedules = await appDb.sched.toArray();
   const congregations = await appDb.speakers_congregations.toArray();
   const persons = await appDb.persons.toArray();
@@ -1456,18 +1454,14 @@ const dbSchedulesFillOutgoingTalks = async (
 
   // Find eligible speakers (those with WM_Speaker assignment)
   const speakers = persons.filter((p) =>
-    p.person_data.assignments
-      .at(0)
-      ?.values.includes(AssignmentCode.WM_Speaker)
+    p.person_data.assignments.at(0)?.values.includes(AssignmentCode.WM_Speaker)
   );
 
   if (speakers.length < 2) return;
 
   // Pick 2 different speakers
   const speaker1 = speakers[0];
-  const speaker2 = speakers.find(
-    (s) => s.person_uid !== speaker1.person_uid
-  );
+  const speaker2 = speakers.find((s) => s.person_uid !== speaker1.person_uid);
 
   if (!speaker2) return;
 
@@ -1481,9 +1475,8 @@ const dbSchedulesFillOutgoingTalks = async (
   // Pick the 2nd and 4th week (or last available) for spacing
   const weekIdx1 = Math.min(1, eligibleWeeks.length - 1);
   const rawIdx2 = Math.min(3, eligibleWeeks.length - 1);
-  const weekIdx2 = rawIdx2 <= weekIdx1
-    ? (weekIdx1 + 1) % eligibleWeeks.length
-    : rawIdx2;
+  const weekIdx2 =
+    rawIdx2 <= weekIdx1 ? (weekIdx1 + 1) % eligibleWeeks.length : rawIdx2;
   const week1 = eligibleWeeks[weekIdx1];
   const week2 = eligibleWeeks[weekIdx2];
 

@@ -1908,7 +1908,6 @@ const processingTasks = ({
  * @param start - Start of the date range (inclusive). Expected to be a non-empty date string.
  * @param end - End of the date range (inclusive). Expected to be a non-empty date string.
  * @param meeting - Which meeting schedule to autofill ("midweek" or "weekend").
- * @param languageGroups - Language group configurations to include in the autofill run.
  * @returns A promise that resolves when updates are persisted and state is refreshed; returns early if
  * input is invalid or no weeks were modified.
  * @throws Error if the autofill fails; the thrown error message is prefixed with "autofill error:".
