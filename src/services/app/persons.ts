@@ -340,6 +340,23 @@ export const enrollmentMatches = (
   target: EnrollmentType
 ) => (ENROLLMENT_FAMILY[target] ?? [target]).includes(record);
 
+/**
+ * The six full months before the current one, which is the window both
+ * regularity checks are judged on.
+ *
+ * The months are counted from the first day of the current month, because
+ * moving a month back from the 29th, 30th or 31st lands in the wrong month.
+ */
+const regularityWindow = () => {
+  const now = new Date();
+  const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+
+  return {
+    start: formatDate(addMonths(monthStart, -6), 'yyyy/MM'),
+    end: formatDate(addMonths(monthStart, -1), 'yyyy/MM'),
+  };
+};
+
 export const personIsIrregularPublisher = (
   person: PersonType,
   reportMonths?: Set<string>
@@ -348,21 +365,18 @@ export const personIsIrregularPublisher = (
     return false;
   }
 
-  const now = new Date();
   const firstReportValue = person.person_data.first_report?.value;
   if (!firstReportValue) return false;
 
-  const firstReportDate = new Date(firstReportValue);
+  const { start, end } = regularityWindow();
 
-  const sixMonthsAgo = new Date(now);
-  sixMonthsAgo.setMonth(now.getMonth() - 6);
+  const firstMonth = formatDate(new Date(firstReportValue), 'yyyy/MM');
 
-  if (firstReportDate > sixMonthsAgo) return false;
+  // someone who began reporting inside the window has not been a publisher
+  // long enough to be called irregular
+  if (firstMonth > start) return false;
 
   if (!reportMonths || reportMonths.size === 0) return true;
-
-  const end = formatDate(addMonths(new Date(), -1), 'yyyy/MM');
-  const start = formatDate(addMonths(new Date(), -6), 'yyyy/MM');
 
   const months = createArrayFromMonths(start, end);
 
@@ -371,6 +385,42 @@ export const personIsIrregularPublisher = (
   }
 
   return false;
+};
+
+/**
+ * A regular publisher has reported in every month of the window that they were
+ * already reporting in.
+ *
+ * This is stated on its own rather than taken as the opposite of irregular:
+ * someone who is not an active publisher at all, a midweek meeting student
+ * among them, is neither regular nor irregular and belongs in neither filter.
+ */
+export const personIsRegularPublisher = (
+  person: PersonType,
+  reportMonths?: Set<string>
+) => {
+  if (!personIsActive(person) || (person.person_data.archived.value ?? false)) {
+    return false;
+  }
+
+  const firstReportValue = person.person_data.first_report?.value;
+  if (!firstReportValue) return false;
+
+  if (!reportMonths || reportMonths.size === 0) return false;
+
+  const { start, end } = regularityWindow();
+
+  const firstMonth = formatDate(new Date(firstReportValue), 'yyyy/MM');
+
+  // a publisher of a few months is judged on the months they have had
+  const from = firstMonth > start ? firstMonth : start;
+
+  // they began this month, so there is nothing reported yet to judge
+  if (from > end) return false;
+
+  const months = createArrayFromMonths(from, end);
+
+  return months.every((month) => reportMonths.has(month));
 };
 
 export const personIsEnrollmentActive = (
@@ -644,6 +694,7 @@ export const applyGroupFilters = (
 
       const reportMonths = reportsMap.get(person.person_uid);
       const isIrregular = personIsIrregularPublisher(person, reportMonths);
+      const isRegular = personIsRegularPublisher(person, reportMonths);
 
       // if you want to add another condition here, add it after the male and
       // female check to avoid it to be overwritten
@@ -662,12 +713,17 @@ export const applyGroupFilters = (
 
       // regular selected
       if (isPassed && isRegularFilter && !isIrregularFilter) {
-        isPassed = !isIrregular;
+        isPassed = isRegular;
       }
 
       //irregular selected
       if (isPassed && !isRegularFilter && isIrregularFilter) {
         isPassed = isIrregular;
+      }
+
+      // both selected: everyone whose regularity is known
+      if (isPassed && isRegularFilter && isIrregularFilter) {
+        isPassed = isRegular || isIrregular;
       }
 
       // baptized selected
