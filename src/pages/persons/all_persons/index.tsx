@@ -1,4 +1,4 @@
-import { Box, Slide } from '@mui/material';
+import { Box } from '@mui/material';
 import { Button, PageTitle } from '@components/index';
 import {
   IconAddPerson,
@@ -19,6 +19,7 @@ import PersonsSearch from '@features/persons/search';
 import NavBarButton from '@components/nav_bar_button';
 import NavBarButtonGroup from '@components/nav_bar_button_group';
 import ImportExport from '@features/persons/import_export';
+import PaneSwitcher from '@components/pane_switcher';
 
 const PersonsAll = () => {
   const { t } = useAppTranslation();
@@ -35,6 +36,46 @@ const PersonsAll = () => {
     isDataExchangeOpen,
     handleCloseExchange,
   } = useAllPersons();
+
+  const listCardStyles = {
+    backgroundColor: 'var(--white)',
+    border: '1px solid var(--accent-300)',
+    flex: 1,
+    borderRadius: 'var(--radius-xl)',
+    padding: '16px',
+    display: 'flex',
+    gap: '16px',
+    flexDirection: 'column',
+  };
+
+  const filterCardStyles = {
+    backgroundColor: 'var(--white)',
+    border: '1px solid var(--accent-300)',
+    borderRadius: 'var(--radius-xl)',
+    padding: '16px',
+    width: '100%',
+  };
+
+  const listPane = (
+    <>
+      <Box sx={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
+        <Box sx={{ flexGrow: 1, minWidth: 0 }}>
+          <PersonsSearch />
+        </Box>
+        <Button
+          variant="secondary"
+          disableAutoStretch
+          sx={{ flexShrink: 0, height: '48px', padding: '8px 16px' }}
+          onClick={() => setIsPanelOpen((prev) => !prev)}
+          endIcon={isPanelOpen ? <IconPanelOpen /> : <IconPanelClose />}
+        >
+          {t('tr_filters')}
+        </Button>
+      </Box>
+
+      <PersonsList />
+    </>
+  );
 
   return (
     <Box
@@ -77,118 +118,31 @@ const PersonsAll = () => {
           alignItems: 'flex-start',
         }}
       >
-        {desktopUp && (
-          <Box
-            sx={{
-              backgroundColor: 'var(--white)',
-              border: '1px solid var(--accent-300)',
-              flex: 1,
-              borderRadius: 'var(--radius-xl)',
-              padding: '16px',
-              display: 'flex',
-              gap: '16px',
-              flexDirection: 'column',
-            }}
-          >
-            <Box sx={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
-              <Box sx={{ flexGrow: 1, minWidth: 0 }}>
-                <PersonsSearch />
-              </Box>
-              <Button
-                variant="secondary"
-                disableAutoStretch
-                sx={{ flexShrink: 0, height: '48px', padding: '8px 16px' }}
-                onClick={() => setIsPanelOpen((prev) => !prev)}
-                endIcon={isPanelOpen ? <IconPanelOpen /> : <IconPanelClose />}
-              >
-                {t('tr_filters')}
-              </Button>
-            </Box>
-
-            <PersonsList />
-          </Box>
-        )}
+        {desktopUp && <Box sx={listCardStyles}>{listPane}</Box>}
 
         {!desktopUp && (
-          <Box sx={{ position: 'relative', overflowX: 'clip', width: '100%' }}>
-            <Slide direction="right" in={!isPanelOpen} unmountOnExit>
-              <Box
-                sx={{
-                  position: 'absolute',
-                  left: 0,
-                  right: 0,
-                  paddingBottom: '32px',
-                }}
-              >
-                <Box
-                  sx={{
-                    backgroundColor: 'var(--white)',
-                    border: '1px solid var(--accent-300)',
-                    flex: 1,
-                    borderRadius: 'var(--radius-xl)',
-                    padding: '16px',
-                    display: 'flex',
-                    gap: '16px',
-                    flexDirection: 'column',
-                  }}
-                >
-                  <Box sx={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
-                    <Box sx={{ flexGrow: 1, minWidth: 0 }}>
-                      <PersonsSearch />
-                    </Box>
-                    <Button
-                      variant="secondary"
-                      disableAutoStretch
-                      sx={{ flexShrink: 0, height: '48px', padding: '8px 16px' }}
-                      onClick={() => setIsPanelOpen((prev) => !prev)}
-                      endIcon={
-                        isPanelOpen ? <IconPanelOpen /> : <IconPanelClose />
-                      }
-                    >
-                      {t('tr_filters')}
-                    </Button>
+          <PaneSwitcher
+            fullBleed
+            value={isPanelOpen ? 1 : 0}
+            panes={[
+              {
+                key: 'list',
+                content: <Box sx={listCardStyles}>{listPane}</Box>,
+              },
+              {
+                key: 'filter',
+                content: (
+                  <Box sx={filterCardStyles}>
+                    <PersonsFilter />
                   </Box>
-
-                  <PersonsList />
-                </Box>
-              </Box>
-            </Slide>
-
-            <Slide direction="left" in={isPanelOpen} unmountOnExit>
-              <Box
-                sx={{
-                  position: 'absolute',
-                  left: 0,
-                  right: 0,
-                  paddingBottom: '32px',
-                }}
-              >
-                <Box
-                  sx={{
-                    backgroundColor: 'var(--white)',
-                    border: '1px solid var(--accent-300)',
-                    borderRadius: 'var(--radius-xl)',
-                    padding: '16px',
-                    width: '100%',
-                  }}
-                >
-                  <PersonsFilter />
-                </Box>
-              </Box>
-            </Slide>
-          </Box>
+                ),
+              },
+            ]}
+          />
         )}
 
         {desktopUp && isPanelOpen && (
-          <Box
-            sx={{
-              backgroundColor: 'var(--white)',
-              border: '1px solid var(--accent-300)',
-              borderRadius: 'var(--radius-xl)',
-              padding: '16px',
-              width: '520px',
-            }}
-          >
+          <Box sx={{ ...filterCardStyles, width: '520px' }}>
             <PersonsFilter />
           </Box>
         )}
