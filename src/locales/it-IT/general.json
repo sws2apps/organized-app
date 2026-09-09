@@ -36,6 +36,8 @@
   "tr_december": "Dicembre",
   "tr_longDateFormat": "EEE, dd MMM yyyy",
   "tr_delete": "Elimina",
+  "tr_continueEditing": "Continue editing",
+  "tr_discardChanges": "Discard changes",
   "tr_add": "Aggiungi",
   "tr_pickerSelectTime": "Seleziona l'ora",
   "tr_pickerSelectDate": "Seleziona la data",

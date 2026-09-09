@@ -37,7 +37,7 @@
   "tr_clearMultipleDesc": "Vali koosolekud, mida soovid kustutada. Valitud kuupäevavahemikus olevad ülesanded eemaldatakse, kuid nädalad ise jäävad alles.",
   "tr_clearSelectedWeeks": "Kustuta valitud nädalad",
   "tr_unsavedChanges": "Sul on salvestamata muudatusi",
-  "tr_unsavedChangesDesc": "Kas soovid lehelt lahkuda ilma muudatusi salvestamata? Sa kaotad kõik salvestamata muudatused.",
+  "tr_unsavedChangesDesc": "Your unsaved changes will be lost.",
   "tr_leavePage": "Lahku lehelt",
   "tr_autofillMM": "Automaattäida nädalasisene koosolek",
   "tr_autofillThisWeek": "Autofill this week",

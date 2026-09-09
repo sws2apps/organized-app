@@ -37,7 +37,7 @@
   "tr_clearMultipleDesc": "Izberi razporede, ki jih želiš počistiti. Naloge v izbranem časovnem obdobju bodo odstranjene, tedni pa bodo ostali.",
   "tr_clearSelectedWeeks": "Počisti izbrane tedne",
   "tr_unsavedChanges": "Imaš neshranjene spremembe",
-  "tr_unsavedChangesDesc": "Želiš zapustiti stran brez shranjevanja sprememb? Izgubil boš vse neshranjene spremembe.",
+  "tr_unsavedChangesDesc": "Your unsaved changes will be lost.",
   "tr_leavePage": "Zapusti stran",
   "tr_autofillMM": "Samodejno izpolni shod med tednom",
   "tr_autofillThisWeek": "Samodejno izpolni ta teden",
