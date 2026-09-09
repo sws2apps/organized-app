@@ -401,14 +401,16 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
   const isConsecutiveAssignment = useMemo(() => {
     if (!value) return false;
 
+    // Assistants share the student part qualification in type, but history
+    // stores them as MM_AssistantOnly. Normalize so assistant repeats warn.
     return schedulesPersonHasConsecutiveAssignment({
       history: assignmentsHistory,
       week,
-      type,
+      type: isAssistant ? AssignmentCode.MM_AssistantOnly : type,
       person_uid: value.person_uid,
       dataView,
     });
-  }, [value, assignmentsHistory, week, type, dataView]);
+  }, [value, assignmentsHistory, week, type, dataView, isAssistant]);
 
   const meetingDate = useMemo(() => {
     const meeting = location.pathname.includes('midweek')
