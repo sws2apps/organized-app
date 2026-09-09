@@ -14,7 +14,7 @@ const ImportExport = (props: ImportExportType) => {
     useImportExport(props);
 
   return (
-    <Dialog onClose={props.onClose} open={props.open} sx={{ padding: '24px' }}>
+    <Dialog onClose={props.onClose} open={props.open}>
       {state === 'import/export' && (
         <Stack spacing="16px">
           <Typography className="h2">{t('tr_importExportTitle')}</Typography>

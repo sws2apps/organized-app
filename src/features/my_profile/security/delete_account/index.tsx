@@ -1,4 +1,3 @@
-import { Stack } from '@mui/material';
 import { IconEncryptionKey } from '@components/icons';
 import IconLoading from '@components/icon_loading';
 import { useAppTranslation } from '@hooks/index';
@@ -8,7 +7,6 @@ import Button from '@components/button';
 import Dialog from '@components/dialog';
 import DialogActions from '@components/dialog_actions';
 import TextField from '@components/textfield';
-import Typography from '@components/typography';
 import WaitingLoader from '@components/waiting_loader';
 
 const DeleteAccount = ({ open, onClose }: DeleteAccountProps) => {
@@ -27,17 +25,12 @@ const DeleteAccount = ({ open, onClose }: DeleteAccountProps) => {
   } = useDeleteAccount(onClose);
 
   return (
-    <Dialog onClose={onClose} open={open}>
-      <Stack spacing="16px">
-        <Typography className="h2">{t('tr_deleteAccount')}</Typography>
-
-        {!isLoading && (
-          <Typography className="body-regular" color="var(--grey-400)">
-            {desc}
-          </Typography>
-        )}
-      </Stack>
-
+    <Dialog
+      onClose={onClose}
+      open={open}
+      title={t('tr_deleteAccount')}
+      description={desc}
+    >
       {isLoading && <WaitingLoader variant="standard" size={72} />}
 
       {!isLoading && isDeleteCong && (

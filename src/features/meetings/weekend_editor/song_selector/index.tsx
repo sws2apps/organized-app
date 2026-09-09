@@ -25,7 +25,7 @@ const SongSelector = (props: SongSelectorProps) => {
   } = useSongSelector(props);
 
   return (
-    <Dialog onClose={handleClose} open={selectorOpen} sx={{ padding: '24px' }}>
+    <Dialog onClose={handleClose} open={selectorOpen}>
       <Stack spacing="16px">
         <Box
           sx={{

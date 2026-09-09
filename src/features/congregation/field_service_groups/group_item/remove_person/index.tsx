@@ -14,7 +14,7 @@ const RemovePerson = (props: RemovePersonProps) => {
   const { group_name, person_name } = useRemovePerson(props);
 
   return (
-    <Dialog onClose={props.onClose} open={props.open} sx={{ padding: '24px' }}>
+    <Dialog onClose={props.onClose} open={props.open}>
       <Stack spacing="16px">
         <Typography className="h2">
           {t('tr_removePublisher', { PersonName: person_name })}

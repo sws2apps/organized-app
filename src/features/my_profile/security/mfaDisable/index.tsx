@@ -1,9 +1,7 @@
-import { Box } from '@mui/material';
 import IconLoading from '@components/icon_loading';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
 import DialogActions from '@components/dialog_actions';
-import Typography from '@components/typography';
 import { useAppTranslation } from '@hooks/index';
 import useMFADisable from './useMFADisable';
 
@@ -18,14 +16,12 @@ const MFADisable = ({ open, onClose }: MFADisableType) => {
   const { handleDisable2FA, isProcessing } = useMFADisable(onClose);
 
   return (
-    <Dialog onClose={onClose} open={open}>
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-        <Typography className="h2">{t('tr_2FADisable')}</Typography>
-        <Typography className="body-regular" color="var(--grey-400)">
-          {t('tr_2FADisableDesc')}
-        </Typography>
-      </Box>
-
+    <Dialog
+      onClose={onClose}
+      open={open}
+      title={t('tr_2FADisable')}
+      description={t('tr_2FADisableDesc')}
+    >
       <DialogActions>
         <Button variant="secondary" onClick={onClose}>
           {t('tr_cancel')}

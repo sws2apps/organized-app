@@ -37,7 +37,7 @@ const CongregationAdd = ({ onClose, open }: CongregationAddType) => {
   } = useCongregationAdd(onClose);
 
   return (
-    <Dialog onClose={onClose} open={open} sx={{ padding: '24px' }}>
+    <Dialog onClose={onClose} open={open}>
       {isFindCongregation && (
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           <Typography className="h2">{t('tr_addCongregation')}</Typography>

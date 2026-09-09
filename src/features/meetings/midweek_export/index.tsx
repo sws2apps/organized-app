@@ -32,11 +32,7 @@ const MidweekExport = ({ open, onClose }: MidweekExportType) => {
   } = useMidweekExport(onClose);
 
   return (
-    <Dialog
-      onClose={onClose}
-      open={open}
-      sx={{ padding: '24px', position: 'relative' }}
-    >
+    <Dialog onClose={onClose} open={open} sx={{ position: 'relative' }}>
       <Box
         sx={{
           display: 'flex',

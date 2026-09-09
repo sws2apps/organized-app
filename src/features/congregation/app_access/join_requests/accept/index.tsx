@@ -49,10 +49,11 @@ const AcceptRequest = (props: AcceptRequestProps) => {
         {t('tr_accept')}
       </Button>
 
-      <Dialog onClose={handleClose} open={open} sx={{ padding: '24px' }}>
-        <Typography className="h2">
-          {t('tr_joinRequestsAccept', { user: fullname })}
-        </Typography>
+      <Dialog
+        onClose={handleClose}
+        open={open}
+        title={t('tr_joinRequestsAccept', { user: fullname })}
+      >
         <Typography className="body-regular" color="var(--grey-400)">
           {t('tr_joinRequestsAcceptDesc')}
         </Typography>

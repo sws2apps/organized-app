@@ -15,7 +15,7 @@ const QuickSettings = ({
   const { t } = useAppTranslation();
 
   return (
-    <Dialog onClose={onClose} open={open} sx={{ padding: '24px' }}>
+    <Dialog onClose={onClose} open={open}>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
         <Typography className="h2">
           {t('tr_quickSettings')} – {title}

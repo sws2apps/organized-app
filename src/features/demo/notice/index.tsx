@@ -3,7 +3,6 @@ import Button from '@components/button';
 import Dialog from '@components/dialog';
 import DialogActions from '@components/dialog_actions';
 import TextMarkup from '@components/text_markup';
-import Typography from '@components/typography';
 import useNotice from './useNotice';
 
 const DemoNotice = () => {
@@ -12,8 +11,7 @@ const DemoNotice = () => {
   const { handleClose, open, handleOpenRealApp } = useNotice();
 
   return (
-    <Dialog onClose={handleClose} open={open} sx={{ padding: '24px' }}>
-      <Typography className="h2">{t('tr_testAppWelcome')}</Typography>
+    <Dialog onClose={handleClose} open={open} title={t('tr_testAppWelcome')}>
       <TextMarkup
         content={t('tr_testAppWelcomeDesc')}
         className="body-regular"

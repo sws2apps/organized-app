@@ -1,4 +1,11 @@
 :root {
+  /* dialogs: the surrounding padding, the gap between the rows inside, and
+     the gap under a pinned title */
+  --dialog-padding: 24px;
+  --dialog-gap: 24px;
+  --dialog-gap-mobile: 16px;
+  --dialog-header-gap: 8px;
+
   --message-glow-small-offset-y: 4px;
   --message-glow-small-blur: 12px;
   --message-glow-small: 0px var(--message-glow-small-offset-y)

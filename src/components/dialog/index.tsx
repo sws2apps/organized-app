@@ -4,8 +4,16 @@ import {
   isValidElement,
   PropsWithChildren,
   ReactNode,
+  useId,
 } from 'react';
-import { Box, Dialog as MUIDialog, DialogContent, Stack } from '@mui/material';
+import {
+  Box,
+  Dialog as MUIDialog,
+  DialogContent,
+  Stack,
+  Theme,
+  useTheme,
+} from '@mui/material';
 import { ResponsiveStyleValue } from '@mui/system';
 import DialogActions from '@components/dialog_actions';
 import IconButton from '@components/icon_button';
@@ -14,7 +22,7 @@ import { IconClose } from '@components/icons';
 import { useAppTranslation, useScrollFade } from '@hooks/index';
 import { DialogProps } from './index.types';
 
-const DEFAULT_PADDING = '24px';
+const DEFAULT_PADDING = 'var(--dialog-padding)';
 
 // fragments are flattened, so an actions row wrapped in one is still found
 const flatten = (children: ReactNode): ReactNode[] =>
@@ -27,10 +35,32 @@ const flatten = (children: ReactNode): ReactNode[] =>
 const isActionsRow = (child: ReactNode) =>
   isValidElement(child) && child.type === DialogActions;
 
+// sx is an object, a callback taking the theme, or an array of either
+const resolveSx = (
+  sx: DialogProps['sx'],
+  theme: Theme
+): Record<string, unknown> => {
+  if (!sx) return {};
+
+  if (Array.isArray(sx)) {
+    return sx.reduce<Record<string, unknown>>(
+      (merged, entry) => ({
+        ...merged,
+        ...resolveSx(entry as DialogProps['sx'], theme),
+      }),
+      {}
+    );
+  }
+
+  if (typeof sx === 'function') return resolveSx(sx(theme), theme);
+
+  return sx as Record<string, unknown>;
+};
+
 // the pinned rows take the content's own padding, whatever shape it is, so
 // the three line up at every breakpoint
-const readPadding = (sx: DialogProps['sx']) => {
-  const styles = (sx ?? {}) as Record<string, unknown>;
+const readPadding = (sx: DialogProps['sx'], theme: Theme) => {
+  const styles = resolveSx(sx, theme);
 
   return (styles.padding ??
     styles.p ??
@@ -59,9 +89,14 @@ const Dialog = ({
 }: DialogProps) => {
   const { t } = useAppTranslation();
 
+  // dialogs can be open at once, so each names itself by its own heading
+  const titleId = useId();
+
   const ref = useScrollFade();
 
-  const padding = readPadding(sx);
+  const theme = useTheme();
+
+  const padding = readPadding(sx, theme);
 
   const items = flatten(children);
 
@@ -71,9 +106,12 @@ const Dialog = ({
   const pinnedActions =
     actions ?? (childActions.length > 0 ? childActions : null);
 
-  const content = actions ? items : items.filter((item) => !isActionsRow(item));
+  const content = (
+    actions ? items : items.filter((item) => !isActionsRow(item))
+  ).filter((item) => item !== null && item !== false && item !== '');
 
-  const titleRow = header ?? (
+  // the close button belongs to the row whichever way the header is built
+  const titleRow = (header || title || closable) && (
     <Box
       sx={{
         display: 'flex',
@@ -84,13 +122,17 @@ const Dialog = ({
         width: '100%',
       }}
     >
-      <Stack spacing="2px">
-        <Typography className="h2">{title}</Typography>
+      {header ?? (
+        <Stack spacing="2px">
+          <Typography className="h2" id={titleId}>
+            {title}
+          </Typography>
 
-        {description && (
-          <Typography color="var(--grey-400)">{description}</Typography>
-        )}
-      </Stack>
+          {description && (
+            <Typography color="var(--grey-400)">{description}</Typography>
+          )}
+        </Stack>
+      )}
 
       {closable && (
         <IconButton
@@ -122,6 +164,7 @@ const Dialog = ({
       fullWidth
       open={open}
       onClose={handleClose}
+      aria-labelledby={title ? titleId : undefined}
       sx={{
         boxSizing: 'border-box',
         '.MuiPaper-root': {
@@ -146,32 +189,59 @@ const Dialog = ({
         },
       }}
     >
-      {(header || title) && (
-        <Box sx={{ flexShrink: 0, padding, paddingBottom: '8px' }}>
+      {titleRow && (
+        <Box
+          sx={{
+            flexShrink: 0,
+            padding,
+            paddingBottom: 'var(--dialog-header-gap)',
+          }}
+        >
           {titleRow}
         </Box>
       )}
 
-      <DialogContent
-        ref={ref}
-        className="scroll-fade-y"
-        sx={{
-          padding,
-          display: 'flex',
-          flexDirection: 'column',
-          gap: { mobile: '16px', desktop: '24px' },
-          alignItems: 'flex-start',
-          flex: '1 1 auto',
-          minHeight: 0,
-          overscrollBehavior: 'contain',
-          ...sx,
-        }}
-      >
-        {content}
-      </DialogContent>
+      {content.length > 0 && (
+        <DialogContent
+          ref={ref}
+          className="scroll-fade-y"
+          sx={{
+            padding,
+            display: 'flex',
+            flexDirection: 'column',
+            gap: {
+              mobile: 'var(--dialog-gap-mobile)',
+              desktop: 'var(--dialog-gap)',
+            },
+            alignItems: 'flex-start',
+            flex: '1 1 auto',
+            minHeight: 0,
+            overscrollBehavior: 'contain',
+            ...sx,
+          }}
+        >
+          {content}
+        </DialogContent>
+      )}
 
       {pinnedActions && (
-        <Box sx={{ flexShrink: 0, padding, paddingTop: 0 }}>
+        <Box
+          sx={{
+            flexShrink: 0,
+            padding,
+            // with nothing between the rows, the buttons take the gap the
+            // content would have held
+            paddingTop:
+              content.length > 0
+                ? 0
+                : {
+                    mobile:
+                      'calc(var(--dialog-gap-mobile) - var(--dialog-header-gap))',
+                    desktop:
+                      'calc(var(--dialog-gap) - var(--dialog-header-gap))',
+                  },
+          }}
+        >
           {pinnedActions}
         </Box>
       )}

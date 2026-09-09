@@ -1,8 +1,6 @@
-import { Box } from '@mui/material';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
 import DialogActions from '@components/dialog_actions';
-import Typography from '@components/typography';
 import { useAppTranslation } from '@hooks/index';
 import { PersonQualifyConfirmType } from './index.types';
 
@@ -14,13 +12,12 @@ const PersonQualifyConfirm = ({
   const { t } = useAppTranslation();
 
   return (
-    <Dialog onClose={onClose} open={open} sx={{ padding: '24px' }}>
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-        <Typography className="h2">{t('tr_markQualifiedTitle')}</Typography>
-        <Typography className="body-regular" color="var(--grey-400)">
-          {t('tr_markQualifiedDesc')}
-        </Typography>
-      </Box>
+    <Dialog
+      onClose={onClose}
+      open={open}
+      title={t('tr_markQualifiedTitle')}
+      description={t('tr_markQualifiedDesc')}
+    >
       <DialogActions>
         <Button variant="secondary" onClick={onClose}>
           {t('tr_cancel')}

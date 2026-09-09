@@ -25,11 +25,7 @@ const WeekendExport = ({ open, onClose }: WeekendExportType) => {
   } = useWeekendExport(onClose);
 
   return (
-    <Dialog
-      onClose={onClose}
-      open={open}
-      sx={{ padding: '24px', position: 'relative' }}
-    >
+    <Dialog onClose={onClose} open={open} sx={{ position: 'relative' }}>
       <Box
         sx={{
           display: 'flex',

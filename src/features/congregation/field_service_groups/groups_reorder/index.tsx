@@ -19,7 +19,6 @@ const GroupsReorder = (props: GroupsReorderProps) => {
     <Dialog
       onClose={props.onClose}
       open={props.open}
-      sx={{ padding: '24px' }}
       header={
         <Typography className="h2">{t('tr_reorderGroupsTitle')}</Typography>
       }

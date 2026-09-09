@@ -1,4 +1,3 @@
-import { Box } from '@mui/material';
 import IconLoading from '@components/icon_loading';
 import { useAppTranslation } from '@hooks/index';
 import { DeleteCodeType } from './index.types';
@@ -6,7 +5,6 @@ import useDeleteCode from './useDeleteCode';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
 import DialogActions from '@components/dialog_actions';
-import Typography from '@components/typography';
 
 const DeleteCode = ({ open, onClose, user }: DeleteCodeType) => {
   const { t } = useAppTranslation();
@@ -14,15 +12,12 @@ const DeleteCode = ({ open, onClose, user }: DeleteCodeType) => {
   const { isProcessing, handleDeleteCode } = useDeleteCode(user, onClose);
 
   return (
-    <Dialog onClose={onClose} open={open} sx={{ padding: '24px' }}>
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-        <Typography className="h2">{t('tr_deleteInvitationCode')}</Typography>
-
-        <Typography color="var(--grey-400)">
-          {t('tr_deleteInvitationCodeDesc')}
-        </Typography>
-      </Box>
-
+    <Dialog
+      onClose={onClose}
+      open={open}
+      title={t('tr_deleteInvitationCode')}
+      description={t('tr_deleteInvitationCodeDesc')}
+    >
       <DialogActions>
         <Button variant="secondary" onClick={onClose}>
           {t('tr_cancel')}

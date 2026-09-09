@@ -6,15 +6,26 @@ import { ScrollAreaProps } from './index.types';
  * A list or panel that scrolls inside something else, dissolving at the edges
  * it scrolls past: the surrounding scroll area cannot tell that it is cut off.
  */
-const ScrollArea = ({ children, sx, ...props }: ScrollAreaProps) => {
-  const ref = useScrollFade();
+const ScrollArea = ({
+  children,
+  sx,
+  className,
+  ref,
+  ...props
+}: ScrollAreaProps) => {
+  const fadeRef = useScrollFade();
 
   return (
     <Box
-      ref={ref}
-      className="scroll-fade-y"
-      sx={{ overflowY: 'auto', ...sx }}
       {...props}
+      ref={(el: HTMLDivElement | null) => {
+        fadeRef(el);
+
+        if (typeof ref === 'function') ref(el);
+        else if (ref) ref.current = el;
+      }}
+      className={['scroll-fade-y', className].filter(Boolean).join(' ')}
+      sx={{ overflowY: 'auto', ...sx }}
     >
       {children}
     </Box>
