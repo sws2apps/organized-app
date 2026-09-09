@@ -1,18 +1,26 @@
-import { useCallback, useEffect, useMemo, useReducer, useState } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useReducer,
+  useRef,
+  useState,
+} from 'react';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { addMonths, formatDate } from '@utils/date';
 import {
   reportUserSelectedMonthState,
-  userFieldServiceDailyReportsState,
   userMinistryTimerState,
 } from '@states/user_field_service_reports';
-import { handleSaveDailyFieldServiceReport } from '@services/app/user_field_service_reports';
+import {
+  fieldServiceTimeFromSeconds,
+  handleAddFieldServiceTime,
+} from '@services/app/user_field_service_reports';
 import { userLocalUIDState } from '@states/settings';
-import { UserFieldServiceDailyReportType } from '@definition/user_field_service_reports';
-import { userFieldServiceDailyReportSchema } from '@services/dexie/schema';
 import useMinistryMonthlyRecord from '@features/ministry/hooks/useMinistryMonthlyRecord';
 import useAppTranslation from '@hooks/useAppTranslation';
 import { displaySnackNotification } from '@services/states/app';
+import { getMessageByCode } from '@services/i18n/translation';
 
 const useMinistryTimer = () => {
   const { t } = useAppTranslation();
@@ -21,10 +29,15 @@ const useMinistryTimer = () => {
 
   const setSelectedMonth = useSetAtom(reportUserSelectedMonthState);
 
-  const reports = useAtomValue(userFieldServiceDailyReportsState);
   const userUID = useAtomValue(userLocalUIDState);
 
   const [, refreshTimer] = useReducer((value: number) => value + 1, 0);
+
+  // the last moment the running session was seen, to notice a clock moved back
+  const lastSeen = useRef(Date.now());
+
+  // a stop already being written must not be started a second time
+  const stopping = useRef(false);
 
   const [editorOpen, setEditorOpen] = useState(false);
   const [editorDate, setEditorDate] = useState('');
@@ -80,11 +93,21 @@ const useMinistryTimer = () => {
     return formatDate(addMonths(sessionDate, 1), 'yyyy/MM/01');
   }, [read_only, sessionDate]);
 
-  const currentReport = useMemo(() => {
-    return reports.find((record) => record.report_date === report_date);
-  }, [reports, report_date]);
+  const resetTimer = useCallback(() => {
+    setTimer((prev) => {
+      const newValue = structuredClone(prev);
+      newValue.start = 0;
+      newValue.date = 0;
+      newValue.state = 'not_started';
+      newValue.value = 0;
+
+      return newValue;
+    });
+  }, [setTimer]);
 
   const handleStart = () => {
+    lastSeen.current = Date.now();
+
     setTimer((prev) => {
       const newValue = structuredClone(prev);
       newValue.start = Date.now();
@@ -114,60 +137,56 @@ const useMinistryTimer = () => {
   };
 
   const handleStop = async () => {
+    // a stop already being written must not be repeated by a second tap
+    if (stopping.current) return;
+
     const elapsed = getElapsedTime();
 
-    const elapsedHours = Math.floor(elapsed / 3600);
-    const elapsedMinutes = Math.round((elapsed - elapsedHours * 3600) / 60);
+    const { hours, minutes } = fieldServiceTimeFromSeconds(elapsed);
 
-    setTimer((prev) => {
-      const newValue = structuredClone(prev);
-      newValue.start = 0;
-      newValue.date = 0;
-      newValue.state = 'not_started';
-      newValue.value = 0;
+    if (hours === 0 && minutes === 0) {
+      resetTimer();
 
-      return newValue;
-    });
-
-    if (elapsedHours > 0 || elapsedMinutes > 0) {
-      let draftReport: UserFieldServiceDailyReportType;
-
-      if (currentReport) {
-        draftReport = structuredClone(currentReport);
-      } else {
-        draftReport = structuredClone(userFieldServiceDailyReportSchema);
-        draftReport.report_date = report_date;
-      }
-
-      const current = draftReport.report_data.hours.field_service;
-      const [prevHours, prevMinutes] = current.split(':').map(Number);
-
-      let newHours = (prevHours || 0) + elapsedHours;
-      let newMinutes = (prevMinutes || 0) + elapsedMinutes;
-
-      if (newMinutes >= 60) {
-        newHours++;
-        newMinutes = newMinutes - 60;
-      }
-
-      draftReport.report_data.hours.field_service = `${newHours}:${String(newMinutes).padStart(2, '0')}`;
-      draftReport.report_data._deleted = false;
-      draftReport.report_data.updatedAt = new Date().toISOString();
-
-      await handleSaveDailyFieldServiceReport(draftReport);
-
-      setSelectedMonth(draftReport.report_date.slice(0, 7));
-      setEditorDate(draftReport.report_date);
-      setEditorOpen(true);
+      displaySnackNotification({
+        header: t('tr_timerNothingToSave'),
+        message: t('tr_timerNothingToSaveDesc'),
+        severity: 'error',
+      });
 
       return;
     }
 
-    displaySnackNotification({
-      header: t('tr_timerNothingToSave'),
-      message: t('tr_timerNothingToSaveDesc'),
-      severity: 'error',
+    stopping.current = true;
+
+    // the measured time is held while it is written, so that a save that fails
+    // leaves a session to stop again instead of an erased one
+    setTimer((prev) => {
+      const newValue = structuredClone(prev);
+      newValue.state = 'paused';
+      newValue.value = elapsed;
+
+      return newValue;
     });
+
+    try {
+      const report = await handleAddFieldServiceTime(report_date, elapsed);
+
+      resetTimer();
+
+      setSelectedMonth(report.report_date.slice(0, 7));
+      setEditorDate(report.report_date);
+      setEditorOpen(true);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+
+      displaySnackNotification({
+        header: getMessageByCode('error_app_generic-title'),
+        message: getMessageByCode(message),
+        severity: 'error',
+      });
+    } finally {
+      stopping.current = false;
+    }
   };
 
   const handleLeftButtonAction = async () => {
@@ -199,6 +218,8 @@ const useMinistryTimer = () => {
   const handleCloseSlider = () => setSliderOpen(false);
 
   const handleTimeAdded = (value: number) => {
+    lastSeen.current = Date.now();
+
     setTimer((prev) => {
       const newValue = structuredClone(prev);
       newValue.start = Date.now();
@@ -210,31 +231,60 @@ const useMinistryTimer = () => {
     });
   };
 
+  /**
+   * Keeps what a running session has already measured when the device clock is
+   * corrected backwards, by banking the time up to the last moment the session
+   * was seen and counting again from the corrected clock.
+   */
+  const syncClock = useCallback(() => {
+    const now = Date.now();
+
+    if (now < lastSeen.current) {
+      setTimer((prev) => {
+        if (prev.state !== 'started') return prev;
+
+        const newValue = structuredClone(prev);
+        newValue.value =
+          prev.value +
+          Math.max(0, Math.floor((lastSeen.current - prev.start) / 1000));
+        newValue.start = now;
+
+        return newValue;
+      });
+    }
+
+    lastSeen.current = now;
+
+    refreshTimer();
+  }, [setTimer]);
+
   // repaint the elapsed time while a session is running
   useEffect(() => {
     if (timerState !== 'started') return;
 
-    const interval = setInterval(refreshTimer, 1000);
+    lastSeen.current = Date.now();
+
+    const interval = setInterval(syncClock, 1000);
 
     return () => clearInterval(interval);
-  }, [timerState]);
+  }, [timerState, syncClock]);
 
   // repaint as soon as the app is brought back to the foreground
   useEffect(() => {
     const handleVisibilityChange = () => {
       if (document.visibilityState === 'visible') {
-        refreshTimer();
+        syncClock();
       }
     };
 
     document.addEventListener('visibilitychange', handleVisibilityChange);
-    window.addEventListener('pageshow', refreshTimer);
+    window.addEventListener('pageshow', syncClock);
 
     return () => {
       document.removeEventListener('visibilitychange', handleVisibilityChange);
-      window.removeEventListener('pageshow', refreshTimer);
+      window.removeEventListener('pageshow', syncClock);
     };
-  }, []);
+  }, [syncClock]);
 
   return {
     handleRightButtonAction,

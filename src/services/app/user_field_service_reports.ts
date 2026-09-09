@@ -7,7 +7,10 @@ import {
   dbUserFieldServiceReportsGet,
   dbUserFieldServiceReportsSave,
 } from '@services/dexie/user_field_service_reports';
-import { userFieldServiceMonthlyReportSchema } from '@services/dexie/schema';
+import {
+  userFieldServiceDailyReportSchema,
+  userFieldServiceMonthlyReportSchema,
+} from '@services/dexie/schema';
 
 const handleSaveUserFieldServiceReports = async (
   report: UserFieldServiceMonthlyReportType
@@ -239,4 +242,66 @@ export const handleSaveDailyFieldServiceReport = async (
   }
 
   await dbUserFieldServiceReportsSave(monthReport);
+};
+
+/**
+ * Splits a measured session into the hours and minutes a report is kept in.
+ *
+ * The seconds are rounded rather than dropped, so that a session stopped a few
+ * seconds short of a minute is still worth reporting.
+ */
+export const fieldServiceTimeFromSeconds = (seconds: number) => {
+  const measured = Math.max(0, seconds);
+
+  const hours = Math.floor(measured / 3600);
+  const minutes = Math.round((measured - hours * 3600) / 60);
+
+  return { hours, minutes };
+};
+
+/**
+ * Adds a measured session to the daily report of the day it belongs to.
+ *
+ * The report is read from the database rather than from the view, so that the
+ * time is added to whatever has already been saved for that day.
+ */
+export const handleAddFieldServiceTime = async (
+  report_date: string,
+  seconds: number
+) => {
+  const { hours, minutes } = fieldServiceTimeFromSeconds(seconds);
+
+  const reports = await dbUserFieldServiceReportsGet();
+
+  const current = reports.find(
+    (record) =>
+      record.report_date === report_date &&
+      record.report_data.record_type === 'daily'
+  ) as UserFieldServiceDailyReportType;
+
+  const report = current
+    ? structuredClone(current)
+    : structuredClone(userFieldServiceDailyReportSchema);
+
+  report.report_date = report_date;
+
+  const [savedHours, savedMinutes] = report.report_data.hours.field_service
+    .split(':')
+    .map(Number);
+
+  let newHours = (savedHours || 0) + hours;
+  let newMinutes = (savedMinutes || 0) + minutes;
+
+  if (newMinutes >= 60) {
+    newHours++;
+    newMinutes = newMinutes - 60;
+  }
+
+  report.report_data.hours.field_service = `${newHours}:${String(newMinutes).padStart(2, '0')}`;
+  report.report_data._deleted = false;
+  report.report_data.updatedAt = new Date().toISOString();
+
+  await handleSaveDailyFieldServiceReport(report);
+
+  return report;
 };
