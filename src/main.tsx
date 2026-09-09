@@ -3,7 +3,8 @@ import { createRoot } from 'react-dom/client';
 import AppRoot from './RootWrap';
 import { getCSSPropertyValue } from '@utils/common';
 import Sentry from '@services/sentry';
-import { LANGUAGE_LIST } from './constants';
+import { APP_FONT_SIZES, LANGUAGE_LIST } from './constants';
+import { AppFontSizeType } from '@definition/app';
 
 const getInitialColor = () => {
   const savedColor = localStorage.getItem('color');
@@ -29,6 +30,22 @@ const getInitialTheme = () => {
   }
 };
 
+const getInitialFontSize = () => {
+  const savedFontSize = localStorage.getItem('font_size');
+
+  if (!savedFontSize) return 'normal';
+
+  let value: string;
+
+  try {
+    value = JSON.parse(savedFontSize) as string;
+  } catch {
+    value = savedFontSize;
+  }
+
+  return APP_FONT_SIZES.includes(value as AppFontSizeType) ? value : 'normal';
+};
+
 const getInitialDirection = () => {
   const savedLang = localStorage.getItem('ui_lang') || 'eng';
   const direction = LANGUAGE_LIST.find(
@@ -45,6 +62,9 @@ const theme = getInitialTheme();
 const color = getInitialColor();
 const newTheme = `${color}-${theme}`;
 document.documentElement.setAttribute('data-theme', newTheme);
+
+const fontSize = getInitialFontSize();
+document.documentElement.dataset.fontSize = fontSize;
 
 const themeColor = getCSSPropertyValue('--accent-100');
 

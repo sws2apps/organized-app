@@ -6,7 +6,10 @@ import { haptic } from '@services/haptics';
 import Confetti from '../confetti';
 import { AnimatedCountProps } from './index.types';
 
-const H = 96;
+// the ribbon is sized in rem, so its height and travel follow the root font
+// size without measuring it
+const H = '6rem';
+
 const ROLL = 300;
 const TWEEN = 550;
 const CAPACITY = 4;
@@ -37,7 +40,13 @@ type DigitColumnProps = {
   spaceAfter?: boolean;
 };
 
-const DigitColumn = ({ digit, dir, collapsed, color, spaceAfter }: DigitColumnProps) => {
+const DigitColumn = ({
+  digit,
+  dir,
+  collapsed,
+  color,
+  spaceAfter,
+}: DigitColumnProps) => {
   const prevRef = useRef(digit);
   const [{ pos, animate }, setState] = useState(() => ({
     pos: baseIndex(digit),
@@ -72,7 +81,7 @@ const DigitColumn = ({ digit, dir, collapsed, color, spaceAfter }: DigitColumnPr
   return (
     <Box
       sx={{
-        height: `${H}px`,
+        height: H,
         overflow: 'hidden',
         display: 'inline-flex',
         width: collapsed ? 0 : '1ch',
@@ -85,7 +94,7 @@ const DigitColumn = ({ digit, dir, collapsed, color, spaceAfter }: DigitColumnPr
         sx={{
           display: 'flex',
           flexDirection: 'column',
-          transform: `translateY(${-(pos * H)}px)`,
+          transform: `translateY(calc(${-pos} * ${H}))`,
           transition: animate
             ? `transform ${ROLL}ms cubic-bezier(0.22, 1, 0.36, 1)`
             : 'none',
@@ -98,8 +107,8 @@ const DigitColumn = ({ digit, dir, collapsed, color, spaceAfter }: DigitColumnPr
             color={color}
             component="span"
             sx={{
-              height: `${H}px`,
-              lineHeight: `${H}px`,
+              height: H,
+              lineHeight: H,
               display: 'block',
               textAlign: 'center',
               transition: 'color 0.28s ease',
@@ -222,9 +231,9 @@ const AnimatedCount = ({ value, label, shake = 0 }: AnimatedCountProps) => {
         <Box
           sx={{
             display: 'inline-flex',
-            height: `${H}px`,
+            height: H,
             overflow: 'hidden',
-            fontSize: '64px',
+            fontSize: '4rem',
             fontVariantNumeric: 'tabular-nums',
             WebkitMaskImage:
               'linear-gradient(to bottom, transparent 0%, #000 17%, #000 83%, transparent 100%)',
