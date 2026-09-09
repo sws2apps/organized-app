@@ -33,6 +33,7 @@ const useReminders = () => {
   const isSecretary = useAtomValue(secretaryRoleState);
 
   const [reminders, setReminders] = useState<ReminderItemProps[]>([]);
+  const [isOpen, setIsOpen] = useState(false);
 
   const checkPubReport = useMemo(() => {
     if (!person) return false;
@@ -84,6 +85,10 @@ const useReminders = () => {
       formatDate(tomorrow, 'yyyy/MM/dd')
     );
 
+    setIsOpen(false);
+  };
+
+  const handleRemindersHidden = () => {
     setReminders([]);
   };
 
@@ -116,9 +121,10 @@ const useReminders = () => {
     }
 
     setReminders(values);
+    setIsOpen(values.length > 0);
   }, [checkPubReport, checkBranchReport, t]);
 
-  return { reminders, reminderMeTomorrow };
+  return { reminders, isOpen, reminderMeTomorrow, handleRemindersHidden };
 };
 
 export default useReminders;
