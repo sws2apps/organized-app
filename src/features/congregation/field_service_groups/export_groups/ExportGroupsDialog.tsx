@@ -24,10 +24,27 @@ const ExportGroupsDialog = ({
   const handleExport = () => onExport({ orientation, fontSize });
 
   return (
-    <Dialog onClose={onClose} open={open} sx={{ padding: '24px' }}>
+    <Dialog
+      onClose={onClose}
+      open={open}
+      title={t('tr_exportSettings')}
+      actions={
+        <Stack spacing="8px" width="100%">
+          <Button
+            variant="main"
+            onClick={handleExport}
+            disabled={isProcessing}
+            endIcon={isProcessing ? <IconLoading /> : undefined}
+          >
+            {t('tr_export')}
+          </Button>
+          <Button variant="secondary" disabled={isProcessing} onClick={onClose}>
+            {t('tr_cancel')}
+          </Button>
+        </Stack>
+      }
+    >
       <Stack spacing="24px" width="100%">
-        <Typography className="h2">{t('tr_exportSettings')}</Typography>
-
         <Stack spacing="8px">
           <Typography className="body-small-semibold" color="var(--grey-400)">
             {t('tr_orientation')}
@@ -77,20 +94,6 @@ const ExportGroupsDialog = ({
               control={<Radio />}
             />
           </RadioGroup>
-        </Stack>
-
-        <Stack spacing="8px" width="100%">
-          <Button
-            variant="main"
-            onClick={handleExport}
-            disabled={isProcessing}
-            endIcon={isProcessing ? <IconLoading /> : undefined}
-          >
-            {t('tr_export')}
-          </Button>
-          <Button variant="secondary" disabled={isProcessing} onClick={onClose}>
-            {t('tr_cancel')}
-          </Button>
         </Stack>
       </Stack>
     </Dialog>

@@ -1,7 +1,6 @@
 import Button from '@components/button';
 import Dialog from '@components/dialog';
 import DialogActions from '@components/dialog_actions';
-import Typography from '@components/typography';
 import { useAppTranslation } from '@hooks/index';
 import { DeletePersonConfirmType } from './index.types';
 
@@ -13,11 +12,12 @@ const DeletePersonConfirm = ({
   const { t } = useAppTranslation();
 
   return (
-    <Dialog onClose={onClose} open={open} sx={{ padding: '24px' }}>
-      <Typography className="h2">{t('tr_deletePerson')}</Typography>
-      <Typography className="body-regular" color="var(--grey-400)">
-        {t('tr_deletePersonConfirmation')}
-      </Typography>
+    <Dialog
+      onClose={onClose}
+      open={open}
+      title={t('tr_deletePerson')}
+      description={t('tr_deletePersonConfirmation')}
+    >
       <DialogActions>
         <Button variant="secondary" onClick={onClose}>
           {t('tr_cancel')}

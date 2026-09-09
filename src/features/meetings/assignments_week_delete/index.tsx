@@ -1,4 +1,3 @@
-import { Box } from '@mui/material';
 import IconLoading from '@components/icon_loading';
 import { AssignmentsWeekDeleteType } from './index.types';
 import { useAppTranslation } from '@hooks/index';
@@ -6,7 +5,6 @@ import useAssignmentsDelete from './useAssignmentsWeekDelete';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
 import DialogActions from '@components/dialog_actions';
-import Typography from '@components/typography';
 
 const AssignmentsWeekDelete = ({
   open,
@@ -25,16 +23,16 @@ const AssignmentsWeekDelete = ({
   );
 
   return (
-    <Dialog onClose={onClose} open={open} sx={{ padding: '24px' }}>
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-        <Typography className="h2">{t('tr_clearAllAssignments')}</Typography>
-        <Typography color="var(--grey-400)">
-          {schedule_id
-            ? t('tr_clearOutgoingTalkDesc')
-            : t('tr_clearAllAssignmentsDesc')}
-        </Typography>
-      </Box>
-
+    <Dialog
+      onClose={onClose}
+      open={open}
+      title={t('tr_clearAllAssignments')}
+      description={
+        schedule_id
+          ? t('tr_clearOutgoingTalkDesc')
+          : t('tr_clearAllAssignmentsDesc')
+      }
+    >
       <DialogActions>
         <Button variant="secondary" onClick={onClose}>
           {t('tr_cancel')}

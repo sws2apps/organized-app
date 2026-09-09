@@ -15,9 +15,9 @@ const DeleteUser = ({ open, onClose, user }: DeleteUserType) => {
   const { isProcessing, handleDeleteUser } = useDeleteUser(user, onClose);
 
   return (
-    <Dialog onClose={onClose} open={open} sx={{ padding: '24px' }}>
+    <Dialog onClose={onClose} open={open}>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-        <Typography className="h3">{t('tr_deleteUserProfile')}</Typography>
+        <Typography className="h2">{t('tr_deleteUserProfile')}</Typography>
 
         <Markup
           className="body-regular"

@@ -1,4 +1,11 @@
 :root {
+  /* dialogs: the surrounding padding, the gap between the rows inside, and
+     the gap under a pinned title */
+  --dialog-padding: 24px;
+  --dialog-gap: 24px;
+  --dialog-gap-mobile: 16px;
+  --dialog-header-gap: 8px;
+
   --message-glow-small-offset-y: 4px;
   --message-glow-small-blur: 12px;
   --message-glow-small: 0px var(--message-glow-small-offset-y)
@@ -176,4 +183,209 @@ span .text-markup:last-child {
 
 body iframe {
   opacity: 0;
+}
+
+/* Fades a scrollable element at the edges that hide content. The stops follow
+   a curve that flattens at both ends: a straight ramp reads as a line rather
+   than a fade. The scrollbar keeps a strip of its own and is never faded. */
+.scroll-fade-y {
+  /* capped: a phone in landscape can leave a dialog 110px of content, and two
+     full fades would swallow most of it */
+  --scroll-fade-size: min(48px, 25%);
+  --scroll-fade-gutter: 0px;
+
+  -webkit-mask-image:
+    linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-top, 0) * 1)) 0px,
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-top, 0) * 0.9988))
+        calc(var(--scroll-fade-size) * 0.05),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-top, 0) * 0.9914))
+        calc(var(--scroll-fade-size) * 0.1),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-top, 0) * 0.9734))
+        calc(var(--scroll-fade-size) * 0.15),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-top, 0) * 0.9421))
+        calc(var(--scroll-fade-size) * 0.2),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-top, 0) * 0.8965))
+        calc(var(--scroll-fade-size) * 0.25),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-top, 0) * 0.8369))
+        calc(var(--scroll-fade-size) * 0.3),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-top, 0) * 0.7648))
+        calc(var(--scroll-fade-size) * 0.35),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-top, 0) * 0.6826))
+        calc(var(--scroll-fade-size) * 0.4),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-top, 0) * 0.5931))
+        calc(var(--scroll-fade-size) * 0.45),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-top, 0) * 0.5))
+        calc(var(--scroll-fade-size) * 0.5),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-top, 0) * 0.4069))
+        calc(var(--scroll-fade-size) * 0.55),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-top, 0) * 0.3174))
+        calc(var(--scroll-fade-size) * 0.6),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-top, 0) * 0.2352))
+        calc(var(--scroll-fade-size) * 0.65),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-top, 0) * 0.1631))
+        calc(var(--scroll-fade-size) * 0.7),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-top, 0) * 0.1035))
+        calc(var(--scroll-fade-size) * 0.75),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-top, 0) * 0.0579))
+        calc(var(--scroll-fade-size) * 0.8),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-top, 0) * 0.0266))
+        calc(var(--scroll-fade-size) * 0.85),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-top, 0) * 0.0086))
+        calc(var(--scroll-fade-size) * 0.9),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-top, 0) * 0.0012))
+        calc(var(--scroll-fade-size) * 0.95),
+      #000 calc(var(--scroll-fade-size) * 1),
+      #000 calc(100% - var(--scroll-fade-size) * 1),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-bottom, 0) * 0.0012))
+        calc(100% - var(--scroll-fade-size) * 0.95),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-bottom, 0) * 0.0086))
+        calc(100% - var(--scroll-fade-size) * 0.9),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-bottom, 0) * 0.0266))
+        calc(100% - var(--scroll-fade-size) * 0.85),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-bottom, 0) * 0.0579))
+        calc(100% - var(--scroll-fade-size) * 0.8),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-bottom, 0) * 0.1035))
+        calc(100% - var(--scroll-fade-size) * 0.75),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-bottom, 0) * 0.1631))
+        calc(100% - var(--scroll-fade-size) * 0.7),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-bottom, 0) * 0.2352))
+        calc(100% - var(--scroll-fade-size) * 0.65),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-bottom, 0) * 0.3174))
+        calc(100% - var(--scroll-fade-size) * 0.6),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-bottom, 0) * 0.4069))
+        calc(100% - var(--scroll-fade-size) * 0.55),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-bottom, 0) * 0.5))
+        calc(100% - var(--scroll-fade-size) * 0.5),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-bottom, 0) * 0.5931))
+        calc(100% - var(--scroll-fade-size) * 0.45),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-bottom, 0) * 0.6826))
+        calc(100% - var(--scroll-fade-size) * 0.4),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-bottom, 0) * 0.7648))
+        calc(100% - var(--scroll-fade-size) * 0.35),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-bottom, 0) * 0.8369))
+        calc(100% - var(--scroll-fade-size) * 0.3),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-bottom, 0) * 0.8965))
+        calc(100% - var(--scroll-fade-size) * 0.25),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-bottom, 0) * 0.9421))
+        calc(100% - var(--scroll-fade-size) * 0.2),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-bottom, 0) * 0.9734))
+        calc(100% - var(--scroll-fade-size) * 0.15),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-bottom, 0) * 0.9914))
+        calc(100% - var(--scroll-fade-size) * 0.1),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-bottom, 0) * 0.9988))
+        calc(100% - var(--scroll-fade-size) * 0.05),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-bottom, 0) * 1)) 100%
+    ),
+    linear-gradient(#000, #000);
+  -webkit-mask-size:
+    calc(100% - var(--scroll-fade-gutter)) 100%,
+    var(--scroll-fade-gutter) 100%;
+  -webkit-mask-position:
+    left top,
+    right top;
+  -webkit-mask-repeat: no-repeat;
+  mask-image:
+    linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-top, 0) * 1)) 0px,
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-top, 0) * 0.9988))
+        calc(var(--scroll-fade-size) * 0.05),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-top, 0) * 0.9914))
+        calc(var(--scroll-fade-size) * 0.1),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-top, 0) * 0.9734))
+        calc(var(--scroll-fade-size) * 0.15),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-top, 0) * 0.9421))
+        calc(var(--scroll-fade-size) * 0.2),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-top, 0) * 0.8965))
+        calc(var(--scroll-fade-size) * 0.25),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-top, 0) * 0.8369))
+        calc(var(--scroll-fade-size) * 0.3),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-top, 0) * 0.7648))
+        calc(var(--scroll-fade-size) * 0.35),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-top, 0) * 0.6826))
+        calc(var(--scroll-fade-size) * 0.4),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-top, 0) * 0.5931))
+        calc(var(--scroll-fade-size) * 0.45),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-top, 0) * 0.5))
+        calc(var(--scroll-fade-size) * 0.5),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-top, 0) * 0.4069))
+        calc(var(--scroll-fade-size) * 0.55),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-top, 0) * 0.3174))
+        calc(var(--scroll-fade-size) * 0.6),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-top, 0) * 0.2352))
+        calc(var(--scroll-fade-size) * 0.65),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-top, 0) * 0.1631))
+        calc(var(--scroll-fade-size) * 0.7),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-top, 0) * 0.1035))
+        calc(var(--scroll-fade-size) * 0.75),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-top, 0) * 0.0579))
+        calc(var(--scroll-fade-size) * 0.8),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-top, 0) * 0.0266))
+        calc(var(--scroll-fade-size) * 0.85),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-top, 0) * 0.0086))
+        calc(var(--scroll-fade-size) * 0.9),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-top, 0) * 0.0012))
+        calc(var(--scroll-fade-size) * 0.95),
+      #000 calc(var(--scroll-fade-size) * 1),
+      #000 calc(100% - var(--scroll-fade-size) * 1),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-bottom, 0) * 0.0012))
+        calc(100% - var(--scroll-fade-size) * 0.95),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-bottom, 0) * 0.0086))
+        calc(100% - var(--scroll-fade-size) * 0.9),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-bottom, 0) * 0.0266))
+        calc(100% - var(--scroll-fade-size) * 0.85),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-bottom, 0) * 0.0579))
+        calc(100% - var(--scroll-fade-size) * 0.8),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-bottom, 0) * 0.1035))
+        calc(100% - var(--scroll-fade-size) * 0.75),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-bottom, 0) * 0.1631))
+        calc(100% - var(--scroll-fade-size) * 0.7),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-bottom, 0) * 0.2352))
+        calc(100% - var(--scroll-fade-size) * 0.65),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-bottom, 0) * 0.3174))
+        calc(100% - var(--scroll-fade-size) * 0.6),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-bottom, 0) * 0.4069))
+        calc(100% - var(--scroll-fade-size) * 0.55),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-bottom, 0) * 0.5))
+        calc(100% - var(--scroll-fade-size) * 0.5),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-bottom, 0) * 0.5931))
+        calc(100% - var(--scroll-fade-size) * 0.45),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-bottom, 0) * 0.6826))
+        calc(100% - var(--scroll-fade-size) * 0.4),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-bottom, 0) * 0.7648))
+        calc(100% - var(--scroll-fade-size) * 0.35),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-bottom, 0) * 0.8369))
+        calc(100% - var(--scroll-fade-size) * 0.3),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-bottom, 0) * 0.8965))
+        calc(100% - var(--scroll-fade-size) * 0.25),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-bottom, 0) * 0.9421))
+        calc(100% - var(--scroll-fade-size) * 0.2),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-bottom, 0) * 0.9734))
+        calc(100% - var(--scroll-fade-size) * 0.15),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-bottom, 0) * 0.9914))
+        calc(100% - var(--scroll-fade-size) * 0.1),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-bottom, 0) * 0.9988))
+        calc(100% - var(--scroll-fade-size) * 0.05),
+      rgba(0, 0, 0, calc(1 - var(--scroll-fade-bottom, 0) * 1)) 100%
+    ),
+    linear-gradient(#000, #000);
+  mask-size:
+    calc(100% - var(--scroll-fade-gutter)) 100%,
+    var(--scroll-fade-gutter) 100%;
+  mask-position:
+    left top,
+    right top;
+  mask-repeat: no-repeat;
+}
+
+/* the scrollbar sits on the other side when the interface is right to left */
+[dir='rtl'] .scroll-fade-y {
+  -webkit-mask-position:
+    right top,
+    left top;
+  mask-position:
+    right top,
+    left top;
 }

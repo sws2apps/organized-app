@@ -15,7 +15,7 @@ const VisibilityOffConfirm = ({
   const { t } = useAppTranslation();
 
   return (
-    <Dialog onClose={onClose} open={open} sx={{ padding: '24px' }}>
+    <Dialog onClose={onClose} open={open}>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
         <Typography className="h2">{t('tr_outgoingSpeakersHide')}</Typography>
         <TextMarkup

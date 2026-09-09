@@ -16,9 +16,23 @@ const GroupsReorder = (props: GroupsReorderProps) => {
     useGroupsReorder(props);
 
   return (
-    <Dialog onClose={props.onClose} open={props.open} sx={{ padding: '24px' }}>
-      <Typography className="h2">{t('tr_reorderGroupsTitle')}</Typography>
-
+    <Dialog
+      onClose={props.onClose}
+      open={props.open}
+      header={
+        <Typography className="h2">{t('tr_reorderGroupsTitle')}</Typography>
+      }
+      actions={
+        <DialogActions>
+          <Button variant="secondary" onClick={props.onClose}>
+            {t('tr_cancel')}
+          </Button>
+          <Button variant="main" onClick={handleSaveChanges}>
+            {t('tr_save')}
+          </Button>
+        </DialogActions>
+      }
+    >
       <GroupsContainer>
         <ReactSortable
           list={groups}
@@ -30,15 +44,6 @@ const GroupsReorder = (props: GroupsReorderProps) => {
           ))}
         </ReactSortable>
       </GroupsContainer>
-
-      <DialogActions>
-        <Button variant="secondary" onClick={props.onClose}>
-          {t('tr_cancel')}
-        </Button>
-        <Button variant="main" onClick={handleSaveChanges}>
-          {t('tr_save')}
-        </Button>
-      </DialogActions>
     </Dialog>
   );
 };

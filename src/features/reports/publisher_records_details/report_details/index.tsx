@@ -28,7 +28,7 @@ const ReportDetails = (props: ReportDetailsProps) => {
   } = useReportDetails(props);
 
   return (
-    <Dialog open={props.open} onClose={props.onClose} sx={{ padding: '24px' }}>
+    <Dialog open={props.open} onClose={props.onClose}>
       <Typography className="h2">
         {t('tr_fieldReportEdit')} ({reportMonth})
       </Typography>
