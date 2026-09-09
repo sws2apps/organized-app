@@ -37,7 +37,7 @@
   "tr_clearMultipleDesc": "Fidio izay fandaharana tianao hofafana. Hiala daholo ny fanendrena rehetra mandritra an’ireo herinandro nofidiana.",
   "tr_clearSelectedWeeks": "Hamafa ireo herinandro nosafidiana",
   "tr_unsavedChanges": "Tsy notehirizinao ny fanovana",
-  "tr_unsavedChangesDesc": "Hiala ve ianao ary tsy hitahiry ny fanovana? Ho very daholo mantsy ny fanovana nataonao.",
+  "tr_unsavedChangesDesc": "Your unsaved changes will be lost.",
   "tr_leavePage": "Hiala",
   "tr_autofillMM": "Hameno ho azy ny fivoriana andavanandro",
   "tr_autofillThisWeek": "Autofill this week",

@@ -37,7 +37,7 @@
   "tr_clearMultipleDesc": "Wähle die Programme aus, die du löschen möchtest. Aufgaben innerhalb des ausgewählten Datumsbereichs werden entfernt, aber die Wochen selbst bleiben erhalten.",
   "tr_clearSelectedWeeks": "Ausgewählte Wochen löschen",
   "tr_unsavedChanges": "Du hast ungespeicherte Änderungen",
-  "tr_unsavedChangesDesc": "Möchtest du die Seite verlassen, ohne die Bearbeitungen zu speichern? Alle ungespeicherten Änderungen gehen verloren.",
+  "tr_unsavedChangesDesc": "Your unsaved changes will be lost.",
   "tr_leavePage": "Seite verlassen",
   "tr_autofillMM": "Zusammenkunft unter der Woche autoausfüllen",
   "tr_autofillThisWeek": "Autofill this week",

@@ -37,7 +37,7 @@
   "tr_clearMultipleDesc": "Choose the schedules you want to clear. Assignments within the selected date range will be removed, but the weeks themselves will remain.",
   "tr_clearSelectedWeeks": "Clear selected weeks",
   "tr_unsavedChanges": "You have unsaved changes",
-  "tr_unsavedChangesDesc": "Do you want to leave the page without saving the edits? You will lose all unsaved changes.",
+  "tr_unsavedChangesDesc": "Your unsaved changes will be lost.",
   "tr_leavePage": "Leave the page",
   "tr_autofillMM": "Autofill midweek meeting",
   "tr_autofillThisWeek": "Autofill this week",

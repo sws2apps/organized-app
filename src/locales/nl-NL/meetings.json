@@ -37,7 +37,7 @@
   "tr_clearMultipleDesc": "Kies de schema's die je wilt wissen. Toewijzingen binnen het geselecteerde datumbereik worden verwijderd, maar de weken zelf blijven behouden.",
   "tr_clearSelectedWeeks": "Geselecteerde weken wissen",
   "tr_unsavedChanges": "Je hebt niet-opgeslagen wijzigingen",
-  "tr_unsavedChangesDesc": "Wil je de pagina verlaten zonder de wijzigingen op te slaan? Je zult alle niet-opgeslagen wijzigingen verliezen.",
+  "tr_unsavedChangesDesc": "Your unsaved changes will be lost.",
   "tr_leavePage": "Pagina verlaten",
   "tr_autofillMM": "Doordeweekse vergadering automatisch invullen",
   "tr_autofillThisWeek": "Autofill this week",

@@ -15,5 +15,14 @@
     "improvements": {
       "tr_note_01": "Lisätty valmis tuntimäärä seurakunnan vanhinten koulua varten"
     }
+  },
+  "2026-09-01T00:00": {
+    "images": {
+      "img_01": {
+        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-click-counter.svg",
+        "tr_title": "Napauta laskeaksesi mobiililaitteilla",
+        "tr_desc": "Napauta osallistujalaskurin kenttää ja paina laskuripainiketta avataksesi koko näytön laskuritilan. Laske nopeammin, helpommin ja vaivattomammin."
+      }
+    }
   }
 }
