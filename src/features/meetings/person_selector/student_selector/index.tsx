@@ -233,12 +233,8 @@ const StudentSelector = (props: PersonSelectorType) => {
                           <FormControlLabel
                             value="family"
                             control={<Radio />}
-                            label={
-                              <Typography>{t('tr_family')}</Typography>
-                            }
-                            onClick={(e) =>
-                              handleGenderChange(e, 'family')
-                            }
+                            label={<Typography>{t('tr_family')}</Typography>}
+                            onClick={(e) => handleGenderChange(e, 'family')}
                           />
                         )}
                       </>
@@ -304,9 +300,6 @@ const StudentSelector = (props: PersonSelectorType) => {
         decorator={helperText.length > 0}
         clearIcon={<IconClose width={20} height={20} />}
         sx={{
-          '& .MuiInputLabel-root': {
-            top: '-5px !important',
-          },
           '& .MuiOutlinedInput-root': {
             height: '44px !important',
           },
