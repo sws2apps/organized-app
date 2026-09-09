@@ -834,7 +834,7 @@ const getBlockedCodes = (
   targetDataView: string
 ): Set<number> => {
   // NOSONAR - S3516: the Set is mutated in the loop below
-  // False Positive: The analyzer doesn't detect that the Set is mutated in the loop above.
+  // False Positive: The analyzer doesn't detect that the Set is mutated in the loop below.
   const blockedCodes = new Set<number>();
   const viewFixedAssignmentsMap = viewFixedAssignments?.get(targetDataView);
   if (!viewFixedAssignmentsMap) return blockedCodes;
