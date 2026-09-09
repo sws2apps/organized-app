@@ -37,7 +37,7 @@ import {
   userDataViewState,
 } from '@states/settings';
 import { sourcesState } from '@states/sources';
-import { addDays } from '@utils/date';
+import { addDays, formatDate } from '@utils/date';
 import {
   getCorrespondingStudentOrAssistant,
   hasAssignmentConflict,
@@ -63,6 +63,7 @@ import {
   schedulesAutofillSaveAssignment,
   schedulesBuildHistoryList,
   schedulesGetData,
+  schedulesResolveMeetingDate,
 } from './schedules';
 import {
   sourcesCheckAYFExplainBeliefsAssignment,
@@ -116,62 +117,33 @@ const getWeekType = (
 };
 
 /**
- * Calculates the exact meeting date from week start (`weekOf`) + configured weekday offset.
+ * Returns the actual meeting date of a week as a `YYYY/MM/DD` string.
  *
- * Determines the meeting day-of-week from congregation settings based on meeting type and data view,
- * then adds that offset to the `weekOf` (Monday) date.
+ * Thin formatting wrapper around `schedulesResolveMeetingDate`. The result feeds
+ * availability checks (`isPersonBlockedOnDate`), so it must match the day the
+ * meeting actually takes place — including special-week and CO-visit overrides.
  *
- * Mirrors `schedulesGetMeetingDate`: for language-group special weeks and for non-main views
- * during a CO-visit week, the meeting takes place on the main congregation's weekday.
- *
- * **Output Format:** `YYYY/MM/DD` (e.g., `'2026/03/05'` for Thursday meeting)
- *
- * @param weekOf - Week start date (Monday) as ISO string (e.g., `'2026-03-02'`)
  * @param settings - Congregation settings with meeting weekday configurations
- * @param dataView - Group/view identifier (e.g., `'main'`, `'group_ID'`)
+ * @param schedule - The schedule record of the week
  * @param meeting_type - `'midweek'` or `'weekend'`
- * @param weekType - Resolved week type of the current data view (drives the language-group override)
- * @param mainWeekType - Resolved week type of the main congregation (drives the CO-visit override)
+ * @param dataView - The data view to resolve the date for
  *
  * @returns Meeting date string in `YYYY/MM/DD` format
  */
 const getActualMeetingDate = (
-  weekOf: string,
   settings: SettingsType,
-  dataView: string,
+  schedule: SchedWeekType,
   meeting_type: MeetingType,
-  weekType: Week,
-  mainWeekType: Week
+  dataView: string
 ): string => {
-  const meetingSettings =
-    meeting_type === 'midweek'
-      ? settings.cong_settings.midweek_meeting
-      : settings.cong_settings.weekend_meeting;
+  const meetingDate = schedulesResolveMeetingDate({
+    settings,
+    schedule,
+    meeting: meeting_type,
+    dataView,
+  });
 
-  // Same defaults as schedulesGetMeetingDate
-  const defaultDay = meeting_type === 'midweek' ? 2 : 6;
-
-  let meetingDay =
-    meetingSettings.find((record) => record.type === dataView)?.weekday.value ??
-    defaultDay;
-
-  // Mirror schedulesGetMeetingDate: language-group special weeks and
-  // CO-visit weeks for non-main views take place on the main weekday
-  if (
-    WEEK_TYPE_LANGUAGE_GROUPS.includes(weekType) ||
-    (dataView !== 'main' && mainWeekType === Week.CO_VISIT)
-  ) {
-    meetingDay =
-      meetingSettings.find((record) => record.type === 'main')?.weekday.value ??
-      defaultDay;
-  }
-
-  const dateObj = addDays(weekOf, meetingDay);
-  const year = dateObj.getFullYear();
-  const month = String(dateObj.getMonth() + 1).padStart(2, '0');
-  const day = String(dateObj.getDate()).padStart(2, '0');
-
-  return `${year}/${month}/${day}`;
+  return formatDate(meetingDate, 'yyyy/MM/dd');
 };
 
 /**

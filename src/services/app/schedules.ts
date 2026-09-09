@@ -25,7 +25,6 @@ import {
   meetingExactDateState,
   congNameState,
   weekendSchedulesSongsWeekend,
-  COMidweekMeetingDayState,
 } from '@states/settings';
 import { sourcesState } from '@states/sources';
 import {
@@ -111,6 +110,7 @@ import {
   getTranslation,
 } from '@services/i18n/translation';
 import { songsLocaleState } from '@states/songs';
+import { SettingsType } from '@definition/settings';
 
 export const schedulesWeekAssignmentsInfo = (
   week: string,
@@ -2775,46 +2775,37 @@ export const scheduleDeleteWeekendOutgoingTalk = async (
     'weekend_meeting.outgoing_talks': outgoingSchedule,
   });
 };
-
-export const schedulesGetMeetingDate = ({
-  week,
+/**
+ * Resolves the actual calendar date of a meeting week.
+ *
+ * Precedence: view weekday → main weekday for language-group special weeks
+ * and non-main views in CO weeks → circuit-overseer day for midweek in CO
+ * weeks (the main-weekday override is intentionally shadowed there).
+ *
+ * @param settings - Congregation settings with meeting weekday configurations
+ *   (including the circuit overseer's midweek meeting day)
+ * @param schedule - The schedule record of the week; provides `weekOf` and
+ *   the per-view week types used for the overrides
+ * @param meeting - `'midweek'` or `'weekend'`
+ * @param dataView - The data view whose weekday applies unless an override
+ *   takes precedence (e.g., `'main'` or a language-group ID)
+ *
+ * @returns The meeting date as a `Date` object
+ */
+export const schedulesResolveMeetingDate = ({
+  settings,
+  schedule,
   meeting,
-  forPrint = false,
-  key = 'tr_longDateNoYearLocale',
-  short = false,
   dataView,
 }: {
-  week: string;
+  settings: SettingsType;
+  schedule: SchedWeekType;
   meeting: 'midweek' | 'weekend';
-  forPrint?: boolean;
-  key?: string;
-  short?: boolean;
-  dataView?: string;
-}) => {
-  let locale = '';
-  let date = '';
-
-  const settings = store.get(settingsState);
-  const userDataView = store.get(userDataViewState);
-  const schedules = store.get(schedulesState);
-  const monthNames = store.get(monthNamesState);
-  const monthShortNames = store.get(monthShortNamesState);
-  const sources = store.get(sourcesState);
-  const lang = store.get(JWLangState);
-  const useExact = store.get(meetingExactDateState);
-  const coMidweekMeetingDay = store.get(COMidweekMeetingDayState);
-
-  dataView = dataView ?? userDataView;
-
-  const schedule = schedules.find((record) => record.weekOf === week);
-  const source = sources.find((record) => record.weekOf === week);
-
-  if (!schedule || !source) return { locale, date };
-
-  if (meeting === 'midweek' && forPrint && !useExact) {
-    locale = source.midweek_meeting.week_date_locale[lang] ?? '';
-  }
-
+  dataView: string;
+}): Date => {
+  const week = schedule.weekOf;
+  const coMidweekMeetingDay =
+    settings.cong_settings.circuit_overseer.midweek_meeting_day?.value ?? 1;
   const weekTypes = schedule[`${meeting}_meeting`]
     ?.week_type as WeekTypeCongregation[];
 
@@ -2862,10 +2853,59 @@ export const schedulesGetMeetingDate = ({
 
   const meetingDate = addDays(
     week,
-    meeting == 'midweek' && mainWeekType == Week.CO_VISIT
+    meeting === 'midweek' && mainWeekType === Week.CO_VISIT
       ? coMidweekMeetingDay
       : meetingDay
   );
+
+  return meetingDate;
+};
+
+export const schedulesGetMeetingDate = ({
+  week,
+  meeting,
+  forPrint = false,
+  key = 'tr_longDateNoYearLocale',
+  short = false,
+  dataView,
+}: {
+  week: string;
+  meeting: 'midweek' | 'weekend';
+  forPrint?: boolean;
+  key?: string;
+  short?: boolean;
+  dataView?: string;
+}) => {
+  let locale = '';
+  let date = '';
+
+  const settings = store.get(settingsState);
+  const userDataView = store.get(userDataViewState);
+  const schedules = store.get(schedulesState);
+  const monthNames = store.get(monthNamesState);
+  const monthShortNames = store.get(monthShortNamesState);
+  const sources = store.get(sourcesState);
+  const lang = store.get(JWLangState);
+  const useExact = store.get(meetingExactDateState);
+
+  dataView = dataView ?? userDataView;
+
+  const schedule = schedules.find((record) => record.weekOf === week);
+  const source = sources.find((record) => record.weekOf === week);
+
+  if (!schedule || !source) return { locale, date };
+
+  if (meeting === 'midweek' && forPrint && !useExact) {
+    locale = source.midweek_meeting.week_date_locale[lang] ?? '';
+  }
+
+  const meetingDate = schedulesResolveMeetingDate({
+    settings,
+    schedule,
+    meeting,
+    dataView,
+  });
+
   const vardate = meetingDate.getDate();
   const month = meetingDate.getMonth();
   const year = meetingDate.getFullYear();
