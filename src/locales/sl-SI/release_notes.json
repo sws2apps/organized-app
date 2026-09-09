@@ -15,5 +15,14 @@
     "improvements": {
       "tr_note_01": "Dodana prednastavitev odobrenih ur za šolo za občinske starešine"
     }
+  },
+  "2026-09-01T00:00": {
+    "images": {
+      "img_01": {
+        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-click-counter.svg",
+        "tr_title": "Tap to count on mobile devices",
+        "tr_desc": "Tap the attendance count field and hit the counter button to open full-screen clicker mode. Counting made fast, easy, and intuitive."
+      }
+    }
   }
 }
