@@ -36,7 +36,7 @@ const SpeakersCatalog = (props: SpeakersCatalogType) => {
       >
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-            <Typography className="h3">{t('tr_speakersCatalog')}</Typography>
+            <Typography className="h2">{t('tr_speakersCatalog')}</Typography>
             <Typography className="h4" color="var(--grey-400)">
               {t('tr_speakersWithCount', { speakersCount: count })}
             </Typography>

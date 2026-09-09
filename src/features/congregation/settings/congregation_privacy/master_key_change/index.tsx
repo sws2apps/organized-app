@@ -27,7 +27,7 @@ const MasterKeyChange = ({ open, onClose }: MasterKeyChangeType) => {
   return (
     <Dialog onClose={onClose} open={open} sx={{ padding: '24px' }}>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-        <Typography className="h3">{t('tr_masterKeyChange')}</Typography>
+        <Typography className="h2">{t('tr_masterKeyChange')}</Typography>
 
         <Typography color="var(--grey-400)">
           {t('tr_masterKeyChangeDesc')}

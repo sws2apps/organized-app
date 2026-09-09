@@ -26,7 +26,7 @@ const AssignmentsHistoryDialog = ({
         }}
       >
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-          <Typography className="h3">{t('tr_assignmentsHistory')}</Typography>
+          <Typography className="h2">{t('tr_assignmentsHistory')}</Typography>
           <Typography color="var(--grey-400)">{person}</Typography>
         </Box>
 

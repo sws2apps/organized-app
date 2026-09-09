@@ -1,9 +1,9 @@
-import { Box, Divider, IconButton } from '@mui/material';
+import { Box, Divider } from '@mui/material';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
 import TextMarkup from '@components/text_markup';
 import Typography from '@components/typography';
-import { IconClose, IconDonate, IconDutiesDistribution } from '@icons/index';
+import { IconDonate, IconDutiesDistribution } from '@icons/index';
 import { useAppTranslation } from '@hooks/index';
 import useSupport from './useSupport';
 
@@ -13,7 +13,12 @@ const Support = () => {
   const { handleClose, isOpen, handleOpenDonate, handleOpenDoc } = useSupport();
 
   return (
-    <Dialog open={isOpen} onClose={handleClose}>
+    <Dialog
+      open={isOpen}
+      onClose={handleClose}
+      title={t('tr_supportApp')}
+      closable
+    >
       <Box
         sx={{
           display: 'flex',
@@ -22,27 +27,6 @@ const Support = () => {
           width: '100%',
         }}
       >
-        <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
-          <IconDonate color="var(--black)" />
-          <Box
-            sx={{
-              display: 'flex',
-              padding: 'var(--radius-none)',
-              justifyContent: 'space-between',
-              alignItems: 'flex-start',
-              flex: '1 0 0',
-            }}
-          >
-            <Typography className="h2">{t('tr_supportApp')}</Typography>
-            <IconButton
-              disableRipple
-              sx={{ padding: 0, margin: 0 }}
-              onClick={handleClose}
-            >
-              <IconClose color="var(--black)" />
-            </IconButton>
-          </Box>
-        </Box>
         <TextMarkup content={t('tr_supportAppDesc')} className="body-regular" />
       </Box>
 

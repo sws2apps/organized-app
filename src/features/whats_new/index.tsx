@@ -1,13 +1,9 @@
-import { Box, Stack } from '@mui/material';
-import { IconClose } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import useWhatsNew from './useWhatsNew';
 import ButtonsAction from './buttons_action';
 import Dialog from '@components/dialog';
-import IconButton from '@components/icon_button';
 import ImageViewer from './image_viewer';
 import ImprovementsList from './improvements_list';
-import Typography from '@components/typography';
 import WaitingLoader from '@components/waiting_loader';
 
 const WhatsNew = () => {
@@ -31,30 +27,21 @@ const WhatsNew = () => {
       open={open}
       onClose={handleClose}
       sx={{ padding: '24px', position: 'relative' }}
+      title={t('tr_newOrganizedUpdate')}
+      description={t('tr_newOrganizedUpdateDesc')}
+      closable={!isLoading && images.length > 0}
+      actions={
+        !isLoading && (
+          <ButtonsAction
+            slides={images}
+            current={currentImage}
+            onClose={handleClose}
+            onNext={handleNextAction}
+            onBack={handleBackAction}
+          />
+        )
+      }
     >
-      <Stack spacing="8px" width="100%">
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}
-        >
-          <Typography className="h2">{t('tr_newOrganizedUpdate')}</Typography>
-
-          {!isLoading && images.length > 0 && (
-            <IconButton onClick={handleClose}>
-              <IconClose color="var(--black)" />
-            </IconButton>
-          )}
-        </Box>
-
-        <Typography color="var(--grey-400)">
-          {t('tr_newOrganizedUpdateDesc')}
-        </Typography>
-      </Stack>
-
       {isLoading && <WaitingLoader size={72} variant="standard" />}
 
       {!isLoading && (
@@ -74,14 +61,6 @@ const WhatsNew = () => {
               showHeader={images.length > 0}
             />
           )}
-
-          <ButtonsAction
-            slides={images}
-            current={currentImage}
-            onClose={handleClose}
-            onNext={handleNextAction}
-            onBack={handleBackAction}
-          />
         </>
       )}
     </Dialog>
