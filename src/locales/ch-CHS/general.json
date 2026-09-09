@@ -36,6 +36,8 @@
   "tr_december": "12月",
   "tr_longDateFormat": "yyyy年M月d日 EEE",
   "tr_delete": "删除",
+  "tr_continueEditing": "Continue editing",
+  "tr_discardChanges": "Discard changes",
   "tr_add": "添加",
   "tr_pickerSelectTime": "选择时间",
   "tr_pickerSelectDate": "选择日期",
