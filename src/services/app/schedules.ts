@@ -1384,16 +1384,24 @@ export const schedulesPersonHasMeetingConflict = ({
   assignment,
   person_uid,
   dataView,
+  type,
 }: {
   history: AssignmentHistoryType[];
   week: string;
   assignment: AssignmentFieldType;
   person_uid: string;
   dataView: string;
+  type?: AssignmentCode;
 }) => {
   if (!person_uid || week.length === 0) return false;
 
   if (isConflictExemptAssignment(assignment)) return false;
+
+  // Linked prayer rows in the monthly view pass the source role as assignment
+  // but keep the prayer qualification in type. Exempt by type as well so a
+  // linked prayer never flags red for the doubling it exists to mirror.
+  if (type === AssignmentCode.MM_Prayer || type === AssignmentCode.WM_Prayer)
+    return false;
 
   const meeting = assignment.startsWith('WM_') ? 'WM_' : 'MM_';
 

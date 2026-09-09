@@ -393,8 +393,9 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
       assignment,
       person_uid: value.person_uid,
       dataView,
+      type,
     });
-  }, [value, assignmentsHistory, week, assignment, dataView]);
+  }, [value, assignmentsHistory, week, assignment, dataView, type]);
 
   const meetingDate = useMemo(() => {
     const meeting = location.pathname.includes('midweek')
