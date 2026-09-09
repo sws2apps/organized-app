@@ -44,7 +44,7 @@ const usePublisherTabs = () => {
       {
         label: (
           <TabLabelWithBadge
-            label={t('tr_activePublishers')}
+            label={t('tr_active')}
             count={publishers.active}
           />
         ),
@@ -53,7 +53,7 @@ const usePublisherTabs = () => {
       {
         label: (
           <TabLabelWithBadge
-            label={t('tr_inactivePublishers')}
+            label={t('tr_inactive')}
             count={publishers.inactive}
           />
         ),
