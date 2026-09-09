@@ -20,8 +20,8 @@
     "images": {
       "img_01": {
         "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-click-counter.svg",
-        "tr_title": "Tap to count on mobile devices",
-        "tr_desc": "Tap the attendance count field and hit the counter button to open full-screen clicker mode. Counting made fast, easy, and intuitive."
+        "tr_title": "Napauta laskeaksesi mobiililaitteilla",
+        "tr_desc": "Napauta osallistujalaskurin kenttää ja paina laskuripainiketta avataksesi koko näytön laskuritilan. Laske nopeammin, helpommin ja vaivattomammin."
       }
     }
   }
