@@ -16,6 +16,8 @@ import {
 import { buildPersonFullname } from '@utils/common';
 import {
   addDays,
+  addMonths,
+  createArrayFromMonths,
   dateFirstDayMonth,
   dateLastDatePreviousMonth,
   formatDate,
@@ -26,6 +28,7 @@ import { AssignmentCode } from '@definition/assignment';
 import { fieldWithLanguageGroupsState } from '@states/field_service_groups';
 import { APP_READ_ONLY_ROLES } from '@constants/index';
 import { getTranslation } from '@services/i18n/translation';
+import { reportsMapState } from '@states/field_service_reports';
 
 const personUnarchiveMidweekMeeting = (person: PersonType) => {
   if (person.person_data.midweek_meeting_student.active.value) {
@@ -337,6 +340,89 @@ export const enrollmentMatches = (
   target: EnrollmentType
 ) => (ENROLLMENT_FAMILY[target] ?? [target]).includes(record);
 
+/**
+ * The six full months before the current one, which is the window both
+ * regularity checks are judged on.
+ *
+ * The months are counted from the first day of the current month, because
+ * moving a month back from the 29th, 30th or 31st lands in the wrong month.
+ */
+const regularityWindow = () => {
+  const now = new Date();
+  const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+
+  return {
+    start: formatDate(addMonths(monthStart, -6), 'yyyy/MM'),
+    end: formatDate(addMonths(monthStart, -1), 'yyyy/MM'),
+  };
+};
+
+export const personIsIrregularPublisher = (
+  person: PersonType,
+  reportMonths?: Set<string>
+) => {
+  if (!personIsActive(person) || (person.person_data.archived.value ?? false)) {
+    return false;
+  }
+
+  const firstReportValue = person.person_data.first_report?.value;
+  if (!firstReportValue) return false;
+
+  const { start, end } = regularityWindow();
+
+  const firstMonth = formatDate(new Date(firstReportValue), 'yyyy/MM');
+
+  // someone who began reporting inside the window has not been a publisher
+  // long enough to be called irregular
+  if (firstMonth > start) return false;
+
+  if (!reportMonths || reportMonths.size === 0) return true;
+
+  const months = createArrayFromMonths(start, end);
+
+  for (const m of months) {
+    if (!reportMonths.has(m)) return true;
+  }
+
+  return false;
+};
+
+/**
+ * A regular publisher has reported in every month of the window that they were
+ * already reporting in.
+ *
+ * This is stated on its own rather than taken as the opposite of irregular:
+ * someone who is not an active publisher at all, a midweek meeting student
+ * among them, is neither regular nor irregular and belongs in neither filter.
+ */
+export const personIsRegularPublisher = (
+  person: PersonType,
+  reportMonths?: Set<string>
+) => {
+  if (!personIsActive(person) || (person.person_data.archived.value ?? false)) {
+    return false;
+  }
+
+  const firstReportValue = person.person_data.first_report?.value;
+  if (!firstReportValue) return false;
+
+  if (!reportMonths || reportMonths.size === 0) return false;
+
+  const { start, end } = regularityWindow();
+
+  const firstMonth = formatDate(new Date(firstReportValue), 'yyyy/MM');
+
+  // a publisher of a few months is judged on the months they have had
+  const from = firstMonth > start ? firstMonth : start;
+
+  // they began this month, so there is nothing reported yet to judge
+  if (from > end) return false;
+
+  const months = createArrayFromMonths(from, end);
+
+  return months.every((month) => reportMonths.has(month));
+};
+
 export const personIsEnrollmentActive = (
   person: PersonType,
   enrollment: EnrollmentType,
@@ -545,6 +631,7 @@ export const applyGroupFilters = (
   persons: PersonType[],
   filtersKey: string[]
 ) => {
+  const reportsMap = store.get(reportsMapState);
   const groups = filtersKey.filter((item) => typeof item === 'string');
 
   const finalResult: PersonType[] = [];
@@ -579,6 +666,12 @@ export const applyGroupFilters = (
       const isNoAssignmentFilter = groups.includes('noAssignment');
       const isInfirmPioneerFilter = groups.includes('IP');
 
+      const isRegularFilter = groups.includes('regular');
+      const isIrregularFilter = groups.includes('irregular');
+      const isBetheliteFilter = groups.includes('bethelite');
+      const isBethelCommuterFilter = groups.includes('bethelCommuter');
+      const isLDCVolunteerFilter = groups.includes('ldcVolunteer');
+
       const male = person.person_data.male.value;
       const female = person.person_data.female.value;
       const anointed = person.person_data.publisher_baptized.anointed.value;
@@ -592,11 +685,16 @@ export const applyGroupFilters = (
       const isFMF = personIsFMF(person);
       const isElder = personIsElder(person);
       const isMS = personIsMS(person);
+
       const isMidweekStudent =
         person.person_data.midweek_meeting_student.active.value;
       const hasNoAssignment = personHasNoAssignment(person);
       const isFamilyHead = person.person_data.family_members?.head;
       const isInfirmPioneer = personIsInfirmPioneer(person);
+
+      const reportMonths = reportsMap.get(person.person_uid);
+      const isIrregular = personIsIrregularPublisher(person, reportMonths);
+      const isRegular = personIsRegularPublisher(person, reportMonths);
 
       // if you want to add another condition here, add it after the male and
       // female check to avoid it to be overwritten
@@ -612,6 +710,21 @@ export const applyGroupFilters = (
 
       // anointed selected
       if (isAnointedFilter) isPassed = anointed;
+
+      // regular selected
+      if (isPassed && isRegularFilter && !isIrregularFilter) {
+        isPassed = isRegular;
+      }
+
+      //irregular selected
+      if (isPassed && !isRegularFilter && isIrregularFilter) {
+        isPassed = isIrregular;
+      }
+
+      // both selected: everyone whose regularity is known
+      if (isPassed && isRegularFilter && isIrregularFilter) {
+        isPassed = isRegular || isIrregular;
+      }
 
       // baptized selected
       if (isPassed && isBaptizedFilter) isPassed = isBaptized;
@@ -662,6 +775,18 @@ export const applyGroupFilters = (
 
       // infirm pioneer selected
       if (isPassed && isInfirmPioneerFilter) isPassed = isInfirmPioneer;
+
+      // bethelite selected
+      if (isPassed && isBetheliteFilter)
+        isPassed = person.person_data.bethelite?.value ?? false;
+
+      // bethel commuter selected
+      if (isPassed && isBethelCommuterFilter)
+        isPassed = person.person_data.bethel_commuter?.value ?? false;
+
+      // ldc volunteer selected
+      if (isPassed && isLDCVolunteerFilter)
+        isPassed = person.person_data.ldc_volunteer?.value ?? false;
 
       if (isPassed) {
         finalResult.push(person);

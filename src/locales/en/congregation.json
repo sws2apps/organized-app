@@ -538,5 +538,11 @@
   "tr_personalDetails": "Personal details",
   "tr_midweekMeetingDay": "Midweek meeting day",
   "tr_infirmPioneer": "Infirm pioneer",
-  "tr_infirmPioneerNoGoal": "As an infirm pioneer, you can serve as much as you are able without a yearly hour goal."
+  "tr_infirmPioneerNoGoal": "As an infirm pioneer, you can serve as much as you are able without a yearly hour goal.",
+  "tr_bethelCommuter": "Bethel commuter",
+  "tr_bethelite": "Bethelite",
+  "tr_irregular": "Irregular",
+  "tr_irregularPublisher": "Irregular publisher",
+  "tr_ldcVolunteer": "LDC volunteer",
+  "tr_regular": "Regular"
 }
