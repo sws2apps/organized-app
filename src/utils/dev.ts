@@ -1414,7 +1414,7 @@ export const dbSchedulesAutoFill = async () => {
   const newFullHistory = schedulesBuildHistoryList();
   store.set(assignmentsHistoryState, newFullHistory);
 
-  await schedulesStartAutofill(start, end, 'midweek', groups);
+  await schedulesStartAutofill(start, end, 'midweek');
 
   // Add outgoing talk schedule entries
   await dbSchedulesFillOutgoingTalks(start, end);
