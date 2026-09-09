@@ -1066,6 +1066,9 @@ export const ALL_ASSIGNMENTCODES = new Set(
   )
 );
 
+// Note: MM_AuxiliaryCounselor is intentionally absent from the partial
+// week types below — they only exist for language groups, which never
+// have a second class (classCount is always 1).
 export const WEEK_TYPE_ASSIGNMENT_CODES = new Map<Week, Set<AssignmentCode>>([
   [Week.NORMAL, ALL_ASSIGNMENTCODES],
   [
