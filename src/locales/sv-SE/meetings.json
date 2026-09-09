@@ -37,7 +37,7 @@
   "tr_clearMultipleDesc": "Välj de scheman du vill rensa. Uppgifter inom det valda datumintervallet kommer att tas bort, men veckorna själva kommer att kvarstå.",
   "tr_clearSelectedWeeks": "Rensa valda veckor",
   "tr_unsavedChanges": "Du har osparade ändringar",
-  "tr_unsavedChangesDesc": "Vill du lämna sidan utan att spara ändringarna? Alla osparade ändringar kommer att förloras.",
+  "tr_unsavedChangesDesc": "Your unsaved changes will be lost.",
   "tr_leavePage": "Lämna sidan",
   "tr_autofillMM": "Fyll i veckomöte automatiskt",
   "tr_autofillThisWeek": "Autofyll denna vecka",
