@@ -8,7 +8,6 @@ import {
   AssignmentPathKey,
   STUDENT_ASSIGNMENT,
   WEEK_TYPE_ASSIGNMENT_PATH_KEYS,
-  WEEK_TYPE_LANGUAGE_GROUPS,
 } from '@constants/index';
 import { STUDENT_TASK_CODES } from '@constants/assignmentConflicts';
 import { MeetingType } from '@definition/app';
@@ -28,6 +27,7 @@ import { personsActiveState } from '@states/persons';
 import {
   assignmentsHistoryState,
   isPublicTalkCoordinatorState,
+  isWeekendEditorState,
   schedulesState,
 } from '@states/schedules';
 import {
@@ -37,7 +37,7 @@ import {
   userDataViewState,
 } from '@states/settings';
 import { sourcesState } from '@states/sources';
-import { addDays, formatDate } from '@utils/date';
+import { formatDate } from '@utils/date';
 import {
   getCorrespondingStudentOrAssistant,
   hasAssignmentConflict,
@@ -224,7 +224,8 @@ export const buildFixedAssignmentsByCode = (
  */
 export const processAssignmentSettings = (
   settings: SettingsType,
-  isPublicTalkCoordinator: boolean
+  isPublicTalkCoordinator: boolean,
+  isWeekendEditor: boolean
 ): AssignmentSettingsResult => {
   const ignoredKeysByDataView: Record<string, string[]> = {};
   const linkedAssignments: Record<string, Record<string, string>> = {};
@@ -294,6 +295,13 @@ export const processAssignmentSettings = (
 
       if (!isPublicTalkCoordinator) {
         keysToIgnore.push('WM_Speaker_Part1', 'WM_Speaker_Part2');
+      }
+
+      if (!isWeekendEditor) {
+        const weekendKeys = ASSIGNMENT_PATH_KEYS.filter(
+          (key) => key.startsWith('WM_') && !key.startsWith('WM_Speaker_Part')
+        );
+        keysToIgnore.push(...weekendKeys);
       }
 
       if (keysToIgnore.length > 0) {
@@ -822,12 +830,10 @@ export const getTasksArray = ({
 
       if (code) {
         const actualDate = getActualMeetingDate(
-          schedule.weekOf,
           settings,
-          dataView,
+          schedule,
           meeting_type,
-          weekTypeView,
-          mainWeekType
+          dataView
         );
 
         let requiresAssistant = false;
@@ -1462,6 +1468,7 @@ export const handleDynamicAssignmentAutofill = (
   const lang = store.get(JWLangState);
   const sourceLocale = store.get(JWLangLocaleState);
   const isPublicTalkCoordinator = store.get(isPublicTalkCoordinatorState);
+  const isWeekendEditor = store.get(isWeekendEditorState);
 
   // Skip autofill if the active language group has disabled this meeting type.
   // 'main' and groups without the flag (legacy data) stay active, mirroring
@@ -1500,7 +1507,8 @@ export const handleDynamicAssignmentAutofill = (
   // getting ignored, fixed and linked assignments from settings
   const checkAssignmentsSettingsResult = processAssignmentSettings(
     settings,
-    isPublicTalkCoordinator
+    isPublicTalkCoordinator,
+    isWeekendEditor
   );
   const fixedAssignmentsByCode = buildFixedAssignmentsByCode(
     checkAssignmentsSettingsResult.fixedAssignments
