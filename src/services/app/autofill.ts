@@ -1080,19 +1080,70 @@ const checkSpeaker2Necessary = (
 };
 
 /**
+ * Checks whether the person may serve in the classroom implied by the task key.
+ * Only `_A`/`_B` tasks carry a room restriction; `personAssignmentHasClassroom`
+ * returns true when no restriction is configured, so this is a no-op unless
+ * the two-class qualification feature is used.
+ *
+ * @param person - The person object to evaluate.
+ * @param task - The assignment task whose key encodes the classroom.
+ * @returns `true` if the person may serve in that classroom; otherwise `false`.
+ */
+const isQualifiedForTaskClassroom = (
+  person: PersonType,
+  task: AssignmentTask
+): boolean => {
+  const isClassroomTask =
+    task.assignmentKey.endsWith('_A') || task.assignmentKey.endsWith('_B');
+
+  if (!isClassroomTask) return true;
+
+  const classroom = task.assignmentKey.endsWith('_B') ? '2' : '1';
+  const personAssignments = person.person_data.assignments.find(
+    (a) => a.type === task.dataView
+  );
+
+  return personAssignmentHasClassroom(personAssignments, task.code, classroom);
+};
+
+/**
+ * Checks assistant-specific rules: compatibility with the student
+ * (gender/family) via `isValidAssistantForStudent`, and no self-assignment
+ * for `MM_AssistantOnly` tasks.
+ *
+ * @param person - The assistant candidate to evaluate.
+ * @param task - The specific assignment task details.
+ * @param studentPerson - (Optional) The student the assistant would be paired with.
+ * @returns `true` if all assistant rules pass; otherwise `false`.
+ */
+const passesAssistantRules = (
+  person: PersonType,
+  task: AssignmentTask,
+  studentPerson: PersonType | undefined
+): boolean => {
+  if (studentPerson && !isValidAssistantForStudent(studentPerson, person)) {
+    return false;
+  }
+
+  if (task.code !== AssignmentCode.MM_AssistantOnly) return true;
+
+  return person.person_uid !== studentPerson?.person_uid;
+};
+
+/**
  * Validates whether a single person is a suitable candidate for a specific assignment task.
  *
- * This helper function runs a comprehensive series of checks including base eligibility,
- * role requirements, student/assistant compatibility, availability, and scheduling conflicts.
+ * This helper runs the full validation pipeline as a flat sequence of guard
+ * clauses. Classroom qualification and assistant-specific rules are delegated
+ * to `isQualifiedForTaskClassroom` and `passesAssistantRules`.
  *
- * Validation Checks:
- * 1. **Base Eligibility:** Checks if the person's UID is present in the `allowedUIDs` set.
- * 2. **Classroom Qualification:** Checks if the person is allowed to perform the task in the current classroom.
- * 3. **Elder Status:** If `task.elderOnly` is true, ensures the person is an Elder.
- * 4. **Assistant Compatibility:** If a student is provided, validates if this person can assist them (e.g., gender rules) using `isValidAssistantForStudent`.
- * 5. **Self-Assignment:** Ensures the assistant is not the student themselves (specifically for `MM_AssistantOnly`).
- * 6. **Availability:** Checks if the person is blocked/away on the task date (`isPersonBlockedOnDate`).
- * 7. **Conflicts:** Verifies the person has no conflicting assignments in the same week (`hasAssignmentConflict`).
+ * Validation checks:
+ * 1. **Base eligibility:** The person's UID must be present in the `allowedUIDs` set.
+ * 2. **Classroom qualification:** For `_A`/`_B` tasks, the person must be allowed to serve in the task's classroom.
+ * 3. **Elder status:** If `task.elderOnly` is true, the person must be an elder.
+ * 4. **Assistant rules:** The assistant must be compatible with the student (gender/family) and must not be the student themselves.
+ * 5. **Availability:** The person must not be blocked/away on the task date (`isPersonBlockedOnDate`).
+ * 6. **Conflicts:** The person must have no conflicting assignment in the same week (`hasAssignmentConflict`).
  *
  * @param person - The person object to evaluate.
  * @param task - The specific assignment task details.
@@ -1108,46 +1159,22 @@ const isCandidateValid = (
   studentPerson: PersonType | undefined,
   cleanHistory: AssignmentHistoryType[]
 ): boolean => {
-  // 1. Basic eligibility (Is the person generally allowed to perform this task?)
+  // 1. Basic eligibility
   if (!allowedUIDs?.has(person.person_uid)) return false;
 
-  // 2. Classroom qualification (aux room restrictions for two-class setups).
-  // personAssignmentHasClassroom returns true when no restriction is
-  // configured, so this is a no-op unless the feature is used.
-  if (task.assignmentKey.endsWith('_A') || task.assignmentKey.endsWith('_B')) {
-    const classroom = task.assignmentKey.endsWith('_B') ? '2' : '1';
-    const personAssignments = person.person_data.assignments.find(
-      (a) => a.type === task.dataView
-    );
+  // 2. Classroom qualification (aux room restrictions for two-class setups)
+  if (!isQualifiedForTaskClassroom(person, task)) return false;
 
-    if (
-      !personAssignmentHasClassroom(personAssignments, task.code, classroom)
-    ) {
-      return false;
-    }
-  }
   // 3. Elder check
   if (task.elderOnly && !personIsElder(person)) return false;
 
-  // 4. Assistant logic (Is the assistant compatible with the student?)
-  if (studentPerson) {
-    if (!isValidAssistantForStudent(studentPerson, person)) return false;
-  }
+  // 4. Assistant rules (compatibility + no self-assignment)
+  if (!passesAssistantRules(person, task, studentPerson)) return false;
 
-  // 5. Special case: MM_AssistantOnly (Assistant cannot be the student themselves)
-  if (task.code === AssignmentCode.MM_AssistantOnly) {
-    if (
-      studentPerson?.person_uid &&
-      person.person_uid === studentPerson.person_uid
-    ) {
-      return false;
-    }
-  }
-
-  // 6. Availability check (Vacation, away dates, etc.)
+  // 5. Availability check
   if (isPersonBlockedOnDate(person, task.targetDate)) return false;
 
-  // 7. Conflict check (Does the person already have another assignment?)
+  // 6. Conflict check
   if (
     hasAssignmentConflict(
       person,
