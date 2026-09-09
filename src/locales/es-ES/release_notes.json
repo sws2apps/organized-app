@@ -15,5 +15,14 @@
     "improvements": {
       "tr_note_01": "Se agregó una plantilla de horas de crédito para la escuela de ancianos de congregación"
     }
+  },
+  "2026-09-01T00:00": {
+    "images": {
+      "img_01": {
+        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-click-counter.svg",
+        "tr_title": "Toca para contar en dispositivos móviles",
+        "tr_desc": "Toca el campo de recuento de asistencia y pulsa el botón del contador para abrir el modo de contador a pantalla completa. Contar ahora es rápido, fácil e intuitivo."
+      }
+    }
   }
 }

@@ -15,5 +15,14 @@
     "improvements": {
       "tr_note_01": "Lade till en förinställning för tillgodoräknade timmar för skolan för församlingsäldste"
     }
+  },
+  "2026-09-01T00:00": {
+    "images": {
+      "img_01": {
+        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-click-counter.svg",
+        "tr_title": "Tryck för att räkna på mobila enheter",
+        "tr_desc": "Tryck på fältet för närvaroräkning och sedan på räknarknappen för att öppna räknarläget i helskärm. Räkna snabbt, enkelt och intuitivt."
+      }
+    }
   }
 }

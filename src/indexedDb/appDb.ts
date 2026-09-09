@@ -182,6 +182,30 @@ appDb.version(12).stores({
   ...upcomingEventsSchema,
 });
 
+appDb
+  .version(13)
+  .stores({
+    ...schema,
+    ...metadataSchema,
+    ...delegatedFieldServiceReportsSchema,
+    ...weekTypeSchema,
+    ...publicTalkSchema,
+    ...songSchema,
+    ...upcomingEventsSchema,
+  })
+  .upgrade(async (tx) => {
+    // congregation reports were dropped on restore for elders and group
+    // overseers while their version kept advancing: clear it once so the
+    // next sync pulls the reports they never received
+    const record = await tx.table('metadata').get(1);
+
+    if (!record?.metadata?.cong_field_service_reports) return;
+
+    record.metadata.cong_field_service_reports.version = '';
+
+    await tx.table('metadata').put(record);
+  });
+
 appDb.on('populate', function () {
   appDb.app_settings.add(settingSchema);
 });
