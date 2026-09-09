@@ -7,14 +7,15 @@ export type DialogProps = PropsWithChildren & {
   sx?: SxProps<Theme>;
   PaperProps?: MUIDialogProps['PaperProps'];
 
-  /**
-   * Title row, pinned above the scrollable content.
-   */
+  title?: string;
+
+  description?: ReactNode;
+
+  closable?: boolean;
+
+  // takes the place of `title` and `description`
   header?: ReactNode;
 
-  /**
-   * Actions row, pinned below the scrollable content so the buttons stay
-   * reachable however long the content is.
-   */
+  // pinned below the content, for buttons that sit inside a component
   actions?: ReactNode;
 };

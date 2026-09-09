@@ -17,7 +17,7 @@ const QuickSettings = ({
   return (
     <Dialog onClose={onClose} open={open} sx={{ padding: '24px' }}>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-        <Typography className="h3">
+        <Typography className="h2">
           {t('tr_quickSettings')} – {title}
         </Typography>
         <Typography color="var(--grey-400)">

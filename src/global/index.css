@@ -179,15 +179,11 @@ body iframe {
 }
 
 /* Fades a scrollable element at the edges that hide content. The stops follow
-   a curve that flattens at both ends, so neither the edge itself nor the point
-   where the fade meets the content reads as a line. The scrollbar keeps a strip
-   of its own and is never faded. `--scroll-fade-top` and `--scroll-fade-bottom`
-   are how much of each fade shows, from 0 to 1, `--scroll-fade-size` how far it
-   reaches, and `--scroll-fade-gutter` the width of the scrollbar. */
+   a curve that flattens at both ends: a straight ramp reads as a line rather
+   than a fade. The scrollbar keeps a strip of its own and is never faded. */
 .scroll-fade-y {
-  /* 48px, but never more than a quarter of a short scroll area: a phone in
-     landscape can leave a dialog barely 110px of content, and two full fades
-     would swallow most of it */
+  /* capped: a phone in landscape can leave a dialog 110px of content, and two
+     full fades would swallow most of it */
   --scroll-fade-size: min(48px, 25%);
   --scroll-fade-gutter: 0px;
 

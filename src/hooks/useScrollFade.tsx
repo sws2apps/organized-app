@@ -4,15 +4,11 @@ import { useCallback, useEffect, useRef } from 'react';
 const REVEAL = 8;
 
 /**
- * Reveals the `scroll-fade-y` fades of a scrollable element, by how far its
- * content has scrolled past each edge: none at rest, full once content is
- * hidden.
+ * Reveals the `scroll-fade-y` fades of an element by how far its content has
+ * scrolled past each edge, writing the amounts straight to the CSS variables
+ * the fades read: no re-render, no transition to wait on.
  *
- * The amounts are written straight to the CSS variables the fades read, so
- * scrolling neither re-renders nor waits on a transition.
- *
- * The element is attached through a callback ref: content mounted late, such
- * as a dialog opening or an image arriving, is picked up on its own.
+ * Attached by callback ref, so content that mounts late is picked up.
  */
 const useScrollFade = () => {
   const cleanup = useRef<VoidFunction>(null);
@@ -46,8 +42,7 @@ const useScrollFade = () => {
       });
     };
 
-    // the scrollbar keeps its own strip of the mask, so it is not faded. Its
-    // width only changes with the element, not while scrolling
+    // the scrollbar keeps its own strip of the mask, so it is not faded
     const measureGutter = () => {
       el.style.setProperty(
         '--scroll-fade-gutter',
@@ -59,9 +54,12 @@ const useScrollFade = () => {
       measureGutter();
       update();
     });
-    observer.observe(el);
 
     const observeChildren = () => {
+      // re-observing from scratch drops children that have gone
+      observer.disconnect();
+      observer.observe(el);
+
       for (const child of el.children) observer.observe(child);
     };
 

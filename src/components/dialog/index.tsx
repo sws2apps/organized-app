@@ -5,17 +5,18 @@ import {
   PropsWithChildren,
   ReactNode,
 } from 'react';
-import { Box, Dialog as MUIDialog, DialogContent } from '@mui/material';
+import { Box, Dialog as MUIDialog, DialogContent, Stack } from '@mui/material';
+import { ResponsiveStyleValue } from '@mui/system';
 import DialogActions from '@components/dialog_actions';
-import { useScrollFade } from '@hooks/index';
+import IconButton from '@components/icon_button';
+import Typography from '@components/typography';
+import { IconClose } from '@components/icons';
+import { useAppTranslation, useScrollFade } from '@hooks/index';
 import { DialogProps } from './index.types';
 
-const DEFAULT_PADDING = { mobile: '16px', desktop: '32px' };
+const DEFAULT_PADDING = '24px';
 
-/**
- * Flattens fragments, so an actions row a caller wrapped in one is still
- * recognised as a child of the dialog.
- */
+// fragments are flattened, so an actions row wrapped in one is still found
 const flatten = (children: ReactNode): ReactNode[] =>
   Children.toArray(children).flatMap((child) =>
     isValidElement(child) && child.type === Fragment
@@ -26,39 +27,23 @@ const flatten = (children: ReactNode): ReactNode[] =>
 const isActionsRow = (child: ReactNode) =>
   isValidElement(child) && child.type === DialogActions;
 
-/**
- * Reads the padding a caller passed through `sx`, so the pinned header and
- * actions line up with the scrollable content.
- */
+// the pinned rows take the content's own padding, whatever shape it is, so
+// the three line up at every breakpoint
 const readPadding = (sx: DialogProps['sx']) => {
   const styles = (sx ?? {}) as Record<string, unknown>;
 
-  const padding = styles.padding ?? styles.p;
-
-  if (typeof padding === 'number') return `${padding}px`;
-
-  return typeof padding === 'string' ? padding : DEFAULT_PADDING;
+  return (styles.padding ??
+    styles.p ??
+    DEFAULT_PADDING) as ResponsiveStyleValue<string | number>;
 };
 
 /**
- * Component for rendering a custom dialog.
- *
- * The title row (`header`) and the actions row stay in place, and only the
- * content between them scrolls, so the buttons stay reachable however short
- * the screen is. The content dissolves at an edge it scrolls past instead of
- * being cut off.
+ * The title row and the actions row stay in place, and only the content
+ * between them scrolls, so the buttons stay reachable however short the
+ * screen is. The content dissolves at an edge it scrolls past.
  *
  * A `DialogActions` child is pinned on its own, so a dialog only needs to pass
  * `actions` when its buttons sit inside a component of its own.
- *
- * @param {Object} props - Props for the CustomDialog component.
- * @param {boolean} props.open - Whether the dialog is open.
- * @param {VoidFunction} props.onClose - Function to handle dialog close event.
- * @param {React.ReactNode} props.header - Title row pinned above the content.
- * @param {React.ReactNode} props.actions - Actions row pinned below the content.
- * @param {React.ReactNode} props.children - Content to be rendered inside the dialog.
- * @param {SxProps} props.sx - Custom styling for the dialog content.
- * @returns {JSX.Element} CustomDialog component.
  */
 const Dialog = ({
   open,
@@ -68,21 +53,57 @@ const Dialog = ({
   PaperProps,
   header,
   actions,
+  title,
+  description,
+  closable,
 }: DialogProps) => {
+  const { t } = useAppTranslation();
+
   const ref = useScrollFade();
 
   const padding = readPadding(sx);
 
   const items = flatten(children);
 
-  // an actions row among the children is pinned as well, so a dialog keeps its
-  // buttons reachable without having to hand them over separately
+  // pinned as well, so a dialog need not hand its buttons over separately
   const childActions = items.filter(isActionsRow);
 
   const pinnedActions =
     actions ?? (childActions.length > 0 ? childActions : null);
 
   const content = actions ? items : items.filter((item) => !isActionsRow(item));
+
+  const titleRow = header ?? (
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        // a title on its own sits on the close button's line
+        alignItems: description ? 'flex-start' : 'center',
+        gap: '8px',
+        width: '100%',
+      }}
+    >
+      <Stack spacing="2px">
+        <Typography className="h2">{title}</Typography>
+
+        {description && (
+          <Typography color="var(--grey-400)">{description}</Typography>
+        )}
+      </Stack>
+
+      {closable && (
+        <IconButton
+          aria-label={t('tr_close')}
+          onClick={onClose}
+          // pulled into its padding, so the icon lines up with the edge
+          sx={{ padding: '4px', margin: '-4px -4px -4px 0' }}
+        >
+          <IconClose color="var(--black)" />
+        </IconButton>
+      )}
+    </Box>
+  );
 
   /**
    * Handles the dialog close event.
@@ -125,9 +146,9 @@ const Dialog = ({
         },
       }}
     >
-      {header && (
+      {(header || title) && (
         <Box sx={{ flexShrink: 0, padding, paddingBottom: '8px' }}>
-          {header}
+          {titleRow}
         </Box>
       )}
 

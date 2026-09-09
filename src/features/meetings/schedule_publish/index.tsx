@@ -27,7 +27,7 @@ const SchedulePublish = (props: SchedulePublishProps) => {
       sx={{ padding: '24px' }}
       header={
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-          <Typography className="h3">{t('tr_publishSchedules')}</Typography>
+          <Typography className="h2">{t('tr_publishSchedules')}</Typography>
           <Typography color="var(--grey-400)">
             {t('tr_publishSchedulesDesc')}
           </Typography>

@@ -1,13 +1,9 @@
-import { Box, Stack } from '@mui/material';
-import { IconClose } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import useWhatsNew from './useWhatsNew';
 import ButtonsAction from './buttons_action';
 import Dialog from '@components/dialog';
-import IconButton from '@components/icon_button';
 import ImageViewer from './image_viewer';
 import ImprovementsList from './improvements_list';
-import Typography from '@components/typography';
 import WaitingLoader from '@components/waiting_loader';
 
 const WhatsNew = () => {
@@ -31,32 +27,9 @@ const WhatsNew = () => {
       open={open}
       onClose={handleClose}
       sx={{ padding: '24px', position: 'relative' }}
-      header={
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'flex-start',
-            gap: '8px',
-            width: '100%',
-          }}
-        >
-          <Stack spacing="2px">
-            <Typography className="h2">{t('tr_newOrganizedUpdate')}</Typography>
-
-            <Typography color="var(--grey-400)">
-              {t('tr_newOrganizedUpdateDesc')}
-            </Typography>
-          </Stack>
-
-          {!isLoading && images.length > 0 && (
-            <IconButton onClick={handleClose}>
-              <IconClose color="var(--black)" />
-            </IconButton>
-          )}
-        </Box>
-      }
+      title={t('tr_newOrganizedUpdate')}
+      description={t('tr_newOrganizedUpdateDesc')}
+      closable={!isLoading && images.length > 0}
       actions={
         !isLoading && (
           <ButtonsAction

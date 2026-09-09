@@ -16,7 +16,7 @@ const DeleteCode = ({ open, onClose, user }: DeleteCodeType) => {
   return (
     <Dialog onClose={onClose} open={open} sx={{ padding: '24px' }}>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-        <Typography className="h3">{t('tr_deleteInvitationCode')}</Typography>
+        <Typography className="h2">{t('tr_deleteInvitationCode')}</Typography>
 
         <Typography color="var(--grey-400)">
           {t('tr_deleteInvitationCodeDesc')}

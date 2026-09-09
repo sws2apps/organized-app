@@ -31,7 +31,7 @@ const DeleteCongregation = () => {
           sx={{ padding: '24px' }}
         >
           <Stack spacing="16px">
-            <Typography className="h3">{t('tr_deleteCongregation')}</Typography>
+            <Typography className="h2">{t('tr_deleteCongregation')}</Typography>
 
             <Typography color="var(--grey-400)">
               {t('tr_deleteCongregationDesc')}

@@ -3,11 +3,8 @@ import { useScrollFade } from '@hooks/index';
 import { ScrollAreaProps } from './index.types';
 
 /**
- * A scrollable region whose content dissolves at the edges it scrolls past,
- * the same way a dialog's own content does.
- *
- * Use it for a list or panel that scrolls inside something else, where the
- * surrounding scroll area cannot tell that its content is cut off.
+ * A list or panel that scrolls inside something else, dissolving at the edges
+ * it scrolls past: the surrounding scroll area cannot tell that it is cut off.
  */
 const ScrollArea = ({ children, sx, ...props }: ScrollAreaProps) => {
   const ref = useScrollFade();
