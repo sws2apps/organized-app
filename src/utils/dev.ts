@@ -1418,7 +1418,10 @@ export const dbSchedulesAutoFill = async () => {
 
   // Add outgoing talk schedule entries
   await dbSchedulesFillOutgoingTalks(start, end);
-  store.set(schedulesState, await appDb.sched.toArray());
+
+  const refreshedSchedules = await appDb.sched.toArray();
+  store.set(schedulesState, refreshedSchedules);
+  store.set(assignmentsHistoryState, schedulesBuildHistoryList());
 
   // revert view to main
   await dbAppSettingsUpdate({
