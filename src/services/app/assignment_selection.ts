@@ -531,7 +531,6 @@ const getWeeksSinceLastRoom2 = (
  * Caches calculated fairness tiers and statistical metrics for a specific assignment candidate.
  */
 type CandidateMeta = {
-  globalTier: number;
   dataViewTier: number;
   assignmentsKindTier: number;
   assignmentCodeTier: number;
@@ -549,11 +548,10 @@ type CandidateMeta = {
  * This sorting algorithm applies a cascading sequence of tie-breakers to prioritize candidates.
  * The evaluation strictly follows this hierarchical order:
  * 1. **Current Meeting Load:** Minimizes `tasksInCurrentMeeting` (candidates with fewer tasks today are preferred).
- * 2. **Global Fairness:** Maximizes `globalTier` (prioritizes candidates with a higher global under-assignment score).
- * 3. **DataView Fairness:** Maximizes `dataViewTier` (prioritizes candidates under-assigned in the current group/language).
- * 4. **Meeting Type Fairness:** Maximizes `assignmentsKindTier` (balances Midweek vs. Weekend workload).
- * 5. **Task Specific Fairness:** Maximizes `assignmentCodeTier` (balances the specific assignment code frequency).
- * 6. **Pairing Rotation:** Maximizes `assistantClosestPairingDistance` (prefers assistants who haven't worked with the student recently).
+ * 2. **DataView Fairness:** Maximizes `dataViewTier` (prioritizes candidates under-assigned in the current group/language).
+ * 3. **Meeting Type Fairness:** Maximizes `assignmentsKindTier` (balances Midweek vs. Weekend workload).
+ * 4. **Task Specific Fairness:** Maximizes `assignmentCodeTier` (balances the specific assignment code frequency).
+ * 5. **Pairing Rotation:** Maximizes `assistantClosestPairingDistance` (prefers assistants who haven't worked with the student recently).
  *
  * @param metaA - Metadata metrics for the first candidate.
  * @param metaB - Metadata metrics for the second candidate.
@@ -565,9 +563,6 @@ const compareByDefaultStrategy = (
 ): number => {
   if (metaA.tasksInCurrentMeeting !== metaB.tasksInCurrentMeeting) {
     return metaA.tasksInCurrentMeeting - metaB.tasksInCurrentMeeting;
-  }
-  if (metaA.globalTier !== metaB.globalTier) {
-    return metaB.globalTier - metaA.globalTier;
   }
   if (metaA.dataViewTier !== metaB.dataViewTier) {
     return metaB.dataViewTier - metaA.dataViewTier;
@@ -651,7 +646,7 @@ const isQualifiedForClassroom = (
  *
  * **Default Strategy** (broad fairness, Round 1):
  * 1. Minimize current meeting load (`tasksInCurrentMeeting`)
- * 2. Maximize global tier → dataView tier → meeting-type tier → code tier
+ * 2. Maximize dataView tier → meeting-type tier → code tier
  * 3. Maximize assistant pairing time (MM_AssistantOnly only)
  *
  * **Alternative Strategy** (quota filling, Round 2):
@@ -692,19 +687,6 @@ export const sortCandidatesMultiLevel = (
     const personMetrics = personsDataViewMetrics?.get(p.person_uid);
     const personWeightingMetrics = weightingMetrics.get(p.person_uid);
     const weightingFactor = personWeightingMetrics?.weightingFactor || 1;
-
-    // --- Global tier (overall fairness) ---
-    const actualGlobalLoad = getActualLoad(
-      p.person_uid,
-      history,
-      task.schedule.weekOf
-    );
-
-    const globalTier = calculateTierScore(
-      personWeightingMetrics?.total_globalScore || 0,
-      actualGlobalLoad,
-      weightingFactor
-    );
 
     // --- DataView tier (overall fairness within this specific group) ---
     const actualDataViewLoad = getActualLoad(
@@ -826,7 +808,6 @@ export const sortCandidatesMultiLevel = (
         : 0;
 
     metaCache.set(p.person_uid, {
-      globalTier,
       dataViewTier,
       assignmentsKindTier: meetingTypeTier,
       assignmentCodeTier: codeTier,
