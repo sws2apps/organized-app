@@ -108,6 +108,7 @@ const MonthlyView = () => {
             return (
               <WeekBadge
                 key={index}
+                week={value}
                 text={getWeekLocale(new Date(value).getDate(), monthName)}
               />
             );

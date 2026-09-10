@@ -36,6 +36,8 @@
   "tr_december": "Декември",
   "tr_longDateFormat": "EEE, MMM dd, yyyy",
   "tr_delete": "Избриши",
+  "tr_continueEditing": "Continue editing",
+  "tr_discardChanges": "Discard changes",
   "tr_add": "Додај",
   "tr_pickerSelectTime": "Избери време",
   "tr_pickerSelectDate": "Избери датум",
