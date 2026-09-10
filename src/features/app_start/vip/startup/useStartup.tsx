@@ -30,6 +30,7 @@ import {
 import { APP_ROLES, VIP_ROLES } from '@constants/index';
 import { handleDeleteDatabase, loadApp, runUpdater } from '@services/app';
 import { apiValidateMe } from '@services/api/user';
+import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { userSignOut } from '@services/firebase/auth';
 import useFirebaseAuth from '@hooks/useFirebaseAuth';
 
@@ -147,6 +148,12 @@ const useStartup = () => {
         isAuthenticated &&
         (remoteMasterKey.length === 0 || remoteAccessCode.length === 0)
       ) {
+        if (congID.length === 0 && result.cong_id) {
+          await dbAppSettingsUpdate({
+            'cong_settings.cong_id': result.cong_id,
+          });
+        }
+
         if (masterKeyNeeded && remoteMasterKey.length === 0) {
           setCurrentStep(1);
           setIsLoading(false);

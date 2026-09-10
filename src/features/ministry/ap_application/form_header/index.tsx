@@ -1,8 +1,8 @@
-import { Box, Stack } from '@mui/material';
-import { IconInfo } from '@components/icons';
+import { Stack } from '@mui/material';
 import { useAppTranslation } from '@hooks/index';
 import { FormHeaderProps } from './index.types';
 import useFormHeader from './useFormHeader';
+import InfoBanner from '@components/info_banner';
 import Markup from '@components/text_markup';
 
 const FormHeader = (props: FormHeaderProps) => {
@@ -15,45 +15,23 @@ const FormHeader = (props: FormHeaderProps) => {
   return (
     <Stack spacing="16px">
       {approved && (
-        <Box
-          sx={{
-            borderRadius: '12px',
-            padding: '16px',
-            backgroundColor: 'var(--green-secondary)',
-            border: '1px solid var(--green-main)',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-          }}
-        >
-          <IconInfo color="var(--green-main)" />
+        <InfoBanner variant="green" bordered>
           <Markup
-            className="body-regular"
-            color="var(--green-main)"
+            className="body-small-regular"
+            color="inherit"
             content={t('tr_monthsApprovedAP', { months: approved })}
           />
-        </Box>
+        </InfoBanner>
       )}
 
       {pending && (
-        <Box
-          sx={{
-            borderRadius: '12px',
-            padding: '16px',
-            backgroundColor: 'var(--orange-secondary)',
-            border: '1px solid var(--orange-main)',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-          }}
-        >
-          <IconInfo color="var(--orange-dark)" />
+        <InfoBanner variant="orange" bordered>
           <Markup
-            className="body-regular"
-            color="var(--orange-dark)"
+            className="body-small-regular"
+            color="inherit"
             content={t('tr_monthsPendingAP', { months: pending })}
           />
-        </Box>
+        </InfoBanner>
       )}
     </Stack>
   );

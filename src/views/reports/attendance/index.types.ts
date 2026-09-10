@@ -11,7 +11,11 @@ export type AverageRowProps = {
   average: number;
 };
 
-export type TableHeaderProps = { column: number; year: string; locale: string };
+export type TableHeaderProps = {
+  column: number;
+  caption: string;
+  locale: string;
+};
 
 export type MonthlyRowProps = {
   column: number;

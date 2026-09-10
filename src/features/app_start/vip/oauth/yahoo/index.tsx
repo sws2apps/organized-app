@@ -12,7 +12,7 @@ const OAuthYahoo = () => {
     <OAuthButtonBase
       provider={provider}
       text={t('tr_oauthYahoo')}
-      logo={<IconYahoo />}
+      logo={<IconYahoo width={20} height={20} />}
     />
   );
 };

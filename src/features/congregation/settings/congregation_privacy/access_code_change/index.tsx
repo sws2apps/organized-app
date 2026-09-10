@@ -6,6 +6,7 @@ import { AccessCodeChangeType } from './index.types';
 import useAccessCodeChange from './useAccessCodeChange';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
+import DialogActions from '@components/dialog_actions';
 import TextField from '@components/textfield';
 import Typography from '@components/typography';
 
@@ -69,14 +70,10 @@ const AccessCodeChange = ({ open, onClose }: AccessCodeChangeType) => {
         resetHelperPadding={true}
       />
 
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '8px',
-          width: '100%',
-        }}
-      >
+      <DialogActions>
+        <Button variant="secondary" onClick={onClose}>
+          {t('tr_cancel')}
+        </Button>
         <Button
           variant="main"
           disabled={isProcessing}
@@ -85,10 +82,7 @@ const AccessCodeChange = ({ open, onClose }: AccessCodeChangeType) => {
         >
           {t('tr_save')}
         </Button>
-        <Button variant="secondary" onClick={onClose}>
-          {t('tr_cancel')}
-        </Button>
-      </Box>
+      </DialogActions>
     </Dialog>
   );
 };

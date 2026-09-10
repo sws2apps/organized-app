@@ -3,7 +3,7 @@ This file holds the source of the truth from the table "visiting_speakers".
 */
 
 import { atom } from 'jotai';
-import { congNameState, congNumberState } from './settings';
+import { congNameState } from './settings';
 import { VisitingSpeakerType } from '@definition/visiting_speakers';
 import { speakersCongregationsActiveState } from './speakers_congregations';
 import { personsState } from './persons';
@@ -140,10 +140,10 @@ export const localSpeakersState = atom((get) => {
 export const incomingSpeakersState = atom((get) => {
   const speakers = get(visitingSpeakersActiveState);
   const congregations = get(speakersCongregationsActiveState);
-  const congNumber = get(congNumberState);
+  const congName = get(congNameState);
 
   const localId = congregations.find(
-    (record) => record.cong_data.cong_number.value === congNumber
+    (record) => record.cong_data.cong_name.value === congName
   )?.id;
 
   const incomingSpeakers =

@@ -1,8 +1,9 @@
-import { Box, Stack } from '@mui/material';
+import { Box } from '@mui/material';
 import { IconClose } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import useBibleStudy from './useBibleStudy';
 import Button from '@components/button';
+import DialogActions from '@components/dialog_actions';
 import IconButton from '@components/icon_button';
 import Typography from '@components/typography';
 import TextField from '@components/textfield';
@@ -43,10 +44,7 @@ const BibleStudy = () => {
 
       <TextField label={t('tr_name')} inputRef={nameRef} />
 
-      <Stack spacing="8px">
-        <Button variant="main" onClick={handleSave}>
-          {bibleStudy ? t('tr_saveChanges') : t('tr_save')}
-        </Button>
+      <DialogActions>
         <Button
           variant="secondary"
           color="red"
@@ -54,7 +52,10 @@ const BibleStudy = () => {
         >
           {bibleStudy ? t('tr_deleteStudy') : t('tr_cancel')}
         </Button>
-      </Stack>
+        <Button variant="main" onClick={handleSave}>
+          {bibleStudy ? t('tr_saveChanges') : t('tr_save')}
+        </Button>
+      </DialogActions>
     </Box>
   );
 };

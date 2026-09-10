@@ -136,5 +136,6 @@
   "tr_congregationReports": "Звіти збору",
   "tr_bibleStudiesMonthlyLess": "Ти не можеш вибрати меншу кількість біблійних вивчень, ніж загальна кількість у твоїх щоденних записах",
   "tr_hoursDecreaseError": "Не можна змінити години",
-  "tr_hoursDecreaseErrorDesc": "Ти не можеш вибрати меншу кількість годин, ніж загальна кількість у твоїх щоденних записах"
+  "tr_hoursDecreaseErrorDesc": "Ти не можеш вибрати меншу кількість годин, ніж загальна кількість у твоїх щоденних записах",
+  "tr_SCEL": "School for Congregation Elders"
 }

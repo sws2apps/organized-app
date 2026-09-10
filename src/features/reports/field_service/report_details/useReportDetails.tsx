@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useAtom, useAtomValue } from 'jotai';
+import { useAtomValue } from 'jotai';
 import {
   congFieldServiceReportsState,
   selectedMonthFieldServiceReportState,
@@ -24,7 +24,7 @@ const useReportDetails = () => {
     personIsUnbaptizedPublisher,
   } = usePerson();
 
-  const [publisher, setPublisher] = useAtom(selectedPublisherReportState);
+  const publisher = useAtomValue(selectedPublisherReportState);
 
   const persons = useAtomValue(personsState);
   const currentMonth = useAtomValue(selectedMonthFieldServiceReportState);
@@ -135,8 +135,6 @@ const useReportDetails = () => {
 
     return report ? true : false;
   }, [report, report_editable, person]);
-
-  const handleBack = () => setPublisher(undefined);
 
   const handleAssignAP = async () => {
     try {
@@ -254,7 +252,6 @@ const useReportDetails = () => {
 
   return {
     person,
-    handleBack,
     enable_quick_AP,
     unverified,
     handleAssignAP,

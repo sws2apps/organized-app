@@ -4,5 +4,5 @@ export type BibleStudyItemProps = {
   bibleStudy: UserBibleStudyType;
   onEdit: (study: UserBibleStudyType) => void;
   selected: boolean;
-  onSelect: (study: UserBibleStudyType) => void;
+  onToggle: (study: UserBibleStudyType) => void;
 };

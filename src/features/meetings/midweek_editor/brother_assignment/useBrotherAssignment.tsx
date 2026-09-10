@@ -101,8 +101,17 @@ const useBrotherAssignment = ({
 
       const lcSrc = lcSrcOverride?.length > 0 ? lcSrcOverride : lcSrcDefault;
 
+      const lcDescOverride = lcPart.desc.override.find(
+        (record) => record.type === dataView
+      )?.value;
+
+      const lcDescDefault = lcPart.desc.default[lang];
+
+      const lcDesc =
+        lcDescOverride?.length > 0 ? lcDescOverride : lcDescDefault;
+
       if (lcSrc?.length > 0) {
-        return !sourcesCheckLCAssignments(lcSrc, sourceLocale);
+        return !sourcesCheckLCAssignments(lcSrc, lcDesc, sourceLocale);
       }
     }
 
@@ -112,8 +121,11 @@ const useBrotherAssignment = ({
       const lcSrc =
         lcPart.title.find((record) => record.type === dataView)?.value || '';
 
+      const lcDesc =
+        lcPart.desc.find((record) => record.type === dataView)?.value || '';
+
       if (lcSrc.length > 0) {
-        return !sourcesCheckLCAssignments(lcSrc, sourceLocale);
+        return !sourcesCheckLCAssignments(lcSrc, lcDesc, sourceLocale);
       }
     }
   }, [type, source, dataView, lang, sourceLocale]);

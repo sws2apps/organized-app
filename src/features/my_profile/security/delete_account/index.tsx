@@ -1,4 +1,4 @@
-import { Box, Stack } from '@mui/material';
+import { Stack } from '@mui/material';
 import { IconEncryptionKey } from '@components/icons';
 import IconLoading from '@components/icon_loading';
 import { useAppTranslation } from '@hooks/index';
@@ -6,6 +6,7 @@ import { DeleteAccountProps } from './index.types';
 import useDeleteAccount from './useDeleteAccount';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
+import DialogActions from '@components/dialog_actions';
 import TextField from '@components/textfield';
 import Typography from '@components/typography';
 import WaitingLoader from '@components/waiting_loader';
@@ -53,14 +54,15 @@ const DeleteAccount = ({ open, onClose }: DeleteAccountProps) => {
       )}
 
       {!isLoading && (
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '8px',
-            width: '100%',
-          }}
-        >
+        <DialogActions>
+          <Button
+            variant="secondary"
+            disabled={!isManageAccess ? isProcessing : false}
+            onClick={onClose}
+          >
+            {t('tr_cancel')}
+          </Button>
+
           {!isManageAccess && (
             <Button
               variant="main"
@@ -78,15 +80,7 @@ const DeleteAccount = ({ open, onClose }: DeleteAccountProps) => {
               {t('tr_manageAccess')}
             </Button>
           )}
-
-          <Button
-            variant="secondary"
-            disabled={!isManageAccess ? isProcessing : false}
-            onClick={onClose}
-          >
-            {t('tr_cancel')}
-          </Button>
-        </Box>
+        </DialogActions>
       )}
     </Dialog>
   );

@@ -1,10 +1,37 @@
 {
-  "2026-01-20T00:00": {
+  "2026-07-01T00:00": {
+    "images": {
+      "img_01": {
+        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-color-schemes.svg",
+        "tr_title": "Nuevas combinaciones de colores",
+        "tr_desc": "¡Más formas de personalizar Organized! Explora nuevos colores en la configuración de perfil, desde el monocromo minimalista hasta el rosa vibrante."
+      },
+      "img_02": {
+        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-homescreen-shortcuts.svg",
+        "tr_title": "Accesos directos a la pantalla de inicio",
+        "tr_desc": "Acceda directamente a las funciones más importantes, tanto en ordenadores de escritorio como en dispositivos móviles."
+      }
+    },
     "improvements": {
-      "tr_note_01": "Ver estadísticas de grupos de predicación y grupos de idiomas en los registros de publicadores",
-      "tr_note_02": "Añadir evento próximo a un calendario",
-      "tr_note_03": "Navegación del encabezado rediseñada y menú inferior añadido para móviles",
-      "tr_note_04": "Exportar el programa de oradores visitantes como PDF"
+      "tr_note_01": "Se agregó una plantilla de horas de crédito para la escuela de ancianos de congregación"
+    }
+  },
+  "2026-09-01T00:00": {
+    "images": {
+      "img_01": {
+        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-click-counter.svg",
+        "tr_title": "Toca para contar en dispositivos móviles",
+        "tr_desc": "Toca un campo de registro de asistencia y luego dale a Contador para contar a pantalla completa. Rápido, fácil e intuitivo."
+      }
+    },
+    "improvements": {
+      "tr_note_01": "Instala la aplicación en tu computadora o teléfono desde el menú de perfil",
+      "tr_note_02": "Configura las asignaciones aprobadas de los estudiantes de forma flexible para la sala principal o las clases auxiliares",
+      "tr_note_03": "Las congregaciones de lengua de señas pueden registrar por separado la asistencia de sordos a las reuniones",
+      "tr_note_04": "Rellena automáticamente una semana a la vez en la vista mensual de la reunión de entre semana en la computadora",
+      "tr_note_05": "Asigna a cualquier miembro de la familia como auxiliar",
+      "tr_note_06": "Marca a los precursores con problemas de salud para liberarlos de la meta de horas del año",
+      "tr_note_07": "Elige la orientación y el tamaño de letra para exportar en PDF los grupos para el servicio del campo"
     }
   }
 }

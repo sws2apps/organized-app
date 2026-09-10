@@ -7,7 +7,12 @@ import HoursStats from '../hours_stats';
 import PioneerStats from '../pioneer_stats';
 
 const YearlItem = ({ year }: YearlyItemProps) => {
-  const { hours, hoursEnabled, isFR } = useYearItem(year);
+  const { hours, hoursEnabled, isFR, isFS, isInfirm } = useYearItem(year);
+
+  // Show pioneer stats panel for:
+  // - All FR (regular) pioneers (always has a yearly goal)
+  // - FS (special) pioneers who are marked infirm (to show the "no goal" notice)
+  const showPioneerStats = isFR || (isFS && isInfirm);
 
   return (
     <Stack
@@ -22,9 +27,10 @@ const YearlItem = ({ year }: YearlyItemProps) => {
 
       <BibleStudiesStats year={year} />
 
-      {isFR && <PioneerStats year={year} />}
+      {showPioneerStats && <PioneerStats year={year} />}
     </Stack>
   );
 };
 
 export default YearlItem;
+
