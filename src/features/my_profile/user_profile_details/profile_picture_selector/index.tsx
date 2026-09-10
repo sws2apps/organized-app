@@ -1,8 +1,12 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Box } from '@mui/material';
 import { useAtomValue } from 'jotai';
 import { userAvatarTypeState, userAvatarUrlState } from '@states/settings';
-import { AvatarType } from '@definition/settings';
+import {
+  AVATAR_IMAGE_NAMES,
+  AvatarImageName,
+  AvatarType,
+} from '@definition/settings';
 import { useAppTranslation } from '@hooks/index';
 import useCurrentUser from '@hooks/useCurrentUser';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
@@ -17,17 +21,24 @@ type ProfilePictureSelectorProps = {
   onClose: () => void;
 };
 
-type OptionDef = {
+type AvatarGender = 'male' | 'female';
+
+type AvatarOption = {
   type: AvatarType;
-  gender?: 'male' | 'female';
+  gender?: AvatarGender;
 };
 
-type SectionDef = {
+type AvatarSection = {
   titleKey: string;
-  options: OptionDef[];
+  options: AvatarOption[];
 };
 
-const SECTIONS: SectionDef[] = [
+const imagesByPrefix = (prefix: string, gender?: AvatarGender) =>
+  AVATAR_IMAGE_NAMES.filter((name) => name.startsWith(prefix)).map(
+    (name: AvatarImageName): AvatarOption => ({ type: name, gender })
+  );
+
+const SECTIONS: AvatarSection[] = [
   {
     titleKey: 'tr_basic',
     options: [
@@ -45,56 +56,13 @@ const SECTIONS: SectionDef[] = [
   {
     titleKey: 'tr_person',
     options: [
-      { type: 'Male1', gender: 'male' },
-      { type: 'Male2', gender: 'male' },
-      { type: 'Male3', gender: 'male' },
-      { type: 'Male4', gender: 'male' },
+      ...imagesByPrefix('Male', 'male'),
+      ...imagesByPrefix('Female', 'female'),
     ],
   },
-  {
-    titleKey: 'tr_bibleStory',
-    options: [
-      { type: 'StoryDesert' },
-      { type: 'StoryField' },
-      { type: 'StoryFigs' },
-      { type: 'StoryLamp' },
-      { type: 'StoryLeaves' },
-      { type: 'StoryLion' },
-      { type: 'StoryLionScripture' },
-      { type: 'StoryPearl' },
-      { type: 'StoryRod' },
-      { type: 'StorySeeds' },
-      { type: 'StorySheep' },
-      { type: 'StoryWatchtower' },
-    ],
-  },
-  {
-    titleKey: 'tr_abstractShape',
-    options: [
-      { type: 'Abstract1' },
-      { type: 'Abstract2' },
-      { type: 'Abstract3' },
-      { type: 'Abstract4' },
-      { type: 'Abstract5' },
-      { type: 'Abstract6' },
-      { type: 'Abstract7' },
-      { type: 'Abstract8' },
-      { type: 'Abstract9' },
-      { type: 'Abstract10' },
-    ],
-  },
-  {
-    titleKey: 'tr_gradient',
-    options: [
-      { type: 'GradientOrange' },
-      { type: 'GradientBrown' },
-      { type: 'GradientLime' },
-      { type: 'GradientGreen' },
-      { type: 'GradientBlue' },
-      { type: 'GradientPurple' },
-      { type: 'GradientPink' },
-    ],
-  },
+  { titleKey: 'tr_bibleStory', options: imagesByPrefix('Story') },
+  { titleKey: 'tr_abstractShape', options: imagesByPrefix('Abstract') },
+  { titleKey: 'tr_gradient', options: imagesByPrefix('Gradient') },
 ];
 
 const ProfilePictureSelector = ({
@@ -102,69 +70,63 @@ const ProfilePictureSelector = ({
   onClose,
 }: ProfilePictureSelectorProps) => {
   const { t } = useAppTranslation();
-  const { person, isAdmin } = useCurrentUser();
 
-  const globalAvatarType = useAtomValue(userAvatarTypeState);
+  const { person } = useCurrentUser();
+
+  const savedAvatarType = useAtomValue(userAvatarTypeState);
   const avatarUrl = useAtomValue(userAvatarUrlState);
 
-  const isMale = useMemo<boolean | undefined>(() => {
-    if (person) return person.person_data.male.value;
-    if (isAdmin) return true;
-    return undefined;
-  }, [person, isAdmin]);
+  const [selectedType, setSelectedType] = useState<AvatarType>(savedAvatarType);
+  const [isProcessing, setIsProcessing] = useState(false);
 
-  const [localAvatarType, setLocalAvatarType] = useState<AvatarType>(() => {
-    return globalAvatarType;
-  });
+  // undefined keeps both the male and the female avatars visible
+  const isMale = person?.person_data.male.value;
 
-  const visibleSections = useMemo(
-    () =>
-      SECTIONS.map((section) => ({
-        titleKey: section.titleKey,
-        options: section.options
-          .filter((opt) => {
-            if (opt.gender === 'male' && isMale === false) return false;
-            if (opt.gender === 'female' && isMale === true) return false;
-            if (opt.type === 'google' && !avatarUrl) return false;
-            return true;
-          })
-          .map((opt) => opt.type),
-      })).filter((section) => section.options.length > 0),
-    [isMale, avatarUrl]
-  );
+  const sections = useMemo(() => {
+    const isVisible = (option: AvatarOption) => {
+      if (option.gender === 'male' && isMale === false) return false;
+      if (option.gender === 'female' && isMale === true) return false;
 
-  const initials = useMemo(() => {
-    const first =
-      person?.person_data.person_firstname.value?.charAt(0).toUpperCase() ?? '';
-    const last =
-      person?.person_data.person_lastname.value?.charAt(0).toUpperCase() ?? '';
-    return first + last || 'Aa';
-  }, [person]);
+      // the account photo can only be shown when there is one
+      if (option.type === 'google' && avatarUrl.length === 0) return false;
 
-  const availableTypes = useMemo(
-    () => new Set(visibleSections.flatMap((s) => s.options)),
-    [visibleSections]
-  );
+      return true;
+    };
 
-  useEffect(() => {
-    if (open) {
-      setLocalAvatarType(
-        availableTypes.has(globalAvatarType) ? globalAvatarType : 'default'
-      );
-    }
-  }, [open, globalAvatarType, availableTypes]);
-
-  const handleSelect = (opt: AvatarType) => setLocalAvatarType(opt);
+    return SECTIONS.map((section) => ({
+      titleKey: section.titleKey,
+      options: section.options.filter(isVisible).map((option) => option.type),
+    })).filter((section) => section.options.length > 0);
+  }, [isMale, avatarUrl]);
 
   const handleDone = async () => {
-    await dbAppSettingsUpdate({
-      'user_settings.user_avatar_type': {
-        value: localAvatarType,
-        updatedAt: new Date().toISOString(),
-      },
-    });
-    onClose();
+    if (isProcessing) return;
+
+    setIsProcessing(true);
+
+    try {
+      await dbAppSettingsUpdate({
+        'user_settings.user_avatar_type': {
+          value: selectedType,
+          updatedAt: new Date().toISOString(),
+        },
+      });
+
+      onClose();
+    } finally {
+      setIsProcessing(false);
+    }
   };
+
+  useEffect(() => {
+    // the saved avatar may no longer be selectable, e.g. after the account
+    // photo is gone: fall back to the generic one so a choice stays visible
+    const availableTypes = sections.flatMap((section) => section.options);
+
+    setSelectedType(
+      availableTypes.includes(savedAvatarType) ? savedAvatarType : 'default'
+    );
+  }, [sections, savedAvatarType]);
 
   return (
     <Dialog onClose={onClose} open={open} sx={{ padding: '0px' }}>
@@ -193,57 +155,63 @@ const ProfilePictureSelector = ({
             overflowY: 'auto',
           }}
         >
-          {visibleSections.map(({ titleKey, options }) => (
+          {sections.map(({ titleKey, options }) => (
             <Box
               key={titleKey}
               sx={{ display: 'flex', flexDirection: 'column', gap: '10px' }}
             >
-              <Typography className="label-small-regular" color="var(--black)">
+              <Typography
+                id={`avatar-section-${titleKey}`}
+                className="label-small-regular"
+                color="var(--black)"
+              >
                 {t(titleKey)}
               </Typography>
-              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
-                {options.map((opt) => {
-                  const isSelected = localAvatarType === opt;
+              <Box
+                role="radiogroup"
+                aria-labelledby={`avatar-section-${titleKey}`}
+                sx={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}
+              >
+                {options.map((option, index) => {
+                  const isSelected = selectedType === option;
 
                   return (
                     <Box
-                      key={opt}
-                      role="button"
-                      tabIndex={0}
-                      aria-pressed={isSelected}
-                      aria-label={opt}
-                      onClick={() => handleSelect(opt)}
+                      key={option}
+                      role="radio"
+                      tabIndex={isSelected ? 0 : -1}
+                      aria-checked={isSelected}
+                      aria-label={`${t(titleKey)} ${index + 1}`}
+                      onClick={() => setSelectedType(option)}
                       onKeyDown={(e) => {
-                        if (e.key === 'Enter' || e.key === ' ') {
-                          e.preventDefault();
-                          handleSelect(opt);
-                        }
+                        if (e.key !== 'Enter' && e.key !== ' ') return;
+
+                        e.preventDefault();
+                        setSelectedType(option);
                       }}
                       sx={{
                         position: 'relative',
                         cursor: 'pointer',
-                        borderRadius: '50%',
+                        borderRadius: 'var(--radius-max)',
                         margin: '2px',
                         outline: isSelected
                           ? '2px solid var(--accent-main)'
                           : '2px solid transparent',
                         outlineOffset: '2px',
                         '&:hover': { opacity: 0.85 },
+                        '&:focus-visible': {
+                          outline: '2px solid var(--accent-main)',
+                        },
                       }}
                     >
-                      <ProfilePicture
-                        size={48}
-                        typeOverride={opt}
-                        alt={opt}
-                        initials={opt === 'initials' ? initials : undefined}
-                      />
+                      <ProfilePicture size={48} type={option} alt="" />
                       {isSelected && (
                         <Box
                           sx={{
                             position: 'absolute',
                             bottom: -6,
                             right: -6,
-                            borderRadius: '50%',
+                            borderRadius: 'var(--radius-max)',
                             backgroundColor: 'var(--accent-main)',
                             border: '2px solid var(--white)',
                             display: 'flex',
@@ -277,7 +245,7 @@ const ProfilePictureSelector = ({
             padding: '0 24px 24px',
           }}
         >
-          <Button variant="main" onClick={handleDone}>
+          <Button variant="main" onClick={handleDone} disabled={isProcessing}>
             {t('tr_done')}
           </Button>
           <Button variant="secondary" onClick={onClose}>

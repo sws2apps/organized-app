@@ -1,55 +1,124 @@
-export { default as Abstract1 } from './profile-img-abstract-1.svg?url';
-export { default as Abstract2 } from './profile-img-abstract-2.svg?url';
-export { default as Abstract3 } from './profile-img-abstract-3.svg?url';
-export { default as Abstract4 } from './profile-img-abstract-4.svg?url';
-export { default as Abstract5 } from './profile-img-abstract-5.svg?url';
-export { default as Abstract6 } from './profile-img-abstract-6.svg?url';
-export { default as Abstract7 } from './profile-img-abstract-7.svg?url';
-export { default as Abstract8 } from './profile-img-abstract-8.svg?url';
-export { default as Abstract9 } from './profile-img-abstract-9.svg?url';
-export { default as Abstract10 } from './profile-img-abstract-10.svg?url';
+import { ComponentType, SVGProps } from 'react';
+import {
+  AvatarIconName,
+  AvatarImageName,
+  AvatarType,
+} from '@definition/settings';
 
-export { default as GradientBlue } from './profile-img-gradient-blue.svg?url';
-export { default as GradientBrown } from './profile-img-gradient-brown.svg?url';
-export { default as GradientGreen } from './profile-img-gradient-green.svg?url';
-export { default as GradientLime } from './profile-img-gradient-lime.svg?url';
-export { default as GradientOrange } from './profile-img-gradient-orange.svg?url';
-export { default as GradientPink } from './profile-img-gradient-pink.svg?url';
-export { default as GradientPurple } from './profile-img-gradient-purple.svg?url';
+import GradientOrange from './profile-img-gradient-orange.svg?url';
+import GradientBrown from './profile-img-gradient-brown.svg?url';
+import GradientLime from './profile-img-gradient-lime.svg?url';
+import GradientGreen from './profile-img-gradient-green.svg?url';
+import GradientBlue from './profile-img-gradient-blue.svg?url';
+import GradientPurple from './profile-img-gradient-purple.svg?url';
+import GradientPink from './profile-img-gradient-pink.svg?url';
 
-export { default as StoryDesert } from './profile-img-story-desert.svg?url';
-export { default as StoryField } from './profile-img-story-field.svg?url';
-export { default as StoryFigs } from './profile-img-story-figs.svg?url';
-export { default as StoryLamp } from './profile-img-story-lamp.svg?url';
-export { default as StoryLeaves } from './profile-img-story-leaves.svg?url';
-export { default as StoryLion } from './profile-img-story-lion.svg?url';
-export { default as StoryLionScripture } from './profile-img-story-lion-scripture.svg?url';
-export { default as StoryPearl } from './profile-img-story-pearl.svg?url';
-export { default as StoryRod } from './profile-img-story-rod.svg?url';
-export { default as StorySeeds } from './profile-img-story-seeds.svg?url';
-export { default as StorySheep } from './profile-img-story-sheep.svg?url';
-export { default as StoryWatchtower } from './profile-img-story-watchtower.svg?url';
+import Abstract1 from './profile-img-abstract-1.svg?url';
+import Abstract2 from './profile-img-abstract-2.svg?url';
+import Abstract3 from './profile-img-abstract-3.svg?url';
+import Abstract4 from './profile-img-abstract-4.svg?url';
+import Abstract5 from './profile-img-abstract-5.svg?url';
+import Abstract6 from './profile-img-abstract-6.svg?url';
+import Abstract7 from './profile-img-abstract-7.svg?url';
+import Abstract8 from './profile-img-abstract-8.svg?url';
+import Abstract9 from './profile-img-abstract-9.svg?url';
+import Abstract10 from './profile-img-abstract-10.svg?url';
 
-export { default as FemaleIcon1 } from './profile-img-female-icon-1.svg?url';
-export { default as FemaleIcon2 } from './profile-img-female-icon-2.svg?url';
-export { default as FemaleIcon3 } from './profile-img-female-icon-3.svg?url';
+import StoryDesert from './profile-img-story-desert.svg?url';
+import StoryField from './profile-img-story-field.svg?url';
+import StoryFigs from './profile-img-story-figs.svg?url';
+import StoryLamp from './profile-img-story-lamp.svg?url';
+import StoryLeaves from './profile-img-story-leaves.svg?url';
+import StoryLion from './profile-img-story-lion.svg?url';
+import StoryLionScripture from './profile-img-story-lion-scripture.svg?url';
+import StoryPearl from './profile-img-story-pearl.svg?url';
+import StoryRod from './profile-img-story-rod.svg?url';
+import StorySeeds from './profile-img-story-seeds.svg?url';
+import StorySheep from './profile-img-story-sheep.svg?url';
+import StoryWatchtower from './profile-img-story-watchtower.svg?url';
 
-export { default as MaleIcon1 } from './profile-img-male-icon-1.svg?url';
-export { default as MaleIcon2 } from './profile-img-male-icon-2.svg?url';
-export { default as MaleIcon3 } from './profile-img-male-icon-3.svg?url';
+import Male1 from './profile-male-1.svg?url';
+import Male2 from './profile-male-2.svg?url';
+import Male3 from './profile-male-3.svg?url';
+import Male4 from './profile-male-4.svg?url';
 
-export { default as FemaleIcon1Component } from './FemaleIcon1Component';
-export { default as FemaleIcon2Component } from './FemaleIcon2Component';
-export { default as FemaleIcon3Component } from './FemaleIcon3Component';
+import Female1 from './profile-female-1.svg?url';
+import Female2 from './profile-female-2.svg?url';
+import Female3 from './profile-female-3.svg?url';
+import Female4 from './profile-female-4.svg?url';
+import Female5 from './profile-female-5.svg?url';
 
-export { default as MaleIcon1Component } from './MaleIcon1Component';
-export { default as MaleIcon2Component } from './MaleIcon2Component';
-export { default as MaleIcon3Component } from './MaleIcon3Component';
+import MaleIcon1Component from './MaleIcon1Component';
+import MaleIcon2Component from './MaleIcon2Component';
+import MaleIcon3Component from './MaleIcon3Component';
+import FemaleIcon1Component from './FemaleIcon1Component';
+import FemaleIcon2Component from './FemaleIcon2Component';
+import FemaleIcon3Component from './FemaleIcon3Component';
+import GenericProfileComponent from './GenericProfileComponent';
 
-export { default as GenericProfileComponent } from './GenericProfileComponent';
+export type AvatarIconComponent = ComponentType<SVGProps<SVGSVGElement>>;
 
-export { default as Male1 } from './profile-male-1.svg?url';
-export { default as Male2 } from './profile-male-2.svg?url';
-export { default as Male3 } from './profile-male-3.svg?url';
-export { default as Male4 } from './profile-male-4.svg?url';
+/**
+ * Illustrations rendered as `<img>`: each SVG keeps its own gradient ids that
+ * way, which would otherwise collide when several are inlined on one page.
+ */
+export const AVATAR_IMAGES: Record<AvatarImageName, string> = {
+  GradientOrange,
+  GradientBrown,
+  GradientLime,
+  GradientGreen,
+  GradientBlue,
+  GradientPurple,
+  GradientPink,
+  Abstract1,
+  Abstract2,
+  Abstract3,
+  Abstract4,
+  Abstract5,
+  Abstract6,
+  Abstract7,
+  Abstract8,
+  Abstract9,
+  Abstract10,
+  StoryDesert,
+  StoryField,
+  StoryFigs,
+  StoryLamp,
+  StoryLeaves,
+  StoryLion,
+  StoryLionScripture,
+  StoryPearl,
+  StoryRod,
+  StorySeeds,
+  StorySheep,
+  StoryWatchtower,
+  Male1,
+  Male2,
+  Male3,
+  Male4,
+  Female1,
+  Female2,
+  Female3,
+  Female4,
+  Female5,
+};
 
+/**
+ * Icons rendered inline so that they can follow the accent color of the theme.
+ */
+export const AVATAR_ICONS: Record<AvatarIconName, AvatarIconComponent> = {
+  MaleIcon1: MaleIcon1Component,
+  MaleIcon2: MaleIcon2Component,
+  MaleIcon3: MaleIcon3Component,
+  FemaleIcon1: FemaleIcon1Component,
+  FemaleIcon2: FemaleIcon2Component,
+  FemaleIcon3: FemaleIcon3Component,
+};
+
+export const isAvatarImage = (type: AvatarType): type is AvatarImageName =>
+  type in AVATAR_IMAGES;
+
+export const isAvatarIcon = (type: AvatarType): type is AvatarIconName =>
+  type in AVATAR_ICONS;
+
+export { GenericProfileComponent };

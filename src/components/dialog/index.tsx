@@ -16,11 +16,7 @@ const Dialog = ({ open, onClose, children, sx, PaperProps }: DialogProps) => {
    * @param {string} reason - The reason for closing the dialog.
    */
   const handleClose = (_, reason) => {
-    if (
-      reason === 'clickaway' ||
-      reason === 'backdropClick' ||
-      reason === 'escapeKeyDown'
-    ) {
+    if (reason === 'clickaway' || reason === 'backdropClick') {
       return;
     }
 

@@ -590,17 +590,26 @@ export const userAvatarState = atom((get) => {
   return settings.user_settings.user_avatar;
 });
 
+let cachedAvatarBuffer: ArrayBuffer;
+let cachedAvatarUrl = '';
+
 export const userAvatarUrlState = atom((get) => {
   const avatarBuffer = get(userAvatarState);
 
-  let src = '';
+  if (avatarBuffer === cachedAvatarBuffer) return cachedAvatarUrl;
 
-  if (avatarBuffer) {
-    const blob = new Blob([avatarBuffer]);
-    src = URL.createObjectURL(blob);
+  // release the previous object url, otherwise every avatar change leaks it
+  if (cachedAvatarUrl.length > 0) {
+    URL.revokeObjectURL(cachedAvatarUrl);
   }
 
-  return src;
+  cachedAvatarBuffer = avatarBuffer;
+
+  cachedAvatarUrl = avatarBuffer
+    ? URL.createObjectURL(new Blob([avatarBuffer]))
+    : '';
+
+  return cachedAvatarUrl;
 });
 
 export const backupAutoState = atom((get) => {
@@ -618,7 +627,16 @@ export const backupIntervalState = atom((get) => {
 export const userAvatarTypeState = atom<AvatarType>((get) => {
   const settings = get(settingsState);
 
-  return (settings.user_settings.user_avatar_type?.value as AvatarType) || 'google';
+  return settings.user_settings.user_avatar_type?.value ?? 'google';
+});
+
+export const userInitialsState = atom((get) => {
+  const firstname = get(firstnameState);
+  const lastname = get(lastnameState);
+
+  const initials = `${firstname?.at(0) ?? ''}${lastname?.at(0) ?? ''}`;
+
+  return initials.toUpperCase();
 });
 
 export const accountTypeState = atom((get) => {
