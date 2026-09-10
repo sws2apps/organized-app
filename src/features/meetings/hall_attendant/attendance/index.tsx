@@ -1,15 +1,13 @@
 import { Fragment } from 'react';
-import { IconHistory } from '@components/icons';
+import { IconClickerMode, IconHistory } from '@components/icons';
 import { Box, Stack } from '@mui/material';
 import { useNavigate } from 'react-router';
 import { useAppTranslation } from '@hooks/index';
-import { ClickerTab } from '@features/reports/meeting_attendance/monthly_record/clicker_mode/index.types';
 import { WeekBoxProps } from '@features/reports/meeting_attendance/monthly_record/week_box/index.types';
 import useWeekBox from '@features/reports/meeting_attendance/monthly_record/week_box/useWeekBox';
 import Card from '@components/card';
 import CardHeader from '@components/card_header';
 import ClickerMode from '@features/reports/meeting_attendance/monthly_record/clicker_mode';
-import ClickerSuggestion from '@features/reports/meeting_attendance/monthly_record/clicker_mode/suggestion_button';
 import TextField from '@components/textfield';
 import Typography from '@components/typography';
 import Button from '@components/button';
@@ -26,20 +24,17 @@ const HallAttendance = (props: WeekBoxProps & { dateLabel: string }) => {
     noMeeting,
     canEdit,
     total,
-    clickerEnabled,
     clickerOpen,
     clickerTitle,
-    focusedField,
-    handleFieldFocus,
-    handleFieldBlur,
     handleClickerOpen,
     handleClickerClose,
     handleClickerSave,
   } = useWeekBox(props);
   const online = Number(values.online || 0) + Number(values.onlineDeaf || 0);
 
-  const suggestionOpen = (field: ClickerTab) =>
-    !clickerOpen && focusedField === field;
+  // counting is what this mode is for, so the counter is offered outright
+  // rather than waiting for a field to be focused
+  const clickerEnabled = !noMeeting && canEdit;
 
   return (
     <Card>
@@ -50,69 +45,36 @@ const HallAttendance = (props: WeekBoxProps & { dateLabel: string }) => {
       ) : (
         <>
           <Box sx={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-            {fields.map((field) => {
-              // the counter writes a whole count, so it is offered on the two
-              // fields it knows and not on the deaf halves
-              const counted =
-                field.name === 'present' || field.name === 'online';
-
-              return (
-                <Fragment key={field.name}>
-                  {field.section && (
-                    <Typography
-                      className="body-small-semibold"
-                      sx={{ width: '100%' }}
-                    >
-                      {field.section}
-                    </Typography>
-                  )}
-                  <Box
-                    sx={{ position: 'relative', flex: '1 1 0', minWidth: 0 }}
-                    onBlur={(event) => {
-                      if (
-                        !event.currentTarget.contains(
-                          event.relatedTarget as Node | null
-                        )
-                      ) {
-                        handleFieldBlur();
-                      }
-                    }}
+            {fields.map((field) => (
+              <Fragment key={field.name}>
+                {field.section && (
+                  <Typography
+                    className="body-small-semibold"
+                    sx={{ width: '100%' }}
                   >
-                    <TextField
-                      type="number"
-                      disabled={!canEdit}
-                      value={values[field.name]}
-                      onChange={handleValueChange(field.name)}
-                      onBlur={() => flushField(field.name)}
-                      onFocus={
-                        counted
-                          ? () => handleFieldFocus(field.name as ClickerTab)
-                          : undefined
-                      }
-                      label={
-                        field.name === 'present'
-                          ? fields.some((f) => f.name === 'presentDeaf')
-                            ? t('tr_hearing')
-                            : t('tr_present')
-                          : field.label
-                      }
-                      slotProps={{
-                        htmlInput: { min: 0, step: 1, inputMode: 'numeric' },
-                      }}
-                      sx={{ width: '100%' }}
-                    />
-
-                    {clickerEnabled && counted && (
-                      <ClickerSuggestion
-                        open={suggestionOpen(field.name as ClickerTab)}
-                        onOpen={handleClickerOpen}
-                        label={t('tr_clickerMode')}
-                      />
-                    )}
-                  </Box>
-                </Fragment>
-              );
-            })}
+                    {field.section}
+                  </Typography>
+                )}
+                <TextField
+                  type="number"
+                  disabled={!canEdit}
+                  value={values[field.name]}
+                  onChange={handleValueChange(field.name)}
+                  onBlur={() => flushField(field.name)}
+                  label={
+                    field.name === 'present'
+                      ? fields.some((f) => f.name === 'presentDeaf')
+                        ? t('tr_hearing')
+                        : t('tr_present')
+                      : field.label
+                  }
+                  slotProps={{
+                    htmlInput: { min: 0, step: 1, inputMode: 'numeric' },
+                  }}
+                  sx={{ flex: '1 1 0', minWidth: 0 }}
+                />
+              </Fragment>
+            ))}
           </Box>
           {recordOnline && (
             <Stack spacing="4px">
@@ -150,6 +112,16 @@ const HallAttendance = (props: WeekBoxProps & { dateLabel: string }) => {
           )}
         </>
       )}
+      {clickerEnabled && (
+        <Button
+          variant="main"
+          startIcon={<IconClickerMode color="var(--always-white)" />}
+          onClick={handleClickerOpen}
+        >
+          {t('tr_clickerMode')}
+        </Button>
+      )}
+
       <Button
         variant="secondary"
         startIcon={<IconHistory />}
@@ -163,7 +135,7 @@ const HallAttendance = (props: WeekBoxProps & { dateLabel: string }) => {
           open={clickerOpen}
           onClose={handleClickerClose}
           title={clickerTitle}
-          initialTab={focusedField ?? 'present'}
+          initialTab="present"
           recordOnline={recordOnline}
           presentValue={Number(values.present) || 0}
           onlineValue={Number(values.online) || 0}
