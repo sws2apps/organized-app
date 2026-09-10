@@ -559,7 +559,7 @@
   "tr_hallDone": "Done",
   "tr_hallMeetingSummary": "Meeting summary",
   "tr_hallOnlineRatio": "Online ratio",
-  "tr_hallHistory": "View history",
+  "tr_hallHistory": "Attendance records",
   "tr_hallMeetingDate": "{{ meeting }} · {{ date }}",
   "tr_hallNoMeeting": "No meeting is scheduled for this week.",
   "tr_hallDeleteNote": "Delete note",
