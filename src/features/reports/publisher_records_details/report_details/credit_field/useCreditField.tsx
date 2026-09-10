@@ -1,6 +1,9 @@
 import { useMemo, useRef } from 'react';
 import { useAtom, useAtomValue } from 'jotai';
-import { publisherCurrentReportState } from '@states/field_service_reports';
+import {
+  congFieldServiceReportsState,
+  publisherCurrentReportState,
+} from '@states/field_service_reports';
 import { branchFieldReportsState } from '@states/branch_field_service_reports';
 import { isCongReportLocked } from '@services/dexie/cong_field_service_reports';
 
@@ -12,17 +15,28 @@ const useCreditField = () => {
   );
 
   const branchReports = useAtomValue(branchFieldReportsState);
+  const congReports = useAtomValue(congFieldServiceReportsState);
 
   const readOnly = useMemo(() => {
     const branchReport = branchReports.find(
       (record) => record.report_date === currentReport.report_data.report_date
     );
 
+    // Derive the lock from the persisted record, not the editing draft:
+    // entering hours flips shared_ministry in the draft and must not lock
+    // the remaining fields mid-session.
+    const persistedReport = congReports.find(
+      (record) =>
+        record.report_data.report_date ===
+          currentReport.report_data.report_date &&
+        record.report_data.person_uid === currentReport.report_data.person_uid
+    );
+
     return isCongReportLocked(
-      currentReport,
+      persistedReport,
       branchReport?.report_data.submitted
     );
-  }, [branchReports, currentReport]);
+  }, [branchReports, congReports, currentReport]);
 
   const credit = useMemo(() => {
     if (currentReport.report_data.hours.credit.approved > 0) {
