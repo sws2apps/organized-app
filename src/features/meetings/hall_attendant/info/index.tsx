@@ -31,6 +31,19 @@ const HallNotes = () => {
       !note._deleted && (editing || note.title.trim() || note.text.trim())
   );
   const noteToDelete = notes.find((note) => note.id === deleteNoteId);
+
+  // with nothing written down yet, going through the editor first is a step
+  // for nothing: the button writes the first note straight away
+  const isEmpty = !notes.length;
+  const hasBlankNote = info.notes.some((note) => !note._deleted);
+
+  const handleAddFirstNote = () => {
+    toggleEditing();
+
+    // a note left blank in an earlier round is opened again rather than
+    // joined by a second empty one
+    if (!hasBlankNote) addNote();
+  };
   return (
     <Card>
       <Dialog
@@ -126,26 +139,29 @@ const HallNotes = () => {
             justifyContent: editing ? 'space-between' : 'flex-end',
           }}
         >
-          {editing && (
+          {(editing || isEmpty) && (
             <Button
               variant="small"
               startIcon={<IconAdd />}
               minHeight={32}
               disableAutoStretch
-              onClick={addNote}
+              onClick={editing ? addNote : handleAddFirstNote}
             >
               {t('tr_hallAddNote')}
             </Button>
           )}
-          <Button
-            variant="small"
-            startIcon={editing ? <IconCheck /> : <IconEdit />}
-            minHeight={32}
-            disableAutoStretch
-            onClick={toggleEditing}
-          >
-            {t(editing ? 'tr_hallDone' : 'tr_edit')}
-          </Button>
+
+          {(editing || !isEmpty) && (
+            <Button
+              variant="small"
+              startIcon={editing ? <IconCheck /> : <IconEdit />}
+              minHeight={32}
+              disableAutoStretch
+              onClick={toggleEditing}
+            >
+              {t(editing ? 'tr_hallDone' : 'tr_edit')}
+            </Button>
+          )}
         </Stack>
       )}
     </Card>
