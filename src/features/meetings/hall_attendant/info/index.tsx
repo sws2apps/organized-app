@@ -30,7 +30,7 @@ const HallNotes = () => {
     (note) =>
       !note._deleted && (editing || note.title.trim() || note.text.trim())
   );
-  const noteToDelete = notes.find((note) => note.id === deleteNoteId);
+  const hasNoteToDelete = notes.some((note) => note.id === deleteNoteId);
 
   // with nothing written down yet, going through the editor first is a step
   // for nothing: the button writes the first note straight away
@@ -47,7 +47,7 @@ const HallNotes = () => {
   return (
     <Card>
       <Dialog
-        open={editing && !!noteToDelete}
+        open={editing && hasNoteToDelete}
         onClose={() => setDeleteNoteId(null)}
         ariaLabelledBy={deleteTitleId}
         sx={{ padding: '24px' }}

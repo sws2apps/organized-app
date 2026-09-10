@@ -1,9 +1,16 @@
 import Typography from '@components/typography';
 import { Collapse, IconButton, Box } from '@mui/material';
-import { CardHeaderPropsType } from './index.types';
+import { CardHeaderPropsType, CardHeaderSizeType } from './index.types';
 import { StyledContentBox } from './index.styles';
 import { IconExpand } from '@components/icons';
 import { useState } from 'react';
+
+/** The text of a small header carries the colour, a large one sits on it. */
+const headerColor = (color: string, size: CardHeaderSizeType) => {
+  if (size !== 'small') return 'var(--white)';
+
+  return color === 'red' ? 'var(--red-dark)' : 'var(--accent-dark)';
+};
 
 /**
  * Component for rendering a card header.
@@ -24,13 +31,7 @@ const CardHeader = ({
       <StyledContentBox color={color} size={size}>
         <Typography
           className={className}
-          color={
-            size === 'small'
-              ? color === 'red'
-                ? 'var(--red-dark)'
-                : 'var(--accent-dark)'
-              : `var(--white)`
-          }
+          color={headerColor(color, size)}
           sx={{ textAlign: 'left' }}
         >
           {header}

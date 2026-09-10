@@ -19,6 +19,13 @@ const latest = <
   return (a.revision ?? '') >= (b.revision ?? '') ? a : b;
 };
 
+/** Orders two strings, so that a merge always returns the same order. */
+const compareText = (first: string, second: string) => {
+  if (first < second) return -1;
+
+  return first > second ? 1 : 0;
+};
+
 const mergeItems = <
   T extends {
     id: string;
@@ -39,8 +46,10 @@ const mergeItems = <
   return [...items.values()].sort((a, b) => {
     const first = a.createdAt ?? '';
     const second = b.createdAt ?? '';
+
     if (first !== second) return first < second ? -1 : 1;
-    return a.id < b.id ? -1 : a.id > b.id ? 1 : 0;
+
+    return compareText(a.id, b.id);
   });
 };
 
@@ -63,9 +72,7 @@ export const mergeHallInfo = (
     });
   }
   return structuredClone(
-    [...views.values()].sort((a, b) =>
-      a.type < b.type ? -1 : a.type > b.type ? 1 : 0
-    )
+    [...views.values()].sort((a, b) => compareText(a.type, b.type))
   );
 };
 

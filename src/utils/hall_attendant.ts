@@ -50,20 +50,28 @@ export const getHallMeeting = (
   const weekDate = getWeekDate(new Date(today));
   const midnight = new Date(today);
   midnight.setHours(0, 0, 0, 0);
+  const meetingDay = (type: 'midweek' | 'weekend') =>
+    type === 'midweek' ? midweekDay : weekendDay;
+
   const candidates = (['midweek', 'weekend'] as const)
     .map((type) => {
       const override = dates[type];
+
+      // a date set in the schedule wins over the congregation's usual day
       const date =
         override && Number.isFinite(override.getTime())
           ? new Date(override)
-          : addDays(weekDate, type === 'midweek' ? midweekDay : weekendDay);
+          : addDays(weekDate, meetingDay(type));
+
       date.setHours(0, 0, 0, 0);
       return { type, date };
     })
     .sort((a, b) => a.date.getTime() - b.date.getTime());
-  const selected =
-    candidates.find((item) => item.date >= midnight) ??
-    candidates[candidates.length - 1];
+  // both meetings are always in the list, so there is always a later one to
+  // fall back to once the day of the earlier one has passed
+  const [, later] = candidates;
+
+  const selected = candidates.find((item) => item.date >= midnight) ?? later;
   const week = formatDate(weekDate, 'yyyy/MM/dd');
   const month = formatDate(weekDate, 'yyyy/MM');
   return {

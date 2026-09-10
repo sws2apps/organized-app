@@ -2,7 +2,10 @@ import { useCallback, useEffect, useMemo } from 'react';
 import { useSetAtom } from 'jotai';
 import { ATTENDANCE_AUTOSAVE_DELAY } from '@constants/index';
 import { AutosaveDraft } from '@definition/autosave';
-import { AttendanceValues } from '@definition/meeting_attendance';
+import {
+  AttendanceRecordField,
+  AttendanceValues,
+} from '@definition/meeting_attendance';
 import { meetingAttendanceSaveState } from '@states/meeting_attendance';
 import useAutosaveDrafts from '@hooks/useAutosaveDrafts';
 import {
@@ -10,6 +13,14 @@ import {
   AttendancePendingSave,
   WeekBoxValues,
 } from '@features/reports/meeting_attendance/monthly_record/week_box/index.types';
+
+/** The fields a record spells differently from the view. */
+const STORED_FIELD: Partial<
+  Record<keyof WeekBoxValues, AttendanceRecordField>
+> = {
+  presentDeaf: 'present_deaf',
+  onlineDeaf: 'online_deaf',
+};
 
 const useAttendanceDrafts = ({
   initialValues,
@@ -42,11 +53,7 @@ const useAttendanceDrafts = ({
       const counts: AttendanceValues = {};
       for (const field of fields) {
         const storedField =
-          field === 'presentDeaf'
-            ? 'present_deaf'
-            : field === 'onlineDeaf'
-              ? 'online_deaf'
-              : field;
+          STORED_FIELD[field] ?? (field as AttendanceRecordField);
         counts[storedField] = entries[field].value;
       }
       const setStatus = (status: AutosaveDraft['status']) =>

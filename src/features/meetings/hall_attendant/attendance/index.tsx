@@ -34,6 +34,15 @@ const HallAttendance = (props: WeekBoxProps & { dateLabel: string }) => {
   } = useWeekBox(props);
   const online = Number(values.online || 0) + Number(values.onlineDeaf || 0);
 
+  // where the deaf are counted apart, the present field counts the hearing
+  const hasDeafCount = fields.some((field) => field.name === 'presentDeaf');
+
+  const fieldLabel = (field: (typeof fields)[number]) => {
+    if (field.name !== 'present') return field.label;
+
+    return hasDeafCount ? t('tr_hearing') : t('tr_present');
+  };
+
   return (
     <Card>
       <CardHeader className="h4" header={t('tr_meetingAttendance')} />
@@ -59,13 +68,7 @@ const HallAttendance = (props: WeekBoxProps & { dateLabel: string }) => {
                   value={values[field.name]}
                   onChange={handleValueChange(field.name)}
                   onBlur={() => flushField(field.name)}
-                  label={
-                    field.name === 'present'
-                      ? fields.some((f) => f.name === 'presentDeaf')
-                        ? t('tr_hearing')
-                        : t('tr_present')
-                      : field.label
-                  }
+                  label={fieldLabel(field)}
                   slotProps={{
                     htmlInput: { min: 0, step: 1, inputMode: 'numeric' },
                   }}
