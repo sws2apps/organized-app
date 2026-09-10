@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { useAtom, useAtomValue } from 'jotai';
 import { publisherCurrentReportState } from '@states/field_service_reports';
 import { branchFieldReportsState } from '@states/branch_field_service_reports';
+import { isCongReportLocked } from '@services/dexie/cong_field_service_reports';
 
 const useBibleStudies = () => {
   const [currentReport, setCurrentReport] = useAtom(
@@ -15,15 +16,10 @@ const useBibleStudies = () => {
       (record) => record.report_date === currentReport.report_data.report_date
     );
 
-    if (!branchReport) return false;
-
-    const isLate =
-      currentReport?.report_data.late.value &&
-      currentReport?.report_data.late.submitted.length === 0;
-
-    if (isLate) return false;
-
-    return branchReport.report_data.submitted;
+    return isCongReportLocked(
+      currentReport,
+      branchReport?.report_data.submitted
+    );
   }, [branchReports, currentReport]);
 
   const bible_studies = useMemo(() => {
