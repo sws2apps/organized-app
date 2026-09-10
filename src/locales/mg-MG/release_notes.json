@@ -20,18 +20,18 @@
     "images": {
       "img_01": {
         "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-click-counter.svg",
-        "tr_title": "Tap to count on mobile devices",
-        "tr_desc": "Tap an attendance count field, then hit Counter for a full-screen tally. Fast, easy, and intuitive."
+        "tr_title": "Fanisana mpanatrika rehefa mampiasa telefaonina",
+        "tr_desc": "Tsindrio ny toerana fampidirana ny isan’ny mpanatrika, ary tsindrio avy eo ilay hoe Hanisa, dia hisy pejy manokana hahafahanao mampiditra ilay isa."
       }
     },
     "improvements": {
-      "tr_note_01": "Install the app to your desktop or phone from the profile menu",
-      "tr_note_02": "Set up student assignment qualifications flexibly for main hall or auxiliary classroom",
-      "tr_note_03": "Sign-language congregations can record deaf meeting attendance separately",
-      "tr_note_04": "Autofill one week at a time in the midweek meeting monthly view on desktop",
-      "tr_note_05": "Assign any family member as assistant",
-      "tr_note_06": "Mark infirm pioneers to release them from the yearly hour goal",
-      "tr_note_07": "Pick orientation and font size for the field service group PDF export"
+      "tr_note_01": "Fampidirana ny programa avy eo amin’ny mombamomba ny kaontinao",
+      "tr_note_02": "Fanendrena omena ny mpianatra arakaraka ny efitrano",
+      "tr_note_03": "Fampidirana isa manokana ho an’ny fiangonana tenin’ny tanana",
+      "tr_note_04": "Famenoana ho azy ho an’ny herinandro iray fotsiny amin’ny fivoriana andavanandro",
+      "tr_note_05": "Fanendrena fianakaviana ho namana amin’ny fivoriana andavanandro",
+      "tr_note_06": "Fanamarihana mpisava lalana efa osa ka tsy takiana ora isan-taona",
+      "tr_note_07": "Fisafidianana ny endriky ny pejy sy haben’ny soratra rehefa maka ny lisitry ny andiam-pitory"
     }
   }
 }
