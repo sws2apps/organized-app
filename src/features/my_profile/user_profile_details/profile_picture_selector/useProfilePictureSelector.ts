@@ -72,8 +72,10 @@ const useProfilePictureSelector = (onClose: () => void) => {
 
   const isMale = person?.person_data.male.value === true;
   const isFemale = person?.person_data.female.value === true;
-  const gender: AvatarGender | undefined =
-    isMale && !isFemale ? 'male' : isFemale && !isMale ? 'female' : undefined;
+  let gender: AvatarGender | undefined;
+  if (isMale !== isFemale) {
+    gender = isMale ? 'male' : 'female';
+  }
 
   const sections = useMemo(() => {
     const isVisible = (option: AvatarOption) => {
@@ -158,7 +160,7 @@ const useProfilePictureSelector = (onClose: () => void) => {
     const direction = getComputedStyle(event.currentTarget).direction;
     const forward = direction === 'rtl' ? 'ArrowLeft' : 'ArrowRight';
     const backward = direction === 'rtl' ? 'ArrowRight' : 'ArrowLeft';
-    let next = index;
+    let next: number;
     if (event.key === forward || event.key === 'ArrowDown')
       next = (index + 1) % options.length;
     else if (event.key === backward || event.key === 'ArrowUp')
