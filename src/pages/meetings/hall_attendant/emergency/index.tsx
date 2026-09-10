@@ -127,7 +127,11 @@ const HallEmergency = () => {
         }}
       >
         <Card>
-          <CardHeader color="red" header={t('tr_hallEmergencyInstructions')} />
+          <CardHeader
+            className="h4"
+            color="red"
+            header={t('tr_hallEmergencyInstructions')}
+          />
           {editing ? (
             <TextField
               draftKey="instructions"

@@ -32,7 +32,7 @@ const HallAttendant = () => {
       >
         <Box sx={{ gridColumn: 1, gridRow: 1 }}>
           <Card>
-            <CardHeader header={t('tr_hallGeneralInfo')} />
+            <CardHeader className="h4" header={t('tr_hallGeneralInfo')} />
             <Box>
               <Typography className="h1">{time}</Typography>
               <Typography color="var(--grey-400)">{date}</Typography>
@@ -65,7 +65,11 @@ const HallAttendant = () => {
           <HallNotes key={dataView} />
         </Box>
         <Card sx={{ gridColumn: '1 / -1', gridRow: desktopUp ? 3 : 4 }}>
-          <CardHeader header={t('tr_hallEmergency')} color="red" />
+          <CardHeader
+            className="h4"
+            header={t('tr_hallEmergency')}
+            color="red"
+          />
           <Typography>{t('tr_hallEmergencyDescription')}</Typography>
           <Button
             color="red"

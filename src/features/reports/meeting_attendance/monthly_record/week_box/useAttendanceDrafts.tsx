@@ -84,14 +84,25 @@ const useAttendanceDrafts = ({
     ]
   );
 
-  const retryFailed = useCallback(() => {
+  /**
+   * Saves what an earlier hook left behind.
+   *
+   * A draft that failed is retried, and so is one still pending with no timer
+   * of its own: that is a draft whose hook went away before it could be
+   * written, as happens when the account is switched within the debounce, and
+   * nothing else would ever pick it up.
+   */
+  const retryStalled = useCallback(() => {
     const entries = Object.fromEntries(
       Object.entries(getDrafts()).filter(
-        ([, draft]) => draft.status === 'failed'
+        ([field, draft]) =>
+          draft.status === 'failed' ||
+          (draft.status === 'pending' &&
+            !pending.has(field as keyof WeekBoxValues))
       )
     );
     void persist(entries);
-  }, [getDrafts, persist]);
+  }, [getDrafts, pending, persist]);
 
   useEffect(() => {
     const flush = () => {
@@ -100,13 +111,13 @@ const useAttendanceDrafts = ({
         void task.save();
       }
       pending.clear();
-      retryFailed();
+      retryStalled();
     };
     const handleVisibility = () => {
       if (document.visibilityState === 'hidden') flush();
-      else retryFailed();
+      else retryStalled();
     };
-    retryFailed();
+    retryStalled();
     window.addEventListener('pagehide', flush);
     document.addEventListener('visibilitychange', handleVisibility);
     return () => {
@@ -114,7 +125,7 @@ const useAttendanceDrafts = ({
       document.removeEventListener('visibilitychange', handleVisibility);
       flush();
     };
-  }, [pending, retryFailed]);
+  }, [pending, retryStalled]);
 
   useEffect(() => {
     updateDrafts((current) => {

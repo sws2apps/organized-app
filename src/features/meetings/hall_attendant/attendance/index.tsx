@@ -35,7 +35,7 @@ const HallAttendance = (props: WeekBoxProps & { dateLabel: string }) => {
 
   return (
     <Card>
-      <CardHeader header={t('tr_meetingAttendance')} />
+      <CardHeader className="h4" header={t('tr_meetingAttendance')} />
       <Typography className="body-small-semibold">{props.dateLabel}</Typography>
       {noMeeting ? (
         <Typography>{t('tr_hallNoMeeting')}</Typography>

@@ -66,7 +66,7 @@ const HallNotes = () => {
           </Button>
         </DialogActions>
       </Dialog>
-      <CardHeader header={t('tr_hallNotes')} />
+      <CardHeader className="h4" header={t('tr_hallNotes')} />
       {!notes.length && <InfoNote message={t('tr_hallNoNotes')} />}
       <Stack spacing="16px" divider={<Divider />}>
         {notes.map((note) => (
