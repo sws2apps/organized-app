@@ -24,17 +24,23 @@ import Abstract8 from './profile-img-abstract-8.svg?url';
 import Abstract9 from './profile-img-abstract-9.svg?url';
 import Abstract10 from './profile-img-abstract-10.svg?url';
 
+import StoryArk from './profile-img-story-ark.svg?url';
+import StoryBible from './profile-img-story-bible.svg?url';
 import StoryDesert from './profile-img-story-desert.svg?url';
 import StoryField from './profile-img-story-field.svg?url';
 import StoryFigs from './profile-img-story-figs.svg?url';
+import StoryGrapes from './profile-img-story-grapes.svg?url';
 import StoryLamp from './profile-img-story-lamp.svg?url';
 import StoryLeaves from './profile-img-story-leaves.svg?url';
 import StoryLion from './profile-img-story-lion.svg?url';
 import StoryLionScripture from './profile-img-story-lion-scripture.svg?url';
+import StoryMountain from './profile-img-story-mountain.svg?url';
 import StoryPearl from './profile-img-story-pearl.svg?url';
 import StoryRod from './profile-img-story-rod.svg?url';
 import StorySeeds from './profile-img-story-seeds.svg?url';
 import StorySheep from './profile-img-story-sheep.svg?url';
+import StoryShield from './profile-img-story-shield.svg?url';
+import StoryValley from './profile-img-story-valley.svg?url';
 import StoryWatchtower from './profile-img-story-watchtower.svg?url';
 
 import Male1 from './profile-male-1.svg?url';
@@ -80,17 +86,23 @@ export const AVATAR_IMAGES: Record<AvatarImageName, string> = {
   Abstract8,
   Abstract9,
   Abstract10,
+  StoryArk,
+  StoryBible,
   StoryDesert,
   StoryField,
   StoryFigs,
+  StoryGrapes,
   StoryLamp,
   StoryLeaves,
   StoryLion,
   StoryLionScripture,
+  StoryMountain,
   StoryPearl,
   StoryRod,
   StorySeeds,
   StorySheep,
+  StoryShield,
+  StoryValley,
   StoryWatchtower,
   Male1,
   Male2,

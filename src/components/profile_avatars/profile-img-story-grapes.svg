@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none">
+<defs><clipPath id="clip"><circle cx="24" cy="24" r="24"/></clipPath><g id="leaf"><path d="M0 3q-2 3-4 0h-2l1-2q-2 0-2-2l3-.5q-2-2-1-3l2 .5 1-3 2 2 1-3q2 0 2 2l2-1 .2 3 3-1q0 2-1 3l2 .5-3 2q2 2-1 3L2 3l-1 3Z" fill="inherit"/><path d="m0 1 6-2-3 3 2 1-3 1-1 2-1-3-3 2-1-2-2-1Z" fill="#6A923B"/><path d="M1-2q-.7-2 .5-2.5Q2-4 1-2ZM3 1q2-1 2.5.5Q4 2 3 1Z" fill="#fff"/><path d="M0 4 0-5m0 6 4-3M0 1-4-2" stroke="#B3C84C" stroke-width=".2"/></g></defs>
+<g clip-path="url(#clip)"><path fill="#FFFFFF" d="M0 0h48v48H0z"/>
+<path d="M39 46C34 34 19 29 20 11q0-6 3-10M34 37 19 30M31 32q-4-7 3-10M24 25 17 19M20 16q2-5 7-7M20 14l-8-5" stroke="#696447" stroke-width=".65"/>
+<path d="M28.5 28q-4-3-1.5-3.5 2 0 1 2M30 26q1-2 0-2.5-2-.3-.7 1" stroke="#696447" stroke-width=".2"/>
+<g fill="#9EBE36"><use href="#leaf" transform="translate(20 20) rotate(-42) scale(.9)"/><use href="#leaf" transform="translate(33 24) rotate(35) scale(1.2)"/><use href="#leaf" transform="translate(25 11) rotate(20) scale(.65)"/><use href="#leaf" transform="translate(14 11) rotate(-60) scale(.65)"/><use href="#leaf" transform="translate(18 4) rotate(-10) scale(.4)"/><use href="#leaf" transform="translate(24 4) rotate(55) scale(.4)"/></g>
+<path fill="#558638" d="M26 40q-3-4-5-1l-2 .2 1 1.3q-3 0-2 2l2-.3-2 2 1 .6-2 2h3l-1 2h15l-1-3 2 .5q1-2-3-3 4-1 2-2l-3-.8q1-4-2-4-3 0-3 3Z"/>
+<path d="m26 42 1-4m-1 4-6-1m6 1-6 3m6-3-2 6m2-6 5 5m-5-5 7 1m-7-1 4-3" stroke="#A5B63B" stroke-width=".25"/>
+<path fill="#88519F" d="M17 28q-2-.8-2 1-2-.2-.3 2-1.5.5-.3 2-1.8 1-.2 2-1 1.3.5 1.5-.5 2 .8 2.2 1 0 2-2 2 0 2-2 2 0 2-2 3 .5 3-2-1-3-4-3Z"/>
+<g fill="#A562B0"><ellipse cx="18.3" cy="28.3" rx="1.5" ry=".8"/><ellipse cx="21.5" cy="28.8" rx="1.8" ry="1"/><ellipse cx="16.2" cy="30" rx="1.1" ry="1"/><ellipse cx="19" cy="30.7" rx="1.2" ry="1.1"/><ellipse cx="23.3" cy="31.2" rx="1.2" ry="1.3"/><ellipse cx="16.3" cy="33" rx="1" ry="1.1"/><ellipse cx="20.5" cy="32.8" rx="1.2" ry="1"/><ellipse cx="18" cy="34.7" rx="1" ry="1.1"/><ellipse cx="16" cy="36.5" rx=".8" ry="1"/></g>
+<path d="m18 28-.3.3m3.4.3-.4.3m-4.7.6-.3.3m2.6.6-.3.3m4.5.1-.3.3m-6.4 1-.3.3m4.1.1-.3.3m-2.3 1.5-.3.3m-1.7 1.4-.3.3" stroke="#D8BCD9" stroke-width=".5" stroke-linecap="round"/>
+</g></svg>
