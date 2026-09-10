@@ -2,7 +2,7 @@ import { Fragment } from 'react';
 import { IconClickerMode, IconHistory } from '@components/icons';
 import { Box, Stack } from '@mui/material';
 import { useNavigate } from 'react-router';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { WeekBoxProps } from '@features/reports/meeting_attendance/monthly_record/week_box/index.types';
 import useWeekBox from '@features/reports/meeting_attendance/monthly_record/week_box/useWeekBox';
 import Card from '@components/card';
@@ -14,6 +14,7 @@ import Button from '@components/button';
 
 const HallAttendance = (props: WeekBoxProps & { dateLabel: string }) => {
   const { t } = useAppTranslation();
+  const { tabletUp } = useBreakpoints();
   const navigate = useNavigate();
   const {
     values,
@@ -115,19 +116,22 @@ const HallAttendance = (props: WeekBoxProps & { dateLabel: string }) => {
           )}
         </>
       )}
-      {/* the records are where the card leads, the counter is what it offers:
-          one on each side of the row */}
+      {/* the actions follow the rule the app uses everywhere else (see
+          components/dialog_actions): stacked on a phone with what is offered
+          on top, and a row from tablet up with it pushed to the end */}
       <Box
         sx={{
           display: 'flex',
-          alignItems: 'center',
+          flexDirection: tabletUp ? 'row' : 'column-reverse',
+          // space-between rather than a margin on the last child, so that the
+          // records stay on the left when the counter is not offered
           justifyContent: 'space-between',
           gap: '8px',
+          width: '100%',
         }}
       >
         <Button
           variant="secondary"
-          disableAutoStretch
           startIcon={<IconHistory />}
           onClick={() => navigate('/reports/meeting-attendance')}
         >
@@ -137,7 +141,6 @@ const HallAttendance = (props: WeekBoxProps & { dateLabel: string }) => {
         {clickerEnabled && (
           <Button
             variant="main"
-            disableAutoStretch
             startIcon={<IconClickerMode color="var(--always-white)" />}
             onClick={handleClickerOpen}
           >
