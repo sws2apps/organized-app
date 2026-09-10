@@ -47,6 +47,7 @@ export type InfoBoardAnnouncementType = {
     value: boolean;
   };
   notify_everybody: boolean;
+  notification_id?: string;
   _deleted: boolean;
   updatedAt: string;
   attachment_files?: string[];

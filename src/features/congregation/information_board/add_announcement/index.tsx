@@ -18,6 +18,7 @@ const AddAnnouncement = (props: AddAnnouncementProps) => {
     handleSwitchNotifyEverybody,
     handleCancel,
     handlePublish,
+    isPublishEnabled,
   } = useAddAnnouncement(props.announcementId, props.onClose);
   return (
     <Dialog
@@ -59,7 +60,11 @@ const AddAnnouncement = (props: AddAnnouncementProps) => {
       </Stack>
 
       <Stack spacing="8px" width={'100%'}>
-        <Button variant="main" onClick={handlePublish}>
+        <Button
+          variant="main"
+          onClick={handlePublish}
+          disabled={!isPublishEnabled}
+        >
           {t('tr_publish')}
         </Button>
         <Button variant="secondary" onClick={handleCancel}>

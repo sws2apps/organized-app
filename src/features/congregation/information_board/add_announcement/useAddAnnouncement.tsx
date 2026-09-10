@@ -1,5 +1,5 @@
 import useAppTranslation from '@hooks/useAppTranslation';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import TextOnlyTab from './tabs/text_only_tab';
 import { InfoBoardAnnouncementType } from '@definition/information_board';
 import { useAtomValue } from 'jotai';
@@ -9,6 +9,7 @@ import {
   informationBoardState,
 } from '@states/information_board';
 import { dbInformationBoardSave } from '@services/dexie/information_board';
+import { createAnnouncementNotification } from '@services/app/announcement_notifications';
 
 const useAddAnnouncement = (
   announcementId: string | undefined,
@@ -39,6 +40,7 @@ const useAddAnnouncement = (
       short_description: '',
       _deleted: false,
       updatedAt: new Date().toISOString(),
+      notification_id: crypto.randomUUID(),
       pin_at_the_top: {
         updatedAt: new Date().toISOString(),
         value: false,
@@ -75,10 +77,25 @@ const useAddAnnouncement = (
       if (!prev) return prev;
       const draft = structuredClone(prev);
       draft.notify_everybody = !draft.notify_everybody;
+
+      if (draft.notify_everybody) {
+        draft.notification_id = crypto.randomUUID();
+      }
+
       draft.updatedAt = new Date().toISOString();
       return draft;
     });
   }, []);
+
+  const [isPublishEnabled, setIsPublishEnabled] = useState(false);
+
+  useEffect(() => {
+    if (draft) {
+      setIsPublishEnabled(!!draft.title && !!draft.text && !!draft.category);
+    } else {
+      setIsPublishEnabled(false);
+    }
+  }, [draft]);
 
   const handleCancel = useCallback(() => {
     setDraft(null);
@@ -90,7 +107,6 @@ const useAddAnnouncement = (
 
     const updatedInformationBoard = structuredClone(informationBoard);
 
-    // If the announcement already exists, update it. Otherwise, add a new one.
     const index = updatedInformationBoard.information.announcements.findIndex(
       (item) => item.id === draft.id
     );
@@ -102,6 +118,11 @@ const useAddAnnouncement = (
     }
 
     await dbInformationBoardSave(updatedInformationBoard);
+
+    if (draft.notify_everybody) {
+      await createAnnouncementNotification(draft);
+    }
+
     onClose();
   };
 
@@ -112,6 +133,7 @@ const useAddAnnouncement = (
     handleSwitchNotifyEverybody,
     handleCancel,
     handlePublish,
+    isPublishEnabled,
   };
 };
 
