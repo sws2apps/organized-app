@@ -2088,6 +2088,7 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
               settings.user_settings.theme_follow_os_enabled,
             haptics_enabled: settings.user_settings.haptics_enabled,
             hour_credits_enabled: settings.user_settings.hour_credits_enabled,
+            user_avatar_type: settings.user_settings.user_avatar_type,
           };
 
           encryptObject({
