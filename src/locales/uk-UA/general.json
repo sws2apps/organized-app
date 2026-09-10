@@ -36,6 +36,8 @@
   "tr_december": "Грудень",
   "tr_longDateFormat": "EE, dd MMM, yyyy",
   "tr_delete": "Видалити",
+  "tr_continueEditing": "Continue editing",
+  "tr_discardChanges": "Discard changes",
   "tr_add": "Додати",
   "tr_pickerSelectTime": "Обрати час",
   "tr_pickerSelectDate": "Обрати дату",

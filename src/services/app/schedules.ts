@@ -25,7 +25,6 @@ import {
   meetingExactDateState,
   congNameState,
   weekendSchedulesSongsWeekend,
-  COMidweekMeetingDayState,
 } from '@states/settings';
 import { sourcesState } from '@states/sources';
 import {
@@ -82,14 +81,11 @@ import { Week } from '@definition/week_type';
 import { dbSchedUpdate } from '@services/dexie/schedules';
 import {
   addDays,
-  addMonths,
-  addWeeks,
   formatDate,
   formatDateShortMonthWithYear,
   generateDateFromTime,
   timeAddMinutes,
 } from '@utils/date';
-import { applyAssignmentFilters, personIsAway, personIsElder } from './persons';
 import { personsByViewState } from '@states/persons';
 import { personsStateFind } from '@services/states/persons';
 import {
@@ -115,6 +111,7 @@ import {
   getTranslation,
 } from '@services/i18n/translation';
 import { songsLocaleState } from '@states/songs';
+import { SettingsType } from '@definition/settings';
 
 export const schedulesWeekAssignmentsInfo = (
   week: string,
@@ -157,7 +154,9 @@ export const schedulesMidweekInfo = (week: string) => {
   const coName = store.get(COFullnameState);
 
   const source = sources.find((record) => record.weekOf === week);
+  if (!source) return { total: 0, assigned: 0 };
   const schedule = schedules.find((record) => record.weekOf === week);
+  if (!schedule) return { total: 0, assigned: 0 };
 
   let total = 0;
   let assigned = 0;
@@ -896,10 +895,12 @@ export const schedulesGetHistoryDetails = ({
     history.assignment.classroom = '2';
   }
 
-  if (assignment.includes('MM_Chairman')) {
+  if (assignment.includes('MM_Chairman_A')) {
     history.assignment.code = AssignmentCode.MM_Chairman;
   }
-
+  if (assignment.includes('MM_Chairman_B')) {
+    history.assignment.code = AssignmentCode.MM_AuxiliaryCounselor;
+  }
   if (assignment === 'MM_Chairman_A') {
     history.assignment.title = getTranslation({
       key: 'tr_chairmanMidwekMeetingHistory',
@@ -1227,6 +1228,7 @@ export const schedulesUpdateHistory = (
     const dataView = store.get(userDataViewState);
     const schedules = store.get(schedulesState);
     const schedule = schedules.find((record) => record.weekOf === week);
+    if (!schedule) return;
 
     if (!schedule_id) {
       const path = ASSIGNMENT_PATH[item];
@@ -1345,6 +1347,7 @@ export const schedulesSaveAssignment = async (
     const newSchedule = schedules.find(
       (record) => record.weekOf === schedule.weekOf
     );
+    if (!newSchedule) return;
 
     const outgoingTalks = structuredClone(
       newSchedule.weekend_meeting.outgoing_talks
@@ -1353,6 +1356,7 @@ export const schedulesSaveAssignment = async (
     const outgoingSchedule = outgoingTalks.find(
       (record) => record.id === schedule_id
     );
+    if (!outgoingSchedule) return;
 
     const speaker = value as PersonType;
 
@@ -1367,437 +1371,6 @@ export const schedulesSaveAssignment = async (
 
   // update history
   schedulesUpdateHistory(schedule.weekOf, assignment, schedule_id);
-};
-
-export const schedulesPersonNoPart = ({
-  persons,
-  history,
-}: {
-  persons: PersonType[];
-  history: AssignmentHistoryType[];
-}) => {
-  let selected: PersonType;
-
-  for (const person of persons) {
-    const assignments = history.filter(
-      (record) => record.assignment.person === person.person_uid
-    );
-
-    if (assignments.length === 0) {
-      selected = person;
-      break;
-    }
-  }
-
-  return selected;
-};
-
-export const schedulesPersonNoPartWithinMonth = ({
-  persons,
-  type,
-  week,
-  classroom,
-  history,
-}: {
-  persons: PersonType[];
-  type: AssignmentCode;
-  week: string;
-  classroom?: string;
-  history: AssignmentHistoryType[];
-}) => {
-  const classCount = store.get(midweekMeetingClassCountState);
-
-  let selected: PersonType;
-
-  const currentDate = new Date(week);
-  const lastMonth = addMonths(currentDate, -1);
-  const nextMonth = addMonths(currentDate, 1);
-
-  for (const person of persons) {
-    const assignments = history.filter((record) => {
-      const tmpDate = new Date(record.weekOf);
-
-      return (
-        tmpDate > lastMonth &&
-        tmpDate < nextMonth &&
-        record.assignment.person === person.person_uid
-      );
-    });
-
-    if (assignments.length === 0) {
-      const lastAssignment = history.find((record) => {
-        const tmpDate = new Date(record.weekOf);
-
-        return (
-          tmpDate < currentDate &&
-          record.assignment.person === person.person_uid
-        );
-      });
-
-      if (!classroom) {
-        const lastAssignmentType = lastAssignment?.assignment.code;
-
-        if (lastAssignmentType !== type) {
-          selected = person;
-          break;
-        }
-      }
-
-      if (classroom) {
-        const lastAssignmentClassroom = lastAssignment?.assignment.classroom;
-        const hasAux = classCount === 2;
-
-        if (!hasAux || (hasAux && lastAssignmentClassroom !== classroom)) {
-          selected = person;
-          break;
-        }
-      }
-    }
-  }
-
-  return selected;
-};
-
-export const schedulesPersonNoPartWithin2Weeks = ({
-  persons,
-  type,
-  week,
-  classroom,
-  history,
-}: {
-  persons: PersonType[];
-  type: AssignmentCode;
-  week: string;
-  classroom?: string;
-  history: AssignmentHistoryType[];
-}) => {
-  const classCount = store.get(midweekMeetingClassCountState);
-
-  let selected: PersonType;
-
-  const currentDate = new Date(week);
-
-  const last2Weeks = addWeeks(currentDate, -2);
-  const next2Weeks = addWeeks(currentDate, 2);
-
-  for (const person of persons) {
-    const assignments = history.filter((record) => {
-      const tmpDate = new Date(record.weekOf);
-
-      return (
-        tmpDate > last2Weeks &&
-        tmpDate < next2Weeks &&
-        record.assignment.person === person.person_uid
-      );
-    });
-
-    if (assignments.length === 0) {
-      const lastAssignment = history.find((record) => {
-        const tmpDate = new Date(record.weekOf);
-
-        return (
-          tmpDate < currentDate &&
-          record.assignment.person === person.person_uid
-        );
-      });
-
-      if (!classroom) {
-        const lastAssignmentType = lastAssignment?.assignment.code;
-
-        if (lastAssignmentType !== type) {
-          selected = person;
-          break;
-        }
-      }
-
-      if (classroom) {
-        const lastAssignmentClassroom = lastAssignment?.assignment.classroom;
-        const hasAux = classCount === 2;
-
-        if (!hasAux || (hasAux && lastAssignmentClassroom !== classroom)) {
-          selected = person;
-          break;
-        }
-      }
-    }
-  }
-
-  return selected;
-};
-
-export const schedulesPersonNoPartSameWeek = ({
-  persons,
-  type,
-  week,
-  classroom,
-  history,
-}: {
-  persons: PersonType[];
-  type: AssignmentCode;
-  week: string;
-  classroom?: string;
-  history: AssignmentHistoryType[];
-}) => {
-  const classCount = store.get(midweekMeetingClassCountState);
-
-  let selected: PersonType;
-
-  const currentDate = new Date(week);
-
-  for (const person of persons) {
-    const assignments = history.filter((record) => {
-      return (
-        week === record.weekOf && record.assignment.person === person.person_uid
-      );
-    });
-
-    if (assignments.length === 0) {
-      const lastAssignment = history.find((record) => {
-        const tmpDate = new Date(record.weekOf);
-
-        return (
-          tmpDate < currentDate &&
-          record.assignment.person === person.person_uid
-        );
-      });
-
-      if (!classroom) {
-        const lastAssignmentType = lastAssignment?.assignment.code;
-
-        if (lastAssignmentType !== type) {
-          selected = person;
-          break;
-        }
-      }
-
-      if (classroom) {
-        const lastAssignmentClassroom = lastAssignment?.assignment.classroom;
-        const hasAux = classCount === 2;
-
-        if (!hasAux || (hasAux && lastAssignmentClassroom !== classroom)) {
-          selected = person;
-          break;
-        }
-      }
-    }
-  }
-
-  return selected;
-};
-
-export const schedulesPersonNoConsecutivePart = ({
-  persons,
-  type,
-  classroom,
-  history,
-}: {
-  persons: PersonType[];
-  type: AssignmentCode;
-  history: AssignmentHistoryType[];
-  classroom?: string;
-}) => {
-  let selected: PersonType;
-
-  const classCount = store.get(midweekMeetingClassCountState);
-
-  for (const person of persons) {
-    const lastAssignment = history.find(
-      (record) => record.assignment.person === person.person_uid
-    );
-
-    if (lastAssignment?.assignment.code !== type) {
-      if (classroom) {
-        const hasAux = classCount === 2;
-
-        if (
-          !hasAux ||
-          (hasAux && lastAssignment.assignment.classroom !== classroom)
-        ) {
-          selected = person;
-          break;
-        }
-      }
-
-      if (!classroom) {
-        selected = person;
-        break;
-      }
-    }
-  }
-
-  return selected;
-};
-
-export const schedulesPersonLatest = ({
-  persons,
-  type,
-  history,
-}: {
-  persons: PersonType[];
-  type: AssignmentCode;
-  history: AssignmentHistoryType[];
-  classroom?: string;
-}) => {
-  // sort persons by last assignment type
-  const personsWithDate = persons.map((person) => {
-    const lastAssignment = history.find(
-      (record) =>
-        record.assignment.code === type &&
-        record.assignment.person === person.person_uid
-    );
-
-    return {
-      person,
-      last_assignment: lastAssignment?.weekOf || '',
-    };
-  });
-
-  personsWithDate.sort((a, b) => {
-    // If 'weekOf' of 'a' is empty, 'a' should come first
-    if (a.last_assignment.length === 0) {
-      return -1;
-    }
-
-    // If 'weekOf' of 'b' is empty, 'b' should come first
-    if (b.last_assignment.length === 0) {
-      return 1;
-    }
-
-    // If both 'weekOf' fields are not empty, sort by date
-
-    return new Date(a.last_assignment)
-      .toISOString()
-      .localeCompare(new Date(b.last_assignment).toISOString());
-  });
-
-  const last = personsWithDate.at(0);
-
-  return last.person;
-};
-
-export const schedulesSelectRandomPerson = (data: {
-  type: AssignmentCode;
-  week: string;
-  meeting: 'midweek' | 'weekend';
-  isAYFTalk?: boolean;
-  classroom?: string;
-  isLC?: boolean;
-  isElderPart?: boolean;
-  mainStudent?: string;
-  history: AssignmentHistoryType[];
-}) => {
-  let selected: PersonType;
-
-  const persons = store.get(personsByViewState);
-
-  let personsElligible = applyAssignmentFilters(
-    persons,
-    [data.type],
-    data.classroom
-  );
-
-  const { date: meetingDate } = schedulesGetMeetingDate({
-    week: data.week,
-    meeting: data.meeting,
-  });
-
-  personsElligible = personsElligible.filter(
-    (record) => !personIsAway(record, meetingDate || data.week)
-  );
-
-  if (data.isElderPart) {
-    personsElligible = personsElligible.filter((record) =>
-      personIsElder(record)
-    );
-  }
-
-  if (data.isAYFTalk) {
-    personsElligible = personsElligible.filter(
-      (record) => record.person_data.male.value
-    );
-  }
-
-  if (data.mainStudent && data.mainStudent.length > 0) {
-    const mainPerson = personsStateFind(data.mainStudent);
-
-    const isMale = mainPerson.person_data.male.value;
-    const isFemale = mainPerson.person_data.female.value;
-
-    personsElligible = personsElligible.filter((record) => {
-      return (
-        record.person_data.male.value === isMale &&
-        record.person_data.female.value === isFemale
-      );
-    });
-  }
-
-  if (data.type === AssignmentCode.WM_SpeakerSymposium) {
-    personsElligible = applyAssignmentFilters(persons, [
-      data.type,
-      AssignmentCode.WM_Speaker,
-    ]);
-  }
-
-  if (personsElligible.length > 0) {
-    // 1st rule: no part
-    selected = schedulesPersonNoPart({
-      persons: personsElligible,
-      history: data.history,
-    });
-
-    // 2nd rule: no part within month
-    if (!selected) {
-      selected = schedulesPersonNoPartWithinMonth({
-        persons: personsElligible,
-        type: data.type,
-        week: data.week,
-        classroom: data.classroom,
-        history: data.history,
-      });
-    }
-
-    // 3rd rule: no part within 2 weeks
-    if (!selected) {
-      selected = schedulesPersonNoPartWithin2Weeks({
-        persons: personsElligible,
-        type: data.type,
-        week: data.week,
-        classroom: data.classroom,
-        history: data.history,
-      });
-    }
-
-    // 4th rule: no part same week
-    if (!selected) {
-      selected = schedulesPersonNoPartSameWeek({
-        persons: personsElligible,
-        type: data.type,
-        week: data.week,
-        classroom: data.classroom,
-        history: data.history,
-      });
-    }
-    // 5th rule: no same part
-    if (!selected) {
-      selected = schedulesPersonNoConsecutivePart({
-        persons: personsElligible,
-        type: data.type,
-        classroom: data.classroom,
-        history: data.history,
-      });
-    }
-
-    //  6th rule: pick the latest
-    if (!selected) {
-      selected = schedulesPersonLatest({
-        persons: personsElligible,
-        type: data.type,
-        history: data.history,
-      });
-    }
-  }
-
-  return selected;
 };
 
 export const schedulesRemoveAssignment = (
@@ -2025,17 +1598,20 @@ export const schedulesAutofillUpdateHistory = ({
   assigned: AssignmentCongregation;
   history: AssignmentHistoryType[];
 }) => {
+  const dataView = store.get(userDataViewState);
   // remove record from history
   const previousIndex = history.findIndex(
     (record) =>
-      record.weekOf === schedule.weekOf && record.assignment.key === assignment
+      record.weekOf === schedule.weekOf &&
+      record.assignment.key === assignment &&
+      record.assignment.dataView === dataView
   );
 
-  if (previousIndex !== -1) history.splice(previousIndex, 1);
-
-  if (assigned.value !== '') {
+  if (previousIndex !== -1 && assigned.value === '') {
+    history.splice(previousIndex, 1);
+  } else if (assigned.value !== '') {
     const lang = store.get(JWLangState);
-    const dataView = store.get(userDataViewState);
+
     const shortDateFormat = store.get(shortDateFormatState);
     const sources = store.get(sourcesState);
     const talks = store.get(publicTalksState);
@@ -2053,14 +1629,12 @@ export const schedulesAutofillUpdateHistory = ({
       talks,
     });
 
-    history.push(historyDetails);
+    if (previousIndex === -1) {
+      history.push(historyDetails);
+    } else {
+      history.splice(previousIndex, 1, historyDetails);
+    }
   }
-
-  history.sort((a, b) =>
-    new Date(b.weekOf)
-      .toISOString()
-      .localeCompare(new Date(a.weekOf).toISOString())
-  );
 };
 
 export const schedulesAutofillSaveAssignment = ({
@@ -3183,6 +2757,7 @@ export const scheduleDeleteWeekendOutgoingTalk = async (
   const outgoingTalk = outgoingSchedule.find(
     (record) => record.id === schedule_id
   );
+  if (!outgoingTalk) return;
 
   outgoingTalk.congregation = {
     name: '',
@@ -3201,46 +2776,37 @@ export const scheduleDeleteWeekendOutgoingTalk = async (
     'weekend_meeting.outgoing_talks': outgoingSchedule,
   });
 };
-
-export const schedulesGetMeetingDate = ({
-  week,
+/**
+ * Resolves the actual calendar date of a meeting week.
+ *
+ * Precedence: view weekday → main weekday for language-group special weeks
+ * and non-main views in CO weeks → circuit-overseer day for midweek in CO
+ * weeks (the main-weekday override is intentionally shadowed there).
+ *
+ * @param settings - Congregation settings with meeting weekday configurations
+ *   (including the circuit overseer's midweek meeting day)
+ * @param schedule - The schedule record of the week; provides `weekOf` and
+ *   the per-view week types used for the overrides
+ * @param meeting - `'midweek'` or `'weekend'`
+ * @param dataView - The data view whose weekday applies unless an override
+ *   takes precedence (e.g., `'main'` or a language-group ID)
+ *
+ * @returns The meeting date as a `Date` object
+ */
+export const schedulesResolveMeetingDate = ({
+  settings,
+  schedule,
   meeting,
-  forPrint = false,
-  key = 'tr_longDateNoYearLocale',
-  short = false,
   dataView,
 }: {
-  week: string;
+  settings: SettingsType;
+  schedule: SchedWeekType;
   meeting: 'midweek' | 'weekend';
-  forPrint?: boolean;
-  key?: string;
-  short?: boolean;
-  dataView?: string;
-}) => {
-  let locale = '';
-  let date = '';
-
-  const settings = store.get(settingsState);
-  const userDataView = store.get(userDataViewState);
-  const schedules = store.get(schedulesState);
-  const monthNames = store.get(monthNamesState);
-  const monthShortNames = store.get(monthShortNamesState);
-  const sources = store.get(sourcesState);
-  const lang = store.get(JWLangState);
-  const useExact = store.get(meetingExactDateState);
-  const coMidweekMeetingDay = store.get(COMidweekMeetingDayState);
-
-  dataView = dataView ?? userDataView;
-
-  const schedule = schedules.find((record) => record.weekOf === week);
-  const source = sources.find((record) => record.weekOf === week);
-
-  if (!schedule) return { locale, date };
-
-  if (meeting === 'midweek' && forPrint && !useExact) {
-    locale = source?.midweek_meeting.week_date_locale[lang] ?? '';
-  }
-
+  dataView: string;
+}): Date => {
+  const week = schedule.weekOf;
+  const coMidweekMeetingDay =
+    settings.cong_settings.circuit_overseer.midweek_meeting_day?.value ?? 1;
   const weekTypes = schedule[`${meeting}_meeting`]
     ?.week_type as WeekTypeCongregation[];
 
@@ -3288,10 +2854,59 @@ export const schedulesGetMeetingDate = ({
 
   const meetingDate = addDays(
     week,
-    meeting == 'midweek' && mainWeekType == Week.CO_VISIT
+    meeting === 'midweek' && mainWeekType === Week.CO_VISIT
       ? coMidweekMeetingDay
       : meetingDay
   );
+
+  return meetingDate;
+};
+
+export const schedulesGetMeetingDate = ({
+  week,
+  meeting,
+  forPrint = false,
+  key = 'tr_longDateNoYearLocale',
+  short = false,
+  dataView,
+}: {
+  week: string;
+  meeting: 'midweek' | 'weekend';
+  forPrint?: boolean;
+  key?: string;
+  short?: boolean;
+  dataView?: string;
+}) => {
+  let locale = '';
+  let date = '';
+
+  const settings = store.get(settingsState);
+  const userDataView = store.get(userDataViewState);
+  const schedules = store.get(schedulesState);
+  const monthNames = store.get(monthNamesState);
+  const monthShortNames = store.get(monthShortNamesState);
+  const sources = store.get(sourcesState);
+  const lang = store.get(JWLangState);
+  const useExact = store.get(meetingExactDateState);
+
+  dataView = dataView ?? userDataView;
+
+  const schedule = schedules.find((record) => record.weekOf === week);
+  const source = sources.find((record) => record.weekOf === week);
+
+  if (!schedule) return { locale, date };
+
+  if (meeting === 'midweek' && forPrint && !useExact) {
+    locale = source?.midweek_meeting.week_date_locale[lang] ?? '';
+  }
+
+  const meetingDate = schedulesResolveMeetingDate({
+    settings,
+    schedule,
+    meeting,
+    dataView,
+  });
+
   const vardate = meetingDate.getDate();
   const month = meetingDate.getMonth();
   const year = meetingDate.getFullYear();

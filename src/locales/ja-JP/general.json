@@ -36,6 +36,8 @@
   "tr_december": "12月",
   "tr_longDateFormat": "EEE, MMM dd, yyyy",
   "tr_delete": "削除",
+  "tr_continueEditing": "Continue editing",
+  "tr_discardChanges": "Discard changes",
   "tr_add": "Add",
   "tr_pickerSelectTime": "Select time",
   "tr_pickerSelectDate": "日付を選択",

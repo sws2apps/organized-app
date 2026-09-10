@@ -15,6 +15,7 @@ import {
   encryptObject,
   generateKey,
 } from '@services/encryption';
+import { AppRoleType } from '@definition/app';
 import { PersonType, PrivilegeType } from '@definition/person';
 import {
   OutgoingTalkExportScheduleType,
@@ -237,6 +238,22 @@ export const dbGetSettings = async () => {
   return settings;
 };
 
+// congregation reports are readable and writable by the same roles on the API,
+// so every gate in this file must resolve them the same way
+const isReportEditorRole = (userRole: AppRoleType[]) => {
+  const adminRole =
+    userRole.includes('admin') ||
+    userRole.includes('secretary') ||
+    userRole.includes('coordinator');
+
+  return (
+    adminRole ||
+    userRole.includes('elder') ||
+    userRole.includes('group_overseers') ||
+    userRole.includes('language_group_overseers')
+  );
+};
+
 export const isMondayDate = (date: string) => {
   const inputDate = new Date(date);
   const dayOfWeek = inputDate.getDay();
@@ -284,10 +301,15 @@ export const dbGetMetadata = async () => {
   );
   const attendanceViews = getAttendanceDataViews(currentPerson, userRole);
 
+  const isReportEditor = isReportEditorRole(userRole);
+
   if (!isPublisher) {
     delete result.user_bible_studies;
     delete result.user_field_service_reports;
     delete result.delegated_field_service_reports;
+  }
+
+  if (!isPublisher && !isReportEditor) {
     delete result.cong_field_service_reports;
   }
 
@@ -1068,13 +1090,9 @@ const dbRestoreCongReports = async (
 
     const userRole = settings.user_settings.cong_role;
 
-    const secretaryRole = userRole.includes('secretary');
-    const coordinatorRole = userRole.includes('coordinator');
-    const adminRole =
-      userRole.includes('admin') || secretaryRole || coordinatorRole;
     const publisherRole = userRole.includes('publisher');
 
-    const allowRestore = adminRole || publisherRole;
+    const allowRestore = isReportEditorRole(userRole) || publisherRole;
 
     if (allowRestore) {
       const remoteData = (
@@ -1663,8 +1681,6 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
 
     const secretaryRole = userRole.includes('secretary');
     const coordinatorRole = userRole.includes('coordinator');
-    const elderRole = userRole.includes('elder');
-    const groupOverseerRole = userRole.includes('group_overseers');
     const languageGroupOverseerRole = userRole.includes(
       'language_group_overseers'
     );
@@ -1865,10 +1881,7 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
 
         // include field service reports
         if (
-          (adminRole ||
-            elderRole ||
-            groupOverseerRole ||
-            languageGroupOverseerRole) &&
+          isReportEditorRole(userRole) &&
           metadata.metadata.cong_field_service_reports.send_local
         ) {
           const backupReports = cong_field_service_reports.map((report) => {
