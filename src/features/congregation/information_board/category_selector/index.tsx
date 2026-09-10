@@ -59,7 +59,7 @@ const CategorySelector = () => {
               isCollapsed={isCategoriesCollapsed}
               icon={category.icon}
               title={category.title}
-              entries={[]}
+              entries={category.entries}
             />
 
             {index < categories.length - 1 && (

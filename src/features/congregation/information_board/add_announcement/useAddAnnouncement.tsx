@@ -5,7 +5,7 @@ import { InfoBoardAnnouncementType } from '@definition/information_board';
 import { useAtomValue } from 'jotai';
 import { userDataViewState } from '@states/settings';
 import {
-  infoBoardAnnouncements,
+  infoBoardAnnouncementsState,
   informationBoardState,
 } from '@states/information_board';
 import { dbInformationBoardSave } from '@services/dexie/information_board';
@@ -18,7 +18,7 @@ const useAddAnnouncement = (
   const { t } = useAppTranslation();
   const dataView = useAtomValue(userDataViewState);
   const informationBoard = useAtomValue(informationBoardState);
-  const announements = useAtomValue(infoBoardAnnouncements);
+  const announements = useAtomValue(infoBoardAnnouncementsState);
   const announcement = useMemo(() => {
     if (!announcementId) return null;
     return (

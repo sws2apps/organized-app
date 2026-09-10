@@ -3,7 +3,7 @@ import { InformationBoardCategory } from '@definition/information_board';
 import { useCallback, useMemo } from 'react';
 import IBAnnouncementCard from './announcement_card';
 import {
-  infoBoardAnnouncements,
+  infoBoardAnnouncementsState,
   informationBoardState,
 } from '@states/information_board';
 import { useAtomValue } from 'jotai';
@@ -15,7 +15,7 @@ import useCurrentUser from '@hooks/useCurrentUser';
 const useIBPageAnnouncements = (category: InformationBoardCategory) => {
   const { isAdmin } = useCurrentUser();
   const informationBoard = useAtomValue(informationBoardState);
-  const announcements = useAtomValue(infoBoardAnnouncements);
+  const announcements = useAtomValue(infoBoardAnnouncementsState);
 
   const handleOnPin = useCallback(
     async (announcementId: string) => {

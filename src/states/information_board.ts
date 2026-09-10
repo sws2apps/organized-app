@@ -48,7 +48,7 @@ export const infoBoardSWMonthsOfSpecialActivityState = atom((get) => {
   );
 });
 
-export const infoBoardAnnouncements = atom((get) => {
+export const infoBoardAnnouncementsState = atom((get) => {
   const informationBoard = get(informationBoardState);
   const dataView = get(userDataViewState);
 
