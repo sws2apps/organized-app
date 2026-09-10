@@ -35,6 +35,103 @@ The localization of this application is divided into different logical parts (fi
 
 These files vary in size (number of text strings), so choose the one that feels more comfortable for you to start and work on.
 
-### Translating "What’s New" contents
+## What's New Workflow
 
-"What’s New in this release" content displayed inside this application can also be localized. To learn more on how to do so, please read [this guide](https://github.com/sws2apps/.github/blob/main/docs/WHATSNEW.md).
+This guide explains how to create and update **What's New** content for Organized.
+
+### Source of the content
+
+The English What's New content is stored in: `src/locales/en/release_notes.json`
+
+If you are a manager, you can also create or edit the English What's New strings **directly in Crowdin**.
+
+The two workflows are therefore:
+
+-   **Repository:** edit `release_notes.json` and let the normal Crowdin sync handle translations.
+-   **Crowdin:** create or edit the English source strings directly in Crowdin.
+
+### Release entries
+
+What's New content is grouped by release date using a timestamp key, for example:
+
+``` json
+"2026-09-01T00:00": {
+  "images": { ... },
+  "improvements": { ... }
+}
+```
+
+When adding content for a release that already has an entry, **update that existing entry**.
+
+Do not create another date entry for the same release simply because additional improvements were identified.
+
+### Images
+
+Use `images` for major features or changes that benefit from a visual explanation.
+
+An image item contains:
+
+-   `src` --- URL of the image
+-   `tr_title` --- short title
+-   `tr_desc` --- short description
+
+Example:
+
+``` json
+"images": {
+  "img_01": {
+    "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/example.svg",
+    "tr_title": "Example feature",
+    "tr_desc": "Short description of the feature."
+  }
+}
+```
+
+Images should normally be added to: `src/assets/img/` and referenced using the raw GitHub URL.
+
+#### When not to add an image
+
+Do not create an image just to accompany a small fix or minor improvement.
+
+For small changes, use an improvement note instead.
+
+### Improvements
+
+Use `improvements` for smaller changes, fixes, refinements, and other release notes that do not need a dedicated visual.
+
+Example:
+
+``` json
+"improvements": {
+  "tr_note_01": "First improvement",
+  "tr_note_02": "Second improvement"
+}
+```
+
+Keep notes:
+
+-   short
+-   user-facing
+-   easy to translate
+-   focused on the benefit or visible change
+-   free of unnecessary implementation details
+
+### Choosing between images and improvements
+
+As a simple rule:
+
+-   **Major/new feature →** image + title + description
+-   **Small improvement or fix →** improvement note
+-   **Several small changes →** multiple improvement notes in the same release entry
+
+A release can contain both images and improvement notes.
+
+### Adding content for an upcoming release
+
+Add the What's New content **before the release whenever possible** so translators have time to translate it.
+
+If more changes are added later:
+
+1.  Find the existing release entry.
+2.  Add the new image or improvement there.
+3.  Do not create a second entry for the same release.

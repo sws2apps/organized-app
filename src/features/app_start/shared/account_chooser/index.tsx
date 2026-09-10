@@ -1,4 +1,4 @@
-import { Box, Link } from '@mui/material';
+import { Box } from '@mui/material';
 import { IconTest, IconCongregationAccess, IconEmailLogin } from '@icons/index';
 import { useAppTranslation } from '@hooks/index';
 import useAccountChooser from './useAccountChooser';
@@ -25,7 +25,7 @@ const AccountChooser = () => {
         <Typography
           className="h1"
           color="var(--black)"
-          sx={{ marginBottom: '16px' }}
+          sx={{ marginBottom: { mobile: '8px', tablet: '8px', laptop: '16px' } }}
         >
           {t('tr_welcomeApp')}
         </Typography>
@@ -63,39 +63,31 @@ const AccountChooser = () => {
           />
         </Box>
 
-        <Box sx={{ marginTop: { mobile: '16px', laptop: '32px' } }}>
-          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-            <Link
-              href="https://test.organized-app.com"
-              target="_blank"
-              rel="noopener"
-              underline="none"
-              sx={{
-                textDecoration: 'none',
-                '&:hover': {
-                  textDecoration: 'none',
-                },
-              }}
-            >
-              <Button
-                variant="secondary"
-                startIcon={<IconTest />}
-                sx={{
-                  justifyContent: 'center',
-                }}
-              >
-                {t('tr_tryOrganized')}
-              </Button>
-            </Link>
-          </Box>
-        </Box>
       </Box>
 
-      <Markup
-        content={t('tr_oauthAccept')}
-        className="body-small-regular"
-        color="var(--grey-400)"
-      />
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+          <Button
+            variant="secondary"
+            startIcon={<IconTest />}
+            href="https://test.organized-app.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            sx={{
+              justifyContent: 'center',
+              width: '100%',
+            }}
+          >
+            {t('tr_tryOrganized')}
+          </Button>
+        </Box>
+
+        <Markup
+          content={t('tr_oauthAccept')}
+          className="body-small-regular"
+          color="var(--grey-400)"
+        />
+      </Box>
     </Box>
   );
 };

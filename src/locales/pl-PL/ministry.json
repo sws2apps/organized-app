@@ -136,5 +136,6 @@
   "tr_congregationReports": "Sprawozdania zboru",
   "tr_bibleStudiesMonthlyLess": "Nie możesz ustawić liczby studiów biblijnych mniejszej niż suma z Twoich dziennych wpisów",
   "tr_hoursDecreaseError": "Nie można zmienić godzin",
-  "tr_hoursDecreaseErrorDesc": "Nie możesz ustawić liczby godzin mniejszej niż suma z Twoich dziennych wpisów"
+  "tr_hoursDecreaseErrorDesc": "Nie możesz ustawić liczby godzin mniejszej niż suma z Twoich dziennych wpisów",
+  "tr_SCEL": "School for Congregation Elders"
 }

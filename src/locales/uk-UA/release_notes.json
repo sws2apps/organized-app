@@ -1,10 +1,37 @@
 {
-  "2026-01-20T00:00": {
+  "2026-07-01T00:00": {
+    "images": {
+      "img_01": {
+        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-color-schemes.svg",
+        "tr_title": "Нові колірні схеми",
+        "tr_desc": "Більше способів налаштувати Organized під себе! Шукай нові кольори в налаштуваннях профілю, від мінімалістичного монохрому до яскравого рожевого."
+      },
+      "img_02": {
+        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-homescreen-shortcuts.svg",
+        "tr_title": "Ярлики робочого столу",
+        "tr_desc": "Переходь прямо до найважливіших функцій, на настільних та мобільних пристроях."
+      }
+    },
     "improvements": {
-      "tr_note_01": "View field service and language groups statistics in Publishers records",
-      "tr_note_02": "Add upcoming event to a calendar",
-      "tr_note_03": "Redesigned header navigation and added bottom menu for mobile",
-      "tr_note_04": "Export outgoing speakers schedule as PDF"
+      "tr_note_01": "Додано пресет кредитних годин лдя школи старійшин"
+    }
+  },
+  "2026-09-01T00:00": {
+    "images": {
+      "img_01": {
+        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-click-counter.svg",
+        "tr_title": "Tap to count on mobile devices",
+        "tr_desc": "Tap an attendance count field, then hit Counter for a full-screen tally. Fast, easy, and intuitive."
+      }
+    },
+    "improvements": {
+      "tr_note_01": "Install the app to your desktop or phone from the profile menu",
+      "tr_note_02": "Set up student assignment qualifications flexibly for main hall or auxiliary classroom",
+      "tr_note_03": "Sign-language congregations can record deaf meeting attendance separately",
+      "tr_note_04": "Autofill one week at a time in the midweek meeting monthly view on desktop",
+      "tr_note_05": "Assign any family member as assistant",
+      "tr_note_06": "Mark infirm pioneers to release them from the yearly hour goal",
+      "tr_note_07": "Pick orientation and font size for the field service group PDF export"
     }
   }
 }

@@ -36,6 +36,8 @@
   "tr_december": "Joulukuu",
   "tr_longDateFormat": "PPP, MMM dd, yyyy",
   "tr_delete": "Poista",
+  "tr_continueEditing": "Continue editing",
+  "tr_discardChanges": "Discard changes",
   "tr_add": "Lisää",
   "tr_pickerSelectTime": "Valitse aika",
   "tr_pickerSelectDate": "Valitse päivämäärä",
@@ -149,6 +151,8 @@
   "tr_created": "Luotu: {{ date }}",
   "tr_missingInfo": "Puuttuvia tietoja",
   "tr_fillRequiredField": "Täytä pakolliset kentät",
+  "tr_endTimeAfterStart": "Päättymisajan on oltava alkamisajan jälkeen",
+  "tr_endDateAfterStart": "Päättymispäivän on oltava alkamispäivän jälkeen",
   "tr_mondayShort": "Ma",
   "tr_tuesdayShort": "Ti",
   "tr_wednesdayShort": "Ke",
@@ -166,5 +170,13 @@
   "tr_fileImport": "Tuo tiedosto",
   "tr_csvImportDescription": "Parhaan tuloksen saavuttamiseksi tuonnissa käytä mallitiedostoa.\nKaikkia sarakkeita ei tarvitse täyttää.\nSarakkeet käsitellään siinä järjestyksessä kuin ne esiintyvät.\nJos tila tai tehtävä tulee aktivoida, on määritettävä arvo ’1’ tai ’true’.\nSekä ’;’ että ’,’ ovat sallittuja erottimina.",
   "tr_importSuccess": "Tuonti valmis! {{ successCount }} / {{ totalCount }} henkilöä tallennettiin.",
-  "tr_bottomActionsMenu": "Toimintojen alavalikko"
+  "tr_bottomActionsMenu": "Toimintojen alavalikko",
+  "tr_exportSettings": "Vie asetukset",
+  "tr_orientation": "Suunta",
+  "tr_portrait": "Pysty",
+  "tr_landscape": "Vaaka",
+  "tr_fontSize": "Fonttikoko",
+  "tr_small": "Pieni",
+  "tr_normal": "Normaali",
+  "tr_large": "Suuri"
 }

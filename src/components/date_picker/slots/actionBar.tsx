@@ -4,10 +4,9 @@ import Button from '@components/button';
 
 type ActionBarProps = {
   onClose: VoidFunction;
-  onClear: VoidFunction;
 };
 
-const ActionBar = ({ onClose, onClear }: ActionBarProps) => {
+const ActionBar = ({ onClose }: ActionBarProps) => {
   const { t } = useAppTranslation();
 
   return (
@@ -17,8 +16,8 @@ const ActionBar = ({ onClose, onClear }: ActionBarProps) => {
       p={'12px'}
       gap={'12px'}
     >
-      <Button variant="secondary" onClick={onClear}>
-        {t('tr_clear')}
+      <Button variant="secondary" onClick={onClose}>
+        {t('tr_close')}
       </Button>
       <Button variant="main" onClick={onClose}>
         OK

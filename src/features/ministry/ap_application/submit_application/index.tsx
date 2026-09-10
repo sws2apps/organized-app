@@ -4,7 +4,7 @@ import { useAppTranslation } from '@hooks/index';
 import useSubmitApplication from './useSubmitApplication';
 import NavBarButton from '@components/nav_bar_button';
 
-const SubmitApplication = () => {
+const SubmitApplication = ({ main }: { main?: boolean }) => {
   const { t } = useAppTranslation();
 
   const { disabled, handleSubmit, isProcessing } = useSubmitApplication();
@@ -12,7 +12,7 @@ const SubmitApplication = () => {
   return (
     <NavBarButton
       text={t('tr_btnSubmit')}
-      main
+      main={main}
       icon={isProcessing ? <IconLoading /> : <IconSend />}
       disabled={disabled || isProcessing}
       onClick={handleSubmit}
@@ -21,3 +21,4 @@ const SubmitApplication = () => {
 };
 
 export default SubmitApplication;
+

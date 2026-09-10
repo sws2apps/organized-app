@@ -6,6 +6,15 @@ import Button from '@components/button';
 import Checkbox from '@components/checkbox';
 import Tooltip from '@components/tooltip';
 
+const tooltipIconSx = {
+  display: 'flex',
+  alignItems: 'center',
+  color: 'var(--accent-350)',
+  transition: 'color 0.2s',
+  '&:hover': { color: 'var(--accent-main)' },
+  cursor: 'pointer',
+};
+
 const StatusHistory = ({
   active,
   expanded,
@@ -42,7 +51,9 @@ const StatusHistory = ({
             placement="bottom-start"
             variant="icon"
           >
-            <IconHelpFilled width={16} height={16} />
+            <Box sx={tooltipIconSx}>
+              <IconHelpFilled width={16} height={16} color="currentColor" />
+            </Box>
           </Tooltip>
         </Box>
         <IconButton sx={{ padding: 0 }} onClick={onExpand}>

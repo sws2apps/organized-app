@@ -2,6 +2,7 @@ import { Box, Stack } from '@mui/material';
 import { useAppTranslation } from '@hooks/index';
 import { NewGroupMembersProps } from './index.types';
 import Button from '@components/button';
+import DialogActions from '@components/dialog_actions';
 import GroupMembers from '../../group_members';
 import Typography from '@components/typography';
 
@@ -28,21 +29,14 @@ const NewGroupMembers = ({
 
       <GroupMembers group={group} onChange={onChange} />
 
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '8px',
-          width: '100%',
-        }}
-      >
-        <Button variant="main" onClick={action}>
-          {t('tr_create')}
-        </Button>
+      <DialogActions>
         <Button variant="secondary" onClick={onBack}>
           {t('tr_back')}
         </Button>
-      </Box>
+        <Button variant="main" onClick={action}>
+          {t('tr_create')}
+        </Button>
+      </DialogActions>
     </Stack>
   );
 };

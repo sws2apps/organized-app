@@ -1,10 +1,37 @@
 {
-  "2026-01-20T00:00": {
+  "2026-07-01T00:00": {
+    "images": {
+      "img_01": {
+        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-color-schemes.svg",
+        "tr_title": "Karazana loko vaovao",
+        "tr_desc": "Nampiana loko vaovao fanampiny azonao ampiasaina ato amin’ny Organized."
+      },
+      "img_02": {
+        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-homescreen-shortcuts.svg",
+        "tr_title": "Raccourci vaovao",
+        "tr_desc": "Afaka manokatra avy hatrany ireo pejy fampiasa matetika ianao, na mampiasa ordinatera na telefaonina."
+      }
+    },
     "improvements": {
-      "tr_note_01": "Azo jerena isaky ny andiam-pitory sy antoko-mpitory izao ny antontan’isa momba ny fanompoan’ny mpitory",
-      "tr_note_02": "Ampidiro ao amin’ny kalendrie ireo fandaharana ho avy",
-      "tr_note_03": "Nohavaozina ny fisehoan’ny navigation sy menu amin’ny telefaonina",
-      "tr_note_04": "Fandaharana lahateny atao any amin’ny fiangonana hafa amin’ny endrika PDF"
+      "tr_note_01": "Ora omena ho an’ny sekolin’ny anti-panahy"
+    }
+  },
+  "2026-09-01T00:00": {
+    "images": {
+      "img_01": {
+        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-click-counter.svg",
+        "tr_title": "Tap to count on mobile devices",
+        "tr_desc": "Tap an attendance count field, then hit Counter for a full-screen tally. Fast, easy, and intuitive."
+      }
+    },
+    "improvements": {
+      "tr_note_01": "Install the app to your desktop or phone from the profile menu",
+      "tr_note_02": "Set up student assignment qualifications flexibly for main hall or auxiliary classroom",
+      "tr_note_03": "Sign-language congregations can record deaf meeting attendance separately",
+      "tr_note_04": "Autofill one week at a time in the midweek meeting monthly view on desktop",
+      "tr_note_05": "Assign any family member as assistant",
+      "tr_note_06": "Mark infirm pioneers to release them from the yearly hour goal",
+      "tr_note_07": "Pick orientation and font size for the field service group PDF export"
     }
   }
 }

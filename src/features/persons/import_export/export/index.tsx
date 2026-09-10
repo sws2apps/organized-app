@@ -3,6 +3,7 @@ import Stack from '@mui/material/Stack';
 import { IconBackupOrganized } from '@components/icons';
 import IconLoading from '@components/icon_loading';
 import Button from '@components/button';
+import DialogActions from '@components/dialog_actions';
 import Typography from '@components/typography';
 import { useAppTranslation } from '@hooks/index';
 import useExportPersons from './useExportPersons';
@@ -29,14 +30,7 @@ const Export = (props: ExportType) => {
         </Box>
       </Stack>
 
-      <Stack spacing="8px">
-        <Button
-          variant="main"
-          onClick={handleExport}
-          endIcon={isProcessing && <IconLoading />}
-        >
-          {t('tr_download')}
-        </Button>
+      <DialogActions>
         <Button
           variant="secondary"
           disabled={isProcessing}
@@ -44,7 +38,14 @@ const Export = (props: ExportType) => {
         >
           {t('tr_cancel')}
         </Button>
-      </Stack>
+        <Button
+          variant="main"
+          onClick={handleExport}
+          endIcon={isProcessing && <IconLoading />}
+        >
+          {t('tr_download')}
+        </Button>
+      </DialogActions>
     </Stack>
   );
 };

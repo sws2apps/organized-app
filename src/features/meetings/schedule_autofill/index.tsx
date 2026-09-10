@@ -5,6 +5,7 @@ import { ScheduleAutofillType } from './index.types';
 import useScheduleAutofill from './useScheduleAutofill';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
+import DialogActions from '@components/dialog_actions';
 import Typography from '@components/typography';
 import WeekRangeSelector from '../week_range_selector';
 
@@ -37,26 +38,19 @@ const ScheduleAutofillDialog = ({
         onEndChange={handleSetEndWeek}
       />
 
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '8px',
-          width: '100%',
-        }}
-      >
+      <DialogActions>
+        <Button variant="secondary" onClick={onClose}>
+          {t('tr_cancel')}
+        </Button>
         <Button
           variant="main"
           disabled={isProcessing}
-          endIcon={isProcessing && <IconLoading />}
+          endIcon=<>{isProcessing && <IconLoading />}</>
           onClick={handleStartAutoFill}
         >
           {t('tr_autofill')}
         </Button>
-        <Button variant="secondary" onClick={onClose}>
-          {t('tr_cancel')}
-        </Button>
-      </Box>
+      </DialogActions>
     </Dialog>
   );
 };

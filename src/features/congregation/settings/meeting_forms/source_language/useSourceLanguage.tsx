@@ -5,16 +5,10 @@ import {
   userDataViewState,
 } from '@states/settings';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
-import { refreshLocalesResources } from '@services/i18n';
-import { apiFetchSources } from '@services/api/sources';
-import { isOnlineState } from '@states/app';
-import { sourcesImportJW } from '@services/app/sources';
 import { schedulesBuildHistoryList } from '@services/app/schedules';
 import { assignmentsHistoryState } from '@states/schedules';
-import { dbSongUpdate } from '@services/dexie/songs';
-import { dbPublicTalkUpdate } from '@services/dexie/public_talk';
-import { dbAssignmentUpdate } from '@services/dexie/assignment';
-import { dbWeekTypeUpdate } from '@services/dexie/weekType';
+import { refreshLocaleDerivedData } from '@services/app/locale_derived_data';
+import { syncJWMeetingMaterials } from '@services/app/meeting_materials';
 
 const useSourceLanguage = () => {
   const setAssignmentsHistory = useSetAtom(assignmentsHistoryState);
@@ -22,24 +16,11 @@ const useSourceLanguage = () => {
   const value = useAtomValue(JWLangState);
   const dataView = useAtomValue(userDataViewState);
   const settings = useAtomValue(settingsState);
-  const isOnline = useAtomValue(isOnlineState);
 
-  const handleSourcesImport = async () => {
-    await dbSongUpdate();
-    await dbPublicTalkUpdate();
-
+  const refreshAssignmentHistory = () => {
     // load assignment history
     const history = schedulesBuildHistoryList();
     setAssignmentsHistory(history);
-
-    // fetch and add sources
-    if (!isOnline) return;
-
-    const { data, status } = await apiFetchSources();
-
-    if (data.length === 0 || status !== 200) return;
-
-    await sourcesImportJW(data);
   };
 
   const handleChangeLanguage = async (value: string) => {
@@ -70,12 +51,15 @@ const useSourceLanguage = () => {
         'cong_settings.source_material.language': updateSourceLanguage,
       });
 
-      await refreshLocalesResources();
+      await refreshLocaleDerivedData();
 
-      await dbAssignmentUpdate();
-      await dbWeekTypeUpdate();
+      refreshAssignmentHistory();
 
-      await handleSourcesImport();
+      try {
+        await syncJWMeetingMaterials(value);
+      } catch (error) {
+        console.error(error);
+      }
     } catch (error) {
       console.error(error);
     }

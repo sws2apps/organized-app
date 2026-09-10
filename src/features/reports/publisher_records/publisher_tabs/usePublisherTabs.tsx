@@ -5,7 +5,6 @@ import { personsActiveState } from '@states/persons';
 import { PersonType } from '@definition/person';
 import usePerson from '@features/persons/hooks/usePerson';
 import ListByGroups from './list_by_groups';
-import TabLabelWithBadge from '@components/tab_label_with_badge';
 
 const usePublisherTabs = () => {
   const { t } = useAppTranslation();
@@ -42,21 +41,13 @@ const usePublisherTabs = () => {
   const tabs = useMemo(() => {
     return [
       {
-        label: (
-          <TabLabelWithBadge
-            label={t('tr_activePublishers')}
-            count={publishers.active}
-          />
-        ),
+        label: t('tr_activePublishers'),
+        badge: publishers.active,
         Component: <ListByGroups type="active" />,
       },
       {
-        label: (
-          <TabLabelWithBadge
-            label={t('tr_inactivePublishers')}
-            count={publishers.inactive}
-          />
-        ),
+        label: t('tr_inactivePublishers'),
+        badge: publishers.inactive,
         Component: <ListByGroups type="inactive" />,
       },
     ];

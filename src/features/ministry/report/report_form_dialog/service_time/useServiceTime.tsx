@@ -178,6 +178,22 @@ const useServiceTime = ({ onClose }: ServiceTimeProps) => {
     setCurrentReport(report);
   };
 
+  const handleDeselectStudy = (study: UserBibleStudyType) => {
+    const report = structuredClone(currentReport);
+
+    report.report_data.bible_studies.records =
+      report.report_data.bible_studies.records.filter(
+        (record) => record !== study.person_uid
+      );
+
+    const cnCount = report.report_data.bible_studies.value;
+    report.report_data.bible_studies.value = cnCount - 1;
+
+    report.report_data.updatedAt = new Date().toISOString();
+
+    setCurrentReport(report);
+  };
+
   return {
     bibleStudyRef,
     hours_field,
@@ -195,6 +211,7 @@ const useServiceTime = ({ onClose }: ServiceTimeProps) => {
     handleDeleteReport,
     handleCheckSelected,
     handleSelectStudy,
+    handleDeselectStudy,
   };
 };
 

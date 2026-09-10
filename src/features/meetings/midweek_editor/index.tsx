@@ -1,12 +1,9 @@
 import { Box } from '@mui/material';
 import {
   IconClose,
-  IconInfo,
   IconLivingPart,
   IconLock,
   IconMinistryPart,
-  IconNavigateLeft,
-  IconNavigateRight,
   IconTreasuresPart,
 } from '@components/icons';
 import {
@@ -28,7 +25,6 @@ import {
 import {
   ClassAssignmentContainer,
   PersonDoubleContainer,
-  StyledNavigationArrowButton,
 } from './index.styles';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { setIsImportJWOrg } from '@services/states/sources';
@@ -40,9 +36,11 @@ import BrotherAssignment from './brother_assignment';
 import Button from '@components/button';
 import ButtonGroup from '@components/button_group';
 import COTalk from './co_talk';
+import DateNavigator from '@components/date_navigator';
 import Divider from '@components/divider';
 import EventEditor from '../event_editor';
 import LivingContainer from './living_container';
+import InfoNote from '@components/info_note';
 import Markup from '@components/text_markup';
 import MeetingPart from '../meeting_part';
 import MeetingSection from '../meeting_section';
@@ -113,12 +111,7 @@ const MidweekEditor = () => {
       )}
 
       {weekDateLocale.length === 0 && (
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <IconInfo color="var(--accent-400)" />
-          <Typography color="var(--grey-400)">
-            {t('tr_infoPlanMidweekMeeting')}
-          </Typography>
-        </Box>
+        <InfoNote message={t('tr_infoPlanMidweekMeeting')} />
       )}
 
       {weekDateLocale.length > 0 && (
@@ -130,45 +123,18 @@ const MidweekEditor = () => {
             gap: '16px',
           }}
         >
-          <Box
+          <DateNavigator
+            value={weekDateLocale}
+            onBack={handleChangeWeekBack}
+            onNext={handleChangeWeekNext}
+            disableBack={!showWeekArrows.back}
+            disableNext={!showWeekArrows.next}
+            labelMinWidth={tablet500Down ? undefined : '140px'}
             sx={{
-              display: 'flex',
-              flexDirection: 'row',
-              gap: '16px',
-              justifyContent: tablet500Down && 'space-between',
+              width: tablet500Down ? '100%' : 'auto',
+              alignSelf: 'flex-start',
             }}
-          >
-            <StyledNavigationArrowButton
-              onClick={showWeekArrows.back ? handleChangeWeekBack : undefined}
-              sx={{
-                cursor: showWeekArrows.back && 'pointer',
-              }}
-            >
-              <IconNavigateLeft
-                color={showWeekArrows.back ? 'var(--black)' : 'var(--grey-300)'}
-              />
-            </StyledNavigationArrowButton>
-
-            <Typography
-              className="h2"
-              sx={{
-                minWidth: !tablet500Down && '140px',
-                textAlign: 'center',
-              }}
-            >
-              {weekDateLocale}
-            </Typography>
-            <StyledNavigationArrowButton
-              onClick={showWeekArrows.next ? handleChangeWeekNext : undefined}
-              sx={{
-                cursor: showWeekArrows.next && 'pointer',
-              }}
-            >
-              <IconNavigateRight
-                color={showWeekArrows.next ? 'var(--black)' : 'var(--grey-300)'}
-              />
-            </StyledNavigationArrowButton>
-          </Box>
+          />
 
           <DoubleFieldContainer
             sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
@@ -214,16 +180,15 @@ const MidweekEditor = () => {
           <Divider color="var(--accent-200)" />
 
           {!hasSource && (
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <IconInfo color="var(--accent-400)" />
+            <InfoNote>
               <Markup
                 content={t('tr_meetingMaterialsNotAvailable')}
-                className="body-regular"
+                className="body-small-regular"
                 anchorClick={() => setIsImportJWOrg(true)}
                 anchorClassName="h4"
-                color="var(--grey-400)"
+                color="var(--accent-400)"
               />
-            </Box>
+            </InfoNote>
           )}
 
           {hasSource && (

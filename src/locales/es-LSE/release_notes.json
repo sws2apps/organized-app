@@ -1,10 +1,37 @@
 {
-  "2026-01-20T00:00": {
+  "2026-07-01T00:00": {
+    "images": {
+      "img_01": {
+        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-color-schemes.svg",
+        "tr_title": "Nuevas combinaciones de colores",
+        "tr_desc": "¡Más formas de personalizar Organized! Explora nuevos colores en la configuración de perfil, desde el monocromo minimalista hasta el rosa vibrante."
+      },
+      "img_02": {
+        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-homescreen-shortcuts.svg",
+        "tr_title": "Accesos directos a la pantalla de inicio",
+        "tr_desc": "Acceda directamente a las funciones más importantes, tanto en ordenadores de escritorio como en dispositivos móviles."
+      }
+    },
     "improvements": {
-      "tr_note_01": "Ver estadísticas de grupos de predicación y grupos de idiomas en los registros de publicadores",
-      "tr_note_02": "Añadir evento próximo a un calendario",
-      "tr_note_03": "Navegación del encabezado rediseñada y menú inferior añadido para móviles",
-      "tr_note_04": "Exportar el programa de oradores visitantes como PDF"
+      "tr_note_01": "Se agregó una plantilla de horas de crédito para la escuela de ancianos de congregación"
+    }
+  },
+  "2026-09-01T00:00": {
+    "images": {
+      "img_01": {
+        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-click-counter.svg",
+        "tr_title": "Toca para contar en dispositivos móviles",
+        "tr_desc": "Tap an attendance count field, then hit Counter for a full-screen tally. Fast, easy, and intuitive."
+      }
+    },
+    "improvements": {
+      "tr_note_01": "Install the app to your desktop or phone from the profile menu",
+      "tr_note_02": "Set up student assignment qualifications flexibly for main hall or auxiliary classroom",
+      "tr_note_03": "Sign-language congregations can record deaf meeting attendance separately",
+      "tr_note_04": "Autofill one week at a time in the midweek meeting monthly view on desktop",
+      "tr_note_05": "Assign any family member as assistant",
+      "tr_note_06": "Mark infirm pioneers to release them from the yearly hour goal",
+      "tr_note_07": "Pick orientation and font size for the field service group PDF export"
     }
   }
 }

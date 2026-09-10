@@ -3,6 +3,7 @@ import { useAppTranslation } from '@hooks/index';
 import { GroupDeleteProps } from './index.types';
 import useGroupDelete from './useGroupDelete';
 import Button from '@components/button';
+import DialogActions from '@components/dialog_actions';
 import Typography from '@components/typography';
 
 const GroupDelete = (props: GroupDeleteProps) => {
@@ -22,14 +23,14 @@ const GroupDelete = (props: GroupDeleteProps) => {
         </Typography>
       </Stack>
 
-      <Stack spacing="8px" width="100%">
-        <Button variant="main" color="red" onClick={handleDeleteGroup}>
-          {t('tr_delete')}
-        </Button>
+      <DialogActions>
         <Button variant="secondary" onClick={props.onClose}>
           {t('tr_cancel')}
         </Button>
-      </Stack>
+        <Button variant="main" color="red" onClick={handleDeleteGroup}>
+          {t('tr_delete')}
+        </Button>
+      </DialogActions>
     </>
   );
 };

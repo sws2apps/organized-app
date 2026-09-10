@@ -1,5 +1,21 @@
+import {
+  useState,
+  ComponentType,
+  Children,
+  cloneElement,
+  isValidElement,
+  ReactElement,
+  ReactNode,
+  useCallback,
+} from 'react';
 import { useNavigate } from 'react-router';
 import { useAtom, useAtomValue } from 'jotai';
+import usePwaInstall from '@hooks/usePwaInstall';
+import {
+  IconInstallDesktop,
+  IconInstallPhone,
+  IconInstallTablet,
+} from '@icons/index';
 import {
   disconnectCongAccount,
   setIsAboutOpen,
@@ -23,8 +39,24 @@ import {
 } from '@states/settings';
 import { userSignOut } from '@services/firebase/auth';
 
+import NavBarButton from '@components/nav_bar_button';
+import { NavBarButtonProps } from '@components/nav_bar_button/index.types';
+
+type IconComponent = ComponentType<{ color?: string }>;
+
 const useNavbar = () => {
   const navigate = useNavigate();
+
+  const {
+    hasPrompt,
+    isInstalled,
+    installPwa,
+    guide: installGuide,
+  } = usePwaInstall();
+
+  const [installDialogOpen, setInstallDialogOpen] = useState(false);
+
+  const handleCloseInstallDialog = () => setInstallDialogOpen(false);
 
   const { laptopUp, tabletDown, tabletUp, desktopUp, tablet688Up } =
     useBreakpoints();
@@ -40,6 +72,17 @@ const useNavbar = () => {
   const navBarOptions = useAtomValue(navBarOptionsState);
 
   const openMore = Boolean(anchorEl);
+
+  // every browser installs the app one way or another, so the entry stays
+  // until it is installed: the ones without a prompt get the steps
+  const showInstallButton = !isInstalled;
+
+  let InstallIcon: IconComponent = IconInstallTablet;
+  if (tabletDown) {
+    InstallIcon = IconInstallPhone;
+  } else if (desktopUp) {
+    InstallIcon = IconInstallDesktop;
+  }
 
   const handleOpenMoreMenu = (e) => {
     setAnchorEl(e.currentTarget);
@@ -59,12 +102,21 @@ const useNavbar = () => {
   };
 
   const handleBack = () => {
-    navigate(-1);
+    if (navBarOptions.onBack) {
+      navBarOptions.onBack();
+      return;
+    }
+
+    if (window.history.length > 1) {
+      navigate(-1);
+    } else {
+      navigate('/');
+    }
   };
 
   const handleQuickSettings = (e) => {
     e.stopPropagation();
-    navBarOptions.quickSettings();
+    navBarOptions.quickSettings!();
   };
 
   const handleReconnectAccount = () => {
@@ -100,7 +152,17 @@ const useNavbar = () => {
     window.open(`https://organized-app.com`, '_blank');
   };
 
-  const handleDisonnectAccount = async () => {
+  const handleInstallApp = async () => {
+    handleCloseMore();
+
+    // the prompt can be gone by the time it is asked for, so the steps are
+    // the answer whenever it does not open
+    const prompted = hasPrompt ? await installPwa() : false;
+
+    if (!prompted) setInstallDialogOpen(true);
+  };
+
+  const handleDisconnectAccount = async () => {
     handleCloseMore();
 
     await userSignOut();
@@ -108,6 +170,70 @@ const useNavbar = () => {
 
     globalThis.location.reload();
   };
+
+  const markLastNavBarButton = useCallback((children: ReactNode): ReactNode => {
+    const flat = Children.toArray(children);
+
+    let lastParentIndex = -1;
+    let lastChildIndex: number | null = null;
+
+    for (let i = 0; i < flat.length; i++) {
+      const child = flat[i];
+
+      if (!isValidElement(child)) continue;
+
+      if (child.type === NavBarButton) {
+        lastParentIndex = i;
+        lastChildIndex = null;
+        continue;
+      }
+
+      const nested = Children.toArray(
+        (child.props as { children?: ReactNode }).children
+      );
+      for (let j = 0; j < nested.length; j++) {
+        const nestedChild = nested[j];
+        if (isValidElement(nestedChild) && nestedChild.type === NavBarButton) {
+          lastParentIndex = i;
+          lastChildIndex = j;
+        }
+      }
+    }
+
+    if (lastParentIndex === -1) return children;
+
+    return flat.map((child, i) => {
+      if (!isValidElement(child)) return child;
+
+      if (i !== lastParentIndex) return child;
+
+      if (lastChildIndex === null && child.type === NavBarButton) {
+        return cloneElement(child as ReactElement<NavBarButtonProps>, {
+          main: true,
+        });
+      }
+
+      if (lastChildIndex !== null) {
+        const nested = Children.toArray(
+          (child.props as { children?: ReactNode }).children
+        );
+        const updatedNested = nested.map((nestedChild, j) =>
+          isValidElement(nestedChild) &&
+          nestedChild.type === NavBarButton &&
+          j === lastChildIndex
+            ? cloneElement(nestedChild as ReactElement<NavBarButtonProps>, {
+                main: true,
+              })
+            : nestedChild
+        );
+        return cloneElement(child as ReactElement<{ children?: ReactNode }>, {
+          children: updatedNested,
+        });
+      }
+
+      return child;
+    });
+  }, []);
 
   return {
     openMore,
@@ -130,12 +256,19 @@ const useNavbar = () => {
     handleReconnectAccount,
     handleOpenRealApp,
     accountType,
-    handleDisonnectAccount,
+    handleDisconnectAccount,
     navBarOptions,
     handleBack,
     desktopUp,
     handleQuickSettings,
     tablet688Up,
+    showInstallButton,
+    handleInstallApp,
+    InstallIcon,
+    installDialogOpen,
+    handleCloseInstallDialog,
+    installGuide,
+    markLastNavBarButton,
   };
 };
 

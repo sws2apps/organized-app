@@ -116,6 +116,17 @@ const useAuth = () => {
     }
 
     if (nextStep.createCongregation) {
+      // congregation exists remotely and onboarding resumes at the master key
+      // or access code step, so its id has to be stored for these endpoints
+      if (app_settings?.cong_settings) {
+        await dbAppSettingsUpdate({
+          'cong_settings.cong_id': app_settings.cong_settings.id,
+          'cong_settings.cong_name': app_settings.cong_settings.cong_name,
+          'cong_settings.country_code': app_settings.cong_settings.country_code,
+          'user_settings.cong_role': app_settings.user_settings.cong_role,
+        });
+      }
+
       setIsEmailAuth(false);
       setIsEmailSent(false);
       setIsUserSignIn(false);
@@ -168,8 +179,9 @@ const useAuth = () => {
         }
       }
 
+      // the local id defaults to an empty string, which `??` would keep
       const congID =
-        settings.cong_settings.cong_id ?? app_settings.cong_settings.id;
+        settings.cong_settings.cong_id || app_settings.cong_settings.id;
 
       await dbAppSettingsUpdate({
         'cong_settings.country_code': app_settings.cong_settings.country_code,

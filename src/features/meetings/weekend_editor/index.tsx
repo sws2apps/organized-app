@@ -1,7 +1,8 @@
 import { Box } from '@mui/material';
 import {
   IconClose,
-  IconInfo,
+  IconNavigateLeft,
+  IconNavigateRight,
   IconTalk,
   IconWatchtowerStudy,
 } from '@components/icons';
@@ -16,6 +17,7 @@ import {
   WEEKEND_WITH_SPECIAL_TALK,
   WEEKEND_WITH_STANDARD_TALK,
   WEEKEND_WITH_TALKS,
+  WEEKEND_WITH_TALKS_NOCO,
   WEEKEND_WITH_WTSTUDY,
 } from '@constants/index';
 import { Week } from '@definition/week_type';
@@ -23,6 +25,7 @@ import {
   DoubleFieldContainer,
   PrimaryFieldContainer,
   SecondaryFieldContainer,
+  StyledNavigationArrowButton,
 } from '../shared_styles';
 import { EditorContainer } from './index.styles';
 import useSiblingAssignments from '../sibling_assignments/useSiblingAssignments';
@@ -33,6 +36,7 @@ import AssignmentsWeekDelete from '../assignments_week_delete';
 import Button from '@components/button';
 import Divider from '@components/divider';
 import EventEditor from '../event_editor';
+import InfoNote from '@components/info_note';
 import Markup from '@components/text_markup';
 import MeetingSection from '../meeting_section';
 import PersonSelector from '../person_selector';
@@ -49,7 +53,7 @@ import WeekTypeSelector from '../week_type_selector';
 const WeekendEditor = () => {
   const { t } = useAppTranslation();
 
-  const { laptopUp } = useBreakpoints();
+  const { laptopUp, tablet500Down } = useBreakpoints();
 
   const { isPublicTalkCoordinator, isWeekendEditor } = useCurrentUser();
 
@@ -77,6 +81,9 @@ const WeekendEditor = () => {
     songSelectorOpen,
     showPartsForGroup,
     dataView,
+    handleChangeWeekBack,
+    handleChangeWeekNext,
+    showWeekArrows,
   } = useWeekendEditor();
 
   const { talkType } = usePublicTalkTypeSelector(selectedWeek);
@@ -99,12 +106,7 @@ const WeekendEditor = () => {
       )}
 
       {weekDateLocale.length === 0 && (
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <IconInfo color="var(--accent-400)" />
-          <Typography color="var(--grey-400)">
-            {t('tr_infoSecondPlanMidweekMeeting')}
-          </Typography>
-        </Box>
+        <InfoNote message={t('tr_infoSecondPlanMidweekMeeting')} />
       )}
 
       {weekDateLocale.length > 0 && (
@@ -112,13 +114,66 @@ const WeekendEditor = () => {
           <DoubleFieldContainer
             sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
           >
-            <PrimaryFieldContainer>
-              <Typography className="h2" sx={{ flex: 1 }}>
-                {weekDateLocale}
-              </Typography>
+            <PrimaryFieldContainer sx={{ width: '100%' }}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  gap: '16px',
+                  justifyContent: tablet500Down
+                    ? 'space-between'
+                    : 'flex-start',
+                  alignItems: 'center',
+                  width: '100%',
+                }}
+              >
+                <StyledNavigationArrowButton
+                  onClick={
+                    showWeekArrows.back ? handleChangeWeekBack : undefined
+                  }
+                  tabIndex={showWeekArrows.back ? 0 : -1}
+                  aria-disabled={showWeekArrows.back ? 'false' : 'true'}
+                  sx={{ cursor: showWeekArrows.back ? 'pointer' : 'default' }}
+                >
+                  <IconNavigateLeft
+                    color={
+                      showWeekArrows.back ? 'var(--black)' : 'var(--grey-300)'
+                    }
+                  />
+                </StyledNavigationArrowButton>
+
+                <Typography
+                  className="h2"
+                  sx={{
+                    minWidth: tablet500Down ? 'auto' : '140px',
+                    textAlign: 'center',
+                  }}
+                >
+                  {weekDateLocale}
+                </Typography>
+
+                <StyledNavigationArrowButton
+                  onClick={
+                    showWeekArrows.next ? handleChangeWeekNext : undefined
+                  }
+                  tabIndex={showWeekArrows.next ? 0 : -1}
+                  aria-disabled={showWeekArrows.next ? 'false' : 'true'}
+                  sx={{ cursor: showWeekArrows.next ? 'pointer' : 'default' }}
+                >
+                  <IconNavigateRight
+                    color={
+                      showWeekArrows.next ? 'var(--black)' : 'var(--grey-300)'
+                    }
+                  />
+                </StyledNavigationArrowButton>
+              </Box>
             </PrimaryFieldContainer>
             <SecondaryFieldContainer
-              sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
+              sx={{
+                flexDirection: laptopUp ? 'row' : 'column',
+                maxWidth: laptopUp ? '360px' : '100%',
+                width: '100%',
+              }}
             >
               <WeekTypeSelector week={selectedWeek} meeting="weekend" />
             </SecondaryFieldContainer>
@@ -261,14 +316,13 @@ const WeekendEditor = () => {
                         }
                         jwStreamRecording={talkType === 'jwStreamRecording'}
                         visitingSpeaker={
-                          weekType === Week.NORMAL &&
+                          WEEKEND_WITH_TALKS_NOCO.includes(weekType) &&
                           talkType === 'visitingSpeaker'
                         }
                         circuitOverseer={weekType === Week.CO_VISIT}
                         talk={selectedTalk?.talk_number}
                         helperNode={
-                          (weekType === Week.NORMAL ||
-                            weekType === Week.PUBLIC_TALK) &&
+                          WEEKEND_WITH_TALKS_NOCO.includes(weekType) &&
                           talkType === 'visitingSpeaker' && (
                             <Markup
                               content={t('tr_visitinSpeakerHelpText')}

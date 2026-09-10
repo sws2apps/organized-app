@@ -12,6 +12,7 @@ import DateFormat from './date_format';
 import DisplayName from './display_name';
 import MenuItem from '@components/menuitem';
 import MidweekExactDate from './midweek_exact_date';
+import MultiDayDisplay from './multiday_display';
 import NameFormat from './name_format';
 import PublishersSort from '../congregation_privacy/publishers_sort';
 import Select from '@components/select';
@@ -102,6 +103,11 @@ const MeetingForms = () => {
             <PublishersSort />
           </Stack>
         )}
+
+        <Stack spacing="16px">
+          <CardSubSectionHeader title={t('tr_upcomingEvents')} />
+          <MultiDayDisplay />
+        </Stack>
       </CardSectionContent>
     </CardSection>
   );

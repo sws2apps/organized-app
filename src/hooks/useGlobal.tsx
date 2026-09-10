@@ -89,6 +89,20 @@ const useGlobal = () => {
     setIsLoading(false);
   }, []);
 
+  // PWA shortcut redirect: the app uses hash routing (createHashRouter),
+  // but manifest shortcut URLs use clean paths for cross-platform compatibility.
+  // This script converts clean paths to their hash equivalents before React loads.
+  useEffect(() => {
+    const p = location.pathname;
+    const s = location.search;
+
+    if (p !== '/') {
+      location.replace('/#' + p + s);
+    } else if (s && !location.hash) {
+      location.replace('/#/' + s);
+    }
+  }, []);
+
   return {
     isLoading,
     isSupported,

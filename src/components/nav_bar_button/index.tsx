@@ -45,38 +45,45 @@ const NavBarButton = (props: NavBarButtonProps) => {
       </Box>
     </Button>
   ) : (
-    !disabled && (
-      <Box
-        role="button"
-        aria-label={props.text}
-        sx={{
-          padding: '10px',
+    <Box
+      role="button"
+      aria-label={props.text}
+      aria-disabled={disabled}
+      tabIndex={disabled ? -1 : 0}
+      onKeyDown={(e) => {
+        if (!disabled && (e.key === 'Enter' || e.key === ' ')) {
+          e.preventDefault();
+          props.onClick?.();
+        }
+      }}
+      sx={{
+        padding: '10px',
+        borderRadius: 'var(--radius-l)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        '&:hover': {
+          backgroundColor: 'var(--accent-200)',
+        },
+        '.MuiTouchRipple-ripple .MuiTouchRipple-child': {
           borderRadius: 'var(--radius-l)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          '&:hover': {
-            backgroundColor: 'var(--accent-200)',
+          backgroundColor: 'var(--accent-200)',
+        },
+        '&:focus-visible': {
+          outline: `${iconColor} auto 1px`,
+        },
+        '& .MuiSvgIcon-root': {
+          fill: iconColor,
+          '& g, & g path': {
+            fill: `${iconColor} !important`,
           },
-          '.MuiTouchRipple-ripple .MuiTouchRipple-child': {
-            borderRadius: 'var(--radius-l)',
-            backgroundColor: 'var(--accent-200)',
-          },
-          '&:focus-visible': {
-            outline: `${iconColor} auto 1px`,
-          },
-          '& .MuiSvgIcon-root': {
-            fill: iconColor,
-            '& g, & g path': {
-              fill: `${iconColor} !important`,
-            },
-          },
-        }}
-        onClick={props.onClick}
-      >
-        {props.icon}
-      </Box>
-    )
+        },
+        cursor: disabled ? 'default' : 'pointer',
+      }}
+      onClick={!disabled ? props.onClick : null}
+    >
+      {props.icon}
+    </Box>
   );
 };
 
