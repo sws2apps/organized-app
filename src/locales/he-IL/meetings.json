@@ -37,7 +37,7 @@
   "tr_clearMultipleDesc": "בחר את התוכניות שברצונך לנקות. המשימות בטווח התאריכים הנבחר יוסרו, אך השבועות עצמם יישארו.",
   "tr_clearSelectedWeeks": "נקה שבועות שנבחרו",
   "tr_unsavedChanges": "יש לך שינויים שלא נשמרו",
-  "tr_unsavedChangesDesc": "האם ברצונך לצאת מהדף מבלי לשמור את העריכות? תאבד את כל השינויים שלא נשמרו.",
+  "tr_unsavedChangesDesc": "Your unsaved changes will be lost.",
   "tr_leavePage": "צא מהדף",
   "tr_autofillMM": "מילוי אוטומטי לאסיפת אמצע שבוע",
   "tr_autofillThisWeek": "Autofill this week",

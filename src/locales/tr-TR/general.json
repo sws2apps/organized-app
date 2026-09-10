@@ -36,6 +36,8 @@
   "tr_december": "Aralık",
   "tr_longDateFormat": "EEE, MMM dd, yyyy",
   "tr_delete": "Sil",
+  "tr_continueEditing": "Continue editing",
+  "tr_discardChanges": "Discard changes",
   "tr_add": "Ekle",
   "tr_pickerSelectTime": "Saat seç",
   "tr_pickerSelectDate": "Tarih seç",

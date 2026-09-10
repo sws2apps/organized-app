@@ -36,6 +36,8 @@
   "tr_december": "12월",
   "tr_longDateFormat": "yyyy년 MMM월 dd일 EEE",
   "tr_delete": "삭제",
+  "tr_continueEditing": "Continue editing",
+  "tr_discardChanges": "Discard changes",
   "tr_add": "추가",
   "tr_pickerSelectTime": "시간 선택",
   "tr_pickerSelectDate": "날짜 선택",

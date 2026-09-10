@@ -6,7 +6,6 @@ import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useFilter from './useFilter';
 import AssignmentGroup from '../assignment_group';
 import Tabs from '@components/tabs';
-import TabLabel from '@components/tab_label_with_badge';
 import { PersonsFilterProps } from './index.types';
 
 const PersonsFilter = ({ hideTitle }: PersonsFilterProps) => {
@@ -27,12 +26,8 @@ const PersonsFilter = ({ hideTitle }: PersonsFilterProps) => {
 
   const tabs = [
     {
-      label: (
-        <TabLabel
-          count={filters.length - checkedItems.length}
-          label={t('tr_categories')}
-        />
-      ),
+      label: t('tr_categories'),
+      badge: filters.length - checkedItems.length,
       Component: (
         <Box
           sx={{
@@ -57,9 +52,8 @@ const PersonsFilter = ({ hideTitle }: PersonsFilterProps) => {
       ),
     },
     {
-      label: (
-        <TabLabel count={checkedItems.length} label={t('tr_assignments')} />
-      ),
+      label: t('tr_assignments'),
+      badge: checkedItems.length,
       Component: (
         <Box
           sx={{
