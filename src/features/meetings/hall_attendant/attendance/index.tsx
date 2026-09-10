@@ -2,7 +2,7 @@ import { Fragment } from 'react';
 import { IconClickerMode, IconHistory } from '@components/icons';
 import { Box, Stack } from '@mui/material';
 import { useNavigate } from 'react-router';
-import { useAppTranslation, useBreakpoints } from '@hooks/index';
+import { useAppTranslation } from '@hooks/index';
 import { WeekBoxProps } from '@features/reports/meeting_attendance/monthly_record/week_box/index.types';
 import useWeekBox from '@features/reports/meeting_attendance/monthly_record/week_box/useWeekBox';
 import Card from '@components/card';
@@ -14,7 +14,6 @@ import Button from '@components/button';
 
 const HallAttendance = (props: WeekBoxProps & { dateLabel: string }) => {
   const { t } = useAppTranslation();
-  const { tabletUp } = useBreakpoints();
   const navigate = useNavigate();
   const {
     values,
@@ -25,6 +24,7 @@ const HallAttendance = (props: WeekBoxProps & { dateLabel: string }) => {
     noMeeting,
     canEdit,
     total,
+    clickerEnabled,
     clickerOpen,
     clickerTitle,
     handleClickerOpen,
@@ -32,10 +32,6 @@ const HallAttendance = (props: WeekBoxProps & { dateLabel: string }) => {
     handleClickerSave,
   } = useWeekBox(props);
   const online = Number(values.online || 0) + Number(values.onlineDeaf || 0);
-
-  // counting is what this mode is for, so the counter is offered outright
-  // rather than waiting for a field to be focused
-  const clickerEnabled = !noMeeting && canEdit;
 
   return (
     <Card>
@@ -96,7 +92,10 @@ const HallAttendance = (props: WeekBoxProps & { dateLabel: string }) => {
               >
                 <Stack flex={1} alignItems="center">
                   <Typography color="var(--accent-dark)">{total}</Typography>
-                  <Typography className="label-small-regular">
+                  <Typography
+                    className="label-small-regular"
+                    color="var(--accent-400)"
+                  >
                     {t('tr_total')}
                   </Typography>
                 </Stack>
@@ -104,7 +103,10 @@ const HallAttendance = (props: WeekBoxProps & { dateLabel: string }) => {
                   <Typography color="var(--accent-dark)">
                     {total ? Math.round((online / total) * 100) : 0}%
                   </Typography>
-                  <Typography className="label-small-regular">
+                  <Typography
+                    className="label-small-regular"
+                    color="var(--accent-400)"
+                  >
                     {t('tr_hallOnlineRatio')}
                   </Typography>
                 </Stack>
@@ -113,32 +115,35 @@ const HallAttendance = (props: WeekBoxProps & { dateLabel: string }) => {
           )}
         </>
       )}
-      {/* the two ways of putting a count in belong together, so they are
-          spaced as a pair rather than as two blocks of the card */}
+      {/* the records are where the card leads, the counter is what it offers:
+          one on each side of the row */}
       <Box
         sx={{
           display: 'flex',
-          flexDirection: tabletUp ? 'row' : 'column',
+          alignItems: 'center',
+          justifyContent: 'space-between',
           gap: '8px',
         }}
       >
+        <Button
+          variant="secondary"
+          disableAutoStretch
+          startIcon={<IconHistory />}
+          onClick={() => navigate('/reports/meeting-attendance')}
+        >
+          {t('tr_hallHistory')}
+        </Button>
+
         {clickerEnabled && (
           <Button
             variant="main"
+            disableAutoStretch
             startIcon={<IconClickerMode color="var(--always-white)" />}
             onClick={handleClickerOpen}
           >
             {t('tr_clickerMode')}
           </Button>
         )}
-
-        <Button
-          variant="secondary"
-          startIcon={<IconHistory />}
-          onClick={() => navigate('/reports/meeting-attendance')}
-        >
-          {t('tr_hallHistory')}
-        </Button>
       </Box>
 
       {clickerEnabled && (

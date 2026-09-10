@@ -48,7 +48,9 @@ const useHallAttendant = () => {
   return {
     meeting,
     dataView,
-    time: formatDate(now, hour24 ? 'HH:mm' : 'h:mm aaa'),
+    // the clock already ticks every second, and an attendant watching for the
+    // meeting to start is the one person who wants to see them
+    time: formatDate(now, hour24 ? 'HH:mm:ss' : 'h:mm:ss aaa'),
     date: new Intl.DateTimeFormat(locale?.code, {
       weekday: 'long',
       year: 'numeric',
