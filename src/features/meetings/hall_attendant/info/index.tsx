@@ -147,7 +147,7 @@ const HallNotes = () => {
               disableAutoStretch
               onClick={editing ? addNote : handleAddFirstNote}
             >
-              {t('tr_hallAddNote')}
+              {t('tr_add')}
             </Button>
           )}
 
