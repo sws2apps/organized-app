@@ -20,18 +20,18 @@
     "images": {
       "img_01": {
         "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-click-counter.svg",
-        "tr_title": "Tap to count on mobile devices",
-        "tr_desc": "Tap an attendance count field, then hit Counter for a full-screen tally. Fast, easy, and intuitive."
+        "tr_title": "Tapni za štetje na mobilnih napravah",
+        "tr_desc": "Tapni polje za vnos prisotnosti, nato izberi Števec za celozaslonsko štetje. Hitro, preprosto in intuitivno."
       }
     },
     "improvements": {
-      "tr_note_01": "Install the app to your desktop or phone from the profile menu",
-      "tr_note_02": "Set up student assignment qualifications flexibly for main hall or auxiliary classroom",
-      "tr_note_03": "Sign-language congregations can record deaf meeting attendance separately",
-      "tr_note_04": "Autofill one week at a time in the midweek meeting monthly view on desktop",
-      "tr_note_05": "Assign any family member as assistant",
-      "tr_note_06": "Mark infirm pioneers to release them from the yearly hour goal",
-      "tr_note_07": "Pick orientation and font size for the field service group PDF export"
+      "tr_note_01": "Namesti aplikacijo na namizje ali telefon prek menija profila",
+      "tr_note_02": "Prilagodljivo nastavi pogoje za dodelitve učencev za glavno dvorano ali pomožni razred",
+      "tr_note_03": "Občine v znakovnem jeziku lahko prisotnost gluhih na shodu beležijo ločeno",
+      "tr_note_04": "Samodejno izpolni en teden naenkrat v mesečnem pogledu shoda sredi tedna na namizju",
+      "tr_note_05": "Kot pomočnika lahko dodeliš katerega koli družinskega člana",
+      "tr_note_06": "Označi onemogle pionirje, da zanje ne bo veljala letna kvota ur",
+      "tr_note_07": "Izberi usmerjenost PDF-ja in velikost pisave za izvoz skupine za terensko službo"
     }
   }
 }
