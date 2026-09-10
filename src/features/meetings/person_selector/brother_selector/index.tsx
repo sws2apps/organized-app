@@ -198,7 +198,7 @@ const SelectorAdornments = ({
 
       {onEditClick && (
         <IconButton
-          sx={{ padding: 0, position: 'absolute', right: 35, top: 12 }}
+          sx={{ padding: 0, position: 'absolute', right: 35, top: 10 }}
           onClick={onEditClick}
         >
           <IconEdit color={iconColor} />
@@ -301,13 +301,8 @@ const BrotherSelector = (props: PersonSelectorType) => {
         decorator={getDecorator(helperText, isLinkedPart, helperSeverity)}
         clearIcon={<IconClose width={20} height={20} />}
         sx={{
-          // nudge only the resting label, not the floated one
-          '& .MuiInputLabel-root[data-shrink=false]': {
-            top: '-5px !important',
-          },
-
           '& .MuiOutlinedInput-root': {
-            height: '48px !important',
+            height: '44px !important',
           },
           '& .MuiOutlinedInput-input': {
             paddingRight: props.endIcon ? '10px !important' : '80px !important',

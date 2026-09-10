@@ -1,5 +1,21 @@
+import {
+  useState,
+  ComponentType,
+  Children,
+  cloneElement,
+  isValidElement,
+  ReactElement,
+  ReactNode,
+  useCallback,
+} from 'react';
 import { useNavigate } from 'react-router';
 import { useAtom, useAtomValue } from 'jotai';
+import usePwaInstall from '@hooks/usePwaInstall';
+import {
+  IconInstallDesktop,
+  IconInstallPhone,
+  IconInstallTablet,
+} from '@icons/index';
 import {
   disconnectCongAccount,
   setIsAboutOpen,
@@ -22,19 +38,25 @@ import {
   fullnameState,
 } from '@states/settings';
 import { userSignOut } from '@services/firebase/auth';
-import {
-  Children,
-  cloneElement,
-  isValidElement,
-  ReactElement,
-  ReactNode,
-  useCallback,
-} from 'react';
+
 import NavBarButton from '@components/nav_bar_button';
 import { NavBarButtonProps } from '@components/nav_bar_button/index.types';
 
+type IconComponent = ComponentType<{ color?: string }>;
+
 const useNavbar = () => {
   const navigate = useNavigate();
+
+  const {
+    hasPrompt,
+    isInstalled,
+    installPwa,
+    guide: installGuide,
+  } = usePwaInstall();
+
+  const [installDialogOpen, setInstallDialogOpen] = useState(false);
+
+  const handleCloseInstallDialog = () => setInstallDialogOpen(false);
 
   const { laptopUp, tabletDown, tabletUp, desktopUp, tablet688Up } =
     useBreakpoints();
@@ -50,6 +72,17 @@ const useNavbar = () => {
   const navBarOptions = useAtomValue(navBarOptionsState);
 
   const openMore = Boolean(anchorEl);
+
+  // every browser installs the app one way or another, so the entry stays
+  // until it is installed: the ones without a prompt get the steps
+  const showInstallButton = !isInstalled;
+
+  let InstallIcon: IconComponent = IconInstallTablet;
+  if (tabletDown) {
+    InstallIcon = IconInstallPhone;
+  } else if (desktopUp) {
+    InstallIcon = IconInstallDesktop;
+  }
 
   const handleOpenMoreMenu = (e) => {
     setAnchorEl(e.currentTarget);
@@ -119,7 +152,17 @@ const useNavbar = () => {
     window.open(`https://organized-app.com`, '_blank');
   };
 
-  const handleDisonnectAccount = async () => {
+  const handleInstallApp = async () => {
+    handleCloseMore();
+
+    // the prompt can be gone by the time it is asked for, so the steps are
+    // the answer whenever it does not open
+    const prompted = hasPrompt ? await installPwa() : false;
+
+    if (!prompted) setInstallDialogOpen(true);
+  };
+
+  const handleDisconnectAccount = async () => {
     handleCloseMore();
 
     await userSignOut();
@@ -213,12 +256,18 @@ const useNavbar = () => {
     handleReconnectAccount,
     handleOpenRealApp,
     accountType,
-    handleDisonnectAccount,
+    handleDisconnectAccount,
     navBarOptions,
     handleBack,
     desktopUp,
     handleQuickSettings,
     tablet688Up,
+    showInstallButton,
+    handleInstallApp,
+    InstallIcon,
+    installDialogOpen,
+    handleCloseInstallDialog,
+    installGuide,
     markLastNavBarButton,
   };
 };

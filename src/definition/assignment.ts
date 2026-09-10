@@ -42,6 +42,16 @@ export enum AssignmentCode {
   DUTIES_VideoconferenceHost = 409,
 }
 
+const getAssignmentCodes = (prefix: string): AssignmentCode[] => {
+  return Object.values(AssignmentCode)
+    .filter((val) => typeof val === 'number')
+    .filter((val) => AssignmentCode[val as number].startsWith(prefix))
+    .map((val) => val as AssignmentCode);
+};
+
+export const MM_ASSIGNMENT_CODES = getAssignmentCodes('MM_');
+export const WM_ASSIGNMENT_CODES = getAssignmentCodes('WM_');
+
 export type AssignmentType = {
   /**
    * The code of the assignment.
@@ -153,3 +163,38 @@ export type AssignmentFieldType =
   | 'WM_CircuitOverseer'
   | 'WM_Speaker_Outgoing'
   | AssignmentFieldDutiesType;
+
+export type AssignmentStatItemType = {
+  code: AssignmentCode;
+  name?: string;
+  borderTop?: boolean;
+
+  count_per_week: number;
+  total_history_count: number;
+  eligible_count: number;
+};
+
+export type AssignmentStatSectionType = {
+  id?: string;
+  header?: string;
+  color?: string;
+
+  items: AssignmentStatItemType[];
+
+  header_count_per_week: number;
+  header_eligible_count: number;
+  header_total_history_count: number;
+};
+
+export type AssignmentViewStatsType = {
+  sections: AssignmentStatSectionType[];
+
+  view_count_per_week: number;
+  view_eligible_count: number;
+  view_total_history_count: number;
+};
+
+export type AssignmentsStatsResultType = Record<
+  string,
+  AssignmentViewStatsType
+>;

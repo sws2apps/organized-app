@@ -3,7 +3,7 @@ import { useLocation } from 'react-router';
 import { useAtom, useAtomValue } from 'jotai';
 import { Week } from '@definition/week_type';
 import { MeetingType } from '@definition/app';
-import { formatMediumDateWithFullMonth } from '@utils/date';
+import { formatDate, formatMediumDateWithFullMonth } from '@utils/date';
 import { schedulesState, selectedWeekState } from '@states/schedules';
 import {
   schedulesGetMeetingDate,
@@ -13,6 +13,7 @@ import {
   meetingDutiesState,
   userDataViewState,
   weekendMeetingOpeningPrayerAutoAssignState,
+  shortDateFormatState,
 } from '@states/settings';
 import { WeekTypeCongregation } from '@definition/schedules';
 
@@ -27,6 +28,7 @@ const useWeekItem = (week: string) => {
     weekendMeetingOpeningPrayerAutoAssignState
   );
   const dutiesConfig = useAtomValue(meetingDutiesState);
+  const shortDateFormat = useAtomValue(shortDateFormatState);
 
   const schedule = useMemo(() => {
     return schedules.find((record) => record.weekOf === week);
@@ -60,9 +62,11 @@ const useWeekItem = (week: string) => {
 
     const meetingDate = schedulesGetMeetingDate({ week, meeting });
 
-    return meetingDate.locale;
+    if (!meetingDate.date) return meetingDate.locale;
+
+    return formatDate(new Date(meetingDate.date), shortDateFormat);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [week, meeting, weekType]);
+  }, [week, meeting, weekType, shortDateFormat]);
 
   const { assigned, total } = useMemo(() => {
     const values = { assigned: 0, total: 0 };

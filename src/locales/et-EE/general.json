@@ -36,6 +36,8 @@
   "tr_december": "Detsember",
   "tr_longDateFormat": "EEE, dd MMM yyyy",
   "tr_delete": "Kustuta",
+  "tr_continueEditing": "Continue editing",
+  "tr_discardChanges": "Discard changes",
   "tr_add": "Lisa",
   "tr_pickerSelectTime": "Vali aeg",
   "tr_pickerSelectDate": "Vali kuupäev",

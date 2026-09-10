@@ -46,6 +46,10 @@ import { dbSourcesBulkPut } from '@services/dexie/sources';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import PERSON_MOCK from '@constants/person_mock';
 import appDb from '@db/appDb';
+import { assignmentsHistoryState, schedulesState } from '@states/schedules';
+import { Week } from '@definition/week_type';
+import { schedulesBuildHistoryList } from '@services/app/schedules';
+import { dbSchedBulkUpdate } from '@services/dexie/schedules';
 
 const getRandomDate = (
   start_date = new Date(1970, 0, 1),
@@ -1323,8 +1327,9 @@ export const schedulesRandomChooseTalks = async (
   // Select ~100 talks evenly spread across all valid talks
   const poolSize = Math.min(100, validTalks.length);
   const step = validTalks.length / poolSize;
-  const talkPool = Array.from({ length: poolSize }, (_, i) =>
-    validTalks[Math.floor(i * step)]
+  const talkPool = Array.from(
+    { length: poolSize },
+    (_, i) => validTalks[Math.floor(i * step)]
   );
 
   // Shuffle the pool for natural randomness within even distribution
@@ -1361,20 +1366,15 @@ export const schedulesRandomChooseTalks = async (
 };
 
 export const dbSchedulesAutoFill = async () => {
+  const groups = store.get(languageGroupsState);
+  if (!groups.length) return;
   const startWeek = getWeekDate();
   const endWeek = addMonths(startWeek, 3);
 
   const start = formatDate(startWeek, 'yyyy/MM/dd');
   const end = formatDate(endWeek, 'yyyy/MM/dd');
 
-  await schedulesStartAutofill(start, end, 'midweek');
-
-  await schedulesRandomChooseTalks(start, end);
-
-  await schedulesStartAutofill(start, end, 'weekend');
-
   // force language group switch
-  const groups = store.get(languageGroupsState);
   const group = groups.at(0);
 
   await dbAppSettingsUpdate({
@@ -1393,11 +1393,10 @@ export const dbSchedulesAutoFill = async () => {
   const startMonth = startDate.getMonth();
   const startYear = startDate.getFullYear();
 
-  for (let i = 0; i < 2; i++) {
+  for (let i = 0; i < 3; i++) {
     const targetMonth = (startMonth + i) % 12;
     const targetYear = startYear + Math.floor((startMonth + i) / 12);
 
-    // Last day of the month
     const lastDay = new Date(targetYear, targetMonth + 1, 0);
 
     const day = lastDay.getDay();
@@ -1408,13 +1407,46 @@ export const dbSchedulesAutoFill = async () => {
 
     result.push(weekDate);
   }
+  const schedules = structuredClone(store.get(schedulesState));
+  const relevantSchedules = schedules.filter(
+    (record) => record.weekOf >= start && record.weekOf <= end
+  );
 
-  for (const week of result) {
-    await schedulesStartAutofill(week, week, 'midweek');
-  }
+  relevantSchedules.forEach((schedule) => {
+    if (!result.includes(schedule.weekOf)) {
+      const updatedAt = new Date().toISOString();
+
+      const existing = schedule.midweek_meeting.week_type.find(
+        (entry) => entry.type === group.group_id
+      );
+
+      if (existing) {
+        existing.value = Week.NO_MEETING;
+        existing.updatedAt = updatedAt;
+      } else {
+        schedule.midweek_meeting.week_type.push({
+          type: group.group_id,
+          value: Week.NO_MEETING,
+          updatedAt,
+        });
+      }
+    }
+  });
+
+  await dbSchedBulkUpdate(relevantSchedules);
+  store.set(schedulesState, schedules);
+
+  const newFullHistory = schedulesBuildHistoryList();
+  store.set(assignmentsHistoryState, newFullHistory);
+
+  await schedulesStartAutofill(start, end, 'midweek');
 
   // Add outgoing talk schedule entries
   await dbSchedulesFillOutgoingTalks(start, end);
+
+  const refreshedSchedules = await appDb.sched.toArray();
+  store.set(schedulesState, refreshedSchedules);
+  store.set(assignmentsHistoryState, schedulesBuildHistoryList());
 
   // revert view to main
   await dbAppSettingsUpdate({
@@ -1423,16 +1455,19 @@ export const dbSchedulesAutoFill = async () => {
       updatedAt: new Date().toISOString(),
     },
   });
+
+  await schedulesStartAutofill(start, end, 'midweek');
+
+  await schedulesRandomChooseTalks(start, end);
+
+  await schedulesStartAutofill(start, end, 'weekend');
 };
 
 /**
  * Add outgoing talk schedule entries — 2 speakers assigned to
  * different congregations on separate weeks.
  */
-const dbSchedulesFillOutgoingTalks = async (
-  start: string,
-  end: string
-) => {
+const dbSchedulesFillOutgoingTalks = async (start: string, end: string) => {
   const schedules = await appDb.sched.toArray();
   const congregations = await appDb.speakers_congregations.toArray();
   const persons = await appDb.persons.toArray();
@@ -1448,18 +1483,14 @@ const dbSchedulesFillOutgoingTalks = async (
 
   // Find eligible speakers (those with WM_Speaker assignment)
   const speakers = persons.filter((p) =>
-    p.person_data.assignments
-      .at(0)
-      ?.values.includes(AssignmentCode.WM_Speaker)
+    p.person_data.assignments.at(0)?.values.includes(AssignmentCode.WM_Speaker)
   );
 
   if (speakers.length < 2) return;
 
   // Pick 2 different speakers
   const speaker1 = speakers[0];
-  const speaker2 = speakers.find(
-    (s) => s.person_uid !== speaker1.person_uid
-  );
+  const speaker2 = speakers.find((s) => s.person_uid !== speaker1.person_uid);
 
   if (!speaker2) return;
 
@@ -1473,9 +1504,8 @@ const dbSchedulesFillOutgoingTalks = async (
   // Pick the 2nd and 4th week (or last available) for spacing
   const weekIdx1 = Math.min(1, eligibleWeeks.length - 1);
   const rawIdx2 = Math.min(3, eligibleWeeks.length - 1);
-  const weekIdx2 = rawIdx2 <= weekIdx1
-    ? (weekIdx1 + 1) % eligibleWeeks.length
-    : rawIdx2;
+  const weekIdx2 =
+    rawIdx2 <= weekIdx1 ? (weekIdx1 + 1) % eligibleWeeks.length : rawIdx2;
   const week1 = eligibleWeeks[weekIdx1];
   const week2 = eligibleWeeks[weekIdx2];
 

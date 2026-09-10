@@ -1,6 +1,8 @@
 import { ReactNode, SyntheticEvent, useEffect, useState } from 'react';
 import { Tabs as MUITabs, Tab, Box } from '@mui/material';
 import { TabsPanelProps, CustomTabProps } from './index.types';
+import { tabsSharedStyles } from './index.styles';
+import TabLabel from './tab_label';
 import useBreakpoints from '@hooks/useBreakpoints';
 
 /**
@@ -51,6 +53,8 @@ const Tabs = ({
   actionPosition = 'end',
   showTabs = true,
   fullWidth = false,
+  // the plain look is what every caller renders today; a chip is opt-in
+  appearance = 'plain',
 }: CustomTabProps) => {
   const [valueOfActivePanel, setValueOfActivePanel] = useState(value || 0);
   const { tabletDown } = useBreakpoints();
@@ -106,8 +110,11 @@ const Tabs = ({
                 },
               },
             }}
-            sx={{
-              ...(fillTabs && {
+            sx={[
+              tabsSharedStyles(appearance),
+              // an array keeps the shared look and layers the filled row on
+              // top of it, rather than replacing the tab styles wholesale
+              fillTabs && {
                 width: '100%',
                 // equal share is a floor: long labels overflow and scroll
                 '& .MuiTabs-list': { minWidth: '100%' },
@@ -115,21 +122,21 @@ const Tabs = ({
                   flexShrink: 0,
                   minWidth: `${100 / (tabs.length || 1)}%`,
                 },
-              }),
-              '& button.Mui-selected': { color: 'var(--accent-main)' },
-              '& button:not(.Mui-selected)': { color: 'var(--grey-350)' },
-              // Programatically changing color of ripple (wave) when click happens:
-              '& span.MuiTouchRipple-rippleVisible': {
-                color: 'var(--accent-main)',
               },
-            }}
+            ]}
           >
             {tabs.map(
-              ({ label, className }, index): ReactNode => (
+              ({ label, badge, className }, index): ReactNode => (
                 <Tab
-                  label={label}
+                  label={
+                    <TabLabel
+                      label={label}
+                      badge={badge}
+                      selected={valueOfActivePanel === index}
+                    />
+                  }
                   key={index}
-                  className={`${valueOfActivePanel === index ? 'h4' : 'body-regular'} ${className}`}
+                  className={className}
                   {...a11yProps(index)}
                 />
               )
