@@ -1,11 +1,1 @@
-<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g clip-path="url(#clip0_19618_248032)">
-<circle cx="24" cy="24" r="24" fill="#5065D0"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M10 35.3551C13.899 40.0521 19.3713 41.9218 24 41.9218C28.6287 41.9218 34.101 40.0521 38 35.3551C34.1466 32.3453 29.2899 30.5212 24 30.5212C18.7101 30.5212 13.8534 32.3453 10 35.3551ZM31.9805 17.9805C31.9805 13.5798 28.4007 10 24 10C19.5993 10 16.0195 13.5798 16.0195 17.9805C16.0195 22.3811 19.5993 25.9609 24 25.9609C28.4007 25.9609 31.9805 22.3811 31.9805 17.9805Z" fill="#FEFEFE"/>
-</g>
-<defs>
-<clipPath id="clip0_19618_248032">
-<rect width="48" height="48" fill="white"/>
-</clipPath>
-</defs>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none" viewBox="0 0 48 48"><g clip-path="url(#a)"><circle cx="24" cy="24" r="24" fill="#5065D0"/><path fill="#FEFEFE" fill-rule="evenodd" d="M10 35.3551c3.899 4.697 9.3713 6.5667 14 6.5667s10.101-1.8697 14-6.5667c-3.8534-3.0098-8.7101-4.8339-14-4.8339s-10.1466 1.8241-14 4.8339m21.9805-17.3746C31.9805 13.5798 28.4007 10 24 10s-7.9805 3.5798-7.9805 7.9805c0 4.4006 3.5798 7.9804 7.9805 7.9804s7.9805-3.5798 7.9805-7.9804" clip-rule="evenodd"/></g><defs><clipPath id="a"><path fill="#fff" d="M0 0h48v48H0z"/></clipPath></defs></svg>

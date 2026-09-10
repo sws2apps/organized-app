@@ -1,3 +1,4 @@
+export { default as useScrollFade } from './useScrollFade';
 export { default as useAppTranslation } from './useAppTranslation';
 export { default as useBreakpoints } from './useBreakpoints';
 export { default as useIsTouchDevice } from './useIsTouchDevice';

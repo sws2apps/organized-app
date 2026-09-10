@@ -5,8 +5,7 @@ import useCurrentUser from '@hooks/useCurrentUser';
 import useUserProfileDetails from './useUserProfileDetails';
 import TextField from '@components/textfield';
 import Typography from '@components/typography';
-import ProfilePicture from '@components/profile_picture';
-import { IconImage } from '@icons/index';
+import ProfilePictureEntry from './profile_picture_entry';
 import ProfilePictureSelector from './profile_picture_selector';
 
 const UserProfileDetails = () => {
@@ -46,73 +45,10 @@ const UserProfileDetails = () => {
             flexDirection: 'row',
           }}
         >
-          <Box
-            onClick={handleOpenSelector}
-            role="button"
-            tabIndex={0}
-            aria-label={t('tr_profilePicture')}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                handleOpenSelector();
-              }
-            }}
-            sx={{
-              position: 'relative',
-              cursor: 'pointer',
-              borderRadius: '50%',
-              overflow: 'hidden',
-              flexShrink: 0,
-              display: 'flex',
-              '&:hover .change-photo-hover': {
-                opacity: 1,
-              },
-            }}
-          >
-            <ProfilePicture size={tabletDown ? 44 : 48} />
-            {/* Base gradient — always visible */}
-            <Box
-              sx={{
-                position: 'absolute',
-                inset: 0,
-                background:
-                  'linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 75%)',
-                pointerEvents: 'none',
-              }}
-            />
-            {/* Hover gradient — fades in on top */}
-            <Box
-              className="change-photo-hover"
-              sx={{
-                position: 'absolute',
-                inset: 0,
-                background:
-                  'linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.45) 100%)',
-                opacity: 0,
-                transition: 'opacity 0.2s',
-                pointerEvents: 'none',
-              }}
-            />
-            {/* Icon — always on top of both gradients */}
-            <Box
-              sx={{
-                position: 'absolute',
-                inset: 0,
-                display: 'flex',
-                alignItems: 'flex-end',
-                justifyContent: 'center',
-                pointerEvents: 'none',
-              }}
-            >
-              <IconImage
-                color="var(--always-white)"
-                width={16}
-                height={16}
-                sx={{ marginBottom: '6px' }}
-              />
-            </Box>
-          </Box>
-
+          <ProfilePictureEntry
+            size={tabletDown ? 44 : 48}
+            onOpen={handleOpenSelector}
+          />
           <Box
             sx={{
               display: 'flex',

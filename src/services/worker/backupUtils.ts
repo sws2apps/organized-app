@@ -1693,6 +1693,7 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
     const userBaseSettings = {
       firstname: user_settings.firstname,
       lastname: user_settings.lastname,
+      user_avatar_type: user_settings.user_avatar_type,
     };
 
     const myPerson = persons.find(
@@ -2088,7 +2089,6 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
               settings.user_settings.theme_follow_os_enabled,
             haptics_enabled: settings.user_settings.haptics_enabled,
             hour_credits_enabled: settings.user_settings.hour_credits_enabled,
-            user_avatar_type: settings.user_settings.user_avatar_type,
           };
 
           encryptObject({

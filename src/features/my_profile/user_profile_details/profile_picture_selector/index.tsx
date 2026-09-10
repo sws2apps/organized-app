@@ -1,257 +1,175 @@
-import { useEffect, useMemo, useState } from 'react';
 import { Box } from '@mui/material';
-import { useAtomValue } from 'jotai';
-import { userAvatarTypeState, userAvatarUrlState } from '@states/settings';
-import {
-  AVATAR_IMAGE_NAMES,
-  AvatarImageName,
-  AvatarType,
-} from '@definition/settings';
-import { useAppTranslation } from '@hooks/index';
-import useCurrentUser from '@hooks/useCurrentUser';
-import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import Dialog from '@components/dialog';
+import DialogActions from '@components/dialog_actions';
 import Typography from '@components/typography';
 import Button from '@components/button';
+import IconButton from '@components/icon_button';
 import ProfilePicture from '@components/profile_picture';
+import Tabs from '@components/tabs';
 import { IconCheck } from '@icons/index';
+import useProfilePictureSelector from './useProfilePictureSelector';
 
-type ProfilePictureSelectorProps = {
-  open: boolean;
-  onClose: () => void;
-};
+type Props = { open: boolean; onClose: () => void };
 
-type AvatarGender = 'male' | 'female';
-
-type AvatarOption = {
-  type: AvatarType;
-  gender?: AvatarGender;
-};
-
-type AvatarSection = {
-  titleKey: string;
-  options: AvatarOption[];
-};
-
-const imagesByPrefix = (prefix: string, gender?: AvatarGender) =>
-  AVATAR_IMAGE_NAMES.filter((name) => name.startsWith(prefix)).map(
-    (name: AvatarImageName): AvatarOption => ({ type: name, gender })
-  );
-
-const SECTIONS: AvatarSection[] = [
-  {
-    titleKey: 'tr_basic',
-    options: [
-      { type: 'default' },
-      { type: 'initials' },
-      { type: 'google' },
-      { type: 'MaleIcon1', gender: 'male' },
-      { type: 'MaleIcon2', gender: 'male' },
-      { type: 'MaleIcon3', gender: 'male' },
-      { type: 'FemaleIcon1', gender: 'female' },
-      { type: 'FemaleIcon2', gender: 'female' },
-      { type: 'FemaleIcon3', gender: 'female' },
-    ],
-  },
-  {
-    titleKey: 'tr_person',
-    options: [
-      ...imagesByPrefix('Male', 'male'),
-      ...imagesByPrefix('Female', 'female'),
-    ],
-  },
-  { titleKey: 'tr_bibleStory', options: imagesByPrefix('Story') },
-  { titleKey: 'tr_abstractShape', options: imagesByPrefix('Abstract') },
-  { titleKey: 'tr_gradient', options: imagesByPrefix('Gradient') },
-];
-
-const ProfilePictureSelector = ({
-  open,
-  onClose,
-}: ProfilePictureSelectorProps) => {
-  const { t } = useAppTranslation();
-
-  const { person } = useCurrentUser();
-
-  const savedAvatarType = useAtomValue(userAvatarTypeState);
-  const avatarUrl = useAtomValue(userAvatarUrlState);
-
-  const [selectedType, setSelectedType] = useState<AvatarType>(savedAvatarType);
-  const [isProcessing, setIsProcessing] = useState(false);
-
-  // undefined keeps both the male and the female avatars visible
-  const isMale = person?.person_data.male.value;
-
-  const sections = useMemo(() => {
-    const isVisible = (option: AvatarOption) => {
-      if (option.gender === 'male' && isMale === false) return false;
-      if (option.gender === 'female' && isMale === true) return false;
-
-      // the account photo can only be shown when there is one
-      if (option.type === 'google' && avatarUrl.length === 0) return false;
-
-      return true;
-    };
-
-    return SECTIONS.map((section) => ({
-      titleKey: section.titleKey,
-      options: section.options.filter(isVisible).map((option) => option.type),
-    })).filter((section) => section.options.length > 0);
-  }, [isMale, avatarUrl]);
-
-  const handleDone = async () => {
-    if (isProcessing) return;
-
-    setIsProcessing(true);
-
-    try {
-      await dbAppSettingsUpdate({
-        'user_settings.user_avatar_type': {
-          value: selectedType,
-          updatedAt: new Date().toISOString(),
-        },
-      });
-
-      onClose();
-    } finally {
-      setIsProcessing(false);
-    }
-  };
-
-  useEffect(() => {
-    // the saved avatar may no longer be selectable, e.g. after the account
-    // photo is gone: fall back to the generic one so a choice stays visible
-    const availableTypes = sections.flatMap((section) => section.options);
-
-    setSelectedType(
-      availableTypes.includes(savedAvatarType) ? savedAvatarType : 'default'
-    );
-  }, [sections, savedAvatarType]);
+const ProfilePictureSelector = ({ open, onClose }: Props) => {
+  const {
+    t,
+    sections,
+    selectedType,
+    setSelectedType,
+    isProcessing,
+    saveError,
+    activeTab,
+    setActiveTab,
+    optionRefs,
+    handleDone,
+    handleClose,
+    getName,
+    handleOptionKeyDown,
+  } = useProfilePictureSelector(onClose);
 
   return (
-    <Dialog onClose={onClose} open={open} sx={{ padding: '0px' }}>
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-        <Box
-          sx={{
-            padding: '24px 24px 0',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '8px',
-          }}
-        >
-          <Typography className="h2">{t('tr_profilePicture')}</Typography>
-          <Typography className="body-regular" color="var(--grey-400)">
-            {t('tr_profilePictureDesc')}
-          </Typography>
-        </Box>
-
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '20px',
-            padding: '0 24px',
-            maxHeight: '60vh',
-            overflowY: 'auto',
-          }}
-        >
-          {sections.map(({ titleKey, options }) => (
-            <Box
-              key={titleKey}
-              sx={{ display: 'flex', flexDirection: 'column', gap: '10px' }}
+    <Dialog
+      onClose={handleClose}
+      open={open}
+      title={t('tr_changeProfilePicture')}
+      actions={
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          {saveError && (
+            <Typography
+              role="alert"
+              className="body-small-regular"
+              color="var(--red-main)"
             >
-              <Typography
-                id={`avatar-section-${titleKey}`}
-                className="label-small-regular"
-                color="var(--black)"
-              >
-                {t(titleKey)}
-              </Typography>
+              {t('error_app_generic-title')}
+            </Typography>
+          )}
+          <DialogActions>
+            <Button
+              variant="secondary"
+              onClick={handleClose}
+              disabled={isProcessing}
+            >
+              {t('tr_cancel')}
+            </Button>
+            <Button variant="main" onClick={handleDone} disabled={isProcessing}>
+              {t(isProcessing ? 'tr_savingPicture' : 'tr_save')}
+            </Button>
+          </DialogActions>
+        </Box>
+      }
+    >
+      <Box
+        sx={{
+          width: '100%',
+          minWidth: 0,
+          '& .MuiTabs-scroller': {
+            overflowX: 'auto !important',
+            scrollbarWidth: 'none',
+            '&::-webkit-scrollbar': { display: 'none' },
+          },
+        }}
+      >
+        <Tabs
+          appearance="plain"
+          value={activeTab}
+          onChange={setActiveTab}
+          tabs={sections.map(({ titleKey, options }) => ({
+            label: t(titleKey),
+            Component: (
               <Box
                 role="radiogroup"
-                aria-labelledby={`avatar-section-${titleKey}`}
-                sx={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}
+                aria-label={t(titleKey)}
+                aria-busy={isProcessing}
+                sx={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fill, 64px)',
+                  justifyContent: 'space-between',
+                  gap: '16px',
+                  padding: '8px',
+                }}
               >
                 {options.map((option, index) => {
                   const isSelected = selectedType === option;
-
+                  const isTabStop =
+                    isSelected ||
+                    (!options.includes(selectedType) && index === 0);
                   return (
-                    <Box
+                    <IconButton
                       key={option}
                       role="radio"
-                      tabIndex={isSelected ? 0 : -1}
                       aria-checked={isSelected}
-                      aria-label={`${t(titleKey)} ${index + 1}`}
-                      onClick={() => setSelectedType(option)}
-                      onKeyDown={(e) => {
-                        if (e.key !== 'Enter' && e.key !== ' ') return;
-
-                        e.preventDefault();
-                        setSelectedType(option);
+                      tabIndex={isTabStop ? 0 : -1}
+                      disabled={isProcessing}
+                      aria-label={getName(option, titleKey, index)}
+                      title={getName(option, titleKey, index)}
+                      ref={(element) => {
+                        if (element) optionRefs.current.set(option, element);
+                        else optionRefs.current.delete(option);
                       }}
+                      onClick={() => setSelectedType(option)}
+                      onKeyDown={(event) =>
+                        handleOptionKeyDown(event, options, index)
+                      }
                       sx={{
                         position: 'relative',
-                        cursor: 'pointer',
+                        margin: 0,
+                        padding: 0,
                         borderRadius: 'var(--radius-max)',
-                        margin: '2px',
                         outline: isSelected
                           ? '2px solid var(--accent-main)'
                           : '2px solid transparent',
-                        outlineOffset: '2px',
-                        '&:hover': { opacity: 0.85 },
+                        outlineOffset: '4px',
+                        transition:
+                          'outline-color var(--motion-fast) var(--ease-standard), transform var(--motion-fast) var(--ease-standard)',
+                        '&:hover': {
+                          outlineColor: 'var(--accent-main)',
+                          transform: 'scale(1.04)',
+                        },
+                        '&:active': { transform: 'scale(0.98)' },
+                        '@media (prefers-reduced-motion: reduce)': {
+                          transition: 'none',
+                          '&:hover, &:active': { transform: 'none' },
+                        },
                         '&:focus-visible': {
                           outline: '2px solid var(--accent-main)',
+                          outlineOffset: '4px',
                         },
                       }}
                     >
-                      <ProfilePicture size={48} type={option} alt="" />
+                      <ProfilePicture size={64} type={option} alt="" />
                       {isSelected && (
                         <Box
+                          component="span"
+                          aria-hidden
                           sx={{
                             position: 'absolute',
-                            bottom: -6,
-                            right: -6,
+                            bottom: '-4px',
+                            insetInlineEnd: '-8px',
                             borderRadius: 'var(--radius-max)',
                             backgroundColor: 'var(--accent-main)',
                             border: '2px solid var(--white)',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            width: '24px',
-                            height: '24px',
+                            width: '28px',
+                            height: '28px',
                           }}
                         >
                           <IconCheck
                             color="var(--always-white)"
-                            width={16}
-                            height={16}
+                            width={20}
+                            height={20}
                           />
                         </Box>
                       )}
-                    </Box>
+                    </IconButton>
                   );
                 })}
               </Box>
-            </Box>
-          ))}
-        </Box>
-
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '8px',
-            width: '100%',
-            padding: '0 24px 24px',
-          }}
-        >
-          <Button variant="main" onClick={handleDone} disabled={isProcessing}>
-            {t('tr_done')}
-          </Button>
-          <Button variant="secondary" onClick={onClose}>
-            {t('tr_cancel')}
-          </Button>
-        </Box>
+            ),
+          }))}
+        />
       </Box>
     </Dialog>
   );

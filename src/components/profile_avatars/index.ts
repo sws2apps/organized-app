@@ -26,16 +26,16 @@ import Abstract10 from './profile-img-abstract-10.svg?url';
 
 import StoryArk from './profile-img-story-ark.svg?url';
 import StoryBible from './profile-img-story-bible.svg?url';
-import StoryDesert from './profile-img-story-desert.svg?url';
 import StoryField from './profile-img-story-field.svg?url';
 import StoryFigs from './profile-img-story-figs.svg?url';
 import StoryGrapes from './profile-img-story-grapes.svg?url';
+import StoryHelmet from './profile-img-story-helmet.svg?url';
 import StoryLamp from './profile-img-story-lamp.svg?url';
 import StoryLeaves from './profile-img-story-leaves.svg?url';
-import StoryLion from './profile-img-story-lion.svg?url';
 import StoryLionScripture from './profile-img-story-lion-scripture.svg?url';
 import StoryMountain from './profile-img-story-mountain.svg?url';
 import StoryPearl from './profile-img-story-pearl.svg?url';
+import StoryRedSea from './profile-img-story-red-sea.svg?url';
 import StoryRod from './profile-img-story-rod.svg?url';
 import StorySeeds from './profile-img-story-seeds.svg?url';
 import StorySheep from './profile-img-story-sheep.svg?url';
@@ -88,16 +88,16 @@ export const AVATAR_IMAGES: Record<AvatarImageName, string> = {
   Abstract10,
   StoryArk,
   StoryBible,
-  StoryDesert,
   StoryField,
   StoryFigs,
   StoryGrapes,
+  StoryHelmet,
   StoryLamp,
   StoryLeaves,
-  StoryLion,
   StoryLionScripture,
   StoryMountain,
   StoryPearl,
+  StoryRedSea,
   StoryRod,
   StorySeeds,
   StorySheep,
