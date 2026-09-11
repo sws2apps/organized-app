@@ -13,18 +13,20 @@ export const StyledProgressBar = styled(Box)({
 });
 
 export const StyledProgressBarFill = styled(Box)({
-  padding: '0 8px',
   height: '100%',
   borderRadius: 'var(--radius-s)',
   background: 'var(--accent-main)',
   color: 'var(--always-white)',
   display: 'flex',
-  minWidth: 'fit-content',
+  minWidth: '0',
   justifyContent: 'center',
+  transition: 'width 0.4s ease, padding 0.4s ease',
+  overflow: 'hidden',     
+  whiteSpace: "nowrap",
 });
 
 export const StyledProgressBarToFill = styled(Box)({
-  padding: '0 8px',
+  padding: '0 4px',
   height: '100%',
   flexGrow: 1,
   minWidth: 'fit-content',

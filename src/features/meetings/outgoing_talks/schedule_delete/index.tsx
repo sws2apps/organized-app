@@ -5,6 +5,7 @@ import { ScheduleDeleteType } from './index.types';
 import useAssignmentsDelete from './useScheduleDelete';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
+import DialogActions from '@components/dialog_actions';
 import Typography from '@components/typography';
 
 const ScheduleDelete = (props: ScheduleDeleteType) => {
@@ -21,14 +22,10 @@ const ScheduleDelete = (props: ScheduleDeleteType) => {
         </Typography>
       </Box>
 
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '8px',
-          width: '100%',
-        }}
-      >
+      <DialogActions>
+        <Button variant="secondary" onClick={props.onClose}>
+          {t('tr_cancel')}
+        </Button>
         <Button
           variant="main"
           color="red"
@@ -38,10 +35,7 @@ const ScheduleDelete = (props: ScheduleDeleteType) => {
         >
           {t('tr_delete')}
         </Button>
-        <Button variant="secondary" onClick={props.onClose}>
-          {t('tr_cancel')}
-        </Button>
-      </Box>
+      </DialogActions>
     </Dialog>
   );
 };

@@ -1,7 +1,7 @@
-import { Stack } from '@mui/material';
 import { useAppTranslation } from '@hooks/index';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
+import DialogActions from '@components/dialog_actions';
 import TextMarkup from '@components/text_markup';
 import Typography from '@components/typography';
 import useNotice from './useNotice';
@@ -21,19 +21,15 @@ const DemoNotice = () => {
         anchorClassName="h4"
       />
 
-      <Stack spacing="8px" width="100%">
-        <Button variant="main" onClick={handleClose} sx={{ width: '100%' }}>
-          {t('tr_testStart')}
-        </Button>
-
-        <Button
-          variant="secondary"
-          onClick={handleOpenRealApp}
-          sx={{ width: '100%' }}
-        >
+      <DialogActions>
+        <Button variant="secondary" onClick={handleOpenRealApp}>
           {t('tr_openRealApp')}
         </Button>
-      </Stack>
+
+        <Button variant="main" onClick={handleClose}>
+          {t('tr_testStart')}
+        </Button>
+      </DialogActions>
     </Dialog>
   );
 };

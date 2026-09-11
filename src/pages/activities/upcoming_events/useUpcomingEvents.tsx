@@ -1,10 +1,13 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { IconError } from '@components/icons';
 import { useCurrentUser } from '@hooks/index';
-import { UpcomingEventType } from '@definition/upcoming_events';
+import {
+  DEFAULT_EVENT_START_HOUR,
+  UpcomingEventType,
+} from '@definition/upcoming_events';
 import { dbUpcomingEventsSave } from '@services/dexie/upcoming_events';
-import { upcomingEventsActiveState } from '@states/upcoming_events';
+import { upcomingEventsByDataViewState } from '@states/upcoming_events';
 import { addHours } from '@utils/date';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
@@ -13,31 +16,24 @@ import { userDataViewState } from '@states/settings';
 const useUpcomingEvents = () => {
   const { isAdmin } = useCurrentUser();
 
-  const upcomingEvents = useAtomValue(upcomingEventsActiveState);
+  const events = useAtomValue(upcomingEventsByDataViewState);
   const dataView = useAtomValue(userDataViewState);
 
   const [addEventBoxShow, setAddEventBoxShow] = useState(false);
+  const [quickSettingsOpen, setQuickSettingsOpen] = useState(false);
 
-  const events = useMemo(() => {
-    return upcomingEvents.filter((record) => {
-      if (dataView === 'main') {
-        return record.event_data.type === 'main';
-      }
+  const start = new Date();
+  start.setHours(DEFAULT_EVENT_START_HOUR, 0, 0, 0);
 
-      // language group events (main + own events)
-      return (
-        record.event_data.type === 'main' || record.event_data.type === dataView
-      );
-    });
-  }, [upcomingEvents, dataView]);
-
+  // deliberately not memoised: the add form seeds its state from this on
+  // mount, so a stable uid would make a second event save over the first
   const emptyEvent: UpcomingEventType = {
     event_uid: crypto.randomUUID(),
     event_data: {
       _deleted: false,
       updatedAt: new Date().toISOString(),
-      start: new Date().toISOString(),
-      end: addHours(5).toISOString(),
+      start: start.toISOString(),
+      end: addHours(1, start).toISOString(),
       description: '',
       type: dataView,
       custom: '',
@@ -57,6 +53,10 @@ const useUpcomingEvents = () => {
   const handleAddEventButtonClick = () => {
     handleShowAddEventBox();
   };
+
+  const handleOpenQuickSettings = () => setQuickSettingsOpen(true);
+
+  const handleCloseQuickSettings = () => setQuickSettingsOpen(false);
 
   const handleSaveEvent = async (event: UpcomingEventType) => {
     try {
@@ -82,6 +82,9 @@ const useUpcomingEvents = () => {
     handleSaveEvent,
     handleHideAddEventBox,
     handleAddEventButtonClick,
+    quickSettingsOpen,
+    handleOpenQuickSettings,
+    handleCloseQuickSettings,
   };
 };
 

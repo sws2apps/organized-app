@@ -33,6 +33,8 @@
   "tr_modeDark": "Dark",
   "tr_autoThemeChange": "Automatic na pagbabago ng theme",
   "tr_autoThemeChangeDesc": "Sundan ang setting ng device kapag pipiliin kung light o dark mode",
+  "tr_hapticFeedback": "Haptic feedback",
+  "tr_hapticFeedbackDesc": "Vibrate when you interact with the app, if your device and browser support it",
   "tr_colorScheme": "Color scheme",
   "tr_blue": "Blue",
   "tr_green": "Green",

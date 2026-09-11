@@ -36,6 +36,8 @@
   "tr_december": "December",
   "tr_longDateFormat": "EEE, MMM dd, yyyy",
   "tr_delete": "Delete",
+  "tr_continueEditing": "Continue editing",
+  "tr_discardChanges": "Discard changes",
   "tr_add": "Add",
   "tr_pickerSelectTime": "Select time",
   "tr_pickerSelectDate": "Select date",
@@ -149,6 +151,8 @@
   "tr_created": "Created: {{ date }}",
   "tr_missingInfo": "Missing info",
   "tr_fillRequiredField": "Please fill in the required field",
+  "tr_endTimeAfterStart": "End time must be after the start time",
+  "tr_endDateAfterStart": "End date must be after the start date",
   "tr_mondayShort": "Mon",
   "tr_tuesdayShort": "Tue",
   "tr_wednesdayShort": "Wed",
@@ -185,5 +189,13 @@
   "tr_textOnly": "Text only",
   "tr_attachment": "Attachment",
   "tr_category": "Category",
-  "tr_text": "Text"
+  "tr_text": "Text",
+   "tr_exportSettings": "Export settings",
+  "tr_orientation": "Orientation",
+  "tr_portrait": "Portrait",
+  "tr_landscape": "Landscape",
+  "tr_fontSize": "Font size",
+  "tr_small": "Small",
+  "tr_normal": "Normal",
+  "tr_large": "Large"
 }

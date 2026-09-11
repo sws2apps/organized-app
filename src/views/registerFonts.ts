@@ -1,4 +1,5 @@
 import { Font } from '@react-pdf/renderer';
+import registerHyphenation from './hyphenation';
 
 import FontItalic from '/assets/fonts/Inter-Italic.ttf';
 import FontExtraBold from '/assets/fonts/Inter-ExtraBold.ttf';
@@ -19,6 +20,8 @@ import NotoSansJPFontRegular from '/assets/fonts/NotoSansJP-Regular.ttf';
 
 import NotoSansHebrewBold from '/assets/fonts/NotoSansHebrew-SemiBold.ttf';
 import NotoSansHebrewRegular from '/assets/fonts/NotoSansHebrew-Regular.ttf';
+
+registerHyphenation();
 
 Font.register({
   family: 'Inter',

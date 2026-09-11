@@ -8,7 +8,8 @@ import {
   SourceWeekIncomingType,
   SourceWeekType,
 } from '@definition/sources';
-import { assignmentTypeAYFOnlyState } from '@states/assignment';
+import { AssignmentAYFOnlyType, AssignmentCode } from '@definition/assignment';
+import { assignmentState } from '@states/assignment';
 import { dbSourcesSave } from '@services/dexie/sources';
 import { dbSchedCheck } from '@services/dexie/schedules';
 import { cookiesConsentState } from '@states/app';
@@ -21,14 +22,18 @@ import {
 } from '@states/settings';
 import { addWeeks, formatDate, getWeekDate } from '@utils/date';
 import { STORAGE_KEY } from '@constants/index';
+import logger from '@services/logger';
 
 export const sourcesImportEPUB = async (fileEPUB) => {
   const data = await loadPub(fileEPUB);
   await sourcesFormatAndSaveData(data);
 };
 
-export const sourcesImportJW = async (dataJw) => {
-  await sourcesFormatAndSaveData(dataJw);
+export const sourcesImportJW = async (
+  dataJw: SourceWeekIncomingType[],
+  sourceLanguage?: string
+) => {
+  await sourcesFormatAndSaveData(dataJw, sourceLanguage);
 
   const isAutoImportEnabled = store.get(sourcesJWAutoImportState);
   const cookiesConsent = store.get(cookiesConsentState);
@@ -57,12 +62,280 @@ const remapAssignmentType = (week: string, type: number) => {
   }
 };
 
-/** Strip zero-width space characters used in some jw.org source data. */
-const stripZeroWidth = (str: string) => str.replaceAll('\u200B', '');
+const getAYFAssignmentTypes = (sourceLanguage: string) => {
+  const assignmentTypes = store.get(assignmentState);
 
-const sourcesFormatAndSaveData = async (data: SourceWeekIncomingType[]) => {
-  const source_lang = store.get(JWLangState);
-  const assTypeList = store.get(assignmentTypeAYFOnlyState);
+  const result: AssignmentAYFOnlyType[] = assignmentTypes
+    .filter((record) => record.type === 'ayf')
+    .map((record) => {
+      return {
+        label:
+          record.assignment_type_name[sourceLanguage] ??
+          record.assignment_type_name.E ??
+          '',
+        value: record.code,
+      };
+    })
+    .filter((record) => record.label.length > 0)
+    .sort((a, b) => {
+      return a.value > b.value ? 1 : -1;
+    });
+
+  return result;
+};
+
+const stripZeroWidthSpaces = (label: string) =>
+  label.replaceAll('\u200B', '').trim();
+
+const normalizeAYFLabel = (label: string) =>
+  label
+    .replaceAll('\u200B', '')
+    .replace(/\([^)]{0,1000}\)/g, '')
+    .replace(/[^\p{L}\p{N}\s]/gu, '')
+    .replace(/\s+/g, ' ')
+    .toLowerCase()
+    .trim();
+
+type NormalizedAYFType = {
+  normalized: string;
+  value: number;
+};
+
+const buildAYFLookup = (assTypeList: AssignmentAYFOnlyType[]) => {
+  const exactMap = new Map<string, number>();
+  for (const type of assTypeList) {
+    const key = stripZeroWidthSpaces(type.label).toLowerCase();
+    if (key.length > 0) {
+      exactMap.set(key, type.value);
+    }
+  }
+
+  const prefixList: NormalizedAYFType[] = assTypeList
+    .map((type) => ({
+      normalized: normalizeAYFLabel(type.label),
+      value: type.value,
+    }))
+    .filter((entry) => entry.normalized.length > 0)
+    .sort((a, b) => b.normalized.length - a.normalized.length);
+
+  return { exactMap, prefixList };
+};
+
+type AYFLookup = ReturnType<typeof buildAYFLookup>;
+
+const inferAYFTypeFromLabel = (
+  rawLabel: string | undefined | null,
+  lookup: AYFLookup
+): number => {
+  if (!rawLabel?.trim()) {
+    logger.warn(
+      'sources',
+      'AYF type label is empty or missing, falling back to MM_Discussion'
+    );
+    return AssignmentCode.MM_Discussion;
+  }
+
+  const exactKey = stripZeroWidthSpaces(rawLabel).toLowerCase();
+  const exactValue = lookup.exactMap.get(exactKey);
+  if (exactValue !== undefined) return exactValue;
+
+  const normalizedInput = normalizeAYFLabel(rawLabel);
+
+  if (!normalizedInput) {
+    logger.warn(
+      'sources',
+      `AYF type label reduced to empty after normalization, falling back to MM_Discussion: "${rawLabel.slice(0, 100)}"`
+    );
+    return AssignmentCode.MM_Discussion;
+  }
+
+  const prefixMatch = lookup.prefixList.find((type) =>
+    normalizedInput.startsWith(type.normalized)
+  );
+  if (prefixMatch) return prefixMatch.value;
+
+  logger.warn(
+    'sources',
+    `AYF type label not recognized, falling back to MM_Discussion: "${rawLabel.slice(0, 100)}"`
+  );
+  return AssignmentCode.MM_Discussion;
+};
+
+const getAssType = (lookup: AYFLookup, label: string, weekOf: string) => {
+  const assType = inferAYFTypeFromLabel(label, lookup);
+
+  return remapAssignmentType(weekOf, assType);
+};
+
+const parseMidweekMeeting = (
+  src: SourceWeekIncomingType,
+  source_lang: string,
+  ayfLookup: AYFLookup,
+  weekOf: string
+) => {
+  const midweek_meeting = {} as SourceWeekType['midweek_meeting'];
+
+  midweek_meeting.week_date_locale = {
+    [source_lang]: src.mwb_week_date_locale,
+  };
+  midweek_meeting.weekly_bible_reading = {
+    [source_lang]: src.mwb_weekly_bible_reading,
+  };
+  midweek_meeting.song_first = {
+    [source_lang]: src.mwb_song_first.toString(),
+  };
+  midweek_meeting.tgw_talk = {
+    src: { [source_lang]: src.mwb_tgw_talk_title },
+    time: { default: 10, override: [] },
+  };
+  midweek_meeting.tgw_gems = {
+    title: { [source_lang]: src.mwb_tgw_gems_title },
+    time: { default: 10, override: [] },
+  };
+  midweek_meeting.tgw_bible_reading = {
+    src: { [source_lang]: src.mwb_tgw_bread },
+    title: { [source_lang]: src.mwb_tgw_bread_title },
+  };
+
+  const cnAYF = src.mwb_ayf_count;
+  midweek_meeting.ayf_count = { [source_lang]: src.mwb_ayf_count };
+
+  midweek_meeting.ayf_part1 = {
+    src: { [source_lang]: src.mwb_ayf_part1 },
+    time: { [source_lang]: src.mwb_ayf_part1_time },
+    title: { [source_lang]: src.mwb_ayf_part1_title },
+    type: {
+      [source_lang]: getAssType(ayfLookup, src.mwb_ayf_part1_type, weekOf),
+    },
+  };
+
+  if (cnAYF > 1) {
+    midweek_meeting.ayf_part2 = {
+      src: { [source_lang]: src.mwb_ayf_part2 },
+      time: { [source_lang]: src.mwb_ayf_part2_time },
+      title: { [source_lang]: src.mwb_ayf_part2_title },
+      type: {
+        [source_lang]: getAssType(ayfLookup, src.mwb_ayf_part2_type, weekOf),
+      },
+    };
+  }
+
+  if (cnAYF > 2) {
+    midweek_meeting.ayf_part3 = {
+      src: { [source_lang]: src.mwb_ayf_part3 },
+      time: { [source_lang]: src.mwb_ayf_part3_time },
+      title: { [source_lang]: src.mwb_ayf_part3_title },
+      type: {
+        [source_lang]: getAssType(ayfLookup, src.mwb_ayf_part3_type, weekOf),
+      },
+    };
+  }
+
+  if (cnAYF > 3) {
+    midweek_meeting.ayf_part4 = {
+      src: { [source_lang]: src.mwb_ayf_part4 },
+      time: { [source_lang]: src.mwb_ayf_part4_time },
+      title: { [source_lang]: src.mwb_ayf_part4_title },
+      type: {
+        [source_lang]: getAssType(ayfLookup, src.mwb_ayf_part4_type, weekOf),
+      },
+    };
+  }
+
+  midweek_meeting.song_middle = {
+    [source_lang]: src.mwb_song_middle.toString(),
+  };
+  midweek_meeting.lc_count = {
+    default: { [source_lang]: src.mwb_lc_count },
+    override: [],
+  };
+  midweek_meeting.lc_part1 = {
+    title: {
+      default: { [source_lang]: src.mwb_lc_part1_title },
+      override: [],
+    },
+    time: {
+      default: { [source_lang]: src.mwb_lc_part1_time },
+      override: [],
+    },
+    desc: {
+      default: { [source_lang]: src.mwb_lc_part1_content },
+      override: [],
+    },
+  };
+
+  if (src.mwb_lc_count > 1) {
+    midweek_meeting.lc_part2 = {
+      title: {
+        default: { [source_lang]: src.mwb_lc_part2_title },
+        override: [],
+      },
+      time: {
+        default: { [source_lang]: src.mwb_lc_part2_time },
+        override: [],
+      },
+      desc: {
+        default: { [source_lang]: src.mwb_lc_part2_content },
+        override: [],
+      },
+    };
+  }
+
+  midweek_meeting.lc_cbs = {
+    src: { [source_lang]: src.mwb_lc_cbs },
+    time: { default: 30, override: [] },
+    title: {
+      default: { [source_lang]: src.mwb_lc_cbs_title },
+      override: [],
+    },
+  };
+  midweek_meeting.song_conclude = {
+    default: { [source_lang]: src.mwb_song_conclude.toString() },
+    override: [],
+  };
+
+  return midweek_meeting;
+};
+
+const parseWeekendMeeting = (
+  src: SourceWeekIncomingType,
+  source_lang: string
+) => {
+  const weekend_meeting = {} as SourceWeekType['weekend_meeting'];
+
+  weekend_meeting.song_first = [];
+  weekend_meeting.public_talk = [];
+  weekend_meeting.co_talk_title = {
+    public: { src: '', updatedAt: '' },
+    service: { src: '', updatedAt: '' },
+  };
+  weekend_meeting.song_middle = {
+    [source_lang]: src.w_study_opening_song.toString(),
+  };
+  weekend_meeting.w_study = { [source_lang]: src.w_study_title };
+  weekend_meeting.song_conclude = {
+    default: { [source_lang]: src.w_study_concluding_song.toString() },
+    override: [],
+  };
+
+  return weekend_meeting;
+};
+
+const sourcesFormatAndSaveData = async (
+  data: SourceWeekIncomingType[],
+  sourceLanguage?: string
+) => {
+  const source_lang = (sourceLanguage || store.get(JWLangState)).toUpperCase();
+  const assTypeList = getAYFAssignmentTypes(source_lang);
+
+  if (assTypeList.length === 0) {
+    logger.warn(
+      'sources',
+      'AYF assignment type list is empty — type inference will default to MM_Discussion for all parts'
+    );
+  }
+
+  const ayfLookup = buildAYFLookup(assTypeList);
 
   for await (const src of data) {
     const obj = {} as SourceWeekType;
@@ -79,175 +352,16 @@ const sourcesFormatAndSaveData = async (data: SourceWeekIncomingType[]) => {
 
     if (mondayDate === obj.weekOf) {
       if (isMWB) {
-        let assType: number;
-
-        obj.midweek_meeting = {} as SourceWeekType['midweek_meeting'];
-
-        obj.midweek_meeting.week_date_locale = {
-          [source_lang]: src.mwb_week_date_locale,
-        };
-        obj.midweek_meeting.weekly_bible_reading = {
-          [source_lang]: src.mwb_weekly_bible_reading,
-        };
-        obj.midweek_meeting.song_first = {
-          [source_lang]: src.mwb_song_first.toString(),
-        };
-        obj.midweek_meeting.tgw_talk = {
-          src: { [source_lang]: src.mwb_tgw_talk_title },
-          time: { default: 10, override: [] },
-        };
-        obj.midweek_meeting.tgw_gems = {
-          title: { [source_lang]: src.mwb_tgw_gems_title },
-          time: { default: 10, override: [] },
-        };
-        obj.midweek_meeting.tgw_bible_reading = {
-          src: { [source_lang]: src.mwb_tgw_bread },
-          title: { [source_lang]: src.mwb_tgw_bread_title },
-        };
-
-        const cnAYF = src.mwb_ayf_count;
-        obj.midweek_meeting.ayf_count = { [source_lang]: src.mwb_ayf_count };
-
-        assType =
-          assTypeList.find(
-            (type) =>
-              stripZeroWidth(type.label) ===
-              stripZeroWidth(src.mwb_ayf_part1_type)
-          )?.value || 127;
-
-        assType = remapAssignmentType(obj.weekOf, assType);
-
-        obj.midweek_meeting.ayf_part1 = {
-          src: { [source_lang]: src.mwb_ayf_part1 },
-          time: { [source_lang]: src.mwb_ayf_part1_time },
-          title: { [source_lang]: src.mwb_ayf_part1_title },
-          type: { [source_lang]: assType },
-        };
-
-        if (cnAYF > 1) {
-          assType =
-            assTypeList.find(
-              (type) =>
-                stripZeroWidth(type.label) ===
-                stripZeroWidth(src.mwb_ayf_part2_type)
-            )?.value || 127;
-
-          assType = remapAssignmentType(obj.weekOf, assType);
-
-          obj.midweek_meeting.ayf_part2 = {
-            src: { [source_lang]: src.mwb_ayf_part2 },
-            time: { [source_lang]: src.mwb_ayf_part2_time },
-            title: { [source_lang]: src.mwb_ayf_part2_title },
-            type: { [source_lang]: assType },
-          };
-        }
-
-        if (cnAYF > 2) {
-          assType =
-            assTypeList.find(
-              (type) =>
-                stripZeroWidth(type.label) ===
-                stripZeroWidth(src.mwb_ayf_part3_type)
-            )?.value || 127;
-
-          assType = remapAssignmentType(obj.weekOf, assType);
-
-          obj.midweek_meeting.ayf_part3 = {
-            src: { [source_lang]: src.mwb_ayf_part3 },
-            time: { [source_lang]: src.mwb_ayf_part3_time },
-            title: { [source_lang]: src.mwb_ayf_part3_title },
-            type: { [source_lang]: assType },
-          };
-        }
-
-        if (cnAYF > 3) {
-          assType =
-            assTypeList.find(
-              (type) =>
-                stripZeroWidth(type.label) ===
-                stripZeroWidth(src.mwb_ayf_part4_type)
-            )?.value || 127;
-
-          assType = remapAssignmentType(obj.weekOf, assType);
-
-          obj.midweek_meeting.ayf_part4 = {
-            src: { [source_lang]: src.mwb_ayf_part4 },
-            time: { [source_lang]: src.mwb_ayf_part4_time },
-            title: { [source_lang]: src.mwb_ayf_part4_title },
-            type: { [source_lang]: assType },
-          };
-        }
-
-        obj.midweek_meeting.song_middle = {
-          [source_lang]: src.mwb_song_middle.toString(),
-        };
-        obj.midweek_meeting.lc_count = {
-          default: { [source_lang]: src.mwb_lc_count },
-          override: [],
-        };
-        obj.midweek_meeting.lc_part1 = {
-          title: {
-            default: { [source_lang]: src.mwb_lc_part1_title },
-            override: [],
-          },
-          time: {
-            default: { [source_lang]: src.mwb_lc_part1_time },
-            override: [],
-          },
-          desc: {
-            default: { [source_lang]: src.mwb_lc_part1_content },
-            override: [],
-          },
-        };
-
-        if (src.mwb_lc_count > 1) {
-          obj.midweek_meeting.lc_part2 = {
-            title: {
-              default: { [source_lang]: src.mwb_lc_part2_title },
-              override: [],
-            },
-            time: {
-              default: { [source_lang]: src.mwb_lc_part2_time },
-              override: [],
-            },
-            desc: {
-              default: { [source_lang]: src.mwb_lc_part2_content },
-              override: [],
-            },
-          };
-        }
-
-        obj.midweek_meeting.lc_cbs = {
-          src: { [source_lang]: src.mwb_lc_cbs },
-          time: { default: 30, override: [] },
-          title: {
-            default: { [source_lang]: src.mwb_lc_cbs_title },
-            override: [],
-          },
-        };
-        obj.midweek_meeting.song_conclude = {
-          default: { [source_lang]: src.mwb_song_conclude.toString() },
-          override: [],
-        };
+        obj.midweek_meeting = parseMidweekMeeting(
+          src,
+          source_lang,
+          ayfLookup,
+          obj.weekOf
+        );
       }
 
       if (isW) {
-        obj.weekend_meeting = {} as SourceWeekType['weekend_meeting'];
-
-        obj.weekend_meeting.song_first = [];
-        obj.weekend_meeting.public_talk = [];
-        obj.weekend_meeting.co_talk_title = {
-          public: { src: '', updatedAt: '' },
-          service: { src: '', updatedAt: '' },
-        };
-        obj.weekend_meeting.song_middle = {
-          [source_lang]: src.w_study_opening_song.toString(),
-        };
-        obj.weekend_meeting.w_study = { [source_lang]: src.w_study_title };
-        obj.weekend_meeting.song_conclude = {
-          default: { [source_lang]: src.w_study_concluding_song.toString() },
-          override: [],
-        };
+        obj.weekend_meeting = parseWeekendMeeting(src, source_lang);
       }
 
       await dbSourcesSave(obj);
@@ -316,7 +430,11 @@ export const sourcesCheckLCElderAssignment = (
   return false;
 };
 
-export const sourcesCheckLCAssignments = (source: string, language: string) => {
+export const sourcesCheckLCAssignments = (
+  source: string,
+  desc: string | undefined,
+  language: string
+) => {
   if (source) {
     const noAssigned = getTranslation({
       key: 'tr_lcNoAssignedVariations',
@@ -327,7 +445,19 @@ export const sourcesCheckLCAssignments = (source: string, language: string) => {
     const regex = new RegExp(search.toLowerCase());
     const array = regex.exec(source.toLowerCase());
 
-    return Array.isArray(array);
+    if (!Array.isArray(array)) return false;
+
+    if (!desc) return true;
+
+    const videoContent = getTranslation({
+      key: 'tr_lcNoAssignedContentVariations',
+      language,
+    });
+
+    const videoSearch = `(${videoContent})`;
+    const videoRegex = new RegExp(videoSearch.toLowerCase());
+
+    return Array.isArray(videoRegex.exec(desc.toLowerCase()));
   }
 
   return false;

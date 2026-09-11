@@ -5,6 +5,7 @@ import { WeekendExportType } from './index.types';
 import useWeekendExport from './useWeekendExport';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
+import DialogActions from '@components/dialog_actions';
 import Typography from '@components/typography';
 import WeekRangeSelector from '../week_range_selector';
 import Checkbox from '@components/checkbox';
@@ -70,14 +71,10 @@ const WeekendExport = ({ open, onClose }: WeekendExportType) => {
         />
       </Box>
 
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '8px',
-          width: '100%',
-        }}
-      >
+      <DialogActions>
+        <Button variant="secondary" onClick={onClose}>
+          {t('tr_cancel')}
+        </Button>
         <Button
           variant="main"
           disabled={isProcessing}
@@ -86,10 +83,7 @@ const WeekendExport = ({ open, onClose }: WeekendExportType) => {
         >
           {t('tr_export')}
         </Button>
-        <Button variant="secondary" onClick={onClose}>
-          {t('tr_cancel')}
-        </Button>
-      </Box>
+      </DialogActions>
     </Dialog>
   );
 };

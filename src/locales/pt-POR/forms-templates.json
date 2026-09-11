@@ -54,6 +54,7 @@
   "tr_initialCallVariations": "Primeira conversa — designação 1|Primeira conversa — designação 2",
   "tr_returnVisitVariations": "Revisita — designação 1|Revisita — designação 2",
   "tr_lcNoAssignedVariations": "Realizações da Organização",
+  "tr_lcNoAssignedContentVariations": "Play the VIDEO",
   "tr_cbsLffWithPointsVariations": "lff lição {{ lesson }} pontos {{ points }}|lff lição {{ lesson }} ponto {{ points }}",
   "tr_cbsLffSectionOnlyVariations": "lff parte|lff seção",
   "tr_lcSourceElderVariations": "Necessidades locais",

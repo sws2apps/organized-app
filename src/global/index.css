@@ -1,3 +1,10 @@
+:root {
+  --message-glow-small-offset-y: 4px;
+  --message-glow-small-blur: 12px;
+  --message-glow-small: 0px var(--message-glow-small-offset-y)
+    var(--message-glow-small-blur) 0px rgba(var(--accent-main-base), 0.24);
+}
+
 html {
   font-family: 'Inter', sans-serif;
   font-feature-settings: 'cv05';
@@ -7,6 +14,15 @@ html {
   html {
     font-family: 'Inter var', sans-serif;
   }
+}
+
+:root {
+  --accent-gradient-top: color-mix(in oklch, var(--accent-main), white 15%);
+  --btn-hover-overlay: rgba(var(--accent-dark-overlay-base), 0.22);
+}
+
+[data-theme='blue-light'] {
+  --accent-gradient-top: rgb(84, 110, 237);
 }
 
 body {
@@ -160,4 +176,46 @@ span .text-markup:last-child {
 
 body iframe {
   opacity: 0;
+}
+
+/* page paddings, kept in sync with the container of the root layout */
+:root {
+  --page-padding: 16px;
+}
+
+@media (min-width: 480px) {
+  :root {
+    --page-padding: 24px;
+  }
+}
+
+@media (min-width: 1200px) {
+  :root {
+    --page-padding: 32px;
+  }
+}
+
+/* shared motion tokens */
+:root {
+  --motion-fast: 180ms;
+  --motion-base: 240ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+}
+
+/* page to page transitions */
+.page-transition {
+  animation: page-enter var(--motion-base) var(--ease-standard) both;
+}
+
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-transition {
+    animation: none;
+  }
 }

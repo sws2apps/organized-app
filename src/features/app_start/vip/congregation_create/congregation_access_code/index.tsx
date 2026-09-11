@@ -5,10 +5,10 @@ import { useAppTranslation } from '@hooks/index';
 import useCongregationAccessCode from './useCongregationAccessCode';
 import Button from '@components/button';
 import Criteria from './criteria';
+import InfoBanner from '@components/info_banner';
 import InfoMessage from '@components/info-message';
 import Markup from '@components/text_markup';
 import TextField from '@components/textfield';
-import Typography from '@components/typography';
 import VipInfoTip from '@features/app_start/vip/vip_info_tip';
 
 const CongregationAccessCode = () => {
@@ -60,22 +60,12 @@ const CongregationAccessCode = () => {
           style={{ marginBottom: '24px' }}
         />
 
-        <Box
-          sx={{
-            display: 'flex',
-            padding: '8px 16px',
-            alignItems: 'center',
-            gap: '8px',
-            borderRadius: 'var(--radius-l)',
-            background: 'var(--orange-secondary)',
-            marginBottom: '32px',
-          }}
+        <InfoBanner
+          icon={<IconError color="var(--orange-dark)" />}
+          sx={{ marginBottom: '32px' }}
         >
-          <IconError color="var(--orange-dark)" />
-          <Typography className="body-small-regular" color="var(--orange-dark)">
-            {t('tr_congregationAccessCodeNotice')}
-          </Typography>
-        </Box>
+          {t('tr_congregationAccessCodeNotice')}
+        </InfoBanner>
 
         <Box
           sx={{

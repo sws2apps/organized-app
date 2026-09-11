@@ -33,6 +33,8 @@
   "tr_modeDark": "Poiri",
   "tr_autoThemeChange": "Taui aunoa i te hoho'a o te app",
   "tr_autoThemeChangeDesc": "Pee i te faanahoraa o ta oe matini no te maiti i rotopu i te hoho'a maramarama e te poiri",
+  "tr_hapticFeedback": "Haptic feedback",
+  "tr_hapticFeedbackDesc": "Vibrate when you interact with the app, if your device and browser support it",
   "tr_colorScheme": "Faanahoraa peni",
   "tr_blue": "Ninamu",
   "tr_green": "Matie",

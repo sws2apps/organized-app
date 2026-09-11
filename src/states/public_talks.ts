@@ -13,7 +13,7 @@ export const publicTalksLocaleState = atom((get) => {
   return talks.map((talk) => {
     return {
       talk_number: talk.talk_number,
-      talk_title: talk.talk_title[lang] ?? '',
+      talk_title: talk.talk_title[lang] ?? talk.talk_title.E ?? '',
     } as PublicTalkLocaleType;
   });
 });

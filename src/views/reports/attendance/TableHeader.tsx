@@ -3,7 +3,7 @@ import { styles } from './index.styles';
 import { TableHeaderProps } from './index.types';
 import { useAppTranslation } from '@hooks/index';
 
-const TableHeader = ({ column, year, locale }: TableHeaderProps) => {
+const TableHeader = ({ column, caption, locale }: TableHeaderProps) => {
   const { t } = useAppTranslation();
 
   return (
@@ -20,7 +20,7 @@ const TableHeader = ({ column, year, locale }: TableHeaderProps) => {
         <Text style={styles.header}>
           {t('tr_serviceYear', { lng: locale }).replaceAll('-', '-\u000A')}
         </Text>
-        <Text style={[styles.header, styles.serviceYear]}>{year}</Text>
+        <Text style={[styles.header, styles.serviceYear]}>{caption}</Text>
       </View>
 
       <View style={[styles.lineNormalVertical]} />

@@ -3,17 +3,35 @@
     "images": {
       "img_01": {
         "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-color-schemes.svg",
-        "tr_title": "New color schemes",
-        "tr_desc": "More ways to make Organized yours! Explore new colors in profile settings, from minimal monochrome to vibrant pink."
+        "tr_title": "Uudet väriteemat",
+        "tr_desc": "Lisää tapoja tehdä Organizedista omannäköisesi! Tutustu profiiliasetusten uusiin väreihin hillitystä yksivärisestä kirkkaan vaaleanpunaiseen."
       },
       "img_02": {
         "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-homescreen-shortcuts.svg",
-        "tr_title": "Home screen shortcuts",
-        "tr_desc": "Jump straight to the most important features, on both desktop and mobile devices."
+        "tr_title": "Aloitusnäytön pikavalinnat",
+        "tr_desc": "Siirry suoraan tärkeimpiin toimintoihin sekä tietokoneella että mobiililaitteilla."
       }
     },
     "improvements": {
-      "tr_note_01": "Added school for congregation elders credit hour preset"
+      "tr_note_01": "Lisätty valmis tuntimäärä seurakunnan vanhinten koulua varten"
+    }
+  },
+  "2026-09-01T00:00": {
+    "images": {
+      "img_01": {
+        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-click-counter.svg",
+        "tr_title": "Napauta laskeaksesi mobiililaitteilla",
+        "tr_desc": "Napauta osallistujamääräkenttää ja valitse sitten Laskuri, niin laskuri avautuu koko näytön tilassa. Nopea, helppo ja intuitiivinen."
+      }
+    },
+    "improvements": {
+      "tr_note_01": "Asenna sovellus tietokoneellesi tai puhelimeesi profiilivalikosta",
+      "tr_note_02": "Määritä oppilaiden kelpoisuusvaatimukset joustavasti pääsaliin tai lisäluokkaan",
+      "tr_note_03": "Viittomakieliset seurakunnat voivat kirjata kuurojen kokousläsnäolon erikseen",
+      "tr_note_04": "Täytä automaattisesti yksi viikko kerrallaan tietokoneen viikkokokouksen kuukausinäkymässä",
+      "tr_note_05": "Määritä kuka tahansa perheenjäsen avustajaksi",
+      "tr_note_06": "Merkitse kunnia tienraivaajat vapautetuiksi vuotuisesta tuntitavoitteesta",
+      "tr_note_07": "Valitse suunta ja fonttikoko kenttäpalveluryhmän PDF-vientiä varten"
     }
   }
 }

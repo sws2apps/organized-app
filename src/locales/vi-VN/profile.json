@@ -33,6 +33,8 @@
   "tr_modeDark": "Dark",
   "tr_autoThemeChange": "Thay đổi chủ đề ứng dụng tự động",
   "tr_autoThemeChangeDesc": "Theo dõi cài đặt hệ thống của thiết bị của anh/chị khi chọn giữa chế độ sáng và tối",
+  "tr_hapticFeedback": "Haptic feedback",
+  "tr_hapticFeedbackDesc": "Vibrate when you interact with the app, if your device and browser support it",
   "tr_colorScheme": "Chế độ màu",
   "tr_blue": "Xanh",
   "tr_green": "Xanh lá",

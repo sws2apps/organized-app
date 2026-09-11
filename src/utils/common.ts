@@ -1,5 +1,7 @@
+import { AssignmentCongregation, SchedWeekType } from '@definition/schedules';
 import { PersonType } from '@definition/person';
 import { FullnameOption } from '@definition/settings';
+import { SpeakersCongregationsType } from '@definition/speakers_congregations';
 import { VisitingSpeakerType } from '@definition/visiting_speakers';
 
 export const convertStringToBoolean = (value) => {
@@ -223,6 +225,113 @@ export const speakerGetDisplayName = (
   }
 
   return result;
+};
+
+// visiting speakers are not synced to users without access to the speakers
+// catalog: they can only rely on the values stored when publishing
+export const speakerGetDetails = ({
+  assigned,
+  speakers,
+  congregations,
+  displayNameEnabled,
+  fullnameOption,
+}: {
+  assigned: AssignmentCongregation;
+  speakers: VisitingSpeakerType[];
+  congregations: SpeakersCongregationsType[];
+  displayNameEnabled: boolean;
+  fullnameOption: FullnameOption;
+}) => {
+  const result = { name: '', cong_name: '' };
+
+  if (!assigned?.value?.length) return result;
+
+  result.name = assigned.name ?? '';
+  result.cong_name = assigned.cong_name ?? '';
+
+  const speaker = speakers.find(
+    (record) => record.person_uid === assigned.value
+  );
+
+  if (!speaker) return result;
+
+  const name = speakerGetDisplayName(
+    speaker,
+    displayNameEnabled,
+    fullnameOption
+  );
+
+  if (name?.length > 0) {
+    result.name = name;
+  }
+
+  const congregation = congregations.find(
+    (record) => record.id === speaker.speaker_data.cong_id
+  );
+
+  const congName = congregation?.cong_data.cong_name.value ?? '';
+
+  if (congName.length > 0) {
+    result.cong_name = congName;
+  }
+
+  return result;
+};
+
+export const schedulesStampVisitingSpeakers = ({
+  schedules,
+  speakers,
+  congregations,
+  displayNameEnabled,
+  fullnameOption,
+  published = [],
+}: {
+  schedules: SchedWeekType[];
+  speakers: VisitingSpeakerType[];
+  congregations: SpeakersCongregationsType[];
+  displayNameEnabled: boolean;
+  fullnameOption: FullnameOption;
+  published?: SchedWeekType[];
+}) => {
+  for (const schedule of schedules) {
+    if (!schedule.weekend_meeting) continue;
+
+    const lastPublished = published.find(
+      (record) => record.weekOf === schedule.weekOf
+    );
+
+    for (const assigned of schedule.weekend_meeting.speaker.part_1) {
+      const talkType = schedule.weekend_meeting.public_talk_type.find(
+        (record) => record.type === assigned.type
+      )?.value;
+
+      if (talkType !== 'visitingSpeaker') continue;
+
+      // the merge with the remote schedules resets the stored values: the last
+      // publish is the fallback when the speaker cannot be resolved locally
+      const previous = lastPublished?.weekend_meeting?.speaker.part_1.find(
+        (record) =>
+          record.type === assigned.type && record.value === assigned.value
+      );
+
+      const { name, cong_name } = speakerGetDetails({
+        assigned: {
+          ...assigned,
+          name: assigned.name || previous?.name || '',
+          cong_name: assigned.cong_name || previous?.cong_name || '',
+        },
+        speakers,
+        congregations,
+        displayNameEnabled,
+        fullnameOption,
+      });
+
+      assigned.name = name;
+      assigned.cong_name = cong_name;
+    }
+  }
+
+  return schedules;
 };
 
 export const createNumbersArray = (length: number) => {

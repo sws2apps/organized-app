@@ -1,10 +1,8 @@
 import { useState } from 'react';
 import { createEvent, EventAttributes } from 'ics';
 import { AddToCalendarProps } from './index.types';
-import {
-  UpcomingEventCategory,
-  UpcomingEventDuration,
-} from '@definition/upcoming_events';
+import { UpcomingEventCategory } from '@definition/upcoming_events';
+import { isWholeDayEvent } from '@services/app/upcoming_events';
 import { useAppTranslation } from '@hooks/index';
 import { decorationsForEvent } from '../decorations_for_event';
 import { displaySnackNotification } from '@services/states/app';
@@ -28,6 +26,7 @@ const useAddToCalendar = ({ event }: AddToCalendarProps) => {
 
     const startDate = new Date(event.event_data.start);
     const endDate = new Date(event.event_data.end);
+    const wholeDay = isWholeDayEvent(event);
 
     const eventTitle =
       event.event_data.category !== UpcomingEventCategory.Custom
@@ -37,34 +36,33 @@ const useAddToCalendar = ({ event }: AddToCalendarProps) => {
     const eventDetails: EventAttributes = {
       title: eventTitle,
       description: event.event_data.description,
-      start:
-        event.event_data.duration === UpcomingEventDuration.SingleDay
-          ? [
-              startDate.getFullYear(),
-              startDate.getMonth() + 1,
-              startDate.getDate(),
-              startDate.getHours(),
-              startDate.getMinutes(),
-            ]
-          : [
-              startDate.getFullYear(),
-              startDate.getMonth() + 1,
-              startDate.getDate(),
-            ],
-      end:
-        event.event_data.duration === UpcomingEventDuration.SingleDay
-          ? [
-              endDate.getFullYear(),
-              endDate.getMonth() + 1,
-              endDate.getDate(),
-              endDate.getHours(),
-              endDate.getMinutes(),
-            ]
-          : [
-              endDate.getFullYear(),
-              endDate.getMonth() + 1,
-              endDate.getDate() + 1,
-            ],
+      start: wholeDay
+        ? [
+            startDate.getFullYear(),
+            startDate.getMonth() + 1,
+            startDate.getDate(),
+          ]
+        : [
+            startDate.getFullYear(),
+            startDate.getMonth() + 1,
+            startDate.getDate(),
+            startDate.getHours(),
+            startDate.getMinutes(),
+          ],
+      end: wholeDay
+        ? [
+            endDate.getFullYear(),
+            endDate.getMonth() + 1,
+            // all-day ranges are exclusive of the end date
+            endDate.getDate() + 1,
+          ]
+        : [
+            endDate.getFullYear(),
+            endDate.getMonth() + 1,
+            endDate.getDate(),
+            endDate.getHours(),
+            endDate.getMinutes(),
+          ],
     };
 
     createEvent(eventDetails, (error, value) => {

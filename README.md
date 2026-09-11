@@ -89,6 +89,7 @@ In short, Organized is not a cloud-only app; it combines the flexibility of web 
 [![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=sws2apps_organized&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=sws2apps_organized)
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=sws2apps_organized&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=sws2apps_organized)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=sws2apps_organized&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=sws2apps_organized)
+![CodeRabbit Pull Request Reviews](https://img.shields.io/coderabbit/prs/github/sws2apps/organized-app?utm_source=oss&utm_medium=github&utm_campaign=sws2apps%2Forganized-app&labelColor=171717&color=FF570A&link=https%3A%2F%2Fcoderabbit.ai&label=CodeRabbit+Reviews)
 
 Organized is a secure, open-source solution built on a local-first model: all your data lives on your device until you choose to sync it across multiple devices or share schedules with your congregation. When you do sync, only end-to-end encrypted information passes through our secure servers – completely unreadable by anyone, including our team. Multiple layers of on-device encryption, two-factor authentication, one-time invitation codes and self-defined encryption keys protect your information at every step, while our publicly auditable codebase guarantees full transparency.
 
