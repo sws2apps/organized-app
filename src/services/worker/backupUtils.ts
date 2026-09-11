@@ -579,6 +579,50 @@ const convertObjectToArray = (settings: SettingsType) => {
   return settings;
 };
 
+/**
+ * The hall information of both sides merged item by item, so that an edit
+ * made offline on either side survives the restore.
+ */
+const restoredHallInfo = (local: SettingsType, remote: SettingsType) => {
+  const localInfo = local.cong_settings.hall_attendant_info;
+  const remoteInfo = remote.cong_settings.hall_attendant_info;
+
+  if (!localInfo && !remoteInfo) return undefined;
+
+  return mergeHallInfo(localInfo, remoteInfo);
+};
+
+/**
+ * What a full account keeps from its own device on restore, and the keys of
+ * earlier versions that no longer belong in the settings.
+ */
+const keepLocalCongSettings = (
+  localSettings: SettingsType,
+  settings: SettingsType
+) => {
+  localSettings.cong_settings.cong_new = settings.cong_settings.cong_new;
+  localSettings.cong_settings.cong_migrated =
+    settings.cong_settings.cong_migrated ?? false;
+
+  delete localSettings.cong_settings['source_material_auto_import'];
+
+  for (const midweekSetting of localSettings.cong_settings.midweek_meeting ??
+    []) {
+    delete midweekSetting['opening_prayer_auto_assigned'];
+    delete midweekSetting['closing_prayer_auto_assigned'];
+  }
+};
+
+/** A pocket account takes the congregation settings as the server has them. */
+const adoptRemoteCongSettings = (
+  localSettings: SettingsType,
+  remoteSettings: SettingsType
+) => {
+  for (const [key, value] of Object.entries(remoteSettings.cong_settings)) {
+    localSettings.cong_settings[key] = value;
+  }
+};
+
 const dbRestoreSettings = async (
   backupData: BackupDataType,
   accessCode: string,
@@ -602,14 +646,7 @@ const dbRestoreSettings = async (
     await appDb.transaction('rw', appDb.app_settings, async () => {
       const settings = await appDb.app_settings.get(1);
       if (!settings) throw new Error('error_app_generic-desc');
-      const hallInfo =
-        settings.cong_settings.hall_attendant_info ||
-        remoteSettings.cong_settings.hall_attendant_info
-          ? mergeHallInfo(
-              settings.cong_settings.hall_attendant_info,
-              remoteSettings.cong_settings.hall_attendant_info
-            )
-          : undefined;
+      const hallInfo = restoredHallInfo(settings, remoteSettings);
       const localSettings = structuredClone(settings);
 
       convertObjectToArray(remoteSettings);
@@ -630,37 +667,14 @@ const dbRestoreSettings = async (
         backupData.metadata.cong_settings &&
         localSettings.user_settings.account_type === 'vip'
       ) {
-        localSettings.cong_settings.cong_new = settings.cong_settings.cong_new;
-        localSettings.cong_settings.cong_migrated =
-          settings.cong_settings.cong_migrated ?? false;
-
-        if (localSettings?.cong_settings['source_material_auto_import']) {
-          delete localSettings.cong_settings['source_material_auto_import'];
-        }
-
-        const midweekSettings =
-          localSettings?.cong_settings.midweek_meeting || [];
-
-        for (const midweekSetting of midweekSettings) {
-          if (midweekSetting['opening_prayer_auto_assigned']) {
-            delete midweekSetting['opening_prayer_auto_assigned'];
-          }
-
-          if (midweekSetting['closing_prayer_auto_assigned']) {
-            delete midweekSetting['closing_prayer_auto_assigned'];
-          }
-        }
+        keepLocalCongSettings(localSettings, settings);
       }
 
       if (
         backupData.metadata.cong_settings &&
         localSettings.user_settings.account_type === 'pocket'
       ) {
-        for (const [key, value] of Object.entries(
-          remoteSettings.cong_settings
-        )) {
-          localSettings.cong_settings[key] = value;
-        }
+        adoptRemoteCongSettings(localSettings, remoteSettings);
       }
 
       if (hallInfo) localSettings.cong_settings.hall_attendant_info = hallInfo;

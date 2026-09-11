@@ -56,6 +56,36 @@ const HallEmergency = () => {
       />
     </NavBarButtonGroup>
   ) : undefined;
+  // the instructions are written in a field, read as text, and say so when
+  // there are none yet
+  const renderInstructions = () => {
+    if (editing) {
+      return (
+        <TextField
+          draftKey="instructions"
+          key={info.type}
+          multiline
+          minRows={8}
+          label={t('tr_hallEmergencyInstructions')}
+          value={info.instructions.text}
+          onSave={changeInstructions}
+        />
+      );
+    }
+
+    if (!info.instructions.text) {
+      return <InfoNote message={t('tr_hallNoInstructions')} />;
+    }
+
+    return (
+      <Typography sx={{ whiteSpace: 'pre-wrap', overflowWrap: 'anywhere' }}>
+        {info.instructions.text}
+      </Typography>
+    );
+  };
+
+  const instructions = renderInstructions();
+
   const content = (
     <>
       <Dialog
@@ -132,25 +162,7 @@ const HallEmergency = () => {
             color="red"
             header={t('tr_hallEmergencyInstructions')}
           />
-          {editing ? (
-            <TextField
-              draftKey="instructions"
-              key={info.type}
-              multiline
-              minRows={8}
-              label={t('tr_hallEmergencyInstructions')}
-              value={info.instructions.text}
-              onSave={changeInstructions}
-            />
-          ) : info.instructions.text ? (
-            <Typography
-              sx={{ whiteSpace: 'pre-wrap', overflowWrap: 'anywhere' }}
-            >
-              {info.instructions.text}
-            </Typography>
-          ) : (
-            <InfoNote message={t('tr_hallNoInstructions')} />
-          )}
+          {instructions}
         </Card>
         <Card>
           <Typography className="h2">{t('tr_hallEmergencyNumbers')}</Typography>

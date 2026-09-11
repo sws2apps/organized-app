@@ -1,4 +1,7 @@
-import { AttendanceSaveParams } from '@definition/meeting_attendance';
+import {
+  AttendanceCongregation,
+  AttendanceSaveParams,
+} from '@definition/meeting_attendance';
 import appDb from '@db/appDb';
 import { meetingAttendanceSchema } from '@services/dexie/schema';
 
@@ -15,6 +18,100 @@ const dbUpdateMeetingAttendanceMetadata = async () => {
   await appDb.metadata.put(metadata);
 };
 
+type CountField = 'present' | 'online';
+
+/** A time that never goes back, even when the device clock does. */
+const nextTimestamp = (previous?: string) =>
+  new Date(
+    Math.max(Date.now(), (Date.parse(previous ?? '') || 0) + 1)
+  ).toISOString();
+
+/** An empty field is no count at all. */
+const toCount = (value: string) => (value === '' ? undefined : Number(value));
+
+/** The month's attendance to write into, revived if it had been deleted. */
+const attendanceToSave = async (month: string) => {
+  const stored = await appDb.meeting_attendance.get(month);
+  const isDeleted = stored?._deleted?.value ?? false;
+
+  const attendance = structuredClone(
+    stored && !isDeleted ? stored : meetingAttendanceSchema
+  );
+  attendance.month_date = month;
+
+  if (stored && isDeleted) {
+    attendance._deleted = {
+      value: false,
+      updatedAt: nextTimestamp(stored._deleted.updatedAt),
+    };
+  }
+
+  return attendance;
+};
+
+/** The record of this view, added to the meeting when it has none yet. */
+const viewRecord = (records: AttendanceCongregation[], dataView: string) => {
+  const existing = records.find((row) => row.type === dataView);
+  if (existing) return existing;
+
+  const created: AttendanceCongregation = {
+    type: dataView,
+    present: undefined,
+    online: undefined,
+    updatedAt: '',
+  };
+  records.push(created);
+
+  return created;
+};
+
+/** The hearing part of a stored total, for when only the deaf count changes. */
+const storedHearing = (
+  current: AttendanceCongregation,
+  field: CountField,
+  deafField: 'present_deaf' | 'online_deaf'
+) => {
+  const total = current[field];
+  if (total === undefined) return '';
+
+  return String(Math.max(0, total - (current[deafField] ?? 0)));
+};
+
+/** Writes one count, split into hearing and deaf where those are kept apart. */
+const applyCount = (
+  current: AttendanceCongregation,
+  field: CountField,
+  values: AttendanceSaveParams['values'],
+  recordDeaf: boolean
+) => {
+  const deafField = field === 'present' ? 'present_deaf' : 'online_deaf';
+  if (!(field in values) && !(deafField in values)) return;
+
+  if (recordDeaf) {
+    const hearing =
+      field in values
+        ? values[field]
+        : storedHearing(current, field, deafField);
+    const deaf =
+      deafField in values
+        ? values[deafField]
+        : (current[deafField]?.toString() ?? '');
+
+    current[field] =
+      hearing === '' && deaf === ''
+        ? undefined
+        : Number(hearing) + Number(deaf);
+    current[deafField] = toCount(deaf ?? '');
+  } else {
+    const count = values[field];
+    if (count !== undefined) current[field] = toCount(count);
+  }
+
+  if (current[field] !== undefined && !Number.isSafeInteger(current[field])) {
+    throw new Error('error_app_generic-desc');
+  }
+};
+
 export const dbMeetingAttendanceSave = ({
   month,
   index,
@@ -28,22 +125,8 @@ export const dbMeetingAttendanceSave = ({
     appDb.meeting_attendance,
     appDb.metadata,
     async () => {
-      const stored = await appDb.meeting_attendance.get(month);
-      const attendance = structuredClone(
-        stored && !stored._deleted?.value ? stored : meetingAttendanceSchema
-      );
-      attendance.month_date = month;
-      if (stored?._deleted?.value) {
-        attendance._deleted = {
-          value: false,
-          updatedAt: new Date(
-            Math.max(
-              Date.now(),
-              (Date.parse(stored._deleted.updatedAt) || 0) + 1
-            )
-          ).toISOString(),
-        };
-      }
+      const attendance = await attendanceToSave(month);
+
       const week = [
         attendance.week_1,
         attendance.week_2,
@@ -52,53 +135,15 @@ export const dbMeetingAttendanceSave = ({
         attendance.week_5,
       ][index - 1];
       if (!week) throw new Error('error_app_generic-desc');
-      const records = week[type];
-      let current = records.find((row) => row.type === dataView);
-      if (!current) {
-        current = {
-          type: dataView,
-          present: undefined,
-          online: undefined,
-          updatedAt: '',
-        };
-        records.push(current);
-      }
+
+      const current = viewRecord(week[type], dataView);
+
       for (const field of ['present', 'online'] as const) {
-        const deafField = field === 'present' ? 'present_deaf' : 'online_deaf';
-        if (!(field in values) && !(deafField in values)) continue;
-        if (recordDeaf) {
-          const hearing =
-            field in values
-              ? values[field]
-              : current[field] === undefined
-                ? ''
-                : String(
-                    Math.max(0, current[field] - (current[deafField] ?? 0))
-                  );
-          const deaf =
-            deafField in values
-              ? values[deafField]
-              : (current[deafField]?.toString() ?? '');
-          current[field] =
-            hearing === '' && deaf === ''
-              ? undefined
-              : Number(hearing) + Number(deaf);
-          current[deafField] = deaf === '' ? undefined : Number(deaf);
-        } else {
-          const count = values[field];
-          if (count !== undefined)
-            current[field] = count === '' ? undefined : Number(count);
-        }
-        if (
-          current[field] !== undefined &&
-          !Number.isSafeInteger(current[field])
-        ) {
-          throw new Error('error_app_generic-desc');
-        }
+        applyCount(current, field, values, recordDeaf);
       }
-      current.updatedAt = new Date(
-        Math.max(Date.now(), (Date.parse(current.updatedAt) || 0) + 1)
-      ).toISOString();
+
+      current.updatedAt = nextTimestamp(current.updatedAt);
+
       await appDb.meeting_attendance.put(attendance);
       await dbUpdateMeetingAttendanceMetadata();
     }
