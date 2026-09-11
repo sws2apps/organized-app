@@ -50,10 +50,7 @@ const useAssignments = () => {
     ];
   }, [t]);
 
-  const handleClassroomsChange = (
-    code: AssignmentCode,
-    selected: string[]
-  ) => {
+  const handleClassroomsChange = (code: AssignmentCode, selected: string[]) => {
     const newPerson = structuredClone(person);
 
     let personAssignments = newPerson.person_data.assignments.find(
@@ -206,6 +203,17 @@ const useAssignments = () => {
           {
             code: AssignmentCode.MINISTRY_HOURS_CREDIT,
             name: t('tr_reportHoursCredit'),
+          },
+        ],
+      },
+      {
+        header: t('tr_duties'),
+        id: 'duties',
+        color: 'duties' as AssignmentCheckListColors,
+        items: [
+          {
+            code: AssignmentCode.DUTIES_HallAttendant,
+            name: t('tr_hallAttendant'),
           },
         ],
       },

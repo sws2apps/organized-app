@@ -9,6 +9,7 @@ import { SubpageNavbarProps } from './index.types';
 /** Navigation bar for subpages/overlays shown as their own screen (e.g. on mobile). */
 const SubpageNavbar = ({
   title,
+  titleId,
   secondaryTitle,
   onBack,
   backLabel,
@@ -73,7 +74,12 @@ const SubpageNavbar = ({
           textAlign: { mobile: 'center', tablet688: 'left' },
         }}
       >
-        <Typography className="h3" color="var(--black)" sx={ellipsis}>
+        <Typography
+          id={titleId}
+          className="h3"
+          color="var(--black)"
+          sx={ellipsis}
+        >
           {title}
         </Typography>
         {subtitle && (

@@ -13,6 +13,10 @@ const Button: FC<ButtonPropsType> = (props) => {
   const variant = props.variant || 'main';
   const disableAutoStretch = props.disableAutoStretch || false;
   const color = props.color;
+  const softColor = color || 'accent';
+  const softBackground = color
+    ? `var(--${color}-secondary)`
+    : 'var(--accent-150)';
   const ariaLabel = props.ariaLabel;
 
   let internalVariant: ButtonProps['variant'] = 'contained';
@@ -326,6 +330,33 @@ const Button: FC<ButtonPropsType> = (props) => {
           fill: getSvgColor(),
         },
         width: { mobile: disableAutoStretch ? 'auto' : '100%', tablet: 'auto' },
+        ...(variant === 'soft' && {
+          backgroundColor: softBackground,
+          color: `var(--${softColor}-dark)`,
+          '& svg, & svg g, & svg g path': { fill: `var(--${softColor}-dark)` },
+          '&:hover': {
+            backgroundColor: `var(--${softColor}-main)`,
+            color: 'var(--always-white)',
+            '& svg, & svg g, & svg g path': { fill: 'var(--always-white)' },
+            '@media (hover: none)': {
+              backgroundColor: softBackground,
+              color: `var(--${softColor}-dark)`,
+              '& svg, & svg g, & svg g path': {
+                fill: `var(--${softColor}-dark)`,
+              },
+            },
+          },
+          '&:active': {
+            backgroundColor: `var(--${softColor}-dark)`,
+            color: 'var(--always-white)',
+            '& svg, & svg g, & svg g path': { fill: 'var(--always-white)' },
+          },
+          '&:disabled': {
+            backgroundColor: 'var(--accent-150)',
+            color: 'var(--accent-350)',
+            '& svg, & svg g, & svg g path': { fill: 'var(--accent-350)' },
+          },
+        }),
         ...props.sx,
       }}
     >
