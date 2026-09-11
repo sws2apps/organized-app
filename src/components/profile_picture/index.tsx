@@ -15,6 +15,7 @@ import {
   isAvatarImage,
 } from '@components/profile_avatars';
 import Typography from '@components/typography';
+import { acquireAvatarUrl } from '@utils/avatar_url';
 
 type ProfilePictureProps = {
   /** Rendered size in pixels. */
@@ -34,9 +35,9 @@ const AccountPhoto = ({
   const [url, setUrl] = useState('');
 
   useEffect(() => {
-    const nextUrl = URL.createObjectURL(new Blob([buffer]));
-    setUrl(nextUrl);
-    return () => URL.revokeObjectURL(nextUrl);
+    const avatar = acquireAvatarUrl(buffer);
+    setUrl(avatar.url);
+    return avatar.release;
   }, [buffer]);
 
   return <Avatar alt={alt} src={url} sx={{ width: '100%', height: '100%' }} />;
