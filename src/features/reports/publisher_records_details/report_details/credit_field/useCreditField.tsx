@@ -22,9 +22,8 @@ const useCreditField = () => {
       (record) => record.report_date === currentReport.report_data.report_date
     );
 
-    // Derive the lock from the persisted record, not the editing draft:
-    // entering hours flips shared_ministry in the draft and must not lock
-    // the remaining fields mid-session.
+    // Shared comes from the persisted record so entering hours does not lock
+    // mid-session. Late comes from the draft so clearing late relocks at once.
     const persistedReport = congReports.find(
       (record) =>
         record.report_data.report_date ===
@@ -34,7 +33,8 @@ const useCreditField = () => {
 
     return isCongReportLocked(
       persistedReport,
-      branchReport?.report_data.submitted
+      branchReport?.report_data.submitted,
+      currentReport.report_data.late
     );
   }, [branchReports, congReports, currentReport]);
 
