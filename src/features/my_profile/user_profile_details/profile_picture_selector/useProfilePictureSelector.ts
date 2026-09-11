@@ -1,6 +1,6 @@
 import { KeyboardEvent, useEffect, useMemo, useRef, useState } from 'react';
 import { useAtomValue } from 'jotai';
-import { userAvatarTypeState, userAvatarUrlState } from '@states/settings';
+import { userAvatarTypeState, userAvatarState } from '@states/settings';
 import {
   AVATAR_IMAGE_NAMES,
   AvatarImageName,
@@ -61,7 +61,7 @@ const useProfilePictureSelector = (onClose: () => void) => {
   const { person } = useCurrentUser();
 
   const savedAvatarType = useAtomValue(userAvatarTypeState);
-  const avatarUrl = useAtomValue(userAvatarUrlState);
+  const avatarBuffer = useAtomValue(userAvatarState);
 
   const [selectedType, setSelectedType] = useState<AvatarType>(savedAvatarType);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -82,7 +82,7 @@ const useProfilePictureSelector = (onClose: () => void) => {
       if (option.gender && option.gender !== gender) return false;
 
       // the account photo can only be shown when there is one
-      if (option.type === 'google' && avatarUrl.length === 0) return false;
+      if (option.type === 'google' && !avatarBuffer) return false;
 
       return true;
     };
@@ -91,7 +91,7 @@ const useProfilePictureSelector = (onClose: () => void) => {
       titleKey: section.titleKey,
       options: section.options.filter(isVisible).map((option) => option.type),
     })).filter((section) => section.options.length > 0);
-  }, [gender, avatarUrl]);
+  }, [gender, avatarBuffer]);
 
   const handleDone = async () => {
     if (savingRef.current) return;

@@ -590,28 +590,6 @@ export const userAvatarState = atom((get) => {
   return settings.user_settings.user_avatar;
 });
 
-let cachedAvatarBuffer: ArrayBuffer;
-let cachedAvatarUrl = '';
-
-export const userAvatarUrlState = atom((get) => {
-  const avatarBuffer = get(userAvatarState);
-
-  if (avatarBuffer === cachedAvatarBuffer) return cachedAvatarUrl;
-
-  // release the previous object url, otherwise every avatar change leaks it
-  if (cachedAvatarUrl.length > 0) {
-    URL.revokeObjectURL(cachedAvatarUrl);
-  }
-
-  cachedAvatarBuffer = avatarBuffer;
-
-  cachedAvatarUrl = avatarBuffer
-    ? URL.createObjectURL(new Blob([avatarBuffer]))
-    : '';
-
-  return cachedAvatarUrl;
-});
-
 export const backupAutoState = atom((get) => {
   const settings = get(settingsState);
 
@@ -634,7 +612,7 @@ export const userInitialsState = atom((get) => {
   const firstname = get(firstnameState);
   const lastname = get(lastnameState);
 
-  const initials = `${firstname?.at(0) ?? ''}${lastname?.at(0) ?? ''}`;
+  const initials = `${Array.from(firstname ?? '')[0] ?? ''}${Array.from(lastname ?? '')[0] ?? ''}`;
 
   return initials.toUpperCase();
 });

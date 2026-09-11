@@ -1,8 +1,9 @@
+import { useEffect, useState } from 'react';
 import { Avatar, Box } from '@mui/material';
 import { useAtomValue } from 'jotai';
 import {
   userAvatarTypeState,
-  userAvatarUrlState,
+  userAvatarState,
   userInitialsState,
 } from '@states/settings';
 import { AvatarType } from '@definition/settings';
@@ -23,6 +24,24 @@ type ProfilePictureProps = {
   alt?: string;
 };
 
+const AccountPhoto = ({
+  buffer,
+  alt,
+}: {
+  buffer: ArrayBuffer;
+  alt: string;
+}) => {
+  const [url, setUrl] = useState('');
+
+  useEffect(() => {
+    const nextUrl = URL.createObjectURL(new Blob([buffer]));
+    setUrl(nextUrl);
+    return () => URL.revokeObjectURL(nextUrl);
+  }, [buffer]);
+
+  return <Avatar alt={alt} src={url} sx={{ width: '100%', height: '100%' }} />;
+};
+
 /**
  * Renders the avatar of the user: the photo from the linked account, the user
  * initials, one of the bundled illustrations, or the generic silhouette.
@@ -36,20 +55,14 @@ const ProfilePicture = ({
   alt = 'Avatar',
 }: ProfilePictureProps) => {
   const savedType = useAtomValue(userAvatarTypeState);
-  const avatarUrl = useAtomValue(userAvatarUrlState);
+  const avatarBuffer = useAtomValue(userAvatarState);
   const initials = useAtomValue(userInitialsState);
 
   const avatarType = type ?? savedType;
 
   const renderAvatar = () => {
-    if (avatarType === 'google' && avatarUrl.length > 0) {
-      return (
-        <Avatar
-          alt={alt}
-          src={avatarUrl}
-          sx={{ width: '100%', height: '100%' }}
-        />
-      );
+    if (avatarType === 'google' && avatarBuffer) {
+      return <AccountPhoto buffer={avatarBuffer} alt={alt} />;
     }
 
     if (avatarType === 'initials') {
