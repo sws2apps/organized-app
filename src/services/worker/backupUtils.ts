@@ -249,6 +249,21 @@ const isScheduleEditorRole = (userRole: AppRoleType[]) => {
   );
 };
 
+// congregation public-talk data is downloaded and persisted by the same roles
+// on the API, so every gate in this file must resolve them the same way
+const isPublicTalkEditorRole = (userRole: AppRoleType[]) => {
+  const adminRole =
+    userRole.includes('admin') ||
+    userRole.includes('secretary') ||
+    userRole.includes('coordinator');
+
+  return (
+    adminRole ||
+    userRole.includes('language_group_overseers') ||
+    userRole.includes('public_talk_schedule')
+  );
+};
+
 // congregation reports are readable and writable by the same roles on the API,
 // so every gate in this file must resolve them the same way
 const isReportEditorRole = (userRole: AppRoleType[]) => {
@@ -1673,8 +1688,7 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
     const serviceCommitteeRole =
       adminRole || userRole.some((role) => role === 'service_overseer');
 
-    const publicTalkEditor =
-      adminRole || userRole.some((role) => role === 'public_talk_schedule');
+    const publicTalkEditor = isPublicTalkEditorRole(userRole);
 
     const scheduleEditor = isScheduleEditorRole(userRole);
 
