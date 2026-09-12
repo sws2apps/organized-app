@@ -246,6 +246,9 @@ const ExportSpeakers = (props: ExportType) => {
       </Typography>
 
       <Stack
+        role="button"
+        tabIndex={isProcessing ? -1 : 0}
+        aria-disabled={isProcessing}
         spacing="16px"
         padding="16px"
         borderRadius="var(--radius-m)"
