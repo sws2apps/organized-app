@@ -274,7 +274,6 @@ export const dbGetMetadata = async () => {
   const isCoordinator = userRole.includes('coordinator');
   const isAdmin = userRole.includes('admin') || isSecretary || isCoordinator;
   const isPublisher = isAdmin || userRole.includes('publisher');
-  const isGroupOverseer = isAdmin || userRole.includes('group_overseers');
   const isLanguageGroupOverseer =
     isAdmin || userRole.includes('language_group_overseers');
   const isElder =
@@ -288,9 +287,6 @@ export const dbGetMetadata = async () => {
         role === 'weekend_schedule' ||
         role === 'public_talk_schedule'
     );
-
-  const isPersonViewer =
-    isScheduleEditor || isGroupOverseer || isLanguageGroupOverseer || isElder;
 
   const isAttendanceTracker =
     isAdmin || userRole.some((role) => role === 'attendance_tracking');
@@ -312,7 +308,7 @@ export const dbGetMetadata = async () => {
     delete result.visiting_speakers;
   }
 
-  if (isPersonViewer) {
+  if (isScheduleEditor || isElder) {
     delete result.public_sources;
     delete result.public_schedules;
   }
