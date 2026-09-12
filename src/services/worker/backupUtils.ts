@@ -232,6 +232,23 @@ export const dbGetSettings = async () => {
   return settings;
 };
 
+// congregation schedules are downloaded and persisted by the same roles on the
+// API, so every gate in this file must resolve them the same way
+const isScheduleEditorRole = (userRole: AppRoleType[]) => {
+  const adminRole =
+    userRole.includes('admin') ||
+    userRole.includes('secretary') ||
+    userRole.includes('coordinator');
+
+  return (
+    adminRole ||
+    userRole.includes('language_group_overseers') ||
+    userRole.includes('midweek_schedule') ||
+    userRole.includes('weekend_schedule') ||
+    userRole.includes('public_talk_schedule')
+  );
+};
+
 // congregation reports are readable and writable by the same roles on the API,
 // so every gate in this file must resolve them the same way
 const isReportEditorRole = (userRole: AppRoleType[]) => {
@@ -278,15 +295,7 @@ export const dbGetMetadata = async () => {
     isAdmin || userRole.includes('language_group_overseers');
   const isElder =
     accountType === 'vip' && (isAdmin || userRole.includes('elder'));
-  const isScheduleEditor =
-    isAdmin ||
-    isLanguageGroupOverseer ||
-    userRole.some(
-      (role) =>
-        role === 'midweek_schedule' ||
-        role === 'weekend_schedule' ||
-        role === 'public_talk_schedule'
-    );
+  const isScheduleEditor = isScheduleEditorRole(userRole);
 
   const isAttendanceTracker =
     isAdmin || userRole.some((role) => role === 'attendance_tracking');
@@ -1667,12 +1676,7 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
     const publicTalkEditor =
       adminRole || userRole.some((role) => role === 'public_talk_schedule');
 
-    const scheduleEditor =
-      adminRole ||
-      publicTalkEditor ||
-      userRole.some(
-        (role) => role === 'midweek_schedule' || role === 'weekend_schedule'
-      );
+    const scheduleEditor = isScheduleEditorRole(userRole);
 
     const personEditor = serviceCommitteeRole || scheduleEditor;
 
