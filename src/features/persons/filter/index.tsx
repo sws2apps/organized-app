@@ -6,8 +6,9 @@ import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useFilter from './useFilter';
 import AssignmentGroup from '../assignment_group';
 import Tabs from '@components/tabs';
+import { PersonsFilterProps } from './index.types';
 
-const PersonsFilter = () => {
+const PersonsFilter = ({ hideTitle }: PersonsFilterProps) => {
   const { t } = useAppTranslation();
 
   const { tabletDown, mobile400Down, desktopUp } = useBreakpoints();
@@ -105,7 +106,9 @@ const PersonsFilter = () => {
           flexWrap: 'wrap',
         }}
       >
-        <Typography className="h4">{t('tr_filters')}</Typography>
+        {!hideTitle && (
+          <Typography className="h4">{t('tr_filters')}</Typography>
+        )}
         {filters.length > 0 && (
           <Box
             sx={{
