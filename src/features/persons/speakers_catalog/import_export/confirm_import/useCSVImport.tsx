@@ -237,11 +237,11 @@ const useCSVImport = () => {
         );
       }
     }
-    if (!draft.speaker.lastname) {
+    if (!draft.speaker.lastname && !draft.speaker.firstname) {
       const hasAnyValue = Object.values(row).some((v) => v && v.trim() !== '');
 
       if (hasAnyValue) {
-        errors.push(t('tr_importRowMissingLastname'));
+        errors.push(t('tr_importRowMissingName'));
       }
 
       return false;

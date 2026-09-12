@@ -563,7 +563,7 @@
   "tr_speakerAlreadyExists": "Speaker already exists",
   "tr_speakerNotFoundInOwnCongregation": "No matching person record found for this speaker in your congregation.",
   "tr_importTalksInvalidFormat": "Invalid talk list format",
-  "tr_importRowMissingLastname": "Row contains data but no last name",
+  "tr_importRowMissingName": "Row contains data but no name",
   "tr_csvRows": "CSV rows",
   "tr_congregationAlreadySynced": "Congregation is already connected and synced.",
   "tr_error_app_data_no_valid_data_found": "No valid data found or no speaker selected.",
