@@ -2,7 +2,11 @@ import { IncomingCongregationResponseType } from './api';
 
 export type SpeakersCongregationsType = {
   _deleted: { value: boolean; updatedAt: string };
-  id?: string; // this seems to be the relevant id but why ist it optional?
+  /**
+   * Local record UUID, distinct from the remote `cong_data.cong_id`.
+   * Optional because records carry no local id before first persistence.
+   */
+  id?: string;
   cong_data: {
     cong_id: string;
     cong_number: { value: string; updatedAt: string };
