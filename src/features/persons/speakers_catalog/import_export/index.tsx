@@ -1,24 +1,22 @@
-import { useState } from 'react';
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Link from '@mui/material/Link';
-import Collapse from '@mui/material/Collapse';
+// src/features/persons/speakers_catalog/import_export/index.tsx
+import React, { useState } from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Box from '@mui/material/Box';
+import Collapse from '@mui/material/Collapse';
+import Link from '@mui/material/Link';
+import Stack from '@mui/material/Stack';
+import Dialog from '@components/dialog';
+import Tabs from '@components/tabs';
+import Typography from '@components/typography';
 import { useAppTranslation } from '@hooks/index';
+import {
+  arrayInCsvSeparator,
+  getCSVDelimiterByNumberFormat,
+} from '@utils/csvFiles';
+import ConfirmImport from './confirm_import';
+import { ImportExportType } from './index.types';
 import useImportExport from './useImportExport';
 import useTemplateDownload from './useTemplateDownload';
-import { ImportExportType } from './index.types';
-import ConfirmImport from './confirm_import';
-import Dialog from '@components/dialog';
-import Typography from '@components/typography';
-import Tabs from '@components/tabs';
-import {
-  getCSVDelimiterByNumberFormat,
-  arrayInCsvSeparator,
-} from '@utils/csvFiles';
-import useDateFormat from '@features/congregation/settings/meeting_forms/date_format/useDateFormat';
-import { format } from 'date-fns';
-import React from 'react';
 
 const ImportExport = (props: ImportExportType) => {
   const { t } = useAppTranslation();
@@ -26,10 +24,6 @@ const ImportExport = (props: ImportExportType) => {
   const [tipsExpanded, setTipsExpanded] = useState(false);
   const separatorColumns = getCSVDelimiterByNumberFormat();
   const separatorInField = arrayInCsvSeparator();
-  const { shortDateFormat } = useDateFormat();
-  const now = new Date();
-  const endOfYear = new Date(now.getFullYear(), 11, 31);
-  const dateExample = format(endOfYear, shortDateFormat);
 
   const {
     tabs,
@@ -61,15 +55,15 @@ const ImportExport = (props: ImportExportType) => {
           }}
         >
           <Typography className="h2">
-            {t('tr_importExportPersonsTitle')}
+            {t('tr_importExportSpeakersTitle')}
           </Typography>
 
           <Typography color="var(--grey-400)">
             {value === 0 ? (
-              t('tr_exportPersonsDesc')
+              t('tr_exportSpeakersDesc')
             ) : (
               <>
-                {t('tr_importPersonsDesc_before')}
+                {t('tr_importSpeakersDesc_before')}
                 <Link
                   component="button"
                   onClick={handleDownloadTemplate}
@@ -86,9 +80,9 @@ const ImportExport = (props: ImportExportType) => {
                     padding: 0,
                   }}
                 >
-                  {t('tr_importPersonsDesc_template')}
+                  {t('tr_importSpeakersDesc_template')}
                 </Link>
-                {t('tr_importPersonsDesc_after')}
+                {t('tr_importSpeakersDesc_after')}
               </>
             )}
           </Typography>
@@ -128,14 +122,25 @@ const ImportExport = (props: ImportExportType) => {
                   },
                 }}
               >
-                <Typography className="h4">
+                <Typography
+                  sx={{
+                    fontFamily: 'Inter',
+                    fontWeight: 550,
+                    fontSize: '16px',
+                    lineHeight: '20px',
+                    flex: 'none',
+                    order: 0,
+                    flexGrow: 0,
+                    minWidth: '151px',
+                  }}
+                >
                   {t('tr_templateFillingTips')}
                 </Typography>
                 <ExpandMoreIcon
                   sx={{
                     width: '24px',
                     height: '24px',
-                    color: 'var(--grey-400)',
+                    color: '#505050',
                     flex: 'none',
                     order: 1,
                     flexGrow: 0,
@@ -167,6 +172,9 @@ const ImportExport = (props: ImportExportType) => {
                     {t('tr_tip_followStructure')}
                   </Box>
                   <Box className="body-small-regular" component="li">
+                    {t('tr_tip_emptyCongNameHandling')}
+                  </Box>
+                  <Box className="body-small-regular" component="li">
                     {t('tr_tip_enterYes')}
                   </Box>
                   <Box className="body-small-regular" component="li">
@@ -175,20 +183,21 @@ const ImportExport = (props: ImportExportType) => {
                     })}
                   </Box>
                   <Box className="body-small-regular" component="li">
-                    {t('tr_tip_seperatorInField', {
+                    {t('tr_tip_seperatorInFieldTalks', {
                       separatorInField: separatorInField,
                     })}
                   </Box>
                   <Box className="body-small-regular" component="li">
-                    {t('tr_tip_dateFormat', {
-                      dateExample: dateExample,
-                    })}
+                    {t('tr_tip_songs')}
                   </Box>
                   <Box className="body-small-regular" component="li">
                     {t('tr_tip_relevantColumns')}
                   </Box>
                   <Box className="body-small-regular" component="li">
-                    {t('tr_tip_groupHandling')}
+                    {t('tr_tip_congsHandling')}
+                  </Box>
+                  <Box className="body-small-regular" component="li">
+                    {t('tr_tip_speakersHandling')}
                   </Box>
                 </Box>
               </Collapse>
@@ -201,7 +210,7 @@ const ImportExport = (props: ImportExportType) => {
         </Stack>
       )}
 
-      {state === 'import/confirm' && (
+      {state === 'import/confirm' && fileData && (
         <ConfirmImport
           filedata={fileData}
           onBack={handleOpenImportExport}
