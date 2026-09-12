@@ -158,6 +158,7 @@ const useCSVImport = () => {
 
     if (parsed.errors.length > 0) {
       console.error('CSV parsing errors:', parsed.errors);
+      throw new Error(t('tr_importCsvParseError'));
     }
 
     return parsed.data;
