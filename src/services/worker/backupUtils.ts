@@ -1876,7 +1876,7 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
         }
 
         // include visiting speakers info
-        if (publicTalkEditor) {
+        if (publicTalkEditor && masterKey) {
           if (metadata.metadata.speakers_congregations.send_local) {
             const congregations = speakers_congregations.map((congregation) => {
               encryptObject({
