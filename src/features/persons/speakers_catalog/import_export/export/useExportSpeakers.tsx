@@ -235,11 +235,11 @@ const useExportSpeakers = () => {
       case 'congregation.midweek_meeting.time':
         return congregation.cong_data.midweek_meeting.time.value;
       case 'congregation.midweek_meeting.weekday':
-        return String(congregation.cong_data.midweek_meeting.weekday.value);
+        return String(congregation.cong_data.midweek_meeting.weekday.value + 1);
       case 'congregation.weekend_meeting.time':
         return congregation.cong_data.weekend_meeting.time.value;
       case 'congregation.weekend_meeting.weekday':
-        return String(congregation.cong_data.weekend_meeting.weekday.value);
+        return String(congregation.cong_data.weekend_meeting.weekday.value + 1);
       case 'congregation.coordinator.name':
         return congregation.cong_data.coordinator.name.value;
       case 'congregation.coordinator.email':

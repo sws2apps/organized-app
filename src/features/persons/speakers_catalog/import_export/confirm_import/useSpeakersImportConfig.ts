@@ -183,7 +183,7 @@ const useSpeakersImportConfig = () => {
         groupLabel: 'tr_congregation_time',
         examples: ['2', '', '4', '3'],
         handler: (d, v) =>
-          updateMidweekWeekday(d.congregation, Number.parseInt(v, 10) || 2),
+          updateMidweekWeekday(d.congregation, Number.parseInt(v, 10) - 1),
       },
       {
         key: 'congregation.weekend_meeting.time',
@@ -200,7 +200,7 @@ const useSpeakersImportConfig = () => {
         groupLabel: 'tr_congregation_time',
         examples: ['7', '', '7', '6'],
         handler: (d, v) =>
-          updateWeekendWeekday(d.congregation, Number.parseInt(v, 10) || 7),
+          updateWeekendWeekday(d.congregation, Number.parseInt(v, 10) - 1),
       },
     ];
 
