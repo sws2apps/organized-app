@@ -25,6 +25,7 @@ import useSpeakersImportConfig, {
   SpeakerImportDraftType,
   SpeakerFieldMeta,
 } from './useSpeakersImportConfig';
+import { dbUpdateVisitingSpeakersMetadata } from '@services/dexie/visiting_speakers';
 
 /**
  * Aggregated outcome of {@link addSpeakersToDB}.
@@ -779,6 +780,11 @@ const useCSVImport = () => {
         const errorMsg = error instanceof Error ? error.message : String(error);
         addError(errorMsg, line);
       }
+    }
+
+    // mark the table dirty so imported speakers are included in the next sync
+    if (successCount > 0) {
+      await dbUpdateVisitingSpeakersMetadata();
     }
 
     return {

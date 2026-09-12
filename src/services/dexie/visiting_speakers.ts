@@ -11,7 +11,7 @@ import { AssignmentCode } from '@definition/assignment';
 import { generateDisplayName } from '@utils/common';
 import { SpeakersCongregationsType } from '@definition/speakers_congregations';
 
-const dbUpdateVisitingSpeakersMetadata = async () => {
+export const dbUpdateVisitingSpeakersMetadata = async () => {
   const metadata = await appDb.metadata.get(1);
 
   if (!metadata) return;
