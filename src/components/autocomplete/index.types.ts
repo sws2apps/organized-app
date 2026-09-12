@@ -46,6 +46,8 @@ export type AutocompletePropsType<T> = Omit<
 
   decorator?: boolean;
 
+  decoratorColor?: string;
+
   variant?: TextFieldProps['variant'];
 };
 
