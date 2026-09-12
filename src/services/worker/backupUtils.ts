@@ -281,7 +281,7 @@ export const dbGetMetadata = async () => {
     accountType === 'vip' && (isAdmin || userRole.includes('elder'));
   const isScheduleEditor =
     isAdmin ||
-    isGroupOverseer ||
+    isLanguageGroupOverseer ||
     userRole.some(
       (role) =>
         role === 'midweek_schedule' ||
@@ -289,8 +289,8 @@ export const dbGetMetadata = async () => {
         role === 'public_talk_schedule'
     );
 
-  const isPersonViewer = isScheduleEditor || isElder;
-  const isPersonMinimal = !isPersonViewer;
+  const isPersonViewer =
+    isScheduleEditor || isGroupOverseer || isLanguageGroupOverseer || isElder;
 
   const isAttendanceTracker =
     isAdmin || userRole.some((role) => role === 'attendance_tracking');
@@ -317,7 +317,7 @@ export const dbGetMetadata = async () => {
     delete result.public_schedules;
   }
 
-  if (isPersonMinimal) {
+  if (!isScheduleEditor && !isElder) {
     delete result.sources;
     delete result.schedules;
   }
