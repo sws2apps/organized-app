@@ -13,7 +13,6 @@ import { AppRoleType } from '@definition/app';
 import { PersonType, PrivilegeType } from '@definition/person';
 import {
   OutgoingTalkExportScheduleType,
-  OutgoingTalkScheduleType,
   SchedWeekType,
 } from '@definition/schedules';
 import { SpeakersCongregationsType } from '@definition/speakers_congregations';
@@ -32,6 +31,14 @@ import { DelegatedFieldServiceReportType } from '@definition/delegated_field_ser
 import { UpcomingEventType } from '@definition/upcoming_events';
 import { formatDate } from '@utils/date';
 import { APP_READ_ONLY_ROLES } from '@constants/index';
+
+const getErrorMessage = (error: unknown) => {
+  if (error instanceof Error) {
+    return error.message;
+  }
+
+  return String(error);
+};
 
 const personIsElder = (person: PersonType) => {
   const hasActive = person?.person_data.privileges?.find(
@@ -146,39 +153,58 @@ const personIsPrivilegeActive = (
 };
 
 const syncFromRemote = <T extends object>(local: T, remote: T): T => {
-  const arrayKeys = Object.keys(remote).filter(
-    (key) => remote[key] !== null && Array.isArray(remote[key])
+  const localRecord = local as Record<string, unknown>;
+  const remoteRecord = remote as Record<string, unknown>;
+
+  const arrayKeys = Object.keys(remoteRecord).filter(
+    (key) => remoteRecord[key] !== null && Array.isArray(remoteRecord[key])
   );
 
   const lockKeys = ['type', 'id', 'talk_number'];
 
   for (const key of arrayKeys) {
-    if (!local[key]) {
-      local[key] = remote[key];
+    if (!localRecord[key]) {
+      localRecord[key] = remoteRecord[key];
       continue;
     }
 
-    if (!Array.isArray(local[key])) {
-      local[key] = remote[key];
+    if (!Array.isArray(localRecord[key])) {
+      localRecord[key] = remoteRecord[key];
       continue;
     }
 
-    for (const remoteValue of remote[key]) {
-      if (typeof remoteValue !== 'object') {
+    const localArray = localRecord[key] as unknown[];
+    const remoteArray = remoteRecord[key] as unknown[];
+
+    for (const remoteValue of remoteArray) {
+      if (typeof remoteValue !== 'object' || remoteValue === null) {
         continue;
       }
 
+      const remoteObject = remoteValue as Record<string, unknown>;
+
       for (const lockKey of lockKeys) {
-        if (lockKey in remoteValue) {
-          const localValue = local[key].find(
-            (r) => r[lockKey] === remoteValue[lockKey]
-          );
+        if (lockKey in remoteObject) {
+          const localValue = localArray.find(
+            (value) =>
+              typeof value === 'object' &&
+              value !== null &&
+              (value as Record<string, unknown>)[lockKey] ===
+                remoteObject[lockKey]
+          ) as Record<string, unknown> | undefined;
 
           if (!localValue) {
-            local[key].push(remoteValue);
+            localArray.push(remoteValue);
           } else {
             if ('updatedAt' in localValue) {
-              if (remoteValue.updatedAt > localValue.updatedAt) {
+              const localUpdatedAt = localValue.updatedAt;
+              const remoteUpdatedAt = remoteObject.updatedAt;
+
+              if (
+                typeof localUpdatedAt === 'string' &&
+                typeof remoteUpdatedAt === 'string' &&
+                remoteUpdatedAt > localUpdatedAt
+              ) {
                 Object.assign(localValue, remoteValue);
               }
             }
@@ -194,33 +220,43 @@ const syncFromRemote = <T extends object>(local: T, remote: T): T => {
     }
   }
 
-  const objectKeys = Object.keys(remote).filter(
+  const objectKeys = Object.keys(remoteRecord).filter(
     (key) =>
-      remote[key] !== null &&
-      !Array.isArray(remote[key]) &&
-      typeof remote[key] === 'object'
+      remoteRecord[key] !== null &&
+      !Array.isArray(remoteRecord[key]) &&
+      typeof remoteRecord[key] === 'object'
   );
 
   for (const key of objectKeys) {
-    if (local[key]) {
-      if ('updatedAt' in remote[key]) {
-        if (remote[key].updatedAt > local[key].updatedAt) {
-          local[key] = remote[key];
+    const localValue = localRecord[key];
+    const remoteValue = remoteRecord[key];
+
+    if (localValue && typeof localValue === 'object') {
+      const localObject = localValue as Record<string, unknown>;
+      const remoteObject = remoteValue as Record<string, unknown> | null;
+
+      if (remoteObject && 'updatedAt' in remoteObject) {
+        if (
+          typeof localObject.updatedAt === 'string' &&
+          typeof remoteObject.updatedAt === 'string' &&
+          remoteObject.updatedAt > localObject.updatedAt
+        ) {
+          localRecord[key] = remoteValue;
         }
-      } else {
-        syncFromRemote(local[key], remote[key]);
+      } else if (remoteObject) {
+        syncFromRemote(localValue, remoteObject);
       }
     } else {
-      local[key] = remote[key];
+      localRecord[key] = remoteValue;
     }
   }
 
-  const primitiveKeys = Object.keys(remote).filter(
-    (key) => typeof remote[key] !== 'object'
+  const primitiveKeys = Object.keys(remoteRecord).filter(
+    (key) => typeof remoteRecord[key] !== 'object'
   );
 
   for (const key of primitiveKeys) {
-    local[key] = remote[key];
+    localRecord[key] = remoteRecord[key];
   }
 
   return local;
@@ -299,6 +335,11 @@ export const dbGetMetadata = async () => {
   }
 
   const settings = await dbGetSettings();
+
+  if (!settings) {
+    throw new Error('Settings not found');
+  }
+
   const accountType = settings.user_settings.account_type;
   const userRole = settings.user_settings.cong_role;
 
@@ -360,6 +401,11 @@ export const dbGetMetadata = async () => {
 
 const dbGetTableData = async () => {
   const settings = await dbGetSettings();
+
+  if (!settings) {
+    throw new Error('Settings not found');
+  }
+
   const persons = await appDb.persons.toArray();
   const cong_field_service_reports =
     await appDb.cong_field_service_reports.toArray();
@@ -379,6 +425,10 @@ const dbGetTableData = async () => {
   const meeting_attendance = await appDb.meeting_attendance.toArray();
   const upcoming_events = await appDb.upcoming_events.toArray();
   const metadata = await appDb.metadata.get(1);
+
+  if (!metadata) {
+    throw new Error('Metadata not found');
+  }
 
   const congId = speakers_congregations.find(
     (record) =>
@@ -401,6 +451,10 @@ const dbGetTableData = async () => {
         (record) => record.person_uid === speaker.person_uid
       );
 
+      if (!person) {
+        return null;
+      }
+
       return {
         person_uid: speaker.person_uid,
         _deleted: speaker._deleted,
@@ -415,7 +469,10 @@ const dbGetTableData = async () => {
           person_phone: person.person_data.phone,
         },
       };
-    });
+    })
+    .filter(
+      (speaker): speaker is NonNullable<typeof speaker> => speaker !== null
+    );
 
   return {
     settings,
@@ -470,13 +527,16 @@ const dbInsertOutgoingTalks = async (
       const dbSchedule = await appDb.sched.get(talk.weekOf);
 
       if (dbSchedule) {
-        const tmpSched = talk;
+        const {
+          sender: _sender,
+          recipient: _recipient,
+          weekOf: _weekOf,
+          ...addSched
+        } = talk;
 
-        delete tmpSched.recipient;
-        delete tmpSched.sender;
-        delete tmpSched.weekOf;
-
-        const addSched = tmpSched as OutgoingTalkScheduleType;
+        void _sender;
+        void _recipient;
+        void _weekOf;
 
         const schedule = structuredClone(dbSchedule);
 
@@ -603,8 +663,13 @@ const dbRestoreSettings = async (
 
     const remoteSettings = backupData.app_settings as SettingsType;
 
-    delete remoteSettings.cong_settings.cong_master_key;
-    delete remoteSettings.cong_settings.cong_access_code;
+    const remoteCongSettings = remoteSettings.cong_settings as Record<
+      string,
+      unknown
+    >;
+
+    delete remoteCongSettings.cong_master_key;
+    delete remoteCongSettings.cong_access_code;
 
     decryptObject({
       data: remoteSettings,
@@ -615,6 +680,10 @@ const dbRestoreSettings = async (
 
     const settings = await appDb.app_settings.get(1);
 
+    if (!settings) {
+      throw new Error('Settings not found');
+    }
+
     const localSettings = structuredClone(settings);
 
     convertObjectToArray(remoteSettings);
@@ -622,7 +691,7 @@ const dbRestoreSettings = async (
 
     syncFromRemote(localSettings, remoteSettings);
 
-    if (backupData.metadata.user_settings) {
+    if (backupData.metadata?.user_settings) {
       localSettings.user_settings.cong_role =
         remoteSettings.user_settings.cong_role;
       localSettings.user_settings.user_local_uid =
@@ -632,7 +701,7 @@ const dbRestoreSettings = async (
     }
 
     if (
-      backupData.metadata.cong_settings &&
+      backupData.metadata?.cong_settings &&
       localSettings.user_settings.account_type === 'vip'
     ) {
       // force to use local value
@@ -640,44 +709,60 @@ const dbRestoreSettings = async (
       localSettings.cong_settings.cong_migrated =
         settings.cong_settings.cong_migrated ?? false;
 
-      if (localSettings?.cong_settings['source_material_auto_import']) {
-        delete localSettings.cong_settings['source_material_auto_import'];
+      const vipCongSettings = localSettings.cong_settings as Record<
+        string,
+        unknown
+      >;
+
+      if (vipCongSettings['source_material_auto_import']) {
+        delete vipCongSettings['source_material_auto_import'];
       }
 
       const midweekSettings =
         localSettings?.cong_settings.midweek_meeting || [];
 
       for (const midweekSetting of midweekSettings) {
-        if (midweekSetting['opening_prayer_auto_assigned']) {
-          delete midweekSetting['opening_prayer_auto_assigned'];
+        const setting = midweekSetting as Record<string, unknown>;
+
+        if (setting['opening_prayer_auto_assigned']) {
+          delete setting['opening_prayer_auto_assigned'];
         }
 
-        if (midweekSetting['closing_prayer_auto_assigned']) {
-          delete midweekSetting['closing_prayer_auto_assigned'];
+        if (setting['closing_prayer_auto_assigned']) {
+          delete setting['closing_prayer_auto_assigned'];
         }
       }
     }
 
     if (
-      backupData.metadata.cong_settings &&
+      backupData.metadata?.cong_settings &&
       localSettings.user_settings.account_type === 'pocket'
     ) {
-      for (const [key, value] of Object.entries(remoteSettings.cong_settings)) {
-        localSettings.cong_settings[key] = value;
+      const remoteCongSettingsEntries = remoteSettings.cong_settings as Record<
+        string,
+        unknown
+      >;
+      const localCongSettings = localSettings.cong_settings as Record<
+        string,
+        unknown
+      >;
+
+      for (const [key, value] of Object.entries(remoteCongSettingsEntries)) {
+        localCongSettings[key] = value;
       }
     }
 
-    if (!backupData.metadata.user_settings) {
-      delete localSettings.user_settings;
+    if (!backupData.metadata?.user_settings) {
+      delete (localSettings as Partial<SettingsType>).user_settings;
     }
 
-    if (!backupData.metadata.cong_settings) {
-      delete localSettings.cong_settings;
+    if (!backupData.metadata?.cong_settings) {
+      delete (localSettings as Partial<SettingsType>).cong_settings;
     }
 
     await appDb.app_settings.update(1, localSettings);
   } catch (error) {
-    throw new Error(`settings: ${error.message}`);
+    throw new Error(`settings: ${getErrorMessage(error)}`);
   }
 };
 
@@ -689,8 +774,7 @@ const dbRestorePersons = async (
   try {
     if (!backupData.persons) return;
 
-    const remotePersons = (backupData.persons as object[]).map(
-      (person: PersonType) => {
+    const remotePersons = (backupData.persons as PersonType[]).map((person) => {
         decryptObject({
           data: person,
           table: 'persons',
@@ -702,11 +786,13 @@ const dbRestorePersons = async (
         delete person.person_data.categories;
 
         // clean up keys
+        const personData = person.person_data as Record<string, unknown>;
+
         if (
-          person.person_data.family_members &&
-          typeof person.person_data.family_members === 'string'
+          personData.family_members &&
+          typeof personData.family_members === 'string'
         ) {
-          delete person.person_data.family_members;
+          delete personData.family_members;
         }
 
         return person;
@@ -727,11 +813,13 @@ const dbRestorePersons = async (
       if (
         assignments &&
         assignments.length > 0 &&
-        'code' in assignments.at(0)
+        'code' in assignments.at(0)!
       ) {
-        const codes: number[] = assignments
+        const legacyAssignments = assignments as Array<Record<string, unknown>>;
+
+        const codes: number[] = legacyAssignments
           .filter((a) => !a['_deleted'])
-          .map((a) => a['code']);
+          .map((a) => a['code'] as number);
 
         person.person_data.assignments.length = 0;
         person.person_data.assignments = [
@@ -775,7 +863,7 @@ const dbRestorePersons = async (
       await appDb.persons.bulkPut(personToUpdate);
     }
   } catch (error) {
-    throw new Error(`persons: ${error.message}`);
+    throw new Error(`persons: ${getErrorMessage(error)}`);
   }
 };
 
@@ -797,7 +885,7 @@ const dbRestoreUpcomingEvents = async (
 
       // clean up keys
       if (event.updatedAt) {
-        event.event_data._deleted = event._deleted;
+        event.event_data._deleted = event._deleted ?? false;
         event.event_data.updatedAt = event.updatedAt;
 
         delete event._deleted;
@@ -832,7 +920,7 @@ const dbRestoreUpcomingEvents = async (
       await appDb.upcoming_events.bulkPut(eventToUpdate);
     }
   } catch (error) {
-    throw new Error(`upcoming_events: ${error.message}`);
+    throw new Error(`upcoming_events: ${getErrorMessage(error)}`);
   }
 };
 
@@ -844,18 +932,18 @@ const dbRestoreSpeakersCongregations = async (
   try {
     if (!backupData.speakers_congregations) return;
 
-    const remoteCongregations = (
-      backupData.speakers_congregations as object[]
-    ).map((congregation: SpeakersCongregationsType) => {
-      decryptObject({
-        data: congregation,
-        table: 'speakers_congregations',
-        accessCode,
-        masterKey,
-      });
+    const remoteCongregations = (backupData.speakers_congregations as SpeakersCongregationsType[]).map(
+      (congregation) => {
+        decryptObject({
+          data: congregation,
+          table: 'speakers_congregations',
+          accessCode,
+          masterKey,
+        });
 
-      return congregation;
-    });
+        return congregation;
+      }
+    );
 
     const congregations = await appDb.speakers_congregations.toArray();
 
@@ -882,7 +970,7 @@ const dbRestoreSpeakersCongregations = async (
       await appDb.speakers_congregations.bulkPut(congsToUpdate);
     }
   } catch (error) {
-    throw new Error(`speakers_congregations: ${error.message}`);
+    throw new Error(`speakers_congregations: ${getErrorMessage(error)}`);
   }
 };
 
@@ -894,8 +982,8 @@ const dbRestoreVisitingSpeakers = async (
   try {
     if (!backupData.visiting_speakers) return;
 
-    const remoteSpeakers = (backupData.visiting_speakers as object[]).map(
-      (speaker: VisitingSpeakerType) => {
+    const remoteSpeakers = (backupData.visiting_speakers as VisitingSpeakerType[]).map(
+      (speaker) => {
         decryptObject({
           data: speaker,
           table: 'visiting_speakers',
@@ -932,7 +1020,7 @@ const dbRestoreVisitingSpeakers = async (
       await appDb.visiting_speakers.bulkPut(speakersToUpdate);
     }
   } catch (error) {
-    throw new Error(`visiting_speakers: ${error.message}`);
+    throw new Error(`visiting_speakers: ${getErrorMessage(error)}`);
   }
 };
 
@@ -943,8 +1031,8 @@ const dbRestoreFieldGroups = async (
   try {
     if (!backupData.field_service_groups) return;
 
-    const remoteGroups = (backupData.field_service_groups as object[]).map(
-      (group: FieldServiceGroupType) => {
+    const remoteGroups = (backupData.field_service_groups as FieldServiceGroupType[]).map(
+      (group) => {
         decryptObject({
           data: group,
           table: 'field_service_groups',
@@ -980,7 +1068,7 @@ const dbRestoreFieldGroups = async (
       await appDb.field_service_groups.bulkPut(groupsToUpdate);
     }
   } catch (error) {
-    throw new Error(`field_service_groups: ${error.message}`);
+    throw new Error(`field_service_groups: ${getErrorMessage(error)}`);
   }
 };
 
@@ -991,8 +1079,8 @@ const dbRestoreUserStudies = async (
   try {
     if (!backupData.user_bible_studies) return;
 
-    const remoteData = (backupData.user_bible_studies as object[]).map(
-      (data: UserBibleStudyType) => {
+    const remoteData = (backupData.user_bible_studies as UserBibleStudyType[]).map(
+      (data) => {
         decryptObject({
           data,
           table: 'user_bible_studies',
@@ -1028,7 +1116,7 @@ const dbRestoreUserStudies = async (
       await appDb.user_bible_studies.bulkPut(dataToUpdate);
     }
   } catch (error) {
-    throw new Error(`user_bible_studies: ${error.message}`);
+    throw new Error(`user_bible_studies: ${getErrorMessage(error)}`);
   }
 };
 
@@ -1076,7 +1164,7 @@ const dbRestoreUserReports = async (
       await appDb.user_field_service_reports.bulkPut(dataToUpdate);
     }
   } catch (error) {
-    throw new Error(`user_field_service_reports: ${error.message}`);
+    throw new Error(`user_field_service_reports: ${getErrorMessage(error)}`);
   }
 };
 
@@ -1088,6 +1176,10 @@ const dbRestoreCongReports = async (
     if (!backupData.cong_field_service_reports) return;
 
     const settings = await appDb.app_settings.get(1);
+
+    if (!settings) {
+      throw new Error('Settings not found');
+    }
 
     const userRole = settings.user_settings.cong_role;
 
@@ -1134,7 +1226,7 @@ const dbRestoreCongReports = async (
       }
     }
   } catch (error) {
-    throw new Error(`cong_field_service_reports: ${error.message}`);
+    throw new Error(`cong_field_service_reports: ${getErrorMessage(error)}`);
   }
 };
 
@@ -1182,7 +1274,7 @@ const dbRestoreBranchReports = async (
       await appDb.branch_field_service_reports.bulkPut(dataToUpdate);
     }
   } catch (error) {
-    throw new Error(`branch_field_service_reports: ${error.message}`);
+    throw new Error(`branch_field_service_reports: ${getErrorMessage(error)}`);
   }
 };
 
@@ -1230,7 +1322,7 @@ const dbRestoreBranchCongAnalysis = async (
       await appDb.branch_cong_analysis.bulkPut(dataToUpdate);
     }
   } catch (error) {
-    throw new Error(`branch_cong_analysis: ${error.message}`);
+    throw new Error(`branch_cong_analysis: ${getErrorMessage(error)}`);
   }
 };
 
@@ -1278,7 +1370,7 @@ const dbRestoreMeetingAttendance = async (
       await appDb.meeting_attendance.bulkPut(dataToUpdate);
     }
   } catch (error) {
-    throw new Error(`meeting_attendance: ${error.message}`);
+    throw new Error(`meeting_attendance: ${getErrorMessage(error)}`);
   }
 };
 
@@ -1345,12 +1437,21 @@ const dbRestoreSources = async (
       if (localItem) {
         const newItem = structuredClone(localItem);
 
-        if (!Array.isArray(newItem.midweek_meeting.event_name)) {
-          delete newItem.midweek_meeting.event_name;
+        const midweekMeeting = newItem.midweek_meeting as Record<
+          string,
+          unknown
+        >;
+        const weekendMeeting = newItem.weekend_meeting as Record<
+          string,
+          unknown
+        >;
+
+        if (!Array.isArray(midweekMeeting.event_name)) {
+          delete midweekMeeting.event_name;
         }
 
-        if (!Array.isArray(newItem.weekend_meeting.event_name)) {
-          delete newItem.weekend_meeting.event_name;
+        if (!Array.isArray(weekendMeeting.event_name)) {
+          delete weekendMeeting.event_name;
         }
 
         syncFromRemote(newItem, remoteItem);
@@ -1371,7 +1472,7 @@ const dbRestoreSources = async (
       await appDb.sources.bulkPut(dataToUpdate);
     }
   } catch (error) {
-    throw new Error(`sources: ${error.message}`);
+    throw new Error(`sources: ${getErrorMessage(error)}`);
   }
 };
 
@@ -1491,7 +1592,7 @@ const dbRestoreSchedules = async (
       await appDb.sched.bulkPut(dataToUpdate);
     }
   } catch (error) {
-    throw new Error(`schedules: ${error.message}`);
+    throw new Error(`schedules: ${getErrorMessage(error)}`);
   }
 };
 
@@ -1542,7 +1643,7 @@ const dbRestoreDelegatedReports = async (
       await appDb.delegated_field_service_reports.bulkPut(dataToUpdate);
     }
   } catch (error) {
-    throw new Error(`delegated_field_service_reports: ${error.message}`);
+    throw new Error(`delegated_field_service_reports: ${getErrorMessage(error)}`);
   }
 };
 
@@ -1615,9 +1716,11 @@ const dbRestoreFromBackup = async (
       await appDb.sources.bulkPut(data);
     }
 
-    await dbInsertMetadata(backupData.metadata);
+    if (backupData.metadata) {
+      await dbInsertMetadata(backupData.metadata);
+    }
   } catch (error) {
-    throw new Error(`Restore failed: ${error.message}`);
+    throw new Error(`Restore failed: ${getErrorMessage(error)}`);
   }
 };
 
@@ -1632,17 +1735,25 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
     const cong_master_key =
       await oldData.settings.cong_settings.cong_master_key;
 
+    const backupCongSettings = backupData.app_settings?.cong_settings as
+      | Record<string, string>
+      | undefined;
+
+    if (!backupCongSettings || !backupCongSettings['cong_access_code']) {
+      throw new Error('app_settings.cong_settings not found in backup data');
+    }
+
     const accessCode = decryptData(
-      backupData.app_settings.cong_settings['cong_access_code'],
+      backupCongSettings['cong_access_code'],
       cong_access_code,
       'access_code'
     );
 
-    let masterKey: string;
+    let masterKey: string | undefined;
 
-    if (backupData.app_settings.cong_settings['cong_master_key']) {
+    if (backupCongSettings['cong_master_key']) {
       masterKey = decryptData(
-        backupData.app_settings.cong_settings['cong_master_key'],
+        backupCongSettings['cong_master_key'],
         cong_master_key,
         'master_key'
       );
@@ -1731,6 +1842,10 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
           });
 
           if (metadata.metadata.user_settings.send_local) {
+            if (!obj.app_settings) {
+              obj.app_settings = { user_settings: {} };
+            }
+
             obj.app_settings.user_settings = localSettings.user_settings;
           }
 
@@ -1791,16 +1906,19 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
             obj.visiting_speakers = speakers;
           }
 
+          const hasBackupSpeakersKey =
+            !!backupData.speakers_key &&
+            backupData.speakers_key.length > 0;
+
           const speakersKey =
-            backupData.speakers_key?.length > 0
+            masterKey && backupData.speakers_key
               ? decryptData(backupData.speakers_key, masterKey, 'speakers_key')
               : generateKey();
 
           if (
             metadata.metadata.persons.send_local ||
             metadata.metadata.visiting_speakers.send_local ||
-            !backupData.speakers_key ||
-            backupData?.speakers_key.length === 0
+            !hasBackupSpeakersKey
           ) {
             const outgoing = outgoing_speakers.map((speaker) => {
               encryptObject({
@@ -1815,10 +1933,7 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
             obj.outgoing_speakers = outgoing;
           }
 
-          if (
-            !backupData.speakers_key ||
-            backupData?.speakers_key.length === 0
-          ) {
+          if (!hasBackupSpeakersKey && masterKey) {
             obj.speakers_key = encryptData(speakersKey, masterKey);
           }
         }
@@ -1827,6 +1942,7 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
         if (
           !personEditor &&
           isPublisher &&
+          myPerson &&
           metadata.metadata.persons.send_local
         ) {
           const person = {
@@ -2045,7 +2161,7 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
             );
 
             if (publisher) {
-              const isLanguageGroup = group.group_data.language_group;
+              const isLanguageGroup = group?.group_data.language_group;
               const isOverseer =
                 publisher?.isOverseer || publisher?.isAssistant || false;
 
@@ -2076,9 +2192,11 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
 
               // update local value
               const dbSettings = await dbGetSettings();
-              const localUid = dbSettings.user_settings.user_local_uid;
 
-              if (user.local_uid === localUid) {
+              if (
+                dbSettings &&
+                user.local_uid === dbSettings.user_settings.user_local_uid
+              ) {
                 await appDb.app_settings.update(1, {
                   'user_settings.cong_role': newUser.role,
                 });
@@ -2210,6 +2328,10 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
           });
 
           if (metadata.metadata.user_settings.send_local) {
+            if (!obj.app_settings) {
+              obj.app_settings = {};
+            }
+
             obj.app_settings.user_settings = {
               ...obj.app_settings.user_settings,
               cong_role: user_settings.cong_role,
@@ -2251,12 +2373,14 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
     return obj;
   } catch (error) {
     console.error(error);
-    throw new Error(error.message);
+    throw new Error(getErrorMessage(error));
   }
 };
 
 export const dbClearExportState = async () => {
   const metadata = await appDb.metadata.get(1);
+
+  if (!metadata) return;
 
   const oldMetadata = metadata.metadata;
   const newMetadata = {} as MetadataRecordType['metadata'];
