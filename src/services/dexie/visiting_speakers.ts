@@ -24,51 +24,66 @@ const dbUpdateVisitingSpeakersMetadata = async () => {
   await appDb.metadata.put(metadata);
 };
 
-export const dbVisitingSpeakersLocalCongSpeakerAdd = async (local: boolean) => {
+const dbSpeakersLocalCongregationGet = async () => {
   const settings = await appDb.app_settings.get(1);
   if (!settings) {
     throw new Error('App settings not found.');
   }
+
+  const congName = settings.cong_settings.cong_name;
+  const congregations = await appDb.speakers_congregations.toArray();
+
+  const isActiveLocalCongregation = (record: SpeakersCongregationsType) =>
+    record._deleted.value === false &&
+    record.cong_data.cong_name.value === congName;
+
+  if (!congregations.some(isActiveLocalCongregation)) {
+    await dbSpeakersCongregationsCreateLocal();
+  }
+
+  const congregationsNew = await appDb.speakers_congregations.toArray();
+
+  const congLocal = congregationsNew.find(isActiveLocalCongregation);
+
+  if (!congLocal) {
+    throw new Error('Active own congregation not found in the database.');
+  }
+
+  return congLocal;
+};
+
+export const dbVisitingSpeakersLocalCongSpeakerAdd = async (
+  local: boolean,
+  person_uid: string,
+  changes: UpdateSpec<VisitingSpeakerType>
+) => {
   try {
-    const congName = settings.cong_settings.cong_name;
+    const congLocal = await dbSpeakersLocalCongregationGet();
 
-    const congregations = await appDb.speakers_congregations.toArray();
-
-    const isActiveLocalCongregation = (record: SpeakersCongregationsType) =>
-      record._deleted.value === false &&
-      record.cong_data.cong_name.value === congName;
-
-    const congExist = congregations.some(isActiveLocalCongregation);
-
-    if (!congExist) {
-      await dbSpeakersCongregationsCreateLocal();
-    }
-
-    const congregationsNew = await appDb.speakers_congregations.toArray();
-
-    // 2. Search for the exact ID again
-    const congLocal = congregationsNew.find(isActiveLocalCongregation);
-
-    if (!congLocal) {
-      throw new Error('Active own congregation not found in the database.');
-    }
-
-    const newSpeaker = structuredClone(vistingSpeakerSchema);
-    newSpeaker.person_uid = crypto.randomUUID();
     const congId = congLocal.id;
     if (!congId) {
       throw new Error(
         'Local congregation record has no id — cannot assign speaker.cong_id.'
       );
     }
+
+    const newSpeaker = structuredClone(vistingSpeakerSchema);
+    newSpeaker.person_uid = person_uid;
     newSpeaker.speaker_data.cong_id = congId;
     newSpeaker.speaker_data.local = {
       value: local,
       updatedAt: new Date().toISOString(),
     };
 
-    await appDb.visiting_speakers.put(newSpeaker);
+    // one transaction, so a failed update leaves no empty speaker behind
+    await appDb.transaction('rw', appDb.visiting_speakers, async () => {
+      await appDb.visiting_speakers.put(newSpeaker);
+      await appDb.visiting_speakers.update(newSpeaker.person_uid, changes);
+    });
+
     await dbUpdateVisitingSpeakersMetadata();
+
+    return newSpeaker.person_uid;
   } catch (err) {
     console.error('[DB] dbVisitingSpeakersLocalCongSpeakerAdd failed:', err);
     throw err;
@@ -110,14 +125,11 @@ export const dbVisitingSpeakersUpdate = async (
       : undefined;
 
     if (speaker) {
-      // Single shared timestamp keeps the restore + soft-delete coherent.
       const now = new Date().toISOString();
 
-      // Restore the previously deleted speaker and reset its talks.
       speaker._deleted = { value: false, updatedAt: now };
       speaker.speaker_data.talks = [];
 
-      // Soft-delete the temporary record that held the in-progress edits.
       const temp = await appDb.visiting_speakers.get(person_uid);
       if (!temp) {
         throw new Error(
@@ -141,14 +153,24 @@ export const dbVisitingSpeakersUpdate = async (
   }
 };
 
-export const dbVisitingSpeakersAdd = async (cong_id: string) => {
+export const dbVisitingSpeakersAdd = async (
+  cong_id: string,
+  changes: UpdateSpec<VisitingSpeakerType>
+) => {
   try {
     const newSpeaker = structuredClone(vistingSpeakerSchema);
     newSpeaker.person_uid = crypto.randomUUID();
     newSpeaker.speaker_data.cong_id = cong_id;
 
-    await appDb.visiting_speakers.put(newSpeaker);
+    // one transaction, so a failed update leaves no empty speaker behind
+    await appDb.transaction('rw', appDb.visiting_speakers, async () => {
+      await appDb.visiting_speakers.put(newSpeaker);
+      await appDb.visiting_speakers.update(newSpeaker.person_uid, changes);
+    });
+
     await dbUpdateVisitingSpeakersMetadata();
+
+    return newSpeaker.person_uid;
   } catch (err) {
     console.error('[DB] dbVisitingSpeakersAdd failed:', err);
     throw err;
@@ -600,7 +622,7 @@ export const dbVisitingSpeakersDummy = async () => {
     updatedAt: new Date().toISOString(),
   };
   speaker3Cong2.speaker_data = {
-    cong_id: incomingCongs.at(1).id,
+    cong_id: incomingCong1.id,
     elder: { value: true, updatedAt: new Date().toISOString() },
     ministerial_servant: {
       value: false,
