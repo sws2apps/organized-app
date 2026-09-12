@@ -128,25 +128,14 @@ const ImportExport = (props: ImportExportType) => {
                   },
                 }}
               >
-                <Typography
-                  sx={{
-                    fontFamily: 'Inter',
-                    fontWeight: 550,
-                    fontSize: '16px',
-                    lineHeight: '20px',
-                    flex: 'none',
-                    order: 0,
-                    flexGrow: 0,
-                    minWidth: '151px',
-                  }}
-                >
+                <Typography className="h4">
                   {t('tr_templateFillingTips')}
                 </Typography>
                 <ExpandMoreIcon
                   sx={{
                     width: '24px',
                     height: '24px',
-                    color: '#505050',
+                    color: 'var(--grey-400)',
                     flex: 'none',
                     order: 1,
                     flexGrow: 0,
