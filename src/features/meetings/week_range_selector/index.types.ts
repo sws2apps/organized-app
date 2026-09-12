@@ -1,7 +1,9 @@
+import { MeetingType } from '@definition/app';
+
 export type WeekRangeSelectorType = {
   onStartChange?: (value: string) => void;
   onEndChange?: (value: string) => void;
-  meeting: 'midweek' | 'weekend';
+  meeting: MeetingType;
 };
 
 export type WeekOptionsType = {
