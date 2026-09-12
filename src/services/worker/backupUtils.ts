@@ -1910,10 +1910,10 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
           const hasBackupSpeakersKey =
             !!backupData.speakers_key && backupData.speakers_key.length > 0;
 
-          const speakersKey =
-            masterKey && hasBackupSpeakersKey
-              ? decryptData(backupData.speakers_key!, masterKey, 'speakers_key')
-              : generateKey();
+          // by this time, master key should already be assumed to exist
+          const speakersKey = hasBackupSpeakersKey
+            ? decryptData(backupData.speakers_key!, masterKey!, 'speakers_key')
+            : generateKey();
 
           if (
             metadata.metadata.persons.send_local ||
@@ -1933,8 +1933,8 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
             obj.outgoing_speakers = outgoing;
           }
 
-          if (!hasBackupSpeakersKey && masterKey) {
-            obj.speakers_key = encryptData(speakersKey, masterKey);
+          if (!hasBackupSpeakersKey) {
+            obj.speakers_key = encryptData(speakersKey, masterKey!);
           }
         }
 
