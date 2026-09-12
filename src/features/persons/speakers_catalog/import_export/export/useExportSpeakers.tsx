@@ -162,7 +162,7 @@ const useExportSpeakers = () => {
 
         case 'congregation.midweek_meeting.weekday':
           return String(
-            settings.cong_settings.midweek_meeting[0]?.weekday?.value || ''
+            settings.cong_settings.midweek_meeting[0]?.weekday?.value + 1 || ''
           );
 
         case 'congregation.weekend_meeting.time':
@@ -170,7 +170,7 @@ const useExportSpeakers = () => {
 
         case 'congregation.weekend_meeting.weekday':
           return String(
-            settings.cong_settings.weekend_meeting[0]?.weekday?.value || ''
+            settings.cong_settings.weekend_meeting[0]?.weekday?.value + 1 || ''
           );
 
         // Coordinators for the own congregation are not stored in settings;
