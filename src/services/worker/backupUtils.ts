@@ -13,6 +13,7 @@ import { AppRoleType } from '@definition/app';
 import { PersonType, PrivilegeType } from '@definition/person';
 import {
   OutgoingTalkExportScheduleType,
+  OutgoingTalkScheduleType,
   SchedWeekType,
 } from '@definition/schedules';
 import { SpeakersCongregationsType } from '@definition/speakers_congregations';
@@ -527,16 +528,17 @@ const dbInsertOutgoingTalks = async (
       const dbSchedule = await appDb.sched.get(talk.weekOf);
 
       if (dbSchedule) {
-        const {
-          sender: _sender,
-          recipient: _recipient,
-          weekOf: _weekOf,
-          ...addSched
-        } = talk;
-
-        void _sender;
-        void _recipient;
-        void _weekOf;
+        const addSched: OutgoingTalkScheduleType = {
+          _deleted: talk._deleted,
+          updatedAt: talk.updatedAt,
+          id: talk.id,
+          synced: talk.synced,
+          opening_song: talk.opening_song,
+          public_talk: talk.public_talk,
+          value: talk.value,
+          type: talk.type,
+          congregation: talk.congregation,
+        };
 
         const schedule = structuredClone(dbSchedule);
 
@@ -775,29 +777,28 @@ const dbRestorePersons = async (
     if (!backupData.persons) return;
 
     const remotePersons = (backupData.persons as PersonType[]).map((person) => {
-        decryptObject({
-          data: person,
-          table: 'persons',
-          accessCode,
-          masterKey,
-        });
+      decryptObject({
+        data: person,
+        table: 'persons',
+        accessCode,
+        masterKey,
+      });
 
-        // remove old key
-        delete person.person_data.categories;
+      // remove old key
+      delete person.person_data.categories;
 
-        // clean up keys
-        const personData = person.person_data as Record<string, unknown>;
+      // clean up keys
+      const personData = person.person_data as Record<string, unknown>;
 
-        if (
-          personData.family_members &&
-          typeof personData.family_members === 'string'
-        ) {
-          delete personData.family_members;
-        }
-
-        return person;
+      if (
+        personData.family_members &&
+        typeof personData.family_members === 'string'
+      ) {
+        delete personData.family_members;
       }
-    );
+
+      return person;
+    });
 
     remotePersons.forEach((person) => {
       const assignments = person.person_data.assignments;
@@ -932,18 +933,18 @@ const dbRestoreSpeakersCongregations = async (
   try {
     if (!backupData.speakers_congregations) return;
 
-    const remoteCongregations = (backupData.speakers_congregations as SpeakersCongregationsType[]).map(
-      (congregation) => {
-        decryptObject({
-          data: congregation,
-          table: 'speakers_congregations',
-          accessCode,
-          masterKey,
-        });
+    const remoteCongregations = (
+      backupData.speakers_congregations as SpeakersCongregationsType[]
+    ).map((congregation) => {
+      decryptObject({
+        data: congregation,
+        table: 'speakers_congregations',
+        accessCode,
+        masterKey,
+      });
 
-        return congregation;
-      }
-    );
+      return congregation;
+    });
 
     const congregations = await appDb.speakers_congregations.toArray();
 
@@ -982,18 +983,18 @@ const dbRestoreVisitingSpeakers = async (
   try {
     if (!backupData.visiting_speakers) return;
 
-    const remoteSpeakers = (backupData.visiting_speakers as VisitingSpeakerType[]).map(
-      (speaker) => {
-        decryptObject({
-          data: speaker,
-          table: 'visiting_speakers',
-          accessCode,
-          masterKey,
-        });
+    const remoteSpeakers = (
+      backupData.visiting_speakers as VisitingSpeakerType[]
+    ).map((speaker) => {
+      decryptObject({
+        data: speaker,
+        table: 'visiting_speakers',
+        accessCode,
+        masterKey,
+      });
 
-        return speaker;
-      }
-    );
+      return speaker;
+    });
 
     const speakers = await appDb.visiting_speakers.toArray();
 
@@ -1031,17 +1032,17 @@ const dbRestoreFieldGroups = async (
   try {
     if (!backupData.field_service_groups) return;
 
-    const remoteGroups = (backupData.field_service_groups as FieldServiceGroupType[]).map(
-      (group) => {
-        decryptObject({
-          data: group,
-          table: 'field_service_groups',
-          accessCode,
-        });
+    const remoteGroups = (
+      backupData.field_service_groups as FieldServiceGroupType[]
+    ).map((group) => {
+      decryptObject({
+        data: group,
+        table: 'field_service_groups',
+        accessCode,
+      });
 
-        return group;
-      }
-    );
+      return group;
+    });
 
     const groups = await appDb.field_service_groups.toArray();
 
@@ -1079,17 +1080,17 @@ const dbRestoreUserStudies = async (
   try {
     if (!backupData.user_bible_studies) return;
 
-    const remoteData = (backupData.user_bible_studies as UserBibleStudyType[]).map(
-      (data) => {
-        decryptObject({
-          data,
-          table: 'user_bible_studies',
-          accessCode,
-        });
+    const remoteData = (
+      backupData.user_bible_studies as UserBibleStudyType[]
+    ).map((data) => {
+      decryptObject({
+        data,
+        table: 'user_bible_studies',
+        accessCode,
+      });
 
-        return data;
-      }
-    );
+      return data;
+    });
 
     const localData = await appDb.user_bible_studies.toArray();
 
@@ -1643,7 +1644,9 @@ const dbRestoreDelegatedReports = async (
       await appDb.delegated_field_service_reports.bulkPut(dataToUpdate);
     }
   } catch (error) {
-    throw new Error(`delegated_field_service_reports: ${getErrorMessage(error)}`);
+    throw new Error(
+      `delegated_field_service_reports: ${getErrorMessage(error)}`
+    );
   }
 };
 
@@ -1739,7 +1742,7 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
       | Record<string, string>
       | undefined;
 
-    if (!backupCongSettings || !backupCongSettings['cong_access_code']) {
+    if (!backupCongSettings?.['cong_access_code']) {
       throw new Error('app_settings.cong_settings not found in backup data');
     }
 
@@ -1842,9 +1845,7 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
           });
 
           if (metadata.metadata.user_settings.send_local) {
-            if (!obj.app_settings) {
-              obj.app_settings = { user_settings: {} };
-            }
+            obj.app_settings ??= { user_settings: {} };
 
             obj.app_settings.user_settings = localSettings.user_settings;
           }
@@ -1907,8 +1908,7 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
           }
 
           const hasBackupSpeakersKey =
-            !!backupData.speakers_key &&
-            backupData.speakers_key.length > 0;
+            !!backupData.speakers_key && backupData.speakers_key.length > 0;
 
           const speakersKey =
             masterKey && backupData.speakers_key
@@ -2193,10 +2193,7 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
               // update local value
               const dbSettings = await dbGetSettings();
 
-              if (
-                dbSettings &&
-                user.local_uid === dbSettings.user_settings.user_local_uid
-              ) {
+              if (user.local_uid === dbSettings?.user_settings.user_local_uid) {
                 await appDb.app_settings.update(1, {
                   'user_settings.cong_role': newUser.role,
                 });
@@ -2328,9 +2325,7 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
           });
 
           if (metadata.metadata.user_settings.send_local) {
-            if (!obj.app_settings) {
-              obj.app_settings = {};
-            }
+            obj.app_settings ??= {};
 
             obj.app_settings.user_settings = {
               ...obj.app_settings.user_settings,
