@@ -1911,8 +1911,8 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
             !!backupData.speakers_key && backupData.speakers_key.length > 0;
 
           const speakersKey =
-            masterKey && backupData.speakers_key
-              ? decryptData(backupData.speakers_key, masterKey, 'speakers_key')
+            masterKey && hasBackupSpeakersKey
+              ? decryptData(backupData.speakers_key!, masterKey, 'speakers_key')
               : generateKey();
 
           if (
