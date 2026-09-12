@@ -118,8 +118,6 @@ export const dbVisitingSpeakersUpdate = async (
   person_uid: string
 ) => {
   try {
-    // A deleted speaker is being restored: re-link it to the temp record's
-    // `person_uid` so the UI keeps pointing at a single, consistent entry.
     const speaker = changes.person_uid
       ? await appDb.visiting_speakers.get(changes.person_uid)
       : undefined;
@@ -260,6 +258,8 @@ export const dbVisitingSpeakersDummy = async () => {
   // need at least two eligible WM speakers to generate dummy records
   if (elligiblePersons.length < 2) return;
 
+  // need at least two eligible WM speakers to generate dummy records
+  if (elligiblePersons.length < 2) return;
   // add outgoing speakers
   const localCong = congregations.find(
     (record) =>
@@ -338,7 +338,6 @@ export const dbVisitingSpeakersDummy = async () => {
 
   await appDb.visiting_speakers.bulkAdd([speaker1, speaker2]);
 
-  // add incoming speakers
   const incomingCongs = congregations.filter(
     (record) =>
       record.cong_data.cong_name.value !== settings?.cong_settings.cong_name

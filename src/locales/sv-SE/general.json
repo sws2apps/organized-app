@@ -36,6 +36,8 @@
   "tr_december": "December",
   "tr_longDateFormat": "DDD, MMM dd, åååå",
   "tr_delete": "Radera",
+  "tr_continueEditing": "Fortsätt redigera",
+  "tr_discardChanges": "Ta bort ändringar",
   "tr_add": "Lägg till",
   "tr_pickerSelectTime": "Välj tid",
   "tr_pickerSelectDate": "Välj datum",

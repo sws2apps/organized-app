@@ -36,6 +36,8 @@
   "tr_december": "Декабрь",
   "tr_longDateFormat": "EEE, dd MMMM, yyyy",
   "tr_delete": "Удалить",
+  "tr_continueEditing": "Continue editing",
+  "tr_discardChanges": "Discard changes",
   "tr_add": "Добавить",
   "tr_pickerSelectTime": "Выбрать время",
   "tr_pickerSelectDate": "Выбрать дату",

@@ -36,6 +36,8 @@
   "tr_december": "december",
   "tr_longDateFormat": "EEE, dd. MMM yyyy",
   "tr_delete": "Izbriši",
+  "tr_continueEditing": "Nadaljuj z urejanjem",
+  "tr_discardChanges": "Zavrzi spremembe",
   "tr_add": "Dodaj",
   "tr_pickerSelectTime": "Izberi čas",
   "tr_pickerSelectDate": "Izberi datum",

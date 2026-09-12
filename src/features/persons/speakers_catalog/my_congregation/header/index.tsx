@@ -1,3 +1,4 @@
+import { MouseEvent } from 'react';
 import { Box, IconButton } from '@mui/material';
 import {
   IconCheck,
@@ -40,145 +41,173 @@ const OutgoingSpeakersHeader = ({
 
   const { tablet600Down } = useBreakpoints();
 
+  const handleActionClick = (
+    event: MouseEvent<HTMLButtonElement>,
+    action: VoidFunction
+  ) => {
+    event.stopPropagation();
+    action();
+  };
+
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        flexWrap: 'wrap',
-        alignItems: 'center',
-        gap: '16px',
-      }}
-    >
+    <>
       {congAccountConnected && openAccess && (
         <OutgoingSpeakersAccess open={openAccess} onClose={handleCloseAccess} />
       )}
 
       <Box
+        onClick={onExpandChange}
         sx={{
           display: 'flex',
-          flexDirection: 'column',
-          gap: '4px',
-          width: tablet600Down ? '100%' : 'auto',
+          justifyContent: 'space-between',
+          flexWrap: 'wrap',
+          alignItems: 'center',
+          gap: '16px',
+          cursor: 'pointer',
         }}
       >
         <Box
           sx={{
             display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}
-        >
-          <Typography className="h2">{headerTitle}</Typography>
-          {tablet600Down && (
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              {isPublicTalkCoordinator && (
-                <>
-                  <Tooltip title={t('tr_edit')} delaySpeed="slow">
-                    <IconButton onClick={onEditModeChange}>
-                      {!editMode && <IconEdit color="var(--accent-main)" />}
-                      {editMode && <IconCheck color="var(--accent-main)" />}
-                    </IconButton>
-                  </Tooltip>
-                  {congAccountConnected && (
-                    <Tooltip title={t('tr_whoHasAccess')} delaySpeed="slow">
-                      <IconButton onClick={handleOpenAccess}>
-                        <IconSharedWith color="var(--accent-main)" />
-                      </IconButton>
-                    </Tooltip>
-                  )}
-                </>
-              )}
-
-              <IconButton onClick={onExpandChange}>
-                <IconExpand
-                  color="var(--black)"
-                  sx={{
-                    transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
-                    transition: 'transform 0.3s',
-                  }}
-                />
-              </IconButton>
-            </Box>
-          )}
-        </Box>
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
+            flexDirection: 'column',
             gap: '4px',
-            flexWrap: 'wrap',
+            width: tablet600Down ? '100%' : 'auto',
           }}
         >
-          {!isGroup && (
-            <>
-              <Typography className="h4" color="var(--grey-400)">
-                {congName}
-              </Typography>
-
-              {congNumber && (
-                <Typography
-                  className="body-small-semibold"
-                  color="var(--grey-400)"
-                  sx={{
-                    borderRadius: 'var(--radius-s)',
-                    padding: '2px 8px',
-                    backgroundColor: 'var(--grey-150)',
-                  }}
-                >
-                  {congNumber}
-                </Typography>
-              )}
-            </>
-          )}
-
-          <Typography
-            className="body-small-semibold"
-            color="var(--grey-400)"
+          <Box
             sx={{
-              borderRadius: 'var(--radius-s)',
-              padding: '2px 8px',
-              backgroundColor: 'var(--grey-150)',
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
             }}
           >
-            {t('tr_circuit', { circuitNumber: circuitNumber })}
-          </Typography>
-        </Box>
-      </Box>
+            <Typography className="h2">{headerTitle}</Typography>
+            {tablet600Down && (
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                {isPublicTalkCoordinator && (
+                  <>
+                    <Tooltip title={t('tr_edit')} delaySpeed="slow">
+                      <IconButton
+                        onClick={(e) => handleActionClick(e, onEditModeChange)}
+                      >
+                        {!editMode && <IconEdit color="var(--accent-main)" />}
+                        {editMode && <IconCheck color="var(--accent-main)" />}
+                      </IconButton>
+                    </Tooltip>
+                    {congAccountConnected && (
+                      <Tooltip title={t('tr_whoHasAccess')} delaySpeed="slow">
+                        <IconButton
+                          onClick={(e) =>
+                            handleActionClick(e, handleOpenAccess)
+                          }
+                        >
+                          <IconSharedWith color="var(--accent-main)" />
+                        </IconButton>
+                      </Tooltip>
+                    )}
+                  </>
+                )}
 
-      {!tablet600Down && (
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          {isPublicTalkCoordinator && (
-            <>
-              <Tooltip title={t('tr_edit')} delaySpeed="slow">
-                <IconButton onClick={onEditModeChange}>
-                  {!editMode && <IconEdit color="var(--accent-main)" />}
-                  {editMode && <IconCheck color="var(--accent-main)" />}
+                <IconButton
+                  aria-expanded={expanded}
+                  onClick={(e) => handleActionClick(e, onExpandChange)}
+                >
+                  <IconExpand
+                    color="var(--black)"
+                    sx={{
+                      transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
+                      transition: 'transform 0.3s',
+                    }}
+                  />
                 </IconButton>
-              </Tooltip>
-              {congAccountConnected && (
-                <Tooltip title={t('tr_whoHasAccess')} delaySpeed="slow">
-                  <IconButton onClick={handleOpenAccess}>
-                    <IconSharedWith color="var(--accent-main)" />
+              </Box>
+            )}
+          </Box>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px',
+              flexWrap: 'wrap',
+            }}
+          >
+            {!isGroup && (
+              <>
+                <Typography className="h4" color="var(--grey-400)">
+                  {congName}
+                </Typography>
+
+                {congNumber && (
+                  <Typography
+                    className="body-small-semibold"
+                    color="var(--grey-400)"
+                    sx={{
+                      borderRadius: 'var(--radius-s)',
+                      padding: '2px 8px',
+                      backgroundColor: 'var(--grey-150)',
+                    }}
+                  >
+                    {congNumber}
+                  </Typography>
+                )}
+              </>
+            )}
+
+            <Typography
+              className="body-small-semibold"
+              color="var(--grey-400)"
+              sx={{
+                borderRadius: 'var(--radius-s)',
+                padding: '2px 8px',
+                backgroundColor: 'var(--grey-150)',
+              }}
+            >
+              {t('tr_circuit', { circuitNumber: circuitNumber })}
+            </Typography>
+          </Box>
+        </Box>
+
+        {!tablet600Down && (
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            {isPublicTalkCoordinator && (
+              <>
+                <Tooltip title={t('tr_edit')} delaySpeed="slow">
+                  <IconButton
+                    onClick={(e) => handleActionClick(e, onEditModeChange)}
+                  >
+                    {!editMode && <IconEdit color="var(--accent-main)" />}
+                    {editMode && <IconCheck color="var(--accent-main)" />}
                   </IconButton>
                 </Tooltip>
-              )}
-            </>
-          )}
+                {congAccountConnected && (
+                  <Tooltip title={t('tr_whoHasAccess')} delaySpeed="slow">
+                    <IconButton
+                      onClick={(e) => handleActionClick(e, handleOpenAccess)}
+                    >
+                      <IconSharedWith color="var(--accent-main)" />
+                    </IconButton>
+                  </Tooltip>
+                )}
+              </>
+            )}
 
-          <IconButton onClick={onExpandChange}>
-            <IconExpand
-              color="var(--black)"
-              sx={{
-                transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
-                transition: 'transform 0.3s',
-              }}
-            />
-          </IconButton>
-        </Box>
-      )}
-    </Box>
+            <IconButton
+              aria-expanded={expanded}
+              onClick={(e) => handleActionClick(e, onExpandChange)}
+            >
+              <IconExpand
+                color="var(--black)"
+                sx={{
+                  transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
+                  transition: 'transform 0.3s',
+                }}
+              />
+            </IconButton>
+          </Box>
+        )}
+      </Box>
+    </>
   );
 };
 

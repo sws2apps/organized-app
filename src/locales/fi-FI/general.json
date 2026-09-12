@@ -36,6 +36,8 @@
   "tr_december": "Joulukuu",
   "tr_longDateFormat": "PPP, MMM dd, yyyy",
   "tr_delete": "Poista",
+  "tr_continueEditing": "Jatka muokkausta",
+  "tr_discardChanges": "Hylkää muutokset",
   "tr_add": "Lisää",
   "tr_pickerSelectTime": "Valitse aika",
   "tr_pickerSelectDate": "Valitse päivämäärä",

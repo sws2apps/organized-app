@@ -9,6 +9,7 @@ import {
   encryptObject,
   generateKey,
 } from '@services/encryption';
+import { AppRoleType } from '@definition/app';
 import { PersonType, PrivilegeType } from '@definition/person';
 import {
   OutgoingTalkExportScheduleType,
@@ -231,6 +232,54 @@ export const dbGetSettings = async () => {
   return settings;
 };
 
+// congregation schedules are downloaded and persisted by the same roles on the
+// API, so every gate in this file must resolve them the same way
+const isScheduleEditorRole = (userRole: AppRoleType[]) => {
+  const adminRole =
+    userRole.includes('admin') ||
+    userRole.includes('secretary') ||
+    userRole.includes('coordinator');
+
+  return (
+    adminRole ||
+    userRole.includes('language_group_overseers') ||
+    userRole.includes('midweek_schedule') ||
+    userRole.includes('weekend_schedule') ||
+    userRole.includes('public_talk_schedule')
+  );
+};
+
+// congregation public-talk data is downloaded and persisted by the same roles
+// on the API, so every gate in this file must resolve them the same way
+const isPublicTalkEditorRole = (userRole: AppRoleType[]) => {
+  const adminRole =
+    userRole.includes('admin') ||
+    userRole.includes('secretary') ||
+    userRole.includes('coordinator');
+
+  return (
+    adminRole ||
+    userRole.includes('language_group_overseers') ||
+    userRole.includes('public_talk_schedule')
+  );
+};
+
+// congregation reports are readable and writable by the same roles on the API,
+// so every gate in this file must resolve them the same way
+const isReportEditorRole = (userRole: AppRoleType[]) => {
+  const adminRole =
+    userRole.includes('admin') ||
+    userRole.includes('secretary') ||
+    userRole.includes('coordinator');
+
+  return (
+    adminRole ||
+    userRole.includes('elder') ||
+    userRole.includes('group_overseers') ||
+    userRole.includes('language_group_overseers')
+  );
+};
+
 export const isMondayDate = (date: string) => {
   const inputDate = new Date(date);
   const dayOfWeek = inputDate.getDay();
@@ -257,31 +306,24 @@ export const dbGetMetadata = async () => {
   const isCoordinator = userRole.includes('coordinator');
   const isAdmin = userRole.includes('admin') || isSecretary || isCoordinator;
   const isPublisher = isAdmin || userRole.includes('publisher');
-  const isGroupOverseer = isAdmin || userRole.includes('group_overseers');
   const isLanguageGroupOverseer =
     isAdmin || userRole.includes('language_group_overseers');
   const isElder =
     accountType === 'vip' && (isAdmin || userRole.includes('elder'));
-  const isScheduleEditor =
-    isAdmin ||
-    isGroupOverseer ||
-    userRole.some(
-      (role) =>
-        role === 'midweek_schedule' ||
-        role === 'weekend_schedule' ||
-        role === 'public_talk_schedule'
-    );
-
-  const isPersonViewer = isScheduleEditor || isElder;
-  const isPersonMinimal = !isPersonViewer;
+  const isScheduleEditor = isScheduleEditorRole(userRole);
 
   const isAttendanceTracker =
     isAdmin || userRole.some((role) => role === 'attendance_tracking');
+
+  const isReportEditor = isReportEditorRole(userRole);
 
   if (!isPublisher) {
     delete result.user_bible_studies;
     delete result.user_field_service_reports;
     delete result.delegated_field_service_reports;
+  }
+
+  if (!isPublisher && !isReportEditor) {
     delete result.cong_field_service_reports;
   }
 
@@ -290,12 +332,12 @@ export const dbGetMetadata = async () => {
     delete result.visiting_speakers;
   }
 
-  if (isPersonViewer) {
+  if (isScheduleEditor || isElder) {
     delete result.public_sources;
     delete result.public_schedules;
   }
 
-  if (isPersonMinimal) {
+  if (!isScheduleEditor && !isElder) {
     delete result.sources;
     delete result.schedules;
   }
@@ -1049,13 +1091,9 @@ const dbRestoreCongReports = async (
 
     const userRole = settings.user_settings.cong_role;
 
-    const secretaryRole = userRole.includes('secretary');
-    const coordinatorRole = userRole.includes('coordinator');
-    const adminRole =
-      userRole.includes('admin') || secretaryRole || coordinatorRole;
     const publisherRole = userRole.includes('publisher');
 
-    const allowRestore = adminRole || publisherRole;
+    const allowRestore = isReportEditorRole(userRole) || publisherRole;
 
     if (allowRestore) {
       const remoteData = (
@@ -1640,8 +1678,6 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
 
     const secretaryRole = userRole.includes('secretary');
     const coordinatorRole = userRole.includes('coordinator');
-    const elderRole = userRole.includes('elder');
-    const groupOverseerRole = userRole.includes('group_overseers');
     const languageGroupOverseerRole = userRole.includes(
       'language_group_overseers'
     );
@@ -1652,15 +1688,9 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
     const serviceCommitteeRole =
       adminRole || userRole.some((role) => role === 'service_overseer');
 
-    const publicTalkEditor =
-      adminRole || userRole.some((role) => role === 'public_talk_schedule');
+    const publicTalkEditor = isPublicTalkEditorRole(userRole);
 
-    const scheduleEditor =
-      adminRole ||
-      publicTalkEditor ||
-      userRole.some(
-        (role) => role === 'midweek_schedule' || role === 'weekend_schedule'
-      );
+    const scheduleEditor = isScheduleEditorRole(userRole);
 
     const personEditor = serviceCommitteeRole || scheduleEditor;
 
@@ -1843,10 +1873,7 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
 
         // include field service reports
         if (
-          (adminRole ||
-            elderRole ||
-            groupOverseerRole ||
-            languageGroupOverseerRole) &&
+          isReportEditorRole(userRole) &&
           metadata.metadata.cong_field_service_reports.send_local
         ) {
           const backupReports = cong_field_service_reports.map((report) => {

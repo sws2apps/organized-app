@@ -36,6 +36,8 @@
   "tr_december": "December",
   "tr_longDateFormat": "yyyy. MMM. dd., EEE.",
   "tr_delete": "Törlés",
+  "tr_continueEditing": "Continue editing",
+  "tr_discardChanges": "Discard changes",
   "tr_add": "Hozzáadás",
   "tr_pickerSelectTime": "Időpont kiválasztása",
   "tr_pickerSelectDate": "Dátum kiválasztása",
