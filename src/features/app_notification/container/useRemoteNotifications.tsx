@@ -10,24 +10,23 @@ import {
   dbNotificationsBulkPut,
 } from '@services/dexie/notifications';
 import { updateObject } from '@utils/common';
-import { hour24FormatState, shortDateFormatState } from '@states/settings';
 
 const useRemoteNotifications = () => {
   const setNotifications = useSetAtom(notificationsState);
-
   const dbNotifications = useAtomValue(notificationsDbState);
-  const shortDateFormat = useAtomValue(shortDateFormatState);
-  const hour24 = useAtomValue(hour24FormatState);
 
   const handleRemoteNotifications = async (
     notifications: NotificationDbRecordType[]
   ) => {
-    const notificationsToDelete = dbNotifications.filter(
-      (record) =>
-        notifications.some((remote) => remote.id === record.id) === false
+    const remoteLocalNotifications = dbNotifications.filter(
+      (record) => record.type !== 'announcement'
     );
 
-    const idsDelete = notificationsToDelete.map((r) => r.id);
+    const notificationsToDelete = remoteLocalNotifications.filter(
+      (record) => !notifications.some((remote) => remote.id === record.id)
+    );
+
+    const idsDelete = notificationsToDelete.map((record) => record.id);
 
     if (idsDelete.length > 0) {
       await dbNotificationsBulkDelete(idsDelete);
@@ -39,18 +38,25 @@ const useRemoteNotifications = () => {
       const local = dbNotifications.find((record) => record.id === remote.id);
 
       if (!local) {
-        notificationsToUpdate.push(remote);
+        notificationsToUpdate.push({
+          ...remote,
+          type: 'remote',
+          read: false,
+        });
+
+        continue;
       }
 
-      if (local) {
-        if (local.updatedAt < remote.updatedAt) {
-          const newLocal = structuredClone(local);
-          const newRemote = { ...remote, read: false };
+      if (local.updatedAt < remote.updatedAt) {
+        const newLocal = structuredClone(local);
 
-          updateObject(newLocal, newRemote);
+        updateObject(newLocal, {
+          ...remote,
+          type: 'remote',
+          read: false,
+        });
 
-          notificationsToUpdate.push(newLocal);
-        }
+        notificationsToUpdate.push(newLocal);
       }
     }
 
@@ -64,10 +70,26 @@ const useRemoteNotifications = () => {
       (record) => !record.read
     );
 
-    if (unreadNotifications.length > 0) {
+    setNotifications((prev) => {
+      const next = prev.filter((notification) => {
+        if (!notification.id.startsWith('standard-notification-')) {
+          return true;
+        }
+
+        return unreadNotifications.some(
+          (record) => notification.id === `standard-notification-${record.id}`
+        );
+      });
+
+      const existingIds = new Set(next.map((notification) => notification.id));
+
       for (const notification of unreadNotifications) {
-        const remoteNotification: StandardNotificationType = {
-          id: `standard-notification-${notification.id}`,
+        const id = `standard-notification-${notification.id}`;
+
+        if (existingIds.has(id)) continue;
+
+        const standardNotification: StandardNotificationType = {
+          id,
           title: notification.title,
           description: notification.desc,
           date: notification.updatedAt,
@@ -76,15 +98,12 @@ const useRemoteNotifications = () => {
           read: false,
         };
 
-        setNotifications((prev) => {
-          const newValue = prev.filter((r) => r.id !== remoteNotification.id);
-          newValue.push(remoteNotification);
-
-          return newValue;
-        });
+        next.push(standardNotification);
       }
-    }
-  }, [dbNotifications, shortDateFormat, hour24, setNotifications]);
+
+      return next;
+    });
+  }, [dbNotifications, setNotifications]);
 
   return { handleRemoteNotifications };
 };

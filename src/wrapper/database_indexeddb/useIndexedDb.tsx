@@ -23,6 +23,7 @@ import { delegatedFieldServiceReportsDbState } from '@states/delegated_field_ser
 import { upcomingEventsDbState } from '@states/upcoming_events';
 import { publicTalksState } from '@states/public_talks';
 import { songsState } from '@states/songs';
+import { informationBoardState } from '@states/information_board';
 
 const useIndexedDb = () => {
   const dbSettings = useLiveQuery(() => appDb.app_settings.toArray());
@@ -65,6 +66,9 @@ const useIndexedDb = () => {
   const dbUpcomingEvents = useLiveQuery(() => appDb.upcoming_events.toArray());
   const dbPublicTalks = useLiveQuery(() => appDb.public_talks.toArray());
   const dbSongs = useLiveQuery(() => appDb.songs.toArray());
+  const dbInformationBoard = useLiveQuery(() =>
+    appDb.information_board.toArray()
+  );
 
   const setSettings = useSetAtom(settingsState);
   const setPersons = useSetAtom(personsState);
@@ -88,6 +92,7 @@ const useIndexedDb = () => {
   const setUpcomingEvents = useSetAtom(upcomingEventsDbState);
   const setPublicTalks = useSetAtom(publicTalksState);
   const setSongs = useSetAtom(songsState);
+  const setInformationBoard = useSetAtom(informationBoardState);
 
   const loadSettings = useCallback(() => {
     if (dbSettings && dbSettings[0]) {
@@ -209,6 +214,12 @@ const useIndexedDb = () => {
     }
   }, [dbSongs, setSongs]);
 
+  const loadInformationBoard = useCallback(() => {
+    if (dbInformationBoard && dbInformationBoard[0]) {
+      setInformationBoard(dbInformationBoard[0]);
+    }
+  }, [dbInformationBoard, setInformationBoard]);
+
   return {
     loadSettings,
     loadPersons,
@@ -230,6 +241,7 @@ const useIndexedDb = () => {
     loadUpcomingEvents,
     loadPublicTalks,
     loadSongs,
+    loadInformationBoard,
   };
 };
 

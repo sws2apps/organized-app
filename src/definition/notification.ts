@@ -12,6 +12,7 @@ export type NotificationDbRecordType = {
   title: string;
   desc: string;
   read?: boolean;
+  type?: 'remote' | 'announcement';
 };
 
 export type CongregationSpeakerRequestType = {

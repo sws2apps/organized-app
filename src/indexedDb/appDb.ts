@@ -56,6 +56,10 @@ import {
 } from './tables/upcoming_events';
 import { publicTalkSchema, PublicTalkTable } from './tables/public_talk';
 import { songSchema, SongTable } from './tables/songs';
+import {
+  informationBoardSchema,
+  InformationBoardTable,
+} from './tables/information_board';
 
 type DexieTables = PersonsTable &
   SettingsTable &
@@ -77,7 +81,8 @@ type DexieTables = PersonsTable &
   MetadataTable &
   DelegatedFieldServiceReportsTable &
   PublicTalkTable &
-  SongTable;
+  SongTable &
+  InformationBoardTable;
 
 type Dexie<T = DexieTables> = BaseDexie & T;
 
@@ -100,6 +105,7 @@ const schema = {
   ...meetingAttendanceSchema,
   ...speakersCongregationsSchema,
   ...notificationSchema,
+  ...informationBoardSchema,
 };
 
 appDb
@@ -180,6 +186,7 @@ appDb.version(12).stores({
   ...publicTalkSchema,
   ...songSchema,
   ...upcomingEventsSchema,
+  ...informationBoardSchema,
 });
 
 appDb
