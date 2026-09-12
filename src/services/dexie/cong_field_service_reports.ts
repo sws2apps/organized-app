@@ -23,6 +23,30 @@ export const dbFieldServiceReportsSave = async (
   await dbUpdateCongFieldReportMetadata();
 };
 
+// Single source of truth for the submitted-month edit lock. Records that were
+// never counted in a submission (transfer backfills, see #5420) stay editable
+// without the late workflow. Once shared they lock like everything else.
+// Shared comes from the persisted record so entering hours does not lock the
+// remaining fields mid-session. Late comes from the editing draft so clearing
+// late relocks immediately and marking late unlocks immediately.
+export const isCongReportLocked = (
+  persistedReport: CongFieldServiceReportType | undefined,
+  branchSubmitted: boolean | undefined,
+  draftLate?: CongFieldServiceReportType['report_data']['late']
+) => {
+  if (!branchSubmitted) return false;
+
+  const late = draftLate ?? persistedReport?.report_data.late;
+
+  const isLate = late?.value && late?.submitted.length === 0;
+
+  if (isLate) return false;
+
+  if (!persistedReport?.report_data.shared_ministry) return false;
+
+  return true;
+};
+
 export const dbFieldServiceReportsBulkSave = async (
   reports: CongFieldServiceReportType[]
 ) => {
@@ -62,6 +86,15 @@ export const dbHandleIncomingReports = async (reports: IncomingReport[]) => {
 
     // allow add if report is late
     if (branch?.report_data.submitted && findReport?.report_data.late.value) {
+      allowAdd = true;
+    }
+
+    // allow transfer backfill: records never counted in a submission sync
+    // without the late workflow
+    if (
+      branch?.report_data.submitted &&
+      !findReport?.report_data.shared_ministry
+    ) {
       allowAdd = true;
     }
 
