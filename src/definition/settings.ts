@@ -9,6 +9,89 @@ export enum FullnameOption {
 
 export type AccountTypeState = 'vip' | 'pocket';
 
+/**
+ * Names of the avatar illustrations shipped in `@components/profile_avatars`.
+ * The order here drives the order shown in the profile picture selector, and
+ * the prefix (`Abstract`, `Gradient`, `Story`, `Male`, `Female`) drives the
+ * section an avatar belongs to. Adding an illustration means adding its name
+ * here and its import in the avatars barrel: the barrel is typed against this
+ * list, so a missing import fails the build.
+ */
+export const AVATAR_IMAGE_NAMES = [
+  'GradientOrange',
+  'GradientBrown',
+  'GradientLime',
+  'GradientGreen',
+  'GradientBlue',
+  'GradientPurple',
+  'GradientPink',
+  'Abstract1',
+  'Abstract2',
+  'Abstract3',
+  'Abstract4',
+  'Abstract5',
+  'Abstract6',
+  'Abstract7',
+  'Abstract8',
+  'Abstract9',
+  'Abstract10',
+  'StoryArk',
+  'StoryBible',
+  'StoryField',
+  'StoryFigs',
+  'StoryGrapes',
+  'StoryHelmet',
+  'StoryLamp',
+  'StoryLeaves',
+  'StoryLionScripture',
+  'StoryMountain',
+  'StoryPearl',
+  'StoryRedSea',
+  'StoryRod',
+  'StorySeeds',
+  'StorySheep',
+  'StoryShield',
+  'StoryValley',
+  'StoryWatchtower',
+  'Male1',
+  'Male2',
+  'Male3',
+  'Male4',
+  'Female1',
+  'Female2',
+  'Female3',
+  'Female4',
+  'Female5',
+] as const;
+
+/**
+ * Names of the theme-aware avatar icons: unlike the illustrations these are
+ * inline React components, so they follow the accent color of the app theme.
+ */
+export const AVATAR_ICON_NAMES = [
+  'MaleIcon1',
+  'MaleIcon2',
+  'MaleIcon3',
+  'FemaleIcon1',
+  'FemaleIcon2',
+  'FemaleIcon3',
+] as const;
+
+export type AvatarImageName = (typeof AVATAR_IMAGE_NAMES)[number];
+
+export type AvatarIconName = (typeof AVATAR_ICON_NAMES)[number];
+
+/**
+ * `google` shows the photo from the linked account, `initials` the user
+ * initials, and `default` the generic silhouette used as fallback.
+ */
+export type AvatarType =
+  | 'google'
+  | 'initials'
+  | 'default'
+  | AvatarIconName
+  | AvatarImageName;
+
 export enum SourceFrequency {
   WEEKLY = 1,
   BIWEEKLY = 2,
@@ -213,6 +296,7 @@ export type SettingsType = {
     cong_role: AppRoleType[];
     account_type: '' | AccountTypeState;
     user_avatar: ArrayBuffer;
+    user_avatar_type: { value: AvatarType; updatedAt: string };
     user_local_uid: string;
     user_members_delegate: string[];
     firstname: { value: string; updatedAt: string };
