@@ -568,5 +568,11 @@
   "tr_congregationAlreadySynced": "Congregation is already connected and synced.",
   "tr_error_app_data_no_valid_data_found": "No valid data found or no speaker selected.",
   "tr_infirmPioneer": "Infirm pioneer",
-  "tr_infirmPioneerNoGoal": "As an infirm pioneer, you can serve as much as you are able without a yearly hour goal."
+  "tr_infirmPioneerNoGoal": "As an infirm pioneer, you can serve as much as you are able without a yearly hour goal.",
+  "tr_bethelCommuter": "Bethel commuter",
+  "tr_bethelite": "Bethelite",
+  "tr_irregular": "Irregular",
+  "tr_irregularPublisher": "Irregular publisher",
+  "tr_ldcVolunteer": "LDC volunteer",
+  "tr_regular": "Regular"
 }

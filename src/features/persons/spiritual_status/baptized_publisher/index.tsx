@@ -7,6 +7,7 @@ import {
 import { BaptizedPublisherType } from './index.types';
 import useBaptizedPublisher from './useBaptizedPublisher';
 import DateHistory from '../../date_history';
+import Checkbox from '@components/checkbox';
 import DatePicker from '@components/date_picker';
 import FirstReport from '../first_report';
 import GroupSelector from '@features/congregation/field_service_groups/group_selector';
@@ -45,6 +46,9 @@ const BaptizedPublisher = ({
     group,
     handleGroupChange,
     group_overseer,
+    handleToggleBethelite,
+    handleToggleBethelCommuter,
+    handleToggleLDCVolunteer,
   } = useBaptizedPublisher();
 
   return (
@@ -135,6 +139,27 @@ const BaptizedPublisher = ({
             helperText={group_overseer}
             readOnly={!isPersonEditor}
           />
+
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <Checkbox
+              label={t('tr_bethelite')}
+              checked={person.person_data.bethelite?.value ?? false}
+              onChange={(e) => handleToggleBethelite(e.target.checked)}
+              readOnly={!isPersonEditor}
+            />
+            <Checkbox
+              label={t('tr_bethelCommuter')}
+              checked={person.person_data.bethel_commuter?.value ?? false}
+              onChange={(e) => handleToggleBethelCommuter(e.target.checked)}
+              readOnly={!isPersonEditor}
+            />
+            <Checkbox
+              label={t('tr_ldcVolunteer')}
+              checked={person.person_data.ldc_volunteer?.value ?? false}
+              onChange={(e) => handleToggleLDCVolunteer(e.target.checked)}
+              readOnly={!isPersonEditor}
+            />
+          </Box>
 
           <StatusHistory
             active={isActive}

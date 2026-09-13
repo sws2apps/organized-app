@@ -16,6 +16,9 @@ import {
 import { buildPersonFullname } from '@utils/common';
 import {
   addDays,
+  addMonths,
+  createArrayFromMonths,
+  currentReportMonth,
   dateFirstDayMonth,
   dateLastDatePreviousMonth,
   formatDate,
@@ -26,6 +29,9 @@ import { AssignmentCode } from '@definition/assignment';
 import { fieldWithLanguageGroupsState } from '@states/field_service_groups';
 import { APP_READ_ONLY_ROLES } from '@constants/index';
 import { getTranslation } from '@services/i18n/translation';
+import { reportsMapState } from '@states/field_service_reports';
+import { branchFieldReportsState } from '@states/branch_field_service_reports';
+import { BranchFieldServiceReportType } from '@definition/branch_field_service_reports';
 
 const personUnarchiveMidweekMeeting = (person: PersonType) => {
   if (person.person_data.midweek_meeting_student.active.value) {
@@ -337,6 +343,103 @@ export const enrollmentMatches = (
   target: EnrollmentType
 ) => (ENROLLMENT_FAMILY[target] ?? [target]).includes(record);
 
+/**
+ * The six-month window both regularity checks are judged on: the six most
+ * recent months whose reporting is already closed.
+ *
+ * Publishers have until the 20th to hand in the previous month's report, so
+ * until then that month is still open and does not count yet. It closes early
+ * once the S-1 for it has been submitted to the branch office, because no more
+ * reports are expected after that.
+ */
+const regularityWindow = (branchReports: BranchFieldServiceReportType[]) => {
+  const openMonth = currentReportMonth();
+
+  const openMonthSubmitted = branchReports.some(
+    (record) => record.report_date === openMonth && record.report_data.submitted
+  );
+
+  const [year, month] = openMonth.split('/').map(Number);
+  const openMonthStart = new Date(year, month - 1, 1);
+
+  const lastClosed = openMonthSubmitted
+    ? openMonthStart
+    : addMonths(openMonthStart, -1);
+
+  return {
+    start: formatDate(addMonths(lastClosed, -5), 'yyyy/MM'),
+    end: formatDate(lastClosed, 'yyyy/MM'),
+  };
+};
+
+export const personIsIrregularPublisher = (
+  person: PersonType,
+  reportMonths?: Set<string>,
+  branchReports = store.get(branchFieldReportsState)
+) => {
+  if (!personIsActive(person) || (person.person_data.archived.value ?? false)) {
+    return false;
+  }
+
+  const firstReportValue = person.person_data.first_report?.value;
+  if (!firstReportValue) return false;
+
+  const { start, end } = regularityWindow(branchReports);
+
+  const firstMonth = formatDate(new Date(firstReportValue), 'yyyy/MM');
+
+  // someone who began reporting inside the window has not been a publisher
+  // long enough to be called irregular
+  if (firstMonth > start) return false;
+
+  if (!reportMonths || reportMonths.size === 0) return true;
+
+  const months = createArrayFromMonths(start, end);
+
+  for (const m of months) {
+    if (!reportMonths.has(m)) return true;
+  }
+
+  return false;
+};
+
+/**
+ * A regular publisher has reported in every month of the window that they were
+ * already reporting in.
+ *
+ * This is stated on its own rather than taken as the opposite of irregular:
+ * someone who is not an active publisher at all, a midweek meeting student
+ * among them, is neither regular nor irregular and belongs in neither filter.
+ */
+export const personIsRegularPublisher = (
+  person: PersonType,
+  reportMonths?: Set<string>,
+  branchReports = store.get(branchFieldReportsState)
+) => {
+  if (!personIsActive(person) || (person.person_data.archived.value ?? false)) {
+    return false;
+  }
+
+  const firstReportValue = person.person_data.first_report?.value;
+  if (!firstReportValue) return false;
+
+  if (!reportMonths || reportMonths.size === 0) return false;
+
+  const { start, end } = regularityWindow(branchReports);
+
+  const firstMonth = formatDate(new Date(firstReportValue), 'yyyy/MM');
+
+  // a publisher of a few months is judged on the months they have had
+  const from = firstMonth > start ? firstMonth : start;
+
+  // they began this month, so there is nothing reported yet to judge
+  if (from > end) return false;
+
+  const months = createArrayFromMonths(from, end);
+
+  return months.every((month) => reportMonths.has(month));
+};
+
 export const personIsEnrollmentActive = (
   person: PersonType,
   enrollment: EnrollmentType,
@@ -543,7 +646,9 @@ export const applyAssignmentFilters = (
 
 export const applyGroupFilters = (
   persons: PersonType[],
-  filtersKey: string[]
+  filtersKey: string[],
+  reportsMap = store.get(reportsMapState),
+  branchReports = store.get(branchFieldReportsState)
 ) => {
   const groups = filtersKey.filter((item) => typeof item === 'string');
 
@@ -579,6 +684,12 @@ export const applyGroupFilters = (
       const isNoAssignmentFilter = groups.includes('noAssignment');
       const isInfirmPioneerFilter = groups.includes('IP');
 
+      const isRegularFilter = groups.includes('regular');
+      const isIrregularFilter = groups.includes('irregular');
+      const isBetheliteFilter = groups.includes('bethelite');
+      const isBethelCommuterFilter = groups.includes('bethelCommuter');
+      const isLDCVolunteerFilter = groups.includes('ldcVolunteer');
+
       const male = person.person_data.male.value;
       const female = person.person_data.female.value;
       const anointed = person.person_data.publisher_baptized.anointed.value;
@@ -592,11 +703,24 @@ export const applyGroupFilters = (
       const isFMF = personIsFMF(person);
       const isElder = personIsElder(person);
       const isMS = personIsMS(person);
+
       const isMidweekStudent =
         person.person_data.midweek_meeting_student.active.value;
       const hasNoAssignment = personHasNoAssignment(person);
       const isFamilyHead = person.person_data.family_members?.head;
       const isInfirmPioneer = personIsInfirmPioneer(person);
+
+      const reportMonths = reportsMap.get(person.person_uid);
+      const isIrregular = personIsIrregularPublisher(
+        person,
+        reportMonths,
+        branchReports
+      );
+      const isRegular = personIsRegularPublisher(
+        person,
+        reportMonths,
+        branchReports
+      );
 
       // if you want to add another condition here, add it after the male and
       // female check to avoid it to be overwritten
@@ -612,6 +736,21 @@ export const applyGroupFilters = (
 
       // anointed selected
       if (isAnointedFilter) isPassed = anointed;
+
+      // regular selected
+      if (isPassed && isRegularFilter && !isIrregularFilter) {
+        isPassed = isRegular;
+      }
+
+      //irregular selected
+      if (isPassed && !isRegularFilter && isIrregularFilter) {
+        isPassed = isIrregular;
+      }
+
+      // both selected: everyone whose regularity is known
+      if (isPassed && isRegularFilter && isIrregularFilter) {
+        isPassed = isRegular || isIrregular;
+      }
 
       // baptized selected
       if (isPassed && isBaptizedFilter) isPassed = isBaptized;
@@ -662,6 +801,18 @@ export const applyGroupFilters = (
 
       // infirm pioneer selected
       if (isPassed && isInfirmPioneerFilter) isPassed = isInfirmPioneer;
+
+      // bethelite selected
+      if (isPassed && isBetheliteFilter)
+        isPassed = person.person_data.bethelite?.value ?? false;
+
+      // bethel commuter selected
+      if (isPassed && isBethelCommuterFilter)
+        isPassed = person.person_data.bethel_commuter?.value ?? false;
+
+      // ldc volunteer selected
+      if (isPassed && isLDCVolunteerFilter)
+        isPassed = person.person_data.ldc_volunteer?.value ?? false;
 
       if (isPassed) {
         finalResult.push(person);
