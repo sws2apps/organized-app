@@ -53,6 +53,7 @@
   "tr_weekendScheduleSaved": "Der Plan wurde gespeichert",
   "tr_weekendScheduleSavedDesc": "Nachdem du die gewünschten Pläne erstellt hast, vergiss nicht, diese für die Versammlung zu veröffentlichen.",
   "tr_personAlreadyAssignmentWeek": "Diese Person hat in dieser Woche bereits eine Aufgabe",
+  "tr_personAlreadyAssignmentMeeting": "This person already has an assignment in this meeting",
   "tr_hostCongregation": "Gastgebende Versammlung",
   "tr_kingdomHallAddress": "Adresse des Königreichssaals",
   "tr_clearAllAssignments": "Alle Aufgaben löschen",
