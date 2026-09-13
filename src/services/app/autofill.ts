@@ -2107,6 +2107,19 @@ const handleAutofillDuties = async (weeksList: SchedWeekType[]) => {
 
   await dbSchedBulkUpdate(weeksAutofill);
 
+  // the history is rebuilt from the schedules state, which the database
+  // write above does not refresh on its own
+  const updatedWeeks = new Map(
+    weeksAutofill.map((schedule) => [schedule.weekOf, schedule])
+  );
+
+  store.set(
+    schedulesState,
+    store
+      .get(schedulesState)
+      .map((schedule) => updatedWeeks.get(schedule.weekOf) ?? schedule)
+  );
+
   const history = schedulesBuildHistoryList();
   store.set(assignmentsHistoryState, history);
 };
