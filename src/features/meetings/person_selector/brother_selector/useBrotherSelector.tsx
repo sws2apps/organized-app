@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { MouseEvent, useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'react-router';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { IconError } from '@components/icons';
@@ -123,6 +123,9 @@ const useBrotherSelector = ({
   }, [schedule, dataView]);
 
   const sistersDuties = useAtomValue(dutiesSistersState);
+
+  // duties open to sisters list brothers and sisters apart, brothers first
+  const [gender, setGender] = useState<'male' | 'female'>('male');
 
   const personsList = useMemo(() => {
     if (
@@ -689,6 +692,34 @@ const useBrotherSelector = ({
     setInputValue(defaultInputValue);
   }, [defaultInputValue]);
 
+  const showGenderSelector = isDutiesField && sistersDuties;
+
+  const genderOptions = useMemo(() => {
+    if (!showGenderSelector) return options;
+
+    return options.filter((record) =>
+      gender === 'male'
+        ? record.person_data.male.value
+        : !record.person_data.male.value
+    );
+  }, [showGenderSelector, options, gender]);
+
+  const handleGenderChange = (
+    e: MouseEvent<HTMLLabelElement>,
+    value: 'male' | 'female'
+  ) => {
+    // keep the list open while switching
+    e.preventDefault();
+    setGender(value);
+  };
+
+  // open the list on the side of whoever is assigned
+  useEffect(() => {
+    if (!value) return;
+
+    setGender(value.person_data.male.value ? 'male' : 'female');
+  }, [value]);
+
   return {
     options,
     handleSaveAssignment,
@@ -705,6 +736,10 @@ const useBrotherSelector = ({
     handleValueChange,
     isLinkedPart,
     isMeetingConflict,
+    showGenderSelector,
+    gender,
+    handleGenderChange,
+    genderOptions,
   };
 };
 

@@ -1,10 +1,17 @@
-import { HTMLAttributes, ReactNode } from 'react';
-import { AutocompleteRenderGroupParams, Box, Popper } from '@mui/material';
+import { HTMLAttributes, MouseEvent, ReactNode } from 'react';
+import {
+  AutocompleteRenderGroupParams,
+  Box,
+  FormControlLabel,
+  Popper,
+  RadioGroup,
+} from '@mui/material';
 import { PersonOptionsType, PersonSelectorType } from '../index.types';
 import {
   IconAssignmetHistory,
   IconClose,
   IconEdit,
+  IconFemale,
   IconMale,
 } from '@components/icons';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
@@ -12,6 +19,7 @@ import useBrotherSelector from './useBrotherSelector';
 import AutoComplete from '@components/autocomplete';
 import AssignmentsHistoryDialog from '@features/meetings/assignments_history_dialog';
 import IconButton from '@components/icon_button';
+import Radio from '@components/radio';
 import Typography from '@components/typography';
 
 const dutiesGroupBy = (option: PersonOptionsType) =>
@@ -43,7 +51,8 @@ const BrotherOption = ({
     <Box
       sx={{ display: 'flex', alignItems: 'center', gap: '8px', width: '100%' }}
     >
-      {showIcon && <IconMale />}
+      {showIcon &&
+        (option.person_data.male.value ? <IconMale /> : <IconFemale />)}
 
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
         <Typography className="body-regular">{option.person_name}</Typography>
@@ -152,6 +161,42 @@ const BrothersHeader = () => {
   );
 };
 
+const DutiesGenderHeader = ({
+  gender,
+  onChange,
+}: {
+  gender: 'male' | 'female';
+  onChange: (e: MouseEvent<HTMLLabelElement>, value: 'male' | 'female') => void;
+}) => {
+  const { t } = useAppTranslation();
+
+  return (
+    <RadioGroup
+      sx={{
+        flexDirection: 'row',
+        padding: '8px 0 8px 8px',
+        width: '100%',
+        gap: '16px',
+        flexWrap: 'wrap',
+      }}
+      value={gender}
+    >
+      <FormControlLabel
+        value="male"
+        control={<Radio />}
+        label={<Typography>{t('tr_male')}</Typography>}
+        onClick={(e) => onChange(e, 'male')}
+      />
+      <FormControlLabel
+        value="female"
+        control={<Radio />}
+        label={<Typography>{t('tr_female')}</Typography>}
+        onClick={(e) => onChange(e, 'female')}
+      />
+    </RadioGroup>
+  );
+};
+
 const SelectorAdornments = ({
   showAssignmentsHistory,
   hasValue,
@@ -219,7 +264,6 @@ const BrotherSelector = (props: PersonSelectorType) => {
   const { desktopUp } = useBreakpoints();
 
   const {
-    options,
     handleSaveAssignment,
     value,
     helperText,
@@ -234,7 +278,22 @@ const BrotherSelector = (props: PersonSelectorType) => {
     handleValueChange,
     isLinkedPart,
     isMeetingConflict,
+    showGenderSelector,
+    gender,
+    handleGenderChange,
+    genderOptions,
   } = useBrotherSelector(props);
+
+  let optionsHeader: ReactNode = <BrothersHeader />;
+
+  if (isDutiesField) {
+    optionsHeader = showGenderSelector ? (
+      <DutiesGenderHeader gender={gender} onChange={handleGenderChange} />
+    ) : null;
+  }
+
+  const valueIcon =
+    value && !value.person_data.male.value ? <IconFemale /> : <IconMale />;
 
   let helperColor = 'var(--orange-dark)';
 
@@ -263,7 +322,7 @@ const BrotherSelector = (props: PersonSelectorType) => {
           option.person_uid === value.person_uid
         }
         getOptionLabel={(option: PersonOptionsType) => option.person_name}
-        options={options}
+        options={genderOptions}
         value={value}
         endIcon={props.endIcon}
         inputValue={inputValue}
@@ -292,9 +351,9 @@ const BrotherSelector = (props: PersonSelectorType) => {
             isDutiesField={isDutiesField}
           />
         )}
-        optionsHeader={isDutiesField ? null : <BrothersHeader />}
+        optionsHeader={optionsHeader}
         styleIcon={false}
-        startIcon={showIcon ? <IconMale /> : null}
+        startIcon={showIcon ? valueIcon : null}
         decorator={helperText.length > 0 && !isLinkedPart}
         decoratorColor={
           isMeetingConflict || helperSeverity === 'error'
