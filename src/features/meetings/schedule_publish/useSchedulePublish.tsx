@@ -14,6 +14,7 @@ import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { SourceWeekType } from '@definition/sources';
 import { schedulesState } from '@states/schedules';
 import {
+  AssignmentCongregation,
   OutgoingTalkExportScheduleType,
   SchedWeekType,
 } from '@definition/schedules';
@@ -33,6 +34,30 @@ import {
 } from '@services/api/schedule';
 import { speakersCongregationsState } from '@states/speakers_congregations';
 import { getUserDataView } from '@services/app';
+
+// dynamic duty slots of one data view all share the same type, and
+// updateObject matches array entries by type before id, so it would fold
+// every slot into the first remote one: merge them by id here instead
+const mergeDynamicDuties = (
+  remote: AssignmentCongregation[] | undefined,
+  local: AssignmentCongregation[]
+) => {
+  const merged = structuredClone(remote ?? []);
+
+  for (const entry of local) {
+    const index = merged.findIndex(
+      (record) => record.id === entry.id && record.type === entry.type
+    );
+
+    if (index === -1) {
+      merged.push(entry);
+    } else if (entry.updatedAt > merged[index].updatedAt) {
+      merged[index] = entry;
+    }
+  }
+
+  return merged;
+};
 
 // true when any duty assignment across either meeting holds a person
 const scheduleHasDutiesData = (schedule: SchedWeekType) => {
@@ -285,7 +310,38 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
           delete remoteItem['midweek_meeting']['aux_fsg'];
         }
 
-        updateObject(remoteItem, item);
+        const localItem = structuredClone(item) as T & {
+          duties?: SchedWeekType['duties'];
+        };
+        const remoteSchedule = remoteItem as T & {
+          duties?: SchedWeekType['duties'];
+        };
+
+        const dynamicMerged: Partial<
+          Record<'midweek' | 'weekend', AssignmentCongregation[]>
+        > = {};
+
+        for (const meeting of ['midweek', 'weekend'] as const) {
+          const localMeeting = localItem.duties?.[meeting];
+
+          if (!localMeeting?.dynamic) continue;
+
+          dynamicMerged[meeting] = mergeDynamicDuties(
+            remoteSchedule.duties?.[meeting]?.dynamic,
+            localMeeting.dynamic
+          );
+
+          delete (localMeeting as Partial<typeof localMeeting>).dynamic;
+        }
+
+        updateObject(remoteItem, localItem);
+
+        for (const meeting of ['midweek', 'weekend'] as const) {
+          const merged = dynamicMerged[meeting];
+          const remoteMeeting = remoteSchedule.duties?.[meeting];
+
+          if (merged && remoteMeeting) remoteMeeting.dynamic = merged;
+        }
       }
     }
 
