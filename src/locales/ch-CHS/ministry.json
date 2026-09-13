@@ -107,7 +107,7 @@
   "tr_S10ReportNotGenerated": "本服务年度的报告尚未生成。生成报告后，就可以查看所有详细资料并提交。",
   "tr_quickAssignAP": "已设为辅助先驱",
   "tr_quickAssignAPDesc": "这位传道员已被设为本月的辅助先驱。你可以在“人员”页面的服务机会记录中修改。",
-  "tr_reactivatePublisher": "把这位传道员标记为重新活跃",
+  "tr_reactivatePublisher": "Reactivate publisher",
   "tr_S21CardTitle": "导出多份会众传道员记录（S-21）",
   "tr_S21CardTitleDesc": "选择“所有传道员”，可以导出并整理所有传道员、全时服务人员和辅助先驱的记录；选择“指定传道员”，则只导出所选传道员的记录。",
   "tr_allPublisherRecords": "所有传道员",

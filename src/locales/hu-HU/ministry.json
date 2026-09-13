@@ -107,7 +107,7 @@
   "tr_S10ReportNotGenerated": "Az idei jelentés még nem lett elkészítve. Készítsd el, hogy lásd az összes részletet, majd küldd be.",
   "tr_quickAssignAP": "Kisegítő úttörő jóváhagyva",
   "tr_quickAssignAPDesc": "Ez a hírnök ebben a hónapban jóvá lett hagyva kisegítő úttörőnek. Ezt a hírnök adatlapján módosíthatod a Személyek oldalon.",
-  "tr_reactivatePublisher": "Hírnök újraaktiválása",
+  "tr_reactivatePublisher": "Reactivate publisher",
   "tr_S21CardTitle": "Több hírnök jelentésének exportálása (S-21)",
   "tr_S21CardTitleDesc": "Válaszd az 'Összes hírnök' lehetőséget, hogy exportáld és rendezd az összes hírnök, teljes idejű és kisegítő úttörő jelentését, vagy válaszd a 'Kiválasztott hírnökök' lehetőséget csak meghatározott hírnökök jelentéseinek exportálásához.",
   "tr_allPublisherRecords": "Összes hírnök",
