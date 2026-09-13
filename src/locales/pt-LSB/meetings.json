@@ -53,6 +53,7 @@
   "tr_weekendScheduleSaved": "A programação do fim de semana foi salva",
   "tr_weekendScheduleSavedDesc": "Após criar os programas desejados, lembre-se de publicá-los para a congregação.",
   "tr_personAlreadyAssignmentWeek": "Esta pessoa já tem uma designação esta semana",
+  "tr_personAlreadyAssignmentMeeting": "This person already has an assignment in this meeting",
   "tr_hostCongregation": "Congregação anfitriã",
   "tr_kingdomHallAddress": "Endereço do Salão do Reino",
   "tr_clearAllAssignments": "Limpar todas as designações",
