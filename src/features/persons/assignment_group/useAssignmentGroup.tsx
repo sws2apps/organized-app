@@ -37,7 +37,6 @@ const useAssignmentGroup = (male: boolean) => {
     if (!male) {
       if (id === 'applyFieldMinistryPart') isDisabled = false;
 
-      // duties include sisters only when the congregation needs them
       if (id === 'duties' && sistersDuties) isDisabled = false;
     }
 

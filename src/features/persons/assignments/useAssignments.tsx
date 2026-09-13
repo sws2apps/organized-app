@@ -52,7 +52,10 @@ const useAssignments = () => {
     ];
   }, [t]);
 
-  const handleClassroomsChange = (code: AssignmentCode, selected: string[]) => {
+  const handleClassroomsChange = (
+    code: AssignmentCode,
+    selected: string[]
+  ) => {
     const newPerson = structuredClone(person);
 
     let personAssignments = newPerson.person_data.assignments.find(
@@ -303,7 +306,6 @@ const useAssignments = () => {
           if (
             item.code === AssignmentCode.MM_Discussion ||
             item.code === AssignmentCode.MM_Talk ||
-            // duties include sisters only when the congregation needs them
             (id === 'duties' && !sistersDuties)
           ) {
             continue;

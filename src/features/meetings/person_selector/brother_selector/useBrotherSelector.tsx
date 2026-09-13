@@ -13,6 +13,7 @@ import {
 import { personIsAway, personIsElder } from '@services/app/persons';
 import {
   displayNameMeetingsEnableState,
+  dutiesSistersState,
   fullnameOptionState,
   JWLangLocaleState,
   JWLangState,
@@ -20,7 +21,6 @@ import {
   midweekMeetingAuxCounselorDefaultState,
   midweekMeetingClosingPrayerLinkedState,
   midweekMeetingOpeningPrayerLinkedState,
-  dutiesSistersState,
   shortDateFormatState,
   userDataViewState,
   weekendMeetingShowMonthlyWarningState,
@@ -47,6 +47,7 @@ import { incomingSpeakersState } from '@states/visiting_speakers';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { formatDate } from '@utils/date';
+import { DutiesGender } from '@definition/schedules';
 import { languageGroupsState } from '@states/field_service_groups';
 
 const useBrotherSelector = ({
@@ -94,10 +95,12 @@ const useBrotherSelector = ({
   const wmShowMonthlyWarning = useAtomValue(
     weekendMeetingShowMonthlyWarningState
   );
+  const sistersDuties = useAtomValue(dutiesSistersState);
 
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
   const [isFreeSolo, setIsFreeSolo] = useState(false);
   const [inputValue, setInputValue] = useState('');
+  const [gender, setGender] = useState<DutiesGender>('male');
 
   const [isLinkedPart, setIsLinkedPart] = useState(false);
 
@@ -121,11 +124,6 @@ const useBrotherSelector = ({
 
     return type ?? 'localSpeaker';
   }, [schedule, dataView]);
-
-  const sistersDuties = useAtomValue(dutiesSistersState);
-
-  // duties open to sisters list brothers and sisters apart, brothers first
-  const [gender, setGender] = useState<'male' | 'female'>('male');
 
   const personsList = useMemo(() => {
     if (
@@ -706,14 +704,13 @@ const useBrotherSelector = ({
 
   const handleGenderChange = (
     e: MouseEvent<HTMLLabelElement>,
-    value: 'male' | 'female'
+    value: DutiesGender
   ) => {
-    // keep the list open while switching
+    // a click on the label would otherwise close the list
     e.preventDefault();
     setGender(value);
   };
 
-  // open the list on the side of whoever is assigned
   useEffect(() => {
     if (!value) return;
 

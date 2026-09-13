@@ -23,8 +23,6 @@ const useDutiesSisters = () => {
 
     if (!dutiesByView) return;
 
-    // qualifications already given stay stored, so including sisters again
-    // brings them back; while excluded, they are not offered or autofilled
     dutiesByView.sisters_duties = {
       value: !value,
       updatedAt: new Date().toISOString(),

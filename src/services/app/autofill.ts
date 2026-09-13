@@ -14,7 +14,11 @@ import { STUDENT_TASK_CODES } from '@constants/assignmentConflicts';
 import { MeetingType } from '@definition/app';
 import { AssignmentCode, AssignmentFieldType } from '@definition/assignment';
 import { PersonType } from '@definition/person';
-import { AssignmentHistoryType, SchedWeekType } from '@definition/schedules';
+import {
+  AssignmentHistoryType,
+  DutiesGender,
+  SchedWeekType,
+} from '@definition/schedules';
 import { SettingsType } from '@definition/settings';
 import {
   ApplyMinistryType,
@@ -2017,7 +2021,7 @@ const handleAutofillDutiesMeeting = ({
       ? handleDutiesWeekAssignedPersons(history, schedule.weekOf, dataView)
       : [];
 
-    const selectPerson = (excluded: string[], gender: 'brothers' | 'sisters') =>
+    const selectPerson = (excluded: string[], gender: DutiesGender) =>
       schedulesSelectRandomPerson({
         type: field.type,
         week: schedule.weekOf,
@@ -2030,15 +2034,15 @@ const handleAutofillDutiesMeeting = ({
     // when everyone qualified already serves this week, a duty without anyone
     // assigned helps no one: keep the week conflict a preference and fill it
     // anyway, without ever putting a brother in two places at once
-    const selectBy = (gender: 'brothers' | 'sisters') =>
+    const selectBy = (gender: DutiesGender) =>
       selectPerson([...servingNow, ...excludedPersons], gender) ??
       (excludedPersons.length > 0
         ? selectPerson(servingNow, gender)
         : undefined);
 
-    // sisters are included only for the need: any brother who can take the
-    // duty comes first, even one who already serves this week
-    const selected = selectBy('brothers') ?? selectBy('sisters');
+    // sisters only fill a duty that no brother can take, even one who already
+    // serves this week
+    const selected = selectBy('male') ?? selectBy('female');
 
     if (!selected) continue;
 

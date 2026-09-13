@@ -53,6 +53,7 @@ import {
 import {
   AssignmentCongregation,
   AssignmentHistoryType,
+  DutiesGender,
   DutiesMeetingPartType,
   DutiesSectionType,
   MidweekMeetingDataType,
@@ -195,9 +196,7 @@ export const schedulesDutyRequiredCodes = (
 };
 
 export const schedulesIsDutyCode = (code?: AssignmentCode) =>
-  code !== undefined &&
-  code >= AssignmentCode.DUTIES_Audio &&
-  code <= AssignmentCode.DUTIES_VideoconferenceHost;
+  code !== undefined && Boolean(AssignmentCode[code]?.startsWith('DUTIES_'));
 
 /**
  * Whether a person may take a duty at all. Duties are for brothers, unless the
@@ -207,7 +206,7 @@ export const schedulesIsDutyCode = (code?: AssignmentCode) =>
 export const schedulesDutyAllowedForPerson = (
   person: PersonType,
   type: AssignmentCode | undefined,
-  sistersDuties = schedulesDutiesConfig()?.sisters_duties?.value ?? false
+  sistersDuties: boolean
 ) => {
   if (!schedulesIsDutyCode(type) || person.person_data.male.value) return true;
 
@@ -2276,8 +2275,7 @@ export const schedulesSelectRandomPerson = (data: {
   mainStudent?: string;
   excludedPersons?: string[];
   history: AssignmentHistoryType[];
-  // duties pick brothers and sisters in separate rounds
-  gender?: 'brothers' | 'sisters';
+  gender?: DutiesGender;
 }) => {
   let selected: PersonType;
 
@@ -2298,15 +2296,17 @@ export const schedulesSelectRandomPerson = (data: {
     );
   }
 
+  const sistersDuties = schedulesDutiesConfig()?.sisters_duties?.value ?? false;
+
   personsElligible = personsElligible.filter((record) =>
-    schedulesDutyAllowedForPerson(record, data.type)
+    schedulesDutyAllowedForPerson(record, data.type, sistersDuties)
   );
 
   if (data.gender) {
-    const brothers = data.gender === 'brothers';
+    const male = data.gender === 'male';
 
     personsElligible = personsElligible.filter(
-      (record) => record.person_data.male.value === brothers
+      (record) => record.person_data.male.value === male
     );
   }
 

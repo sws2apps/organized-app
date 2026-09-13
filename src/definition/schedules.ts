@@ -366,3 +366,5 @@ export type OutgoingSpeakersScheduleItem = {
 };
 
 export type OutgoingSpeakersScheduleType = OutgoingSpeakersScheduleItem[];
+
+export type DutiesGender = 'male' | 'female';

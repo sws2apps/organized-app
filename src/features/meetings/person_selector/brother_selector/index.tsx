@@ -7,6 +7,7 @@ import {
   RadioGroup,
 } from '@mui/material';
 import { PersonOptionsType, PersonSelectorType } from '../index.types';
+import { DutiesGender } from '@definition/schedules';
 import {
   IconAssignmetHistory,
   IconClose,
@@ -165,8 +166,8 @@ const DutiesGenderHeader = ({
   gender,
   onChange,
 }: {
-  gender: 'male' | 'female';
-  onChange: (e: MouseEvent<HTMLLabelElement>, value: 'male' | 'female') => void;
+  gender: DutiesGender;
+  onChange: (e: MouseEvent<HTMLLabelElement>, value: DutiesGender) => void;
 }) => {
   const { t } = useAppTranslation();
 
