@@ -53,6 +53,7 @@
   "tr_weekendScheduleSaved": "Hafta sonu ibadeti programı kaydedildi",
   "tr_weekendScheduleSavedDesc": "Karar verilen programları oluşturduktan sonra, lütfen cemaatle paylaşmayı unutmayın.",
   "tr_personAlreadyAssignmentWeek": "Bu hafta için zaten bir görevi var",
+  "tr_personAlreadyAssignmentMeeting": "This person already has an assignment in this meeting",
   "tr_hostCongregation": "Misafir eden cemaat",
   "tr_kingdomHallAddress": "İbadet Salonu adresi",
   "tr_clearAllAssignments": "Tüm görevleri temizle",
