@@ -26,6 +26,15 @@ export type ButtonPropsType = {
   disabled?: boolean;
 
   /**
+   * Forces the pressed (`:active`) look via an `is-pressed` class.
+   *
+   * Use when the browser skips `:active` for a press — e.g. the first press
+   * right after focus moves (switching tabs). Pair with an `&.is-pressed`
+   * selector in `sx` for non-default variants.
+   */
+  pressed?: boolean;
+
+  /**
    * Variant style of the button.
    */
   variant?:
@@ -70,6 +79,11 @@ export type ButtonPropsType = {
    * The URL of the linked document when the button is used as an anchor element.
    */
   href?: string;
+
+  /**
+   * The browsing context for the linked document (e.g., '_blank' to open in a new tab).
+   */
+  target?: string;
 
   /**
    * Minimum height of the button, in pixels.

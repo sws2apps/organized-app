@@ -24,6 +24,8 @@ const TimePicker = ({
   onChange,
   sx,
   readOnly = false,
+  error,
+  helperText,
 }: CustomTimePickerProps) => {
   const divRef = useRef<HTMLDivElement>(null);
 
@@ -91,6 +93,8 @@ const TimePicker = ({
               label: label,
               value: valueTmp,
               onClick: () => setOpen(!open),
+              error,
+              helperText,
             },
             toolbar: {
               hidden: false,

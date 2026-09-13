@@ -36,6 +36,8 @@
   "tr_december": "Décembre",
   "tr_longDateFormat": "EEE dd MMM yyyy",
   "tr_delete": "Supprimer",
+  "tr_continueEditing": "Continue editing",
+  "tr_discardChanges": "Discard changes",
   "tr_add": "Ajouter",
   "tr_pickerSelectTime": "Sélectionner une heure",
   "tr_pickerSelectDate": "Selectionner une date",
@@ -149,6 +151,8 @@
   "tr_created": "Créé: {{ date }}",
   "tr_missingInfo": "Informations manquantes",
   "tr_fillRequiredField": "Veuillez remplir le champ requis",
+  "tr_endTimeAfterStart": "End time must be after the start time",
+  "tr_endDateAfterStart": "End date must be after the start date",
   "tr_mondayShort": "Lun",
   "tr_tuesdayShort": "Mar",
   "tr_wednesdayShort": "Mer",
@@ -166,5 +170,13 @@
   "tr_fileImport": "Importer fichier",
   "tr_csvImportDescription": "Pour de meilleurs résultats lors de l'importation, utilisez le fichier exemple. \nToutes les colonnes n'ont pas besoin d'être remplie.\nLes colonnes seront procédé selon l'ordre d'apparition.\nSi un statut ou une tâche doit être activée, '1' ou 'true' doit être spécifié.\nTous deux ';' et ',' sont autorisés en tant que délimiteur.",
   "tr_importSuccess": "Importation complétée! {{ successCount }} sur {{ totalCount }} personnes ont été sauvegardé.",
-  "tr_bottomActionsMenu": "Menu d'actions du bas"
+  "tr_bottomActionsMenu": "Menu d'actions du bas",
+  "tr_exportSettings": "Export settings",
+  "tr_orientation": "Orientation",
+  "tr_portrait": "Portrait",
+  "tr_landscape": "Landscape",
+  "tr_fontSize": "Font size",
+  "tr_small": "Small",
+  "tr_normal": "Normal",
+  "tr_large": "Large"
 }

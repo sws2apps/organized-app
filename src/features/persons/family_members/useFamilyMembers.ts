@@ -70,6 +70,14 @@ const useFamilyMembers = () => {
     isFamilyHead,
   ]);
 
+  const familyHeadId = useMemo(() => {
+    if (isFamilyHead) {
+      return currentPerson.person_uid;
+    } else {
+      return currentFamily?.person_uid || '';
+    }
+  }, [currentFamily, currentPerson.person_uid, isFamilyHead]);
+
   const familyMembers = useMemo(() => {
     if (isCurrentPersonMemberOfAFamily) {
       return currentFamily.person_data.family_members;
@@ -165,6 +173,7 @@ const useFamilyMembers = () => {
     isMemberOfFamily,
     isFamilyHead,
     familyHeadName,
+    familyHeadId,
     isCurrentPersonMemberOfAFamily,
   };
 };

@@ -5,6 +5,7 @@ import {
   personIsFMF,
   personIsFR,
   personIsFS,
+  personIsInfirmPioneer,
 } from '@services/app/persons';
 import { currentMonthServiceYear, currentServiceYear } from '@utils/date';
 import useMinistryMonthlyRecord from '@features/ministry/hooks/useMinistryMonthlyRecord';
@@ -29,6 +30,8 @@ const useMinistry = () => {
     publisher: true,
   });
 
+  const isInfirm = person ? personIsInfirmPioneer(person) : false;
+
   const isPioneer = useMemo(() => {
     if (!person) return false;
 
@@ -48,10 +51,12 @@ const useMinistry = () => {
     return hours_total;
   }, [hours_total]);
 
+  const displayedBalance = isInfirm ? '' : String(hours_balance);
+
   return {
     isPioneer,
     hours,
-    hours_balance: String(hours_balance),
+    hours_balance: displayedBalance,
     enable_AP_application,
   };
 };

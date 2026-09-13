@@ -1,5 +1,4 @@
 import { useMemo, useRef, useState } from 'react';
-import { useMediaQuery, useTheme } from '@mui/material';
 import { SwiperRef } from 'swiper/react';
 import { useAppTranslation } from '@hooks/index';
 
@@ -13,22 +12,14 @@ import IllustrationOtherSchedules from '@components/illustrations/IllustrationOt
 const useIllustration = () => {
   const { t } = useAppTranslation();
 
-  const theme = useTheme();
   const swiperRef = useRef<SwiperRef>();
 
-  const laptopUp = useMediaQuery(theme.breakpoints.up('laptop'), {
-    noSsr: true,
-  });
 
   const [currentImage, setCurrentImage] = useState(0);
 
   const dotSize = useMemo(() => {
-    if (laptopUp) {
-      return { active: 16, inactive: 12 };
-    }
-
-    return { active: 12, inactive: 8 };
-  }, [laptopUp]);
+    return { active: 10, inactive: 10 };
+  }, []);
 
   const slides = useMemo(() => {
     return [

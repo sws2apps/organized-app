@@ -21,17 +21,26 @@ import FamilyMembers from '@features/persons/family_members';
 const PersonDetails = () => {
   const { t } = useAppTranslation();
 
-  const { desktopUp, laptopUp } = useBreakpoints();
+  const { desktopUp, tablet688Up } = useBreakpoints();
 
-  const { isPersonEditor, isAdmin } = useCurrentUser();
+  const { isAdmin } = useCurrentUser();
 
-  const { isNewPerson, isBaptized, male, isConnected } = usePersonDetails();
+  const { isNewPerson, isBaptized, male, isConnected, personName } =
+    usePersonDetails();
 
   return (
-    <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
+    <Box
+      sx={{
+        display: 'flex',
+        gap: '16px',
+        flexDirection: 'column',
+        paddingBottom: !tablet688Up ? '60px' : '0px',
+      }}
+    >
       <PageTitle
         title={isNewPerson ? t('tr_addNewPerson') : t('tr_editPerson')}
-        buttons={laptopUp ? <PersonButtonActions /> : null}
+        secondaryTitle={isNewPerson ? undefined : personName}
+        buttons={<PersonButtonActions />}
       />
 
       <Box
@@ -98,14 +107,6 @@ const PersonDetails = () => {
           <PersonEmergencyContacts />
         </Box>
       </Box>
-
-      {isPersonEditor && !laptopUp && (
-        <Box
-          sx={{ display: 'flex', flexDirection: 'column-reverse', gap: '8px' }}
-        >
-          <PersonButtonActions />
-        </Box>
-      )}
     </Box>
   );
 };

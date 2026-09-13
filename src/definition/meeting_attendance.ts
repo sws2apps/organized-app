@@ -1,9 +1,19 @@
 export type AttendanceCongregation = {
   present: number;
   online: number;
+  present_deaf?: number;
+  online_deaf?: number;
   type: string;
   updatedAt: string;
 };
+
+export type AttendanceRecordField =
+  | 'present'
+  | 'online'
+  | 'present_deaf'
+  | 'online_deaf';
+
+export type AttendanceValues = Partial<Record<AttendanceRecordField, string>>;
 
 export type WeeklyAttendance = {
   midweek: AttendanceCongregation[];
@@ -20,12 +30,21 @@ export type MeetingAttendanceType = {
   week_5: WeeklyAttendance;
 };
 
+export type MeetingAttendanceStats = {
+  count: number;
+  total: number;
+  average: number;
+  average_online: number;
+  total_deaf: number;
+  average_deaf: number;
+};
+
 export type MeetingAttendanceExport = {
   lang: string;
   locale: string;
   data: {
     name: string;
-    years: string[];
+    columns: string[];
     midweek_meeting: {
       month: string;
       table_1: {

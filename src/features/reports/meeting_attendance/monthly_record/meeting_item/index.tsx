@@ -34,7 +34,20 @@ const MeetingItem = (props: MeetingItemProps) => {
         </Typography>
       </Box>
 
-      <Stack spacing="16px" direction={tablet600Up ? 'row' : 'column'}>
+      <Box
+        sx={{
+          display: 'grid',
+          gap: '16px',
+          gridTemplateColumns: tablet600Up
+            ? `repeat(${weeksCount.length}, 1fr)`
+            : 'repeat(2, 1fr)',
+          ...(!tablet600Up && {
+            '& > :last-child:nth-of-type(odd)': {
+              gridColumn: '1 / -1',
+            },
+          }),
+        }}
+      >
         {weeksCount.map((week) => (
           <WeekBox
             key={`present-${week.toString()}`}
@@ -43,7 +56,7 @@ const MeetingItem = (props: MeetingItemProps) => {
             type={type}
           />
         ))}
-      </Stack>
+      </Box>
 
       {groups.length > 0 && (
         <>
@@ -63,9 +76,19 @@ const MeetingItem = (props: MeetingItemProps) => {
                   </Typography>
                 </Box>
 
-                <Stack
-                  spacing="16px"
-                  direction={tablet600Up ? 'row' : 'column'}
+                <Box
+                  sx={{
+                    display: 'grid',
+                    gap: '16px',
+                    gridTemplateColumns: tablet600Up
+                      ? `repeat(${weeksCount.length}, 1fr)`
+                      : 'repeat(2, 1fr)',
+                    ...(!tablet600Up && {
+                      '& > :last-child:nth-of-type(odd)': {
+                        gridColumn: '1 / -1',
+                      },
+                    }),
+                  }}
                 >
                   {weeksCount.map((week) => (
                     <WeekBox
@@ -76,7 +99,7 @@ const MeetingItem = (props: MeetingItemProps) => {
                       view={group.id}
                     />
                   ))}
-                </Stack>
+                </Box>
               </Stack>
             ))}
           </Stack>

@@ -4,6 +4,7 @@ import { useAppTranslation } from '@hooks/index';
 import { FieldServiceGroupsProps } from './index.types';
 import useFieldServiceGroups from './useFieldServiceGroups';
 import Button from '@components/button';
+import DialogActions from '@components/dialog_actions';
 import RichTreeViewCheckboxes from '@components/rich_tree_view/checkboxes';
 import SearchBar from '@components/search_bar';
 
@@ -37,7 +38,14 @@ const FieldServiceGroups = (props: FieldServiceGroupsProps) => {
         />
       </Stack>
 
-      <Stack spacing="8px" width="100%">
+      <DialogActions>
+        <Button
+          variant="secondary"
+          disabled={isProcessing}
+          onClick={props.onClose}
+        >
+          {t('tr_cancel')}
+        </Button>
         <Button
           variant="main"
           disabled={isProcessing}
@@ -46,14 +54,7 @@ const FieldServiceGroups = (props: FieldServiceGroupsProps) => {
         >
           {btnLabel}
         </Button>
-        <Button
-          variant="secondary"
-          disabled={isProcessing}
-          onClick={props.onClose}
-        >
-          {t('tr_cancel')}
-        </Button>
-      </Stack>
+      </DialogActions>
     </Stack>
   );
 };

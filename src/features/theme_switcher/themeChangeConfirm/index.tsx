@@ -1,6 +1,6 @@
-import { Box } from '@mui/material';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
+import DialogActions from '@components/dialog_actions';
 import Typography from '@components/typography';
 import { useAppTranslation } from '@hooks/index';
 import { ThemeChangeConfirmType } from './index.types';
@@ -18,21 +18,14 @@ const ThemeChangeConfirm = ({
       <Typography className="body-regular" color="var(--grey-400)">
         {t('tr_themeFollowOSDisableDesc')}
       </Typography>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '8px',
-          width: '100%',
-        }}
-      >
-        <Button variant="main" onClick={onConfirm}>
-          {t('tr_yes')}
-        </Button>
+      <DialogActions>
         <Button variant="secondary" onClick={onClose}>
           {t('tr_cancel')}
         </Button>
-      </Box>
+        <Button variant="main" onClick={onConfirm}>
+          {t('tr_yes')}
+        </Button>
+      </DialogActions>
     </Dialog>
   );
 };

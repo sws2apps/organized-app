@@ -1,16 +1,15 @@
 import { Box, Stack } from '@mui/material';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
-import { IconInfo } from '@components/icons';
 import { AssignmentHistoryType } from '@definition/schedules';
 import { DisplayRange } from './indextypes';
 import useMyAssignments from './useAssignments';
 import Drawer from '@components/drawer';
+import InfoNote from '@components/info_note';
 import Markup from '@components/text_markup';
 import MenuItem from '@components/menuitem';
 import MonthContainer from './month_container';
 import NoAssigmentsImg from '@assets/img/illustration_no_assigments.svg?component';
 import Select from '@components/select';
-import TabLabel from '@components/tab_label_with_badge';
 import Tabs from '@components/tabs';
 import Typography from '@components/typography';
 
@@ -103,18 +102,15 @@ const MyAssignments = () => {
 
   const tabs = [
     {
-      label: <TabLabel count={ownAssignments.total} label={t('tr_myOwn')} />,
+      label: t('tr_myOwn'),
+      badge: ownAssignments.total,
       Component: renderAssignments(ownAssignments.byDate),
     },
     ...(hasDelegatedAssignments
       ? [
           {
-            label: (
-              <TabLabel
-                count={delegateAssignments.total}
-                label={t('tr_delegated')}
-              />
-            ),
+            label: t('tr_delegated'),
+            badge: delegateAssignments.total,
             Component: renderAssignments(delegateAssignments.byDate),
           },
         ]
@@ -129,15 +125,14 @@ const MyAssignments = () => {
       title={t('tr_viewMyAssignments')}
     >
       {isSetup && (
-        <Box sx={{ display: 'flex', gap: '16px' }}>
-          <IconInfo color="var(--black)" />
+        <InfoNote>
           <Markup
             content={t('tr_bindUserRecordAssignmentsNotice')}
-            className="body-regular"
+            className="body-small-regular"
             anchorClassName="h4"
             anchorClick={handleOpenManageAccess}
           />
-        </Box>
+        </InfoNote>
       )}
 
       {!isSetup && (

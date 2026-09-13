@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo } from 'react';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
-import { useBreakpoints } from '@hooks/index';
 import { AssignmentCode } from '@definition/assignment';
 import {
   congFieldServiceReportsState,
@@ -24,11 +23,7 @@ import { userDataViewState } from '@states/settings';
 import usePerson from '@features/persons/hooks/usePerson';
 import usePersons from '@features/persons/hooks/usePersons';
 
-let scrollPosition = 0;
-
 const usePersonsList = () => {
-  const { desktopUp } = useBreakpoints();
-
   const {
     getPublishersActive,
     getPublishersInactive,
@@ -387,28 +382,6 @@ const usePersonsList = () => {
       setSelectedPublisher(undefined);
     }
   }, [persons, setSelectedPublisher]);
-
-  useEffect(() => {
-    setTimeout(() => {
-      if (!desktopUp) {
-        if (window.scrollY !== scrollPosition) {
-          window.scrollTo({ top: scrollPosition });
-        }
-      }
-    }, 100);
-  }, [desktopUp]);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      scrollPosition = window.scrollY;
-    };
-
-    window.addEventListener('scroll', handleScroll);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, [desktopUp]);
 
   return {
     persons,

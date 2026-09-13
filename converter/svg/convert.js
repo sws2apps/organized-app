@@ -8,6 +8,8 @@ const OUTPUT_FOLDER = './src/components/icons';
 
 const currentFiles = await fs.readdir(OUTPUT_FOLDER);
 for await (const file of currentFiles) {
+  // Preserve the nonFigmaIcons/ subfolder — these icons are hand-crafted and not from Figma
+  if (file === 'nonFigmaIcons') continue;
   await fs.unlink(path.join(OUTPUT_FOLDER, file));
 }
 
@@ -151,4 +153,18 @@ for await (const svgFile of svgFiles) {
 }
 
 const jsFile = path.join('./src/components/icons', `index.ts`);
+
+// Append re-exports for hand-crafted icons in nonFigmaIcons/
+const nonFigmaDir = path.join(OUTPUT_FOLDER, 'nonFigmaIcons');
+try {
+  const nonFigmaFiles = await fs.readdir(nonFigmaDir);
+  for (const file of nonFigmaFiles) {
+    if (!file.endsWith('.tsx')) continue;
+    const name = file.replace('.tsx', '');
+    strImport += `export { default as ${name}} from './nonFigmaIcons/${name}';`;
+  }
+} catch {
+  // nonFigmaIcons directory doesn't exist yet — skip
+}
+
 fs.writeFile(jsFile, strImport);

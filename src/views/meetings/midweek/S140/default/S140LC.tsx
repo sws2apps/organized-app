@@ -27,7 +27,7 @@ const LivingPartRow = ({ meetingData,lang }: S140LCType) => {
                   lang={lang}
                 />
                 <S140PartMiniLabel part="" />
-                <S140Person person={lcName} />
+                <S140Person primary={lcName} lang={lang} />
               </View>
             )}
           </View>

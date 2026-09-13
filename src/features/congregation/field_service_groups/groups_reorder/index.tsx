@@ -1,4 +1,3 @@
-import { Stack } from '@mui/material';
 import { ReactSortable } from 'react-sortablejs';
 import { useAppTranslation } from '@hooks/index';
 import { GroupsReorderProps } from './index.types';
@@ -6,6 +5,7 @@ import { GroupsContainer } from './index.styles';
 import useGroupsReorder from './useGroupsReorder';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
+import DialogActions from '@components/dialog_actions';
 import GroupItem from './group_item';
 import Typography from '@components/typography';
 
@@ -31,14 +31,14 @@ const GroupsReorder = (props: GroupsReorderProps) => {
         </ReactSortable>
       </GroupsContainer>
 
-      <Stack spacing="8px" width="100%">
-        <Button variant="main" onClick={handleSaveChanges}>
-          {t('tr_save')}
-        </Button>
+      <DialogActions>
         <Button variant="secondary" onClick={props.onClose}>
           {t('tr_cancel')}
         </Button>
-      </Stack>
+        <Button variant="main" onClick={handleSaveChanges}>
+          {t('tr_save')}
+        </Button>
+      </DialogActions>
     </Dialog>
   );
 };

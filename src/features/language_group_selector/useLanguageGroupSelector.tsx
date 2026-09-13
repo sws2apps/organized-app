@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
@@ -10,11 +10,16 @@ import {
 import { Option } from './index.types';
 import { schedulesBuildHistoryList } from '@services/app/schedules';
 import { assignmentsHistoryState } from '@states/schedules';
-import { languageGroupsState } from '@states/field_service_groups';
-import { refreshLocalesResources } from '@services/i18n';
+import {
+  fieldServiceGroupsState,
+  languageGroupsState,
+} from '@states/field_service_groups';
+import { refreshLocaleDerivedData } from '@services/app/locale_derived_data';
 
 const useGroupLanguageSelector = () => {
   const { t } = useAppTranslation();
+
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   const { person } = useCurrentUser();
 
@@ -22,24 +27,30 @@ const useGroupLanguageSelector = () => {
 
   const languageGroupEnabled = useAtomValue(languageGroupEnabledState);
   const languageGroups = useAtomValue(languageGroupsState);
+  const fieldGroups = useAtomValue(fieldServiceGroupsState);
   const congName = useAtomValue(congNameState);
   const value = useAtomValue(userDataViewState);
+
+  const userInLanguageGroup = useMemo(() => {
+    return fieldGroups.some(
+      (group) =>
+        group.group_data.language_group &&
+        !group.group_data._deleted &&
+        group.group_data.members.some(
+          (member) => member.person_uid === person?.person_uid
+        )
+    );
+  }, [fieldGroups, person]);
 
   const display = useMemo(() => {
     if (!person) return false;
 
     if (!languageGroupEnabled) return false;
 
-    const foundInGroups = languageGroups.some((group) =>
-      group.group_data.members.some(
-        (member) => member.person_uid === person.person_uid
-      )
-    );
-
-    if (!foundInGroups) return false;
+    if (!userInLanguageGroup) return false;
 
     return languageGroups.length > 0;
-  }, [languageGroups, languageGroupEnabled, person]);
+  }, [person, languageGroupEnabled, userInLanguageGroup, languageGroups]);
 
   const options = useMemo(() => {
     if (!display) return [];
@@ -60,15 +71,23 @@ const useGroupLanguageSelector = () => {
   const renderValue = (value: string) => {
     if (value === 'main') return t('tr_hostCongregation');
 
-    return options.find((record) => record.value === value).label;
+    return (
+      options.find((record) => record.value === value)?.label ??
+      t('tr_hostCongregation')
+    );
   };
 
-  const handleChange = async (value: string) => {
+  const handleChange = async (dataViewNext: string) => {
+    if (dataViewNext === value) return;
+
     await dbAppSettingsUpdate({
-      'user_settings.data_view': { value, updatedAt: new Date().toISOString() },
+      'user_settings.data_view': {
+        value: dataViewNext,
+        updatedAt: new Date().toISOString(),
+      },
     });
 
-    await refreshLocalesResources();
+    await refreshLocaleDerivedData();
 
     // load assignment history
     const history = schedulesBuildHistoryList();
@@ -96,7 +115,28 @@ const useGroupLanguageSelector = () => {
     validateDataView();
   }, [value, languageGroups]);
 
-  return { display, options, value, renderValue, handleChange };
+  const selectWidth = useMemo(() => {
+    if (!canvasRef.current) {
+      canvasRef.current = document.createElement('canvas');
+    }
+
+    const ctx = canvasRef.current.getContext('2d');
+    if (!ctx) return 300;
+
+    ctx.font = '16px Inter, sans-serif';
+
+    const labels = [
+      t('tr_hostCongregation'),
+      ...options.map((o) => o.label),
+    ];
+
+    const maxTextWidth = Math.max(...labels.map((l) => ctx.measureText(l).width));
+
+    // 32px start adornment + 16px padding each side + 32px arrow icon
+    return Math.ceil(maxTextWidth) + 96;
+  }, [options, t]);
+
+  return { display, options, value, renderValue, handleChange, selectWidth };
 };
 
 export default useGroupLanguageSelector;

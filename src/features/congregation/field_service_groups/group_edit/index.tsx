@@ -1,9 +1,10 @@
-import { Box, Stack } from '@mui/material';
+import { Box } from '@mui/material';
 import { IconDelete } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import { GroupEditProps } from './index.types';
 import useGroupEdit from './useGroupEdit';
 import Button from '@components/button';
+import DialogActions from '@components/dialog_actions';
 import GroupMembers from '../group_members';
 import TextField from '@components/textfield';
 import Typography from '@components/typography';
@@ -54,14 +55,14 @@ const GroupEdit = (props: GroupEditProps) => {
 
       <GroupMembers group={tmpGroup} onChange={handleGroupUpdate} />
 
-      <Stack spacing="8px" width="100%">
-        <Button variant="main" onClick={handleSaveChanges}>
-          {t('tr_save')}
-        </Button>
+      <DialogActions>
         <Button variant="secondary" onClick={props.onClose}>
           {t('tr_cancel')}
         </Button>
-      </Stack>
+        <Button variant="main" onClick={handleSaveChanges}>
+          {t('tr_save')}
+        </Button>
+      </DialogActions>
     </>
   );
 };

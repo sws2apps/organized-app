@@ -9,6 +9,7 @@ import ExportS88 from '@features/reports/meeting_attendance/export_S88';
 import MonthlyHistory from '@features/reports/meeting_attendance/monthly_history';
 import MonthlyRecord from '@features/reports/meeting_attendance/monthly_record';
 import PageTitle from '@components/page_title';
+import NavBarButtonGroup from '@components/nav_bar_button_group';
 import QuickSettingsMeetingAttendanceRecord from '@features/reports/meeting_attendance/quick_settings';
 
 const MeetingAttendance = () => {
@@ -43,7 +44,14 @@ const MeetingAttendance = () => {
       <PageTitle
         title={t('tr_meetingAttendanceRecord')}
         quickSettings={isSecretary ? handleOpenQuickSettings : null}
-        buttons={!isGroup && isSecretary && <ExportS88 />}
+        buttons={
+          !isGroup &&
+          isSecretary && (
+            <NavBarButtonGroup>
+              <ExportS88 />
+            </NavBarButtonGroup>
+          )
+        }
       />
 
       <Box

@@ -128,8 +128,13 @@ const PublicTalkSelector = ({
           <IconClose width={20} height={20} sx={{ marginLeft: '-90px' }} />
         }
         sx={{
+          '& .MuiOutlinedInput-root': {
+            height: '44px !important',
+            minHeight: '44px !important',
+          },
           '& .MuiOutlinedInput-input': {
             paddingRight: '80px !important',
+            height: '44px !important',
           },
         }}
       />

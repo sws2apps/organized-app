@@ -1,4 +1,5 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { useSearchParams } from 'react-router';
 import { useAtomValue, useSetAtom } from 'jotai';
 import {
   congNewState,
@@ -22,6 +23,8 @@ const useDashboard = () => {
   const assignmentsHistory = useAtomValue(assignmentsHistoryState);
   const shortDateFormat = useAtomValue(shortDateFormatState);
   const settings = useAtomValue(settingsState);
+
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const isMigrated = useMemo(() => {
     return settings.cong_settings.cong_migrated ?? false;
@@ -56,6 +59,18 @@ const useDashboard = () => {
   const handleOpenMyAssignments = async () => {
     setIsMyAssignmentOpen(true);
   };
+
+  // Handle PWA shortcut deep-link for "My assignments".
+  // Unlike other shortcuts that navigate to dedicated routes,
+  // assignments open as a modal on the dashboard, hence the query param approach.
+  useEffect(() => {
+    if (searchParams.get('action') === 'assignments') {
+      setIsMyAssignmentOpen(true);
+
+      searchParams.delete('action');
+      setSearchParams(searchParams, { replace: true });
+    }
+  }, [searchParams, setSearchParams, setIsMyAssignmentOpen]);
 
   return {
     firstName,

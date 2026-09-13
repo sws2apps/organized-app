@@ -4,6 +4,7 @@ import { useAppTranslation } from '@hooks/index';
 import usePersonSelect from './usePersonSelect';
 import Autocomplete from '@components/autocomplete';
 import Button from '@components/button';
+import DialogActions from '@components/dialog_actions';
 import Radio from '@components/radio';
 import TextField from '@components/textfield';
 import Typography from '@components/typography';
@@ -117,14 +118,12 @@ const PersonSelect = (props: PersonSelectType) => {
         )}
       />
 
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '8px',
-          width: '100%',
-        }}
-      >
+      <DialogActions>
+        <Button variant="secondary" onClick={handleSecondaryAction}>
+          {userType !== 'baptized' || !searchStatus
+            ? t('tr_cancel')
+            : t('tr_back')}
+        </Button>
         <Button
           variant="main"
           endIcon={
@@ -138,12 +137,7 @@ const PersonSelect = (props: PersonSelectType) => {
             ? t('tr_searchUser')
             : t('tr_bindUser')}
         </Button>
-        <Button variant="secondary" onClick={handleSecondaryAction}>
-          {userType !== 'baptized' || !searchStatus
-            ? t('tr_cancel')
-            : t('tr_back')}
-        </Button>
-      </Box>
+      </DialogActions>
     </>
   );
 };

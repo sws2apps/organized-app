@@ -12,11 +12,14 @@ import S89ToBeGiven from '../shared/S89ToBeGiven';
 import S89StudentNote from '../shared/S89StudentNote';
 import S89Footer from '../shared/S89Footer';
 import stylesCustom from './index.styles';
+import { applyRTL } from '@views/utils/pdf_utils';
 
 registerFonts();
 
 const TemplateS89Doc4in1 = ({ s89Data, lang }: S89Doc4in1Type) => {
   const { t } = useAppTranslation();
+  const rtlStyles = applyRTL(styles, lang);
+  const rtlStylesCustom = applyRTL(stylesCustom, lang);
 
   const formatData = () => {
     const data: S89DataType[][] = [];
@@ -31,37 +34,41 @@ const TemplateS89Doc4in1 = ({ s89Data, lang }: S89Doc4in1Type) => {
     <>
       {s89Data.length > 0 && (
         <Document title="S-89" lang={lang}>
-          <Page size="A4" style={[styles.body, stylesCustom.page]}>
+          <Page size="A4" style={[rtlStyles.body, rtlStylesCustom.page]}>
             {formatData().map((groupedData, groupedIndex) => {
               return (
                 <Fragment key={groupedData.map((d) => d.id).join('-')}>
                   {groupedData.map((data, index) => (
                     <View
                       key={data.id}
-                      style={{ ...styles.content, ...stylesCustom.content }}
+                      style={{ ...rtlStyles.content, ...rtlStylesCustom.content }}
                       break={groupedIndex > 0 && index === 0}
                     >
                       <View>
                         <S89Header lang={lang} />
 
-                        <View style={styles.details}>
+                        <View style={rtlStyles.details}>
                           <S89DetailsRow
+                            lang={lang}
                             field={`${t('tr_name', { lng: lang })}:`}
                             value={data.student_name}
                           />
 
                           <S89DetailsRow
+                            lang={lang}
                             field={`${t('tr_assistant', { lng: lang })}:`}
                             value={data.assistant_name}
                           />
 
                           <S89DetailsRow
+                            lang={lang}
                             field={`${t('tr_date', { lng: lang })}:`}
                             value={data.assignment_date}
                             align="center"
                           />
 
                           <S89DetailsRow
+                            lang={lang}
                             field={t('tr_partNo', { lng: lang })}
                             value={data.part_number}
                             align="center"
@@ -76,7 +83,7 @@ const TemplateS89Doc4in1 = ({ s89Data, lang }: S89Doc4in1Type) => {
                         />
                       </View>
 
-                      <View style={styles.bottomSection}>
+                      <View style={rtlStyles.bottomSection}>
                         <S89StudentNote lang={lang} />
                         <S89Footer lang={lang} />
                       </View>

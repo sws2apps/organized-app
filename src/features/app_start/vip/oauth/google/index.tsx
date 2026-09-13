@@ -12,7 +12,7 @@ const OAuthGoogle = () => {
     <OAuthButtonBase
       provider={provider}
       text={t('tr_oauthGoogle')}
-      logo={<IconGoogle />}
+      logo={<IconGoogle width={20} height={20} />}
     />
   );
 };
