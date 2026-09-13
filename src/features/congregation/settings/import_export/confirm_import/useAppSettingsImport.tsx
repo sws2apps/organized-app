@@ -31,12 +31,11 @@ const useAppSettingsImport = () => {
 
   const getUserSettings = async (data: SettingsType['user_settings']) => {
     // migrate a legacy account photo embedded in the settings row into the
-    // local-only store: it must not be copied back into app_settings
-    const legacyAvatar = (data as Record<string, unknown>)['user_avatar'] as
-      | ArrayBuffer
-      | undefined;
+    // local-only store: it must not be copied back into app_settings. JSON
+    // serialization turns ArrayBuffer into {}, so only keep real buffers
+    const legacyAvatar = (data as Record<string, unknown>)['user_avatar'];
 
-    if (legacyAvatar) {
+    if (legacyAvatar instanceof ArrayBuffer) {
       await dbAppLocalsSaveAvatar(legacyAvatar);
     }
 
