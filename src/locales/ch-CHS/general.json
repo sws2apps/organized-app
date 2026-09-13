@@ -178,5 +178,7 @@
   "tr_fontSize": "字体大小",
   "tr_small": "小",
   "tr_normal": "正常",
-  "tr_large": "大"
+  "tr_large": "大",
+  "tr_chooseFields": "Choose export fields",
+  "tr_chooseFieldsDesc": "Please select the fields you want to include in the export file."
 }
