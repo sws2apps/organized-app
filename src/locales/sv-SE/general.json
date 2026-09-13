@@ -178,5 +178,7 @@
   "tr_fontSize": "Teckenstorlek",
   "tr_small": "Liten",
   "tr_normal": "Normal",
-  "tr_large": "Stor"
+  "tr_large": "Stor",
+  "tr_chooseFields": "Choose export fields",
+  "tr_chooseFieldsDesc": "Please select the fields you want to include in the export file."
 }

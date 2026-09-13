@@ -178,5 +178,7 @@
   "tr_fontSize": "גודל גופן",
   "tr_small": "קטן",
   "tr_normal": "רגיל",
-  "tr_large": "גדול"
+  "tr_large": "גדול",
+  "tr_chooseFields": "Choose export fields",
+  "tr_chooseFieldsDesc": "Please select the fields you want to include in the export file."
 }

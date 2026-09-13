@@ -178,5 +178,7 @@
   "tr_fontSize": "Velikost pisave",
   "tr_small": "Majhna",
   "tr_normal": "Navadna",
-  "tr_large": "Velika"
+  "tr_large": "Velika",
+  "tr_chooseFields": "Choose export fields",
+  "tr_chooseFieldsDesc": "Please select the fields you want to include in the export file."
 }
