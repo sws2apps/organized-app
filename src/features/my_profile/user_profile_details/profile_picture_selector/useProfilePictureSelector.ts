@@ -65,8 +65,6 @@ const useProfilePictureSelector = (onClose: () => void) => {
 
   const hasAvatar = avatarBuffer !== undefined;
 
-  const prevSavedAvatarType = useRef(savedAvatarType);
-
   const [selectedType, setSelectedType] = useState<AvatarType>(savedAvatarType);
   const [isProcessing, setIsProcessing] = useState(false);
   const [saveError, setSaveError] = useState(false);
@@ -126,29 +124,30 @@ const useProfilePictureSelector = (onClose: () => void) => {
   };
 
   useEffect(() => {
-    // react only when the saved type actually changes: sections is memoized
-    // on a presence boolean so unrelated settings writes cannot rebuild it
-    // and silently reset the selection while the dialog is open
-    if (prevSavedAvatarType.current === savedAvatarType) return;
-
-    prevSavedAvatarType.current = savedAvatarType;
-
-    // the saved avatar may no longer be selectable, e.g. after the account
-    // photo is gone: fall back to the generic one so a choice stays visible
+    // reconcile whenever the set of available types changes (not only when
+    // the saved type changes): sections is memoized on a presence boolean,
+    // so unrelated settings writes cannot rebuild it and silently reset the
+    // selection while the dialog is open
     const availableTypes = sections.flatMap((section) => section.options);
 
+    // preserve an in-progress choice while it remains available
+    if (availableTypes.includes(selectedType)) return;
+
+    // the selection is no longer offered, e.g. the account photo disappeared:
+    // fall back to the saved avatar when still selectable, otherwise to the
+    // generic one so a radio always stays selected
+    const fallback = availableTypes.includes(savedAvatarType)
+      ? savedAvatarType
+      : 'default';
+
+    setSelectedType(fallback);
     setActiveTab(
       Math.max(
         0,
-        sections.findIndex((section) =>
-          section.options.includes(savedAvatarType)
-        )
+        sections.findIndex((section) => section.options.includes(fallback))
       )
     );
-    setSelectedType(
-      availableTypes.includes(savedAvatarType) ? savedAvatarType : 'default'
-    );
-  }, [sections, savedAvatarType]);
+  }, [sections, savedAvatarType, selectedType]);
 
   const handleClose = () => {
     if (!savingRef.current) onClose();
