@@ -131,12 +131,12 @@
   "tr_appliesOnlyToBrothers": "Ho an’ny rahalahy ihany",
   "tr_circuit": "Circuit: {{ circuitNumber }}",
   "tr_ageInYearsAndMonths": "{{ years }} tao, {{months}} vola",
-  "tr_personHasNoAssignmentHistory": "Mbo tsy nanao anjara mihitsy",
+  "tr_personHasNoAssignmentHistory": "No assignment history yet",
   "tr_appUserProfile": "Konty Organized",
   "tr_appUserProfileNotRegisteredDesc": "Mbo tsy mampiasa Organized olo toy. Azonao anamboara konty ie amy  pejy ‘Kaonty Organized’ ao.",
   "tr_appUserProfileRegisteredDesc": "Mampiasa Organized olo toy. Nilitsy farany tamy: <span class='h4'>{{ lastTimeOnline }}.</span> Azonao amboary ty andraikitsy ananany amy pejy ‘Konty Organized’ ao.",
   "tr_notYet": "Mbo tsy nilitsy",
-  "tr_manageUserProfileSettings": "Handrindra ty kontiny",
+  "tr_manageUserProfileSettings": "Manage user account",
   "tr_createUserProfile": "Hamoro Konty",
   "tr_download": "Hangalaky",
   "tr_import": "Hampilitsy",
@@ -178,5 +178,7 @@
   "tr_fontSize": "Haben’ny soratra",
   "tr_small": "Kely",
   "tr_normal": "Mahazatra",
-  "tr_large": "Lehibe"
+  "tr_large": "Lehibe",
+  "tr_chooseFields": "Choose export fields",
+  "tr_chooseFieldsDesc": "Please select the fields you want to include in the export file."
 }

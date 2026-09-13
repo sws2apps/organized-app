@@ -10,6 +10,7 @@ import { getRandomArrayItem } from '@utils/common';
 import { LANGUAGE_LIST } from '@constants/index';
 import appDb from '@db/appDb';
 import { dbPersonsBulkSave } from '@services/dexie/persons';
+import { dbAppLocalsClearAvatar, dbAppLocalsSaveAvatar } from './app_locals';
 
 export const dbAppSettingsGet = async () => {
   const current = await appDb.app_settings.get(1);
@@ -88,7 +89,7 @@ export const dbAppSettingsSaveProfilePic = async (
 
       const savePic = (profileBlob) => {
         profileBlob.arrayBuffer().then((profileBuffer) => {
-          dbAppSettingsUpdate({ 'user_settings.user_avatar': profileBuffer });
+          dbAppLocalsSaveAvatar(profileBuffer);
         });
       };
 
@@ -96,7 +97,7 @@ export const dbAppSettingsSaveProfilePic = async (
     }
   }
 
-  await dbAppSettingsUpdate({ 'user_settings.user_avatar': undefined });
+  await dbAppLocalsClearAvatar();
 };
 
 export const dbAppSettingsBuildTest = async () => {
