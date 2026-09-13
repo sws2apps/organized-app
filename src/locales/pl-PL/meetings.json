@@ -53,6 +53,7 @@
   "tr_weekendScheduleSaved": "Plan weekendowy zapisany",
   "tr_weekendScheduleSavedDesc": "Po utworzeniu żądanych planów pamiętaj o ich opublikowaniu dla zboru.",
   "tr_personAlreadyAssignmentWeek": "Ta osoba ma już zadanie w tym tygodniu",
+  "tr_personAlreadyAssignmentMeeting": "This person already has an assignment in this meeting",
   "tr_hostCongregation": "Zbór gospodarza",
   "tr_kingdomHallAddress": "Adres Sali Królestwa",
   "tr_clearAllAssignments": "Wyczyść wszystkie zadania",
