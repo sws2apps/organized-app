@@ -7,7 +7,9 @@ import { atom } from 'jotai';
 import { settingSchema } from '@services/dexie/schema';
 import { buildPersonFullname } from '@utils/common';
 import { currentServiceYear } from '@utils/date';
+import { appLocalsState } from '@states/app_locals';
 import {
+  AvatarType,
   FirstDayWeekOption,
   FullnameOption,
   PublishersSortOption,
@@ -584,22 +586,9 @@ export const fullnameState = atom((get) => {
 });
 
 export const userAvatarState = atom((get) => {
-  const settings = get(settingsState);
+  const locals = get(appLocalsState);
 
-  return settings.user_settings.user_avatar;
-});
-
-export const userAvatarUrlState = atom((get) => {
-  const avatarBuffer = get(userAvatarState);
-
-  let src = '';
-
-  if (avatarBuffer) {
-    const blob = new Blob([avatarBuffer]);
-    src = URL.createObjectURL(blob);
-  }
-
-  return src;
+  return locals.find((record) => record.id === 1)?.avatar;
 });
 
 export const backupAutoState = atom((get) => {
@@ -612,6 +601,21 @@ export const backupIntervalState = atom((get) => {
   const settings = get(settingsState);
 
   return settings.user_settings.backup_automatic.interval.value;
+});
+
+export const userAvatarTypeState = atom<AvatarType>((get) => {
+  const settings = get(settingsState);
+
+  return settings.user_settings.user_avatar_type?.value ?? 'google';
+});
+
+export const userInitialsState = atom((get) => {
+  const firstname = get(firstnameState);
+  const lastname = get(lastnameState);
+
+  const initials = `${Array.from(firstname ?? '')[0] ?? ''}${Array.from(lastname ?? '')[0] ?? ''}`;
+
+  return initials.toUpperCase();
 });
 
 export const accountTypeState = atom((get) => {

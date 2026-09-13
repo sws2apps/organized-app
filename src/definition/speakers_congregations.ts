@@ -2,6 +2,10 @@ import { IncomingCongregationResponseType } from './api';
 
 export type SpeakersCongregationsType = {
   _deleted: { value: boolean; updatedAt: string };
+  /**
+   * Local record UUID, distinct from the remote `cong_data.cong_id`.
+   * Optional because records carry no local id before first persistence.
+   */
   id?: string;
   cong_data: {
     cong_id: string;

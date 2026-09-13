@@ -35,6 +35,7 @@ import {
   schedulesDutyPersonQualified,
   schedulesGetData,
   schedulesGetMeetingDate,
+  schedulesPersonHasMeetingConflict,
   schedulesSaveAssignment,
 } from '@services/app/schedules';
 import { ASSIGNMENT_PATH } from '@constants/index';
@@ -469,6 +470,19 @@ const useBrotherSelector = ({
     );
   }, [value, assignmentsHistory]);
 
+  const isMeetingConflict = useMemo(() => {
+    if (!value) return false;
+
+    return schedulesPersonHasMeetingConflict({
+      history: assignmentsHistory,
+      week,
+      assignment,
+      person_uid: value.person_uid,
+      dataView,
+      type,
+    });
+  }, [value, assignmentsHistory, week, assignment, dataView, type]);
+
   const meetingDate = useMemo(() => {
     let meeting: 'midweek' | 'weekend';
 
@@ -485,6 +499,13 @@ const useBrotherSelector = ({
 
   const helperText = useMemo(() => {
     if (!value || week.length === 0) return '';
+
+    // same-meeting conflict first: the helper color and decorator turn red
+    // on conflict alone, so the text must match instead of showing the
+    // absence notice in red
+    if (isMeetingConflict) {
+      return t('tr_personAlreadyAssignmentMeeting');
+    }
 
     // check for person time away
     const person = persons.find(
@@ -548,6 +569,7 @@ const useBrotherSelector = ({
     meetingDate,
     isDutiesField,
     weekConflicts,
+    isMeetingConflict,
   ]);
 
   const helperSeverity: 'error' | 'warning' = useMemo(() => {
@@ -674,6 +696,7 @@ const useBrotherSelector = ({
     inputValue,
     handleValueChange,
     isLinkedPart,
+    isMeetingConflict,
   };
 };
 

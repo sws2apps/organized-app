@@ -17,15 +17,6 @@ import Typography from '@components/typography';
 const dutiesGroupBy = (option: PersonOptionsType) =>
   option.conflict ? 'conflict' : 'free';
 
-const getDecorator = (
-  helperText: string,
-  isLinkedPart: boolean,
-  helperSeverity: string
-) => {
-  if (!helperText.length || isLinkedPart) return false;
-  return helperSeverity === 'error' ? 'error' : true;
-};
-
 const BrotherOption = ({
   optionProps,
   option,
@@ -242,10 +233,16 @@ const BrotherSelector = (props: PersonSelectorType) => {
     inputValue,
     handleValueChange,
     isLinkedPart,
+    isMeetingConflict,
   } = useBrotherSelector(props);
 
-  const helperColor =
-    helperSeverity === 'error' ? 'var(--red-main)' : 'var(--orange-dark)';
+  let helperColor = 'var(--orange-dark)';
+
+  if (isLinkedPart) {
+    helperColor = 'var(--grey-350)';
+  } else if (isMeetingConflict || helperSeverity === 'error') {
+    helperColor = 'var(--red-main)';
+  }
 
   return (
     <Box sx={{ position: 'relative' }}>
@@ -298,7 +295,12 @@ const BrotherSelector = (props: PersonSelectorType) => {
         optionsHeader={isDutiesField ? null : <BrothersHeader />}
         styleIcon={false}
         startIcon={showIcon ? <IconMale /> : null}
-        decorator={getDecorator(helperText, isLinkedPart, helperSeverity)}
+        decorator={helperText.length > 0 && !isLinkedPart}
+        decoratorColor={
+          isMeetingConflict || helperSeverity === 'error'
+            ? 'var(--red-main)'
+            : undefined
+        }
         clearIcon={<IconClose width={20} height={20} />}
         sx={{
           '& .MuiOutlinedInput-root': {

@@ -107,7 +107,7 @@
   "tr_S10ReportNotGenerated": "올해의 보고가 아직 생성되지 않았습니다. 세부 사항을 확인하려면 보고를 생성한 후 제출하세요.",
   "tr_quickAssignAP": "보조 파이오니아 승인됨",
   "tr_quickAssignAPDesc": "이 전도인은 이번 달 보조 파이오니아로 승인되었습니다. 이 사항은 개인 기록의 등록 사항에서 변경할 수 있습니다.",
-  "tr_reactivatePublisher": "이 전도인을 다시 활동 상태로 표시",
+  "tr_reactivatePublisher": "Reactivate publisher",
   "tr_S21CardTitle": "여러 전도인 기록 내보내기 (S-21)",
   "tr_S21CardTitleDesc": "‘모든 전도인’을 선택하면 모든 전도인과 전 시간 봉사자 및 보조 파이오니아의 기록을 내보내고 정렬할 수 있습니다. ‘특정 전도인’을 선택하면 선택한 전도인의 기록만 내보낼 수 있습니다.",
   "tr_allPublisherRecords": "모든 전도인",

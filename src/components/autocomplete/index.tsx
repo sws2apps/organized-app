@@ -81,9 +81,12 @@ const Autocomplete = <T,>(props: AutocompletePropsType<T>) => {
     optionsHeader,
     styleIcon,
     decorator,
+    decoratorColor,
     variant,
     ...defaultProps
   } = props;
+
+  const decoratorColorValue = decoratorColor ?? 'var(--orange-dark)';
 
   return (
     <MUIAutocomplete
@@ -135,33 +138,26 @@ const Autocomplete = <T,>(props: AutocompletePropsType<T>) => {
           styleIcon={styleIcon ?? true}
           sx={
             decorator
-              ? (() => {
-                  const color =
-                    decorator === 'error'
-                      ? 'var(--red-main)'
-                      : 'var(--orange-dark)';
-
-                  return {
-                    '.MuiOutlinedInput-root': {
-                      borderRadius: 'var(--radius-l)',
-                      '& fieldset': {
-                        border: `1px solid ${color}`,
-                      },
-                      '&:hover fieldset': {
-                        border: `1px solid ${color}`,
-                      },
-                      '&.Mui-focused fieldset': {
-                        border: `1px solid ${color}`,
-                      },
+              ? {
+                  '.MuiOutlinedInput-root': {
+                    borderRadius: 'var(--radius-l)',
+                    '& fieldset': {
+                      border: `1px solid ${decoratorColorValue}`,
                     },
-                    '.MuiInputLabel-root': {
-                      color,
-                      '&.Mui-focused': {
-                        color,
-                      },
+                    '&:hover fieldset': {
+                      border: `1px solid ${decoratorColorValue}`,
                     },
-                  };
-                })()
+                    '&.Mui-focused fieldset': {
+                      border: `1px solid ${decoratorColorValue}`,
+                    },
+                  },
+                  '.MuiInputLabel-root': {
+                    color: decoratorColorValue,
+                    '&.Mui-focused': {
+                      color: decoratorColorValue,
+                    },
+                  },
+                }
               : {}
           }
         />
