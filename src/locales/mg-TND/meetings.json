@@ -53,6 +53,7 @@
   "tr_weekendScheduleSaved": "Voatahiry ny fandaharana faran'ny herinandro",
   "tr_weekendScheduleSavedDesc": "Aza adino ny mizara ny fandaharana amin’ny fiangonana rehefa avy manamboatra an’izany ianao.",
   "tr_personAlreadyAssignmentWeek": "Efa manana anjara amin'ity herinandro ity",
+  "tr_personAlreadyAssignmentMeeting": "This person already has an assignment in this meeting",
   "tr_hostCongregation": "Fiangonana mpiahy",
   "tr_kingdomHallAddress": "Adiresin’ny Efitrano Fanjakana",
   "tr_clearAllAssignments": "Hamafa ny anjara rehetra",
