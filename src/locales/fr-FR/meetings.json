@@ -53,6 +53,7 @@
   "tr_weekendScheduleSaved": "Programme de week-end enregistré",
   "tr_weekendScheduleSavedDesc": "Après avoir créé les programmes souhaités, pensez à les publier afin qu'ils soient accessibles à l'assemblée.",
   "tr_personAlreadyAssignmentWeek": "Cette personne a déjà une attribution cette semaine",
+  "tr_personAlreadyAssignmentMeeting": "This person already has an assignment in this meeting",
   "tr_hostCongregation": "Assemblée d'accueil",
   "tr_kingdomHallAddress": "Adresse de la Salle du Royaume",
   "tr_clearAllAssignments": "Effacer toutes les attributions",
