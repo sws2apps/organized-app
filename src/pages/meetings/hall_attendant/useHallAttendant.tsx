@@ -10,7 +10,7 @@ import {
 import { schedulesState } from '@states/schedules';
 import { sourcesState } from '@states/sources';
 import { getHallMeeting } from '@utils/hall_attendant';
-import { formatDate, getWeekDate } from '@utils/date';
+import { formatDate } from '@utils/date';
 import { schedulesGetMeetingDate } from '@services/app/schedules';
 import { appLocaleState } from '@states/app';
 
@@ -33,18 +33,18 @@ const useHallAttendant = () => {
       document.removeEventListener('visibilitychange', refresh);
     };
   }, []);
-  const week = formatDate(getWeekDate(new Date(now)), 'yyyy/MM/dd');
-  const dates = Object.fromEntries(
-    (['midweek', 'weekend'] as const).map((type) => {
-      const scheduled = schedulesGetMeetingDate({
-        week,
-        meeting: type,
-        dataView,
-      });
-      return [type, scheduled.date ? new Date(scheduled.date) : undefined];
-    })
-  );
-  const meeting = getHallMeeting(now, midweekDay, weekendDay, dates);
+  const getDates = (week: string) =>
+    Object.fromEntries(
+      (['midweek', 'weekend'] as const).map((type) => {
+        const scheduled = schedulesGetMeetingDate({
+          week,
+          meeting: type,
+          dataView,
+        });
+        return [type, scheduled.date ? new Date(scheduled.date) : undefined];
+      })
+    );
+  const meeting = getHallMeeting(now, midweekDay, weekendDay, getDates);
   return {
     meeting,
     dataView,

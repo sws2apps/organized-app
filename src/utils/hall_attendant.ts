@@ -45,33 +45,42 @@ export const getHallMeeting = (
   today: Date,
   midweekDay: number,
   weekendDay: number,
-  dates: HallMeetingDates = {}
+  // the dates set in the schedule for the week starting on the given Monday
+  getDates: (week: string) => HallMeetingDates = () => ({})
 ): HallMeeting => {
-  const weekDate = getWeekDate(new Date(today));
   const midnight = new Date(today);
   midnight.setHours(0, 0, 0, 0);
   const meetingDay = (type: 'midweek' | 'weekend') =>
     type === 'midweek' ? midweekDay : weekendDay;
 
-  const candidates = (['midweek', 'weekend'] as const)
-    .map((type) => {
-      const override = dates[type];
+  const meetingsOf = (weekDate: Date) => {
+    const dates = getDates(formatDate(weekDate, 'yyyy/MM/dd'));
 
-      // a date set in the schedule wins over the congregation's usual day
-      const date =
-        override && Number.isFinite(override.getTime())
-          ? new Date(override)
-          : addDays(weekDate, meetingDay(type));
+    return (['midweek', 'weekend'] as const)
+      .map((type) => {
+        const override = dates[type];
 
-      date.setHours(0, 0, 0, 0);
-      return { type, date };
-    })
-    .sort((a, b) => a.date.getTime() - b.date.getTime());
-  // both meetings are always in the list, so there is always a later one to
-  // fall back to once the day of the earlier one has passed
-  const [, later] = candidates;
+        // a date set in the schedule wins over the congregation's usual day
+        const date =
+          override && Number.isFinite(override.getTime())
+            ? new Date(override)
+            : addDays(weekDate, meetingDay(type));
 
-  const selected = candidates.find((item) => item.date >= midnight) ?? later;
+        date.setHours(0, 0, 0, 0);
+        return { type, date };
+      })
+      .sort((a, b) => a.date.getTime() - b.date.getTime());
+  };
+
+  let weekDate = getWeekDate(new Date(today));
+  let selected = meetingsOf(weekDate).find((item) => item.date >= midnight);
+
+  // both meetings of this week are over, so the next one is in the next week
+  if (!selected) {
+    weekDate = addDays(weekDate, 7);
+    [selected] = meetingsOf(weekDate);
+  }
+
   const week = formatDate(weekDate, 'yyyy/MM/dd');
   const month = formatDate(weekDate, 'yyyy/MM');
   return {
