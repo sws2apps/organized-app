@@ -9,6 +9,7 @@ import RightButton from './right_button';
 const MinistryTimer = () => {
   const {
     timerState,
+    saving,
     handleRightButtonAction,
     handleLeftButtonAction,
     editorOpen,
@@ -49,14 +50,22 @@ const MinistryTimer = () => {
         />
       )}
 
-      <LeftButton state={timerState} onClick={handleLeftButtonAction} />
+      <LeftButton
+        state={timerState}
+        onClick={handleLeftButtonAction}
+        disabled={saving}
+      />
       <Duration
         time={time}
         paused={timerState === 'paused'}
         started={timerState === 'started'}
         onClick={handleOpenSlider}
       />
-      <RightButton state={timerState} onClick={handleRightButtonAction} />
+      <RightButton
+        state={timerState}
+        onClick={handleRightButtonAction}
+        disabled={saving}
+      />
     </Box>
   );
 };

@@ -1,11 +1,14 @@
 import { debounce } from '@utils/common';
+import { addMonths, formatDate } from '@utils/date';
 import {
+  TimerRecordType,
   UserFieldServiceDailyReportType,
   UserFieldServiceMonthlyReportType,
 } from '@definition/user_field_service_reports';
 import {
   dbUserFieldServiceReportsGet,
   dbUserFieldServiceReportsSave,
+  dbUserFieldServiceReportsTransaction,
 } from '@services/dexie/user_field_service_reports';
 import {
   userFieldServiceDailyReportSchema,
@@ -260,10 +263,76 @@ export const fieldServiceTimeFromSeconds = (seconds: number) => {
 };
 
 /**
+ * Elapsed seconds of a ministry timer session, always derived from the moment
+ * the timer was started so that a throttled or suspended tab cannot lose time.
+ */
+export const ministryTimerElapsed = (timer: TimerRecordType, now: number) => {
+  if (timer.state !== 'started') return timer.value;
+
+  return timer.value + Math.max(0, Math.floor((now - timer.start) / 1000));
+};
+
+/**
+ * Keeps what a running session has already measured when the device clock is
+ * corrected backwards, by banking the time up to the last moment the session
+ * was seen and counting again from the corrected clock.
+ *
+ * A clock that moved behind the start of the running segment while nothing was
+ * watching cannot tell how long that segment ran, so counting restarts from
+ * the corrected clock instead of waiting for it to catch up with the start.
+ */
+export const ministryTimerCorrectClock = (
+  timer: TimerRecordType,
+  lastSeen: number,
+  now: number
+) => {
+  if (timer.state !== 'started') return timer;
+
+  if (now >= lastSeen && now >= timer.start) return timer;
+
+  const newValue = structuredClone(timer);
+  newValue.value =
+    timer.value + Math.max(0, Math.floor((lastSeen - timer.start) / 1000));
+  newValue.start = now;
+
+  return newValue;
+};
+
+/**
+ * The day a session is reported on is the day it started, so that a session
+ * running past midnight stays in the month the publisher went out. The day is
+ * kept in the timer record, and a record saved before the day was stored
+ * falls back to the start of its running segment.
+ */
+export const ministryTimerSessionDate = (
+  timer: TimerRecordType,
+  now: number
+) => {
+  const date =
+    timer.state === 'not_started' ? now : timer.date || timer.start || now;
+
+  return formatDate(new Date(date), 'yyyy/MM/dd');
+};
+
+/**
+ * A session whose month was already submitted is added to the next month.
+ */
+export const ministryTimerReportDate = (
+  session_date: string,
+  read_only: boolean
+) => {
+  if (!read_only) return session_date;
+
+  return formatDate(addMonths(session_date, 1), 'yyyy/MM/01');
+};
+
+/**
  * Adds a measured session to the daily report of the day it belongs to.
  *
  * The report is read from the database rather than from the view, so that the
- * time is added to whatever has already been saved for that day.
+ * time is added to whatever has already been saved for that day. The read and
+ * every write share one transaction, so a failed save leaves nothing behind
+ * that a retry would add again, and two saves cannot overwrite each other.
  */
 export const handleAddFieldServiceTime = async (
   report_date: string,
@@ -271,37 +340,39 @@ export const handleAddFieldServiceTime = async (
 ) => {
   const { hours, minutes } = fieldServiceTimeFromSeconds(seconds);
 
-  const reports = await dbUserFieldServiceReportsGet();
+  return dbUserFieldServiceReportsTransaction(async () => {
+    const reports = await dbUserFieldServiceReportsGet();
 
-  const current = reports.find(
-    (record) =>
-      record.report_date === report_date &&
-      record.report_data.record_type === 'daily'
-  ) as UserFieldServiceDailyReportType;
+    const current = reports.find(
+      (record) =>
+        record.report_date === report_date &&
+        record.report_data.record_type === 'daily'
+    ) as UserFieldServiceDailyReportType;
 
-  const report = current
-    ? structuredClone(current)
-    : structuredClone(userFieldServiceDailyReportSchema);
+    const report = current
+      ? structuredClone(current)
+      : structuredClone(userFieldServiceDailyReportSchema);
 
-  report.report_date = report_date;
+    report.report_date = report_date;
 
-  const [savedHours, savedMinutes] = report.report_data.hours.field_service
-    .split(':')
-    .map(Number);
+    const [savedHours, savedMinutes] = report.report_data.hours.field_service
+      .split(':')
+      .map(Number);
 
-  let newHours = (savedHours || 0) + hours;
-  let newMinutes = (savedMinutes || 0) + minutes;
+    let newHours = (savedHours || 0) + hours;
+    let newMinutes = (savedMinutes || 0) + minutes;
 
-  if (newMinutes >= 60) {
-    newHours++;
-    newMinutes = newMinutes - 60;
-  }
+    if (newMinutes >= 60) {
+      newHours++;
+      newMinutes = newMinutes - 60;
+    }
 
-  report.report_data.hours.field_service = `${newHours}:${String(newMinutes).padStart(2, '0')}`;
-  report.report_data._deleted = false;
-  report.report_data.updatedAt = new Date().toISOString();
+    report.report_data.hours.field_service = `${newHours}:${String(newMinutes).padStart(2, '0')}`;
+    report.report_data._deleted = false;
+    report.report_data.updatedAt = new Date().toISOString();
 
-  await handleSaveDailyFieldServiceReport(report);
+    await handleSaveDailyFieldServiceReport(report);
 
-  return report;
+    return report;
+  });
 };

@@ -7,7 +7,6 @@ import {
   useState,
 } from 'react';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
-import { addMonths, formatDate } from '@utils/date';
 import {
   reportUserSelectedMonthState,
   userMinistryTimerState,
@@ -15,6 +14,10 @@ import {
 import {
   fieldServiceTimeFromSeconds,
   handleAddFieldServiceTime,
+  ministryTimerCorrectClock,
+  ministryTimerElapsed,
+  ministryTimerReportDate,
+  ministryTimerSessionDate,
 } from '@services/app/user_field_service_reports';
 import { userLocalUIDState } from '@states/settings';
 import useMinistryMonthlyRecord from '@features/ministry/hooks/useMinistryMonthlyRecord';
@@ -36,8 +39,10 @@ const useMinistryTimer = () => {
   // the last moment the running session was seen, to notice a clock moved back
   const lastSeen = useRef(Date.now());
 
-  // a stop already being written must not be started a second time
+  // a stop being written holds the timer, so nothing can start a session that
+  // the finished save would then reset
   const stopping = useRef(false);
+  const [saving, setSaving] = useState(false);
 
   const [editorOpen, setEditorOpen] = useState(false);
   const [editorDate, setEditorDate] = useState('');
@@ -45,37 +50,9 @@ const useMinistryTimer = () => {
 
   const timerState = timer.state;
 
-  /**
-   * Elapsed seconds of the current session, always derived from the moment the
-   * timer was started so that a throttled or suspended tab cannot lose time.
-   */
-  const getElapsedTime = useCallback(() => {
-    if (timer.state !== 'started') return timer.value;
+  const time = ministryTimerElapsed(timer, Date.now());
 
-    const additionalTime = Math.max(
-      0,
-      Math.floor((Date.now() - timer.start) / 1000)
-    );
-
-    return timer.value + additionalTime;
-  }, [timer]);
-
-  const time = getElapsedTime();
-
-  /**
-   * The day a session is reported on is the day it started, so that a session
-   * running past midnight stays in the month the publisher went out. The day is
-   * kept in the timer record, and a record saved before the day was stored
-   * falls back to the start of its running segment.
-   */
-  const sessionDate = formatDate(
-    new Date(
-      timer.state === 'not_started'
-        ? Date.now()
-        : timer.date || timer.start || Date.now()
-    ),
-    'yyyy/MM/dd'
-  );
+  const sessionDate = ministryTimerSessionDate(timer, Date.now());
 
   const month = sessionDate.slice(0, 7);
 
@@ -85,13 +62,25 @@ const useMinistryTimer = () => {
     publisher: true,
   });
 
-  const report_date = useMemo(() => {
-    if (!read_only) {
-      return sessionDate;
-    }
+  const report_date = useMemo(
+    () => ministryTimerReportDate(sessionDate, read_only),
+    [read_only, sessionDate]
+  );
 
-    return formatDate(addMonths(sessionDate, 1), 'yyyy/MM/01');
-  }, [read_only, sessionDate]);
+  /**
+   * The running session as of now, with a clock moved back since it was last
+   * seen already corrected, so that pausing or stopping never measures less
+   * than was shown.
+   */
+  const getCurrentTimer = () => {
+    const now = Date.now();
+
+    const current = ministryTimerCorrectClock(timer, lastSeen.current, now);
+
+    lastSeen.current = now;
+
+    return { current, elapsed: ministryTimerElapsed(current, now) };
+  };
 
   const resetTimer = useCallback(() => {
     setTimer((prev) => {
@@ -119,15 +108,13 @@ const useMinistryTimer = () => {
   };
 
   const handlePause = () => {
-    const elapsed = getElapsedTime();
+    const { current, elapsed } = getCurrentTimer();
 
-    setTimer((prev) => {
-      const newValue = structuredClone(prev);
-      newValue.state = 'paused';
-      newValue.value = elapsed;
+    const newValue = structuredClone(current);
+    newValue.state = 'paused';
+    newValue.value = elapsed;
 
-      return newValue;
-    });
+    setTimer(newValue);
   };
 
   const handleAddTime = () => {
@@ -137,10 +124,9 @@ const useMinistryTimer = () => {
   };
 
   const handleStop = async () => {
-    // a stop already being written must not be repeated by a second tap
     if (stopping.current) return;
 
-    const elapsed = getElapsedTime();
+    const { current, elapsed } = getCurrentTimer();
 
     const { hours, minutes } = fieldServiceTimeFromSeconds(elapsed);
 
@@ -157,16 +143,15 @@ const useMinistryTimer = () => {
     }
 
     stopping.current = true;
+    setSaving(true);
 
     // the measured time is held while it is written, so that a save that fails
     // leaves a session to stop again instead of an erased one
-    setTimer((prev) => {
-      const newValue = structuredClone(prev);
-      newValue.state = 'paused';
-      newValue.value = elapsed;
+    const pausedTimer = structuredClone(current);
+    pausedTimer.state = 'paused';
+    pausedTimer.value = elapsed;
 
-      return newValue;
-    });
+    setTimer(pausedTimer);
 
     try {
       const report = await handleAddFieldServiceTime(report_date, elapsed);
@@ -186,10 +171,13 @@ const useMinistryTimer = () => {
       });
     } finally {
       stopping.current = false;
+      setSaving(false);
     }
   };
 
   const handleLeftButtonAction = async () => {
+    if (stopping.current) return;
+
     if (timerState === 'started' || timerState === 'paused') {
       await handleStop();
     }
@@ -200,6 +188,8 @@ const useMinistryTimer = () => {
   };
 
   const handleRightButtonAction = () => {
+    if (stopping.current) return;
+
     if (timerState === 'not_started' || timerState === 'paused') {
       handleStart();
     }
@@ -212,12 +202,16 @@ const useMinistryTimer = () => {
   const handleCloseEditor = () => setEditorOpen(false);
 
   const handleOpenSlider = () => {
+    if (stopping.current) return;
+
     setSliderOpen(true);
   };
 
   const handleCloseSlider = () => setSliderOpen(false);
 
   const handleTimeAdded = (value: number) => {
+    if (stopping.current) return;
+
     lastSeen.current = Date.now();
 
     setTimer((prev) => {
@@ -231,27 +225,12 @@ const useMinistryTimer = () => {
     });
   };
 
-  /**
-   * Keeps what a running session has already measured when the device clock is
-   * corrected backwards, by banking the time up to the last moment the session
-   * was seen and counting again from the corrected clock.
-   */
+  // corrects a clock moved back and repaints the running session
   const syncClock = useCallback(() => {
     const now = Date.now();
+    const seen = lastSeen.current;
 
-    if (now < lastSeen.current) {
-      setTimer((prev) => {
-        if (prev.state !== 'started') return prev;
-
-        const newValue = structuredClone(prev);
-        newValue.value =
-          prev.value +
-          Math.max(0, Math.floor((lastSeen.current - prev.start) / 1000));
-        newValue.start = now;
-
-        return newValue;
-      });
-    }
+    setTimer((prev) => ministryTimerCorrectClock(prev, seen, now));
 
     lastSeen.current = now;
 
@@ -290,6 +269,7 @@ const useMinistryTimer = () => {
     handleRightButtonAction,
     timerState,
     handleLeftButtonAction,
+    saving,
     today: sessionDate,
     editorOpen,
     editorDate,
