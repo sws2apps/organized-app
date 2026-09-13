@@ -156,8 +156,12 @@ const useCSVImport = () => {
       transformHeader: (header: string) => header.trim(),
     });
 
-    if (parsed.errors.length > 0) {
-      console.error('CSV parsing errors:', parsed.errors);
+     const fatalErrors = parsed.errors.filter(
+      (error) => error.code !== 'TooFewFields'
+    );
+
+    if (fatalErrors.length > 0) {
+      console.error('CSV parsing errors:', fatalErrors);
       throw new Error(t('tr_importCsvParseError'));
     }
 
