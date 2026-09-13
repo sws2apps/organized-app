@@ -25,9 +25,7 @@ const useAppLock = () => {
   const setIsLocked = useSetAtom(isAppLockedState);
   const setView = useSetAtom(appLockViewState);
 
-  // no URL can lift the lock: a sign-in link that resets a forgotten PIN is
-  // completed by the startup screen, which holds the app unloaded (and so
-  // unlocked) until the link is verified and the PIN removed
+  // never unlock from the URL: startup completes PIN reset links before load
 
   const coldStartGate = useRef(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -68,8 +66,7 @@ const useAppLock = () => {
       return;
     }
 
-    // a timer is throttled or frozen in a background tab, so the time since
-    // the last activity is kept too and checked when the app comes back
+    // timers pause in background tabs, so elapsed time is rechecked on return
     let lastActivity = Date.now();
 
     const schedule = (delay: number) => {

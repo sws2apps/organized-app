@@ -34,8 +34,7 @@ const useUnlockScreen = () => {
     setHasError(false);
   };
 
-  // the user remembered the PIN after all: a reset link that is still pending
-  // must not clear it the next time they sign in
+  // a correct PIN cancels any pending reset link
   const unlock = () => {
     appLockClearPinResetRequest();
     setIsLocked(false);

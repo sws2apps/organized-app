@@ -9,11 +9,6 @@ import useCreatePinScreen from './useCreatePinScreen';
 
 const PIN_LENGTH = 4;
 
-/**
- * Shown after the PIN was reset through the passwordless link: the app lock
- * stays off until the user either creates a new PIN or turns the lock off on
- * purpose, so it can never end up disabled without the user knowing.
- */
 const CreatePinScreen = () => {
   const { t } = useAppTranslation();
 

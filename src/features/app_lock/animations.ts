@@ -1,2 +1,2 @@
-/** Duration of the lock screen exit animation in ms. Root layout uses this to delay unmount. */
+/** Exit animation length in ms; the root layout waits for it before unmounting. */
 export const EXIT_DURATION_MS = 350;

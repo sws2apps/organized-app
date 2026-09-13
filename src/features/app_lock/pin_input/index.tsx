@@ -1,4 +1,11 @@
-import { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';
+import {
+  forwardRef,
+  KeyboardEvent,
+  MouseEvent,
+  useCallback,
+  useImperativeHandle,
+  useRef,
+} from 'react';
 import { keyframes } from '@emotion/react';
 import { Box } from '@mui/material';
 import { MuiOtpInput } from 'mui-one-time-password-input';
@@ -96,8 +103,7 @@ const PinInput = forwardRef<PinInputHandle, PinInputProps>(
     };
 
     const handleKeyDownCapture = useCallback(
-      (e: React.KeyboardEvent) => {
-        // Enter key: submit when PIN is fully filled
+      (e: KeyboardEvent) => {
         if (e.key === 'Enter') {
           if (value.length >= length && onSubmit) {
             e.preventDefault();
@@ -109,10 +115,7 @@ const PinInput = forwardRef<PinInputHandle, PinInputProps>(
         if (e.key !== 'Backspace') return;
         if (value.length === 0) return;
 
-        // Intercept ALL backspace events in the capture phase, before
-        // MuiOtpInput's internal handler runs. This prevents the
-        // library's two-press delete behavior (first press moves focus,
-        // second press actually deletes).
+        // capture phase: bypass MuiOtpInput's two-press delete
         e.preventDefault();
         e.stopPropagation();
         e.nativeEvent.stopImmediatePropagation();
@@ -129,9 +132,8 @@ const PinInput = forwardRef<PinInputHandle, PinInputProps>(
     );
 
     const handleMouseDownCapture = useCallback(
-      (e: React.MouseEvent) => {
-        // Prevent MuiOtpInput from moving focus to the clicked cell.
-        // Always keep focus on the correct (next empty) cell.
+      (e: MouseEvent) => {
+        // keep focus on the next empty cell, wherever the click lands
         const target = e.target as HTMLElement;
         if (target.tagName === 'INPUT') {
           e.preventDefault();

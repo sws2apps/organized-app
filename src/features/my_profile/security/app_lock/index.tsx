@@ -87,7 +87,7 @@ const AppLockSection = () => {
             <Select
               label={t('tr_lockAfter')}
               value={lockAfter.toString()}
-              onChange={(e) => handleLockAfterChange(+e.target.value)}
+              onChange={(e) => handleLockAfterChange(Number(e.target.value))}
               sx={{ maxWidth: { mobile: '100%', laptop: '200px' } }}
             >
               {LOCK_AFTER_OPTIONS.map((value) => (

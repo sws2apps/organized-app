@@ -104,9 +104,7 @@ const useStartup = () => {
           congAccessCode.length > 0) ||
         (!masterKeyNeeded && congAccessCode.length > 0);
 
-      // a device that is already set up normally opens straight away, but a
-      // pending PIN reset has to complete its sign-in link first: dropping the
-      // code here would send the user back to the PIN they forgot
+      // a pending PIN reset must finish its sign-in link before the app opens
       const completeEmailLink = isEmailLink && appLockIsPinResetPending();
 
       if (allowOpen && !completeEmailLink) {

@@ -2,11 +2,6 @@ import { STORAGE_KEY } from '@constants/index';
 import { localStorageGetItem } from '@utils/common';
 import { appLockUpdate } from './storage';
 
-/**
- * The forgot-PIN flow signs the user in again through the passwordless email
- * link, which can land in a new tab or after a cold start. The pending request
- * is therefore kept on the device instead of in memory.
- */
 export const appLockMarkPinResetRequested = () => {
   if (typeof localStorage === 'undefined') return;
 
@@ -22,8 +17,7 @@ export const appLockClearPinResetRequest = () => {
   localStorage.removeItem(STORAGE_KEY.app_lock_pin_reset);
 };
 
-// a request the user never followed through on must not clear the PIN days
-// later, when the same device signs in through an email link for any reason
+// a stale request must not clear the PIN on a later email sign-in
 const PIN_RESET_VALID_FOR = 60 * 60 * 1000;
 
 export const appLockIsPinResetPending = () => {
@@ -41,13 +35,7 @@ export const appLockIsPinResetPending = () => {
   return true;
 };
 
-/**
- * Removes the forgotten PIN and every credential derived from it, so the app
- * opens unlocked and a new PIN can be created.
- *
- * The lock belongs to this device, so a reset clears this device. The request
- * for a new PIN is kept with it, which holds in every tab and after a reload.
- */
+/** Removes the PIN and every credential derived from it on this device. */
 export const appLockResetPin = async () => {
   const now = new Date().toISOString();
 

@@ -17,13 +17,13 @@ const base64UrlDecode = (value: string): ArrayBuffer => {
     value.replaceAll('-', '+').replaceAll('_', '/') +
     '='.repeat((4 - (value.length % 4)) % 4);
   const binary = atob(padded);
-  const bytes = new Uint8Array(binary.length);
+  const bytes = new Uint8Array(new ArrayBuffer(binary.length));
   for (let i = 0; i < binary.length; i++) bytes[i] = binary.codePointAt(i) ?? 0;
   return bytes.buffer;
 };
 
-const randomChallenge = (): Uint8Array => {
-  const challenge = new Uint8Array(32);
+const randomChallenge = (): Uint8Array<ArrayBuffer> => {
+  const challenge = new Uint8Array(new ArrayBuffer(32));
   crypto.getRandomValues(challenge);
   return challenge;
 };
@@ -44,7 +44,9 @@ export const registerBiometric = async (
   userName: string,
   displayName: string
 ): Promise<{ credentialId: string }> => {
-  const userIdBytes = new TextEncoder().encode(userId || userName || 'user');
+  const userIdBytes = new Uint8Array(
+    new TextEncoder().encode(userId || userName || 'user')
+  );
 
   const credential = (await navigator.credentials.create({
     publicKey: {

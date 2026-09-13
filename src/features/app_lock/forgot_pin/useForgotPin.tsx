@@ -40,8 +40,7 @@ const useForgotPin = () => {
       const result = await apiRequestPasswordlesssLink(email.trim());
 
       if (result.status === 200) {
-        // the link can be opened in another tab or after a cold start, so the
-        // pending reset has to survive this session
+        // the link may open in another tab or after a restart
         appLockMarkPinResetRequested();
 
         displaySnackNotification({

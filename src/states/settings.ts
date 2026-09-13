@@ -687,7 +687,7 @@ export const appLockNeedsPinState = atom((get) => {
 
   const pending = appLock?.pin_create_pending?.value === true;
 
-  // a PIN that exists answers the request, whatever the flag still says
+  // an existing PIN overrides a stale pending flag
   return pending && !get(appLockHasPinState);
 });
 

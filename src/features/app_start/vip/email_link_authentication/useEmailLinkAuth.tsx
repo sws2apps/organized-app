@@ -88,8 +88,6 @@ const useEmailLinkAuth = () => {
         return;
       }
 
-      // the user proved the email ownership, so a PIN they no longer remember
-      // must not lock them out again once the app opens
       if (appLockIsPinResetPending()) {
         await appLockResetPin();
 

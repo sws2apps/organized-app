@@ -8,7 +8,7 @@ import { getAppLang } from '@services/app';
 
 const STORAGE_KEY = 'organized_whatsnew';
 
-// Prevents re-showing in the same session after unmounting (e.g., app lock).
+// survives unmounting, e.g. behind the app lock
 let shownThisSession = false;
 
 const appLang = getAppLang();
@@ -75,10 +75,11 @@ const useWhatsNew = () => {
       }
 
       if (showUpdate) {
-        // Mark as seen immediately so unmounting (e.g. app lock) doesn't re-trigger it.
         if (!isTest) {
           const saved = localStorage.getItem(STORAGE_KEY);
-          const lsVersion = (saved ? JSON.parse(saved) : {}) as UpdateStatusType;
+          const lsVersion = (
+            saved ? JSON.parse(saved) : {}
+          ) as UpdateStatusType;
           lsVersion[version] = false;
           localStorage.setItem(STORAGE_KEY, JSON.stringify(lsVersion));
         }

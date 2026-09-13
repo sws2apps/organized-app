@@ -15,8 +15,6 @@ const shuffle = <T>(array: readonly T[]): T[] => {
   return result;
 };
 
-// Assigns distinct random symbols from the pool to the PIN boxes.
-// Reshuffles when the field is cleared or config changes.
 const useShuffledSymbols = (
   length: number,
   value: string,
