@@ -304,8 +304,11 @@ const useAssignments = () => {
           if (
             item.code === AssignmentCode.MM_Discussion ||
             item.code === AssignmentCode.MM_Talk ||
-            (item.code >= AssignmentCode.DUTIES_Audio &&
-              item.code <= AssignmentCode.DUTIES_AuditoriumAttendant)
+            // sisters only qualify for hospitality and custom duties, the same
+            // gate as the single checkboxes, whatever the enum order
+            (id === 'duties' &&
+              item.code !== AssignmentCode.DUTIES_Hospitality &&
+              item.code !== AssignmentCode.DUTIES_Custom)
           ) {
             continue;
           }
