@@ -37,7 +37,7 @@
   "tr_clearMultipleDesc": "Valitse aikataulut, jotka haluat tyhjentää. Valitun ajanjakson sisällä olevat tehtävät poistetaan, mutta viikot itse jäävät.",
   "tr_clearSelectedWeeks": "Tyhjennä valitut viikot",
   "tr_unsavedChanges": "Sinulla on tallentamattomia muutoksia",
-  "tr_unsavedChangesDesc": "Haluatko poistua sivulta tallentamatta muokkauksia? Kadotat kaikki tallentamattomat muutokset.",
+  "tr_unsavedChangesDesc": "Tallentamattomat muutoksesi hylätään.",
   "tr_leavePage": "Poistu sivulta",
   "tr_autofillMM": "Täytä automaattisesti viikkokokous",
   "tr_autofillThisWeek": "Täytä automaattisesti tälle viikolle",

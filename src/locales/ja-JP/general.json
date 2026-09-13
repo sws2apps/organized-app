@@ -36,6 +36,8 @@
   "tr_december": "12月",
   "tr_longDateFormat": "EEE, MMM dd, yyyy",
   "tr_delete": "削除",
+  "tr_continueEditing": "Continue editing",
+  "tr_discardChanges": "Discard changes",
   "tr_add": "Add",
   "tr_pickerSelectTime": "Select time",
   "tr_pickerSelectDate": "日付を選択",
@@ -176,5 +178,7 @@
   "tr_fontSize": "Font size",
   "tr_small": "Small",
   "tr_normal": "Normal",
-  "tr_large": "Large"
+  "tr_large": "Large",
+  "tr_chooseFields": "Choose export fields",
+  "tr_chooseFieldsDesc": "Please select the fields you want to include in the export file."
 }

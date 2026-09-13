@@ -36,6 +36,8 @@
   "tr_december": "Joulukuu",
   "tr_longDateFormat": "PPP, MMM dd, yyyy",
   "tr_delete": "Poista",
+  "tr_continueEditing": "Jatka muokkausta",
+  "tr_discardChanges": "Hylkää muutokset",
   "tr_add": "Lisää",
   "tr_pickerSelectTime": "Valitse aika",
   "tr_pickerSelectDate": "Valitse päivämäärä",
@@ -176,5 +178,7 @@
   "tr_fontSize": "Fonttikoko",
   "tr_small": "Pieni",
   "tr_normal": "Normaali",
-  "tr_large": "Suuri"
+  "tr_large": "Suuri",
+  "tr_chooseFields": "Choose export fields",
+  "tr_chooseFieldsDesc": "Please select the fields you want to include in the export file."
 }

@@ -37,7 +37,7 @@
   "tr_clearMultipleDesc": "Choisissez les programmes que vous souhaitez effacer. Les attributions dans la plage de dates sélectionnée seront supprimées, mais les semaines elle-même resterons intactes.",
   "tr_clearSelectedWeeks": "Supprimes les semaines sélectionnées",
   "tr_unsavedChanges": "Vous avez des modifications non enregistrées",
-  "tr_unsavedChangesDesc": "Voulez-vous quitter la page sans enregistrer les modifications ? Vous perdrez toutes les modifications non enregistrées.",
+  "tr_unsavedChangesDesc": "Your unsaved changes will be lost.",
   "tr_leavePage": "Quitter la page",
   "tr_autofillMM": "Remplir automatiquement la réunion de semaine",
   "tr_autofillThisWeek": "Autofill this week",

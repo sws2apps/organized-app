@@ -37,7 +37,7 @@
   "tr_clearMultipleDesc": "Выбери расписания, которые хочешь очистить. Задания в выбранном диапазоне дат будут удалены, но сами недели останутся.",
   "tr_clearSelectedWeeks": "Очистить выбранные недели",
   "tr_unsavedChanges": "У тебя есть несохраненные изменения",
-  "tr_unsavedChangesDesc": "Ты хочешь покинуть страницу без сохранения изменений? Ты потеряешь все несохраненные изменения.",
+  "tr_unsavedChangesDesc": "Your unsaved changes will be lost.",
   "tr_leavePage": "Покинуть страницу",
   "tr_autofillMM": "Автозаполнение встречи в будний день",
   "tr_autofillThisWeek": "Autofill this week",

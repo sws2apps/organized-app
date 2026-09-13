@@ -37,7 +37,7 @@
   "tr_clearMultipleDesc": "削除したいスケジュールを選択してください。選択した日付範囲内の割り当ては削除されますが、週自体は残ります。",
   "tr_clearSelectedWeeks": "Clear selected weeks",
   "tr_unsavedChanges": "変更は保存されていません",
-  "tr_unsavedChangesDesc": "編集内容を保存しますか？保存されていない変更はすべて失われます。",
+  "tr_unsavedChangesDesc": "Your unsaved changes will be lost.",
   "tr_leavePage": "ページを移動する",
   "tr_autofillMM": "Autofill midweek meeting",
   "tr_autofillThisWeek": "Autofill this week",

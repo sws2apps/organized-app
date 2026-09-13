@@ -36,6 +36,8 @@
   "tr_december": "Grudzień",
   "tr_longDateFormat": "EEE, dd MMM åååå",
   "tr_delete": "Usuń",
+  "tr_continueEditing": "Continue editing",
+  "tr_discardChanges": "Discard changes",
   "tr_add": "Dodaj",
   "tr_pickerSelectTime": "Wybierz czas",
   "tr_pickerSelectDate": "Wybierz datę",
@@ -176,5 +178,7 @@
   "tr_fontSize": "Font size",
   "tr_small": "Small",
   "tr_normal": "Normal",
-  "tr_large": "Large"
+  "tr_large": "Large",
+  "tr_chooseFields": "Choose export fields",
+  "tr_chooseFieldsDesc": "Please select the fields you want to include in the export file."
 }

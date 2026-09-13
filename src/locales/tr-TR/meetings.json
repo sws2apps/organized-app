@@ -37,7 +37,7 @@
   "tr_clearMultipleDesc": "Silmek istediğiniz programları seçin. Seçilen tarih aralığındaki görevler kaldırılacak, ancak haftaların kendileri kalacaktır.",
   "tr_clearSelectedWeeks": "Seçili haftaları temizle",
   "tr_unsavedChanges": "Kaydedilmemiş değişiklikleriniz var",
-  "tr_unsavedChangesDesc": "Değişiklikleri kaydetmeden sayfadan ayrılmak istiyor musunuz? Tüm kaydedilmemiş değişiklikler kaybolacaktır.",
+  "tr_unsavedChangesDesc": "Your unsaved changes will be lost.",
   "tr_leavePage": "Sayfadan çık",
   "tr_autofillMM": "Hafta içi ibadeti otomatik doldur",
   "tr_autofillThisWeek": "Autofill this week",

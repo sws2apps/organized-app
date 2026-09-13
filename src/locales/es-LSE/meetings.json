@@ -37,7 +37,7 @@
   "tr_clearMultipleDesc": "Elige los programas que quieres eliminar. Las asignaciones dentro del rango de fechas seleccionado se borrarán, pero las semanas en sí permanecerán.",
   "tr_clearSelectedWeeks": "Borrar semanas seleccionadas",
   "tr_unsavedChanges": "Tienes cambios sin guardar",
-  "tr_unsavedChangesDesc": "¿Quieres salir de la página sin guardar los cambios? Perderás todos los cambios no guardados.",
+  "tr_unsavedChangesDesc": "Tus cambios no guardados se perderán.",
   "tr_leavePage": "Salir de la página\n",
   "tr_autofillMM": "Rellenar automáticamente reunión de entre semana.",
   "tr_autofillThisWeek": "Rellenar automáticamente esta semana",

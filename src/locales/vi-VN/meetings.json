@@ -37,7 +37,7 @@
   "tr_clearMultipleDesc": "Choose the schedules you want to clear. Assignments within the selected date range will be removed, but the weeks themselves will remain.",
   "tr_clearSelectedWeeks": "Xóa các tuần đã chọn",
   "tr_unsavedChanges": "Anh/chị có thay đổi chưa lưu",
-  "tr_unsavedChangesDesc": "Anh/chị có muốn rời khỏi trang này mà không lưu các thay đổi không? Tất cả các thay đổi chưa lưu sẽ bị mất.",
+  "tr_unsavedChangesDesc": "Your unsaved changes will be lost.",
   "tr_leavePage": "Rời khỏi trang",
   "tr_autofillMM": "Tự động điền cuộc họp giữa tuần",
   "tr_autofillThisWeek": "Autofill this week",

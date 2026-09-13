@@ -37,7 +37,7 @@
   "tr_clearMultipleDesc": "Escolha as programações que deseja eliminar. As designações dentro do intervalo de datas selecionado serão removidas, mas as semanas em si permanecerão.",
   "tr_clearSelectedWeeks": "Limpar semanas selecionadas",
   "tr_unsavedChanges": "Você tem alterações não salvas",
-  "tr_unsavedChangesDesc": "Deseja sair da página sem salvar as edições? Todas as alterações não salvas serão perdidas.",
+  "tr_unsavedChangesDesc": "Your unsaved changes will be lost.",
   "tr_leavePage": "Sair da página",
   "tr_autofillMM": "Autopreenchimento da reunião do meio de semana",
   "tr_autofillThisWeek": "Autofill this week",

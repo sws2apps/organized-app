@@ -37,7 +37,7 @@
   "tr_clearMultipleDesc": "Scegli i programmi che desideri cancellare. Gli incarichi nell'intervallo di date selezionato verranno rimossi, ma le settimane rimarranno.",
   "tr_clearSelectedWeeks": "Cancella le settimane selezionate",
   "tr_unsavedChanges": "Hai modifiche non salvate",
-  "tr_unsavedChangesDesc": "Vuoi lasciare la pagina senza salvare le modifiche? Perderai tutte le modifiche non salvate.",
+  "tr_unsavedChangesDesc": "Your unsaved changes will be lost.",
   "tr_leavePage": "Lascia la pagina",
   "tr_autofillMM": "Compilazione automatica riunione infrasettimanale",
   "tr_autofillThisWeek": "Autofill this week",

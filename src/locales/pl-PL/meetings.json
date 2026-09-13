@@ -37,7 +37,7 @@
   "tr_clearMultipleDesc": "Wybierz plany, które chcesz wyczyścić. Zadania w wybranym zakresie dat zostaną usunięte, ale same tygodnie pozostaną.",
   "tr_clearSelectedWeeks": "Wyczyść wybrane tygodnie",
   "tr_unsavedChanges": "Masz niezapisane zmiany",
-  "tr_unsavedChangesDesc": "Czy chcesz opuścić stronę bez zapisywania zmian? Stracisz wszystkie niezapisane zmiany.",
+  "tr_unsavedChangesDesc": "Your unsaved changes will be lost.",
   "tr_leavePage": "Opuść stronę",
   "tr_autofillMM": "Automatycznie wypełnij zebranie w tygodniu",
   "tr_autofillThisWeek": "Autofill this week",

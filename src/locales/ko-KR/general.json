@@ -36,6 +36,8 @@
   "tr_december": "12월",
   "tr_longDateFormat": "yyyy년 MMM월 dd일 EEE",
   "tr_delete": "삭제",
+  "tr_continueEditing": "Continue editing",
+  "tr_discardChanges": "Discard changes",
   "tr_add": "추가",
   "tr_pickerSelectTime": "시간 선택",
   "tr_pickerSelectDate": "날짜 선택",
@@ -176,5 +178,7 @@
   "tr_fontSize": "글자 크기",
   "tr_small": "작게",
   "tr_normal": "보통",
-  "tr_large": "크게"
+  "tr_large": "크게",
+  "tr_chooseFields": "Choose export fields",
+  "tr_chooseFieldsDesc": "Please select the fields you want to include in the export file."
 }
