@@ -53,6 +53,7 @@
   "tr_weekendScheduleSaved": "Ua haaputuhia te paperaa no te hopearaa hepetoma",
   "tr_weekendScheduleSavedDesc": "Ia oti ia oe i te hamani i te mau paperaa ta oe i hinaaro, haamana'o i te pia i te reira no te amuiraa.",
   "tr_personAlreadyAssignmentWeek": "E natairaa ta teie taata i teie hepetoma",
+  "tr_personAlreadyAssignmentMeeting": "This person already has an assignment in this meeting",
   "tr_hostCongregation": "Amuiraa farii",
   "tr_kingdomHallAddress": "Vahi nohoiraa o te Piha Rururaa o te Basileia",
   "tr_clearAllAssignments": "Tumâ i te mau natairaa atoa",
