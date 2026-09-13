@@ -6,7 +6,10 @@ import {
   publicWitnessingViewState,
 } from '@states/public_witnessing';
 import { firstDayWeekState, userLocalUIDState } from '@states/settings';
-import { PublicWitnessingArrangementType } from '@definition/public_witnessing';
+import {
+  PublicWitnessingArrangementType,
+  PublicWitnessingShiftType,
+} from '@definition/public_witnessing';
 import {
   addDays,
   formatDate,
@@ -123,16 +126,39 @@ const useShiftsCard = ({ location }: ShiftsCardProps) => {
   // weekday schedule, merged with the arrangements booked for that date.
   const buildSlots = useCallback(
     (date: Date, dateKey: string): ShiftSlotType[] => {
-      const daySchedule = location.location_data.schedule.find(
-        (day) => day.weekday === getScheduleWeekday(date)
+      const scheduled =
+        location.location_data.schedule.find(
+          (day) => day.weekday === getScheduleWeekday(date)
+        )?.shifts ?? [];
+
+      // bookings made before the schedule changed no longer match a shift:
+      // keep them as their own slots so they stay visible and can be
+      // cancelled, instead of silently disappearing
+      const scheduledStarts = new Set(
+        scheduled.map((shift) => shift.start_time)
       );
-      if (!daySchedule) return [];
+      const retired = new Map<string, PublicWitnessingShiftType>();
+
+      for (const [key, records] of arrangementsBySlot) {
+        const [recordDate, start_time] = key.split('|');
+        if (recordDate !== dateKey || scheduledStarts.has(start_time)) continue;
+
+        retired.set(start_time, {
+          start_time,
+          end_time: records[0].arrangement_data.end_time,
+        });
+      }
+
+      const shifts = [...scheduled, ...retired.values()].sort((a, b) =>
+        a.start_time.localeCompare(b.start_time)
+      );
 
       const capacity = location.location_data.max_publishers;
 
-      return daySchedule.shifts.map((shift) => {
+      return shifts.map((shift) => {
         const records =
           arrangementsBySlot.get(`${dateKey}|${shift.start_time}`) ?? [];
+        const isRetired = retired.has(shift.start_time);
 
         const publishers = records.flatMap((record) =>
           record.arrangement_data.publishers.map((publisher) => publisher.name)
@@ -146,10 +172,11 @@ const useShiftsCard = ({ location }: ShiftsCardProps) => {
           date: dateKey,
           start_time: shift.start_time,
           end_time: shift.end_time,
+          // nobody new can join a shift that is no longer on the schedule
           status: getSlotStatus(
             isPast,
             records,
-            isSeekingPartner(records, publishers.length, capacity)
+            !isRetired && isSeekingPartner(records, publishers.length, capacity)
           ),
           publishers,
           arrangements: records,
