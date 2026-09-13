@@ -53,6 +53,7 @@
   "tr_weekendScheduleSaved": "Nädalavahetuse kava salvestatud",
   "tr_weekendScheduleSavedDesc": "Pärast soovitud kavade loomist pea meeles, et need avaldatakse koguduse jaoks.",
   "tr_personAlreadyAssignmentWeek": "Sellel inimesel on juba selle nädala jaoks ülesanne",
+  "tr_personAlreadyAssignmentMeeting": "This person already has an assignment in this meeting",
   "tr_hostCongregation": "Võõrustav kogudus",
   "tr_kingdomHallAddress": "Kuningriigisaali aadress",
   "tr_clearAllAssignments": "Kustuta kõik ülesanded",
