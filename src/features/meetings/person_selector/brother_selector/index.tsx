@@ -282,7 +282,8 @@ const BrotherSelector = (props: PersonSelectorType) => {
     showGenderSelector,
     gender,
     handleGenderChange,
-    genderOptions,
+    filterOptions,
+    options,
   } = useBrotherSelector(props);
 
   let optionsHeader: ReactNode = <BrothersHeader />;
@@ -323,7 +324,8 @@ const BrotherSelector = (props: PersonSelectorType) => {
           option.person_uid === value.person_uid
         }
         getOptionLabel={(option: PersonOptionsType) => option.person_name}
-        options={genderOptions}
+        options={options}
+        filterOptions={filterOptions}
         value={value}
         endIcon={props.endIcon}
         inputValue={inputValue}

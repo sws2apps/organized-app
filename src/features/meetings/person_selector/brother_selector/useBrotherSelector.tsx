@@ -1,5 +1,6 @@
 import { MouseEvent, useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'react-router';
+import { createFilterOptions, FilterOptionsState } from '@mui/material';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { IconError } from '@components/icons';
 import { PersonOptionsType, PersonSelectorType } from '../index.types';
@@ -49,6 +50,8 @@ import { getMessageByCode } from '@services/i18n/translation';
 import { formatDate } from '@utils/date';
 import { DutiesGender } from '@definition/schedules';
 import { languageGroupsState } from '@states/field_service_groups';
+
+const defaultFilterOptions = createFilterOptions<PersonOptionsType>();
 
 const useBrotherSelector = ({
   type,
@@ -692,15 +695,22 @@ const useBrotherSelector = ({
 
   const showGenderSelector = isDutiesField && sistersDuties;
 
-  const genderOptions = useMemo(() => {
-    if (!showGenderSelector) return options;
+  // filtered at display time, so an assigned person of the other gender stays
+  // a valid value while the list shows the chosen side
+  const filterOptions = useMemo(() => {
+    if (!showGenderSelector) return undefined;
 
-    return options.filter((record) =>
-      gender === 'male'
-        ? record.person_data.male.value
-        : !record.person_data.male.value
-    );
-  }, [showGenderSelector, options, gender]);
+    return (
+      list: PersonOptionsType[],
+      state: FilterOptionsState<PersonOptionsType>
+    ) =>
+      defaultFilterOptions(
+        list.filter(
+          (record) => record.person_data.male.value === (gender === 'male')
+        ),
+        state
+      );
+  }, [showGenderSelector, gender]);
 
   const handleGenderChange = (
     e: MouseEvent<HTMLLabelElement>,
@@ -736,7 +746,7 @@ const useBrotherSelector = ({
     showGenderSelector,
     gender,
     handleGenderChange,
-    genderOptions,
+    filterOptions,
   };
 };
 
