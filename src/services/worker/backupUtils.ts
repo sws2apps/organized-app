@@ -1821,6 +1821,7 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
     const userBaseSettings = {
       firstname: user_settings.firstname,
       lastname: user_settings.lastname,
+      user_avatar_type: user_settings.user_avatar_type,
     };
 
     const myPerson = persons.find(
