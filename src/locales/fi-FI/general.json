@@ -178,5 +178,7 @@
   "tr_fontSize": "Fonttikoko",
   "tr_small": "Pieni",
   "tr_normal": "Normaali",
-  "tr_large": "Suuri"
+  "tr_large": "Suuri",
+  "tr_chooseFields": "Choose export fields",
+  "tr_chooseFieldsDesc": "Please select the fields you want to include in the export file."
 }
