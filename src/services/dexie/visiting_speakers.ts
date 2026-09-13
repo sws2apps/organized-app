@@ -266,6 +266,7 @@ export const dbVisitingSpeakersDummy = async () => {
   // add outgoing speakers
   const localCong = congregations.find(
     (record) =>
+      !record._deleted.value &&
       record.cong_data.cong_name.value === settings?.cong_settings.cong_name
   );
 
@@ -343,6 +344,7 @@ export const dbVisitingSpeakersDummy = async () => {
 
   const incomingCongs = congregations.filter(
     (record) =>
+      !record._deleted.value &&
       record.cong_data.cong_name.value !== settings?.cong_settings.cong_name
   );
 
