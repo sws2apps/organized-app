@@ -53,6 +53,7 @@
   "tr_weekendScheduleSaved": "Het weekend schema is opgeslagen",
   "tr_weekendScheduleSavedDesc": "Nadat je de gewenste schema's hebt gemaakt, vergeet niet ze te publiceren zodat de gemeente ze kan zien.",
   "tr_personAlreadyAssignmentWeek": "Deze persoon heeft deze week al een toewijzing",
+  "tr_personAlreadyAssignmentMeeting": "This person already has an assignment in this meeting",
   "tr_hostCongregation": "Gastgemeente",
   "tr_kingdomHallAddress": "Adres Koninkrijkszaal",
   "tr_clearAllAssignments": "Alle toewijzingen wissen",
