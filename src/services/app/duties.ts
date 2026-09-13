@@ -2,11 +2,13 @@ import { UpdateSpec } from 'dexie';
 import { store } from '@states/index';
 import {
   AssignmentCongregation,
+  DutiesMeetingType,
   DutiesSectionType,
   SchedWeekType,
 } from '@definition/schedules';
 import { schedulesState } from '@states/schedules';
-import { dbSchedUpdate } from '@services/dexie/schedules';
+import { dbSchedBulkUpdate, dbSchedUpdate } from '@services/dexie/schedules';
+import { formatDate, getWeekDate } from '@utils/date';
 
 export type DutiesMeetingValue = 'midweek' | 'weekend';
 
@@ -170,4 +172,81 @@ export const dutiesSectionDelete = async (
   const released = releaseSlots(dynamic, (sectionId) => sectionId === id);
 
   await saveSections(week, meeting, sections, released ? dynamic : undefined);
+};
+
+export type DutiesStaticKey = Exclude<
+  keyof DutiesMeetingType,
+  'sections' | 'dynamic'
+>;
+
+/**
+ * Clears the brothers of the positions a lower duty amount no longer shows,
+ * from the current week on, so raising the amount again starts empty instead
+ * of bringing old assignments back. Past weeks keep what was served.
+ */
+export const dutiesReleasePositions = async ({
+  dataView,
+  amount,
+  keys = [],
+  customId,
+}: {
+  dataView: string;
+  amount: number;
+  keys?: DutiesStaticKey[];
+  customId?: string;
+}) => {
+  const currentWeek = formatDate(getWeekDate(), 'yyyy/MM/dd');
+  const now = new Date().toISOString();
+
+  const changed: SchedWeekType[] = [];
+
+  for (const schedule of store.get(schedulesState)) {
+    if (schedule.weekOf < currentWeek || !schedule.duties) continue;
+
+    const updated = structuredClone(schedule);
+
+    let released = false;
+
+    for (const meeting of ['midweek', 'weekend'] as const) {
+      const duties = updated.duties?.[meeting];
+
+      if (!duties) continue;
+
+      for (const key of keys) {
+        const positions = duties[key];
+
+        if (!positions) continue;
+
+        for (const [field, entries] of Object.entries(positions)) {
+          const position = Number(field.replace('position_', ''));
+
+          if (position <= amount) continue;
+
+          for (const entry of entries) {
+            if (entry.type !== dataView || entry.value === '') continue;
+
+            entry.value = '';
+            entry.updatedAt = now;
+            released = true;
+          }
+        }
+      }
+
+      if (customId && duties.dynamic) {
+        const entries = duties.dynamic.filter(
+          (entry) => entry.type === dataView
+        );
+
+        released =
+          releaseSlots(
+            entries,
+            (sourceId, position) => sourceId === customId && position > amount
+          ) || released;
+      }
+    }
+
+    if (released) changed.push(updated);
+  }
+
+  if (changed.length > 0) await dbSchedBulkUpdate(changed);
 };

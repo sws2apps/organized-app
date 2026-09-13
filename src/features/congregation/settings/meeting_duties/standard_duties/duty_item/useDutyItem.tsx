@@ -8,7 +8,22 @@ import {
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
+import { DutiesStaticKey, dutiesReleasePositions } from '@services/app/duties';
 import { DutyItemProps } from './index.types';
+
+// the schedule fields each amount controls: audio and the combined
+// audio/video duty share one amount
+const DUTY_KEYS: Record<string, DutiesStaticKey[]> = {
+  tr_dutiesAudio: ['audio', 'audio_video'],
+  tr_audioVideo: ['audio', 'audio_video'],
+  tr_dutiesVideo: ['video'],
+  tr_dutiesEntranceAttendant: ['entrance_attendant'],
+  tr_dutiesMicrophones: ['microphones'],
+  tr_dutiesStage: ['stage'],
+  tr_dutiesAuditoriumAttendant: ['auditorium_attendant'],
+  tr_hospitality: ['hospitality'],
+  tr_dutiesVideoconferenceHost: ['videoconference_host'],
+};
 
 const useDutyItem = ({ duty }: DutyItemProps) => {
   const settings = useAtomValue(settingsState);
@@ -114,6 +129,12 @@ const useDutyItem = ({ duty }: DutyItemProps) => {
 
       await dbAppSettingsUpdate({
         'cong_settings.meeting_duties': meetingDuties,
+      });
+
+      await dutiesReleasePositions({
+        dataView,
+        amount: value,
+        keys: DUTY_KEYS[duty] ?? [],
       });
     } catch (error) {
       console.error(error);

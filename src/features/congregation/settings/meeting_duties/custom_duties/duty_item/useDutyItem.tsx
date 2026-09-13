@@ -5,6 +5,7 @@ import { settingsState, userDataViewState } from '@states/settings';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
+import { dutiesReleasePositions } from '@services/app/duties';
 import { DutyItemProps } from './index.types';
 
 const useDutyItem = ({ id }: DutyItemProps) => {
@@ -86,6 +87,12 @@ const useDutyItem = ({ id }: DutyItemProps) => {
 
       await dbAppSettingsUpdate({
         'cong_settings.meeting_duties': meetingDuties,
+      });
+
+      await dutiesReleasePositions({
+        dataView,
+        amount: Number(value),
+        customId: id,
       });
     } catch (error) {
       console.error(error);
