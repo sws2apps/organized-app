@@ -41,12 +41,12 @@ const usePublisherTabs = () => {
   const tabs = useMemo(() => {
     return [
       {
-        label: t('tr_activePublishers'),
+        label: t('tr_active'),
         badge: publishers.active,
         Component: <ListByGroups type="active" />,
       },
       {
-        label: t('tr_inactivePublishers'),
+        label: t('tr_inactive'),
         badge: publishers.inactive,
         Component: <ListByGroups type="inactive" />,
       },
