@@ -53,6 +53,7 @@
   "tr_weekendScheduleSaved": "תוכנית סוף השבוע נשמרה",
   "tr_weekendScheduleSavedDesc": "לאחר יצירת התוכניות הרצויות, זכור לפרסם אותן עבור הקהילה.",
   "tr_personAlreadyAssignmentWeek": "לאדם זה כבר יש משימה השבוע",
+  "tr_personAlreadyAssignmentMeeting": "This person already has an assignment in this meeting",
   "tr_hostCongregation": "קהילה מארחת",
   "tr_kingdomHallAddress": "כתובת אולם המלכות",
   "tr_clearAllAssignments": "נקה את כל המשימות",
