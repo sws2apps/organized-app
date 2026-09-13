@@ -10,7 +10,10 @@ import {
 import { Option } from './index.types';
 import { schedulesBuildHistoryList } from '@services/app/schedules';
 import { assignmentsHistoryState } from '@states/schedules';
-import { languageGroupsState } from '@states/field_service_groups';
+import {
+  fieldServiceGroupsState,
+  languageGroupsState,
+} from '@states/field_service_groups';
 import { refreshLocaleDerivedData } from '@services/app/locale_derived_data';
 
 const useGroupLanguageSelector = () => {
@@ -24,24 +27,30 @@ const useGroupLanguageSelector = () => {
 
   const languageGroupEnabled = useAtomValue(languageGroupEnabledState);
   const languageGroups = useAtomValue(languageGroupsState);
+  const fieldGroups = useAtomValue(fieldServiceGroupsState);
   const congName = useAtomValue(congNameState);
   const value = useAtomValue(userDataViewState);
+
+  const userInLanguageGroup = useMemo(() => {
+    return fieldGroups.some(
+      (group) =>
+        group.group_data.language_group &&
+        !group.group_data._deleted &&
+        group.group_data.members.some(
+          (member) => member.person_uid === person?.person_uid
+        )
+    );
+  }, [fieldGroups, person]);
 
   const display = useMemo(() => {
     if (!person) return false;
 
     if (!languageGroupEnabled) return false;
 
-    const foundInGroups = languageGroups.some((group) =>
-      group.group_data.members.some(
-        (member) => member.person_uid === person.person_uid
-      )
-    );
-
-    if (!foundInGroups) return false;
+    if (!userInLanguageGroup) return false;
 
     return languageGroups.length > 0;
-  }, [languageGroups, languageGroupEnabled, person]);
+  }, [person, languageGroupEnabled, userInLanguageGroup, languageGroups]);
 
   const options = useMemo(() => {
     if (!display) return [];

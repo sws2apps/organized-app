@@ -19,6 +19,7 @@ import { EXIT_DURATION_MS } from '@features/app_lock/animations';
 import About from '@features/about';
 import AppFeedback from '@features/app_feedback';
 import AppReminders from '@features/reminders';
+import PageTransition from '@components/page_transition';
 import AppUpdater from '@features/app_updater';
 import Contact from '@features/contact';
 import DashboardSkeletonLoader from '@features/dashboard/skeleton_loader';
@@ -102,8 +103,7 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
           sx={{
             maxWidth: '1440px',
             width: '100%',
-            paddingLeft: { mobile: '16px', tablet: '24px', desktop: '32px' },
-            paddingRight: { mobile: '16px', tablet: '24px', desktop: '32px' },
+            paddingInline: 'var(--page-padding)',
             marginTop: '24px',
           }}
         >
@@ -145,7 +145,9 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
 
                   <Box sx={{ marginBottom: '32px' }}>
                     <MyAssignments />
-                    <Outlet />
+                    <PageTransition>
+                      <Outlet />
+                    </PageTransition>
                   </Box>
                 </Suspense>
               ) : null}
