@@ -1,6 +1,7 @@
 // to minimize the size of the worker file, we recreate all its needed functions in this file
 
 import appDb from '@db/appDb';
+import { dbAppLocalsSaveAvatar } from '@services/dexie/app_locals';
 import { BackupDataType, CongUserType } from './backupType';
 import {
   decryptData,
@@ -679,6 +680,25 @@ const dbRestoreSettings = async (
       accessCode,
       masterKey,
     });
+
+    const remoteUserSettings = remoteSettings.user_settings as
+      | Record<string, unknown>
+      | undefined;
+
+    if (remoteUserSettings && 'user_avatar' in remoteUserSettings) {
+      // a legacy avatar can still arrive embedded in the user settings from
+      // backups synced before it moved to the local-only store: migrate it
+      // and strip it so syncFromRemote cannot write it back into the row.
+      // JSON serialization turns ArrayBuffer into {}, so only keep real
+      // buffers and preserve the existing local photo otherwise
+      const legacyAvatar = remoteUserSettings['user_avatar'];
+
+      if (legacyAvatar instanceof ArrayBuffer) {
+        await dbAppLocalsSaveAvatar(legacyAvatar);
+      }
+
+      delete remoteUserSettings['user_avatar'];
+    }
 
     const settings = await appDb.app_settings.get(1);
 
@@ -1822,6 +1842,7 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
       firstname: user_settings.firstname,
       lastname: user_settings.lastname,
       user_avatar_type: user_settings.user_avatar_type,
+      data_view: user_settings.data_view,
     };
 
     const myPerson = persons.find(

@@ -7,6 +7,7 @@ import { atom } from 'jotai';
 import { settingSchema } from '@services/dexie/schema';
 import { buildPersonFullname } from '@utils/common';
 import { currentServiceYear } from '@utils/date';
+import { appLocalsState } from '@states/app_locals';
 import {
   AvatarType,
   FirstDayWeekOption,
@@ -585,9 +586,9 @@ export const fullnameState = atom((get) => {
 });
 
 export const userAvatarState = atom((get) => {
-  const settings = get(settingsState);
+  const locals = get(appLocalsState);
 
-  return settings.user_settings.user_avatar;
+  return locals.find((record) => record.id === 1)?.avatar;
 });
 
 export const backupAutoState = atom((get) => {

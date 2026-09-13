@@ -131,12 +131,12 @@
   "tr_appliesOnlyToBrothers": "No te mau taeae ana'e",
   "tr_circuit": "Haaati: {{ circuitNumber }}",
   "tr_ageInYearsAndMonths": "{{ years }} matahiti, {{months}} ava'e",
-  "tr_personHasNoAssignmentHistory": "Aita e aamu no te natairaa to teie taata",
+  "tr_personHasNoAssignmentHistory": "No assignment history yet",
   "tr_appUserProfile": "Pute a te taata faaohipa App",
   "tr_appUserProfileNotRegisteredDesc": "Aita teie taata e faaohipa ra i te app i teie nei. E nehenehe oe e hamani i te hoê pute Organized no teie taata i nia i te api 'Pute a te taata faaohipa'.",
   "tr_appUserProfileRegisteredDesc": "Te faaohipa nei teie taata ia Organized. Taime hopea i nia i te Itenati: <span class='h4'>{{ lastTimeOnline }}</span>. Faatano i te tahi atu mau tiaraa e mau faanahoraa i nia i te api 'Pute a te taata faaohipa'.",
   "tr_notYet": "Aita â",
-  "tr_manageUserProfileSettings": "Faatano i te mau faanahoraa o te pute a te taata faaohipa",
+  "tr_manageUserProfileSettings": "Manage user account",
   "tr_createUserProfile": "Hamani i te pute a te taata faaohipa",
   "tr_download": "Tiio mai",
   "tr_import": "Tiio mai",
@@ -178,5 +178,7 @@
   "tr_fontSize": "Font size",
   "tr_small": "Small",
   "tr_normal": "Normal",
-  "tr_large": "Large"
+  "tr_large": "Large",
+  "tr_chooseFields": "Choose export fields",
+  "tr_chooseFieldsDesc": "Please select the fields you want to include in the export file."
 }
