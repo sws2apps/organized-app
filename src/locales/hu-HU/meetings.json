@@ -53,6 +53,7 @@
   "tr_weekendScheduleSaved": "A hétvégi beosztás elmentve",
   "tr_weekendScheduleSavedDesc": "A kívánt beosztások létrehozása után ne felejtsd el közzétenni azokat a gyülekezet számára.",
   "tr_personAlreadyAssignmentWeek": "Ennek a személynek már van feladata ezen a héten",
+  "tr_personAlreadyAssignmentMeeting": "This person already has an assignment in this meeting",
   "tr_hostCongregation": "Házigazda gyülekezet",
   "tr_kingdomHallAddress": "Királyságterem címe",
   "tr_clearAllAssignments": "Összes feladat törlése",
