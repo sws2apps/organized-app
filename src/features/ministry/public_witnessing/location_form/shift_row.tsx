@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { Box } from '@mui/material';
-import { useBreakpoints } from '@hooks/index';
+import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { generateDateFromTime, formatDate } from '@utils/date';
 import { IconDelete } from '@components/icons';
 import IconButton from '@components/icon_button';
@@ -17,6 +17,7 @@ const ShiftRow = ({
   onChange,
   onRemove,
 }: ShiftRowProps) => {
+  const { t } = useAppTranslation();
   const { tabletUp, tablet688Up } = useBreakpoints();
 
   const startValue = useMemo(
@@ -40,6 +41,8 @@ const ShiftRow = ({
         label={startLabel}
         ampm={!hour24}
         hideIcon={!tablet688Up}
+        // a shift always needs both times, so there is nothing to clear to
+        clearable={false}
         value={startValue}
         onChange={(value) =>
           value && onChange('start_time', formatDate(value, 'HH:mm'))
@@ -60,6 +63,7 @@ const ShiftRow = ({
         label={endLabel}
         ampm={!hour24}
         hideIcon={!tablet688Up}
+        clearable={false}
         value={endValue}
         onChange={(value) =>
           value && onChange('end_time', formatDate(value, 'HH:mm'))
@@ -68,6 +72,7 @@ const ShiftRow = ({
       />
       <IconButton
         color="error"
+        aria-label={t('tr_delete')}
         onClick={onRemove}
         sx={{
           borderRadius: 'var(--radius-m)',

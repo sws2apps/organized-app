@@ -28,6 +28,7 @@ const TimePicker = ({
   sx,
   readOnly = false,
   hideIcon = false,
+  clearable = true,
   error,
   helperText,
 }: CustomTimePickerProps) => {
@@ -89,7 +90,10 @@ const TimePicker = ({
             textField: InputTextField,
             openPickerIcon: IconClock,
             actionBar: () => (
-              <ActionBar onClear={handleClear} onClose={handleSave} />
+              <ActionBar
+                onClear={clearable ? handleClear : undefined}
+                onClose={handleSave}
+              />
             ),
           }}
           slotProps={{
