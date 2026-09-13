@@ -108,6 +108,9 @@ const Autocomplete = <T,>(props: AutocompletePropsType<T>) => {
         listbox: {
           component: CustomListBoxComponent,
         },
+        paper: {
+          optionsHeader,
+        },
       }}
       noOptionsText={
         props.noOptionsText || (
@@ -160,9 +163,7 @@ const Autocomplete = <T,>(props: AutocompletePropsType<T>) => {
         />
       )}
       slots={{
-        paper: (paperProps) => (
-          <CustomPaper {...paperProps} optionsHeader={optionsHeader} />
-        ),
+        paper: CustomPaper,
       }}
     />
   );
