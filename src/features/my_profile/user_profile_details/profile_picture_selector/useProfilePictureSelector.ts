@@ -63,6 +63,10 @@ const useProfilePictureSelector = (onClose: () => void) => {
   const savedAvatarType = useAtomValue(userAvatarTypeState);
   const avatarBuffer = useAtomValue(userAvatarState);
 
+  const hasAvatar = avatarBuffer !== undefined;
+
+  const prevSavedAvatarType = useRef(savedAvatarType);
+
   const [selectedType, setSelectedType] = useState<AvatarType>(savedAvatarType);
   const [isProcessing, setIsProcessing] = useState(false);
   const [saveError, setSaveError] = useState(false);
@@ -82,7 +86,7 @@ const useProfilePictureSelector = (onClose: () => void) => {
       if (option.gender && option.gender !== gender) return false;
 
       // the account photo can only be shown when there is one
-      if (option.type === 'google' && !avatarBuffer) return false;
+      if (option.type === 'google' && !hasAvatar) return false;
 
       return true;
     };
@@ -91,7 +95,7 @@ const useProfilePictureSelector = (onClose: () => void) => {
       titleKey: section.titleKey,
       options: section.options.filter(isVisible).map((option) => option.type),
     })).filter((section) => section.options.length > 0);
-  }, [gender, avatarBuffer]);
+  }, [gender, hasAvatar]);
 
   const handleDone = async () => {
     if (savingRef.current) return;
@@ -122,6 +126,13 @@ const useProfilePictureSelector = (onClose: () => void) => {
   };
 
   useEffect(() => {
+    // react only when the saved type actually changes: sections is memoized
+    // on a presence boolean so unrelated settings writes cannot rebuild it
+    // and silently reset the selection while the dialog is open
+    if (prevSavedAvatarType.current === savedAvatarType) return;
+
+    prevSavedAvatarType.current = savedAvatarType;
+
     // the saved avatar may no longer be selectable, e.g. after the account
     // photo is gone: fall back to the generic one so a choice stays visible
     const availableTypes = sections.flatMap((section) => section.options);

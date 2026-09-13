@@ -40,7 +40,6 @@ const useAppSettingsImport = () => {
       'firstname',
       'id',
       'lastname',
-      'user_avatar',
       'user_local_uid',
       'user_members_delegate',
     ];
