@@ -1,4 +1,5 @@
 import { ChangeEvent, useEffect, useMemo, useState } from 'react';
+import { SelectChangeEvent } from '@mui/material';
 import { useAtomValue } from 'jotai';
 import { meetingDutiesState } from '@states/settings';
 import {
@@ -42,8 +43,8 @@ const useSectionEdit = ({
     setName(e.target.value);
   };
 
-  const handleAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setAmount(e.target.value as unknown as number);
+  const handleAmountChange = (e: SelectChangeEvent<unknown>) => {
+    setAmount(e.target.value as number);
   };
 
   const handleTogglePart = (key: string) => {

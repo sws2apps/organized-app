@@ -713,9 +713,10 @@ export const importDummyPersons = async (showLoading?: boolean) => {
           maleStatus === 'FR' ||
           maleStatus === 'minServ'
         ) {
-          person.person_data.assignments
-            .at(0)
-            .values.push(
+          const assignments = person.person_data.assignments.at(0);
+
+          if (assignments) {
+            assignments.values.push(
               AssignmentCode.DUTIES_Audio,
               AssignmentCode.DUTIES_Custom,
               AssignmentCode.DUTIES_EntranceAttendant,
@@ -724,8 +725,8 @@ export const importDummyPersons = async (showLoading?: boolean) => {
               AssignmentCode.DUTIES_Video
             );
 
-          person.person_data.assignments.at(0).updatedAt =
-            new Date().toISOString();
+            assignments.updatedAt = new Date().toISOString();
+          }
         }
       }
     }

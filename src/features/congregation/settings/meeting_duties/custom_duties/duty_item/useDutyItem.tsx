@@ -1,4 +1,5 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { SelectChangeEvent } from '@mui/material';
 import { useAtomValue } from 'jotai';
 import { useBreakpoints } from '@hooks/index';
 import { settingsState, userDataViewState } from '@states/settings';
@@ -37,6 +38,8 @@ const useDutyItem = ({ id }: DutyItemProps) => {
 
       const duties = meetingDuties.find((duty) => duty.type === dataView);
 
+      if (!duties) return;
+
       const duty = duties.custom.find((duty) => duty.id === id)!;
 
       duty._deleted = true;
@@ -52,7 +55,9 @@ const useDutyItem = ({ id }: DutyItemProps) => {
 
       displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
-        message: getMessageByCode(error.message),
+        message: getMessageByCode(
+          error instanceof Error ? error.message : String(error)
+        ),
         severity: 'error',
       });
     }
@@ -70,8 +75,8 @@ const useDutyItem = ({ id }: DutyItemProps) => {
     setShowEdit(false);
   };
 
-  const handleAmountChange = async (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value as unknown as number;
+  const handleAmountChange = async (e: SelectChangeEvent<unknown>) => {
+    const value = e.target.value as number;
 
     try {
       const meetingDuties = structuredClone(
@@ -79,6 +84,8 @@ const useDutyItem = ({ id }: DutyItemProps) => {
       );
 
       const duties = meetingDuties.find((duty) => duty.type === dataView);
+
+      if (!duties) return;
 
       const duty = duties.custom.find((duty) => duty.id === id)!;
 
@@ -99,7 +106,9 @@ const useDutyItem = ({ id }: DutyItemProps) => {
 
       displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
-        message: getMessageByCode(error.message),
+        message: getMessageByCode(
+          error instanceof Error ? error.message : String(error)
+        ),
         severity: 'error',
       });
     }

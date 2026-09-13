@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { useLocation } from 'react-router';
 import { useAtom, useAtomValue } from 'jotai';
 import { Week } from '@definition/week_type';
-import { MeetingType } from '@definition/app';
+import { ScheduleMeetingType } from '@definition/app';
 import { formatDate, formatMediumDateWithFullMonth } from '@utils/date';
 import { schedulesState, selectedWeekState } from '@states/schedules';
 import {
@@ -34,7 +34,7 @@ const useWeekItem = (week: string) => {
     return schedules.find((record) => record.weekOf === week);
   }, [schedules, week]);
 
-  const meeting: MeetingType = useMemo(() => {
+  const meeting: ScheduleMeetingType = useMemo(() => {
     if (location.pathname === '/meeting-duties') return 'duties';
 
     return location.pathname === '/midweek-meeting' ? 'midweek' : 'weekend';

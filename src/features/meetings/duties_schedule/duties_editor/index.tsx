@@ -251,7 +251,7 @@ const DutiesEditor = () => {
               direction="row"
               spacing="16px"
               alignItems="center"
-              justifyContent={tablet500Down && 'space-between'}
+              justifyContent={tablet500Down ? 'space-between' : undefined}
             >
               <IconButton
                 disabled={!showWeekNav.back}
@@ -266,7 +266,7 @@ const DutiesEditor = () => {
               <Typography
                 className="h2"
                 sx={{
-                  minWidth: !tablet500Down && '140px',
+                  minWidth: tablet500Down ? undefined : '140px',
                   textAlign: 'center',
                 }}
               >

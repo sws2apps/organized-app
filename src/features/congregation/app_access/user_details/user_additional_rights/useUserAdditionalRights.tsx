@@ -136,6 +136,8 @@ const useUserAdditionalRights = () => {
     try {
       setIsDuties(value);
 
+      if (!currentUser) return;
+
       const newUser = structuredClone(currentUser);
 
       newUser.profile.cong_role = newUser.profile.cong_role || [];
@@ -156,7 +158,9 @@ const useUserAdditionalRights = () => {
 
       displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
-        message: getMessageByCode(error.message),
+        message: getMessageByCode(
+          error instanceof Error ? error.message : String(error)
+        ),
         severity: 'error',
       });
     }
@@ -176,7 +180,7 @@ const useUserAdditionalRights = () => {
     setIsPublicTalk(isPublicTalk);
 
     const isDuties =
-      currentUser.profile.cong_role?.includes('duties_schedule') ?? false;
+      currentUser?.profile.cong_role?.includes('duties_schedule') ?? false;
     setIsDuties(isDuties);
 
     const isAttendance =

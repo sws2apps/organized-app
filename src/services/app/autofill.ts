@@ -1966,12 +1966,13 @@ const handleAutofillDutiesMeeting = ({
 
   const fields = schedulesDutiesFieldList(meeting, config, sections);
 
-  const sectionOfField = (field: DutyFieldDefinitionType) =>
-    field.schedule_id
-      ? sections.find(
-          (record) => record.id === dutiesSourceId(field.schedule_id)
-        )
-      : undefined;
+  const sectionOfField = (field: DutyFieldDefinitionType) => {
+    const scheduleId = field.schedule_id;
+
+    if (!scheduleId) return undefined;
+
+    return sections.find((record) => record.id === dutiesSourceId(scheduleId));
+  };
 
   // the positions of one duty and the slots of one section stand next to each
   // other, so one brother can never hold two of them. Sections are the

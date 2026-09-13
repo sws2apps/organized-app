@@ -1,4 +1,5 @@
 import { ChangeEvent, useEffect, useState } from 'react';
+import { SelectChangeEvent } from '@mui/material';
 import { useAtomValue } from 'jotai';
 import {
   dutiesCustomState,
@@ -23,7 +24,7 @@ const useDutyEdit = ({ id, onClose, type }: DutyEditProps) => {
     setName(value);
   };
 
-  const handleAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleAmountChange = (e: SelectChangeEvent<unknown>) => {
     setAmount(Number(e.target.value));
   };
 
@@ -69,7 +70,9 @@ const useDutyEdit = ({ id, onClose, type }: DutyEditProps) => {
 
       displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
-        message: getMessageByCode(error.message),
+        message: getMessageByCode(
+          error instanceof Error ? error.message : String(error)
+        ),
         severity: 'error',
       });
     }

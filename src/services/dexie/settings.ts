@@ -371,6 +371,8 @@ const meetingDutiesDefault = (type: string) => {
 export const dbAppSettingsSetupMeetingDuties = async () => {
   const settings = await appDb.app_settings.get(1);
 
+  if (!settings) return;
+
   const meetingDuties = settings.cong_settings.meeting_duties ?? [];
   const dataView = settings.user_settings.data_view.value;
 

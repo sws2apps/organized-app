@@ -120,11 +120,11 @@ import {
   getTranslation,
 } from '@services/i18n/translation';
 import { songsLocaleState } from '@states/songs';
-import { MeetingType } from '@definition/app';
+import { ScheduleMeetingType } from '@definition/app';
 
 export const schedulesWeekAssignmentsInfo = (
   week: string,
-  meeting: MeetingType
+  meeting: ScheduleMeetingType
 ) => {
   let total = 0;
   let assigned = 0;
@@ -1762,9 +1762,11 @@ export const schedulesUpdateHistory = (
       ) as AssignmentCongregation[];
 
       if (Array.isArray(dataSchedule)) {
-        assigned = dataSchedule.find(
+        const record = dataSchedule.find(
           (record) => record.id === schedule_id && record.type === dataView
         );
+
+        if (record) assigned = record;
       }
     }
 
@@ -1965,7 +1967,7 @@ export const schedulesPersonNoPart = ({
   persons: PersonType[];
   history: AssignmentHistoryType[];
 }) => {
-  let selected: PersonType;
+  let selected: PersonType | undefined;
 
   for (const person of persons) {
     const assignments = history.filter(
@@ -1996,7 +1998,7 @@ export const schedulesPersonNoPartWithinMonth = ({
 }) => {
   const classCount = store.get(midweekMeetingClassCountState);
 
-  let selected: PersonType;
+  let selected: PersonType | undefined;
 
   const currentDate = new Date(week);
   const lastMonth = addMonths(currentDate, -1);
@@ -2062,7 +2064,7 @@ export const schedulesPersonNoPartWithin2Weeks = ({
 }) => {
   const classCount = store.get(midweekMeetingClassCountState);
 
-  let selected: PersonType;
+  let selected: PersonType | undefined;
 
   const currentDate = new Date(week);
 
@@ -2129,7 +2131,7 @@ export const schedulesPersonNoPartSameWeek = ({
 }) => {
   const classCount = store.get(midweekMeetingClassCountState);
 
-  let selected: PersonType;
+  let selected: PersonType | undefined;
 
   const currentDate = new Date(week);
 
@@ -2185,7 +2187,7 @@ export const schedulesPersonNoConsecutivePart = ({
   history: AssignmentHistoryType[];
   classroom?: string;
 }) => {
-  let selected: PersonType;
+  let selected: PersonType | undefined;
 
   const classCount = store.get(midweekMeetingClassCountState);
 
@@ -2200,7 +2202,7 @@ export const schedulesPersonNoConsecutivePart = ({
 
         if (
           !hasAux ||
-          (hasAux && lastAssignment.assignment.classroom !== classroom)
+          (hasAux && lastAssignment?.assignment.classroom !== classroom)
         ) {
           selected = person;
           break;
@@ -2261,7 +2263,7 @@ export const schedulesPersonLatest = ({
 
   const last = personsWithDate.at(0);
 
-  return last.person;
+  return last?.person;
 };
 
 export const schedulesSelectRandomPerson = (data: {
@@ -2277,7 +2279,7 @@ export const schedulesSelectRandomPerson = (data: {
   history: AssignmentHistoryType[];
   gender?: DutiesGender;
 }) => {
-  let selected: PersonType;
+  let selected: PersonType | undefined;
 
   const persons = store.get(personsByViewState);
 
@@ -2290,9 +2292,11 @@ export const schedulesSelectRandomPerson = (data: {
     persons
   );
 
-  if (data.excludedPersons?.length > 0) {
+  const excludedPersons = data.excludedPersons ?? [];
+
+  if (excludedPersons.length > 0) {
     personsElligible = personsElligible.filter(
-      (record) => !data.excludedPersons.includes(record.person_uid)
+      (record) => !excludedPersons.includes(record.person_uid)
     );
   }
 
@@ -2331,9 +2335,11 @@ export const schedulesSelectRandomPerson = (data: {
     );
   }
 
-  if (data.mainStudent && data.mainStudent.length > 0) {
-    const mainPerson = personsStateFind(data.mainStudent);
+  const mainPerson = data.mainStudent
+    ? personsStateFind(data.mainStudent)
+    : undefined;
 
+  if (mainPerson) {
     const isMale = mainPerson.person_data.male.value;
     const isFemale = mainPerson.person_data.female.value;
 
@@ -2502,14 +2508,17 @@ export const scheduleDeleteDutiesAssignments = async (
     (key) => key.includes('_DUTIES_') && !key.includes('_DUTIES_Dynamic')
   ) as AssignmentFieldType[];
 
-  const dataDb = staticFields.reduce((acc, assignment) => {
-    acc[ASSIGNMENT_PATH[assignment]] = schedulesRemoveAssignment(
-      schedule,
-      assignment
-    );
+  const dataDb = staticFields.reduce<Record<string, unknown>>(
+    (acc, assignment) => {
+      acc[ASSIGNMENT_PATH[assignment]] = schedulesRemoveAssignment(
+        schedule,
+        assignment
+      );
 
-    return acc;
-  }, {});
+      return acc;
+    },
+    {}
+  );
 
   // dynamic entries hold one record per data view AND position
   for (const meeting of ['midweek', 'weekend'] as const) {
@@ -4015,7 +4024,7 @@ export const schedulesGetMeetingDate = ({
   dataView,
 }: {
   week: string;
-  meeting: MeetingType;
+  meeting: ScheduleMeetingType;
   forPrint?: boolean;
   key?: string;
   short?: boolean;

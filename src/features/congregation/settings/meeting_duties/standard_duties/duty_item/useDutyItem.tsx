@@ -1,4 +1,5 @@
-import { ChangeEvent, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { SelectChangeEvent } from '@mui/material';
 import { useAtomValue } from 'jotai';
 import {
   meetingDutiesState,
@@ -71,7 +72,7 @@ const useDutyItem = ({ duty }: DutyItemProps) => {
     return 0;
   }, [meetingDuties, duty]);
 
-  const handleAmountChange = async (e: ChangeEvent<HTMLInputElement>) => {
+  const handleAmountChange = async (e: SelectChangeEvent<unknown>) => {
     const value = Number(e.target.value);
 
     try {
@@ -141,7 +142,9 @@ const useDutyItem = ({ duty }: DutyItemProps) => {
 
       displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
-        message: getMessageByCode(error.message),
+        message: getMessageByCode(
+          error instanceof Error ? error.message : String(error)
+        ),
         severity: 'error',
       });
     }

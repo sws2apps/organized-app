@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'react-router';
 import { useAtom, useAtomValue } from 'jotai';
-import { MeetingType } from '@definition/app';
+import { ScheduleMeetingType } from '@definition/app';
 import { monthNamesState } from '@states/app';
 import { schedulesWeekAssignmentsInfo } from '@services/app/schedules';
 import { schedulesState, selectedWeekState } from '@states/schedules';
@@ -34,7 +34,7 @@ const useMonthItem = ({
   const [total, setTotal] = useState(0);
   const [assigned, setAssigned] = useState(0);
 
-  const meeting: MeetingType = useMemo(() => {
+  const meeting: ScheduleMeetingType = useMemo(() => {
     if (location.pathname === '/meeting-duties') return 'duties';
 
     return location.pathname === '/midweek-meeting' ? 'midweek' : 'weekend';

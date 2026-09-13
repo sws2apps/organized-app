@@ -315,6 +315,8 @@ const useBrotherSelector = ({
         ? formatDate(new Date(lastAssignment.weekOf), shortDateFormat)
         : '';
 
+      const conflict = weekConflicts.get(record.person_uid);
+
       return {
         ...record,
         last_assignment: lastAssignmentFormat,
@@ -324,9 +326,7 @@ const useBrotherSelector = ({
           displayNameEnabled,
           fullnameOption
         ),
-        conflict: weekConflicts.has(record.person_uid)
-          ? { title: weekConflicts.get(record.person_uid).title }
-          : undefined,
+        conflict: conflict ? { title: conflict.title } : undefined,
       };
     });
 
