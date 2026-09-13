@@ -14,8 +14,8 @@ const WeekContainer = ({ talkSchedules }: WeekContainerProps) => {
         className="h2-caps"
         color="var(--always-white)"
         align="center"
-        flex={1}
         sx={{
+          flex: 1,
           padding: '4px 16px',
           borderRadius: 'var(--radius-s)',
           backgroundColor: 'var(--weekend-meeting)',

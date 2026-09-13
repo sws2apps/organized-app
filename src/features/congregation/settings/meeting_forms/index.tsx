@@ -39,7 +39,7 @@ const MeetingForms = () => {
     <CardSection>
       <CardSectionHeader title={t('tr_meetinMaterialsTitle')} />
 
-      <CardSectionContent marginTop="-8px !important">
+      <CardSectionContent sx={{ marginTop: '-8px !important' }}>
         {!isGroup && (
           <Stack spacing="16px">
             <SwitchWithLabel
