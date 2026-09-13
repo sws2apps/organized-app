@@ -10,6 +10,7 @@ import {
 import { SettingsType } from '@definition/settings';
 import { SourceWeekType } from '@definition/sources';
 import { Week } from '@definition/week_type';
+import { FieldServiceGroupType } from '@definition/field_service_groups';
 import { dbSchedBulkUpdate } from '@services/dexie/schedules';
 import { fieldServiceGroupsState } from '@states/field_service_groups';
 import { store } from '@states/index';
@@ -139,11 +140,23 @@ const meetingHasSource = (
       : source?.weekend_meeting.w_study[lang]
   );
 
+/**
+ * A meeting takes place unless its week has none, or the language group of
+ * the view does not hold that meeting at all.
+ */
 const meetingIsHeld = (
   schedule: SchedWeekType,
   meeting: DutiesMeeting,
-  dataView: string
+  dataView: string,
+  group: FieldServiceGroupType | undefined
 ) => {
+  const groupHoldsMeeting =
+    (meeting === 'midweek'
+      ? group?.group_data.midweek_meeting
+      : group?.group_data.weekend_meeting) ?? true;
+
+  if (!groupHoldsMeeting) return false;
+
   const weekType =
     schedule[`${meeting}_meeting`].week_type.find(
       (record) => record.type === dataView
@@ -180,11 +193,13 @@ const buildDutyTasks = ({
   config,
   settings,
   dataView,
+  group,
 }: {
   weeks: SchedWeekType[];
   config: MeetingDutiesConfigType;
   settings: SettingsType;
   dataView: string;
+  group: FieldServiceGroupType | undefined;
 }) => {
   const sources = store.get(sourcesState);
   const lang = store.get(JWLangState);
@@ -199,7 +214,7 @@ const buildDutyTasks = ({
 
     for (const meeting of ['midweek', 'weekend'] as const) {
       if (!meetingHasSource(meeting, source, lang)) continue;
-      if (!meetingIsHeld(schedule, meeting, dataView)) continue;
+      if (!meetingIsHeld(schedule, meeting, dataView, group)) continue;
 
       const sections = schedulesDutiesSections(schedule.weekOf, meeting);
       const fields = schedulesDutiesFieldList(meeting, config, sections);
@@ -289,22 +304,6 @@ const isServingAtTheTime = (
         person.person_uid
   );
 
-const weekEntriesOf = (
-  task: DutyTask,
-  person: PersonType,
-  context: DutiesAutofillContext
-) => {
-  const { weekOf } = task.schedule;
-
-  const isPersonEntry = (entry: AssignmentHistoryType) =>
-    entry.weekOf === weekOf && entry.assignment.person === person.person_uid;
-
-  return [
-    ...(context.otherHistoryByWeek.get(weekOf) ?? []).filter(isPersonEntry),
-    ...context.dutyHistory.filter(isPersonEntry),
-  ];
-};
-
 /**
  * A meeting part or duty in another group's schedule of the same meeting
  * leaves the person unavailable, as the meeting assignments engine does.
@@ -314,23 +313,39 @@ const servesInAnotherView = (
   person: PersonType,
   context: DutiesAutofillContext
 ) => {
+  const { weekOf } = task.schedule;
   const prefix = task.meeting === 'midweek' ? 'MM_' : 'WM_';
 
-  return weekEntriesOf(task, person, context).some(
-    (entry) =>
-      entry.assignment.dataView !== context.dataView &&
-      (entry.assignment.key ?? '').startsWith(prefix)
+  const isOtherViewEntry = (entry: AssignmentHistoryType) =>
+    entry.weekOf === weekOf &&
+    entry.assignment.person === person.person_uid &&
+    entry.assignment.dataView !== context.dataView &&
+    (entry.assignment.key ?? '').startsWith(prefix);
+
+  return (
+    (context.otherHistoryByWeek.get(weekOf) ?? []).some(isOtherViewEntry) ||
+    context.dutyHistory.some(isOtherViewEntry)
   );
 };
 
-const hasAssignmentThisWeek = (
+/**
+ * Whether the person already has a part in the schedule of this meeting,
+ * which conflict prevention avoids.
+ */
+const hasPartInMeeting = (
   task: DutyTask,
   person: PersonType,
   context: DutiesAutofillContext
-) =>
-  weekEntriesOf(task, person, context).some(
-    (entry) => entry.assignment.dataView === context.dataView
+) => {
+  const prefix = task.meeting === 'midweek' ? 'MM_' : 'WM_';
+
+  return (context.otherHistoryByWeek.get(task.schedule.weekOf) ?? []).some(
+    (entry) =>
+      entry.assignment.person === person.person_uid &&
+      entry.assignment.dataView === context.dataView &&
+      (entry.assignment.key ?? '').startsWith(prefix)
   );
+};
 
 const validCandidates = (task: DutyTask, context: DutiesAutofillContext) => {
   const allowed = context.eligibleByCode.get(task.field.type);
@@ -425,8 +440,8 @@ const compareCandidates = (a: DutyCandidateMeta, b: DutyCandidateMeta) => {
 
 /**
  * The best person for a task. Brothers come before sisters, and with conflict
- * prevention on, persons free that week come before those who already serve;
- * a later round is only tried when the earlier one has no one.
+ * prevention on, persons without a part in the meeting come before those who
+ * have one; a later round is only tried when the earlier one has no one.
  */
 const selectDutyPerson = (task: DutyTask, context: DutiesAutofillContext) => {
   const candidates = validCandidates(task, context);
@@ -442,7 +457,7 @@ const selectDutyPerson = (task: DutyTask, context: DutiesAutofillContext) => {
     const pool = candidates.filter(
       (person) =>
         person.person_data.male.value === (round.gender === 'male') &&
-        (!round.freeOnly || !hasAssignmentThisWeek(task, person, context))
+        (!round.freeOnly || !hasPartInMeeting(task, person, context))
     );
 
     if (pool.length === 0) continue;
@@ -537,6 +552,7 @@ export const dutiesStartAutofill = async (start: string, end: string) => {
     config,
     settings,
     dataView,
+    group: languageGroups.find((record) => record.group_id === dataView),
   });
 
   const eligibleByCode = new Map(

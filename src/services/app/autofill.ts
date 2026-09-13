@@ -1482,11 +1482,17 @@ export const handleDynamicAssignmentAutofill = (
 } => {
   // Get data from store
   const sources = structuredClone(store.get(sourcesState));
-  // duties are balanced by their own engine and must not weigh on the
-  // fairness, quotas or conflicts of the meeting parts
+  // duties of this view are balanced by their own engine and must not weigh on
+  // the fairness and quotas of the meeting parts; duties in another view still
+  // make the brother unavailable for that meeting
+  const activeView = store.get(userDataViewState);
   const fullHistory = structuredClone(
     store.get(assignmentsHistoryState)
-  ).filter((entry) => !schedulesIsDutyCode(entry.assignment.code));
+  ).filter(
+    (entry) =>
+      !schedulesIsDutyCode(entry.assignment.code) ||
+      entry.assignment.dataView !== activeView
+  );
   // Use the full active persons list instead of the view-scoped one:
   // statistics, opportunity scores and weighting factors must be computed
   // congregation-wide. The candidate pool for the active view is still

@@ -169,15 +169,18 @@ const useBrotherSelector = ({
 
   const isDutiesField = assignment.includes('_DUTIES_');
 
-  // person_uid -> another assignment they hold in the selected week
+  // person_uid -> another assignment they hold in the same meeting
   const weekConflicts = useMemo(() => {
     const conflicts = new Map<string, { title: string; isDuty: boolean }>();
 
     if (!isDutiesField || week.length === 0) return conflicts;
 
+    const meetingPrefix = assignment.slice(0, 3);
+
     for (const item of assignmentsHistory) {
       if (item.weekOf !== week) continue;
       if (item.assignment.dataView !== dataView) continue;
+      if (!item.assignment.key?.startsWith(meetingPrefix)) continue;
       if (!item.assignment.person) continue;
 
       const isSameField =
