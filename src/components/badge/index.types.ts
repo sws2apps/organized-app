@@ -64,7 +64,7 @@ export type BadgePropsType = {
    */
   key?: number | string;
 
-  faded?: boolean
+  faded?: boolean;
 };
 
 /**

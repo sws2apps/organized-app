@@ -33,14 +33,14 @@ const TabSwitcher = <T extends string = string>({
 
     const position = selectableIndexes.indexOf(activeIndex);
 
-    const nextPosition = {
+    const nextPositions: Record<string, number> = {
       ArrowLeft: position <= 0 ? selectableIndexes.length - 1 : position - 1,
       ArrowRight: (position + 1) % selectableIndexes.length,
       Home: 0,
       End: selectableIndexes.length - 1,
-    }[event.key];
+    };
 
-    const nextIndex = selectableIndexes[nextPosition];
+    const nextIndex = selectableIndexes[nextPositions[event.key]];
     if (nextIndex === activeIndex) return;
 
     onChange(options[nextIndex].value);

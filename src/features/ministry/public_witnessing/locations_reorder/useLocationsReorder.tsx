@@ -56,7 +56,7 @@ const useLocationsReorder = ({ onClose }: LocationsReorderProps) => {
 
       displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
-        message: getMessageByCode(error.message),
+        message: getMessageByCode((error as Error).message),
         severity: 'error',
       });
     }

@@ -146,7 +146,7 @@ const useArrangementForm = ({
 
       displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
-        message: getMessageByCode(error.message),
+        message: getMessageByCode((error as Error).message),
         severity: 'error',
       });
       return false;
@@ -189,7 +189,7 @@ const useArrangementForm = ({
 
       displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
-        message: getMessageByCode(error.message),
+        message: getMessageByCode((error as Error).message),
         severity: 'error',
       });
     }
@@ -214,7 +214,7 @@ const useArrangementForm = ({
 
           displaySnackNotification({
             header: getMessageByCode('error_app_generic-title'),
-            message: getMessageByCode(error.message),
+            message: getMessageByCode((error as Error).message),
             severity: 'error',
           });
 

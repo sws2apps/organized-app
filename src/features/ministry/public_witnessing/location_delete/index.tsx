@@ -29,7 +29,7 @@ const LocationDelete = ({ open, onClose, location }: LocationDeleteProps) => {
 
       displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
-        message: getMessageByCode(error.message),
+        message: getMessageByCode((error as Error).message),
         severity: 'error',
       });
     }

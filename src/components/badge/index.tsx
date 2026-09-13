@@ -74,7 +74,12 @@ const resolveTextColor = ({ color, filled, faded, size }: ColorProps) => {
   return `var(--${color}-dark)`;
 };
 
-const resolveBackgroundColor = ({ color, filled, faded, light }: ColorProps) => {
+const resolveBackgroundColor = ({
+  color,
+  filled,
+  faded,
+  light,
+}: ColorProps) => {
   if (color === 'transparent') return 'transparent';
   if (filled) {
     return color === 'grey' ? 'var(--grey-400)' : `var(--${color}-main)`;

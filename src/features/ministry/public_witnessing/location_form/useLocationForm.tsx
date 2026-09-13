@@ -248,7 +248,7 @@ const useLocationForm = ({ location, onClose }: LocationFormProps) => {
 
       displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
-        message: getMessageByCode(error.message),
+        message: getMessageByCode((error as Error).message),
         severity: 'error',
       });
     } finally {
