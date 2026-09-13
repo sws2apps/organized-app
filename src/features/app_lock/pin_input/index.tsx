@@ -12,6 +12,7 @@ import {
 } from '@icons/index';
 import { PinInputContainer } from './index.styles';
 import useShuffledSymbols from './useShuffledSymbols';
+import { useAppTranslation } from '@hooks/index';
 
 const PIN_ICONS = [
   IconPinSymbolSquare,
@@ -76,6 +77,8 @@ const PinInput = forwardRef<PinInputHandle, PinInputProps>(
     },
     ref
   ) => {
+    const { t } = useAppTranslation();
+
     const isError = variant === 'error';
     const symbolOrder = useShuffledSymbols(length, value, PIN_ICONS.length);
     const containerRef = useRef<HTMLDivElement>(null);
@@ -144,7 +147,7 @@ const PinInput = forwardRef<PinInputHandle, PinInputProps>(
       <PinInputContainer
         ref={containerRef}
         role="group"
-        aria-label={`PIN input, ${value.length} of ${length} digits entered`}
+        aria-label={t('tr_PINInputLabel', { entered: value.length, length })}
         onKeyDownCapture={handleKeyDownCapture}
         onMouseDownCapture={handleMouseDownCapture}
         sx={{
@@ -179,7 +182,7 @@ const PinInput = forwardRef<PinInputHandle, PinInputProps>(
                 inputMode: 'numeric',
                 pattern: '[0-9]*',
                 autoComplete: 'off',
-                'aria-label': `PIN digit ${index + 1}`,
+                'aria-label': t('tr_PINDigitLabel', { position: index + 1 }),
               },
               sx: {
                 '.MuiOutlinedInput-input': {

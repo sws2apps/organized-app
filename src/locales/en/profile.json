@@ -105,6 +105,8 @@
   "tr_changePIN": "Change PIN",
   "tr_wrongPINTryAgain": "Wrong PIN. Try again",
   "tr_pinMismatch": "PINs don't match. Try again.",
+  "tr_PINInputLabel": "PIN, {{ entered }} of {{ length }} digits entered",
+  "tr_PINDigitLabel": "PIN digit {{ position }}",
   "tr_enterCurrentPIN": "Enter your current PIN to continue.",
   "tr_biometricEnabled": "Biometric unlock enabled",
   "tr_biometricEnabledDesc": "You can now use biometrics to unlock the Organized app",
