@@ -77,6 +77,25 @@ const storedHearing = (
   return String(Math.max(0, total - (current[deafField] ?? 0)));
 };
 
+/** Writes a count kept as hearing and deaf, with either side edited. */
+const applyHearingAndDeaf = (
+  current: AttendanceCongregation,
+  field: CountField,
+  deafField: 'present_deaf' | 'online_deaf',
+  values: AttendanceSaveParams['values']
+) => {
+  const hearing =
+    field in values ? values[field] : storedHearing(current, field, deafField);
+  const deaf =
+    deafField in values
+      ? values[deafField]
+      : (current[deafField]?.toString() ?? '');
+
+  current[field] =
+    hearing === '' && deaf === '' ? undefined : Number(hearing) + Number(deaf);
+  current[deafField] = toCount(deaf ?? '');
+};
+
 /** Writes one count, split into hearing and deaf where those are kept apart. */
 const applyCount = (
   current: AttendanceCongregation,
@@ -88,20 +107,7 @@ const applyCount = (
   if (!(field in values) && !(deafField in values)) return;
 
   if (recordDeaf) {
-    const hearing =
-      field in values
-        ? values[field]
-        : storedHearing(current, field, deafField);
-    const deaf =
-      deafField in values
-        ? values[deafField]
-        : (current[deafField]?.toString() ?? '');
-
-    current[field] =
-      hearing === '' && deaf === ''
-        ? undefined
-        : Number(hearing) + Number(deaf);
-    current[deafField] = toCount(deaf ?? '');
+    applyHearingAndDeaf(current, field, deafField, values);
   } else {
     const count = values[field];
     if (count !== undefined) current[field] = toCount(count);

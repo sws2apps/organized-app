@@ -7,11 +7,10 @@ const useUnsavedDrafts = () => {
   useEffect(() => {
     const handleUnload = (event: BeforeUnloadEvent) => {
       if (!store.get(hasUnsavedDraftsState)) return;
-      event.preventDefault();
 
-      // deprecated, but older engines still ask for the confirmation only
-      // when it is set, and a lost draft costs more than a warning
-      event.returnValue = true;
+      // every engine the esnext build runs on asks for confirmation on this
+      // alone, so the deprecated returnValue is not needed
+      event.preventDefault();
     };
     window.addEventListener('beforeunload', handleUnload);
     return () => window.removeEventListener('beforeunload', handleUnload);
