@@ -53,6 +53,7 @@
   "tr_weekendScheduleSaved": "Розклад зібрання на вихідних збережено",
   "tr_weekendScheduleSavedDesc": "Після створення бажаних розкладів, не забудь опублікувати їх для збору.",
   "tr_personAlreadyAssignmentWeek": "Ця особа вже має завдння цього тижня",
+  "tr_personAlreadyAssignmentMeeting": "This person already has an assignment in this meeting",
   "tr_hostCongregation": "Приймаючий збір",
   "tr_kingdomHallAddress": "Адреса Залу Царства",
   "tr_clearAllAssignments": "Очистити всі завдання",
