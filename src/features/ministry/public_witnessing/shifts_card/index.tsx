@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useId, useState } from 'react';
 import { Box } from '@mui/material';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { PublicWitnessingViewType } from '@definition/public_witnessing';
@@ -44,6 +44,8 @@ const ShiftsCard = ({ location }: ShiftsCardProps) => {
     handleViewChange,
     handleSelectDay,
   } = useShiftsCard({ location });
+
+  const tabsId = useId();
 
   const [openSlot, setOpenSlot] = useState<ShiftSlotType | null>(null);
 
@@ -131,6 +133,7 @@ const ShiftsCard = ({ location }: ShiftsCardProps) => {
           }}
         >
           <TabSwitcher<PublicWitnessingViewType>
+            id={tabsId}
             value={view}
             onChange={handleViewChange}
             options={[
@@ -148,11 +151,18 @@ const ShiftsCard = ({ location }: ShiftsCardProps) => {
 
       <Divider color="var(--accent-200)" />
 
-      {view === 'day' && <DayView {...viewProps} />}
-      {view === 'week' && <WeekView {...viewProps} />}
-      {view === 'month' && (
-        <MonthView days={days} onSelectDay={handleSelectDay} />
-      )}
+      <Box
+        role="tabpanel"
+        id={`${tabsId}-panel`}
+        aria-labelledby={`${tabsId}-tab-${view}`}
+        sx={{ minWidth: 0 }}
+      >
+        {view === 'day' && <DayView {...viewProps} />}
+        {view === 'week' && <WeekView {...viewProps} />}
+        {view === 'month' && (
+          <MonthView days={days} onSelectDay={handleSelectDay} />
+        )}
+      </Box>
 
       {openSlot && (
         <ArrangementForm

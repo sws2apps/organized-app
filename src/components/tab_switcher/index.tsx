@@ -10,6 +10,7 @@ const TabSwitcher = <T extends string = string>({
   value,
   onChange,
   ariaLabel,
+  id,
   sx,
 }: TabSwitcherProps<T>) => {
   const activeIndex = options.findIndex((option) => option.value === value);
@@ -89,6 +90,8 @@ const TabSwitcher = <T extends string = string>({
               tabRefs.current[index] = node;
             }}
             role="tab"
+            id={id ? `${id}-tab-${option.value}` : undefined}
+            aria-controls={id ? `${id}-panel` : undefined}
             aria-selected={isActive}
             className={isActive ? 'h4' : 'body-regular'}
             tabIndex={isActive ? 0 : -1}
