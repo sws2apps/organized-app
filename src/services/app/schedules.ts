@@ -83,11 +83,14 @@ import { Week } from '@definition/week_type';
 import { dbSchedUpdate } from '@services/dexie/schedules';
 import {
   addDays,
+  addMonths,
+  addWeeks,
   formatDate,
   formatDateShortMonthWithYear,
   generateDateFromTime,
   timeAddMinutes,
 } from '@utils/date';
+import { applyAssignmentFilters, personIsAway, personIsElder } from './persons';
 import { personsByViewState } from '@states/persons';
 import { personsStateFind } from '@services/states/persons';
 import {
@@ -117,7 +120,6 @@ import {
 } from '@services/i18n/translation';
 import { songsLocaleState } from '@states/songs';
 import { MeetingType } from '@definition/app';
-import { SettingsType } from '@definition/settings';
 
 export const schedulesWeekAssignmentsInfo = (
   week: string,

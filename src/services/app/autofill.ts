@@ -8,6 +8,7 @@ import {
   AssignmentPathKey,
   STUDENT_ASSIGNMENT,
   WEEK_TYPE_ASSIGNMENT_PATH_KEYS,
+  WEEK_TYPE_NO_MEETING,
 } from '@constants/index';
 import { STUDENT_TASK_CODES } from '@constants/assignmentConflicts';
 import { MeetingType } from '@definition/app';
