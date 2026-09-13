@@ -18,11 +18,11 @@ const PublicWitnessing = () => {
     canEditLocation,
     canReorderLocations,
     isSubpage,
-    selectedLocation,
+    currentLocation,
     formOpen,
     formLocation,
     reorderOpen,
-    deleteOpen,
+    deleteLocation,
     handleStartCreate,
     handleStartEdit,
     handleCloseForm,
@@ -69,7 +69,7 @@ const PublicWitnessing = () => {
     <Stack spacing="16px">
       <PageTitle
         title={
-          isSubpage ? (selectedLocation?.location_data.name ?? '') : t('tr_PW')
+          isSubpage ? (currentLocation?.location_data.name ?? '') : t('tr_PW')
         }
         secondaryTitle={isSubpage ? t('tr_PW') : undefined}
         buttons={actionButtons}
@@ -77,17 +77,19 @@ const PublicWitnessing = () => {
 
       {formOpen && (
         <LocationForm
+          // remount per location so the form never keeps another one's state
+          key={formLocation?.location_uid ?? 'new'}
           open={formOpen}
           onClose={handleCloseForm}
           location={formLocation}
           onDelete={formLocation ? handleStartDelete : undefined}
         />
       )}
-      {deleteOpen && selectedLocation && (
+      {deleteLocation && (
         <LocationDelete
-          open={deleteOpen}
+          open
           onClose={handleCloseDelete}
-          location={selectedLocation}
+          location={deleteLocation}
         />
       )}
       {reorderOpen && (
