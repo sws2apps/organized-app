@@ -5,6 +5,7 @@ import { useAppTranslation } from '@hooks/index';
 import { ExportType } from './index.types';
 import useExport from './useExport';
 import Button from '@components/button';
+import DialogActions from '@components/dialog_actions';
 import Typography from '@components/typography';
 
 const Export = (props: ExportType) => {
@@ -28,14 +29,7 @@ const Export = (props: ExportType) => {
         </Box>
       </Stack>
 
-      <Stack spacing="8px">
-        <Button
-          variant="main"
-          onClick={handleDownload}
-          endIcon={isProcessing && <IconLoading />}
-        >
-          {t('tr_download')}
-        </Button>
+      <DialogActions>
         <Button
           variant="secondary"
           disabled={isProcessing}
@@ -43,7 +37,14 @@ const Export = (props: ExportType) => {
         >
           {t('tr_cancel')}
         </Button>
-      </Stack>
+        <Button
+          variant="main"
+          onClick={handleDownload}
+          endIcon={isProcessing && <IconLoading />}
+        >
+          {t('tr_download')}
+        </Button>
+      </DialogActions>
     </Stack>
   );
 };

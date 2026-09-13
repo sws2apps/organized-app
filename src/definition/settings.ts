@@ -1,5 +1,6 @@
 import { AppRoleType } from './app';
 import { AssignmentFieldType } from './assignment';
+import { UpcomingEventDisplayType } from './upcoming_events';
 
 export enum FullnameOption {
   FIRST_BEFORE_LAST = 1,
@@ -7,6 +8,89 @@ export enum FullnameOption {
 }
 
 export type AccountTypeState = 'vip' | 'pocket';
+
+/**
+ * Names of the avatar illustrations shipped in `@components/profile_avatars`.
+ * The order here drives the order shown in the profile picture selector, and
+ * the prefix (`Abstract`, `Gradient`, `Story`, `Male`, `Female`) drives the
+ * section an avatar belongs to. Adding an illustration means adding its name
+ * here and its import in the avatars barrel: the barrel is typed against this
+ * list, so a missing import fails the build.
+ */
+export const AVATAR_IMAGE_NAMES = [
+  'GradientOrange',
+  'GradientBrown',
+  'GradientLime',
+  'GradientGreen',
+  'GradientBlue',
+  'GradientPurple',
+  'GradientPink',
+  'Abstract1',
+  'Abstract2',
+  'Abstract3',
+  'Abstract4',
+  'Abstract5',
+  'Abstract6',
+  'Abstract7',
+  'Abstract8',
+  'Abstract9',
+  'Abstract10',
+  'StoryArk',
+  'StoryBible',
+  'StoryField',
+  'StoryFigs',
+  'StoryGrapes',
+  'StoryHelmet',
+  'StoryLamp',
+  'StoryLeaves',
+  'StoryLionScripture',
+  'StoryMountain',
+  'StoryPearl',
+  'StoryRedSea',
+  'StoryRod',
+  'StorySeeds',
+  'StorySheep',
+  'StoryShield',
+  'StoryValley',
+  'StoryWatchtower',
+  'Male1',
+  'Male2',
+  'Male3',
+  'Male4',
+  'Female1',
+  'Female2',
+  'Female3',
+  'Female4',
+  'Female5',
+] as const;
+
+/**
+ * Names of the theme-aware avatar icons: unlike the illustrations these are
+ * inline React components, so they follow the accent color of the app theme.
+ */
+export const AVATAR_ICON_NAMES = [
+  'MaleIcon1',
+  'MaleIcon2',
+  'MaleIcon3',
+  'FemaleIcon1',
+  'FemaleIcon2',
+  'FemaleIcon3',
+] as const;
+
+export type AvatarImageName = (typeof AVATAR_IMAGE_NAMES)[number];
+
+export type AvatarIconName = (typeof AVATAR_ICON_NAMES)[number];
+
+/**
+ * `google` shows the photo from the linked account, `initials` the user
+ * initials, and `default` the generic silhouette used as fallback.
+ */
+export type AvatarType =
+  | 'google'
+  | 'initials'
+  | 'default'
+  | AvatarIconName
+  | AvatarImageName;
 
 export enum SourceFrequency {
   WEEKLY = 1,
@@ -147,12 +231,19 @@ export type SettingsType = {
       firstname: { value: string; updatedAt: string };
       lastname: { value: string; updatedAt: string };
       display_name: { value: string; updatedAt: string };
+      midweek_meeting_day: { value: number; updatedAt: string };
       visits: CircuitOverseerVisitType[];
     };
     language_groups: { enabled: { value: boolean; updatedAt: string } };
     format_24h_enabled: {
       type: string;
       value: boolean;
+      updatedAt: string;
+      _deleted: boolean;
+    }[];
+    events_multiday_display: {
+      type: string;
+      value: UpcomingEventDisplayType;
       updatedAt: string;
       _deleted: boolean;
     }[];
@@ -163,6 +254,12 @@ export type SettingsType = {
       _deleted: boolean;
     }[];
     attendance_online_record: {
+      type: string;
+      value: boolean;
+      updatedAt: string;
+      _deleted: boolean;
+    }[];
+    attendance_deaf_record: {
       type: string;
       value: boolean;
       updatedAt: string;
@@ -180,6 +277,7 @@ export type SettingsType = {
       value: PublishersSortOption;
     };
     aux_class_fsg: { value: boolean; updatedAt: string };
+    aux_class_qualifications: { value: boolean; updatedAt: string };
     first_day_week: {
       type: string;
       _deleted: boolean;
@@ -197,7 +295,7 @@ export type SettingsType = {
     id?: string;
     cong_role: AppRoleType[];
     account_type: '' | AccountTypeState;
-    user_avatar: ArrayBuffer;
+    user_avatar_type: { value: AvatarType; updatedAt: string };
     user_local_uid: string;
     user_members_delegate: string[];
     firstname: { value: string; updatedAt: string };
@@ -207,6 +305,7 @@ export type SettingsType = {
       interval: { value: number; updatedAt: string };
     };
     theme_follow_os_enabled: { value: boolean; updatedAt: string };
+    haptics_enabled: { value: boolean; updatedAt: string };
     hour_credits_enabled: { value: boolean; updatedAt: string };
     data_view: { value: string; updatedAt: string };
   };

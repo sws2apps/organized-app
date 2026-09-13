@@ -1,10 +1,10 @@
-import { Stack } from '@mui/material';
 import IconLoading from '@components/icon_loading';
 import { useAppTranslation } from '@hooks/index';
 import { WithdrawReportProps } from './index.types';
 import useWithdrawReport from './useWithdrawReport';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
+import DialogActions from '@components/dialog_actions';
 import Typography from '@components/typography';
 
 const WithdrawReport = (props: WithdrawReportProps) => {
@@ -20,7 +20,14 @@ const WithdrawReport = (props: WithdrawReportProps) => {
         {t('tr_undoSubmissionDesc')}
       </Typography>
 
-      <Stack spacing="8px" width="100%">
+      <DialogActions>
+        <Button
+          variant="secondary"
+          onClick={props.onClose}
+          disabled={isProcessing}
+        >
+          {t('tr_cancel')}
+        </Button>
         <Button
           variant="main"
           onClick={handleWithdrawal}
@@ -29,14 +36,7 @@ const WithdrawReport = (props: WithdrawReportProps) => {
         >
           {t('tr_yes')}
         </Button>
-        <Button
-          variant="secondary"
-          onClick={props.onClose}
-          disabled={isProcessing}
-        >
-          {t('tr_cancel')}
-        </Button>
-      </Stack>
+      </DialogActions>
     </Dialog>
   );
 };

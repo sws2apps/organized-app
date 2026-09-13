@@ -653,7 +653,8 @@
     text-transform: none;
   }
 
-  .h2 {
+  .h2,
+  .MuiTypography-root.h2 {
     font-size: 18px;
     text-decoration: none;
     font-weight: 550;
@@ -666,13 +667,13 @@
   }
 
   .h2-caps {
-    font-size: 18px;
+    font-size: 16px;
     text-decoration: none;
     font-weight: 450;
     font-style: normal;
     font-stretch: normal;
-    letter-spacing: 0.18px;
-    line-height: 22px;
+    letter-spacing: 0.16px;
+    line-height: 20px;
     text-indent: 0px;
     text-transform: uppercase;
   }
@@ -764,7 +765,8 @@
     text-transform: none;
   }
 
-  .h2 {
+  .h2,
+  .MuiTypography-root.h2 {
     font-size: 20px;
     text-decoration: none;
     font-weight: 550;
@@ -777,13 +779,13 @@
   }
 
   .h2-caps {
-    font-size: 20px;
+    font-size: 18px;
     text-decoration: none;
     font-weight: 450;
     font-style: normal;
     font-stretch: normal;
-    letter-spacing: 0.2px;
-    line-height: 24px;
+    letter-spacing: 0.18px;
+    line-height: 22px;
     text-indent: 0px;
     text-transform: uppercase;
   }
@@ -801,7 +803,7 @@
   }
 
   .h4 {
-    font-size: 16px;
+    font-size: 15px;
     text-decoration: none;
     font-weight: 500;
     font-style: normal;
@@ -825,7 +827,7 @@
   }
 
   .body-regular {
-    font-size: 16px;
+    font-size: 15px;
     text-decoration: none;
     font-weight: 400;
     font-style: normal;

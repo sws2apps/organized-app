@@ -5,10 +5,10 @@ export const TextFieldStyles: SxProps<Theme> = {
     padding: '0! important',
   },
   '.MuiInputBase-input': {
-    textAlign: 'center',
+    textAlign: 'left',
   },
   '& input': {
-    padding: '10.5px 10px 10.5px 2px',
+    padding: '10.5px 14px',
   },
   '& input::-webkit-outer-spin-button': {
     WebkitAppearance: 'none',

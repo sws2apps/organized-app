@@ -19,7 +19,7 @@ const useEnrollments = () => {
       .sort((a, b) => a.start_date.localeCompare(b.start_date));
   }, [person]);
 
-  const handleAddHistory = async () => {
+  const handleAddHistory = () => {
     const newPerson = structuredClone(person);
 
     newPerson.person_data.enrollments.push({
@@ -34,7 +34,7 @@ const useEnrollments = () => {
     setPersonCurrentDetails(newPerson);
   };
 
-  const handleDeleteHistory = async (id: string) => {
+  const handleDeleteHistory = (id: string) => {
     const newPerson = structuredClone(person);
 
     if (!isAddPerson) {
@@ -54,7 +54,7 @@ const useEnrollments = () => {
     setPersonCurrentDetails(newPerson);
   };
 
-  const handleStartDateChange = async (id: string, value: Date) => {
+  const handleStartDateChange = (id: string, value: Date) => {
     if (value === null) return;
 
     const newPerson = structuredClone(person);
@@ -69,7 +69,7 @@ const useEnrollments = () => {
     setPersonCurrentDetails(newPerson);
   };
 
-  const handleEndDateChange = async (id: string, value: Date | null) => {
+  const handleEndDateChange = (id: string, value: Date | null) => {
     const newPerson = structuredClone(person);
 
     const current = newPerson.person_data.enrollments.find(
@@ -82,7 +82,7 @@ const useEnrollments = () => {
     setPersonCurrentDetails(newPerson);
   };
 
-  const handleEnrollmentChange = async (id: string, value: string) => {
+  const handleEnrollmentChange = (id: string, value: string) => {
     const newPerson = structuredClone(person);
 
     const newValue = value as EnrollmentType;
@@ -90,6 +90,8 @@ const useEnrollments = () => {
     const current = newPerson.person_data.enrollments.find(
       (history) => history.id === id
     );
+
+    if (!current) return;
 
     current.enrollment = newValue;
     current.updatedAt = new Date().toISOString();

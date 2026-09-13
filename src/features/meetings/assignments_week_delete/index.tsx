@@ -5,6 +5,7 @@ import { useAppTranslation } from '@hooks/index';
 import useAssignmentsDelete from './useAssignmentsWeekDelete';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
+import DialogActions from '@components/dialog_actions';
 import Typography from '@components/typography';
 
 const AssignmentsWeekDelete = ({
@@ -34,14 +35,10 @@ const AssignmentsWeekDelete = ({
         </Typography>
       </Box>
 
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '8px',
-          width: '100%',
-        }}
-      >
+      <DialogActions>
+        <Button variant="secondary" onClick={onClose}>
+          {t('tr_cancel')}
+        </Button>
         <Button
           variant="main"
           color="red"
@@ -51,10 +48,7 @@ const AssignmentsWeekDelete = ({
         >
           {t('tr_clear')}
         </Button>
-        <Button variant="secondary" onClick={onClose}>
-          {t('tr_cancel')}
-        </Button>
-      </Box>
+      </DialogActions>
     </Dialog>
   );
 };

@@ -64,6 +64,7 @@ import {
   publicWitnessingArrangementsSchema,
   PublicWitnessingArrangementsTable,
 } from './tables/public_witnessing_arrangements';
+import { appLocalsSchema, AppLocalsTable } from './tables/app_locals';
 
 type DexieTables = PersonsTable &
   SettingsTable &
@@ -87,7 +88,8 @@ type DexieTables = PersonsTable &
   PublicTalkTable &
   SongTable &
   PublicWitnessingLocationsTable &
-  PublicWitnessingArrangementsTable;
+  PublicWitnessingArrangementsTable &
+  AppLocalsTable;
 
 type Dexie<T = DexieTables> = BaseDexie & T;
 
@@ -192,7 +194,65 @@ appDb.version(12).stores({
   ...upcomingEventsSchema,
 });
 
-appDb.version(13).stores({
+appDb
+  .version(13)
+  .stores({
+    ...schema,
+    ...metadataSchema,
+    ...delegatedFieldServiceReportsSchema,
+    ...weekTypeSchema,
+    ...publicTalkSchema,
+    ...songSchema,
+    ...upcomingEventsSchema,
+  })
+  .upgrade(async (tx) => {
+    // congregation reports were dropped on restore for elders and group
+    // overseers while their version kept advancing: clear it once so the
+    // next sync pulls the reports they never received
+    const record = await tx.table('metadata').get(1);
+
+    if (!record?.metadata?.cong_field_service_reports) return;
+
+    record.metadata.cong_field_service_reports.version = '';
+
+    await tx.table('metadata').put(record);
+  });
+
+appDb
+  .version(14)
+  .stores({
+    ...schema,
+    ...metadataSchema,
+    ...delegatedFieldServiceReportsSchema,
+    ...weekTypeSchema,
+    ...publicTalkSchema,
+    ...songSchema,
+    ...upcomingEventsSchema,
+    ...appLocalsSchema,
+  })
+  .upgrade(async (tx) => {
+    // the account photo used to live inside the settings row, which made
+    // IndexedDB panels freeze and bloated restores: move it to its own table
+    // for local-only device data and drop it from the settings record
+    const settings = await tx.table('app_settings').get(1);
+
+    if (!settings || !('user_avatar' in settings.user_settings)) return;
+
+    if (settings.user_settings.user_avatar) {
+      await tx.table('app_locals').put({
+        id: 1,
+        avatar: settings.user_settings.user_avatar,
+      });
+    }
+
+    const newSettings = structuredClone(settings);
+
+    delete newSettings.user_settings.user_avatar;
+
+    await tx.table('app_settings').put(newSettings);
+  });
+
+appDb.version(15).stores({
   ...schema,
   ...metadataSchema,
   ...delegatedFieldServiceReportsSchema,
@@ -200,6 +260,7 @@ appDb.version(13).stores({
   ...publicTalkSchema,
   ...songSchema,
   ...upcomingEventsSchema,
+  ...appLocalsSchema,
   ...publicWitnessingLocationsSchema,
   ...publicWitnessingArrangementsSchema,
 });

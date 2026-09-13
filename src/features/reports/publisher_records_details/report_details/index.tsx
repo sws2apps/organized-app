@@ -6,6 +6,7 @@ import BibleStudies from './bible_studies';
 import Comments from './comments';
 import CreditField from './credit_field';
 import Dialog from '@components/dialog';
+import DialogActions from '@components/dialog_actions';
 import Divider from '@components/divider';
 import Button from '@components/button';
 import HoursField from './hours_field';
@@ -55,7 +56,7 @@ const ReportDetails = (props: ReportDetailsProps) => {
 
       <Comments />
 
-      <Stack spacing="8px" width="100%">
+      <DialogActions>
         {enable_quick_AP && (
           <Button
             variant="tertiary"
@@ -66,13 +67,13 @@ const ReportDetails = (props: ReportDetailsProps) => {
           </Button>
         )}
 
-        <Button variant="main" onClick={handleSaveReport}>
-          {t('tr_save')}
-        </Button>
         <Button variant="secondary" onClick={props.onClose}>
           {t('tr_cancel')}
         </Button>
-      </Stack>
+        <Button variant="main" onClick={handleSaveReport}>
+          {t('tr_save')}
+        </Button>
+      </DialogActions>
     </Dialog>
   );
 };

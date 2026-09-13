@@ -221,5 +221,12 @@
     {
       "origin": "https://cpe-sws.firebaseapp.com"
     }
+  ],
+  "prefer_related_applications": false,
+  "related_applications": [
+    {
+      "platform": "webapp",
+      "url": "/manifest.webmanifest"
+    }
   ]
 }

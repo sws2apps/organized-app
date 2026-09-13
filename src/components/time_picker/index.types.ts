@@ -27,4 +27,6 @@ export interface CustomTimePickerProps {
    * itself — the field opens the picker on its own. Meant for narrow layouts.
    */
   hideIcon?: boolean;
+  error?: boolean;
+  helperText?: string;
 }

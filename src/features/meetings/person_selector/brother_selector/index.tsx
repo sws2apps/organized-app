@@ -34,7 +34,16 @@ const BrotherSelector = (props: PersonSelectorType) => {
     inputValue,
     handleValueChange,
     isLinkedPart,
+    isMeetingConflict,
   } = useBrotherSelector(props);
+
+  let helperColor = 'var(--orange-dark)';
+
+  if (isLinkedPart) {
+    helperColor = 'var(--grey-350)';
+  } else if (isMeetingConflict) {
+    helperColor = 'var(--red-main)';
+  }
 
   return (
     <Box sx={{ position: 'relative' }}>
@@ -157,14 +166,11 @@ const BrotherSelector = (props: PersonSelectorType) => {
         styleIcon={false}
         startIcon={showIcon ? <IconMale /> : null}
         decorator={helperText.length > 0 && !isLinkedPart}
+        decoratorColor={isMeetingConflict ? 'var(--red-main)' : undefined}
         clearIcon={<IconClose width={20} height={20} />}
         sx={{
-          '& .MuiInputLabel-root': {
-            top: '-5px !important',
-          },
-
           '& .MuiOutlinedInput-root': {
-            height: '48px !important',
+            height: '44px !important',
           },
           '& .MuiOutlinedInput-input': {
             paddingRight: props.endIcon ? '10px !important' : '80px !important',
@@ -182,26 +188,18 @@ const BrotherSelector = (props: PersonSelectorType) => {
           onClick={handleOpenHistory}
         >
           <IconAssignmetHistory
-            color={
-              helperText.length > 0
-                ? 'var(--orange-dark)'
-                : 'var(--accent-main)'
-            }
+            color={helperText.length > 0 ? helperColor : 'var(--accent-main)'}
           />
         </IconButton>
       )}
 
       {props.onEditClick && (
         <IconButton
-          sx={{ padding: 0, position: 'absolute', right: 35, top: 12 }}
+          sx={{ padding: 0, position: 'absolute', right: 35, top: 10 }}
           onClick={props.onEditClick}
         >
           <IconEdit
-            color={
-              helperText.length > 0
-                ? 'var(--orange-dark)'
-                : 'var(--accent-main)'
-            }
+            color={helperText.length > 0 ? helperColor : 'var(--accent-main)'}
           />
         </IconButton>
       )}
@@ -209,7 +207,7 @@ const BrotherSelector = (props: PersonSelectorType) => {
       {helperText.length > 0 && (
         <Typography
           className="label-small-regular"
-          color={isLinkedPart ? 'var(--grey-350)' : 'var(--orange-dark)'}
+          color={helperColor}
           sx={{
             padding: '4px 16px 0 16px',
             maxWidth: desktopUp ? '350px' : '100%',

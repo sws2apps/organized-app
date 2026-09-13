@@ -96,7 +96,7 @@ const bigBadgeHeight = (multiLine?: boolean, filled?: boolean) => {
 };
 
 const sizeClassName: Record<BadgePropsType['size'], CustomClassName> = {
-  small: 'label-small-medium',
+  small: 'label-small-regular',
   medium: 'body-small-semibold',
   big: 'body-regular',
 };

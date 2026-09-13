@@ -35,6 +35,7 @@ const LanguageSwitcher = ({ menuStyle }: { menuStyle: SxProps }) => {
             '&.MuiListItemIcon-root': {
               width: '24px',
               minWidth: '24px !important',
+              justifyContent: 'center',
             },
           }}
         >

@@ -27,6 +27,7 @@ import {
   publicWitnessingArrangementsDbState,
   publicWitnessingLocationsDbState,
 } from '@states/public_witnessing';
+import { appLocalsState } from '@states/app_locals';
 
 const useIndexedDb = () => {
   const dbSettings = useLiveQuery(() => appDb.app_settings.toArray());
@@ -75,6 +76,7 @@ const useIndexedDb = () => {
   const dbPublicWitnessingArrangements = useLiveQuery(() =>
     appDb.public_witnessing_arrangements.toArray()
   );
+  const dbAppLocals = useLiveQuery(() => appDb.app_locals.toArray());
 
   const setSettings = useSetAtom(settingsState);
   const setPersons = useSetAtom(personsState);
@@ -104,6 +106,7 @@ const useIndexedDb = () => {
   const setPublicWitnessingArrangements = useSetAtom(
     publicWitnessingArrangementsDbState
   );
+  const setAppLocals = useSetAtom(appLocalsState);
 
   const loadSettings = useCallback(() => {
     if (dbSettings && dbSettings[0]) {
@@ -237,6 +240,12 @@ const useIndexedDb = () => {
     }
   }, [dbPublicWitnessingArrangements, setPublicWitnessingArrangements]);
 
+  const loadAppLocals = useCallback(() => {
+    if (dbAppLocals) {
+      setAppLocals(dbAppLocals);
+    }
+  }, [dbAppLocals, setAppLocals]);
+
   return {
     loadSettings,
     loadPersons,
@@ -260,6 +269,7 @@ const useIndexedDb = () => {
     loadSongs,
     loadPublicWitnessingLocations,
     loadPublicWitnessingArrangements,
+    loadAppLocals,
   };
 };
 

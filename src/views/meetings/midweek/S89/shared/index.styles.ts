@@ -49,6 +49,7 @@ const styles = StyleSheet.create({
     marginTop: '16px',
     fontSize: '12px',
     fontWeight: 800,
+    textAlign: 'left',
   },
   classes: {
     marginTop: '2px',

@@ -54,6 +54,7 @@
   "tr_initialCallVariations": "Contacto Inicial — designação 1|Contacto Inicial — designação 2",
   "tr_returnVisitVariations": "Revisita — designação 1|Revisita — designação 2",
   "tr_lcNoAssignedVariations": "Realizações da Organização|Atualização do Corpo Governante",
+  "tr_lcNoAssignedContentVariations": "Play the VIDEO",
   "tr_cbsLffWithPointsVariations": "lff lição {{ lesson }} pontos {{ points }}|lff lição {{ lesson }} ponto {{ points }}",
   "tr_cbsLffSectionOnlyVariations": "lff secção",
   "tr_lcSourceElderVariations": "Necessidades locais",

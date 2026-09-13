@@ -28,6 +28,8 @@ const TimePicker = ({
   sx,
   readOnly = false,
   hideIcon = false,
+  error,
+  helperText,
 }: CustomTimePickerProps) => {
   const divRef = useRef<HTMLDivElement>(null);
 
@@ -98,6 +100,8 @@ const TimePicker = ({
               sx: hideIcon
                 ? { '.MuiInputAdornment-root': { display: 'none' } }
                 : undefined,
+              error,
+              helperText,
             },
             toolbar: {
               hidden: false,
