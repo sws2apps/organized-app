@@ -13,6 +13,8 @@ import { localStorageGetItem } from '@utils/common';
 import { userDataViewState } from './settings';
 import { APRecordType } from '@definition/ministry';
 import { fieldServiceGroupsState } from './field_service_groups';
+import { reportsMapState } from './field_service_reports';
+import { branchFieldReportsState } from './branch_field_service_reports';
 
 export const personsState = atom<PersonType[]>([]);
 
@@ -118,6 +120,9 @@ export const personsFilteredState = atom((get) => {
   const searchKey = get(personsSearchKeyState);
   const filtersKey = get(personsFiltersKeyState);
   const personsByView = get(personsByViewState);
+  // read here so the list updates when reports or the S-1 submission change
+  const reportsMap = get(reportsMapState);
+  const branchReports = get(branchFieldReportsState);
 
   const archived = filtersKey.includes('archived');
 
@@ -135,7 +140,9 @@ export const personsFilteredState = atom((get) => {
 
   const finalResult: PersonType[] = applyGroupFilters(
     filteredByAssignments,
-    filtersKey as string[]
+    filtersKey as string[],
+    reportsMap,
+    branchReports
   );
 
   return finalResult;

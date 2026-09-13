@@ -646,9 +646,10 @@ export const applyAssignmentFilters = (
 
 export const applyGroupFilters = (
   persons: PersonType[],
-  filtersKey: string[]
+  filtersKey: string[],
+  reportsMap = store.get(reportsMapState),
+  branchReports = store.get(branchFieldReportsState)
 ) => {
-  const reportsMap = store.get(reportsMapState);
   const groups = filtersKey.filter((item) => typeof item === 'string');
 
   const finalResult: PersonType[] = [];
@@ -710,8 +711,16 @@ export const applyGroupFilters = (
       const isInfirmPioneer = personIsInfirmPioneer(person);
 
       const reportMonths = reportsMap.get(person.person_uid);
-      const isIrregular = personIsIrregularPublisher(person, reportMonths);
-      const isRegular = personIsRegularPublisher(person, reportMonths);
+      const isIrregular = personIsIrregularPublisher(
+        person,
+        reportMonths,
+        branchReports
+      );
+      const isRegular = personIsRegularPublisher(
+        person,
+        reportMonths,
+        branchReports
+      );
 
       // if you want to add another condition here, add it after the male and
       // female check to avoid it to be overwritten
