@@ -57,9 +57,6 @@ const HoursCreditPresets = (props: HoursCreditPresetsProps) => {
               borderBottom: 'none',
             },
           }}
-          MenuListProps={{
-            'aria-labelledby': 'basic-button',
-          }}
           slotProps={{
             paper: {
               style: {
@@ -68,6 +65,10 @@ const HoursCreditPresets = (props: HoursCreditPresetsProps) => {
                 backgroundColor: 'var(--white)',
                 width: props.anchorEl.current.clientWidth,
               },
+            },
+
+            list: {
+              'aria-labelledby': 'basic-button',
             },
           }}
         >

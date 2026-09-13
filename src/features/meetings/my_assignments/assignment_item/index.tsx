@@ -21,7 +21,13 @@ const AssignmentItem = (props: AssignmentItemProps) => {
   } = useAssignmentItem(props);
 
   return (
-    <Stack direction="row" spacing={2} alignItems="center">
+    <Stack
+      direction="row"
+      spacing={2}
+      sx={{
+        alignItems: 'center',
+      }}
+    >
       <Box
         style={{
           textAlign: 'center',
@@ -39,25 +45,39 @@ const AssignmentItem = (props: AssignmentItemProps) => {
       </Box>
 
       <Stack
-        alignItems="center"
-        justifyContent="space-between"
         direction="row"
-        width="calc(100% - 72px)"
         spacing={1}
-        sx={(theme) => ({
-          [theme.breakpoints.up('tablet')]: {
-            ':hover': {
-              button: {
-                backgroundColor: 'var(--accent-200)',
-                opacity: 1,
-                pointerEvents: 'all',
+        sx={[
+          {
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            width: 'calc(100% - 72px)',
+          },
+          (theme) => ({
+            [theme.breakpoints.up('tablet')]: {
+              ':hover': {
+                button: {
+                  backgroundColor: 'var(--accent-200)',
+                  opacity: 1,
+                  pointerEvents: 'all',
+                },
               },
             },
-          },
-        })}
+          }),
+        ]}
       >
-        <Stack justifyContent="center">
-          <Stack direction="row" spacing={1} alignItems="center">
+        <Stack
+          sx={{
+            justifyContent: 'center',
+          }}
+        >
+          <Stack
+            direction="row"
+            spacing={1}
+            sx={{
+              alignItems: 'center',
+            }}
+          >
             <Typography className="h3">{history.assignment.title}</Typography>
 
             {badges.map((badge) => badge)}

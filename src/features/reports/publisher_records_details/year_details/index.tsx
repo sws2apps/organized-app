@@ -15,7 +15,12 @@ const YearDetails = ({ year }: YearDetailsProps) => {
     useYearDetails(year);
 
   return (
-    <Stack spacing="16px" marginBottom="-24px">
+    <Stack
+      spacing="16px"
+      sx={{
+        marginBottom: '-24px',
+      }}
+    >
       {months.length > 0 && (
         <Stack spacing="8px" divider={<Divider color="var(--accent-200)" />}>
           {months.map((record) => (

@@ -104,9 +104,6 @@ const Autocomplete = <T,>(props: AutocompletePropsType<T>) => {
         },
         ...props.sx,
       }}
-      PaperComponent={(paperProps) => (
-        <CustomPaper {...paperProps} optionsHeader={optionsHeader} />
-      )}
       slotProps={{
         listbox: {
           component: CustomListBoxComponent,
@@ -131,7 +128,7 @@ const Autocomplete = <T,>(props: AutocompletePropsType<T>) => {
           {...params}
           variant={variant || 'outlined'}
           label={label}
-          slotProps={{ input: params.InputProps }}
+          slotProps={{ input: params.slotProps.input }}
           startIcon={startIcon}
           endIcon={endIcon}
           height={48}
@@ -162,6 +159,11 @@ const Autocomplete = <T,>(props: AutocompletePropsType<T>) => {
           }
         />
       )}
+      slots={{
+        paper: (paperProps) => (
+          <CustomPaper {...paperProps} optionsHeader={optionsHeader} />
+        ),
+      }}
     />
   );
 };

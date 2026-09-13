@@ -25,7 +25,12 @@ const BasicSettings = (props: BasicSettingsProps) => {
 
       <HourFormat />
 
-      <Stack spacing="24px" marginTop="12px">
+      <Stack
+        spacing="24px"
+        sx={{
+          marginTop: '12px',
+        }}
+      >
         <DateFormat />
 
         <NameFormat />

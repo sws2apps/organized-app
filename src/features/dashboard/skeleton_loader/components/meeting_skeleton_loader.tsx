@@ -26,7 +26,12 @@ const MeetingCardSkeletonLoader = () => {
             <SkeletonLoaderCardCircle variant="circular" />
             <SkeletonLoaderCardText variant="rectangular" width={158} />
           </SkeletonLoaderCardGroup>
-          <Box width={11} height={20} />
+          <Box
+            sx={{
+              width: 11,
+              height: 20,
+            }}
+          />
           <Box
             sx={{
               width: '48px',

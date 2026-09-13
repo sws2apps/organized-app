@@ -64,8 +64,10 @@ const MeetingItem = (props: MeetingItemProps) => {
 
           <Stack
             spacing="18px"
-            marginTop="8px !important"
             divider={<Divider color="var(--accent-200)" />}
+            sx={{
+              marginTop: '8px !important',
+            }}
           >
             {groups.map((group) => (
               <Stack key={group.id} spacing="16px">

@@ -123,9 +123,11 @@ const ExportSpeakers = (props: ExportType) => {
 
         <Stack
           spacing="16px"
-          padding="16px"
-          borderRadius="var(--radius-m)"
-          bgcolor="var(--accent-150)"
+          sx={{
+            padding: '16px',
+            borderRadius: 'var(--radius-m)',
+            bgcolor: 'var(--accent-150)',
+          }}
         >
           <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <IconBackupOrganized color="var(--accent-dark)" />
@@ -250,9 +252,6 @@ const ExportSpeakers = (props: ExportType) => {
         tabIndex={isProcessing ? -1 : 0}
         aria-disabled={isProcessing}
         spacing="16px"
-        padding="16px"
-        borderRadius="var(--radius-m)"
-        bgcolor="var(--accent-150)"
         onClick={() => handleFormatClick('xlsx')}
         onKeyDown={(e) => {
           if (isProcessing) return;
@@ -262,9 +261,13 @@ const ExportSpeakers = (props: ExportType) => {
           }
         }}
         sx={{
+          padding: '16px',
+          borderRadius: 'var(--radius-m)',
+          bgcolor: 'var(--accent-150)',
           cursor: isProcessing ? 'default' : 'pointer',
           opacity: isProcessing ? 0.6 : 1,
           transition: 'background-color 0.2s ease',
+
           '&:hover': {
             bgcolor: isProcessing ? 'var(--accent-150)' : 'var(--accent-200)',
           },
@@ -283,9 +286,6 @@ const ExportSpeakers = (props: ExportType) => {
         tabIndex={isProcessing ? -1 : 0}
         aria-disabled={isProcessing}
         spacing="16px"
-        padding="16px"
-        borderRadius="var(--radius-m)"
-        bgcolor="var(--accent-150)"
         onClick={() => handleFormatClick('csv')}
         onKeyDown={(e) => {
           if (isProcessing) return;
@@ -295,9 +295,13 @@ const ExportSpeakers = (props: ExportType) => {
           }
         }}
         sx={{
+          padding: '16px',
+          borderRadius: 'var(--radius-m)',
+          bgcolor: 'var(--accent-150)',
           cursor: isProcessing ? 'default' : 'pointer',
           opacity: isProcessing ? 0.6 : 1,
           transition: 'background-color 0.2s ease',
+
           '&:hover': {
             bgcolor: isProcessing ? 'var(--accent-150)' : 'var(--accent-200)',
           },

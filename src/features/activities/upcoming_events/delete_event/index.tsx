@@ -18,7 +18,12 @@ const DeleteEvent = ({ open, title, onClose, onConfirm }: DeleteEventProps) => {
         </Typography>
       </Stack>
 
-      <Stack spacing="8px" width="100%">
+      <Stack
+        spacing="8px"
+        sx={{
+          width: '100%',
+        }}
+      >
         <Button variant="main" color="red" onClick={onConfirm}>
           {t('tr_delete')}
         </Button>

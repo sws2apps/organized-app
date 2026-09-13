@@ -19,7 +19,9 @@ const MonthlyReport = (props: MonthlyReportProps) => {
       <Card>
         <Typography className="h2">{monthname}</Typography>
 
-        {!generated && <InfoNote message={t('tr_branchOfficeReportMonthsDesc')} />}
+        {!generated && (
+          <InfoNote message={t('tr_branchOfficeReportMonthsDesc')} />
+        )}
 
         {generated && (
           <Stack spacing="4px" divider={<Divider color="var(--accent-200)" />}>
@@ -42,7 +44,9 @@ const MonthlyReport = (props: MonthlyReportProps) => {
             <Stack
               key={section.section}
               spacing="4px"
-              borderRadius="var(--radius-l)"
+              sx={{
+                borderRadius: 'var(--radius-l)',
+              }}
             >
               <Typography
                 className="h4"

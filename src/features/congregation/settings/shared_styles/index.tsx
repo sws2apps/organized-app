@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { FC, PropsWithChildren } from 'react';
 import { styled } from '@mui/system';
 import { Box, Stack, StackProps, SxProps } from '@mui/material';

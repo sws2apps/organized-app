@@ -31,8 +31,19 @@ const PublicTalk = (props: PublicTalkProps) => {
     >
       <DoubleFieldContainer sx={{ flexDirection: laptopUp ? 'row' : 'column' }}>
         <PrimaryFieldContainer>
-          <Stack spacing="4px" padding="2px 0px">
-            <Stack spacing="8px" direction="row" alignItems="center">
+          <Stack
+            spacing="4px"
+            sx={{
+              padding: '2px 0px',
+            }}
+          >
+            <Stack
+              spacing="8px"
+              direction="row"
+              sx={{
+                alignItems: 'center',
+              }}
+            >
               {props.timings?.public_talk && (
                 <PartTiming time={props.timings.public_talk} />
               )}
@@ -43,7 +54,13 @@ const PublicTalk = (props: PublicTalkProps) => {
             </Stack>
 
             {talkTitle && (
-              <Stack spacing="8px" direction="row" alignItems="center">
+              <Stack
+                spacing="8px"
+                direction="row"
+                sx={{
+                  alignItems: 'center',
+                }}
+              >
                 <Typography
                   className="h4"
                   sx={{ marginLeft: '4px !important' }}

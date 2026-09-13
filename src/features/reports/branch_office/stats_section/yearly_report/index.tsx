@@ -32,7 +32,9 @@ const YearlyReport = (props: YearlyReportProps) => {
             <Stack
               key={section.section}
               spacing="4px"
-              borderRadius="var(--radius-l)"
+              sx={{
+                borderRadius: 'var(--radius-l)',
+              }}
             >
               <Typography
                 className="h4"

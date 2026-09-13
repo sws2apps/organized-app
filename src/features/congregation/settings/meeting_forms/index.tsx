@@ -89,7 +89,12 @@ const MeetingForms = () => {
           <DisplayName />
         </Stack>
 
-        <Stack spacing="16px" marginTop="24px !important">
+        <Stack
+          spacing="16px"
+          sx={{
+            marginTop: '24px !important',
+          }}
+        >
           <NameFormat />
 
           <DateFormat />

@@ -14,7 +14,9 @@ const BibleStudiesStats = ({ year }: BibleStudiesStatsProps) => {
     <Stack
       spacing="8px"
       divider={<Divider dashed color="var(--accent-200)" />}
-      padding="8px 0"
+      sx={{
+        padding: '8px 0',
+      }}
     >
       <LabelRow
         name={t('tr_averageMonthlyBibleStudies')}

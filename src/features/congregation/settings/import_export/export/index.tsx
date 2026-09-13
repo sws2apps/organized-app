@@ -17,9 +17,11 @@ const Export = (props: ExportType) => {
     <Stack spacing="16px">
       <Stack
         spacing="16px"
-        padding="16px"
-        borderRadius="var(--radius-m)"
-        bgcolor="var(--accent-150)"
+        sx={{
+          padding: '16px',
+          borderRadius: 'var(--radius-m)',
+          bgcolor: 'var(--accent-150)',
+        }}
       >
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <IconBackupOrganized color="var(--accent-dark)" />

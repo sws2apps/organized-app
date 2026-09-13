@@ -24,9 +24,11 @@ const ScheduleItem = (props: ScheduleItemProps) => {
         <Stack spacing="8px">
           <Stack
             spacing="8px"
-            flexWrap="wrap"
             direction={tabletUp ? 'row' : 'column'}
-            alignItems={tabletUp && 'center'}
+            sx={{
+              flexWrap: 'wrap',
+              alignItems: tabletUp && 'center',
+            }}
           >
             <Typography className="h4" color="var(--weekend-meeting)">
               {t('tr_publicTalk')}

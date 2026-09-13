@@ -46,10 +46,12 @@ const ConfirmImport = (props: ConfirmImportProps) => {
 
       <Stack
         spacing="16px"
-        padding="16px"
-        borderRadius="var(--radius-m)"
-        bgcolor="var(--accent-150)"
         divider={<Divider color="var(--accent-200)" />}
+        sx={{
+          padding: '16px',
+          borderRadius: 'var(--radius-m)',
+          bgcolor: 'var(--accent-150)',
+        }}
       >
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <IconImportJson color="var(--accent-dark)" />

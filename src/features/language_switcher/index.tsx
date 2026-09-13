@@ -65,9 +65,6 @@ const LanguageSwitcher = ({ menuStyle }: { menuStyle: SxProps }) => {
             borderBottom: 'none',
           },
         }}
-        MenuListProps={{
-          'aria-labelledby': 'basic-button',
-        }}
         slotProps={{
           paper: {
             className: 'small-card-shadow',
@@ -76,6 +73,10 @@ const LanguageSwitcher = ({ menuStyle }: { menuStyle: SxProps }) => {
               border: '1px solid var(--accent-200)',
               backgroundColor: 'var(--white)',
             },
+          },
+
+          list: {
+            'aria-labelledby': 'basic-button',
           },
         }}
       >

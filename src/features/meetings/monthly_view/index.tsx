@@ -166,7 +166,12 @@ const MonthlyView = () => {
                     readOnly={false}
                   />
                 ) : (
-                  <Box flex={1} key={index}></Box>
+                  <Box
+                    key={index}
+                    sx={{
+                      flex: 1,
+                    }}
+                  ></Box>
                 );
               })}
             </StyledMonthlyViewRow>
@@ -293,7 +298,11 @@ const MonthlyView = () => {
           <>
             {classCount == 2 && (
               <StyledMonthlyViewRow>
-                <Box width={'196px'}></Box>
+                <Box
+                  sx={{
+                    width: '196px',
+                  }}
+                ></Box>
                 <Typography
                   className="body-small-semibold"
                   color={'var(--grey-350)'}
@@ -335,7 +344,11 @@ const MonthlyView = () => {
             {classCount === 2 && (
               <>
                 <StyledMonthlyViewRow>
-                  <Box width={'196px'}></Box>
+                  <Box
+                    sx={{
+                      width: '196px',
+                    }}
+                  ></Box>
                   <Typography
                     className="body-small-semibold"
                     color={'var(--grey-350)'}
@@ -344,7 +357,11 @@ const MonthlyView = () => {
                   </Typography>
                 </StyledMonthlyViewRow>
                 <StyledMonthlyViewRow>
-                  <Box width={'196px'}></Box>
+                  <Box
+                    sx={{
+                      width: '196px',
+                    }}
+                  ></Box>
                   {selectedWeeks.map((value, index) => {
                     return showDoublePerson[index] ? (
                       <WeekHoverBox
@@ -363,7 +380,12 @@ const MonthlyView = () => {
                         />
                       </WeekHoverBox>
                     ) : (
-                      <Box flex={1} key={index} />
+                      <Box
+                        key={index}
+                        sx={{
+                          flex: 1,
+                        }}
+                      />
                     );
                   })}
                 </StyledMonthlyViewRow>
@@ -383,7 +405,11 @@ const MonthlyView = () => {
           <>
             {classCount == 2 && (
               <StyledMonthlyViewRow>
-                <Box width={'196px'}></Box>
+                <Box
+                  sx={{
+                    width: '196px',
+                  }}
+                ></Box>
                 <Typography
                   className="body-small-semibold"
                   color={'var(--grey-350)'}
@@ -434,7 +460,11 @@ const MonthlyView = () => {
                           readOnly={false}
                         />
                       ) : (
-                        <Box height={44} />
+                        <Box
+                          sx={{
+                            height: 44,
+                          }}
+                        />
                       )}
                     </StyledMonthlyViewColumn>
                   </WeekHoverBox>
@@ -444,7 +474,11 @@ const MonthlyView = () => {
             {classCount === 2 && (
               <>
                 <StyledMonthlyViewRow>
-                  <Box width={'196px'}></Box>
+                  <Box
+                    sx={{
+                      width: '196px',
+                    }}
+                  ></Box>
                   <Typography
                     className="body-small-semibold"
                     color={'var(--grey-350)'}
@@ -453,7 +487,11 @@ const MonthlyView = () => {
                   </Typography>
                 </StyledMonthlyViewRow>
                 <StyledMonthlyViewRow>
-                  <Box width={'196px'} />
+                  <Box
+                    sx={{
+                      width: '196px',
+                    }}
+                  />
                   {selectedWeeks.map((value, index) => {
                     return (
                       showAYFParts1DoublePerson && (
@@ -481,7 +519,11 @@ const MonthlyView = () => {
                               readOnly={false}
                             />
                           ) : (
-                            <Box height={44} />
+                            <Box
+                              sx={{
+                                height: 44,
+                              }}
+                            />
                           )}
                         </StyledMonthlyViewColumn>
                       )
@@ -496,7 +538,11 @@ const MonthlyView = () => {
           <>
             {classCount == 2 && (
               <StyledMonthlyViewRow>
-                <Box width={'196px'}></Box>
+                <Box
+                  sx={{
+                    width: '196px',
+                  }}
+                ></Box>
                 <Typography
                   className="body-small-semibold"
                   color={'var(--grey-350)'}
@@ -547,19 +593,32 @@ const MonthlyView = () => {
                           readOnly={false}
                         />
                       ) : (
-                        <Box height={44} />
+                        <Box
+                          sx={{
+                            height: 44,
+                          }}
+                        />
                       )}
                     </StyledMonthlyViewColumn>
                   </WeekHoverBox>
                 ) : (
-                  <Box flex={1} key={index} />
+                  <Box
+                    key={index}
+                    sx={{
+                      flex: 1,
+                    }}
+                  />
                 );
               })}
             </StyledMonthlyViewRow>
             {classCount === 2 && (
               <>
                 <StyledMonthlyViewRow>
-                  <Box width={'196px'}></Box>
+                  <Box
+                    sx={{
+                      width: '196px',
+                    }}
+                  ></Box>
                   <Typography
                     className="body-small-semibold"
                     color={'var(--grey-350)'}
@@ -568,7 +627,11 @@ const MonthlyView = () => {
                   </Typography>
                 </StyledMonthlyViewRow>
                 <StyledMonthlyViewRow>
-                  <Box width={'196px'} />
+                  <Box
+                    sx={{
+                      width: '196px',
+                    }}
+                  />
                   {selectedWeeks.map((value, index) => {
                     return ayfCount[index] > 1 && showAYFParts2DoublePerson ? (
                       <StyledMonthlyViewColumn
@@ -595,11 +658,20 @@ const MonthlyView = () => {
                             readOnly={false}
                           />
                         ) : (
-                          <Box height={44} />
+                          <Box
+                            sx={{
+                              height: 44,
+                            }}
+                          />
                         )}
                       </StyledMonthlyViewColumn>
                     ) : (
-                      <Box flex={1} key={index} />
+                      <Box
+                        key={index}
+                        sx={{
+                          flex: 1,
+                        }}
+                      />
                     );
                   })}
                 </StyledMonthlyViewRow>
@@ -611,7 +683,11 @@ const MonthlyView = () => {
           <>
             {classCount == 2 && (
               <StyledMonthlyViewRow>
-                <Box width={'196px'}></Box>
+                <Box
+                  sx={{
+                    width: '196px',
+                  }}
+                ></Box>
                 <Typography
                   className="body-small-semibold"
                   color={'var(--grey-350)'}
@@ -662,19 +738,32 @@ const MonthlyView = () => {
                           readOnly={false}
                         />
                       ) : (
-                        <Box height={44} />
+                        <Box
+                          sx={{
+                            height: 44,
+                          }}
+                        />
                       )}
                     </StyledMonthlyViewColumn>
                   </WeekHoverBox>
                 ) : (
-                  <Box flex={1} key={index} />
+                  <Box
+                    key={index}
+                    sx={{
+                      flex: 1,
+                    }}
+                  />
                 );
               })}
             </StyledMonthlyViewRow>
             {classCount === 2 && (
               <>
                 <StyledMonthlyViewRow>
-                  <Box width={'196px'}></Box>
+                  <Box
+                    sx={{
+                      width: '196px',
+                    }}
+                  ></Box>
                   <Typography
                     className="body-small-semibold"
                     color={'var(--grey-350)'}
@@ -683,7 +772,11 @@ const MonthlyView = () => {
                   </Typography>
                 </StyledMonthlyViewRow>
                 <StyledMonthlyViewRow>
-                  <Box width={'196px'} />
+                  <Box
+                    sx={{
+                      width: '196px',
+                    }}
+                  />
                   {selectedWeeks.map((value, index) => {
                     return ayfCount[index] > 2 && showAYFParts3DoublePerson ? (
                       <StyledMonthlyViewColumn
@@ -710,11 +803,20 @@ const MonthlyView = () => {
                             readOnly={false}
                           />
                         ) : (
-                          <Box height={44} />
+                          <Box
+                            sx={{
+                              height: 44,
+                            }}
+                          />
                         )}
                       </StyledMonthlyViewColumn>
                     ) : (
-                      <Box flex={1} key={index} />
+                      <Box
+                        key={index}
+                        sx={{
+                          flex: 1,
+                        }}
+                      />
                     );
                   })}
                 </StyledMonthlyViewRow>
@@ -727,7 +829,11 @@ const MonthlyView = () => {
             <>
               {classCount == 2 && (
                 <StyledMonthlyViewRow>
-                  <Box width={'196px'}></Box>
+                  <Box
+                    sx={{
+                      width: '196px',
+                    }}
+                  ></Box>
                   <Typography
                     className="body-small-semibold"
                     color={'var(--grey-350)'}
@@ -778,19 +884,32 @@ const MonthlyView = () => {
                             readOnly={false}
                           />
                         ) : (
-                          <Box height={44} />
+                          <Box
+                            sx={{
+                              height: 44,
+                            }}
+                          />
                         )}
                       </StyledMonthlyViewColumn>
                     </WeekHoverBox>
                   ) : (
-                    <Box flex={1} key={index} />
+                    <Box
+                      key={index}
+                      sx={{
+                        flex: 1,
+                      }}
+                    />
                   );
                 })}
               </StyledMonthlyViewRow>
               {classCount === 2 && (
                 <>
                   <StyledMonthlyViewRow>
-                    <Box width={'196px'}></Box>
+                    <Box
+                      sx={{
+                        width: '196px',
+                      }}
+                    ></Box>
                     <Typography
                       className="body-small-semibold"
                       color={'var(--grey-350)'}
@@ -799,7 +918,11 @@ const MonthlyView = () => {
                     </Typography>
                   </StyledMonthlyViewRow>
                   <StyledMonthlyViewRow>
-                    <Box width={'196px'} />
+                    <Box
+                      sx={{
+                        width: '196px',
+                      }}
+                    />
                     {selectedWeeks.map((value, index) => {
                       return ayfCount[index] > 3 &&
                         showAYFParts4DoublePerson ? (
@@ -827,11 +950,20 @@ const MonthlyView = () => {
                               readOnly={false}
                             />
                           ) : (
-                            <Box height={44} />
+                            <Box
+                              sx={{
+                                height: 44,
+                              }}
+                            />
                           )}
                         </StyledMonthlyViewColumn>
                       ) : (
-                        <Box flex={1} key={index} />
+                        <Box
+                          key={index}
+                          sx={{
+                            flex: 1,
+                          }}
+                        />
                       );
                     })}
                   </StyledMonthlyViewRow>

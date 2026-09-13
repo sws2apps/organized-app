@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { styled } from '@mui/system';
 import { Box } from '@mui/material';
 

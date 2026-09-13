@@ -15,7 +15,13 @@ const HistoryRow = (props: HistoryRowType) => {
         </Typography>
       </TableCell>
       <TableCell sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-        <Stack direction="row" spacing={1} alignItems="center">
+        <Stack
+          direction="row"
+          spacing={1}
+          sx={{
+            alignItems: 'center',
+          }}
+        >
           <Typography className={textClassname}>
             {history.history_assignment}
           </Typography>

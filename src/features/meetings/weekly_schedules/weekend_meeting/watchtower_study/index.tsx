@@ -58,8 +58,19 @@ const WatchtowerStudy = (props: WatchtowerStudyProps) => {
           sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
         >
           <PrimaryFieldContainer>
-            <Stack spacing="4px" padding="2px 0px">
-              <Stack spacing="8px" direction="row" alignItems="center">
+            <Stack
+              spacing="4px"
+              sx={{
+                padding: '2px 0px',
+              }}
+            >
+              <Stack
+                spacing="8px"
+                direction="row"
+                sx={{
+                  alignItems: 'center',
+                }}
+              >
                 {props.timings?.w_study && (
                   <PartTiming time={props.timings.w_study} />
                 )}

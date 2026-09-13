@@ -30,7 +30,12 @@ const InstallDialog = ({ open, onClose, guide }: InstallDialogProps) => {
     <Dialog open={open} onClose={onClose}>
       <Typography className="h2">{t('tr_installApp')}</Typography>
 
-      <Stack spacing="4px" width="100%">
+      <Stack
+        spacing="4px"
+        sx={{
+          width: '100%',
+        }}
+      >
         <TextMarkup
           content={t(GUIDE_TEXT[guide])}
           className="body-regular"

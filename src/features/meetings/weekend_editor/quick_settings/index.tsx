@@ -24,8 +24,10 @@ const QuickSettingsWeekendMeeting = ({
     <QuickSettings title={t('tr_weekendMeeting')} open={open} onClose={onClose}>
       <Stack
         spacing="16px"
-        width="100%"
         divider={<Divider color="var(--accent-200)" />}
+        sx={{
+          width: '100%',
+        }}
       >
         <Stack spacing="16px">
           <DayTime />

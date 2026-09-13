@@ -18,7 +18,12 @@ const LanguageGroupSelector = () => {
   if (!display) return <></>;
 
   return (
-    <Box width={tablet688Up ? 'unset' : '100%'} sx={{ minWidth: '100px' }}>
+    <Box
+      sx={{
+        width: tablet688Up ? 'unset' : '100%',
+        minWidth: '100px',
+      }}
+    >
       <Select
         value={value}
         open={open}
