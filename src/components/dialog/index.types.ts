@@ -1,4 +1,4 @@
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, ReactNode } from 'react';
 import { DialogProps as MUIDialogProps, SxProps, Theme } from '@mui/material';
 
 export type DialogProps = PropsWithChildren & {
@@ -7,4 +7,16 @@ export type DialogProps = PropsWithChildren & {
   sx?: SxProps<Theme>;
   size?: 'default' | 'large';
   PaperProps?: MUIDialogProps['PaperProps'];
+
+  title?: string;
+
+  description?: ReactNode;
+
+  closable?: boolean;
+
+  // takes the place of `title` and `description`
+  header?: ReactNode;
+
+  // pinned below the content, for buttons that sit inside a component
+  actions?: ReactNode;
 };

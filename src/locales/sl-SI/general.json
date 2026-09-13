@@ -131,12 +131,12 @@
   "tr_appliesOnlyToBrothers": "Nanaša se samo na brate",
   "tr_circuit": "Okraj: {{ circuitNumber }}",
   "tr_ageInYearsAndMonths": "let: {{ years }}; mesecev: {{months}}",
-  "tr_personHasNoAssignmentHistory": "Ta oseba še nima zgodovine nalog",
+  "tr_personHasNoAssignmentHistory": "No assignment history yet",
   "tr_appUserProfile": "Račun uporabnika aplikacije",
   "tr_appUserProfileNotRegisteredDesc": "Ta oseba še ne uporablja aplikacije. Zanjo lahko ustvarite račun na strani 'Uporabniški računi'.",
   "tr_appUserProfileRegisteredDesc": "Ta oseba že uporablja aplikacijo Organized. Nazadnje je bila na spletu: <span class='h4'>{{ lastTimeOnline }}</span>. Uredi druge pravice in nastavitve na strani 'Uporabniški računi'.",
   "tr_notYet": "Še ne",
-  "tr_manageUserProfileSettings": "Upravljaj nastavitve uporabniškega računa",
+  "tr_manageUserProfileSettings": "Manage user account",
   "tr_createUserProfile": "Ustvari uporabniški račun",
   "tr_download": "Prenesi",
   "tr_import": "Uvozi",
@@ -178,5 +178,7 @@
   "tr_fontSize": "Velikost pisave",
   "tr_small": "Majhna",
   "tr_normal": "Navadna",
-  "tr_large": "Velika"
+  "tr_large": "Velika",
+  "tr_chooseFields": "Choose export fields",
+  "tr_chooseFieldsDesc": "Please select the fields you want to include in the export file."
 }
