@@ -194,37 +194,24 @@ export const schedulesDutyRequiredCodes = (
   return type === undefined ? [] : [type];
 };
 
-/**
- * Hospitality and custom duties are open to sisters; the other duties only
- * when the congregation allows sisters on every duty.
- */
-export const schedulesDutyOpenToSisters = (
-  code: AssignmentCode,
-  sistersAllDuties: boolean
-) =>
-  sistersAllDuties ||
-  code === AssignmentCode.DUTIES_Hospitality ||
-  code === AssignmentCode.DUTIES_Custom;
-
 export const schedulesIsDutyCode = (code?: AssignmentCode) =>
   code !== undefined &&
   code >= AssignmentCode.DUTIES_Audio &&
   code <= AssignmentCode.DUTIES_VideoconferenceHost;
 
 /**
- * Whether a person may take a duty at all. A qualification kept from before
- * the congregation closed a duty to sisters does not count.
+ * Whether a person may take a duty at all. Duties are for brothers, unless the
+ * congregation includes sisters because there aren't enough brothers. A
+ * qualification kept from before sisters were excluded again does not count.
  */
 export const schedulesDutyAllowedForPerson = (
   person: PersonType,
   type: AssignmentCode | undefined,
-  sistersAllDuties = schedulesDutiesConfig()?.sisters_all_duties?.value ?? false
+  sistersDuties = schedulesDutiesConfig()?.sisters_duties?.value ?? false
 ) => {
   if (!schedulesIsDutyCode(type) || person.person_data.male.value) return true;
 
-  return schedulesDutyRequiredCodes(type).every((code) =>
-    schedulesDutyOpenToSisters(code, sistersAllDuties)
-  );
+  return sistersDuties;
 };
 
 export const schedulesDutyPersonQualified = (
@@ -2289,6 +2276,8 @@ export const schedulesSelectRandomPerson = (data: {
   mainStudent?: string;
   excludedPersons?: string[];
   history: AssignmentHistoryType[];
+  // duties pick brothers and sisters in separate rounds
+  gender?: 'brothers' | 'sisters';
 }) => {
   let selected: PersonType;
 
@@ -2312,6 +2301,14 @@ export const schedulesSelectRandomPerson = (data: {
   personsElligible = personsElligible.filter((record) =>
     schedulesDutyAllowedForPerson(record, data.type)
   );
+
+  if (data.gender) {
+    const brothers = data.gender === 'brothers';
+
+    personsElligible = personsElligible.filter(
+      (record) => record.person_data.male.value === brothers
+    );
+  }
 
   const { date: meetingDate } = schedulesGetMeetingDate({
     week: data.week,

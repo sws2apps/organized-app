@@ -2017,21 +2017,28 @@ const handleAutofillDutiesMeeting = ({
       ? handleDutiesWeekAssignedPersons(history, schedule.weekOf, dataView)
       : [];
 
-    const selectPerson = (excluded: string[]) =>
+    const selectPerson = (excluded: string[], gender: 'brothers' | 'sisters') =>
       schedulesSelectRandomPerson({
         type: field.type,
         week: schedule.weekOf,
         meeting,
         history,
         excludedPersons: excluded,
+        gender,
       });
 
     // when everyone qualified already serves this week, a duty without anyone
     // assigned helps no one: keep the week conflict a preference and fill it
     // anyway, without ever putting a brother in two places at once
-    const selected =
-      selectPerson([...servingNow, ...excludedPersons]) ??
-      (excludedPersons.length > 0 ? selectPerson(servingNow) : undefined);
+    const selectBy = (gender: 'brothers' | 'sisters') =>
+      selectPerson([...servingNow, ...excludedPersons], gender) ??
+      (excludedPersons.length > 0
+        ? selectPerson(servingNow, gender)
+        : undefined);
+
+    // sisters are included only for the need: any brother who can take the
+    // duty comes first, even one who already serves this week
+    const selected = selectBy('brothers') ?? selectBy('sisters');
 
     if (!selected) continue;
 

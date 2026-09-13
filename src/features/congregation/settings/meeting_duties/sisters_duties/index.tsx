@@ -1,18 +1,18 @@
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
-import useDutiesSistersAll from './useSistersAllDuties';
+import useDutiesSisters from './useSistersDuties';
 import SwitchWithLabel from '@components/switch_with_label';
 
-const DutiesSistersAll = () => {
+const DutiesSisters = () => {
   const { t } = useAppTranslation();
 
   const { isDutiesEditor } = useCurrentUser();
 
-  const { value, handleValueChange } = useDutiesSistersAll();
+  const { value, handleValueChange } = useDutiesSisters();
 
   return (
     <SwitchWithLabel
-      label={t('tr_dutiesSistersAll')}
-      helper={t('tr_dutiesSistersAllDesc')}
+      label={t('tr_dutiesAssignSisters')}
+      helper={t('tr_dutiesAssignSistersDesc')}
       checked={value}
       onChange={handleValueChange}
       readOnly={!isDutiesEditor}
@@ -20,4 +20,4 @@ const DutiesSistersAll = () => {
   );
 };
 
-export default DutiesSistersAll;
+export default DutiesSisters;

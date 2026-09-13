@@ -696,10 +696,10 @@ export const meetingDutiesState = atom((get) => {
   );
 });
 
-export const dutiesSistersAllState = atom((get) => {
+export const dutiesSistersState = atom((get) => {
   const duties = get(meetingDutiesState);
 
-  return duties?.sisters_all_duties?.value ?? false;
+  return duties?.sisters_duties?.value ?? false;
 });
 
 export const dutiesConflictPreventState = atom((get) => {

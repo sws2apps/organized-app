@@ -20,7 +20,7 @@ import {
   midweekMeetingAuxCounselorDefaultState,
   midweekMeetingClosingPrayerLinkedState,
   midweekMeetingOpeningPrayerLinkedState,
-  dutiesSistersAllState,
+  dutiesSistersState,
   shortDateFormatState,
   userDataViewState,
   weekendMeetingShowMonthlyWarningState,
@@ -122,7 +122,7 @@ const useBrotherSelector = ({
     return type ?? 'localSpeaker';
   }, [schedule, dataView]);
 
-  const sistersAllDuties = useAtomValue(dutiesSistersAllState);
+  const sistersDuties = useAtomValue(dutiesSistersState);
 
   const personsList = useMemo(() => {
     if (
@@ -232,7 +232,7 @@ const useBrotherSelector = ({
       ) {
         return (
           schedulesDutyPersonQualified(type, activeAssignments) &&
-          schedulesDutyAllowedForPerson(record, type, sistersAllDuties)
+          schedulesDutyAllowedForPerson(record, type, sistersDuties)
         );
       }
 
@@ -371,7 +371,7 @@ const useBrotherSelector = ({
     sourceLocale,
     talkType,
     weekConflicts,
-    sistersAllDuties,
+    sistersDuties,
   ]);
 
   const value = useMemo(() => {

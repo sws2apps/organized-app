@@ -6,7 +6,7 @@ import { personCurrentDetailsState } from '@states/persons';
 import { setPersonCurrentDetails } from '@services/states/persons';
 import { AssignmentCode } from '@definition/assignment';
 import {
-  dutiesSistersAllState,
+  dutiesSistersState,
   midweekMeetingAuxClassQualificationsState,
   midweekMeetingClassCountState,
   userDataViewState,
@@ -14,14 +14,13 @@ import {
 import { languageGroupsState } from '@states/field_service_groups';
 import { CLASSROOM_QUALIFICATIONS_ASSIGNMENT } from '@constants/index';
 import { clearClassroomQualification } from '@utils/assignments';
-import { schedulesDutyOpenToSisters } from '@services/app/schedules';
 
 const useAssignments = () => {
   const { t } = useAppTranslation();
 
   const person = useAtomValue(personCurrentDetailsState);
   const dataView = useAtomValue(userDataViewState);
-  const sistersAllDuties = useAtomValue(dutiesSistersAllState);
+  const sistersDuties = useAtomValue(dutiesSistersState);
   const languageGroups = useAtomValue(languageGroupsState);
   const classCount = useAtomValue(midweekMeetingClassCountState);
   const auxClassQualifications = useAtomValue(
@@ -304,9 +303,8 @@ const useAssignments = () => {
           if (
             item.code === AssignmentCode.MM_Discussion ||
             item.code === AssignmentCode.MM_Talk ||
-            // the same gate as the single duty checkboxes
-            (id === 'duties' &&
-              !schedulesDutyOpenToSisters(item.code, sistersAllDuties))
+            // duties include sisters only when the congregation needs them
+            (id === 'duties' && !sistersDuties)
           ) {
             continue;
           }

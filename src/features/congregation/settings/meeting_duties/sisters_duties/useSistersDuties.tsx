@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import {
-  dutiesSistersAllState,
+  dutiesSistersState,
   settingsState,
   userDataViewState,
 } from '@states/settings';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 
-const useDutiesSistersAll = () => {
+const useDutiesSisters = () => {
   const settings = useAtomValue(settingsState);
   const dataView = useAtomValue(userDataViewState);
-  const valueInitial = useAtomValue(dutiesSistersAllState);
+  const valueInitial = useAtomValue(dutiesSistersState);
 
   const [value, setValue] = useState(false);
 
@@ -23,9 +23,9 @@ const useDutiesSistersAll = () => {
 
     if (!dutiesByView) return;
 
-    // qualifications already given stay stored, so opening the duties again
-    // brings them back; while closed, they are not offered or autofilled
-    dutiesByView.sisters_all_duties = {
+    // qualifications already given stay stored, so including sisters again
+    // brings them back; while excluded, they are not offered or autofilled
+    dutiesByView.sisters_duties = {
       value: !value,
       updatedAt: new Date().toISOString(),
     };
@@ -40,4 +40,4 @@ const useDutiesSistersAll = () => {
   return { value, handleValueChange };
 };
 
-export default useDutiesSistersAll;
+export default useDutiesSisters;

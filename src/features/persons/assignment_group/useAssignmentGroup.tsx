@@ -7,18 +7,15 @@ import {
   personIsPublisher,
 } from '@services/app/persons';
 import { personCurrentDetailsState } from '@states/persons';
-import { dutiesSistersAllState, userDataViewState } from '@states/settings';
-import {
-  schedulesDutyOpenToSisters,
-  schedulesIsDutyCode,
-} from '@services/app/schedules';
+import { dutiesSistersState, userDataViewState } from '@states/settings';
+import { schedulesIsDutyCode } from '@services/app/schedules';
 
 const useAssignmentGroup = (male: boolean) => {
   const { t } = useAppTranslation();
 
   const person = useAtomValue(personCurrentDetailsState);
   const dataView = useAtomValue(userDataViewState);
-  const sistersAllDuties = useAtomValue(dutiesSistersAllState);
+  const sistersDuties = useAtomValue(dutiesSistersState);
 
   const checkGroupDisabled = (id: string) => {
     let isDisabled = true;
@@ -38,10 +35,10 @@ const useAssignmentGroup = (male: boolean) => {
     if (male) isDisabled = false;
 
     if (!male) {
-      // duties: some or all of them are open to sisters, see the duty checks
-      if (id === 'applyFieldMinistryPart' || id === 'duties') {
-        isDisabled = false;
-      }
+      if (id === 'applyFieldMinistryPart') isDisabled = false;
+
+      // duties include sisters only when the congregation needs them
+      if (id === 'duties' && sistersDuties) isDisabled = false;
     }
 
     return isDisabled;
@@ -97,10 +94,7 @@ const useAssignmentGroup = (male: boolean) => {
       if (code === AssignmentCode.MM_ExplainingBeliefs) isDisabled = false;
       if (code === AssignmentCode.MM_AssistantOnly) isDisabled = false;
 
-      if (
-        schedulesIsDutyCode(code) &&
-        schedulesDutyOpenToSisters(code, sistersAllDuties)
-      ) {
+      if (schedulesIsDutyCode(code) && sistersDuties) {
         isDisabled = false;
       }
     }
@@ -120,7 +114,7 @@ const useAssignmentGroup = (male: boolean) => {
       !male &&
       id !== 'applyFieldMinistryPart' &&
       id !== 'ministry' &&
-      id !== 'duties'
+      (id !== 'duties' || !sistersDuties)
     );
   };
 
