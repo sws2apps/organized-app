@@ -321,33 +321,6 @@ const useSpiritualStatus = () => {
     });
   }, [person]);
 
-  const handleToggleBethelite = async (checked: boolean) => {
-    const newPerson: PersonType = structuredClone(person);
-    newPerson.person_data.bethelite = {
-      value: checked,
-      updatedAt: new Date().toISOString(),
-    };
-    setPersonCurrentDetails(newPerson);
-  };
-
-  const handleToggleBethelCommuter = async (checked: boolean) => {
-    const newPerson: PersonType = structuredClone(person);
-    newPerson.person_data.bethel_commuter = {
-      value: checked,
-      updatedAt: new Date().toISOString(),
-    };
-    setPersonCurrentDetails(newPerson);
-  };
-
-  const handleToggleLDCVolunteer = async (checked: boolean) => {
-    const newPerson: PersonType = structuredClone(person);
-    newPerson.person_data.ldc_volunteer = {
-      value: checked,
-      updatedAt: new Date().toISOString(),
-    };
-    setPersonCurrentDetails(newPerson);
-  };
-
   return {
     person,
     handleToggleMidweekMeetingStudent,
@@ -356,9 +329,6 @@ const useSpiritualStatus = () => {
     expandedStatus,
     handleToggleExpand,
     handleToggleArchive,
-    handleToggleBethelite,
-    handleToggleBethelCommuter,
-    handleToggleLDCVolunteer,
   };
 };
 

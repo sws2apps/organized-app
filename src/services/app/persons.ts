@@ -18,6 +18,7 @@ import {
   addDays,
   addMonths,
   createArrayFromMonths,
+  currentReportMonth,
   dateFirstDayMonth,
   dateLastDatePreviousMonth,
   formatDate,
@@ -29,6 +30,8 @@ import { fieldWithLanguageGroupsState } from '@states/field_service_groups';
 import { APP_READ_ONLY_ROLES } from '@constants/index';
 import { getTranslation } from '@services/i18n/translation';
 import { reportsMapState } from '@states/field_service_reports';
+import { branchFieldReportsState } from '@states/branch_field_service_reports';
+import { BranchFieldServiceReportType } from '@definition/branch_field_service_reports';
 
 const personUnarchiveMidweekMeeting = (person: PersonType) => {
   if (person.person_data.midweek_meeting_student.active.value) {
@@ -341,25 +344,38 @@ export const enrollmentMatches = (
 ) => (ENROLLMENT_FAMILY[target] ?? [target]).includes(record);
 
 /**
- * The six full months before the current one, which is the window both
- * regularity checks are judged on.
+ * The six-month window both regularity checks are judged on: the six most
+ * recent months whose reporting is already closed.
  *
- * The months are counted from the first day of the current month, because
- * moving a month back from the 29th, 30th or 31st lands in the wrong month.
+ * Publishers have until the 20th to hand in the previous month's report, so
+ * until then that month is still open and does not count yet. It closes early
+ * once the S-1 for it has been submitted to the branch office, because no more
+ * reports are expected after that.
  */
-const regularityWindow = () => {
-  const now = new Date();
-  const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+const regularityWindow = (branchReports: BranchFieldServiceReportType[]) => {
+  const openMonth = currentReportMonth();
+
+  const openMonthSubmitted = branchReports.some(
+    (record) => record.report_date === openMonth && record.report_data.submitted
+  );
+
+  const [year, month] = openMonth.split('/').map(Number);
+  const openMonthStart = new Date(year, month - 1, 1);
+
+  const lastClosed = openMonthSubmitted
+    ? openMonthStart
+    : addMonths(openMonthStart, -1);
 
   return {
-    start: formatDate(addMonths(monthStart, -6), 'yyyy/MM'),
-    end: formatDate(addMonths(monthStart, -1), 'yyyy/MM'),
+    start: formatDate(addMonths(lastClosed, -5), 'yyyy/MM'),
+    end: formatDate(lastClosed, 'yyyy/MM'),
   };
 };
 
 export const personIsIrregularPublisher = (
   person: PersonType,
-  reportMonths?: Set<string>
+  reportMonths?: Set<string>,
+  branchReports = store.get(branchFieldReportsState)
 ) => {
   if (!personIsActive(person) || (person.person_data.archived.value ?? false)) {
     return false;
@@ -368,7 +384,7 @@ export const personIsIrregularPublisher = (
   const firstReportValue = person.person_data.first_report?.value;
   if (!firstReportValue) return false;
 
-  const { start, end } = regularityWindow();
+  const { start, end } = regularityWindow(branchReports);
 
   const firstMonth = formatDate(new Date(firstReportValue), 'yyyy/MM');
 
@@ -397,7 +413,8 @@ export const personIsIrregularPublisher = (
  */
 export const personIsRegularPublisher = (
   person: PersonType,
-  reportMonths?: Set<string>
+  reportMonths?: Set<string>,
+  branchReports = store.get(branchFieldReportsState)
 ) => {
   if (!personIsActive(person) || (person.person_data.archived.value ?? false)) {
     return false;
@@ -408,7 +425,7 @@ export const personIsRegularPublisher = (
 
   if (!reportMonths || reportMonths.size === 0) return false;
 
-  const { start, end } = regularityWindow();
+  const { start, end } = regularityWindow(branchReports);
 
   const firstMonth = formatDate(new Date(firstReportValue), 'yyyy/MM');
 

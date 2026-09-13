@@ -22,6 +22,7 @@ import { personsFilterOpenState, personsRecentState } from '@states/persons';
 import { fullnameOptionState } from '@states/settings';
 import { getMessageByCode } from '@services/i18n/translation';
 import { reportsMapState } from '@states/field_service_reports';
+import { branchFieldReportsState } from '@states/branch_field_service_reports';
 
 const usePersonCard = (person: PersonType) => {
   const navigate = useNavigate();
@@ -33,6 +34,7 @@ const usePersonCard = (person: PersonType) => {
   const fullnameOption = useAtomValue(fullnameOptionState);
   const filterOpen = useAtomValue(personsFilterOpenState);
   const reportsMap = useAtomValue(reportsMapState);
+  const branchReports = useAtomValue(branchFieldReportsState);
 
   const [isDeleting, setIsDeleting] = useState(false);
 
@@ -54,7 +56,8 @@ const usePersonCard = (person: PersonType) => {
     const isFamilyHead = person.person_data?.family_members?.head ?? false;
     const isIrregularPublisher = personIsIrregularPublisher(
       person,
-      reportMonths
+      reportMonths,
+      branchReports
     );
     const isBethelite = person.person_data.bethelite?.value ?? false;
     const isBethelCommuter = person.person_data.bethel_commuter?.value ?? false;
@@ -144,7 +147,7 @@ const usePersonCard = (person: PersonType) => {
     }
 
     return badges.sort((a, b) => a.name.localeCompare(b.name));
-  }, [person, reportsMap, t]);
+  }, [person, reportsMap, branchReports, t]);
 
   const handleDelete = () => setIsDeleting(true);
 
