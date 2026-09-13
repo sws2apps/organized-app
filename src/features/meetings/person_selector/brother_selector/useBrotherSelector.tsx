@@ -20,6 +20,7 @@ import {
   midweekMeetingAuxCounselorDefaultState,
   midweekMeetingClosingPrayerLinkedState,
   midweekMeetingOpeningPrayerLinkedState,
+  dutiesSistersAllState,
   shortDateFormatState,
   userDataViewState,
   weekendMeetingShowMonthlyWarningState,
@@ -32,6 +33,7 @@ import {
 } from '@states/schedules';
 import { personGetDisplayName, speakerGetDisplayName } from '@utils/common';
 import {
+  schedulesDutyAllowedForPerson,
   schedulesDutyPersonQualified,
   schedulesGetData,
   schedulesGetMeetingDate,
@@ -119,6 +121,8 @@ const useBrotherSelector = ({
 
     return type ?? 'localSpeaker';
   }, [schedule, dataView]);
+
+  const sistersAllDuties = useAtomValue(dutiesSistersAllState);
 
   const personsList = useMemo(() => {
     if (
@@ -226,7 +230,10 @@ const useBrotherSelector = ({
         type !== AssignmentCode.MM_LCPart &&
         type !== AssignmentCode.WM_SpeakerSymposium
       ) {
-        return schedulesDutyPersonQualified(type, activeAssignments);
+        return (
+          schedulesDutyPersonQualified(type, activeAssignments) &&
+          schedulesDutyAllowedForPerson(record, type, sistersAllDuties)
+        );
       }
 
       if (type === AssignmentCode.WM_SpeakerSymposium) {
@@ -364,6 +371,7 @@ const useBrotherSelector = ({
     sourceLocale,
     talkType,
     weekConflicts,
+    sistersAllDuties,
   ]);
 
   const value = useMemo(() => {

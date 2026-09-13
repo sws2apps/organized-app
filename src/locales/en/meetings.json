@@ -203,6 +203,8 @@
   "tr_hospitality": "Hospitality",
   "tr_dutiesPreventConflict": "Prevent duty assignment conflicts",
   "tr_dutiesPreventConflictDesc": "Avoid assigning a brother who already has an assignment in the meeting schedule on the same date",
+  "tr_dutiesSistersAll": "Sisters can take any duty",
+  "tr_dutiesSistersAllDesc": "When off, sisters can only be qualified for hospitality and custom duties",
   "tr_dutiesConfiguration": "Duties configuration",
   "tr_dutiesAudioVideoCombined": "Combine audio and video duties",
   "tr_dutiesAudioVideoCombinedDesc": "Schedule audio and video as one duty. The assigned person must be qualified for both.",

@@ -6,6 +6,7 @@ import { personCurrentDetailsState } from '@states/persons';
 import { setPersonCurrentDetails } from '@services/states/persons';
 import { AssignmentCode } from '@definition/assignment';
 import {
+  dutiesSistersAllState,
   midweekMeetingAuxClassQualificationsState,
   midweekMeetingClassCountState,
   userDataViewState,
@@ -13,12 +14,14 @@ import {
 import { languageGroupsState } from '@states/field_service_groups';
 import { CLASSROOM_QUALIFICATIONS_ASSIGNMENT } from '@constants/index';
 import { clearClassroomQualification } from '@utils/assignments';
+import { schedulesDutyOpenToSisters } from '@services/app/schedules';
 
 const useAssignments = () => {
   const { t } = useAppTranslation();
 
   const person = useAtomValue(personCurrentDetailsState);
   const dataView = useAtomValue(userDataViewState);
+  const sistersAllDuties = useAtomValue(dutiesSistersAllState);
   const languageGroups = useAtomValue(languageGroupsState);
   const classCount = useAtomValue(midweekMeetingClassCountState);
   const auxClassQualifications = useAtomValue(
@@ -50,10 +53,7 @@ const useAssignments = () => {
     ];
   }, [t]);
 
-  const handleClassroomsChange = (
-    code: AssignmentCode,
-    selected: string[]
-  ) => {
+  const handleClassroomsChange = (code: AssignmentCode, selected: string[]) => {
     const newPerson = structuredClone(person);
 
     let personAssignments = newPerson.person_data.assignments.find(
@@ -304,11 +304,9 @@ const useAssignments = () => {
           if (
             item.code === AssignmentCode.MM_Discussion ||
             item.code === AssignmentCode.MM_Talk ||
-            // sisters only qualify for hospitality and custom duties, the same
-            // gate as the single checkboxes, whatever the enum order
+            // the same gate as the single duty checkboxes
             (id === 'duties' &&
-              item.code !== AssignmentCode.DUTIES_Hospitality &&
-              item.code !== AssignmentCode.DUTIES_Custom)
+              !schedulesDutyOpenToSisters(item.code, sistersAllDuties))
           ) {
             continue;
           }

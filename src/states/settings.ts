@@ -696,6 +696,12 @@ export const meetingDutiesState = atom((get) => {
   );
 });
 
+export const dutiesSistersAllState = atom((get) => {
+  const duties = get(meetingDutiesState);
+
+  return duties?.sisters_all_duties?.value ?? false;
+});
+
 export const dutiesConflictPreventState = atom((get) => {
   const settings = get(settingsState);
   const dataView = get(userDataViewState);

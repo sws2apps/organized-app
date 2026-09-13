@@ -352,6 +352,7 @@ const meetingDutiesDefault = (type: string) => {
     type,
     _deleted: { value: false, updatedAt },
     conflict_prevent: { value: false, updatedAt },
+    sisters_all_duties: { value: false, updatedAt },
     mic_sections: { value: false, updatedAt },
     av_combined: { value: false, updatedAt },
     sections: [],

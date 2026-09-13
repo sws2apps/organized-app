@@ -6,6 +6,7 @@ import CustomDuties from './custom_duties';
 import Divider from '@components/divider';
 import DutiesPreventConflict from './prevent_conflict';
 import MicrophoneSections from './microphone_sections';
+import DutiesSistersAll from './sisters_all_duties';
 import StandardDuties from './standard_duties';
 import Typography from '@components/typography';
 
@@ -27,6 +28,8 @@ const MeetingDutiesSettings = () => {
           </Typography>
 
           <DutiesPreventConflict />
+
+          <DutiesSistersAll />
         </Stack>
 
         <Stack spacing="16px">

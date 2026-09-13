@@ -294,6 +294,7 @@ export type SettingsType = {
       type: string;
       _deleted: { value: boolean; updatedAt: string };
       conflict_prevent: { value: boolean; updatedAt: string };
+      sisters_all_duties?: { value: boolean; updatedAt: string };
       mic_sections: { value: boolean; updatedAt: string };
       av_combined: { value: boolean; updatedAt: string };
       audio_amount: { value: number; updatedAt: string };

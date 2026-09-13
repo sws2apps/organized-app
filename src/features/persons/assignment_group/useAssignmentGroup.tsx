@@ -7,13 +7,18 @@ import {
   personIsPublisher,
 } from '@services/app/persons';
 import { personCurrentDetailsState } from '@states/persons';
-import { userDataViewState } from '@states/settings';
+import { dutiesSistersAllState, userDataViewState } from '@states/settings';
+import {
+  schedulesDutyOpenToSisters,
+  schedulesIsDutyCode,
+} from '@services/app/schedules';
 
 const useAssignmentGroup = (male: boolean) => {
   const { t } = useAppTranslation();
 
   const person = useAtomValue(personCurrentDetailsState);
   const dataView = useAtomValue(userDataViewState);
+  const sistersAllDuties = useAtomValue(dutiesSistersAllState);
 
   const checkGroupDisabled = (id: string) => {
     let isDisabled = true;
@@ -33,7 +38,7 @@ const useAssignmentGroup = (male: boolean) => {
     if (male) isDisabled = false;
 
     if (!male) {
-      // duties: hospitality and custom duties are open to sisters
+      // duties: some or all of them are open to sisters, see the duty checks
       if (id === 'applyFieldMinistryPart' || id === 'duties') {
         isDisabled = false;
       }
@@ -91,8 +96,13 @@ const useAssignmentGroup = (male: boolean) => {
       if (code === AssignmentCode.MM_MakingDisciples) isDisabled = false;
       if (code === AssignmentCode.MM_ExplainingBeliefs) isDisabled = false;
       if (code === AssignmentCode.MM_AssistantOnly) isDisabled = false;
-      if (code === AssignmentCode.DUTIES_Hospitality) isDisabled = false;
-      if (code === AssignmentCode.DUTIES_Custom) isDisabled = false;
+
+      if (
+        schedulesIsDutyCode(code) &&
+        schedulesDutyOpenToSisters(code, sistersAllDuties)
+      ) {
+        isDisabled = false;
+      }
     }
     return isDisabled;
   };
