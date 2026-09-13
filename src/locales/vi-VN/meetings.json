@@ -53,6 +53,7 @@
   "tr_weekendScheduleSaved": "Lịch trình cuối tuần đã được lưu",
   "tr_weekendScheduleSavedDesc": "Sau khi tạo các lịch trình mong muốn, hãy nhớ xuất bản chúng cho hội thánh.",
   "tr_personAlreadyAssignmentWeek": "Người này đã có nhiệm vụ trong tuần này",
+  "tr_personAlreadyAssignmentMeeting": "This person already has an assignment in this meeting",
   "tr_hostCongregation": "Hội thánh chủ nhà",
   "tr_kingdomHallAddress": "Địa chỉ Phòng Nước Trời",
   "tr_clearAllAssignments": "Xóa tất cả các nhiệm vụ",
