@@ -9,8 +9,9 @@ import { decryptData } from '@services/encryption';
 import appDb from '@db/appDb';
 import { AssignmentCode } from '@definition/assignment';
 import { generateDisplayName } from '@utils/common';
+import { SpeakersCongregationsType } from '@definition/speakers_congregations';
 
-const dbUpdateVisitingSpeakersMetadata = async () => {
+export const dbUpdateVisitingSpeakersMetadata = async () => {
   const metadata = await appDb.metadata.get(1);
 
   if (!metadata) return;
@@ -25,22 +26,30 @@ const dbUpdateVisitingSpeakersMetadata = async () => {
 
 const dbSpeakersLocalCongregationGet = async () => {
   const settings = await appDb.app_settings.get(1);
+  if (!settings) {
+    throw new Error('App settings not found.');
+  }
+
   const congName = settings.cong_settings.cong_name;
   const congregations = await appDb.speakers_congregations.toArray();
 
-  const congExist = congregations.find(
-    (record) => record.cong_data.cong_name.value === congName
-  );
+  const isActiveLocalCongregation = (record: SpeakersCongregationsType) =>
+    record._deleted.value === false &&
+    record.cong_data.cong_name.value === congName;
 
-  if (!congExist) {
+  if (!congregations.some(isActiveLocalCongregation)) {
     await dbSpeakersCongregationsCreateLocal();
   }
 
   const congregationsNew = await appDb.speakers_congregations.toArray();
 
-  return congregationsNew.find(
-    (record) => record.cong_data.cong_name.value === congName
-  );
+  const congLocal = congregationsNew.find(isActiveLocalCongregation);
+
+  if (!congLocal) {
+    throw new Error('Active own congregation not found in the database.');
+  }
+
+  return congLocal;
 };
 
 export const dbVisitingSpeakersLocalCongSpeakerAdd = async (
@@ -51,9 +60,16 @@ export const dbVisitingSpeakersLocalCongSpeakerAdd = async (
   try {
     const congLocal = await dbSpeakersLocalCongregationGet();
 
+    const congId = congLocal.id;
+    if (!congId) {
+      throw new Error(
+        'Local congregation record has no id — cannot assign speaker.cong_id.'
+      );
+    }
+
     const newSpeaker = structuredClone(vistingSpeakerSchema);
     newSpeaker.person_uid = person_uid;
-    newSpeaker.speaker_data.cong_id = congLocal.id;
+    newSpeaker.speaker_data.cong_id = congId;
     newSpeaker.speaker_data.local = {
       value: local,
       updatedAt: new Date().toISOString(),
@@ -69,20 +85,31 @@ export const dbVisitingSpeakersLocalCongSpeakerAdd = async (
 
     return newSpeaker.person_uid;
   } catch (err) {
-    console.error(err);
-    throw new Error(err);
+    console.error('[DB] dbVisitingSpeakersLocalCongSpeakerAdd failed:', err);
+    throw err;
   }
 };
 
 export const dbVisitingSpeakersDelete = async (person_uid: string) => {
   try {
     const speaker = await appDb.visiting_speakers.get(person_uid);
-    speaker._deleted = { value: true, updatedAt: new Date().toISOString() };
-    await appDb.visiting_speakers.put(speaker);
+
+    if (!speaker) {
+      throw new Error(
+        `Visiting speaker not found for person_uid: ${person_uid}`
+      );
+    }
+
+    // Idempotent: skip the write if the record is already soft-deleted
+    if (speaker._deleted.value) return;
+
+    await appDb.visiting_speakers.update(person_uid, {
+      _deleted: { value: true, updatedAt: new Date().toISOString() },
+    });
     await dbUpdateVisitingSpeakersMetadata();
   } catch (err) {
-    console.error(err);
-    throw new Error(err);
+    console.error('[DB] dbVisitingSpeakersDelete failed:', err);
+    throw err;
   }
 };
 
@@ -96,25 +123,31 @@ export const dbVisitingSpeakersUpdate = async (
       : undefined;
 
     if (speaker) {
-      speaker._deleted = { value: false, updatedAt: new Date().toISOString() };
+      const now = new Date().toISOString();
+
+      speaker._deleted = { value: false, updatedAt: now };
       speaker.speaker_data.talks = [];
 
       const temp = await appDb.visiting_speakers.get(person_uid);
-      temp._deleted = { value: true, updatedAt: new Date().toISOString() };
+      if (!temp) {
+        throw new Error(
+          `Temp visiting speaker not found for person_uid: ${person_uid}`
+        );
+      }
+      temp._deleted = { value: true, updatedAt: now };
 
-      await appDb.visiting_speakers.bulkPut([temp, speaker]);
-
-      await appDb.visiting_speakers.update(speaker.person_uid, changes);
-    }
-
-    if (!speaker) {
+      await appDb.transaction('rw', appDb.visiting_speakers, async () => {
+        await appDb.visiting_speakers.bulkPut([temp, speaker]);
+        await appDb.visiting_speakers.update(speaker.person_uid, changes);
+      });
+    } else {
       await appDb.visiting_speakers.update(person_uid, changes);
     }
 
     await dbUpdateVisitingSpeakersMetadata();
   } catch (err) {
-    console.error(err);
-    throw new Error(err);
+    console.error('[DB] dbVisitingSpeakersUpdate failed:', err);
+    throw err;
   }
 };
 
@@ -137,14 +170,14 @@ export const dbVisitingSpeakersAdd = async (
 
     return newSpeaker.person_uid;
   } catch (err) {
-    console.error(err);
-    throw new Error(err);
+    console.error('[DB] dbVisitingSpeakersAdd failed:', err);
+    throw err;
   }
 };
 
 export const decryptVisitingSpeakers = (
   visiting_speakers: VisitingSpeakerBackupType[],
-  masterKey
+  masterKey: string
 ) => {
   const result = visiting_speakers.map((speaker) => {
     const obj = {} as VisitingSpeakerType;
@@ -215,19 +248,28 @@ export const dbVisitingSpeakersDummy = async () => {
   const congregations = await appDb.speakers_congregations.toArray();
   const persons = await appDb.persons.toArray();
 
-  const elligiblePersons = persons.filter((record) =>
-    record.person_data.assignments
-      .at(0)
-      .values.includes(AssignmentCode.WM_Speaker)
+  const elligiblePersons = persons.filter(
+    (record) =>
+      record.person_data.assignments
+        .at(0)
+        ?.values.includes(AssignmentCode.WM_Speaker) ?? false
   );
 
+  // need at least two eligible WM speakers to generate dummy records
+  if (elligiblePersons.length < 2) return;
+
+  // need at least two eligible WM speakers to generate dummy records
+  if (elligiblePersons.length < 2) return;
+  // add outgoing speakers
   const localCong = congregations.find(
     (record) =>
-      record.cong_data.cong_name.value === settings.cong_settings.cong_name
+      record.cong_data.cong_name.value === settings?.cong_settings.cong_name
   );
 
+  if (!localCong?.id) return;
+
   const speaker1 = structuredClone(vistingSpeakerSchema);
-  speaker1.person_uid = elligiblePersons[0].person_uid;
+  speaker1.person_uid = elligiblePersons[0]!.person_uid;
   speaker1._deleted = { value: false, updatedAt: new Date().toISOString() };
   speaker1.speaker_data.cong_id = localCong.id;
   speaker1.speaker_data.talks = [
@@ -264,7 +306,7 @@ export const dbVisitingSpeakersDummy = async () => {
   ];
 
   const speaker2 = structuredClone(vistingSpeakerSchema);
-  speaker2.person_uid = elligiblePersons[1].person_uid;
+  speaker2.person_uid = elligiblePersons[1]!.person_uid;
   speaker2._deleted = { value: false, updatedAt: new Date().toISOString() };
   speaker2.speaker_data.cong_id = localCong.id;
   speaker2.speaker_data.talks = [
@@ -298,8 +340,15 @@ export const dbVisitingSpeakersDummy = async () => {
 
   const incomingCongs = congregations.filter(
     (record) =>
-      record.cong_data.cong_name.value !== settings.cong_settings.cong_name
+      record.cong_data.cong_name.value !== settings?.cong_settings.cong_name
   );
+
+  if (incomingCongs.length < 2) return;
+
+  const incomingCong0 = incomingCongs[0]!;
+  const incomingCong1 = incomingCongs[1]!;
+
+  if (!incomingCong0.id || !incomingCong1.id) return;
 
   const speaker1Cong1 = structuredClone(vistingSpeakerSchema);
   speaker1Cong1.person_uid = crypto.randomUUID();
@@ -308,7 +357,7 @@ export const dbVisitingSpeakersDummy = async () => {
     updatedAt: new Date().toISOString(),
   };
   speaker1Cong1.speaker_data = {
-    cong_id: incomingCongs.at(0).id,
+    cong_id: incomingCong0.id,
     elder: { value: true, updatedAt: new Date().toISOString() },
     ministerial_servant: {
       value: false,
@@ -371,7 +420,7 @@ export const dbVisitingSpeakersDummy = async () => {
     updatedAt: new Date().toISOString(),
   };
   speaker2Cong1.speaker_data = {
-    cong_id: incomingCongs.at(0).id,
+    cong_id: incomingCong0.id,
     elder: { value: false, updatedAt: new Date().toISOString() },
     ministerial_servant: { value: true, updatedAt: new Date().toISOString() },
     person_firstname: {
@@ -440,7 +489,7 @@ export const dbVisitingSpeakersDummy = async () => {
     updatedAt: new Date().toISOString(),
   };
   speaker1Cong2.speaker_data = {
-    cong_id: incomingCongs.at(1).id,
+    cong_id: incomingCong1.id,
     elder: { value: true, updatedAt: new Date().toISOString() },
     ministerial_servant: {
       value: false,
@@ -503,7 +552,7 @@ export const dbVisitingSpeakersDummy = async () => {
     updatedAt: new Date().toISOString(),
   };
   speaker2Cong2.speaker_data = {
-    cong_id: incomingCongs.at(1).id,
+    cong_id: incomingCong1.id,
     elder: { value: false, updatedAt: new Date().toISOString() },
     ministerial_servant: { value: true, updatedAt: new Date().toISOString() },
     person_firstname: {
@@ -572,7 +621,7 @@ export const dbVisitingSpeakersDummy = async () => {
     updatedAt: new Date().toISOString(),
   };
   speaker3Cong2.speaker_data = {
-    cong_id: incomingCongs.at(1).id,
+    cong_id: incomingCong1.id,
     elder: { value: true, updatedAt: new Date().toISOString() },
     ministerial_servant: {
       value: false,

@@ -107,7 +107,7 @@
   "tr_S10ReportNotGenerated": "Selle aasta aruanne pole veel genereeritud. Genereeri see, et näha kõiki üksikasju ja seejärel esita.",
   "tr_quickAssignAP": "Abipioneer määratud",
   "tr_quickAssignAPDesc": "See kuulutaja on määratud abipioneeriks sel kuul. Sa saad seda muuta kuulutaja registreerimiste loendis Inimeste lehel.",
-  "tr_reactivatePublisher": "Aktiveeri see kuulutaja uuesti",
+  "tr_reactivatePublisher": "Reactivate publisher",
   "tr_S21CardTitle": "Ekspordi mitme kuulutaja kirjeid (S-21)",
   "tr_S21CardTitleDesc": "Vali 'Kõik kuulutajad', et eksportida ja sorteerida kõik kirjed kuulutajate, üldpioneeride ja abipioneeride seast, või 'Vali kuulutajad', et eksportida kirjed ainult valitud kuulutajate jaoks.",
   "tr_allPublisherRecords": "Kõik kuulutajad",
