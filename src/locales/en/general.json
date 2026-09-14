@@ -190,7 +190,7 @@
   "tr_attachment": "Attachment",
   "tr_category": "Category",
   "tr_text": "Text",
-   "tr_exportSettings": "Export settings",
+  "tr_exportSettings": "Export settings",
   "tr_orientation": "Orientation",
   "tr_portrait": "Portrait",
   "tr_landscape": "Landscape",
@@ -199,5 +199,6 @@
   "tr_normal": "Normal",
   "tr_large": "Large",
   "tr_chooseFields": "Choose export fields",
-  "tr_chooseFieldsDesc": "Please select the fields you want to include in the export file."
+  "tr_chooseFieldsDesc": "Please select the fields you want to include in the export file.",
+  "tr_copyFailed": "Failed to copy"
 }

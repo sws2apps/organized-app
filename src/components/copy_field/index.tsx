@@ -14,14 +14,23 @@ export type CopyFieldProps = {
 
 const CopyField = (props: CopyFieldProps) => {
   const { t } = useAppTranslation();
-  const handleCopy = useCallback(() => {
-    copyToClipboard(props.value);
 
-    displaySnackNotification({
-      header: t('tr_textCopied'),
-      message: props.value,
-      severity: 'success',
-    });
+  const handleCopy = useCallback(async () => {
+    try {
+      await copyToClipboard(props.value);
+
+      displaySnackNotification({
+        header: t('tr_textCopied'),
+        message: props.value,
+        severity: 'success',
+      });
+    } catch {
+      displaySnackNotification({
+        header: t('tr_copyFailed'),
+        message: props.value,
+        severity: 'error',
+      });
+    }
   }, [props.value, t]);
 
   return (
