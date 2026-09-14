@@ -1,8 +1,7 @@
-import { FC } from 'react';
 import { styled, Theme } from '@mui/material/styles';
-import { Box, BoxProps } from '@mui/material';
+import { Box } from '@mui/material';
 
-export const SlideItem: FC<BoxProps> = styled(Box)(
+export const SlideItem = styled(Box)(
   ({ theme }: { theme: Theme }) => ({
     display: 'flex',
     flexDirection: 'column',

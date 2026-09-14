@@ -1,4 +1,5 @@
-import { Select, styled } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { Select } from '@mui/material';
 
 export const SelectStyled = styled(Select)({
   '.MuiSelect-select p': {
@@ -39,4 +40,4 @@ export const SelectStyled = styled(Select)({
       borderColor: 'var(--accent-200)',
     },
   },
-}) as unknown as typeof Select;
+});

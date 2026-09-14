@@ -66,6 +66,7 @@ const WhatsNew = () => {
         <>
           {images.length > 0 && (
             <ImageViewer
+              key="swipper-whatsnew"
               swiperRef={swiperRef}
               slides={images}
               current={currentImage}

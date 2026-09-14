@@ -49,7 +49,12 @@ const ImageViewer = ({
                   <Box
                     component="img"
                     src={slide.src}
-                    sx={{ height: 'auto', width: '100%', maxHeight: '200px', objectFit: 'contain' }}
+                    sx={{
+                      height: 'auto',
+                      width: '100%',
+                      maxHeight: '200px',
+                      objectFit: 'contain',
+                    }}
                   />
 
                   <Box

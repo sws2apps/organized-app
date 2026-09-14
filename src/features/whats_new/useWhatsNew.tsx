@@ -8,12 +8,12 @@ import { getAppLang } from '@services/app';
 
 const STORAGE_KEY = 'organized_whatsnew';
 
-const appLang = getAppLang();
+const appLang = getAppLang()!;
 
 const useWhatsNew = () => {
   const { i18n } = useAppTranslation();
 
-  const swiperRef = useRef<SwiperRef>(undefined);
+  const swiperRef = useRef<SwiperRef>(null!);
 
   const [isLoading, setIsLoading] = useState(true);
   const [open, setOpen] = useState(false);
@@ -22,12 +22,12 @@ const useWhatsNew = () => {
   const [currentImage, setCurrentImage] = useState(0);
 
   const releases = useMemo(() => {
-    return i18n.options.resources[appLang].releases as ReleaseNoteType;
+    return i18n.options.resources![appLang].releases as ReleaseNoteType;
   }, [i18n]);
 
   const version = useMemo(() => {
     const releasesDates = Object.keys(releases);
-    return releasesDates.sort().reverse().at(0);
+    return releasesDates.sort().reverse().at(0)!;
   }, [releases]);
 
   const handleClose = () => {
