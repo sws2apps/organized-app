@@ -5,72 +5,38 @@ import IBAnnouncementCard from './announcement_card';
 import {
   infoBoardAddAnnouncementState,
   infoBoardAnnouncementsState,
-  informationBoardState,
 } from '@states/information_board';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { dbInformationBoardSave } from '@services/dexie/information_board';
+import { dbInformationBoardUpdateAnnouncement } from '@services/dexie/information_board';
 import useCurrentUser from '@hooks/useCurrentUser';
 
 // This is hook to auto generate and sort announcements
 // for information board pages
 const useIBPageAnnouncements = (category: InformationBoardCategory) => {
   const { isAdmin } = useCurrentUser();
-  const informationBoard = useAtomValue(informationBoardState);
   const announcements = useAtomValue(infoBoardAnnouncementsState);
   const setAddAnnoucement = useSetAtom(infoBoardAddAnnouncementState);
 
-  const handleOnPin = useCallback(
-    async (announcementId: string) => {
-      const announcement = announcements.find(
-        (announcement) => announcement.id === announcementId
-      );
+  const handleOnPin = useCallback(async (announcementId: string) => {
+    await dbInformationBoardUpdateAnnouncement(
+      announcementId,
+      (announcement) => {
+        announcement.pin_at_the_top.value = !announcement.pin_at_the_top.value;
+        announcement.pin_at_the_top.updatedAt = new Date().toISOString();
+        announcement.updatedAt = new Date().toISOString();
+      }
+    );
+  }, []);
 
-      if (!announcement) return;
-
-      const draft = structuredClone(announcement);
-
-      draft.pin_at_the_top.value = !draft.pin_at_the_top.value;
-      draft.pin_at_the_top.updatedAt = new Date().toISOString();
-      draft.updatedAt = new Date().toISOString();
-
-      const updatedInformationBoard = structuredClone(informationBoard);
-
-      const index = updatedInformationBoard.information.announcements.findIndex(
-        (item) => item.id === draft.id
-      );
-
-      updatedInformationBoard.information.announcements[index] = draft;
-
-      await dbInformationBoardSave(updatedInformationBoard);
-    },
-    [announcements, informationBoard]
-  );
-
-  const handleOnDelete = useCallback(
-    async (announcementId: string) => {
-      const announcement = announcements.find(
-        (announcement) => announcement.id === announcementId
-      );
-
-      if (!announcement) return;
-
-      const draft = structuredClone(announcement);
-
-      draft._deleted = true;
-      draft.updatedAt = new Date().toISOString();
-
-      const updatedInformationBoard = structuredClone(informationBoard);
-
-      const index = updatedInformationBoard.information.announcements.findIndex(
-        (item) => item.id === draft.id
-      );
-
-      updatedInformationBoard.information.announcements[index] = draft;
-
-      await dbInformationBoardSave(updatedInformationBoard);
-    },
-    [announcements, informationBoard]
-  );
+  const handleOnDelete = useCallback(async (announcementId: string) => {
+    await dbInformationBoardUpdateAnnouncement(
+      announcementId,
+      (announcement) => {
+        announcement._deleted = true;
+        announcement.updatedAt = new Date().toISOString();
+      }
+    );
+  }, []);
 
   const handleOnEdit = useCallback(
     (announcementId: string) => {
