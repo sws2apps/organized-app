@@ -1,37 +1,37 @@
-import Divider from '@components/divider';
-import { IconCalendarWeek } from '@components/icons';
-import Typography from '@components/typography';
-import { Stack } from '@mui/material';
 import { monthNamesState } from '@states/app';
 import { congSpecialMonthsState } from '@states/settings';
 import { useAtomValue } from 'jotai';
 import { ReactNode, useMemo } from 'react';
+import Divider from '@components/divider';
+import { Stack } from '@mui/material';
+import { IconCalendarWeek } from '@components/icons';
+import Typography from '@components/typography';
 
 const useSWMonthsOfSpecialActivity = () => {
   const monthNames = useAtomValue(monthNamesState);
   const specialMonthsData = useAtomValue(congSpecialMonthsState);
 
-  const noMonths = useMemo(
-    () =>
-      specialMonthsData.length == 0 ||
-      !specialMonthsData.every((year) => year._deleted),
+  const activeSpecialMonths = useMemo(
+    () => specialMonthsData.filter((special) => !special._deleted),
     [specialMonthsData]
   );
 
+  const noMonths = activeSpecialMonths.length === 0;
+
   const latestUpdatedAt = useMemo(
     () =>
-      specialMonthsData.reduce<string | null>((latest, special) => {
+      activeSpecialMonths.reduce<string | null>((latest, special) => {
         if (!latest) return special.updatedAt;
 
         return new Date(special.updatedAt) > new Date(latest)
           ? special.updatedAt
           : latest;
       }, null),
-    [specialMonthsData]
+    [activeSpecialMonths]
   );
 
   const specialMonths: ReactNode = useMemo(() => {
-    const items = specialMonthsData.flatMap((special) =>
+    const items = activeSpecialMonths.flatMap((special) =>
       special.months.toSorted().map((value) => {
         const monthName = monthNames[Number(value.split('/')[1]) - 1];
 
@@ -56,7 +56,7 @@ const useSWMonthsOfSpecialActivity = () => {
         ? [item]
         : [item, <Divider key={`divider-${index}`} color="var(--accent-200)" />]
     );
-  }, [monthNames, specialMonthsData]);
+  }, [activeSpecialMonths, monthNames]);
 
   return { specialMonths, latestUpdatedAt, noMonths };
 };
