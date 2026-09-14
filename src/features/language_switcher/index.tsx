@@ -69,13 +69,15 @@ const LanguageSwitcher = ({
               handleClick(e);
             }
           }}
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            cursor: 'pointer',
-            userSelect: 'none',
-            ...(menuStyle as object),
-          }}
+          sx={[
+            {
+              display: 'flex',
+              alignItems: 'center',
+              cursor: 'pointer',
+              userSelect: 'none',
+            },
+            menuStyle,
+          ]}
         >
           {triggerContent}
         </Box>
