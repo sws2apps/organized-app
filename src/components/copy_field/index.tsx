@@ -36,6 +36,13 @@ const CopyField = (props: CopyFieldProps) => {
   return (
     <Box
       role="button"
+      tabIndex={0}
+      onKeyDown={(event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          handleCopy();
+        }
+      }}
       onClick={handleCopy}
       sx={{
         backgroundColor: 'var(--accent-100)',
