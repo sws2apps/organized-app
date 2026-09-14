@@ -48,7 +48,7 @@ const InformationBoard = () => {
 
       <PageTitle
         title={t('tr_informationBoard')}
-        quickSettings={handleOpenQuickSettings}
+        quickSettings={isAdmin ? handleOpenQuickSettings : undefined}
         buttons={
           isAdmin && (
             <NavBarButtonGroup>
