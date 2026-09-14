@@ -10,6 +10,12 @@ const Category = (props: CategoryProps) => {
       direction="row"
       role="button"
       tabIndex={0}
+      onKeyDown={(event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          props.onClick();
+        }
+      }}
       aria-label={props.title}
       onClick={props.onClick}
       sx={{
