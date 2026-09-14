@@ -8,6 +8,7 @@ export type NotificationIconType =
 
 export type NotificationDbRecordType = {
   id: number;
+  notificationId?: string;
   updatedAt: string;
   title: string;
   desc: string;

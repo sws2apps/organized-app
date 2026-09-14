@@ -4,17 +4,6 @@ import appDb from '@db/appDb';
 import { dbNotificationsSave } from '@services/dexie/notifications';
 import { getTranslation } from '@services/i18n/translation';
 
-const stringToNumericHash = (value: string): number => {
-  let hash = 0;
-
-  for (let i = 0; i < value.length; i++) {
-    hash = (hash << 5) - hash + value.charCodeAt(i);
-    hash |= 0;
-  }
-
-  return Math.abs(hash);
-};
-
 export const createAnnouncementNotification = async (
   announcement: InfoBoardAnnouncementType
 ) => {
@@ -26,16 +15,16 @@ export const createAnnouncementNotification = async (
     return;
   }
 
-  const id = stringToNumericHash(
-    `announcement-${announcement.notification_id}`
-  );
-
-  const existing = await appDb.notification.get(id);
+  const existing = await appDb.notification
+    .where('notificationId')
+    .equals(announcement.notification_id)
+    .first();
 
   if (existing) return;
 
   const notification: NotificationDbRecordType = {
-    id,
+    id: Date.now(),
+    notificationId: announcement.notification_id,
     type: 'announcement',
     updatedAt: announcement.updatedAt,
     title:
