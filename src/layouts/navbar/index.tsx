@@ -197,6 +197,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
 
                   {tabletUp && (isAppLoad || isTest) && (
                     <LanguageSwitcher
+                      standalone
                       menuStyle={{
                         ...baseMenuStyle,
                         padding: '8px 12px 8px 12px',

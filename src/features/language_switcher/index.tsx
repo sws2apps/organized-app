@@ -12,7 +12,13 @@ import Typography from '@components/typography';
 import useAppTranslation from '@hooks/useAppTranslation';
 import useLanguage from './useLanguage';
 
-const LanguageSwitcher = ({ menuStyle }: { menuStyle: SxProps }) => {
+const LanguageSwitcher = ({
+  menuStyle,
+  standalone = false,
+}: {
+  menuStyle: SxProps;
+  standalone?: boolean;
+}) => {
   const { t } = useAppTranslation();
 
   const {
@@ -27,28 +33,62 @@ const LanguageSwitcher = ({ menuStyle }: { menuStyle: SxProps }) => {
     isAppLoad,
   } = useLanguage();
 
+  const triggerContent = (
+    <>
+      <ListItemIcon
+        sx={{
+          '&.MuiListItemIcon-root': {
+            width: '24px',
+            minWidth: '24px !important',
+            justifyContent: 'center',
+          },
+        }}
+      >
+        <IconLanguage color="var(--black)" width={22} height={22} />
+      </ListItemIcon>
+      {(tabletDown || !isAppLoad) && (
+        <ListItemText>
+          <Typography className="body-regular">
+            {t('tr_changeLanguage')}
+          </Typography>
+        </ListItemText>
+      )}
+    </>
+  );
+
   return (
     <>
-      <MenuItem disableRipple sx={menuStyle} onClick={handleClick} tabIndex={0}>
-        <ListItemIcon
+      {standalone ? (
+        <Box
+          role="button"
+          tabIndex={0}
+          onClick={handleClick}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              handleClick(e);
+            }
+          }}
           sx={{
-            '&.MuiListItemIcon-root': {
-              width: '24px',
-              minWidth: '24px !important',
-              justifyContent: 'center',
-            },
+            display: 'flex',
+            alignItems: 'center',
+            cursor: 'pointer',
+            userSelect: 'none',
+            ...(menuStyle as object),
           }}
         >
-          <IconLanguage color="var(--black)" width={22} height={22} />
-        </ListItemIcon>
-        {(tabletDown || !isAppLoad) && (
-          <ListItemText>
-            <Typography className="body-regular">
-              {t('tr_changeLanguage')}
-            </Typography>
-          </ListItemText>
-        )}
-      </MenuItem>
+          {triggerContent}
+        </Box>
+      ) : (
+        <MenuItem
+          disableRipple
+          sx={menuStyle}
+          onClick={handleClick}
+          tabIndex={0}
+        >
+          {triggerContent}
+        </MenuItem>
+      )}
       <Menu
         id="menu-language"
         disableScrollLock={true}
