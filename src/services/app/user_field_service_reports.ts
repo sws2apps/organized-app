@@ -1,3 +1,7 @@
+import { store } from '@states/index';
+import { congFieldServiceReportsState } from '@states/field_service_reports';
+import { userLocalUIDState } from '@states/settings';
+import { CongFieldServiceReportType } from '@definition/cong_field_service_reports';
 import { debounce } from '@utils/common';
 import { addMonths, formatDate } from '@utils/date';
 import {
@@ -314,16 +318,42 @@ export const ministryTimerSessionDate = (
   return formatDate(new Date(date), 'yyyy/MM/dd');
 };
 
+/** Whether the congregation already confirmed the publisher's report. */
+export const userFieldServiceMonthConfirmed = (
+  reports: CongFieldServiceReportType[],
+  person_uid: string,
+  month: string
+) =>
+  reports.some(
+    (record) =>
+      record.report_data.report_date === month &&
+      record.report_data.person_uid === person_uid &&
+      record.report_data.status === 'confirmed'
+  );
+
 /**
- * A session whose month was already submitted is added to the next month.
+ * The day a session is reported on: its own day, or the first day of the
+ * first later month still open, up to the current month. Undefined when every
+ * one of those months is locked.
  */
 export const ministryTimerReportDate = (
   session_date: string,
-  read_only: boolean
+  isLocked: (month: string) => boolean,
+  now = Date.now()
 ) => {
-  if (!read_only) return session_date;
+  let month = session_date.slice(0, 7);
 
-  return formatDate(addMonths(session_date, 1), 'yyyy/MM/01');
+  if (!isLocked(month)) return session_date;
+
+  const currentMonth = formatDate(new Date(now), 'yyyy/MM');
+
+  while (month < currentMonth) {
+    month = formatDate(addMonths(`${month}/01`, 1), 'yyyy/MM');
+
+    if (!isLocked(month)) return `${month}/01`;
+  }
+
+  return undefined;
 };
 
 /**
@@ -339,6 +369,14 @@ export const handleAddFieldServiceTime = async (
   seconds: number
 ) => {
   const { hours, minutes } = fieldServiceTimeFromSeconds(seconds);
+
+  const confirmed = userFieldServiceMonthConfirmed(
+    store.get(congFieldServiceReportsState),
+    store.get(userLocalUIDState),
+    report_date.slice(0, 7)
+  );
+
+  if (confirmed) throw new Error('error_app_generic-desc');
 
   return dbUserFieldServiceReportsTransaction(async () => {
     const reports = await dbUserFieldServiceReportsGet();

@@ -18,9 +18,12 @@ import {
   ministryTimerElapsed,
   ministryTimerReportDate,
   ministryTimerSessionDate,
+  userFieldServiceMonthConfirmed,
 } from '@services/app/user_field_service_reports';
 import { userLocalUIDState } from '@states/settings';
-import useMinistryMonthlyRecord from '@features/ministry/hooks/useMinistryMonthlyRecord';
+import { congFieldServiceReportsState } from '@states/field_service_reports';
+import { personsActiveState } from '@states/persons';
+import usePerson from '@features/persons/hooks/usePerson';
 import useAppTranslation from '@hooks/useAppTranslation';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
@@ -33,6 +36,10 @@ const useMinistryTimer = () => {
   const setSelectedMonth = useSetAtom(reportUserSelectedMonthState);
 
   const userUID = useAtomValue(userLocalUIDState);
+  const congReports = useAtomValue(congFieldServiceReportsState);
+  const persons = useAtomValue(personsActiveState);
+
+  const { personIsPublisher } = usePerson();
 
   const [, refreshTimer] = useReducer((value: number) => value + 1, 0);
 
@@ -54,17 +61,20 @@ const useMinistryTimer = () => {
 
   const sessionDate = ministryTimerSessionDate(timer, Date.now());
 
-  const month = sessionDate.slice(0, 7);
+  const isMonthLocked = useCallback(
+    (month: string) => {
+      const person = persons.find((record) => record.person_uid === userUID);
 
-  const { read_only } = useMinistryMonthlyRecord({
-    month,
-    person_uid: userUID,
-    publisher: true,
-  });
+      if (!person || !personIsPublisher(person, month)) return true;
+
+      return userFieldServiceMonthConfirmed(congReports, userUID, month);
+    },
+    [persons, userUID, personIsPublisher, congReports]
+  );
 
   const report_date = useMemo(
-    () => ministryTimerReportDate(sessionDate, read_only),
-    [read_only, sessionDate]
+    () => ministryTimerReportDate(sessionDate, isMonthLocked),
+    [sessionDate, isMonthLocked]
   );
 
   /**
@@ -118,8 +128,10 @@ const useMinistryTimer = () => {
   };
 
   const handleAddTime = () => {
-    setSelectedMonth(report_date.slice(0, 7));
-    setEditorDate(report_date);
+    const date = report_date ?? sessionDate;
+
+    setSelectedMonth(date.slice(0, 7));
+    setEditorDate(date);
     setEditorOpen(true);
   };
 
@@ -136,6 +148,18 @@ const useMinistryTimer = () => {
       displaySnackNotification({
         header: t('tr_timerNothingToSave'),
         message: t('tr_timerNothingToSaveDesc'),
+        severity: 'error',
+      });
+
+      return;
+    }
+
+    if (!report_date) {
+      handlePause();
+
+      displaySnackNotification({
+        header: t('tr_timerNoOpenMonth'),
+        message: t('tr_timerNoOpenMonthDesc'),
         severity: 'error',
       });
 
