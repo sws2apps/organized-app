@@ -13,36 +13,59 @@ export const dbInformationBoardUpdateAnnouncement = async (
   announcementId: string,
   update: (announcement: InfoBoardAnnouncementType) => void
 ) => {
-  await appDb.transaction('rw', appDb.information_board, async () => {
-    const board = await appDb.information_board.get(1);
+  await appDb.transaction(
+    'rw',
+    appDb.information_board,
+    appDb.metadata,
+    async () => {
+      const board = await appDb.information_board.get(1);
 
-    if (!board) return;
+      if (!board) return;
 
-    const announcement = board.information.announcements.find(
-      (item) => item.id === announcementId
-    );
+      const announcement = board.information.announcements.find(
+        (item) => item.id === announcementId
+      );
 
-    if (!announcement) return;
+      if (!announcement) return;
 
-    update(announcement);
+      update(announcement);
 
-    await appDb.information_board.put(board);
-  });
+      await appDb.information_board.put(board);
+
+      const metadata = await appDb.metadata.get(1);
+
+      if (!metadata) return;
+
+      metadata.metadata.information_board = {
+        ...metadata.metadata.information_board,
+        send_local: true,
+      };
+
+      await appDb.metadata.put(metadata);
+    }
+  );
 };
 
 export const dbInformationBoardSave = async (
   informationBoard: InformationBoardType
 ) => {
-  await appDb.information_board.put(informationBoard);
+  await appDb.transaction(
+    'rw',
+    appDb.information_board,
+    appDb.metadata,
+    async () => {
+      await appDb.information_board.put(informationBoard);
 
-  const metadata = await appDb.metadata.get(1);
+      const metadata = await appDb.metadata.get(1);
 
-  if (!metadata) return;
+      if (!metadata) return;
 
-  metadata.metadata.information_board = {
-    ...metadata.metadata.information_board,
-    send_local: true,
-  };
+      metadata.metadata.information_board = {
+        ...metadata.metadata.information_board,
+        send_local: true,
+      };
 
-  await appDb.metadata.put(metadata);
+      await appDb.metadata.put(metadata);
+    }
+  );
 };
