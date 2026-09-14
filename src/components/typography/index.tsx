@@ -13,7 +13,7 @@ const Typography = (props: TypographyTypeProps) => {
   const className = props.className || 'body-regular';
 
   return (
-    <MUITypography {...props} className={className} color={color}>
+    <MUITypography {...props} className={className} sx={{ ...props.sx, color }}>
       {props.children}
     </MUITypography>
   );
