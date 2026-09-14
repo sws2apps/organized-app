@@ -1,5 +1,5 @@
 export const labelIsCorrect = (value: string) => {
-  return !(value.length >= 25);
+  return !(value.length <= 25);
 };
 
 export const linkIsCorrect = (value: string) => {
