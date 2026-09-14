@@ -3,10 +3,11 @@ import { InformationBoardCategory } from '@definition/information_board';
 import { useCallback, useMemo } from 'react';
 import IBAnnouncementCard from './announcement_card';
 import {
+  infoBoardAddAnnouncementState,
   infoBoardAnnouncementsState,
   informationBoardState,
 } from '@states/information_board';
-import { useAtomValue } from 'jotai';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { dbInformationBoardSave } from '@services/dexie/information_board';
 import useCurrentUser from '@hooks/useCurrentUser';
 
@@ -16,6 +17,7 @@ const useIBPageAnnouncements = (category: InformationBoardCategory) => {
   const { isAdmin } = useCurrentUser();
   const informationBoard = useAtomValue(informationBoardState);
   const announcements = useAtomValue(infoBoardAnnouncementsState);
+  const setAddAnnoucement = useSetAtom(infoBoardAddAnnouncementState);
 
   const handleOnPin = useCallback(
     async (announcementId: string) => {
@@ -70,6 +72,13 @@ const useIBPageAnnouncements = (category: InformationBoardCategory) => {
     [announcements, informationBoard]
   );
 
+  const handleOnEdit = useCallback(
+    (announcementId: string) => {
+      setAddAnnoucement({ open: true, announcementId });
+    },
+    [setAddAnnoucement]
+  );
+
   const announcementsForThisPage = useMemo(() => {
     return announcements
       .filter(
@@ -97,11 +106,18 @@ const useIBPageAnnouncements = (category: InformationBoardCategory) => {
           </Typography>
         }
         onPin={() => handleOnPin(announcement.id)}
+        onEdit={() => handleOnEdit(announcement.id)}
         date={new Date(announcement.updatedAt)}
         onDelete={isAdmin ? () => handleOnDelete(announcement.id) : undefined}
       />
     ));
-  }, [announcementsForThisPage, handleOnDelete, handleOnPin, isAdmin]);
+  }, [
+    announcementsForThisPage,
+    handleOnDelete,
+    handleOnEdit,
+    handleOnPin,
+    isAdmin,
+  ]);
 
   const unpinnedAnnouncements = useMemo(() => {
     const data = announcementsForThisPage.filter(
@@ -119,11 +135,18 @@ const useIBPageAnnouncements = (category: InformationBoardCategory) => {
           </Typography>
         }
         onPin={() => handleOnPin(announcement.id)}
+        onEdit={() => handleOnEdit(announcement.id)}
         date={new Date(announcement.updatedAt)}
         onDelete={isAdmin ? () => handleOnDelete(announcement.id) : undefined}
       />
     ));
-  }, [announcementsForThisPage, handleOnDelete, handleOnPin, isAdmin]);
+  }, [
+    announcementsForThisPage,
+    handleOnDelete,
+    handleOnEdit,
+    handleOnPin,
+    isAdmin,
+  ]);
 
   return {
     pinnedAnnouncements,

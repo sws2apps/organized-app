@@ -78,7 +78,7 @@ const IBAnnouncementCard = (props: IBAnnouncementCardProps) => {
           {isAdmin && (
             <Stack direction="row" spacing="8px">
               {props.onEdit && (
-                <IconButton color="primary">
+                <IconButton color="primary" onClick={props.onEdit}>
                   <IconEdit color="var(--accent-main)" />
                 </IconButton>
               )}

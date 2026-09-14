@@ -60,3 +60,11 @@ export const infoBoardAnnouncementsState = atom((get) => {
 export const infoBoardSelectedCategory = atom<InformationBoardCategory>(
   'general_information'
 );
+
+export const infoBoardAddAnnouncementState = atom<{
+  open: boolean;
+  announcementId: string | null;
+}>({
+  open: false,
+  announcementId: null,
+});

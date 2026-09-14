@@ -22,11 +22,10 @@ const InformationBoard = () => {
   const {
     currentCategory,
     quickSettingsOpen,
-    addAnnouncementOpen,
     handleOpenQuickSettings,
     handleCloseQuickSettings,
     handleOpenAddAnnouncement,
-    handleCloseAddAnnouncement,
+    addAnnouncementOpen,
   } = useInformationBoard();
 
   return (
@@ -45,12 +44,7 @@ const InformationBoard = () => {
         />
       )}
 
-      {addAnnouncementOpen && (
-        <AddAnnouncement
-          open={addAnnouncementOpen}
-          onClose={handleCloseAddAnnouncement}
-        />
-      )}
+      {addAnnouncementOpen && <AddAnnouncement />}
 
       <PageTitle
         title={t('tr_informationBoard')}

@@ -3,15 +3,20 @@ import BranchLetters from '@features/congregation/information_board/branch_lette
 import FrequentlyUsedInformation from '@features/congregation/information_board/frequently_used_information';
 import GeneralInformation from '@features/congregation/information_board/general_information';
 import LocalAnnouncements from '@features/congregation/information_board/local_announcements';
-import { infoBoardSelectedCategory } from '@states/information_board';
-import { useAtomValue } from 'jotai';
+import {
+  infoBoardAddAnnouncementState,
+  infoBoardSelectedCategory,
+} from '@states/information_board';
+import { useAtom, useAtomValue } from 'jotai';
 import { ReactNode, useCallback, useState } from 'react';
 
 const useInformationBoard = () => {
   const activeCategory = useAtomValue(infoBoardSelectedCategory);
+  const [addAnnouncement, setAddAnnouncement] = useAtom(
+    infoBoardAddAnnouncementState
+  );
 
   const [quickSettingsOpen, setQuickSettingsOpen] = useState(false);
-  const [addAnnouncementOpen, setAddAnnouncementOpen] = useState(false);
 
   const categoriesPages: Record<InformationBoardCategory, ReactNode> = {
     general_information: <GeneralInformation />,
@@ -31,21 +36,16 @@ const useInformationBoard = () => {
   }, []);
 
   const handleOpenAddAnnouncement = useCallback(() => {
-    setAddAnnouncementOpen(true);
-  }, []);
-
-  const handleCloseAddAnnouncement = useCallback(() => {
-    setAddAnnouncementOpen(false);
-  }, []);
+    setAddAnnouncement({ open: true, announcementId: null });
+  }, [setAddAnnouncement]);
 
   return {
     currentCategory,
     quickSettingsOpen,
-    addAnnouncementOpen,
     handleOpenQuickSettings,
     handleCloseQuickSettings,
     handleOpenAddAnnouncement,
-    handleCloseAddAnnouncement,
+    addAnnouncementOpen: addAnnouncement.open,
   };
 };
 

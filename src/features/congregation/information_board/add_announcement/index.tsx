@@ -1,5 +1,4 @@
 import Dialog from '@components/dialog';
-import { AddAnnouncementProps } from './index.types';
 import Typography from '@components/typography';
 import { useAppTranslation } from '@hooks/index';
 import { Stack } from '@mui/material';
@@ -9,7 +8,7 @@ import Tabs from '@components/tabs';
 import SwitchWithLabel from '@components/switch_with_label';
 import useAddAnnouncement from './useAddAnnouncement';
 
-const AddAnnouncement = (props: AddAnnouncementProps) => {
+const AddAnnouncement = () => {
   const { t } = useAppTranslation();
   const {
     tabs,
@@ -19,18 +18,20 @@ const AddAnnouncement = (props: AddAnnouncementProps) => {
     handleCancel,
     handlePublish,
     isPublishEnabled,
-  } = useAddAnnouncement(props.announcementId, props.onClose);
+    dialogOpen,
+    announcementId,
+  } = useAddAnnouncement();
   return (
     <Dialog
-      onClose={props.onClose}
-      open={props.open}
+      onClose={handleCancel}
+      open={dialogOpen}
       sx={{
         gap: '24px',
         padding: '24px',
       }}
     >
       <Typography className="h2">
-        {props.mode === 'edit'
+        {announcementId !== null
           ? t('tr_editAnnouncement')
           : t('tr_addAnnouncement')}
       </Typography>

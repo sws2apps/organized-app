@@ -586,5 +586,6 @@
   "tr_monthsOfSpecialActivityDesc": "A list of month with the reduced auxiliary pioneer requirement",
   "tr_continuous": "Continuous",
   "tr_addAnnouncement": "Add announcement",
+  "tr_editAnnouncement": "Edit announcement",
   "tr_noAnnouncementsOrFilesYet": "There are no announcements or files in this category"
 }

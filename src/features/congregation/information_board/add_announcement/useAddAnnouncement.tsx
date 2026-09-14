@@ -2,23 +2,27 @@ import useAppTranslation from '@hooks/useAppTranslation';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import TextOnlyTab from './tabs/text_only_tab';
 import { InfoBoardAnnouncementType } from '@definition/information_board';
-import { useAtomValue } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
 import { userDataViewState } from '@states/settings';
 import {
+  infoBoardAddAnnouncementState,
   infoBoardAnnouncementsState,
   informationBoardState,
 } from '@states/information_board';
 import { dbInformationBoardSave } from '@services/dexie/information_board';
 import { createAnnouncementNotification } from '@services/app/announcement_notifications';
 
-const useAddAnnouncement = (
-  announcementId: string | undefined,
-  onClose: VoidFunction
-) => {
+const useAddAnnouncement = () => {
   const { t } = useAppTranslation();
   const dataView = useAtomValue(userDataViewState);
   const informationBoard = useAtomValue(informationBoardState);
   const announements = useAtomValue(infoBoardAnnouncementsState);
+  const [addAnnouncement, setAddAnnouncement] = useAtom(
+    infoBoardAddAnnouncementState
+  );
+
+  const announcementId = addAnnouncement.announcementId;
+
   const announcement = useMemo(() => {
     if (!announcementId) return null;
     return (
@@ -99,8 +103,8 @@ const useAddAnnouncement = (
 
   const handleCancel = useCallback(() => {
     setDraft(null);
-    onClose();
-  }, [onClose]);
+    setAddAnnouncement({ open: false, announcementId: null });
+  }, [setAddAnnouncement]);
 
   const handlePublish = async () => {
     if (!draft) return;
@@ -123,7 +127,7 @@ const useAddAnnouncement = (
       await createAnnouncementNotification(draft);
     }
 
-    onClose();
+    setAddAnnouncement({ open: false, announcementId: null });
   };
 
   return {
@@ -134,6 +138,8 @@ const useAddAnnouncement = (
     handleCancel,
     handlePublish,
     isPublishEnabled,
+    dialogOpen: addAnnouncement.open,
+    announcementId,
   };
 };
 
