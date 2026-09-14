@@ -95,7 +95,9 @@ const useAddAnnouncement = () => {
 
   useEffect(() => {
     if (draft) {
-      setIsPublishEnabled(!!draft.title && !!draft.text && !!draft.category);
+      setIsPublishEnabled(
+        !!draft.title.trim() && !!draft.text?.trim() && !!draft.category
+      );
     } else {
       setIsPublishEnabled(false);
     }
