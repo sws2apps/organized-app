@@ -128,27 +128,6 @@ const handlePresentSaveDb = async ({
 
 export const meetingAttendancePresentSave = debounce(handlePresentSaveDb, 10);
 
-// Both counts in one atomic write; the debounced save would drop a value.
-export const meetingAttendanceCountsSave = async ({
-  index,
-  month,
-  type,
-  counts,
-  dataView,
-}: {
-  index: number;
-  month: string;
-  type: MeetingType;
-  counts: { record: 'present' | 'online'; count: string }[];
-  dataView: string;
-}) => {
-  const values = Object.fromEntries(
-    counts.map(({ record, count }) => [record, count])
-  ) as AttendanceValues;
-
-  await handlePresentSaveDb({ index, month, type, values, dataView });
-};
-
 const sumField = (
   records: AttendanceCongregation[],
   field: AttendanceRecordField
