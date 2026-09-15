@@ -25,6 +25,7 @@ import { dbAssignmentUpdate } from '@services/dexie/assignment';
 import { dbAppDelete } from '@services/dexie/app';
 import { schedulesBuildHistoryList } from './schedules';
 import { setAssignmentsHistory } from '@services/states/schedules';
+import { withCongSettingsDefaults } from '@services/states/settings';
 import {
   dbSchedAuxClassUpdate,
   dbSchedUpdateOutgoingTalksFields,
@@ -274,10 +275,9 @@ const handleUpdateSettings = async (data: UserLoginResponseType) => {
   }
 
   const settings = store.get(settingsState);
+  const localCongSettings = withCongSettingsDefaults(settings?.cong_settings);
 
-  const midweekMeeting = structuredClone(
-    settings.cong_settings.midweek_meeting
-  );
+  const midweekMeeting = structuredClone(localCongSettings.midweek_meeting);
 
   for (const remote of app_settings.cong_settings.midweek_meeting ?? []) {
     const local = midweekMeeting.find((record) => record.type === remote.type);
@@ -296,9 +296,7 @@ const handleUpdateSettings = async (data: UserLoginResponseType) => {
     }
   }
 
-  const weekendMeeting = structuredClone(
-    settings.cong_settings.weekend_meeting
-  );
+  const weekendMeeting = structuredClone(localCongSettings.midweek_meeting);
 
   for (const remote of app_settings.cong_settings.weekend_meeting ?? []) {
     const local = weekendMeeting.find((record) => record.type === remote.type);
@@ -331,8 +329,7 @@ const handleUpdateSettings = async (data: UserLoginResponseType) => {
     // Pocket responses do not include cong_number. Preserve the local value
     // instead of overwriting it with undefined.
     'cong_settings.cong_number':
-      app_settings.cong_settings.cong_number ??
-      settings.cong_settings.cong_number,
+      app_settings.cong_settings.cong_number ?? localCongSettings.cong_number,
     'user_settings.cong_role': app_settings.user_settings.cong_role ?? [],
     'cong_settings.cong_location': app_settings.cong_settings.cong_location,
     'cong_settings.cong_circuit': app_settings.cong_settings.cong_circuit,

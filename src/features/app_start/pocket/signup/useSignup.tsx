@@ -16,6 +16,7 @@ import { getMessageByCode } from '@services/i18n/translation';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { apiPocketSignup } from '@services/api/pocket';
 import { settingsState } from '@states/settings';
+import { withCongSettingsDefaults } from '@services/states/settings';
 import { loadApp, runUpdater } from '@services/app';
 import { settingSchema } from '@services/dexie/schema';
 import useFeedback from '@features/app_start/shared/hooks/useFeedback';
@@ -65,9 +66,9 @@ const useSignup = () => {
       throw new Error('error_app_generic-title');
     }
 
-    const midweekMeeting = structuredClone(
-      settings.cong_settings.midweek_meeting
-    );
+    const localCongSettings = withCongSettingsDefaults(settings?.cong_settings);
+
+    const midweekMeeting = structuredClone(localCongSettings.midweek_meeting);
 
     for (const remote of app_settings.cong_settings.midweek_meeting ?? []) {
       const local = midweekMeeting.find(
@@ -88,9 +89,7 @@ const useSignup = () => {
       }
     }
 
-    const weekendMeeting = structuredClone(
-      settings.cong_settings.weekend_meeting
-    );
+    const weekendMeeting = structuredClone(localCongSettings.weekend_meeting);
 
     for (const remote of app_settings.cong_settings.weekend_meeting ?? []) {
       const local = weekendMeeting.find(
@@ -126,8 +125,7 @@ const useSignup = () => {
       // schema value rather than writing undefined to IndexedDB.
       // Prefer the server value when present; keep the local value otherwise.
       'cong_settings.cong_number':
-        app_settings.cong_settings.cong_number ??
-        settings.cong_settings.cong_number,
+        app_settings.cong_settings.cong_number ?? localCongSettings.cong_number,
       'user_settings.cong_role': app_settings.user_settings.cong_role ?? [],
       'cong_settings.cong_location': app_settings.cong_settings.cong_location,
       'cong_settings.cong_circuit': app_settings.cong_settings.cong_circuit,
