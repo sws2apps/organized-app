@@ -63,6 +63,8 @@ const useProfilePictureSelector = (onClose: () => void) => {
   const savedAvatarType = useAtomValue(userAvatarTypeState);
   const avatarBuffer = useAtomValue(userAvatarState);
 
+  const hasAvatar = avatarBuffer !== undefined;
+
   const [selectedType, setSelectedType] = useState<AvatarType>(savedAvatarType);
   const [isProcessing, setIsProcessing] = useState(false);
   const [saveError, setSaveError] = useState(false);
@@ -82,7 +84,7 @@ const useProfilePictureSelector = (onClose: () => void) => {
       if (option.gender && option.gender !== gender) return false;
 
       // the account photo can only be shown when there is one
-      if (option.type === 'google' && !avatarBuffer) return false;
+      if (option.type === 'google' && !hasAvatar) return false;
 
       return true;
     };
@@ -91,7 +93,7 @@ const useProfilePictureSelector = (onClose: () => void) => {
       titleKey: section.titleKey,
       options: section.options.filter(isVisible).map((option) => option.type),
     })).filter((section) => section.options.length > 0);
-  }, [gender, avatarBuffer]);
+  }, [gender, hasAvatar]);
 
   const handleDone = async () => {
     if (savingRef.current) return;
@@ -122,22 +124,32 @@ const useProfilePictureSelector = (onClose: () => void) => {
   };
 
   useEffect(() => {
-    // the saved avatar may no longer be selectable, e.g. after the account
-    // photo is gone: fall back to the generic one so a choice stays visible
-    const availableTypes = sections.flatMap((section) => section.options);
+    // reconcile whenever the set of available types changes (not only when
+    // the saved type changes): sections is memoized on a presence boolean,
+    // so unrelated settings writes cannot rebuild it and silently reset the
+    // selection while the dialog is open
+    const availableTypes = new Set(
+      sections.flatMap((section) => section.options)
+    );
 
+    // preserve an in-progress choice while it remains available
+    if (availableTypes.has(selectedType)) return;
+
+    // the selection is no longer offered, e.g. the account photo disappeared:
+    // fall back to the saved avatar when still selectable, otherwise to the
+    // generic one so a radio always stays selected
+    const fallback = availableTypes.has(savedAvatarType)
+      ? savedAvatarType
+      : 'default';
+
+    setSelectedType(fallback);
     setActiveTab(
       Math.max(
         0,
-        sections.findIndex((section) =>
-          section.options.includes(savedAvatarType)
-        )
+        sections.findIndex((section) => section.options.includes(fallback))
       )
     );
-    setSelectedType(
-      availableTypes.includes(savedAvatarType) ? savedAvatarType : 'default'
-    );
-  }, [sections, savedAvatarType]);
+  }, [sections, savedAvatarType, selectedType]);
 
   const handleClose = () => {
     if (!savingRef.current) onClose();

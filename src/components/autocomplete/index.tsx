@@ -81,9 +81,12 @@ const Autocomplete = <T,>(props: AutocompletePropsType<T>) => {
     optionsHeader,
     styleIcon,
     decorator,
+    decoratorColor,
     variant,
     ...defaultProps
   } = props;
+
+  const decoratorColorValue = decoratorColor ?? 'var(--orange-dark)';
 
   return (
     <MUIAutocomplete
@@ -139,19 +142,19 @@ const Autocomplete = <T,>(props: AutocompletePropsType<T>) => {
                   '.MuiOutlinedInput-root': {
                     borderRadius: 'var(--radius-l)',
                     '& fieldset': {
-                      border: '1px solid var(--orange-dark)',
+                      border: `1px solid ${decoratorColorValue}`,
                     },
                     '&:hover fieldset': {
-                      border: '1px solid var(--orange-dark)',
+                      border: `1px solid ${decoratorColorValue}`,
                     },
                     '&.Mui-focused fieldset': {
-                      border: '1px solid var(--orange-dark)',
+                      border: `1px solid ${decoratorColorValue}`,
                     },
                   },
                   '.MuiInputLabel-root': {
-                    color: 'var(--orange-dark)',
+                    color: decoratorColorValue,
                     '&.Mui-focused': {
-                      color: 'var(--orange-dark)',
+                      color: decoratorColorValue,
                     },
                   },
                 }

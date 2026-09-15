@@ -56,6 +56,7 @@ import {
 } from './tables/upcoming_events';
 import { publicTalkSchema, PublicTalkTable } from './tables/public_talk';
 import { songSchema, SongTable } from './tables/songs';
+import { appLocalsSchema, AppLocalsTable } from './tables/app_locals';
 
 type DexieTables = PersonsTable &
   SettingsTable &
@@ -77,7 +78,8 @@ type DexieTables = PersonsTable &
   MetadataTable &
   DelegatedFieldServiceReportsTable &
   PublicTalkTable &
-  SongTable;
+  SongTable &
+  AppLocalsTable;
 
 type Dexie<T = DexieTables> = BaseDexie & T;
 
@@ -204,6 +206,40 @@ appDb
     record.metadata.cong_field_service_reports.version = '';
 
     await tx.table('metadata').put(record);
+  });
+
+appDb
+  .version(14)
+  .stores({
+    ...schema,
+    ...metadataSchema,
+    ...delegatedFieldServiceReportsSchema,
+    ...weekTypeSchema,
+    ...publicTalkSchema,
+    ...songSchema,
+    ...upcomingEventsSchema,
+    ...appLocalsSchema,
+  })
+  .upgrade(async (tx) => {
+    // the account photo used to live inside the settings row, which made
+    // IndexedDB panels freeze and bloated restores: move it to its own table
+    // for local-only device data and drop it from the settings record
+    const settings = await tx.table('app_settings').get(1);
+
+    if (!settings || !('user_avatar' in settings.user_settings)) return;
+
+    if (settings.user_settings.user_avatar) {
+      await tx.table('app_locals').put({
+        id: 1,
+        avatar: settings.user_settings.user_avatar,
+      });
+    }
+
+    const newSettings = structuredClone(settings);
+
+    delete newSettings.user_settings.user_avatar;
+
+    await tx.table('app_settings').put(newSettings);
   });
 
 appDb.on('populate', function () {

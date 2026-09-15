@@ -131,12 +131,12 @@
   "tr_appliesOnlyToBrothers": "仅适用于弟兄",
   "tr_circuit": "分区：{{ circuitNumber }}",
   "tr_ageInYearsAndMonths": "{{ years }}年 {{months}}",
-  "tr_personHasNoAssignmentHistory": "这个人目前还没有节目委派记录",
+  "tr_personHasNoAssignmentHistory": "No assignment history yet",
   "tr_appUserProfile": "应用用户账号",
   "tr_appUserProfileNotRegisteredDesc": "这个人尚未使用 Organized。你可以在“用户账号”页面为他建立 Organized 账号。",
   "tr_appUserProfileRegisteredDesc": "这个人已经在使用 Organized。上次上线时间：<span class='h4'>{{ lastTimeOnline }}</span>。可以在“用户账号”页面编辑其他权限和设置。",
   "tr_notYet": "尚未",
-  "tr_manageUserProfileSettings": "管理用户账号设置",
+  "tr_manageUserProfileSettings": "Manage user account",
   "tr_createUserProfile": "建立用户账号",
   "tr_download": "下载",
   "tr_import": "导入",
@@ -178,5 +178,7 @@
   "tr_fontSize": "字体大小",
   "tr_small": "小",
   "tr_normal": "正常",
-  "tr_large": "大"
+  "tr_large": "大",
+  "tr_chooseFields": "Choose export fields",
+  "tr_chooseFieldsDesc": "Please select the fields you want to include in the export file."
 }
