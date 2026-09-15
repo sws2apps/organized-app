@@ -22,6 +22,7 @@ import RouteProtected from '@components/route_protected';
 import { determineAppLocale } from '@services/app';
 import { firstDayWeekState } from '@states/settings';
 import { LANGUAGE_LIST } from './constants';
+import InformationBoard from '@pages/congregation/information_board';
 
 // lazy loading
 const Dashboard = lazy(() => import('@pages/dashboard'));
@@ -120,6 +121,10 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
             {
               path: '/activities/upcoming-events',
               element: <UpcomingEvents />,
+            },
+            {
+              path: '/information-board',
+              element: <InformationBoard />,
             },
 
             // publisher routes
