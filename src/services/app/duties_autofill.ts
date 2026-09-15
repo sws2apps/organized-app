@@ -110,7 +110,7 @@ const hashOf = (value: string) => {
   let hash = 2166136261;
 
   for (let index = 0; index < value.length; index++) {
-    hash ^= value.charCodeAt(index);
+    hash ^= value.codePointAt(index) ?? 0;
     hash = Math.imul(hash, 16777619);
   }
 
@@ -479,9 +479,9 @@ const autofillDutyTasks = (
   tasks: DutyTask[],
   context: DutiesAutofillContext
 ) => {
-  const weekOfs = [
-    ...new Set(tasks.map((task) => task.schedule.weekOf)),
-  ].sort();
+  const weekOfs = [...new Set(tasks.map((task) => task.schedule.weekOf))].sort(
+    (a, b) => a.localeCompare(b)
+  );
 
   for (const weekOf of weekOfs) {
     const weekTasks = tasks

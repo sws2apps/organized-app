@@ -278,14 +278,12 @@ const findSpot = (
   if (!highest) return undefined;
 
   // starting a hair below a neighbour reads as a mistake: share its line instead
-  const aligned = spots
-    .filter(
-      (spot) =>
-        spot.column === highest.column &&
-        spot.top > highest.top &&
-        spot.top - highest.top <= ALIGN_TOLERANCE
-    )
-    .at(-1);
+  const aligned = spots.findLast(
+    (spot) =>
+      spot.column === highest.column &&
+      spot.top > highest.top &&
+      spot.top - highest.top <= ALIGN_TOLERANCE
+  );
 
   return aligned ?? highest;
 };

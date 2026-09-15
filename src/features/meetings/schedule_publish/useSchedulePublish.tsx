@@ -59,6 +59,51 @@ const mergeDynamicDuties = (
   return merged;
 };
 
+type ScheduleWithDuties = { duties?: SchedWeekType['duties'] };
+
+// applies a local schedule onto its remote copy, keeping the dynamic duty
+// slots of both sides instead of letting updateObject collapse them
+const mergeScheduleIntoRemote = <T extends { weekOf: string }>(
+  remoteItem: T,
+  item: T
+) => {
+  if (
+    remoteItem['midweek_meeting']?.['aux_fsg'] &&
+    typeof remoteItem['midweek_meeting']['aux_fsg'] === 'string'
+  ) {
+    delete remoteItem['midweek_meeting']['aux_fsg'];
+  }
+
+  const localItem = structuredClone(item) as T & ScheduleWithDuties;
+  const remoteSchedule = remoteItem as T & ScheduleWithDuties;
+
+  const dynamicMerged: Partial<
+    Record<'midweek' | 'weekend', AssignmentCongregation[]>
+  > = {};
+
+  for (const meeting of ['midweek', 'weekend'] as const) {
+    const localMeeting = localItem.duties?.[meeting];
+
+    if (!localMeeting?.dynamic) continue;
+
+    dynamicMerged[meeting] = mergeDynamicDuties(
+      remoteSchedule.duties?.[meeting]?.dynamic,
+      localMeeting.dynamic
+    );
+
+    delete (localMeeting as Partial<typeof localMeeting>).dynamic;
+  }
+
+  updateObject(remoteItem, localItem);
+
+  for (const meeting of ['midweek', 'weekend'] as const) {
+    const merged = dynamicMerged[meeting];
+    const remoteMeeting = remoteSchedule.duties?.[meeting];
+
+    if (merged && remoteMeeting) remoteMeeting.dynamic = merged;
+  }
+};
+
 // true when any duty assignment across either meeting holds a person
 const scheduleHasDutiesData = (schedule: SchedWeekType) => {
   if (!schedule.duties) return false;
@@ -298,50 +343,10 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
         (record) => record.weekOf === item.weekOf
       );
 
-      if (!remoteItem) {
-        filteredData.push(item);
-      }
-
       if (remoteItem) {
-        if (
-          remoteItem['midweek_meeting']?.['aux_fsg'] &&
-          typeof remoteItem['midweek_meeting']['aux_fsg'] === 'string'
-        ) {
-          delete remoteItem['midweek_meeting']['aux_fsg'];
-        }
-
-        const localItem = structuredClone(item) as T & {
-          duties?: SchedWeekType['duties'];
-        };
-        const remoteSchedule = remoteItem as T & {
-          duties?: SchedWeekType['duties'];
-        };
-
-        const dynamicMerged: Partial<
-          Record<'midweek' | 'weekend', AssignmentCongregation[]>
-        > = {};
-
-        for (const meeting of ['midweek', 'weekend'] as const) {
-          const localMeeting = localItem.duties?.[meeting];
-
-          if (!localMeeting?.dynamic) continue;
-
-          dynamicMerged[meeting] = mergeDynamicDuties(
-            remoteSchedule.duties?.[meeting]?.dynamic,
-            localMeeting.dynamic
-          );
-
-          delete (localMeeting as Partial<typeof localMeeting>).dynamic;
-        }
-
-        updateObject(remoteItem, localItem);
-
-        for (const meeting of ['midweek', 'weekend'] as const) {
-          const merged = dynamicMerged[meeting];
-          const remoteMeeting = remoteSchedule.duties?.[meeting];
-
-          if (merged && remoteMeeting) remoteMeeting.dynamic = merged;
-        }
+        mergeScheduleIntoRemote(remoteItem, item);
+      } else {
+        filteredData.push(item);
       }
     }
 

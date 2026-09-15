@@ -42,16 +42,60 @@ import {
   schedulesSaveAssignment,
 } from '@services/app/schedules';
 import { ASSIGNMENT_PATH } from '@constants/index';
-import { AssignmentCongregation } from '@definition/schedules';
+import {
+  AssignmentCongregation,
+  AssignmentHistoryType,
+  DutiesGender,
+} from '@definition/schedules';
 import { useAppTranslation } from '@hooks/index';
 import { incomingSpeakersState } from '@states/visiting_speakers';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { formatDate } from '@utils/date';
-import { DutiesGender } from '@definition/schedules';
 import { languageGroupsState } from '@states/field_service_groups';
 
 const defaultFilterOptions = createFilterOptions<PersonOptionsType>();
+
+type WeekConflict = { title: string; isDuty: boolean };
+
+// person_uid -> another assignment they hold in the same meeting
+const collectWeekConflicts = ({
+  history,
+  week,
+  dataView,
+  assignment,
+  schedule_id,
+}: {
+  history: AssignmentHistoryType[];
+  week: string;
+  dataView: string;
+  assignment: string;
+  schedule_id?: string;
+}) => {
+  const conflicts = new Map<string, WeekConflict>();
+
+  const meetingPrefix = assignment.slice(0, 3);
+
+  for (const { weekOf, assignment: held } of history) {
+    const isOtherFieldOfMeeting =
+      weekOf === week &&
+      held.dataView === dataView &&
+      held.key?.startsWith(meetingPrefix) &&
+      !(held.key === assignment && held.schedule_id === schedule_id);
+
+    if (!isOtherFieldOfMeeting || !held.person) continue;
+
+    const isDuty = held.key?.includes('_DUTIES_') ?? false;
+    const existing = conflicts.get(held.person);
+
+    // duty conflicts take precedence over meeting-part ones
+    if (!existing || (isDuty && !existing.isDuty)) {
+      conflicts.set(held.person, { title: held.title ?? '', isDuty });
+    }
+  }
+
+  return conflicts;
+};
 
 const useBrotherSelector = ({
   type,
@@ -169,39 +213,18 @@ const useBrotherSelector = ({
 
   const isDutiesField = assignment.includes('_DUTIES_');
 
-  // person_uid -> another assignment they hold in the same meeting
   const weekConflicts = useMemo(() => {
-    const conflicts = new Map<string, { title: string; isDuty: boolean }>();
-
-    if (!isDutiesField || week.length === 0) return conflicts;
-
-    const meetingPrefix = assignment.slice(0, 3);
-
-    for (const item of assignmentsHistory) {
-      if (item.weekOf !== week) continue;
-      if (item.assignment.dataView !== dataView) continue;
-      if (!item.assignment.key?.startsWith(meetingPrefix)) continue;
-      if (!item.assignment.person) continue;
-
-      const isSameField =
-        item.assignment.key === assignment &&
-        item.assignment.schedule_id === schedule_id;
-
-      if (isSameField) continue;
-
-      const isDuty = item.assignment.key?.includes('_DUTIES_') ?? false;
-      const existing = conflicts.get(item.assignment.person);
-
-      // duty conflicts take precedence over meeting-part ones
-      if (!existing || (isDuty && !existing.isDuty)) {
-        conflicts.set(item.assignment.person, {
-          title: item.assignment.title ?? '',
-          isDuty,
-        });
-      }
+    if (!isDutiesField || week.length === 0) {
+      return new Map<string, WeekConflict>();
     }
 
-    return conflicts;
+    return collectWeekConflicts({
+      history: assignmentsHistory,
+      week,
+      dataView,
+      assignment,
+      schedule_id,
+    });
   }, [
     isDutiesField,
     week,

@@ -179,22 +179,61 @@ export type DutiesStaticKey = Exclude<
   'sections' | 'dynamic'
 >;
 
+type ReleasePositionsParams = {
+  dataView: string;
+  amount: number;
+  keys?: DutiesStaticKey[];
+  customId?: string;
+};
+
+const releaseStaticPositions = (
+  duties: DutiesMeetingType,
+  { dataView, amount, keys = [] }: ReleasePositionsParams,
+  now: string
+) => {
+  let released = false;
+
+  for (const key of keys) {
+    for (const [field, entries] of Object.entries(duties[key] ?? {})) {
+      const position = Number(field.replace('position_', ''));
+
+      if (position <= amount) continue;
+
+      for (const entry of entries) {
+        if (entry.type !== dataView || entry.value === '') continue;
+
+        entry.value = '';
+        entry.updatedAt = now;
+        released = true;
+      }
+    }
+  }
+
+  return released;
+};
+
+const releaseCustomPositions = (
+  duties: DutiesMeetingType,
+  { dataView, amount, customId }: ReleasePositionsParams
+) => {
+  if (!customId || !duties.dynamic) return false;
+
+  const entries = duties.dynamic.filter((entry) => entry.type === dataView);
+
+  return releaseSlots(
+    entries,
+    (sourceId, position) => sourceId === customId && position > amount
+  );
+};
+
 /**
  * Clears the brothers of the positions a lower duty amount no longer shows,
  * from the current week on, so raising the amount again starts empty instead
  * of bringing old assignments back. Past weeks keep what was served.
  */
-export const dutiesReleasePositions = async ({
-  dataView,
-  amount,
-  keys = [],
-  customId,
-}: {
-  dataView: string;
-  amount: number;
-  keys?: DutiesStaticKey[];
-  customId?: string;
-}) => {
+export const dutiesReleasePositions = async (
+  params: ReleasePositionsParams
+) => {
   const currentWeek = formatDate(getWeekDate(), 'yyyy/MM/dd');
   const now = new Date().toISOString();
 
@@ -212,37 +251,10 @@ export const dutiesReleasePositions = async ({
 
       if (!duties) continue;
 
-      for (const key of keys) {
-        const positions = duties[key];
+      const staticReleased = releaseStaticPositions(duties, params, now);
+      const customReleased = releaseCustomPositions(duties, params);
 
-        if (!positions) continue;
-
-        for (const [field, entries] of Object.entries(positions)) {
-          const position = Number(field.replace('position_', ''));
-
-          if (position <= amount) continue;
-
-          for (const entry of entries) {
-            if (entry.type !== dataView || entry.value === '') continue;
-
-            entry.value = '';
-            entry.updatedAt = now;
-            released = true;
-          }
-        }
-      }
-
-      if (customId && duties.dynamic) {
-        const entries = duties.dynamic.filter(
-          (entry) => entry.type === dataView
-        );
-
-        released =
-          releaseSlots(
-            entries,
-            (sourceId, position) => sourceId === customId && position > amount
-          ) || released;
-      }
+      released = staticReleased || customReleased || released;
     }
 
     if (released) changed.push(updated);
