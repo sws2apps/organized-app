@@ -5,11 +5,11 @@ export const SkeletonLoaderCardContainer = styled(Box)({
   borderRadius: 'var(--radius-xl)',
   border: '1px solid var(--accent-200)',
   backgroundColor: 'var(--white)',
-});
+}) as unknown as typeof Box;
 
 export const SkeletonLoaderCardTitle = styled(Box)({
   padding: '8px 8px 0px 8px',
-});
+}) as unknown as typeof Box;
 
 export const SkeletonLoaderCardBlueArea = styled(Box)({
   background: 'var(--accent-200)',
@@ -17,14 +17,14 @@ export const SkeletonLoaderCardBlueArea = styled(Box)({
   display: 'flex',
   justifyContent: 'center',
   padding: '16px 0px 16px 0px',
-});
+}) as unknown as typeof Box;
 
 export const SkeletonLoaderCardBlueAreaRect = styled(Skeleton)({
   borderRadius: 'var(--radius-m)',
   background: 'var(--accent-300)',
   width: '128px',
   height: '24px',
-});
+}) as unknown as typeof Skeleton;
 
 export const SkeletonLoaderCardItems = styled(Box)({
   display: 'flex',
@@ -32,7 +32,7 @@ export const SkeletonLoaderCardItems = styled(Box)({
   borderRadius: '0px 0px 8px 8px',
   padding: '8px',
   gap: '2px',
-});
+}) as unknown as typeof Box;
 
 export const SkeletonLoaderCardItem = styled(Box)({
   borderRadius: 'var(--radius-s)',
@@ -43,22 +43,22 @@ export const SkeletonLoaderCardItem = styled(Box)({
   flexDirection: 'row',
   gap: '16px',
   backgroundColor: 'var(--white)',
-});
+}) as unknown as typeof Box;
 
 export const SkeletonLoaderCardCircle = styled(Skeleton)({
   background: 'var(--accent-200)',
   width: '20px',
   height: '20px',
-});
+}) as unknown as typeof Skeleton;
 
 export const SkeletonLoaderCardText = styled(Skeleton)({
   background: 'var(--accent-200)',
   borderRadius: 'var(--radius-max)',
   height: '20px',
-});
+}) as unknown as typeof Skeleton;
 
 export const SkeletonLoaderCardGroup = styled(Box)({
   display: 'flex',
   flexDirection: 'row',
   gap: '10px',
-});
+}) as unknown as typeof Box;
