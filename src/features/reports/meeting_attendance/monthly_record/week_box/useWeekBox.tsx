@@ -41,7 +41,6 @@ const EMPTY_VALUES: WeekBoxValues = {
   onlineDeaf: '',
 };
 
-// the week box fields each counter tab writes to
 const CLICKER_FIELDS: Record<
   'hearing' | 'deaf',
   Record<ClickerTab, keyof WeekBoxValues>
@@ -356,8 +355,6 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
 
   const handleClickerClose = () => setClickerOpen(false);
 
-  // saved through saveAttendance like typing: the deaf counts are added to the
-  // totals and online is only written when the congregation records it
   const handleClickerSave = (counts: ClickerSaveValues) => {
     const changes: Partial<WeekBoxValues> = {};
 
