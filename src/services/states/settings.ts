@@ -12,5 +12,5 @@ export const withCongSettingsDefaults = (
   local?: Partial<(typeof settingSchema)['cong_settings']>
 ) => ({
   ...structuredClone(settingSchema.cong_settings),
-  ...(local ?? {}),
+  ...local,
 });

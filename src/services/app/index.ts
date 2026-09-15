@@ -296,7 +296,7 @@ const handleUpdateSettings = async (data: UserLoginResponseType) => {
     }
   }
 
-  const weekendMeeting = structuredClone(localCongSettings.midweek_meeting);
+  const weekendMeeting = structuredClone(localCongSettings.weekend_meeting);
 
   for (const remote of app_settings.cong_settings.weekend_meeting ?? []) {
     const local = weekendMeeting.find((record) => record.type === remote.type);
