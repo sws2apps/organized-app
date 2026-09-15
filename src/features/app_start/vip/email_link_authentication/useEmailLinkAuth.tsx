@@ -8,6 +8,7 @@ import {
 import { apiUpdatePasswordlessInfo } from '@services/api/user';
 import {
   displayOnboardingFeedback,
+  displaySnackNotification,
   setIsCongAccountCreate,
   setIsEmailLinkAuthenticate,
   setIsUnauthorizedRole,
@@ -21,6 +22,10 @@ import {
   isEmailLinkAuthenticateState,
   isUserAccountCreatedState,
 } from '@states/app';
+import {
+  appLockIsPinResetPending,
+  appLockResetPin,
+} from '@services/app_lock/reset';
 import useAuth from '../hooks/useAuth';
 import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 
@@ -81,6 +86,16 @@ const useEmailLinkAuth = () => {
       if (status !== 200) {
         handleAuthorizationError(data.message);
         return;
+      }
+
+      if (appLockIsPinResetPending()) {
+        await appLockResetPin();
+
+        displaySnackNotification({
+          header: t('tr_PINResetDone'),
+          message: t('tr_PINResetDoneDesc'),
+          severity: 'success',
+        });
       }
 
       const nextStep: NextStepType = determineNextStep(

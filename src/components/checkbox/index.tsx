@@ -40,6 +40,11 @@ const Checkbox = (props: CheckboxPropsType) => {
         ...(isBorder && { ...StyleCheckboxBorder }),
         ...(isBorder && checked && { ...StyleCheckboxBorderChecked }),
         ...sx,
+        '& .MuiFormControlLabel-label': {
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '4px',
+        },
         '&.Mui-disabled': {
           opacity: 1,
           '& p': {
@@ -95,8 +100,8 @@ const Checkbox = (props: CheckboxPropsType) => {
 
           {labelDescription !== '' ? (
             <Typography
-              className="body-small-regular"
-              color={'var(--grey-400)'}
+              className="label-small-regular"
+              color={'var(--grey-350)'}
               sx={{ userSelect: 'none' }}
             >
               {labelDescription}

@@ -311,6 +311,18 @@ export type SettingsType = {
   };
 };
 
+/** Kept on the device: see `services/app_lock/storage.ts` */
+export type AppLockSettingsType = {
+  enabled: { value: boolean; updatedAt: string };
+  lock_after_minutes: { value: number; updatedAt: string };
+  biometric_enabled: { value: boolean; updatedAt: string };
+  pin_create_pending?: { value: boolean; updatedAt: string };
+  pin_hash?: string;
+  pin_salt?: string;
+  pin_iterations?: number;
+  webauthn_credential_id?: string;
+};
+
 export type BackupDataType = {
   dbPersons: [];
   dbDeleted: [];

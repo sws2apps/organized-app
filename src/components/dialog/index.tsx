@@ -81,6 +81,7 @@ const Dialog = ({
   children,
   sx,
   PaperProps,
+  TransitionProps,
   header,
   actions,
   title,
@@ -164,6 +165,7 @@ const Dialog = ({
       fullWidth
       open={open}
       onClose={handleClose}
+      TransitionProps={TransitionProps}
       aria-labelledby={title ? titleId : undefined}
       sx={{
         boxSizing: 'border-box',
