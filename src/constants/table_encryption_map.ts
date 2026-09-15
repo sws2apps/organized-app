@@ -25,6 +25,9 @@ export const TABLE_ENCRYPTION_MAP = {
     family_members: 'shared',
   },
   app_settings: {
+    title: 'shared',
+    text: 'shared',
+    phone: 'shared',
     country_code: 'public',
     cong_number: 'public',
     cong_name: 'public',

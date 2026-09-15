@@ -1,3 +1,9 @@
+import { isHallAttendant } from '@utils/hall_attendant';
+import { mergeHallInfo } from '@utils/hall_info';
+import {
+  getAttendanceDataViews,
+  getAttendanceForUpload,
+} from '@utils/meeting_attendance';
 // to minimize the size of the worker file, we recreate all its needed functions in this file
 
 import appDb from '@db/appDb';
@@ -349,14 +355,14 @@ export const dbGetMetadata = async () => {
   const isCoordinator = userRole.includes('coordinator');
   const isAdmin = userRole.includes('admin') || isSecretary || isCoordinator;
   const isPublisher = isAdmin || userRole.includes('publisher');
-  const isLanguageGroupOverseer =
-    isAdmin || userRole.includes('language_group_overseers');
   const isElder =
     accountType === 'vip' && (isAdmin || userRole.includes('elder'));
   const isScheduleEditor = isScheduleEditorRole(userRole);
 
-  const isAttendanceTracker =
-    isAdmin || userRole.some((role) => role === 'attendance_tracking');
+  const currentPerson = await appDb.persons.get(
+    settings.user_settings.user_local_uid
+  );
+  const attendanceViews = getAttendanceDataViews(currentPerson, userRole);
 
   const isReportEditor = isReportEditorRole(userRole);
 
@@ -385,7 +391,7 @@ export const dbGetMetadata = async () => {
     delete result.schedules;
   }
 
-  if (!isAttendanceTracker && !isLanguageGroupOverseer) {
+  if (attendanceViews?.length === 0) {
     delete result.meeting_attendance;
   }
 
@@ -656,6 +662,59 @@ const convertObjectToArray = (settings: SettingsType) => {
   return settings;
 };
 
+/**
+ * The hall information of both sides merged item by item, so that an edit
+ * made offline on either side survives the restore.
+ */
+const restoredHallInfo = (local: SettingsType, remote: SettingsType) => {
+  const localInfo = local.cong_settings.hall_attendant_info;
+  const remoteInfo = remote.cong_settings.hall_attendant_info;
+
+  if (!localInfo && !remoteInfo) return undefined;
+
+  return mergeHallInfo(localInfo, remoteInfo);
+};
+
+/**
+ * What a full account keeps from its own device on restore, and the keys of
+ * earlier versions that no longer belong in the settings.
+ */
+const keepLocalCongSettings = (
+  localSettings: SettingsType,
+  settings: SettingsType
+) => {
+  localSettings.cong_settings.cong_new = settings.cong_settings.cong_new;
+  localSettings.cong_settings.cong_migrated =
+    settings.cong_settings.cong_migrated ?? false;
+
+  delete (localSettings.cong_settings as Record<string, unknown>)[
+    'source_material_auto_import'
+  ];
+
+  for (const midweekSetting of localSettings.cong_settings.midweek_meeting ??
+    []) {
+    const setting = midweekSetting as Record<string, unknown>;
+
+    delete setting['opening_prayer_auto_assigned'];
+    delete setting['closing_prayer_auto_assigned'];
+  }
+};
+
+/** A pocket account takes the congregation settings as the server has them. */
+const adoptRemoteCongSettings = (
+  localSettings: SettingsType,
+  remoteSettings: SettingsType
+) => {
+  const localCongSettings = localSettings.cong_settings as Record<
+    string,
+    unknown
+  >;
+
+  for (const [key, value] of Object.entries(remoteSettings.cong_settings)) {
+    localCongSettings[key] = value;
+  }
+};
+
 const dbRestoreSettings = async (
   backupData: BackupDataType,
   accessCode: string,
@@ -682,8 +741,7 @@ const dbRestoreSettings = async (
     });
 
     const remoteUserSettings = remoteSettings.user_settings as
-      | Record<string, unknown>
-      | undefined;
+      Record<string, unknown> | undefined;
 
     if (remoteUserSettings && 'user_avatar' in remoteUserSettings) {
       // a legacy avatar can still arrive embedded in the user settings from
@@ -700,89 +758,56 @@ const dbRestoreSettings = async (
       delete remoteUserSettings['user_avatar'];
     }
 
-    const settings = await appDb.app_settings.get(1);
+    await appDb.transaction('rw', appDb.app_settings, async () => {
+      const settings = await appDb.app_settings.get(1);
 
-    if (!settings) {
-      throw new Error('Settings not found');
-    }
-
-    const localSettings = structuredClone(settings);
-
-    convertObjectToArray(remoteSettings);
-    convertObjectToArray(localSettings);
-
-    syncFromRemote(localSettings, remoteSettings);
-
-    if (backupData.metadata?.user_settings) {
-      localSettings.user_settings.cong_role =
-        remoteSettings.user_settings.cong_role;
-      localSettings.user_settings.user_local_uid =
-        remoteSettings.user_settings.user_local_uid;
-      localSettings.user_settings.user_members_delegate =
-        remoteSettings.user_settings.user_members_delegate;
-    }
-
-    if (
-      backupData.metadata?.cong_settings &&
-      localSettings.user_settings.account_type === 'vip'
-    ) {
-      // force to use local value
-      localSettings.cong_settings.cong_new = settings.cong_settings.cong_new;
-      localSettings.cong_settings.cong_migrated =
-        settings.cong_settings.cong_migrated ?? false;
-
-      const vipCongSettings = localSettings.cong_settings as Record<
-        string,
-        unknown
-      >;
-
-      if (vipCongSettings['source_material_auto_import']) {
-        delete vipCongSettings['source_material_auto_import'];
+      if (!settings) {
+        throw new Error('Settings not found');
       }
 
-      const midweekSettings =
-        localSettings?.cong_settings.midweek_meeting || [];
+      const hallInfo = restoredHallInfo(settings, remoteSettings);
+      const localSettings = structuredClone(settings);
 
-      for (const midweekSetting of midweekSettings) {
-        const setting = midweekSetting as Record<string, unknown>;
+      convertObjectToArray(remoteSettings);
+      convertObjectToArray(localSettings);
 
-        if (setting['opening_prayer_auto_assigned']) {
-          delete setting['opening_prayer_auto_assigned'];
-        }
+      syncFromRemote(localSettings, remoteSettings);
 
-        if (setting['closing_prayer_auto_assigned']) {
-          delete setting['closing_prayer_auto_assigned'];
-        }
+      if (backupData.metadata?.user_settings) {
+        localSettings.user_settings.cong_role =
+          remoteSettings.user_settings.cong_role;
+        localSettings.user_settings.user_local_uid =
+          remoteSettings.user_settings.user_local_uid;
+        localSettings.user_settings.user_members_delegate =
+          remoteSettings.user_settings.user_members_delegate;
       }
-    }
 
-    if (
-      backupData.metadata?.cong_settings &&
-      localSettings.user_settings.account_type === 'pocket'
-    ) {
-      const remoteCongSettingsEntries = remoteSettings.cong_settings as Record<
-        string,
-        unknown
-      >;
-      const localCongSettings = localSettings.cong_settings as Record<
-        string,
-        unknown
-      >;
-
-      for (const [key, value] of Object.entries(remoteCongSettingsEntries)) {
-        localCongSettings[key] = value;
+      if (
+        backupData.metadata?.cong_settings &&
+        localSettings.user_settings.account_type === 'vip'
+      ) {
+        keepLocalCongSettings(localSettings, settings);
       }
-    }
 
-    if (!backupData.metadata?.user_settings) {
-      delete (localSettings as Partial<SettingsType>).user_settings;
-    }
+      if (
+        backupData.metadata?.cong_settings &&
+        localSettings.user_settings.account_type === 'pocket'
+      ) {
+        adoptRemoteCongSettings(localSettings, remoteSettings);
+      }
 
-    if (!backupData.metadata?.cong_settings) {
-      delete (localSettings as Partial<SettingsType>).cong_settings;
-    }
+      if (hallInfo) localSettings.cong_settings.hall_attendant_info = hallInfo;
 
-    await appDb.app_settings.update(1, localSettings);
+      if (!backupData.metadata?.user_settings) {
+        delete (localSettings as Partial<SettingsType>).user_settings;
+      }
+
+      if (!backupData.metadata?.cong_settings) {
+        delete (localSettings as Partial<SettingsType>).cong_settings;
+      }
+
+      await appDb.app_settings.update(1, localSettings);
+    });
   } catch (error) {
     throw new Error(`settings: ${getErrorMessage(error)}`);
   }
@@ -1366,30 +1391,32 @@ const dbRestoreMeetingAttendance = async (
       return data;
     });
 
-    const localData = await appDb.meeting_attendance.toArray();
+    await appDb.transaction('rw', appDb.meeting_attendance, async () => {
+      const localData = await appDb.meeting_attendance.toArray();
 
-    const dataToUpdate: MeetingAttendanceType[] = [];
+      const dataToUpdate: MeetingAttendanceType[] = [];
 
-    for (const remoteItem of remoteData) {
-      const localItem = localData.find(
-        (record) => record.month_date === remoteItem.month_date
-      );
+      for (const remoteItem of remoteData) {
+        const localItem = localData.find(
+          (record) => record.month_date === remoteItem.month_date
+        );
 
-      if (!localItem) {
-        dataToUpdate.push(remoteItem);
+        if (!localItem) {
+          dataToUpdate.push(remoteItem);
+        }
+
+        if (localItem) {
+          const newItem = structuredClone(localItem);
+          syncFromRemote(newItem, remoteItem);
+
+          dataToUpdate.push(newItem);
+        }
       }
 
-      if (localItem) {
-        const newItem = structuredClone(localItem);
-        syncFromRemote(newItem, remoteItem);
-
-        dataToUpdate.push(newItem);
+      if (dataToUpdate.length > 0) {
+        await appDb.meeting_attendance.bulkPut(dataToUpdate);
       }
-    }
-
-    if (dataToUpdate.length > 0) {
-      await appDb.meeting_attendance.bulkPut(dataToUpdate);
-    }
+    });
   } catch (error) {
     throw new Error(`meeting_attendance: ${getErrorMessage(error)}`);
   }
@@ -1759,8 +1786,7 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
       await oldData.settings.cong_settings.cong_master_key;
 
     const backupCongSettings = backupData.app_settings?.cong_settings as
-      | Record<string, string>
-      | undefined;
+      Record<string, string> | undefined;
 
     if (!backupCongSettings?.['cong_access_code']) {
       throw new Error('app_settings.cong_settings not found in backup data');
@@ -1804,6 +1830,8 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
       upcoming_events,
     } = await dbGetTableData();
 
+    if (!settings || !metadata) throw new Error('error_app_generic-desc');
+
     const dataSync = settings.cong_settings.data_sync.value;
     const accountType = settings.user_settings.account_type;
     const userRole = settings.user_settings.cong_role;
@@ -1833,11 +1861,6 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
 
     const isPublisher = userRole.includes('publisher');
 
-    const attendanceTracker =
-      adminRole ||
-      languageGroupOverseerRole ||
-      userRole.includes('attendance_tracking');
-
     const userBaseSettings = {
       firstname: user_settings.firstname,
       lastname: user_settings.lastname,
@@ -1848,6 +1871,7 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
     const myPerson = persons.find(
       (record) => record.person_uid === user_settings.user_local_uid
     );
+    const attendanceViews = getAttendanceDataViews(myPerson, userRole);
 
     if (dataSync) {
       if (accountType === 'vip') {
@@ -1858,6 +1882,9 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
         // include settings data
         if (settingEditor) {
           const localSettings = structuredClone(settings);
+          if (!adminRole && !userRole.includes('hall_attendant_info')) {
+            delete localSettings.cong_settings.hall_attendant_info;
+          }
 
           encryptObject({
             data: localSettings,
@@ -2060,24 +2087,6 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
           }
         }
 
-        // include meeting attendance
-        if (
-          attendanceTracker &&
-          metadata.metadata.meeting_attendance.send_local
-        ) {
-          const backupAttendance = meeting_attendance.map((attendance) => {
-            encryptObject({
-              data: attendance,
-              table: 'meeting_attendance',
-              accessCode,
-            });
-
-            return attendance;
-          });
-
-          obj.meeting_attendance = backupAttendance;
-        }
-
         // for admin role
         if (adminRole) {
           // include branch reports
@@ -2196,6 +2205,8 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
               }
             }
 
+            if (isHallAttendant(person)) userRole.push('hall_attendant');
+
             userRole = Array.from(new Set(userRole));
 
             let roleChanged = false;
@@ -2273,6 +2284,47 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
 
           obj.persons = [person];
         }
+      }
+
+      if (
+        attendanceViews?.length !== 0 &&
+        metadata.metadata.meeting_attendance.send_local
+      ) {
+        obj.meeting_attendance = getAttendanceForUpload(
+          meeting_attendance,
+          attendanceViews
+        ).map((attendance) => {
+          encryptObject({
+            data: attendance,
+            table: 'meeting_attendance',
+            accessCode,
+          });
+          return attendance;
+        });
+      }
+
+      if (
+        (adminRole || userRole.includes('hall_attendant_info')) &&
+        metadata.metadata.cong_settings.send_local &&
+        settings.cong_settings.hall_attendant_info
+      ) {
+        const hallSettings = {
+          hall_attendant_info: structuredClone(
+            settings.cong_settings.hall_attendant_info
+          ),
+        };
+        encryptObject({
+          data: hallSettings,
+          table: 'app_settings',
+          accessCode,
+        });
+        obj.app_settings = {
+          ...obj.app_settings,
+          cong_settings: {
+            ...obj.app_settings?.cong_settings,
+            ...hallSettings,
+          },
+        };
       }
 
       // include publisher bible studies and field reports

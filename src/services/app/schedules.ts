@@ -61,6 +61,7 @@ import {
 } from '@definition/schedules';
 import {
   ASSIGNMENT_PATH,
+  DEFAULT_MEETING_WEEKDAYS,
   MIDWEEK_FULL,
   MIDWEEK_WITH_CBS,
   MIDWEEK_WITH_LIVING,
@@ -2870,7 +2871,7 @@ export const schedulesResolveMeetingDate = ({
     meetingDay =
       settings.cong_settings.midweek_meeting.find(
         (record) => record.type === dataView
-      )?.weekday.value ?? 2;
+      )?.weekday.value ?? DEFAULT_MEETING_WEEKDAYS.midweek;
 
     if (
       WEEK_TYPE_LANGUAGE_GROUPS.includes(weekType) ||
@@ -2879,7 +2880,7 @@ export const schedulesResolveMeetingDate = ({
       meetingDay =
         settings.cong_settings.midweek_meeting.find(
           (record) => record.type === 'main'
-        )?.weekday.value ?? 2;
+        )?.weekday.value ?? DEFAULT_MEETING_WEEKDAYS.midweek;
     }
   }
 
@@ -2887,7 +2888,7 @@ export const schedulesResolveMeetingDate = ({
     meetingDay =
       settings.cong_settings.weekend_meeting.find(
         (record) => record.type === dataView
-      )?.weekday.value ?? 6;
+      )?.weekday.value ?? DEFAULT_MEETING_WEEKDAYS.weekend;
 
     if (
       WEEK_TYPE_LANGUAGE_GROUPS.includes(weekType) ||
@@ -2896,7 +2897,7 @@ export const schedulesResolveMeetingDate = ({
       meetingDay =
         settings.cong_settings.weekend_meeting.find(
           (record) => record.type === 'main'
-        )?.weekday.value ?? 6;
+        )?.weekday.value ?? DEFAULT_MEETING_WEEKDAYS.weekend;
     }
   }
 
