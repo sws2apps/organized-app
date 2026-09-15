@@ -1,8 +1,8 @@
-import { Box, Step, StepLabel, Stepper } from '@mui/material';
+import { Box } from '@mui/material';
 import { useAppTranslation } from '@hooks/index';
 import useCongregationCreate from './useCongregationCreate';
 import PageHeader from '@features/app_start/shared/page_header';
-import Typography from '@components/typography';
+import Stepper from '@components/stepper';
 
 const CongregationCreate = () => {
   const { t } = useAppTranslation();
@@ -22,44 +22,10 @@ const CongregationCreate = () => {
       <PageHeader title={t('tr_createCongregation')} />
 
       <Stepper
+        steps={steps.map((step) => step.label)}
         activeStep={currentStep}
-        alternativeLabel
         sx={{ marginBottom: '32px', marginTop: '-8px' }}
-      >
-        {steps.map((step, index) => (
-          <Step
-            key={step.label}
-            sx={{
-              '.MuiStepIcon-root': {
-                '&.Mui-active': { color: 'unset' },
-                color:
-                  index <= currentStep
-                    ? 'var(--accent-main) !important'
-                    : 'var(--accent-150) !important',
-              },
-              '.MuiStepIcon-text': {
-                fill:
-                  index <= currentStep
-                    ? 'var(--always-white)'
-                    : 'var(--accent-dark)',
-              },
-            }}
-          >
-            <StepLabel>
-              <Typography
-                className="label-small-medium"
-                color={
-                  index <= currentStep
-                    ? 'var(--accent-dark)'
-                    : 'var(--accent-400)'
-                }
-              >
-                {step.label}
-              </Typography>
-            </StepLabel>
-          </Step>
-        ))}
-      </Stepper>
+      />
 
       {steps[currentStep].Component}
     </Box>

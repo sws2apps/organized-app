@@ -56,6 +56,14 @@ import {
 } from './tables/upcoming_events';
 import { publicTalkSchema, PublicTalkTable } from './tables/public_talk';
 import { songSchema, SongTable } from './tables/songs';
+import {
+  publicWitnessingLocationsSchema,
+  PublicWitnessingLocationsTable,
+} from './tables/public_witnessing_locations';
+import {
+  publicWitnessingArrangementsSchema,
+  PublicWitnessingArrangementsTable,
+} from './tables/public_witnessing_arrangements';
 import { appLocalsSchema, AppLocalsTable } from './tables/app_locals';
 
 type DexieTables = PersonsTable &
@@ -79,6 +87,8 @@ type DexieTables = PersonsTable &
   DelegatedFieldServiceReportsTable &
   PublicTalkTable &
   SongTable &
+  PublicWitnessingLocationsTable &
+  PublicWitnessingArrangementsTable &
   AppLocalsTable;
 
 type Dexie<T = DexieTables> = BaseDexie & T;
@@ -241,6 +251,19 @@ appDb
 
     await tx.table('app_settings').put(newSettings);
   });
+
+appDb.version(15).stores({
+  ...schema,
+  ...metadataSchema,
+  ...delegatedFieldServiceReportsSchema,
+  ...weekTypeSchema,
+  ...publicTalkSchema,
+  ...songSchema,
+  ...upcomingEventsSchema,
+  ...appLocalsSchema,
+  ...publicWitnessingLocationsSchema,
+  ...publicWitnessingArrangementsSchema,
+});
 
 appDb.on('populate', function () {
   appDb.app_settings.add(settingSchema);

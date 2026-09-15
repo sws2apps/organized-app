@@ -15,87 +15,92 @@ const InputTextField = forwardRef(function DatePickerInputField(
       fullWidth
       className="body-regular"
       ref={ref}
-      sx={{
-        '.MuiPickersInputBase-root': {
-          height: `${heightLocal}px`,
-          paddingTop: 'auto',
-          paddingBottom: 'auto',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-        },
-        '.MuiPickersInputBase-input': {
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
-          paddingTop: `calc(14.5px - ${varHeight}px)`,
-          paddingBottom: `calc(14.5px - ${varHeight}px)`,
-          flex: '1 0 0',
-          color:
-            props.value || props.inputProps['value']
-              ? 'var(--black)'
-              : 'var(--accent-400)',
-          cursor: props.disabled && 'not-allowed',
-        },
-        '.MuiPickersInput-root:before': {
-          borderBottom: '1px solid var(--accent-300) !important',
-        },
-        '.MuiPickersInput-root:after': {
-          borderBottom: '1px solid var(--accent-main)',
-        },
-        '.MuiPickersInput-root:hover:before': {
-          borderBottom: '1px solid var(--accent-main)',
-          outline: 0,
-        },
-        '.MuiPickersOutlinedInput-root': {
-          borderRadius: 'var(--radius-l)',
-          color: 'var(--black)',
-          '& svg': {
-            boxSizing: 'content-box',
+      // an array keeps sx callbacks and arrays from the caller working, which
+      // spreading them into the object would break
+      sx={[
+        {
+          '.MuiPickersInputBase-root': {
+            height: `${heightLocal}px`,
+            paddingTop: 'auto',
+            paddingBottom: 'auto',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
           },
-          '& fieldset': {
-            border: '1px solid var(--accent-350)',
+          '.MuiPickersInputBase-input': {
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            paddingTop: `calc(14.5px - ${varHeight}px)`,
+            paddingBottom: `calc(14.5px - ${varHeight}px)`,
+            flex: '1 0 0',
+            color:
+              props.value || props.inputProps['value']
+                ? 'var(--black)'
+                : 'var(--accent-400)',
+            cursor: props.disabled && 'not-allowed',
           },
-          '&:hover fieldset': {
-            border: '1px solid var(--accent-main)',
+          '.MuiPickersInput-root:before': {
+            borderBottom: '1px solid var(--accent-300) !important',
           },
-          '&.Mui-focused fieldset': {
-            border: '1px solid var(--accent-main) !important',
+          '.MuiPickersInput-root:after': {
+            borderBottom: '1px solid var(--accent-main)',
           },
-          '&.Mui-error': {
+          '.MuiPickersInput-root:hover:before': {
+            borderBottom: '1px solid var(--accent-main)',
+            outline: 0,
+          },
+          '.MuiPickersOutlinedInput-root': {
+            borderRadius: 'var(--radius-l)',
+            color: 'var(--black)',
+            '& svg': {
+              boxSizing: 'content-box',
+            },
+            '& fieldset': {
+              border: '1px solid var(--accent-350)',
+            },
             '&:hover fieldset': {
-              border: '1px solid var(--red-main)',
+              border: '1px solid var(--accent-main)',
             },
             '&.Mui-focused fieldset': {
-              border: '1px solid var(--red-main)',
+              border: '1px solid var(--accent-main) !important',
+            },
+            '&.Mui-error': {
+              '&:hover fieldset': {
+                border: '1px solid var(--red-main)',
+              },
+              '&.Mui-focused fieldset': {
+                border: '1px solid var(--red-main)',
+              },
+            },
+
+            '&.Mui-disabled fieldset': {
+              border: '1px solid var(--accent-200)',
+            },
+          },
+          '.MuiInputLabel-root': {
+            color: !props.disabled ? 'var(--accent-350)' : 'var(--accent-200)',
+            '&.Mui-focused': {
+              color: 'var(--accent-350)',
+            },
+            '&.Mui-error': {
+              color: 'var(--red-main)',
             },
           },
 
-          '&.Mui-disabled fieldset': {
-            border: '1px solid var(--accent-200)',
+          '& .MuiSvgIcon-root': {
+            fill: 'var(--accent-350)',
+            '& g, & g path': {
+              fill: 'var(--accent-350) !important',
+            },
           },
-        },
-        '.MuiInputLabel-root': {
-          color: !props.disabled ? 'var(--accent-350)' : 'var(--accent-200)',
-          '&.Mui-focused': {
-            color: 'var(--accent-350)',
-          },
-          '&.Mui-error': {
-            color: 'var(--red-main)',
-          },
-        },
 
-        '& .MuiSvgIcon-root': {
-          fill: 'var(--accent-350)',
-          '& g, & g path': {
-            fill: 'var(--accent-350) !important',
+          '.MuiFormLabel-root[data-shrink=false]': { top: `-${varHeight}px` },
+          '& > .MuiAutocomplete-popupIndicator': {
+            '& svg, & svg g, & svg g path': { fill: 'var(--black)' },
           },
         },
-
-        '.MuiFormLabel-root[data-shrink=false]': { top: `-${varHeight}px` },
-        '& > .MuiAutocomplete-popupIndicator': {
-          '& svg, & svg g, & svg g path': { fill: 'var(--black)' },
-        },
-      }}
+        ...(Array.isArray(props.sx) ? props.sx : [props.sx ?? {}]),
+      ]}
     />
   );
 });
