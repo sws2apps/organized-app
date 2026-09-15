@@ -77,7 +77,10 @@ const MonthItem = (props: MonthItemType) => {
                 aria-label={`${assigned}/${total}`}
                 sx={{
                   color: 'var(--accent-main)',
-                  '& .MuiCircularProgress-circle': { strokeLinecap: 'round' },
+                  '& .MuiCircularProgress-circle': {
+                    strokeLinecap: 'round',
+                    transition: 'stroke-dashoffset 0.4s ease',
+                  },
                 }}
               />
             </Box>
