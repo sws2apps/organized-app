@@ -318,13 +318,17 @@ const handleUpdateSettings = async (data: UserLoginResponseType) => {
 
   await dbAppSettingsUpdate({
     'user_settings.account_type': 'pocket',
-    'user_settings.user_local_uid': app_settings.user_settings.user_local_uid,
+    // These fields are optional in the pocket API response. Persist the
+    // schema defaults instead of writing undefined into IndexedDB; otherwise
+    // the next startup can crash while checking `.length` on the local UID.
+    'user_settings.user_local_uid':
+      app_settings.user_settings.user_local_uid ?? '',
     'user_settings.user_members_delegate':
-      app_settings.user_settings.user_members_delegate,
+      app_settings.user_settings.user_members_delegate ?? [],
     'cong_settings.country_code': app_settings.cong_settings.country_code,
     'cong_settings.cong_name': app_settings.cong_settings.cong_name,
     'cong_settings.cong_number': app_settings.cong_settings.cong_number,
-    'user_settings.cong_role': app_settings.user_settings.cong_role,
+    'user_settings.cong_role': app_settings.user_settings.cong_role ?? [],
     'cong_settings.cong_location': app_settings.cong_settings.cong_location,
     'cong_settings.cong_circuit': app_settings.cong_settings.cong_circuit,
     'cong_settings.midweek_meeting': midweekMeeting,
@@ -360,13 +364,16 @@ export const pocketStartup = async () => {
   const accessCode = store.get(congAccessCodeState);
 
   try {
-    if (userLocalUID.length === 0) {
+    // Treat incomplete legacy/corrupt settings as a fresh pocket login. This
+    // keeps startup recoverable even if an older API response stored a missing
+    // optional field as undefined.
+    if (!userLocalUID?.length) {
       store.set(isPocketSignUpState, true);
       return;
     }
 
     const allowOpen =
-      congName.length > 0 && congNumber.length > 0 && accessCode.length > 0;
+      !!congName?.length && !!congNumber?.length && !!accessCode?.length;
 
     if (allowOpen) {
       await handleLoadApp();
