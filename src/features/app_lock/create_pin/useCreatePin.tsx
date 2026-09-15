@@ -115,6 +115,7 @@ const useCreatePin = (mode: Mode, onClose: VoidFunction) => {
 
       appLockUpdate({
         enabled: { value: true, updatedAt: now },
+        pin_create_pending: { value: false, updatedAt: now },
         pin_hash: hash,
         pin_salt: salt,
         pin_iterations: APP_LOCK_PBKDF2_ITERATIONS,
