@@ -55,7 +55,6 @@ import { dbSourcesUpdateEventsName } from '@services/dexie/sources';
 import {
   congAccessCodeState,
   congNameState,
-  congNumberState,
   settingsState,
   userLocalUIDState,
 } from '@states/settings';
@@ -270,27 +269,30 @@ const handleLoadApp = async () => {
 const handleUpdateSettings = async (data: UserLoginResponseType) => {
   const { app_settings } = data;
 
+  if (!app_settings?.cong_settings) {
+    throw new Error('Pocket account has incomplete congregation settings');
+  }
+
   const settings = store.get(settingsState);
 
   const midweekMeeting = structuredClone(
     settings.cong_settings.midweek_meeting
   );
 
-  for (const midweekRemote of app_settings.cong_settings.midweek_meeting) {
-    const midweekLocal = midweekMeeting.find(
-      (record) => record.type === midweekRemote.type
-    );
+  for (const remote of app_settings.cong_settings.midweek_meeting ?? []) {
+    const local = midweekMeeting.find((record) => record.type === remote.type);
 
-    if (midweekLocal) {
-      midweekLocal.time = midweekRemote.time;
-      midweekLocal.weekday = midweekRemote.weekday;
+    if (local) {
+      local.time = remote.time;
+      local.weekday = remote.weekday;
     } else {
-      midweekMeeting.push({
-        ...settingSchema.cong_settings.midweek_meeting.at(0),
-        time: midweekRemote.time,
-        type: midweekRemote.type,
-        weekday: midweekRemote.weekday,
-      });
+      const newMeeting = structuredClone(
+        settingSchema.cong_settings.midweek_meeting[0]
+      );
+      newMeeting.type = remote.type;
+      newMeeting.time = remote.time;
+      newMeeting.weekday = remote.weekday;
+      midweekMeeting.push(newMeeting);
     }
   }
 
@@ -298,21 +300,20 @@ const handleUpdateSettings = async (data: UserLoginResponseType) => {
     settings.cong_settings.weekend_meeting
   );
 
-  for (const weekendRemote of app_settings.cong_settings.weekend_meeting) {
-    const weekendLocal = weekendMeeting.find(
-      (record) => record.type === weekendRemote.type
-    );
+  for (const remote of app_settings.cong_settings.weekend_meeting ?? []) {
+    const local = weekendMeeting.find((record) => record.type === remote.type);
 
-    if (weekendLocal) {
-      weekendLocal.time = weekendRemote.time;
-      weekendLocal.weekday = weekendRemote.weekday;
+    if (local) {
+      local.time = remote.time;
+      local.weekday = remote.weekday;
     } else {
-      weekendMeeting.push({
-        ...settingSchema.cong_settings.weekend_meeting.at(0),
-        time: weekendRemote.time,
-        type: weekendRemote.type,
-        weekday: weekendRemote.weekday,
-      });
+      const newMeeting = structuredClone(
+        settingSchema.cong_settings.weekend_meeting[0]
+      );
+      newMeeting.type = remote.type;
+      newMeeting.time = remote.time;
+      newMeeting.weekday = remote.weekday;
+      weekendMeeting.push(newMeeting);
     }
   }
 
@@ -327,7 +328,11 @@ const handleUpdateSettings = async (data: UserLoginResponseType) => {
       app_settings.user_settings.user_members_delegate ?? [],
     'cong_settings.country_code': app_settings.cong_settings.country_code,
     'cong_settings.cong_name': app_settings.cong_settings.cong_name,
-    'cong_settings.cong_number': app_settings.cong_settings.cong_number,
+    // Pocket responses do not include cong_number. Preserve the local value
+    // instead of overwriting it with undefined.
+    'cong_settings.cong_number':
+      app_settings.cong_settings.cong_number ??
+      settings.cong_settings.cong_number,
     'user_settings.cong_role': app_settings.user_settings.cong_role ?? [],
     'cong_settings.cong_location': app_settings.cong_settings.cong_location,
     'cong_settings.cong_circuit': app_settings.cong_settings.cong_circuit,
@@ -360,7 +365,6 @@ const validatePocket = async () => {
 export const pocketStartup = async () => {
   const userLocalUID = store.get(userLocalUIDState);
   const congName = store.get(congNameState);
-  const congNumber = store.get(congNumberState);
   const accessCode = store.get(congAccessCodeState);
 
   try {
@@ -372,8 +376,10 @@ export const pocketStartup = async () => {
       return;
     }
 
-    const allowOpen =
-      !!congName?.length && !!congNumber?.length && !!accessCode?.length;
+    // cong_number is not part of the Pocket API response and is not required
+    // to authenticate or open a Pocket account. Requiring it traps valid Pocket
+    // users in startup when their congregation has no number configured.
+    const allowOpen = !!congName?.length && !!accessCode?.length;
 
     if (allowOpen) {
       await handleLoadApp();
@@ -389,7 +395,9 @@ export const pocketStartup = async () => {
   } catch (error) {
     console.error(error);
 
-    throw new Error(error?.message);
+    const message =
+      error instanceof Error ? error.message : 'Pocket startup failed';
+    throw new Error(message);
   }
 };
 
