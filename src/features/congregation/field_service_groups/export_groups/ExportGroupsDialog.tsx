@@ -25,7 +25,12 @@ const ExportGroupsDialog = ({
 
   return (
     <Dialog onClose={onClose} open={open} sx={{ padding: '24px' }}>
-      <Stack spacing="24px" width="100%">
+      <Stack
+        spacing="24px"
+        sx={{
+          width: '100%',
+        }}
+      >
         <Typography className="h2">{t('tr_exportSettings')}</Typography>
 
         <Stack spacing="8px">
@@ -79,7 +84,12 @@ const ExportGroupsDialog = ({
           </RadioGroup>
         </Stack>
 
-        <Stack spacing="8px" width="100%">
+        <Stack
+          spacing="8px"
+          sx={{
+            width: '100%',
+          }}
+        >
           <Button
             variant="main"
             onClick={handleExport}

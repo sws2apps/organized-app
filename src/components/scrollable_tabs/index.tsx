@@ -86,8 +86,8 @@ function ScrollableTabs({
               },
             }}
             slots={{
-              EndScrollButtonIcon: ArrowForwardIosIcon,
-              StartScrollButtonIcon: ArrowBackIosIcon,
+              endScrollButtonIcon: ArrowForwardIosIcon,
+              startScrollButtonIcon: ArrowBackIosIcon,
             }}
             aria-label="scrollable-auto-tabs"
             sx={{
@@ -108,7 +108,7 @@ function ScrollableTabs({
               },
               alignItems: 'center',
               minHeight: TAB_HEIGHT,
-              [`& .${tabsClasses.flexContainer}`]: {
+              [`& .${tabsClasses.list}`]: {
                 gap: '4px',
               },
               ...sx,

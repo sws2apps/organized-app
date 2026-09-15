@@ -1,4 +1,5 @@
-import { Box, Skeleton, styled } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { Box, Skeleton } from '@mui/material';
 
 export const SkeletonLoaderCardContainer = styled(Box)({
   width: '100%',

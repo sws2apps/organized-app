@@ -1,5 +1,5 @@
+import { styled } from '@mui/material/styles';
 import { Box, Card, CardContent, IconButton } from '@mui/material';
-import { styled } from '@mui/system';
 
 export const StyledCardBox = styled(Box)({
   width: '100%',

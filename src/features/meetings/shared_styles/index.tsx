@@ -1,4 +1,5 @@
-import { styled } from '@mui/system';
+/* eslint-disable react-refresh/only-export-components */
+import { styled } from '@mui/material/styles';
 import { Box } from '@mui/material';
 
 export { default as StyledNavigationArrowButton } from './navigation_arrow_button';
@@ -6,15 +7,15 @@ export { default as StyledNavigationArrowButton } from './navigation_arrow_butto
 export const DoubleFieldContainer = styled(Box)({
   display: 'flex',
   gap: '16px',
-}) as unknown as typeof Box;
+});
 
 export const PrimaryFieldContainer = styled(Box)({
   flex: 1,
-}) as unknown as typeof Box;
+});
 
 export const SecondaryFieldContainer = styled(Box)({
   flex: 1,
   display: 'flex',
   flexDirection: 'column',
   gap: '16px',
-}) as unknown as typeof Box;
+});

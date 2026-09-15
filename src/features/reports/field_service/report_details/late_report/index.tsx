@@ -16,7 +16,12 @@ const LateReport = ({ person }: LateReportProps) => {
   return (
     <>
       {show_late && (
-        <Stack spacing="4px" alignItems="flex-end">
+        <Stack
+          spacing="4px"
+          sx={{
+            alignItems: 'flex-end',
+          }}
+        >
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Checkbox
               readOnly={readOnly}

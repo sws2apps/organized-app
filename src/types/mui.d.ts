@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import { BreakpointOverrides } from '@mui/material/styles';
 
 declare module '@mui/material/styles' {
@@ -16,6 +17,12 @@ declare module '@mui/material/styles' {
     laptop: true;
     desktop: true;
     desktopLarge: true;
+  }
+}
+
+declare module '@mui/material/Autocomplete' {
+  interface AutocompletePaperSlotPropsOverrides {
+    optionsHeader?: ReactNode;
   }
 }
 

@@ -40,7 +40,12 @@ const WeekBox = (props: WeekBoxProps) => {
     !clickerOpen && focusedField === field;
 
   return (
-    <Stack spacing="4px" flex={1}>
+    <Stack
+      spacing="4px"
+      sx={{
+        flex: 1,
+      }}
+    >
       <Stack spacing="16px">
         {detailed && (
           <Box
@@ -77,7 +82,9 @@ const WeekBox = (props: WeekBoxProps) => {
             <Stack
               key={field.name}
               spacing="4px"
-              height={last && isMeetingDay ? '56px' : 'unset'}
+              sx={{
+                height: last && isMeetingDay ? '56px' : 'unset',
+              }}
             >
               {field.section && (
                 <Typography
