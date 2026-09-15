@@ -49,19 +49,6 @@ const CLICKER_FIELDS: Record<
   deaf: { present: 'presentDeaf', online: 'onlineDeaf' },
 };
 
-const sumCounts = (a: string, b: string) => {
-  if (a.length === 0 && b.length === 0) return '';
-
-  return String(+a + +b);
-};
-
-// stored counts include the deaf attendees, so the hearing input holds the rest
-const hearingCount = (total?: number, deaf?: number) => {
-  const hearing = (total || 0) - (deaf || 0);
-
-  return hearing > 0 ? String(hearing) : '';
-};
-
 const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
   const { t } = useAppTranslation();
 
@@ -106,21 +93,13 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
   const initialValues = useMemo<WeekBoxValues>(() => {
     if (!weekRecord) return EMPTY_VALUES;
 
-    if (!recordDeaf) {
-      return {
-        ...EMPTY_VALUES,
-        present: weekRecord.present?.toString() || '',
-        online: weekRecord.online?.toString() || '',
-      };
-    }
-
     return {
-      present: hearingCount(weekRecord.present, weekRecord.present_deaf),
-      online: hearingCount(weekRecord.online, weekRecord.online_deaf),
+      present: weekRecord.present?.toString() || '',
+      online: weekRecord.online?.toString() || '',
       presentDeaf: weekRecord.present_deaf?.toString() || '',
       onlineDeaf: weekRecord.online_deaf?.toString() || '',
     };
-  }, [weekRecord, recordDeaf]);
+  }, [weekRecord]);
 
   const [values, setValues] = useState(initialValues);
 
@@ -240,9 +219,13 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
     return result;
   }, [recordDeaf, recordOnline, box_label, t]);
 
+  // counts hidden by the attendance settings still belong to the meeting
   const total = useMemo(() => {
-    return fields.reduce((acc, field) => acc + (+values[field.name] || 0), 0);
-  }, [fields, values]);
+    return Object.values(values).reduce(
+      (acc, value) => acc + (Number(value) || 0),
+      0
+    );
+  }, [values]);
 
   const savedValues = useRef(initialValues);
 
@@ -269,20 +252,14 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
   }, [initialValues]);
 
   const saveAttendance = (newValues: WeekBoxValues) => {
-    const counts: AttendanceValues = {
-      present: recordDeaf
-        ? sumCounts(newValues.present, newValues.presentDeaf)
-        : newValues.present,
-    };
+    const counts: AttendanceValues = { present: newValues.present };
 
     if (recordDeaf) {
       counts.present_deaf = newValues.presentDeaf;
     }
 
     if (recordOnline) {
-      counts.online = recordDeaf
-        ? sumCounts(newValues.online, newValues.onlineDeaf)
-        : newValues.online;
+      counts.online = newValues.online;
     }
 
     if (recordOnline && recordDeaf) {

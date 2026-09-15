@@ -1,10 +1,15 @@
 import { MeetingAttendanceType } from '@definition/meeting_attendance';
 import { updatedAtOverride } from '@utils/common';
+import { meetingAttendanceSplitDeaf } from '@utils/meeting_attendance';
 import appDb from '@db/appDb';
 
 const useAttendanceImport = () => {
   const getAttendances = async (attendances: MeetingAttendanceType[]) => {
     const result: MeetingAttendanceType[] = [];
+
+    for (const attendance of attendances) {
+      meetingAttendanceSplitDeaf(attendance);
+    }
 
     result.push(...attendances);
 
