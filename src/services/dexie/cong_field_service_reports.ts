@@ -89,11 +89,13 @@ export const dbHandleIncomingReports = async (reports: IncomingReport[]) => {
       allowAdd = true;
     }
 
-    // allow transfer backfill: records never counted in a submission sync
-    // without the late workflow
+    // allow transfer backfill: unshared records never counted in a
+    // submission sync without the late workflow. Already-shared incoming
+    // records stay out so a submitted month cannot be flipped to shared.
     if (
       branch?.report_data.submitted &&
-      !findReport?.report_data.shared_ministry
+      !findReport?.report_data.shared_ministry &&
+      !record.shared_ministry
     ) {
       allowAdd = true;
     }
