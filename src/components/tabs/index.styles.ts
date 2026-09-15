@@ -1,11 +1,11 @@
-import { SxProps, Theme } from '@mui/material';
+import { SystemStyleObject, Theme } from '@mui/system';
 import { TabsAppearance } from './index.types';
 
 // no default here on purpose: each tabs component states its own, so a missing
 // prop cannot quietly pick an appearance for the caller
 export const tabsSharedStyles = (
   appearance: TabsAppearance
-): SxProps<Theme> => {
+): SystemStyleObject<Theme> => {
   const radius =
     appearance === 'chip' ? 'var(--radius-max)' : 'var(--radius-s)';
 

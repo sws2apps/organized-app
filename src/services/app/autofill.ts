@@ -63,6 +63,7 @@ import {
   schedulesAutofillSaveAssignment,
   schedulesBuildHistoryList,
   schedulesGetData,
+  schedulesIsDutyCode,
   schedulesResolveMeetingDate,
 } from './schedules';
 import {
@@ -70,6 +71,7 @@ import {
   sourcesCheckLCAssignments,
   sourcesCheckLCElderAssignment,
 } from './sources';
+import { dutiesStartAutofill } from './duties_autofill';
 import { fieldServiceGroupsState } from '@states/field_service_groups';
 
 /**
@@ -1480,7 +1482,17 @@ export const handleDynamicAssignmentAutofill = (
 } => {
   // Get data from store
   const sources = structuredClone(store.get(sourcesState));
-  const fullHistory = structuredClone(store.get(assignmentsHistoryState));
+  // duties of this view are balanced by their own engine and must not weigh on
+  // the fairness and quotas of the meeting parts; duties in another view still
+  // make the brother unavailable for that meeting
+  const activeView = store.get(userDataViewState);
+  const fullHistory = structuredClone(
+    store.get(assignmentsHistoryState)
+  ).filter(
+    (entry) =>
+      !schedulesIsDutyCode(entry.assignment.code) ||
+      entry.assignment.dataView !== activeView
+  );
   // Use the full active persons list instead of the view-scoped one:
   // statistics, opportunity scores and weighting factors must be computed
   // congregation-wide. The candidate pool for the active view is still
@@ -1915,10 +1927,16 @@ const processingTasks = ({
 export const schedulesStartAutofill = async (
   start: string,
   end: string,
-  meeting: 'midweek' | 'weekend'
+  meeting: 'midweek' | 'weekend' | 'duties'
 ): Promise<number> => {
   try {
     if (start.length === 0 || end.length === 0) return 0;
+
+    // duties have positions, shifts and a sisters round of their own, so they
+    // run through their own engine built on the same fairness measures
+    if (meeting === 'duties') {
+      return await dutiesStartAutofill(start, end);
+    }
 
     const { modifiedWeeks, updatedSchedules } = handleDynamicAssignmentAutofill(
       start,
