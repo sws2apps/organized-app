@@ -128,7 +128,7 @@ const Dialog = ({
         </Box>
       ) : title ? (
         <Stack spacing="2px">
-          <Typography className="h2" id={titleId}>
+          <Typography component="h2" className="h2" id={titleId}>
             {title}
           </Typography>
 
@@ -221,7 +221,7 @@ const Dialog = ({
               minHeight: 0,
               overscrollBehavior: 'contain',
             },
-            ...(Array.isArray(sx) ? sx : [sx]),
+            ...(Array.isArray(sx) ? sx : [sx ?? {}]),
           ]}
         >
           {content}

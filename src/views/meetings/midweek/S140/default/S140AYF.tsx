@@ -5,7 +5,7 @@ import S140Time from './S140Time';
 import S140SourceComplex from './S140SourceComplex';
 import S140Person from './S140Person';
 
-const ApplyMinistryRow = ({ meetingData, class_count,lang }: S140AYFType) => {
+const ApplyMinistryRow = ({ meetingData, lang }: S140AYFType) => {
   return (
     <>
       {[1, 2, 3, 4].map((index) => {
@@ -37,8 +37,8 @@ const ApplyMinistryRow = ({ meetingData, class_count,lang }: S140AYFType) => {
                   lang={lang}
                 />
                 <S140Person
-                  primary={class_count === 1 ? '' : ayfStudentB}
-                  secondary={class_count === 1 ? undefined : ayfAssistantB}
+                  primary={meetingData.aux_class ? ayfStudentB : ''}
+                  secondary={meetingData.aux_class ? ayfAssistantB : undefined}
                   direction="column"
                   lang={lang}
                 />

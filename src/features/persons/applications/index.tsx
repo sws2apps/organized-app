@@ -32,18 +32,10 @@ const PersonApplications = () => {
 
       <Box sx={{ marginBottom: '-24px' }}>
         <ScrollableTabs
-          indicatorMode
+          appearance="plain"
           tabs={tabs}
           value={currentTab}
           onChange={handleTabChange}
-          sx={{
-            '& button.Mui-selected': {
-              color: 'var(--accent-main)',
-              background: 'unset',
-              borderRadius: 'unset',
-            },
-            '& span.MuiTouchRipple-root': { borderRadius: 'unset' },
-          }}
         />
       </Box>
     </Card>

@@ -36,6 +36,8 @@
   "tr_december": "Tháng 12",
   "tr_longDateFormat": "EEE, dd MMM yyyy",
   "tr_delete": "Xoá",
+  "tr_continueEditing": "Continue editing",
+  "tr_discardChanges": "Discard changes",
   "tr_add": "Thêm",
   "tr_pickerSelectTime": "Chọn thời gian",
   "tr_pickerSelectDate": "Chọn ngày",
@@ -129,12 +131,12 @@
   "tr_appliesOnlyToBrothers": "Chỉ áp dụng cho các anh",
   "tr_circuit": "Vòng quanh: {{ circuitNumber }}",
   "tr_ageInYearsAndMonths": "{{ years }} năm, {{months}} tháng",
-  "tr_personHasNoAssignmentHistory": "Người nầy chưa có lịch sử nhiệm vụ nào hết",
+  "tr_personHasNoAssignmentHistory": "No assignment history yet",
   "tr_appUserProfile": "Tài khoản người dùng ứng dụng",
   "tr_appUserProfileNotRegisteredDesc": "Người này chưa sử dụng ứng dụng lần nào. Anh/chị có thể tạo tài khoản Organized cho người này ở trang 'Tài khoản người dùng'.",
   "tr_appUserProfileRegisteredDesc": "Người này đang sử dụng ứng dụng Organized. Lần trực tuyến lần cuối: <span class='h4'>{{ lastTimeOnline }}</span>. Chỉnh sửa quyền lợi khác và thiết đặt người dùng trong trang 'Tài khoản người dùng'.",
   "tr_notYet": "Chưa",
-  "tr_manageUserProfileSettings": "Quản lý cài đặt tài khoản người dùng",
+  "tr_manageUserProfileSettings": "Manage user account",
   "tr_createUserProfile": "Tạo tài khoản người dùng",
   "tr_download": "Tải xuống",
   "tr_import": "Nhập",
@@ -176,5 +178,7 @@
   "tr_fontSize": "Font size",
   "tr_small": "Small",
   "tr_normal": "Normal",
-  "tr_large": "Large"
+  "tr_large": "Large",
+  "tr_chooseFields": "Choose export fields",
+  "tr_chooseFieldsDesc": "Please select the fields you want to include in the export file."
 }
