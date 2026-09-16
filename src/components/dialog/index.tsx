@@ -122,7 +122,11 @@ const Dialog = ({
         width: '100%',
       }}
     >
-      {header ?? (
+      {header ? (
+        <Box id={titleId} sx={{ minWidth: 0 }}>
+          {header}
+        </Box>
+      ) : (
         <Stack spacing="2px">
           <Typography className="h2" id={titleId}>
             {title}
@@ -164,7 +168,7 @@ const Dialog = ({
       fullWidth
       open={open}
       onClose={handleClose}
-      aria-labelledby={title ? titleId : undefined}
+      aria-labelledby={header || title ? titleId : undefined}
       sx={{
         boxSizing: 'border-box',
         '.MuiPaper-root': {
@@ -205,20 +209,22 @@ const Dialog = ({
         <DialogContent
           ref={ref}
           className="scroll-fade-y"
-          sx={{
-            padding,
-            display: 'flex',
-            flexDirection: 'column',
-            gap: {
-              mobile: 'var(--dialog-gap-mobile)',
-              desktop: 'var(--dialog-gap)',
+          sx={[
+            {
+              padding,
+              display: 'flex',
+              flexDirection: 'column',
+              gap: {
+                mobile: 'var(--dialog-gap-mobile)',
+                desktop: 'var(--dialog-gap)',
+              },
+              alignItems: 'flex-start',
+              flex: '1 1 auto',
+              minHeight: 0,
+              overscrollBehavior: 'contain',
             },
-            alignItems: 'flex-start',
-            flex: '1 1 auto',
-            minHeight: 0,
-            overscrollBehavior: 'contain',
-            ...sx,
-          }}
+            ...(Array.isArray(sx) ? sx : [sx]),
+          ]}
         >
           {content}
         </DialogContent>
