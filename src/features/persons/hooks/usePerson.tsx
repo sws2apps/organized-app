@@ -213,12 +213,12 @@ const usePerson = () => {
     }
 
     if (isInactivePublisher) {
-      badges.push({ name: t('tr_inactivePublisher'), color: 'red' });
+      badges.push({ name: t('tr_inactivePublisher'), color: 'grey' });
     }
 
     if (!isDisqualified && !isInactivePublisher) {
       if (isElder) {
-        badges.push({ name: t('tr_elder'), color: 'green' });
+        badges.push({ name: t('tr_elder'), color: 'accent' });
       }
 
       if (isMS) {
