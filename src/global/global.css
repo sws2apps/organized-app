@@ -639,6 +639,42 @@
   text-transform: none;
 }
 
+.label-xsmall-semibold {
+  font-size: 11px;
+  text-decoration: none;
+  font-weight: 520;
+  font-style: normal;
+  font-stretch: normal;
+  letter-spacing: 0.1px;
+  line-height: 16px;
+  text-indent: 0px;
+  text-transform: none;
+}
+
+.label-small-semibold {
+  font-size: 12px;
+  text-decoration: none;
+  font-weight: 520;
+  font-style: normal;
+  font-stretch: normal;
+  letter-spacing: 0.05px;
+  line-height: 16px;
+  text-indent: 0px;
+  text-transform: none;
+}
+
+.label-medium-medium {
+  font-size: 14px;
+  text-decoration: none;
+  font-weight: 500;
+  font-style: normal;
+  font-stretch: normal;
+  letter-spacing: 0px;
+  line-height: 20px;
+  text-indent: 0px;
+  text-transform: none;
+}
+
 /* font styles used for tablet & mobile devices */
 @media (max-width: 768px) {
   .h1 {
