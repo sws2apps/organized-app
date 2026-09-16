@@ -126,7 +126,7 @@ const Dialog = ({
         <Box id={titleId} sx={{ minWidth: 0 }}>
           {header}
         </Box>
-      ) : (
+      ) : title ? (
         <Stack spacing="2px">
           <Typography className="h2" id={titleId}>
             {title}
@@ -136,14 +136,14 @@ const Dialog = ({
             <Typography color="var(--grey-400)">{description}</Typography>
           )}
         </Stack>
-      )}
+      ) : null}
 
       {closable && (
         <IconButton
           aria-label={t('tr_close')}
           onClick={onClose}
           // pulled into its padding, so the icon lines up with the edge
-          sx={{ padding: '4px', margin: '-4px -4px -4px 0' }}
+          sx={{ padding: '4px', margin: '-4px -4px -4px auto' }}
         >
           <IconClose color="var(--black)" />
         </IconButton>
