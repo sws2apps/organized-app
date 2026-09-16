@@ -110,6 +110,28 @@ const Dialog = ({
     actions ? items : items.filter((item) => !isActionsRow(item))
   ).filter((item) => item !== null && item !== false && item !== '');
 
+  let heading: ReactNode = null;
+
+  if (header) {
+    heading = (
+      <Box id={titleId} sx={{ minWidth: 0 }}>
+        {header}
+      </Box>
+    );
+  } else if (title) {
+    heading = (
+      <Stack spacing="2px">
+        <Typography component="h2" className="h2" id={titleId}>
+          {title}
+        </Typography>
+
+        {description && (
+          <Typography color="var(--grey-400)">{description}</Typography>
+        )}
+      </Stack>
+    );
+  }
+
   // the close button belongs to the row whichever way the header is built
   const titleRow = (header || title || closable) && (
     <Box
@@ -122,21 +144,7 @@ const Dialog = ({
         width: '100%',
       }}
     >
-      {header ? (
-        <Box id={titleId} sx={{ minWidth: 0 }}>
-          {header}
-        </Box>
-      ) : title ? (
-        <Stack spacing="2px">
-          <Typography component="h2" className="h2" id={titleId}>
-            {title}
-          </Typography>
-
-          {description && (
-            <Typography color="var(--grey-400)">{description}</Typography>
-          )}
-        </Stack>
-      ) : null}
+      {heading}
 
       {closable && (
         <IconButton
