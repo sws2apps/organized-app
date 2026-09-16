@@ -72,6 +72,49 @@ export const appThemeState = atom((get) => {
           },
         },
       },
+      // MUI paints keyboard focus and highlighted options with its own greys
+      MuiMenuItem: {
+        styleOverrides: {
+          root: {
+            '&.Mui-focusVisible': {
+              backgroundColor: 'var(--accent-150)',
+            },
+            '&.Mui-selected.Mui-focusVisible': {
+              backgroundColor: 'var(--accent-100)',
+            },
+          },
+        },
+      },
+      MuiListItemButton: {
+        styleOverrides: {
+          root: {
+            '&.Mui-focusVisible': {
+              backgroundColor: 'var(--accent-150)',
+            },
+            '&.Mui-selected.Mui-focusVisible': {
+              backgroundColor: 'var(--accent-100)',
+            },
+          },
+        },
+      },
+      MuiAutocomplete: {
+        styleOverrides: {
+          // on the listbox, so it follows the default option styles set there
+          listbox: {
+            '& .MuiAutocomplete-option': {
+              '&.Mui-focused, &.Mui-focusVisible': {
+                backgroundColor: 'var(--accent-150)',
+              },
+              '&[aria-selected="true"]': {
+                backgroundColor: 'var(--accent-100)',
+                '&.Mui-focused, &.Mui-focusVisible': {
+                  backgroundColor: 'var(--accent-150)',
+                },
+              },
+            },
+          },
+        },
+      },
     },
     breakpoints: {
       keys: [
