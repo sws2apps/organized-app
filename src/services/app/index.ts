@@ -326,10 +326,14 @@ const handleUpdateSettings = async (data: UserLoginResponseType) => {
       app_settings.user_settings.user_members_delegate ?? [],
     'cong_settings.country_code': app_settings.cong_settings.country_code,
     'cong_settings.cong_name': app_settings.cong_settings.cong_name,
-    // Pocket responses do not include cong_number. Preserve the local value
-    // instead of overwriting it with undefined.
-    'cong_settings.cong_number':
-      app_settings.cong_settings.cong_number ?? localCongSettings.cong_number,
+    // The Pocket API normally omits cong_number. Only persist a value the
+    // server actually sent, so a previously stored number is never wiped
+    // when the local settings state has not hydrated yet on startup.
+    ...(app_settings.cong_settings.cong_number != null
+      ? {
+          'cong_settings.cong_number': app_settings.cong_settings.cong_number,
+        }
+      : {}),
     'user_settings.cong_role': app_settings.user_settings.cong_role ?? [],
     'cong_settings.cong_location': app_settings.cong_settings.cong_location,
     'cong_settings.cong_circuit': app_settings.cong_settings.cong_circuit,
