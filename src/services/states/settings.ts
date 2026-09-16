@@ -38,9 +38,15 @@ const withSchemaDefaults = <T>(schema: T, local: unknown): T => {
       return structuredClone(schema);
     }
 
-    // An intentionally empty array is a valid state – preserve it
+    // An empty local array would drop the schema's required baseline
+    // record (e.g. the `main` entry of midweek_meeting/weekend_meeting),
+    // which crashes consumers that dereference `.find(type === dataView)`
+    // without a guard. Restore the schema template instead. For fields
+    // whose schema template is itself empty (e.g. special_months),
+    // structuredClone([]) yields [] again, so the valid empty state is
+    // preserved.
     if (local.length === 0) {
-      return [] as unknown as T;
+      return structuredClone(schema);
     }
 
     const template = schema.at(0);
