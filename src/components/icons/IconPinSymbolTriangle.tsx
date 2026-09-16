@@ -1,0 +1,32 @@
+import { SvgIcon, SxProps, Theme } from '@mui/material';
+
+type IconProps = {
+  color?: string;
+  width?: number;
+  height?: number;
+  sx?: SxProps<Theme>;
+  className?: string;
+};
+
+const IconPinSymbolTriangle = ({
+  color = '#222222',
+  width = 24,
+  height = 24,
+  sx = {},
+  className,
+}: IconProps) => {
+  return (
+    <SvgIcon
+      className={['organized-icon-pin-symbol-triangle', className].filter(Boolean).join(' ')}
+      sx={{ width: `${width}px`, height: `${height}px`, ...sx }}
+      viewBox="-1 -1 20 18"
+    >
+        <path
+          d="M6.82868 1.21169C7.80645 -0.403897 10.1936 -0.403896 11.1713 1.21169L14.487 6.69029L17.6727 12.2424C18.6121 13.8797 17.4186 15.9048 15.5014 15.9265L9 16L2.49861 15.9265C0.581419 15.9048 -0.612131 13.8797 0.327296 12.2424L3.51297 6.69029L6.82868 1.21169Z"
+          fill={color}
+        />
+    </SvgIcon>
+  );
+};
+
+export default IconPinSymbolTriangle;

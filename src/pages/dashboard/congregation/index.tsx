@@ -1,6 +1,7 @@
 import { ListItem } from '@mui/material';
 import {
   IconGroups,
+  IconLock,
   IconManageAccess,
   IconSettings,
   IconSynced,
@@ -19,10 +20,17 @@ const CongregationCard = () => {
   const {
     secondaryText,
     handleManualSync,
+    handleLockApp,
     isConnected,
     isUserAdmin,
     requests_count,
+    appLockEnabled,
+    lockAfterMinutes,
   } = useCongregation();
+
+  const lockSecondaryText = lockAfterMinutes === -1
+    ? t('tr_lockAutoNever')
+    : t('tr_lockAutoAfter', { minutes: lockAfterMinutes });
 
   return (
     <DashboardCard
@@ -81,6 +89,17 @@ const CongregationCard = () => {
             primaryText={t('tr_syncAppData')}
             secondaryText={secondaryText}
             onClick={handleManualSync}
+          />
+        </ListItem>
+      )}
+
+      {appLockEnabled && (
+        <ListItem disablePadding>
+          <DashboardMenu
+            icon={<IconLock color="var(--black)" />}
+            primaryText={t('tr_lockTheApp')}
+            secondaryText={lockSecondaryText}
+            onClick={handleLockApp}
           />
         </ListItem>
       )}

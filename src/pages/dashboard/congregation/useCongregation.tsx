@@ -1,5 +1,5 @@
-import { useEffect, useMemo } from 'react';
-import { useAtomValue } from 'jotai';
+import { useCallback, useEffect, useMemo } from 'react';
+import { useAtomValue, useSetAtom } from 'jotai';
 import {
   congAccountConnectedState,
   isAppDataSyncingState,
@@ -11,7 +11,12 @@ import {
   useFirebaseAuth,
 } from '@hooks/index';
 import { getMessageByCode } from '@services/i18n/translation';
-import { adminRoleState } from '@states/settings';
+import {
+  adminRoleState,
+  appLockEnabledState,
+  appLockAfterMinutesState,
+} from '@states/settings';
+import { isAppLockedState } from '@states/app_lock';
 import { joinRequestsCountState } from '@states/congregation';
 import { dbMetadataReset } from '@services/dexie/metadata';
 import worker from '@services/worker/backupWorker';
@@ -28,6 +33,9 @@ const useCongregation = () => {
   const isConnected = useAtomValue(congAccountConnectedState);
   const isUserAdmin = useAtomValue(adminRoleState);
   const joinRequestsCount = useAtomValue(joinRequestsCountState);
+  const appLockEnabled = useAtomValue(appLockEnabledState);
+  const lockAfterMinutes = useAtomValue(appLockAfterMinutesState);
+  const setAppLocked = useSetAtom(isAppLockedState);
 
   const requests_count = useMemo(() => {
     if (joinRequestsCount === 0) return;
@@ -72,6 +80,10 @@ const useCongregation = () => {
     worker.postMessage('startWorker');
   };
 
+  const handleLockApp = useCallback(() => {
+    setAppLocked(true);
+  }, [setAppLocked]);
+
   useEffect(() => {
     if (isConnected) {
       const svgIcon = document.querySelector('.organized-sync-icon');
@@ -114,9 +126,12 @@ const useCongregation = () => {
   return {
     secondaryText: getSecondaryText(),
     handleManualSync,
+    handleLockApp,
     isConnected,
     isUserAdmin,
     requests_count,
+    appLockEnabled,
+    lockAfterMinutes,
   };
 };
 
