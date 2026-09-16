@@ -21,8 +21,16 @@ const ScrollArea = ({
       ref={(el: HTMLDivElement | null) => {
         fadeRef(el);
 
-        if (typeof ref === 'function') ref(el);
-        else if (ref) ref.current = el;
+        const refCleanup = typeof ref === 'function' ? ref(el) : undefined;
+        if (ref && typeof ref !== 'function') ref.current = el;
+
+        return () => {
+          fadeRef(null);
+
+          if (typeof refCleanup === 'function') refCleanup();
+          else if (typeof ref === 'function') ref(null);
+          else if (ref) ref.current = null;
+        };
       }}
       className={['scroll-fade-y', className].filter(Boolean).join(' ')}
       sx={{ overflowY: 'auto', ...sx }}
