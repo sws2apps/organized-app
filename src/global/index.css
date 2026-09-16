@@ -225,6 +225,45 @@ body iframe {
   }
 }
 
+/* back buttons nudge their arrow back and let it settle, on mouse hover only
+   so a tap on a touch screen does not leave it playing */
+.back-arrow-button {
+  --back-arrow-nudge: -4px;
+}
+
+[dir='rtl'] .back-arrow-button {
+  --back-arrow-nudge: 4px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .back-arrow-button:hover .MuiSvgIcon-root {
+    animation: back-arrow-nudge 600ms both;
+  }
+}
+
+@keyframes back-arrow-nudge {
+  from {
+    translate: 0;
+    animation-timing-function: cubic-bezier(0.37, 0, 0.63, 1);
+  }
+
+  /* each leg starts and ends at rest, so the turn has no jolt */
+  30% {
+    translate: var(--back-arrow-nudge);
+    animation-timing-function: cubic-bezier(0.4, 0, 0.1, 1);
+  }
+
+  to {
+    translate: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .back-arrow-button:hover .MuiSvgIcon-root {
+    animation: none;
+  }
+}
+
 /* Fades a scrollable element at the edges that hide content. The stops follow
    a curve that flattens at both ends: a straight ramp reads as a line rather
    than a fade. The scrollbar keeps a strip of its own and is never faded. */

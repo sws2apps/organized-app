@@ -1,4 +1,4 @@
-import { Box, useTheme } from '@mui/material';
+import { Box } from '@mui/material';
 import { useAtomValue } from 'jotai';
 import { navBarOptionsState } from '@states/app';
 import { IconArrowBack } from '@components/icons';
@@ -14,8 +14,6 @@ const SubpageNavbar = ({
   backLabel,
   trailing,
 }: SubpageNavbarProps) => {
-  const theme = useTheme();
-
   const navBarOptions = useAtomValue(navBarOptionsState);
   const subtitle = secondaryTitle ?? navBarOptions.title;
 
@@ -40,21 +38,13 @@ const SubpageNavbar = ({
       }}
     >
       <IconButton
+        className="back-arrow-button"
         aria-label={backLabel}
         onClick={onBack}
         sx={{
           flexShrink: 0,
           marginLeft: '-10px',
-          '&:hover': {
-            backgroundColor: 'var(--accent-200)',
-            '& svg': {
-              transform:
-                theme.direction === 'rtl'
-                  ? 'translateX(-4px) scaleX(-1)'
-                  : 'translateX(4px)',
-            },
-          },
-          '& svg': { transition: 'transform 0.2s ease-in-out' },
+          '&:hover': { backgroundColor: 'var(--accent-200)' },
         }}
       >
         <IconArrowBack color="var(--black)" />
