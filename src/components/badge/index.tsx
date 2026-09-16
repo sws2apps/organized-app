@@ -227,7 +227,7 @@ const Badge = (props: BadgePropsType) => {
               color={getColor()}
             >
               <BadgeTypography
-                className={className ?? 'label-medium-medium'}
+                className={className ?? 'label-large-medium'}
                 sx={{
                   color: getColor(),
                 }}
