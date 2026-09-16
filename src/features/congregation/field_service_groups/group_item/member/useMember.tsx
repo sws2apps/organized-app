@@ -129,7 +129,7 @@ const useMember = ({ member, index, group_id }: GroupMemberProps) => {
 
     if (personIsInactive(person)) {
       if (isElder) {
-        badges.push({ name: t('tr_inactivePublisher'), color: 'grey' });
+        badges.push({ name: t('tr_inactivePublisher'), color: 'red' });
       }
 
       return badges;
