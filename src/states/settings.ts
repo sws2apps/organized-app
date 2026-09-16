@@ -642,6 +642,18 @@ export const themeFollowOSEnabledState = atom((get) => {
   return settings.user_settings.theme_follow_os_enabled.value;
 });
 
+export const accountAppLanguageState = atom((get) => {
+  const settings = get(settingsState);
+
+  return settings.user_settings.app_language?.value ?? '';
+});
+
+export const accountColorSchemeState = atom((get) => {
+  const settings = get(settingsState);
+
+  return settings.user_settings.color_scheme?.value ?? '';
+});
+
 export const hapticsEnabledState = atom((get) => {
   const settings = get(settingsState);
 
