@@ -80,6 +80,16 @@ export const appThemeState = atom((get) => {
       },
       MuiMenuItem: { styleOverrides: { root: focusedRowStyles } },
       MuiListItemButton: { styleOverrides: { root: focusedRowStyles } },
+      MuiIconButton: {
+        styleOverrides: {
+          // the keyboard focus ring is otherwise drawn in the text color
+          root: {
+            '& .MuiTouchRipple-childPulsate': {
+              backgroundColor: 'var(--accent-main)',
+            },
+          },
+        },
+      },
       MuiAutocomplete: {
         styleOverrides: {
           // on the listbox, so it follows MUI's option styles set there
