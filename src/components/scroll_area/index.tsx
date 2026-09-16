@@ -33,7 +33,7 @@ const ScrollArea = ({
         };
       }}
       className={['scroll-fade-y', className].filter(Boolean).join(' ')}
-      sx={{ overflowY: 'auto', ...sx }}
+      sx={[{ overflowY: 'auto' }, ...(Array.isArray(sx) ? sx : [sx])]}
     >
       {children}
     </Box>

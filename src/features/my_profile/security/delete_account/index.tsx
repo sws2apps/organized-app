@@ -29,7 +29,7 @@ const DeleteAccount = ({ open, onClose }: DeleteAccountProps) => {
       onClose={onClose}
       open={open}
       title={t('tr_deleteAccount')}
-      description={desc}
+      description={isLoading ? undefined : desc}
     >
       {isLoading && <WaitingLoader variant="standard" size={72} />}
 
