@@ -21,6 +21,7 @@ const GroupMember = (props: GroupMemberProps) => {
     member_icon,
     member_name,
     member_desc,
+    member_away,
     member_badges,
     icon_hover_color,
     anchorEl,
@@ -124,6 +125,16 @@ const GroupMember = (props: GroupMemberProps) => {
               color={'var(--grey-400)'}
             >
               {member_desc}
+            </Typography>
+          )}
+
+          {member_away && (
+            <Typography
+              className="label-small-regular"
+              color={'var(--grey-350)'}
+              sx={{ marginTop: '2px' }}
+            >
+              {member_away}
             </Typography>
           )}
         </Stack>

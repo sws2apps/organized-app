@@ -406,6 +406,8 @@
   "tr_showAwayToAllDesc": "Allow all users to view the time away of other publishers. Otherwise, only appointed brothers can see it.",
   "tr_showAwayToAll": "Show time away to all users",
   "tr_showGroupBadges": "Show additional badges",
+  "tr_awayDates": "Away: {{ startDate }} - {{ endDate }}",
+  "tr_awaySoonDates": "Away soon: {{ startDate }} - {{ endDate }}",
   "tr_showGroupBadgesDesc": "Label publishers as elder, ministerial servant or pioneer.",
   "tr_importExport": "Import/export",
   "tr_count": "Count",

@@ -20,8 +20,8 @@ const QuickSettingsFieldServiceGroups = ({
     >
       <Stack spacing="16px" width="100%">
         <Stack spacing="16px">
-          <TimeAwayVisibility />
           <PublishersSort />
+          <TimeAwayVisibility />
           <GroupBadgesVisibility />
         </Stack>
       </Stack>
