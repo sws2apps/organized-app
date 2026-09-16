@@ -213,7 +213,7 @@ const usePerson = () => {
     }
 
     if (isInactivePublisher) {
-      badges.push({ name: t('tr_inactivePublisher'), color: 'grey' });
+      badges.push({ name: t('tr_inactivePublisher'), color: 'red' });
     }
 
     if (!isDisqualified && !isInactivePublisher) {

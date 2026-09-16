@@ -55,7 +55,7 @@ const usePersonCard = (person: PersonType) => {
     }
 
     if (isInactivePublisher) {
-      badges.push({ name: t('tr_inactivePublisher'), color: 'grey' });
+      badges.push({ name: t('tr_inactivePublisher'), color: 'red' });
     }
 
     if (!disqualified && !isInactivePublisher) {
