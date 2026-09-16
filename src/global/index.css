@@ -1,6 +1,4 @@
 :root {
-  /* dialogs: the surrounding padding, the gap between the rows inside, and
-     the gap under a pinned title */
   --dialog-padding: 24px;
   --dialog-gap: 24px;
   --dialog-gap-mobile: 16px;
@@ -183,6 +181,48 @@ span .text-markup:last-child {
 
 body iframe {
   opacity: 0;
+}
+
+/* page paddings, kept in sync with the container of the root layout */
+:root {
+  --page-padding: 16px;
+}
+
+@media (min-width: 480px) {
+  :root {
+    --page-padding: 24px;
+  }
+}
+
+@media (min-width: 1200px) {
+  :root {
+    --page-padding: 32px;
+  }
+}
+
+/* shared motion tokens */
+:root {
+  --motion-fast: 180ms;
+  --motion-base: 240ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+}
+
+/* page to page transitions */
+.page-transition {
+  animation: page-enter var(--motion-base) var(--ease-standard) both;
+}
+
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-transition {
+    animation: none;
+  }
 }
 
 /* Fades a scrollable element at the edges that hide content. The stops follow

@@ -20,9 +20,18 @@
     "images": {
       "img_01": {
         "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-click-counter.svg",
-        "tr_title": "Tap to count on mobile devices",
-        "tr_desc": "Tap the attendance count field and hit the counter button to open full-screen clicker mode. Counting made fast, easy, and intuitive."
+        "tr_title": "Toca para contar en dispositivos móviles",
+        "tr_desc": "Toca un campo de registro de asistencia y luego dale a Contador para contar a pantalla completa. Rápido, fácil e intuitivo."
       }
+    },
+    "improvements": {
+      "tr_note_01": "Instala la aplicación en tu computadora o teléfono desde el menú de perfil",
+      "tr_note_02": "Configura las asignaciones aprobadas de los estudiantes de forma flexible para la sala principal o las clases auxiliares",
+      "tr_note_03": "Las congregaciones de lengua de señas pueden registrar por separado la asistencia de sordos a las reuniones",
+      "tr_note_04": "Rellena automáticamente una semana a la vez en la vista mensual de la reunión de entre semana en la computadora",
+      "tr_note_05": "Asigna a cualquier miembro de la familia como auxiliar",
+      "tr_note_06": "Marca a los precursores con problemas de salud para liberarlos de la meta de horas del año",
+      "tr_note_07": "Elige la orientación y el tamaño de letra para exportar en PDF los grupos para el servicio del campo"
     }
   }
 }
