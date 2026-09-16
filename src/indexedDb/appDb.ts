@@ -257,28 +257,16 @@ appDb
     ...appLocalsSchema,
   })
   .upgrade(async (tx) => {
-    // present and online used to include the deaf count: keep the hearing
-    // count only and send the converted months so other devices get them too
-    const updatedAt = new Date().toISOString();
-
-    let changed = false;
-
+    // present and online used to include the deaf count: keep the hearing count
+    // only. updatedAt stays as it was, so a device converting an outdated
+    // record cannot push it over a newer edit made elsewhere; records still in
+    // the old format are converted again whenever they arrive from sync
     await tx
       .table('meeting_attendance')
       .toCollection()
       .modify((attendance: MeetingAttendanceType) => {
-        if (meetingAttendanceSplitDeaf(attendance, updatedAt)) changed = true;
+        meetingAttendanceSplitDeaf(attendance);
       });
-
-    if (!changed) return;
-
-    const record = await tx.table('metadata').get(1);
-
-    if (!record?.metadata?.meeting_attendance) return;
-
-    record.metadata.meeting_attendance.send_local = true;
-
-    await tx.table('metadata').put(record);
   });
 
 appDb.on('populate', function () {

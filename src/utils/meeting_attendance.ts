@@ -25,12 +25,14 @@ export const attendanceHasDeafCount = (record: AttendanceCongregation) => {
   return isCount(record.present_deaf) || isCount(record.online_deaf);
 };
 
-const hearingCount = (total?: number, deaf?: number) => {
-  if (!isCount(total) || !isCount(deaf)) return total;
+// a deaf count that is not smaller than the count holding it means broken
+// data: keep the meeting total as it was instead of letting the split raise it
+const splitCounts = (total?: number, deaf?: number) => {
+  if (!isCount(total) || !isCount(deaf)) return { total, deaf };
 
-  const hearing = total - deaf;
+  if (deaf >= total) return { total: undefined, deaf: total };
 
-  return hearing > 0 ? hearing : undefined;
+  return { total: total - deaf, deaf };
 };
 
 // records saved before deaf_separate held the deaf count inside present and
@@ -38,16 +40,22 @@ const hearingCount = (total?: number, deaf?: number) => {
 export const attendanceSplitDeaf = (record: AttendanceCongregation) => {
   if (record.deaf_separate || !attendanceHasDeafCount(record)) return false;
 
-  record.present = hearingCount(record.present, record.present_deaf);
-  record.online = hearingCount(record.online, record.online_deaf);
+  const present = splitCounts(record.present, record.present_deaf);
+  const online = splitCounts(record.online, record.online_deaf);
+
+  record.present = present.total;
+  record.online = online.total;
+
+  if (isCount(record.present_deaf)) record.present_deaf = present.deaf;
+  if (isCount(record.online_deaf)) record.online_deaf = online.deaf;
+
   record.deaf_separate = true;
 
   return true;
 };
 
 export const meetingAttendanceSplitDeaf = (
-  attendance: MeetingAttendanceType,
-  updatedAt?: string
+  attendance: MeetingAttendanceType
 ) => {
   let changed = false;
 
@@ -61,11 +69,7 @@ export const meetingAttendanceSplitDeaf = (
     const records = [...(week.midweek ?? []), ...(week.weekend ?? [])];
 
     for (const record of records) {
-      if (!attendanceSplitDeaf(record)) continue;
-
-      if (updatedAt) record.updatedAt = updatedAt;
-
-      changed = true;
+      if (attendanceSplitDeaf(record)) changed = true;
     }
   }
 

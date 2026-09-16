@@ -7,11 +7,14 @@ const useAttendanceImport = () => {
   const getAttendances = async (attendances: MeetingAttendanceType[]) => {
     const result: MeetingAttendanceType[] = [];
 
+    // the parsed backup is left untouched: the import can still be cancelled
     for (const attendance of attendances) {
-      meetingAttendanceSplitDeaf(attendance);
-    }
+      const record = structuredClone(attendance);
 
-    result.push(...attendances);
+      meetingAttendanceSplitDeaf(record);
+
+      result.push(record);
+    }
 
     const oldAttendances = await appDb.meeting_attendance.toArray();
 
