@@ -2238,6 +2238,7 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
             theme_follow_os_enabled:
               settings.user_settings.theme_follow_os_enabled,
             haptics_enabled: settings.user_settings.haptics_enabled,
+            group_badges_enabled: settings.user_settings.group_badges_enabled,
             hour_credits_enabled: settings.user_settings.hour_credits_enabled,
           };
 
