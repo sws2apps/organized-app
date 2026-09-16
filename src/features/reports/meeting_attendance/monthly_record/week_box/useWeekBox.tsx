@@ -25,8 +25,7 @@ import {
   WeeklyAttendance,
 } from '@definition/meeting_attendance';
 import {
-  attendanceDeafRecordState,
-  attendanceOnlineRecordState,
+  attendanceRecordSettingsState,
   userDataViewState,
 } from '@states/settings';
 import { meetingAttendancePresentSave } from '@services/app/meeting_attendance';
@@ -57,12 +56,14 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
 
   const attendances = useAtomValue(meetingAttendanceState);
   const dataView = useAtomValue(userDataViewState);
-  const recordOnline = useAtomValue(attendanceOnlineRecordState);
-  const recordDeaf = useAtomValue(attendanceDeafRecordState);
+  const recordSettings = useAtomValue(attendanceRecordSettingsState);
   const months = useAtomValue(monthShortNamesState);
   const schedules = useAtomValue(schedulesState);
 
   const currentView = view || dataView;
+
+  const { online: recordOnline, deaf: recordDeaf } =
+    recordSettings(currentView);
 
   const [focusedField, setFocusedField] = useState<keyof WeekBoxValues | null>(
     null
