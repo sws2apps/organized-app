@@ -1,5 +1,6 @@
 import { PropsWithChildren, ReactElement, ReactNode } from 'react';
 import { SxProps, Theme } from '@mui/material';
+import { SystemStyleObject } from '@mui/system';
 import { BadgeColor, CustomClassName } from '@definition/app';
 
 /**
@@ -77,7 +78,7 @@ export type BadgeTypographyPropsType = PropsWithChildren & {
   /**
    * Custom styles for the typography component.
    */
-  sx?: SxProps<Theme>;
+  sx?: SystemStyleObject<Theme>;
 
   className?: CustomClassName;
 };

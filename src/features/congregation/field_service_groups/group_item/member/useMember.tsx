@@ -10,7 +10,8 @@ import {
   groupBadgesEnabledState,
   settingsState,
 } from '@states/settings';
-import { addMonths, formatDate, formatDateShortMonth } from '@utils/date';
+import { addMonths } from 'date-fns';
+import { formatDate, formatDateShortMonth } from '@utils/date';
 import { fieldGroupsState } from '@states/field_service_groups';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
