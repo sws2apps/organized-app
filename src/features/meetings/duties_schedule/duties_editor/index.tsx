@@ -64,6 +64,7 @@ const DutiesEditor = () => {
     activePrefix,
     micSectionsEnabled,
     meetingsInfo,
+    meetingsHeld,
     dutyRows,
     handleChangeMeeting,
     handleChangeWeekBack,
@@ -198,6 +199,13 @@ const DutiesEditor = () => {
     </Stack>
   );
 
+  const noMeetingPanel = (
+    <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+      <IconInfo color="var(--accent-400)" />
+      <Typography color="var(--grey-400)">{t('tr_noMeeting')}</Typography>
+    </Box>
+  );
+
   return (
     <Box
       sx={{
@@ -231,7 +239,9 @@ const DutiesEditor = () => {
                   total={meetingsInfo.midweek.total}
                 />
               ),
-              Component: dutiesPanel('midweek'),
+              Component: meetingsHeld.midweek
+                ? dutiesPanel('midweek')
+                : noMeetingPanel,
             },
             {
               label: (
@@ -241,7 +251,9 @@ const DutiesEditor = () => {
                   total={meetingsInfo.weekend.total}
                 />
               ),
-              Component: dutiesPanel('weekend'),
+              Component: meetingsHeld.weekend
+                ? dutiesPanel('weekend')
+                : noMeetingPanel,
             },
           ]}
           onChange={handleChangeMeeting}

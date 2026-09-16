@@ -1,4 +1,3 @@
-import { WEEK_TYPE_NO_MEETING } from '@constants/index';
 import { AssignmentCode } from '@definition/assignment';
 import { PersonType } from '@definition/person';
 import {
@@ -8,20 +7,12 @@ import {
   SchedWeekType,
 } from '@definition/schedules';
 import { SettingsType } from '@definition/settings';
-import { SourceWeekType } from '@definition/sources';
-import { Week } from '@definition/week_type';
-import { FieldServiceGroupType } from '@definition/field_service_groups';
 import { dbSchedBulkUpdate } from '@services/dexie/schedules';
 import { fieldServiceGroupsState } from '@states/field_service_groups';
 import { store } from '@states/index';
 import { personsActiveState } from '@states/persons';
 import { assignmentsHistoryState, schedulesState } from '@states/schedules';
-import {
-  JWLangState,
-  settingsState,
-  userDataViewState,
-} from '@states/settings';
-import { sourcesState } from '@states/sources';
+import { settingsState, userDataViewState } from '@states/settings';
 import { formatDate } from '@utils/date';
 import { getActualLoad, getDistanceInWeeks } from './assignment_selection';
 import { getEligiblePersonsPerDataViewAndCode } from './assignments_with_stats';
@@ -35,6 +26,7 @@ import {
   schedulesDutiesConfig,
   schedulesDutiesFieldList,
   schedulesDutiesGetFieldValue,
+  schedulesDutiesMeetingHeld,
   schedulesDutiesSections,
   schedulesDutyAllowedForPerson,
   schedulesDutyRequiredCodes,
@@ -129,60 +121,19 @@ const loadPriority = (expectedLoad: number, actualLoad: number) => {
   return expectedLoad / actualLoad;
 };
 
-const meetingHasSource = (
-  meeting: DutiesMeeting,
-  source: SourceWeekType | undefined,
-  lang: string
-) =>
-  Boolean(
-    meeting === 'midweek'
-      ? source?.midweek_meeting.week_date_locale[lang]
-      : source?.weekend_meeting.w_study[lang]
-  );
-
 /**
- * A meeting takes place unless its week has none, or the language group of
- * the view does not hold that meeting at all.
+ * The weeks in the range with at least one meeting that holds duties.
  */
-const meetingIsHeld = (
-  schedule: SchedWeekType,
-  meeting: DutiesMeeting,
-  dataView: string,
-  group: FieldServiceGroupType | undefined
-) => {
-  const groupHoldsMeeting =
-    (meeting === 'midweek'
-      ? group?.group_data.midweek_meeting
-      : group?.group_data.weekend_meeting) ?? true;
-
-  if (!groupHoldsMeeting) return false;
-
-  const weekType =
-    schedule[`${meeting}_meeting`].week_type.find(
-      (record) => record.type === dataView
-    )?.value ?? Week.NORMAL;
-
-  return !WEEK_TYPE_NO_MEETING.includes(weekType);
-};
-
-/**
- * The weeks in the range that have a source, and so a meeting to hold duties.
- */
-const dutiesWeeksList = (start: string, end: string) => {
-  const sources = store.get(sourcesState);
-  const lang = store.get(JWLangState);
-
-  return store.get(schedulesState).filter((schedule) => {
-    if (schedule.weekOf < start || schedule.weekOf > end) return false;
-
-    const source = sources.find((record) => record.weekOf === schedule.weekOf);
-
-    return (
-      meetingHasSource('midweek', source, lang) ||
-      meetingHasSource('weekend', source, lang)
+const dutiesWeeksList = (start: string, end: string) =>
+  store
+    .get(schedulesState)
+    .filter(
+      (schedule) =>
+        schedule.weekOf >= start &&
+        schedule.weekOf <= end &&
+        (schedulesDutiesMeetingHeld(schedule, 'midweek') ||
+          schedulesDutiesMeetingHeld(schedule, 'weekend'))
     );
-  });
-};
 
 /**
  * Every duty field of the weeks, with the empty ones returned as tasks and
@@ -193,28 +144,20 @@ const buildDutyTasks = ({
   config,
   settings,
   dataView,
-  group,
 }: {
   weeks: SchedWeekType[];
   config: MeetingDutiesConfigType;
   settings: SettingsType;
   dataView: string;
-  group: FieldServiceGroupType | undefined;
 }) => {
-  const sources = store.get(sourcesState);
-  const lang = store.get(JWLangState);
-
   const tasks: DutyTask[] = [];
   const slotsByCode = new Map<AssignmentCode, number>();
 
   for (const schedule of weeks) {
     if (!schedule.duties) continue;
 
-    const source = sources.find((record) => record.weekOf === schedule.weekOf);
-
     for (const meeting of ['midweek', 'weekend'] as const) {
-      if (!meetingHasSource(meeting, source, lang)) continue;
-      if (!meetingIsHeld(schedule, meeting, dataView, group)) continue;
+      if (!schedulesDutiesMeetingHeld(schedule, meeting)) continue;
 
       const sections = schedulesDutiesSections(schedule.weekOf, meeting);
       const fields = schedulesDutiesFieldList(meeting, config, sections);
@@ -552,7 +495,6 @@ export const dutiesStartAutofill = async (start: string, end: string) => {
     config,
     settings,
     dataView,
-    group: languageGroups.find((record) => record.group_id === dataView),
   });
 
   const eligibleByCode = new Map(

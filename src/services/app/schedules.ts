@@ -108,6 +108,7 @@ import {
 } from '@services/dexie/settings';
 import {
   fieldGroupsState,
+  fieldServiceGroupsState,
   languageGroupsState,
 } from '@states/field_service_groups';
 import { monthNamesState, monthShortNamesState } from '@states/app';
@@ -470,6 +471,54 @@ export const schedulesDutiesSections = (
   );
 };
 
+/**
+ * Whether a meeting of the week has duties to fill: it needs its source
+ * material, a week type that holds the meeting, and, for a language group
+ * view, a group that holds that meeting at all. The editor, its counters and
+ * autofill all go through this, so they never disagree.
+ */
+export const schedulesDutiesMeetingHeld = (
+  schedule: SchedWeekType,
+  meeting: 'midweek' | 'weekend'
+) => {
+  const dataView = store.get(userDataViewState);
+  const lang = store.get(JWLangState);
+
+  const source = store
+    .get(sourcesState)
+    .find((record) => record.weekOf === schedule.weekOf);
+
+  const hasSource =
+    meeting === 'midweek'
+      ? source?.midweek_meeting.week_date_locale[lang]
+      : source?.weekend_meeting.w_study[lang];
+
+  if (!hasSource) return false;
+
+  const group = store
+    .get(fieldServiceGroupsState)
+    .find(
+      (record) =>
+        record.group_id === dataView &&
+        record.group_data.language_group &&
+        !record.group_data._deleted
+    );
+
+  const groupHoldsMeeting =
+    (meeting === 'midweek'
+      ? group?.group_data.midweek_meeting
+      : group?.group_data.weekend_meeting) ?? true;
+
+  if (!groupHoldsMeeting) return false;
+
+  const weekType =
+    schedule[`${meeting}_meeting`].week_type.find(
+      (record) => record.type === dataView
+    )?.value ?? Week.NORMAL;
+
+  return !WEEK_TYPE_NO_MEETING.includes(weekType);
+};
+
 export const schedulesDutiesMeetingInfo = (
   week: string,
   meeting: 'midweek' | 'weekend'
@@ -482,12 +531,7 @@ export const schedulesDutiesMeetingInfo = (
 
   if (!schedule?.duties || !config) return { total: 0, assigned: 0 };
 
-  const weekType =
-    schedule[`${meeting}_meeting`].week_type.find(
-      (record) => record.type === dataView
-    )?.value ?? Week.NORMAL;
-
-  if (WEEK_TYPE_NO_MEETING.includes(weekType)) {
+  if (!schedulesDutiesMeetingHeld(schedule, meeting)) {
     return { total: 0, assigned: 0 };
   }
 
