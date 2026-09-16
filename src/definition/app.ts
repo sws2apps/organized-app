@@ -26,7 +26,7 @@ export type CustomClassName =
   | 'label-small-regular'
   | 'label-xsmall-semibold'
   | 'label-small-semibold'
-  | 'label-medium-medium'
+  | 'label-large-medium'
   | 'h1'
   | 'h2'
   | 'h2-caps'
