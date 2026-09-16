@@ -33,8 +33,14 @@ const withSchemaDefaults = <T>(schema: T, local: unknown): T => {
   }
 
   if (Array.isArray(schema)) {
-    if (!Array.isArray(local) || local.length === 0) {
+    // Fall back to schema only if values are broken or missing
+    if (!Array.isArray(local)) {
       return structuredClone(schema);
+    }
+
+    // An intentionally empty array is a valid state – preserve it
+    if (local.length === 0) {
+      return [] as unknown as T;
     }
 
     const template = schema.at(0);
