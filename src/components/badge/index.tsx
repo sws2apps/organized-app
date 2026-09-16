@@ -43,17 +43,15 @@ const BadgeContent = (props: BadgeContentPropsType) => {
 
 const BadgeTypography = ({
   children,
-  className = 'body-small-semibold',
+  className,
   sx,
 }: BadgeTypographyPropsType) => {
+  const styles = { display: 'flex', alignItems: 'center', ...sx };
+
   return (
     <Typography
-      className={className}
-      sx={{
-        display: 'flex',
-        alignItems: 'center',
-        ...sx,
-      }}
+      className={className ?? 'body-small-semibold'}
+      sx={className ? styles : { '&&': styles }}
     >
       {children}
     </Typography>
@@ -112,7 +110,7 @@ const Badge = (props: BadgePropsType) => {
 
         return `var(--${color}-150)`;
       } else if (color === 'accent') {
-        return `var(--accent-200)`;
+        return `var(--accent-150)`;
       } else {
         return `var(--${color}-secondary)`;
       }
@@ -129,7 +127,7 @@ const Badge = (props: BadgePropsType) => {
             background: getBackgroundColor(),
             display: 'flex',
             flexDirection: 'row',
-            borderRadius: 'var(--radius-xs)',
+            borderRadius: 'var(--radius-s)',
             gap: '4px',
             padding: '2px 6px',
             flexShrink: '0',
@@ -148,9 +146,10 @@ const Badge = (props: BadgePropsType) => {
             <BadgeTypography
               className={className}
               sx={{
-                fontSize: '12px',
-                fontWeight: '400',
+                fontSize: '11px',
+                fontWeight: '520',
                 lineHeight: '16px',
+                letterSpacing: '0.1px',
                 color: getColor(),
               }}
             >
@@ -168,7 +167,7 @@ const Badge = (props: BadgePropsType) => {
             background: getBackgroundColor(),
             display: 'flex',
             flexDirection: 'row',
-            borderRadius: 'var(--radius-s)',
+            borderRadius: 'var(--radius-m)',
             padding: '2px 8px',
             gap: '4px',
             flexShrink: '0',
@@ -187,9 +186,10 @@ const Badge = (props: BadgePropsType) => {
             <BadgeTypography
               className={className}
               sx={{
-                fontSize: '14px',
+                fontSize: '12px',
                 fontWeight: '520',
                 lineHeight: '16px',
+                letterSpacing: '0.05px',
                 color: getColor(),
               }}
             >
@@ -206,7 +206,7 @@ const Badge = (props: BadgePropsType) => {
             background: getBackgroundColor(),
             display: 'flex',
             flexDirection: 'row',
-            borderRadius: 'var(--radius-s)',
+            borderRadius: 'var(--radius-m)',
             gap: filled ? '10px' : '8px',
             padding: filled ? '2px 6px' : '4px 8px',
             flexShrink: '0',
@@ -226,9 +226,10 @@ const Badge = (props: BadgePropsType) => {
               <BadgeTypography
                 className={className}
                 sx={{
-                  fontSize: '16px',
-                  fontWeight: '420',
+                  fontSize: '14px',
+                  fontWeight: '500',
                   lineHeight: '20px',
+                  letterSpacing: '0px',
                   color: getColor(),
                 }}
               >
