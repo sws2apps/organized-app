@@ -32,7 +32,10 @@ import { MetadataRecordType } from '@definition/metadata';
 import { DelegatedFieldServiceReportType } from '@definition/delegated_field_service_reports';
 import { UpcomingEventType } from '@definition/upcoming_events';
 import { formatDate } from '@utils/date';
-import { meetingAttendanceSplitDeaf } from '@utils/meeting_attendance';
+import {
+  meetingAttendanceFillCounts,
+  meetingAttendanceSplitDeaf,
+} from '@utils/meeting_attendance';
 import { APP_READ_ONLY_ROLES } from '@constants/index';
 
 const getErrorMessage = (error: unknown) => {
@@ -1365,6 +1368,7 @@ const dbRestoreMeetingAttendance = async (
       });
 
       meetingAttendanceSplitDeaf(data);
+      meetingAttendanceFillCounts(data);
 
       return data;
     });

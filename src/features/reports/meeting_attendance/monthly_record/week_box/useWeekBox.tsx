@@ -62,8 +62,7 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
 
   const currentView = view || dataView;
 
-  const { online: recordOnline, deaf: recordDeaf } =
-    recordSettings(currentView);
+  const recordSetting = recordSettings(currentView);
 
   const [focusedField, setFocusedField] = useState<keyof WeekBoxValues | null>(
     null
@@ -103,6 +102,25 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
   }, [weekRecord]);
 
   const [values, setValues] = useState(initialValues);
+
+  // a count kept from before its setting was turned off still adds to the
+  // meeting, so its field stays visible for this week, cleared or not
+  const weekKey = `${currentView}-${month}-${index}-${type}`;
+
+  const shown = useRef({ key: weekKey, online: false, deaf: false });
+
+  if (shown.current.key !== weekKey) {
+    shown.current = { key: weekKey, online: false, deaf: false };
+  }
+
+  shown.current.online ||=
+    initialValues.online !== '' || initialValues.onlineDeaf !== '';
+
+  shown.current.deaf ||=
+    initialValues.presentDeaf !== '' || initialValues.onlineDeaf !== '';
+
+  const recordOnline = recordSetting.online || shown.current.online;
+  const recordDeaf = recordSetting.deaf || shown.current.deaf;
 
   const weeksList = useMemo(() => {
     const weeks = weeksInMonth(month);
@@ -220,7 +238,6 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
     return result;
   }, [recordDeaf, recordOnline, box_label, t]);
 
-  // counts hidden by the attendance settings still belong to the meeting
   const total = useMemo(() => {
     return Object.values(values).reduce(
       (acc, value) => acc + (Number(value) || 0),

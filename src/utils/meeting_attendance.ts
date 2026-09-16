@@ -54,6 +54,28 @@ export const attendanceSplitDeaf = (record: AttendanceCongregation) => {
   return true;
 };
 
+// a cleared count is left out when a record is sent, so a merge would keep the
+// old value: give every row each count, empty ones included
+export const meetingAttendanceFillCounts = (
+  attendance: MeetingAttendanceType
+) => {
+  for (let i = 1; i <= 5; i++) {
+    const week = attendance[`week_${i}` as keyof MeetingAttendanceType] as
+      | WeeklyAttendance
+      | undefined;
+
+    if (!week) continue;
+
+    const records = [...(week.midweek ?? []), ...(week.weekend ?? [])];
+
+    for (const record of records) {
+      for (const field of COUNT_FIELDS) {
+        if (!(field in record)) record[field] = undefined;
+      }
+    }
+  }
+};
+
 export const meetingAttendanceSplitDeaf = (
   attendance: MeetingAttendanceType
 ) => {
