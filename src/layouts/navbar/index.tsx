@@ -287,7 +287,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
                           )}
                         </MenuItem>
 
-                        {(tabletDown || (!isAppLoad && !isTest)) && (
+                        {tabletDown && (isAppLoad || isTest) && (
                           <LanguageSwitcher menuStyle={menuStyle} />
                         )}
 

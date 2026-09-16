@@ -8,6 +8,7 @@ import DateFormat from '@features/congregation/settings/meeting_forms/date_forma
 import DataSharing from '@features/congregation/settings/congregation_privacy/data_sharing';
 import HourFormat from '@features/congregation/settings/congregation_basic/hour_format';
 import NameFormat from '@features/congregation/settings/meeting_forms/name_format';
+import SourceLanguage from '@features/congregation/settings/meeting_forms/source_language';
 import Typography from '@components/typography';
 
 const BasicSettings = (props: BasicSettingsProps) => {
@@ -29,6 +30,8 @@ const BasicSettings = (props: BasicSettingsProps) => {
         <DateFormat />
 
         <NameFormat />
+
+        <SourceLanguage label={t('tr_meetingMaterialsLanguage')} />
       </Stack>
 
       <DialogActions>
