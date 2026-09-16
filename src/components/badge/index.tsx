@@ -46,14 +46,16 @@ const BadgeTypography = ({
   className,
   sx,
 }: BadgeTypographyPropsType) => {
+  const styles = { display: 'flex', alignItems: 'center', ...sx };
+
   return (
     <Typography
       className={className}
-      sx={{
-        display: 'flex',
-        alignItems: 'center',
-        ...sx,
-      }}
+      sx={
+        className
+          ? styles
+          : { '&&': { font: 'inherit', letterSpacing: 'inherit', ...styles } }
+      }
     >
       {children}
     </Typography>
@@ -124,7 +126,7 @@ const Badge = (props: BadgePropsType) => {
     <>
       {size === 'small' && (
         <Box
-          title={truncate ? text : undefined}
+          className={className ? undefined : 'label-xsmall-semibold'}
           sx={{
             border: '2px',
             height: props.multiLine ? 'unset' : '20px',
@@ -149,7 +151,7 @@ const Badge = (props: BadgePropsType) => {
             color={getColor()}
           >
             <BadgeTypography
-              className={className ?? 'label-xsmall-semibold'}
+              className={className}
               sx={{
                 color: getColor(),
                 ...(truncate && {
@@ -167,6 +169,7 @@ const Badge = (props: BadgePropsType) => {
       )}
       {size === 'medium' && (
         <Box
+          className={className ? undefined : 'label-small-semibold'}
           sx={{
             border: '1px',
             borderColor: 'var(--accent-350)',
@@ -191,7 +194,7 @@ const Badge = (props: BadgePropsType) => {
             color={getColor()}
           >
             <BadgeTypography
-              className={className ?? 'label-small-semibold'}
+              className={className}
               sx={{
                 color: getColor(),
               }}
@@ -203,6 +206,7 @@ const Badge = (props: BadgePropsType) => {
       )}
       {size === 'big' && (
         <Box
+          className={className ? undefined : 'label-large-medium'}
           sx={{
             border: '4px',
             height: props.multiLine ? 'unset' : filled ? '24px' : '28px',
@@ -227,7 +231,7 @@ const Badge = (props: BadgePropsType) => {
               color={getColor()}
             >
               <BadgeTypography
-                className={className ?? 'label-large-medium'}
+                className={className}
                 sx={{
                   color: getColor(),
                 }}
