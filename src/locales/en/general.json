@@ -18,6 +18,7 @@
   "tr_supportAppOption2": "Option 2: Contribute",
   "tr_supportAppOption2Desc": "<p>We’d appreciate your help in the following areas:</p><ul><li>React development</li><li>UI/UX Design</li><li>App translation</li></ul><p>If you can help in any of these areas, please <a href='mailto:support@organized-app.com'>contact us</a>. Let’s work together to improve Organized!</p><p>Also, recommending Organized to others extends its reach and benefits congregations. Any way you contribute truly enhances the app, making it better for everyone.</p>",
   "tr_howToContribute": "How to contribute",
+  "tr_contribute": "Contribute",
   "tr_changeLanguage": "Language",
   "tr_languageMissing": "Add my language",
   "tr_loading": "Loading...",
