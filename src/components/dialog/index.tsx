@@ -135,14 +135,12 @@ const Dialog = ({
       )}
 
       {closable && (
-        <IconButton
-          aria-label={t('tr_close')}
-          onClick={onClose}
-          // pulled into its padding, so the icon lines up with the edge
-          sx={{ padding: '4px', margin: '-4px -4px -4px 0' }}
-        >
-          <IconClose color="var(--black)" />
-        </IconButton>
+        // pulled into its padding, so the icon lines up with the edge
+        <Box sx={{ flexShrink: 0, margin: '-8px -8px -8px 0' }}>
+          <IconButton aria-label={t('tr_close')} onClick={onClose}>
+            <IconClose color="var(--black)" />
+          </IconButton>
+        </Box>
       )}
     </Box>
   );
