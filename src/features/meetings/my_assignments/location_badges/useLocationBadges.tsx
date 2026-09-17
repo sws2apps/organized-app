@@ -23,11 +23,12 @@ const useLocationBadges = (history: AssignmentHistoryType) => {
 
   const isOtherDataView = history.assignment.dataView !== dataView;
 
-  const dataViewLabel = isOtherDataView
-    ? dataView === 'main'
+  const otherDataViewLabel =
+    dataView === 'main'
       ? t('tr_languageGroupShort')
-      : t('tr_hostCongregationShort')
-    : '';
+      : t('tr_hostCongregationShort');
+
+  const dataViewLabel = isOtherDataView ? otherDataViewLabel : '';
 
   const dataViewColor: 'red' | 'green' = dataView === 'main' ? 'red' : 'green';
 

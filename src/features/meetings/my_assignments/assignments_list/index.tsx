@@ -43,6 +43,8 @@ const AssignmentsList = ({
 
   const down = pin.direction === 'down';
 
+  const enterAnimation = `${down ? enterFromBelow : enterFromAbove} ${EASING}`;
+
   return (
     <Box sx={{ position: 'relative', flex: 1, minHeight: 0 }}>
       <Box
@@ -82,10 +84,7 @@ const AssignmentsList = ({
             month={months[pin.index]}
             sx={{
               ...pinnedHeaderSx,
-              animation:
-                pin.previous === -1
-                  ? 'none'
-                  : `${down ? enterFromBelow : enterFromAbove} ${EASING}`,
+              animation: pin.previous === -1 ? 'none' : enterAnimation,
             }}
           />
         )}
