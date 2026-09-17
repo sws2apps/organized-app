@@ -40,6 +40,8 @@ import { sourcesState } from '@states/sources';
 import { formatDate } from '@utils/date';
 import {
   getCorrespondingStudentOrAssistant,
+  getRotationWeeks,
+  getSpacingDeficit,
   hasAssignmentConflict,
   isValidAssistantForStudent,
   sortCandidatesMultiLevel,
@@ -1790,6 +1792,7 @@ type ProcessingTasksParams = {
  *      currentCount < targetCounts[personUID]  // Weekly meeting quota
  *      ```
  *      **Fallback:** If no candidates remain → disable quota, use `'default'` strategy
+ *      **Spacing:** If every quota candidate had this assignment too recently → open the task to candidates who did not
  * 5. **Best Candidate:** `sortCandidatesMultiLevel(finalCandidates, strategy)`
  * 6. **Assignment:** `schedulesAutofillSaveAssignment()` → updates history + schedules
  * 7. **Tracking:** Returns `Map<personUID, assignmentCount>` for quota calculation
@@ -1845,6 +1848,11 @@ const processingTasks = ({
     let finalCandidates = candidates;
     let currentSortStrategy = sortStrategy;
 
+    const rotationWeeks = getRotationWeeks(
+      eligibilityMapView.get(task.code)?.size ?? 0,
+      assignmentsMetrics.get(task.dataView)?.get(task.code)?.frequency ?? 0
+    );
+
     if (targetCounts) {
       const taskPrefix = task.assignmentKey.substring(0, 3); // "MM_" or "WM_"
 
@@ -1868,6 +1876,28 @@ const processingTasks = ({
         finalCandidates = candidates;
         currentSortStrategy = 'default';
       }
+
+      // The quota must not force a repeat: if everyone within the quota had this
+      // assignment too recently, open the task to the persons who did not.
+      const hasSpacingDeficit = (p: PersonType) =>
+        getSpacingDeficit(
+          p.person_uid,
+          fullHistory,
+          task.schedule.weekOf,
+          task.dataView,
+          task.code,
+          rotationWeeks
+        ) > 0;
+
+      if (finalCandidates.every(hasSpacingDeficit)) {
+        const spacedCandidates = candidates.filter(
+          (p) => !hasSpacingDeficit(p)
+        );
+
+        if (spacedCandidates.length > 0) {
+          finalCandidates = spacedCandidates;
+        }
+      }
     }
 
     const selectedPerson = sortCandidatesMultiLevel(
@@ -1877,7 +1907,8 @@ const processingTasks = ({
       personsMetrics,
       weightingMetrics,
       assignmentsMetrics.get('total'),
-      currentSortStrategy
+      currentSortStrategy,
+      rotationWeeks
     )[0];
 
     if (selectedPerson) {
