@@ -101,7 +101,10 @@ export const dbVisitingSpeakersDelete = async (person_uid: string) => {
     }
 
     // Idempotent: skip the write if the record is already soft-deleted
-    if (speaker._deleted.value) return;
+    if (speaker._deleted.value) {
+      await dbUpdateVisitingSpeakersMetadata();
+      return;
+    }
 
     await appDb.visiting_speakers.update(person_uid, {
       _deleted: { value: true, updatedAt: new Date().toISOString() },
@@ -263,6 +266,7 @@ export const dbVisitingSpeakersDummy = async () => {
   // add outgoing speakers
   const localCong = congregations.find(
     (record) =>
+      !record._deleted.value &&
       record.cong_data.cong_name.value === settings?.cong_settings.cong_name
   );
 
@@ -340,6 +344,7 @@ export const dbVisitingSpeakersDummy = async () => {
 
   const incomingCongs = congregations.filter(
     (record) =>
+      !record._deleted.value &&
       record.cong_data.cong_name.value !== settings?.cong_settings.cong_name
   );
 

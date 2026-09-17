@@ -262,30 +262,32 @@ const NavBar = ({ isSupported }: NavBarType) => {
                           },
                         }}
                       >
-                        <MenuItem
-                          disableRipple
-                          sx={{
-                            cursor: 'default',
-                            pointerEvents: 'none',
-                            flexDirection: 'column',
-                            alignItems: 'flex-start',
-                            gap: 0,
-                          }}
-                        >
-                          {fullname && (
-                            <Typography className="body-small-semibold">
-                              {fullname}
-                            </Typography>
-                          )}
-                          {congName && (
-                            <Typography
-                              className="label-small-regular"
-                              color="var(--grey-350)"
-                            >
-                              {congName}
-                            </Typography>
-                          )}
-                        </MenuItem>
+                        {(fullname || congName) && (
+                          <MenuItem
+                            disableRipple
+                            sx={{
+                              cursor: 'default',
+                              pointerEvents: 'none',
+                              flexDirection: 'column',
+                              alignItems: 'flex-start',
+                              gap: 0,
+                            }}
+                          >
+                            {fullname && (
+                              <Typography className="body-small-semibold">
+                                {fullname}
+                              </Typography>
+                            )}
+                            {congName && (
+                              <Typography
+                                className="label-small-regular"
+                                color="var(--grey-350)"
+                              >
+                                {congName}
+                              </Typography>
+                            )}
+                          </MenuItem>
+                        )}
 
                         {(tabletDown || (!isAppLoad && !isTest)) && (
                           <LanguageSwitcher menuStyle={menuStyle} />

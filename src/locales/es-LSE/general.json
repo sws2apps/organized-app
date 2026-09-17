@@ -131,12 +131,12 @@
   "tr_appliesOnlyToBrothers": "Aplica solo a los hermanos",
   "tr_circuit": "Circuito: {{ circuitNumber }}",
   "tr_ageInYearsAndMonths": "{{ years }} años, {{months}} meses",
-  "tr_personHasNoAssignmentHistory": "No assignment history yet",
+  "tr_personHasNoAssignmentHistory": "Aún no hay historial de asignaciones",
   "tr_appUserProfile": "Esta persona todavía no tiene historial de asignaciones",
   "tr_appUserProfileNotRegisteredDesc": "Esta persona aún no usa la app. Puedes crear una cuenta de Organized para esta persona en la página de \"Cuentas de usuario\".",
   "tr_appUserProfileRegisteredDesc": "Esta persona ya está usando Organized. Última vez en línea: <span class='h4'>{{ lastTimeOnline }}</span>. Edita otros permisos y configuraciones en la página de \"Cuentas de usuario\".",
   "tr_notYet": "Todavía no",
-  "tr_manageUserProfileSettings": "Manage user account",
+  "tr_manageUserProfileSettings": "Administrar cuenta de usuario",
   "tr_createUserProfile": "Crear cuenta de usuario",
   "tr_download": "Descargar",
   "tr_import": "Importar",
@@ -179,6 +179,6 @@
   "tr_small": "Pequeña",
   "tr_normal": "Normal",
   "tr_large": "Grande",
-  "tr_chooseFields": "Choose export fields",
-  "tr_chooseFieldsDesc": "Please select the fields you want to include in the export file."
+  "tr_chooseFields": "Elegir campos para exportar",
+  "tr_chooseFieldsDesc": "Selecciona los campos que quieres incluir en el archivo de exportación."
 }

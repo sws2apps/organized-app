@@ -1,5 +1,3 @@
-import { Box } from '@mui/material';
-import { IconClose } from '@components/icons';
 import IconLoading from '@components/icon_loading';
 import { useAppTranslation } from '@hooks/index';
 import { SubmitReportProps } from './index.types';
@@ -7,7 +5,6 @@ import useSubmitReport from './useSubmitReport';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
 import DialogActions from '@components/dialog_actions';
-import IconButton from '@components/icon_button';
 import Typography from '@components/typography';
 
 const SubmitReport = (props: SubmitReportProps) => {
@@ -21,29 +18,16 @@ const SubmitReport = (props: SubmitReportProps) => {
   } = useSubmitReport(props);
 
   return (
-    <Dialog onClose={props.onClose} open={props.open} sx={{ padding: '24px' }}>
-      <Box
-        sx={{
-          display: 'flex',
-          gap: '4px',
-          alignItems: 'flex-start',
-          justifyContent: 'space-between',
-          width: '100%',
-        }}
-      >
-        <Typography className="h2">
-          {minutes_remains === 0
-            ? t('tr_btnSubmitReport')
-            : t('tr_extraTime', { ministryTime: minutes_remains })}
-        </Typography>
-
-        {minutes_remains > 0 && (
-          <IconButton sx={{ padding: 0 }} onClick={props.onClose}>
-            <IconClose color="var(--grey-400)" />
-          </IconButton>
-        )}
-      </Box>
-
+    <Dialog
+      onClose={props.onClose}
+      open={props.open}
+      title={
+        minutes_remains === 0
+          ? t('tr_btnSubmitReport')
+          : t('tr_extraTime', { ministryTime: minutes_remains })
+      }
+      closable={minutes_remains > 0}
+    >
       <Typography color="var(--grey-400)">
         {minutes_remains === 0
           ? t('tr_submitReportDesc')

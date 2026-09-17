@@ -568,5 +568,6 @@
   "tr_congregationAlreadySynced": "Congregation is already connected and synced.",
   "tr_error_app_data_no_valid_data_found": "No valid data found or no speaker selected.",
   "tr_infirmPioneer": "노약자 파이오니아",
-  "tr_infirmPioneerNoGoal": "노약자 파이오니아는 연간 시간 목표 없이 자신의 형편이 허락하는 만큼 봉사할 수 있습니다."
+  "tr_infirmPioneerNoGoal": "노약자 파이오니아는 연간 시간 목표 없이 자신의 형편이 허락하는 만큼 봉사할 수 있습니다.",
+  "tr_importCsvParseError": "The file could not be read. Please check the column structure and try again."
 }
