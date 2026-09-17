@@ -278,6 +278,33 @@ const useBaptizedPublisher = () => {
     setGroup(current_group);
   }, [person.person_data.publisher_baptized.baptism_date.value, current_group]);
 
+  const handleToggleBethelite = (checked: boolean) => {
+    const newPerson: PersonType = structuredClone(person);
+    newPerson.person_data.bethelite = {
+      value: checked,
+      updatedAt: new Date().toISOString(),
+    };
+    setPersonCurrentDetails(newPerson);
+  };
+
+  const handleToggleBethelCommuter = (checked: boolean) => {
+    const newPerson: PersonType = structuredClone(person);
+    newPerson.person_data.bethel_commuter = {
+      value: checked,
+      updatedAt: new Date().toISOString(),
+    };
+    setPersonCurrentDetails(newPerson);
+  };
+
+  const handleToggleLDCVolunteer = (checked: boolean) => {
+    const newPerson: PersonType = structuredClone(person);
+    newPerson.person_data.ldc_volunteer = {
+      value: checked,
+      updatedAt: new Date().toISOString(),
+    };
+    setPersonCurrentDetails(newPerson);
+  };
+
   return {
     age,
     person,
@@ -295,6 +322,9 @@ const useBaptizedPublisher = () => {
     group,
     handleGroupChange,
     group_overseer,
+    handleToggleBethelite,
+    handleToggleBethelCommuter,
+    handleToggleLDCVolunteer,
   };
 };
 
