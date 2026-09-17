@@ -98,6 +98,7 @@
   "tr_present": "Närvarande",
   "tr_deaf": "Döv",
   "tr_hearing": "Hörande",
+  "tr_meetingAttendanceGroup": "{{ label }}: {{ group }}",
   "tr_clickerMode": "Räknare",
   "tr_increase": "Öka",
   "tr_decrease": "Minska",
