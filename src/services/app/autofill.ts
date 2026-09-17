@@ -1762,6 +1762,78 @@ export const adjustTasksSortIndex = (
   });
 };
 
+type ApplyQuotaParams = {
+  candidates: PersonType[];
+  task: AssignmentTask;
+  fullHistory: AssignmentHistoryType[];
+  dataView: string;
+  targetCounts: Map<string, number>;
+  sortStrategy: 'default' | 'alternative';
+};
+
+/**
+ * Restricts Round 2 candidates to the persons who still have quota left from Round 1.
+ *
+ * **Fallbacks:**
+ * - If no one is left due to the strict limit, the limit is lifted and the `'default'` strategy is used,
+ *   so the task doesn't remain empty.
+ * - The quota must not force a recent repeat: if everyone within the quota had this assignment
+ *   too recently, the task is opened to the persons who did not.
+ *
+ * @returns The candidates to sort and the strategy to sort them with.
+ */
+const applyQuotaToCandidates = ({
+  candidates,
+  task,
+  fullHistory,
+  dataView,
+  targetCounts,
+  sortStrategy,
+}: ApplyQuotaParams): {
+  finalCandidates: PersonType[];
+  currentSortStrategy: 'default' | 'alternative';
+} => {
+  const taskPrefix = task.assignmentKey.substring(0, 3); // "MM_" or "WM_"
+
+  let finalCandidates = candidates.filter((p) => {
+    // How many tasks has this person already received this week in this meeting?
+    const currentCount = fullHistory.filter(
+      (e) =>
+        e.weekOf === task.schedule.weekOf &&
+        e.assignment.dataView === dataView &&
+        e.assignment.person === p.person_uid &&
+        e.assignment.key?.startsWith(taskPrefix)
+    ).length;
+
+    const allowedCount = targetCounts.get(p.person_uid) || 0;
+    return currentCount < allowedCount; // Only allow if quota has not yet been reached
+  });
+
+  if (finalCandidates.length === 0) {
+    return { finalCandidates: candidates, currentSortStrategy: 'default' };
+  }
+
+  const hasRecentRepeat = (p: PersonType) =>
+    getSpacingDeficit(
+      p.person_uid,
+      fullHistory,
+      task.schedule.weekOf,
+      task.dataView,
+      task.code,
+      RECENT_REPEAT_WEEKS
+    ) > 0;
+
+  if (finalCandidates.every(hasRecentRepeat)) {
+    const spacedCandidates = candidates.filter((p) => !hasRecentRepeat(p));
+
+    if (spacedCandidates.length > 0) {
+      finalCandidates = spacedCandidates;
+    }
+  }
+
+  return { finalCandidates, currentSortStrategy: sortStrategy };
+};
+
 type ProcessingTasksParams = {
   tasks: AssignmentTask[];
   checkAssignmentsSettingsResult: AssignmentSettingsResult;
@@ -1846,60 +1918,21 @@ const processingTasks = ({
       checkAssignmentsSettingsResult
     );
 
-    let finalCandidates = candidates;
-    let currentSortStrategy = sortStrategy;
-
     const rotationWeeks = getRotationWeeks(
       eligibilityMapView.get(task.code)?.size ?? 0,
       assignmentsMetrics.get(task.dataView)?.get(task.code)?.frequency ?? 0
     );
 
-    if (targetCounts) {
-      const taskPrefix = task.assignmentKey.substring(0, 3); // "MM_" or "WM_"
-
-      finalCandidates = candidates.filter((p) => {
-        // How many tasks has this person already received this week in this meeting?
-        const currentCount = fullHistory.filter(
-          (e) =>
-            e.weekOf === task.schedule.weekOf &&
-            e.assignment.dataView === dataView &&
-            e.assignment.person === p.person_uid &&
-            e.assignment.key?.startsWith(taskPrefix)
-        ).length;
-
-        const allowedCount = targetCounts.get(p.person_uid) || 0;
-        return currentCount < allowedCount; // Only allow if quota has not yet been reached
-      });
-
-      // IMPORTANT FALLBACK: If no one is left due to the strict limit,
-      //  we lift the limit so the task doesn't remain empty.
-      if (finalCandidates.length === 0) {
-        finalCandidates = candidates;
-        currentSortStrategy = 'default';
-      }
-
-      // The quota must not force a recent repeat: if everyone within the quota had this
-      // assignment too recently, open the task to the persons who did not.
-      const hasSpacingDeficit = (p: PersonType) =>
-        getSpacingDeficit(
-          p.person_uid,
+    const { finalCandidates, currentSortStrategy } = targetCounts
+      ? applyQuotaToCandidates({
+          candidates,
+          task,
           fullHistory,
-          task.schedule.weekOf,
-          task.dataView,
-          task.code,
-          Math.min(rotationWeeks, RECENT_REPEAT_WEEKS)
-        ) > 0;
-
-      if (finalCandidates.every(hasSpacingDeficit)) {
-        const spacedCandidates = candidates.filter(
-          (p) => !hasSpacingDeficit(p)
-        );
-
-        if (spacedCandidates.length > 0) {
-          finalCandidates = spacedCandidates;
-        }
-      }
-    }
+          dataView,
+          targetCounts,
+          sortStrategy,
+        })
+      : { finalCandidates: candidates, currentSortStrategy: sortStrategy };
 
     const selectedPerson = sortCandidatesMultiLevel(
       finalCandidates,
@@ -1908,8 +1941,7 @@ const processingTasks = ({
       personsMetrics,
       weightingMetrics,
       assignmentsMetrics.get('total'),
-      currentSortStrategy,
-      rotationWeeks
+      { sortStrategy: currentSortStrategy, rotationWeeks }
     )[0];
 
     if (selectedPerson) {

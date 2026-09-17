@@ -514,10 +514,9 @@ export const getSpacingDeficit = (
     [code]
   );
 
-  const closest = Math.min(
-    Math.abs(distances.minPast),
-    Math.abs(distances.minFuture)
-  );
+  const closest = distances.hasAssignmentToday
+    ? 0
+    : Math.min(Math.abs(distances.minPast), Math.abs(distances.minFuture));
 
   return Math.max(0, rotationWeeks - closest);
 };
@@ -804,8 +803,9 @@ const isQualifiedForClassroom = (
  * @param personsCompleteMetrics - Precomputed expected scores per dataView/person.
  * @param weightingMetrics - Person-specific weighting factors.
  * @param assignmentsMetricsTotal - Global task frequency stats.
- * @param sortStrategy - `'default'` (broad) or `'alternative'` (quota-focused).
- * @param rotationWeeks - Target spacing between two assignments of the same code for one person (see `getRotationWeeks()`).
+ * @param options - Sorting options:
+ *   - `sortStrategy`: `'default'` (broad) or `'alternative'` (quota-focused).
+ *   - `rotationWeeks`: Target spacing between two assignments of the same code for one person (see `getRotationWeeks()`).
  *
  * @returns Sorted candidates (index 0 = best).
  */
@@ -816,9 +816,13 @@ export const sortCandidatesMultiLevel = (
   personsCompleteMetrics: personsAssignmentMetrics,
   weightingMetrics: personsWeightingMetrics,
   assignmentsMetricsTotal: AssignmentStatisticsView | undefined,
-  sortStrategy: 'default' | 'alternative' = 'default',
-  rotationWeeks = 1
+  options: {
+    sortStrategy?: 'default' | 'alternative';
+    rotationWeeks?: number;
+  } = {}
 ): PersonType[] => {
+  const { sortStrategy = 'default', rotationWeeks = 1 } = options;
+
   const metaCache = new Map<string, CandidateMeta>();
 
   const personsDataViewMetrics = personsCompleteMetrics.get(task.dataView);
@@ -990,7 +994,7 @@ export const sortCandidatesMultiLevel = (
       task.schedule.weekOf,
       task.dataView,
       task.code!,
-      Math.min(rotationWeeks, RECENT_REPEAT_WEEKS)
+      RECENT_REPEAT_WEEKS
     );
 
     metaCache.set(p.person_uid, {
@@ -1049,6 +1053,9 @@ export const sortCandidatesMultiLevel = (
     if (
       metaFirst &&
       metaSecond &&
+      // Never let the room swap undo the rotation order
+      metaSecond.recentDeficit === metaFirst.recentDeficit &&
+      metaSecond.spacingDeficit === metaFirst.spacingDeficit &&
       metaSecond.weeksSinceLastRoom2 < metaFirst.weeksSinceLastRoom2 &&
       // Skip the swap if the demoted candidate cannot actually take Room 2
       isQualifiedForClassroom(first, task, '2')
