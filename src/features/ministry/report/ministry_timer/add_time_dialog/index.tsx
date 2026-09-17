@@ -6,7 +6,6 @@ import Button from '@components/button';
 import Dialog from '@components/dialog';
 import DialogActions from '@components/dialog_actions';
 import TimePickerSlider from '@components/time_picker_slider';
-import Typography from '@components/typography';
 
 const AddTimeDialog = (props: AddTimeDialogProps) => {
   const { t } = useAppTranslation();
@@ -14,14 +13,12 @@ const AddTimeDialog = (props: AddTimeDialogProps) => {
   const { handleAddTime, handleValueChange, value } = useAddTimeDialog(props);
 
   return (
-    <Dialog onClose={props.onClose} open={props.open} sx={{ padding: '24px' }}>
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-        <Typography className="h2">{t('tr_timeInService')}</Typography>
-        <Typography color="var(--grey-400)">
-          {t('tr_timeInServiceDesc')}
-        </Typography>
-      </Box>
-
+    <Dialog
+      onClose={props.onClose}
+      open={props.open}
+      title={t('tr_timeInService')}
+      description={t('tr_timeInServiceDesc')}
+    >
       <Box
         sx={{
           width: '100%',

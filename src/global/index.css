@@ -13,6 +13,7 @@
 html {
   font-family: 'Inter', sans-serif;
   font-feature-settings: 'cv05';
+  overflow-y: scroll;
 }
 
 @supports (font-variation-settings: normal) {
