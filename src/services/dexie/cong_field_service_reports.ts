@@ -28,11 +28,15 @@ export const dbFieldServiceReportsSave = async (
 // without the late workflow. Once shared they lock like everything else.
 // Shared comes from the persisted record so entering hours does not lock the
 // remaining fields mid-session. Late comes from the editing draft so clearing
-// late relocks immediately and marking late unlocks immediately.
+// late relocks immediately and marking late unlocks immediately. Congregation
+// Form S4 callers pass the session-start shared value instead: that form
+// writes every field straight to the persisted record, so the live flag would
+// lock the rest of the form after the first entry (see #5441).
 export const isCongReportLocked = (
   persistedReport: CongFieldServiceReportType | undefined,
   branchSubmitted: boolean | undefined,
-  draftLate?: CongFieldServiceReportType['report_data']['late']
+  draftLate?: CongFieldServiceReportType['report_data']['late'],
+  sessionShared?: boolean
 ) => {
   if (!branchSubmitted) return false;
 
@@ -42,7 +46,9 @@ export const isCongReportLocked = (
 
   if (isLate) return false;
 
-  if (!persistedReport?.report_data.shared_ministry) return false;
+  const shared = sessionShared ?? persistedReport?.report_data.shared_ministry;
+
+  if (!shared) return false;
 
   return true;
 };
