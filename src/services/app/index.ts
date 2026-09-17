@@ -271,7 +271,7 @@ const handleUpdateSettings = async (data: UserLoginResponseType) => {
   const { app_settings } = data;
 
   if (!app_settings?.cong_settings) {
-    throw new Error('Pocket account has incomplete congregation settings');
+    throw new Error('error_app_generic-title');
   }
 
   const settings = store.get(settingsState);
@@ -401,7 +401,7 @@ export const pocketStartup = async () => {
     console.error(error);
 
     const message =
-      error instanceof Error ? error.message : 'Pocket startup failed';
+      error instanceof Error ? error.message : 'error_app_generic-title';
     throw new Error(message);
   }
 };
