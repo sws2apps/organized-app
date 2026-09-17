@@ -1,8 +1,9 @@
 export type AttendanceCongregation = {
-  present: number;
-  online: number;
+  present?: number;
+  online?: number;
   present_deaf?: number;
   online_deaf?: number;
+  deaf_separate?: boolean;
   type: string;
   updatedAt: string;
 };

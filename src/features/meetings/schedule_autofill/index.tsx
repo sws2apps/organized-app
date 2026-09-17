@@ -1,4 +1,3 @@
-import { Box } from '@mui/material';
 import IconLoading from '@components/icon_loading';
 import { useAppTranslation } from '@hooks/index';
 import { ScheduleAutofillType } from './index.types';
@@ -6,7 +5,6 @@ import useScheduleAutofill from './useScheduleAutofill';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
 import DialogActions from '@components/dialog_actions';
-import Typography from '@components/typography';
 import WeekRangeSelector from '../week_range_selector';
 
 const ScheduleAutofillDialog = ({
@@ -24,14 +22,12 @@ const ScheduleAutofillDialog = ({
   } = useScheduleAutofill(meeting, onClose);
 
   return (
-    <Dialog onClose={onClose} open={open} sx={{ padding: '24px' }}>
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-        <Typography className="h2">
-          {meeting === 'midweek' ? t('tr_autofillMM') : t('tr_autofillWM')}
-        </Typography>
-        <Typography color="var(--grey-400)">{t('tr_autofillDesc')}</Typography>
-      </Box>
-
+    <Dialog
+      onClose={onClose}
+      open={open}
+      title={meeting === 'midweek' ? t('tr_autofillMM') : t('tr_autofillWM')}
+      description={t('tr_autofillDesc')}
+    >
       <WeekRangeSelector
         meeting={meeting}
         onStartChange={handleSetStartWeek}

@@ -96,7 +96,7 @@
   --accent-300: rgba(var(--accent-300-base), 1);
   --accent-200-base: 213, 223, 253;
   --accent-200: rgba(var(--accent-200-base), 1);
-  --accent-150-base: 242, 245, 255;
+  --accent-150-base: 233, 238, 254;
   --accent-150: rgba(var(--accent-150-base), 1);
   --accent-100-base: 248, 249, 255;
   --accent-100: rgba(var(--accent-100-base), 1);
@@ -224,7 +224,7 @@
   --accent-300: rgba(var(--accent-300-base), 1);
   --accent-200-base: 216, 237, 210;
   --accent-200: rgba(var(--accent-200-base), 1);
-  --accent-150-base: 238, 249, 238;
+  --accent-150-base: 231, 245, 230;
   --accent-150: rgba(var(--accent-150-base), 1);
   --accent-100-base: 243, 250, 243;
   --accent-100: rgba(var(--accent-100-base), 1);
@@ -416,7 +416,7 @@
   --accent-300: rgba(var(--accent-300-base), 1);
   --accent-200-base: 227, 220, 247;
   --accent-200: rgba(var(--accent-200-base), 1);
-  --accent-150-base: 242, 239, 253;
+  --accent-150-base: 238, 233, 251;
   --accent-150: rgba(var(--accent-150-base), 1);
   --accent-100-base: 248, 246, 255;
   --accent-100: rgba(var(--accent-100-base), 1);
@@ -544,7 +544,7 @@
   --accent-300: rgba(var(--accent-300-base), 1);
   --accent-200-base: 247, 234, 208;
   --accent-200: rgba(var(--accent-200-base), 1);
-  --accent-150-base: 250, 244, 232;
+  --accent-150-base: 249, 241, 225;
   --accent-150: rgba(var(--accent-150-base), 1);
   --accent-100-base: 254, 251, 245;
   --accent-100: rgba(var(--accent-100-base), 1);
@@ -635,6 +635,42 @@
   font-stretch: normal;
   letter-spacing: 0px;
   line-height: 14px;
+  text-indent: 0px;
+  text-transform: none;
+}
+
+.label-xsmall-semibold {
+  font-size: 11px;
+  text-decoration: none;
+  font-weight: 520;
+  font-style: normal;
+  font-stretch: normal;
+  letter-spacing: 0.1px;
+  line-height: 16px;
+  text-indent: 0px;
+  text-transform: none;
+}
+
+.label-small-semibold {
+  font-size: 12px;
+  text-decoration: none;
+  font-weight: 520;
+  font-style: normal;
+  font-stretch: normal;
+  letter-spacing: 0.05px;
+  line-height: 16px;
+  text-indent: 0px;
+  text-transform: none;
+}
+
+.label-large-medium {
+  font-size: 14px;
+  text-decoration: none;
+  font-weight: 500;
+  font-style: normal;
+  font-stretch: normal;
+  letter-spacing: 0px;
+  line-height: 20px;
   text-indent: 0px;
   text-transform: none;
 }
@@ -965,7 +1001,7 @@
   --accent-300: rgba(var(--accent-300-base), 1);
   --accent-200-base: 183, 219, 223;
   --accent-200: rgba(var(--accent-200-base), 1);
-  --accent-150-base: 240, 250, 252;
+  --accent-150-base: 223, 241, 243;
   --accent-150: rgba(var(--accent-150-base), 1);
   --accent-100-base: 248, 252, 253;
   --accent-100: rgba(var(--accent-100-base), 1);
@@ -1093,7 +1129,7 @@
   --accent-300: rgba(var(--accent-300-base), 1);
   --accent-200-base: 245, 210, 220;
   --accent-200: rgba(var(--accent-200-base), 1);
-  --accent-150-base: 252, 243, 246;
+  --accent-150-base: 250, 233, 238;
   --accent-150: rgba(var(--accent-150-base), 1);
   --accent-100-base: 255, 249, 251;
   --accent-100: rgba(var(--accent-100-base), 1);
@@ -1221,7 +1257,7 @@
   --accent-300: rgba(var(--accent-300-base), 1);
   --accent-200-base: 222, 228, 235;
   --accent-200: rgba(var(--accent-200-base), 1);
-  --accent-150-base: 241, 246, 251;
+  --accent-150-base: 235, 241, 246;
   --accent-150: rgba(var(--accent-150-base), 1);
   --accent-100-base: 246, 250, 254;
   --accent-100: rgba(var(--accent-100-base), 1);
