@@ -98,7 +98,6 @@
   "tr_present": "Present",
   "tr_deaf": "Deaf",
   "tr_hearing": "Hearing",
-  "tr_meetingAttendanceGroup": "{{ label }}: {{ group }}",
   "tr_clickerMode": "Counter",
   "tr_increase": "Increase",
   "tr_decrease": "Decrease",
