@@ -568,5 +568,6 @@
   "tr_congregationAlreadySynced": "הקהילה כבר מחוברת ומסונכרנת.",
   "tr_error_app_data_no_valid_data_found": "לא נמצאו נתונים תקפים או שלא נבחר נואם.",
   "tr_infirmPioneer": "חלוץ מוגבל",
-  "tr_infirmPioneerNoGoal": "כחלוץ מוגבל, אתה יכול לשרת ככל יכולתך ללא יעד שעות שנתיות."
+  "tr_infirmPioneerNoGoal": "כחלוץ מוגבל, אתה יכול לשרת ככל יכולתך ללא יעד שעות שנתיות.",
+  "tr_importCsvParseError": "The file could not be read. Please check the column structure and try again."
 }
