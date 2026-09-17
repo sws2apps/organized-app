@@ -65,6 +65,12 @@ const useSignup = () => {
     if (!app_settings?.cong_settings) {
       throw new Error('error_app_generic-title');
     }
+    // pocketStartup requires a non-empty local UID. A signup response
+    // without one can never recover, so fail the signup instead of
+    // persisting an empty sentinel.
+    if (!app_settings.user_settings.user_local_uid) {
+      throw new Error('error_app_generic-title');
+    }
 
     const localCongSettings = withCongSettingsDefaults(settings?.cong_settings);
 
@@ -114,8 +120,7 @@ const useSignup = () => {
       'user_settings.account_type': 'pocket',
       'user_settings.lastname': app_settings.user_settings.lastname,
       'user_settings.firstname': app_settings.user_settings.firstname,
-      'user_settings.user_local_uid':
-        app_settings.user_settings.user_local_uid ?? '',
+      'user_settings.user_local_uid': app_settings.user_settings.user_local_uid,
       'user_settings.user_members_delegate':
         app_settings.user_settings.user_members_delegate ?? [],
       'cong_settings.cong_access_code': accessCode,

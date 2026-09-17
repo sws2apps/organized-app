@@ -317,11 +317,15 @@ const handleUpdateSettings = async (data: UserLoginResponseType) => {
 
   await dbAppSettingsUpdate({
     'user_settings.account_type': 'pocket',
-    // These fields are optional in the pocket API response. Persist the
-    // schema defaults instead of writing undefined into IndexedDB; otherwise
-    // the next startup can crash while checking `.length` on the local UID.
-    'user_settings.user_local_uid':
-      app_settings.user_settings.user_local_uid ?? '',
+    // The API may omit user_local_uid during validation. Keep the stored
+    // value in that case; overwriting it with '' would send this valid
+    // account back to invitation signup after every restart.
+    ...(app_settings.user_settings.user_local_uid != null
+      ? {
+          'user_settings.user_local_uid':
+            app_settings.user_settings.user_local_uid,
+        }
+      : {}),
     'user_settings.user_members_delegate':
       app_settings.user_settings.user_members_delegate ?? [],
     'cong_settings.country_code': app_settings.cong_settings.country_code,
