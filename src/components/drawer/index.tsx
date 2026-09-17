@@ -64,14 +64,17 @@ const Drawer: FC<DrawerProps & CustomDrawerProps> = ({
         },
       }}
     >
-      <Toolbar sx={{ padding: 0 }} />
+      {/* matches the navbar height, so the gap below it is only the margin */}
+      <Toolbar sx={{ padding: 0, minHeight: '62px !important' }} />
       <Stack
         className="pop-up-shadow"
         sx={{
           backgroundColor: 'var(--accent-100)',
-          height: '100%',
+          // fills what the navbar leaves, instead of 100% plus the margins
+          flex: 1,
+          minHeight: 0,
           width: laptopUp ? '600px' : '100%',
-          margin: laptopUp ? '10px' : 'unset',
+          margin: laptopUp ? '16px' : 'unset',
           borderRadius: laptopUp ? 'var(--radius-xxl)' : 'unset',
           padding: '12px',
           overflow: 'hidden',

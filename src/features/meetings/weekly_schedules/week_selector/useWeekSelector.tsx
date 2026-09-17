@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
+import { useLocation } from 'react-router';
 import { addMonths, formatDate, getWeekDate, isMondayDate } from '@utils/date';
 import { WeeklySchedulesType, WeekSelectorProps } from './index.types';
+import { WeeklySchedulesLocationState } from '@pages/meetings/schedules/index.types';
 import { sourcesState } from '@states/sources';
 import { localStorageGetItem } from '@utils/common';
 import { JWLangState } from '@states/settings';
@@ -13,6 +15,10 @@ const LOCALSTORAGE_KEY = 'organized_weekly_schedules';
 const useWeekSelector = ({ onChange, value }: WeekSelectorProps) => {
   const scheduleType = (localStorageGetItem(LOCALSTORAGE_KEY) ||
     'midweek') as WeeklySchedulesType;
+
+  const location = useLocation();
+  const targetWeek = (location.state as WeeklySchedulesLocationState | null)
+    ?.week;
 
   const sources = useAtomValue(sourcesState);
   const lang = useAtomValue(JWLangState);
@@ -73,7 +79,12 @@ const useWeekSelector = ({ onChange, value }: WeekSelectorProps) => {
 
   useEffect(() => {
     if (value === false) {
-      const safeIndex = currentWeekIndex === -1 ? 0 : currentWeekIndex;
+      // a week passed by the page that opened the schedules wins over today
+      const targetIndex = weeksList.findIndex(
+        (record) => record.weekOf === targetWeek
+      );
+      const startIndex = targetIndex !== -1 ? targetIndex : currentWeekIndex;
+      const safeIndex = startIndex === -1 ? 0 : startIndex;
       setCurrentTab(safeIndex);
       onChange?.(safeIndex);
     }
@@ -81,7 +92,7 @@ const useWeekSelector = ({ onChange, value }: WeekSelectorProps) => {
     if (typeof value === 'number') {
       setCurrentTab(value);
     }
-  }, [value, currentWeekIndex, onChange]);
+  }, [value, currentWeekIndex, onChange, weeksList, targetWeek]);
 
   return { weeksTab, currentTab, handleWeekChange };
 };

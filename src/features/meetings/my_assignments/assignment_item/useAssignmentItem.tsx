@@ -1,115 +1,85 @@
-import { JSX, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useAtomValue } from 'jotai';
-import { useAppTranslation } from '@hooks/index';
-import { AssignmentCode } from '@definition/assignment';
 import { personsState } from '@states/persons';
-import { buildPersonFullname } from '@utils/common';
+import { buildPersonFullname, normalizeAllCaps } from '@utils/common';
 import {
+  JWLangState,
   fullnameOptionState,
-  userDataViewState,
   userLocalUIDState,
 } from '@states/settings';
-import { formatDate } from '@utils/date';
-import { BROTHER_ASSIGNMENT } from '@constants/index';
-import { AssignmentItemProps } from './index.types';
-import Badge from '@components/badge';
+import { sourcesState } from '@states/sources';
+import { formatDate, getWeekDate } from '@utils/date';
+import { getAssignmentCategory } from '../categories';
+import { AssignmentHistoryType } from '@definition/schedules';
+import { useAppTranslation } from '@hooks/index';
 
-const ADD_CALENDAR_SHOW = false;
-
-const useAssignmentItem = ({ history }: AssignmentItemProps) => {
+const useAssignmentItem = ({ history }: { history: AssignmentHistoryType }) => {
   const { t } = useAppTranslation();
 
   const persons = useAtomValue(personsState);
   const fullnameOption = useAtomValue(fullnameOptionState);
   const userUID = useAtomValue(userLocalUIDState);
-  const dataView = useAtomValue(userDataViewState);
+  const sources = useAtomValue(sourcesState);
+  const lang = useAtomValue(JWLangState);
 
-  const class_name = useMemo(() => {
-    if (!history.assignment) return '';
+  const personGetName = useCallback(
+    (value: string) => {
+      const person = persons.find((record) => record.person_uid === value);
+      if (!person) return '';
 
-    const key = history.assignment.key;
-
-    if (key.endsWith('_A')) {
-      return t('tr_hallA');
-    }
-
-    if (key.endsWith('_B')) {
-      return t('tr_hallB');
-    }
-  }, [history.assignment, t]);
-
-  const isMidweek = useMemo(() => {
-    return history.assignment.key.startsWith('MM_');
-  }, [history.assignment]);
-
-  const assignmentDate = useMemo(() => {
-    try {
-      return formatDate(new Date(history.weekOf), 'd');
-    } catch {
-      return formatDate(new Date(), 'd');
-    }
-  }, [history]);
-
-  const badges = useMemo(() => {
-    const result: JSX.Element[] = [];
-
-    if (
-      history.assignment.dataView === 'main' &&
-      !BROTHER_ASSIGNMENT.includes(history.assignment.code) &&
-      history.assignment.code !== AssignmentCode.MM_Discussion
-    ) {
-      result.push(
-        <Badge
-          key="hallWithName"
-          text={t('tr_hallWithName', { name: class_name })}
-          color="accent"
-          size="medium"
-          centerContent
-        />
+      return buildPersonFullname(
+        person.person_data.person_lastname.value,
+        person.person_data.person_firstname.value,
+        fullnameOption
       );
-    }
+    },
+    [persons, fullnameOption]
+  );
 
-    if (history.assignment.dataView !== dataView) {
-      result.push(
-        <Badge
-          key="assignment-dataView"
-          text={
-            dataView === 'main'
-              ? t('tr_languageGroupShort')
-              : t('tr_hostCongregationShort')
-          }
-          color={dataView === 'main' ? 'red' : 'green'}
-          size="medium"
-          centerContent
-        />
+  const category = useMemo(() => getAssignmentCategory(history), [history]);
+
+  const delegate =
+    history.assignment.person !== userUID
+      ? personGetName(history.assignment.person)
+      : '';
+
+  const { ayf, src, desc, key = '' } = history.assignment;
+
+  // the meeting moves to the second line, so the chairman reads as a role
+  const title =
+    key === 'MM_Chairman_A' || key === 'WM_Chairman'
+      ? t('tr_chairman')
+      : history.assignment.title;
+
+  const details = useMemo(() => {
+    const result = [
+      ayf?.student && `${t('tr_student')}: ${personGetName(ayf.student)}`,
+      ayf?.assistant && `${t('tr_assistant')}: ${personGetName(ayf.assistant)}`,
+      src,
+      desc,
+    ].filter((detail): detail is string => Boolean(detail));
+
+    if (result.length > 0) return result;
+
+    // spiritual gems come from this week's Bible reading
+    if (key === 'MM_TGWGems') {
+      const weekOf = formatDate(
+        getWeekDate(new Date(history.weekOf)),
+        'yyyy/MM/dd'
       );
+      const reading = sources.find((record) => record.weekOf === weekOf)
+        ?.midweek_meeting?.weekly_bible_reading?.[lang];
+
+      if (reading) return [normalizeAllCaps(reading)];
     }
 
-    return result;
-  }, [class_name, t, history.assignment, dataView]);
+    // every other part without details names its meeting
+    return [
+      key.startsWith('MM_') ? t('tr_midweekMeeting') : t('tr_weekendMeeting'),
+    ];
+  }, [ayf, src, desc, key, history.weekOf, sources, lang, t, personGetName]);
 
-  const personGetName = (value: string) => {
-    const person = persons.find((record) => record.person_uid === value);
-    if (!person) return '';
-
-    const name = buildPersonFullname(
-      person.person_data.person_lastname.value,
-      person.person_data.person_firstname.value,
-      fullnameOption
-    );
-
-    return name;
-  };
-
-  return {
-    assignmentDate,
-    isMidweek,
-    personGetName,
-    userUID,
-    ADD_CALENDAR_SHOW,
-    badges,
-    history,
-  };
+  return { category, title, details, delegate };
 };
 
 export default useAssignmentItem;

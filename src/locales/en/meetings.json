@@ -192,5 +192,7 @@
   "tr_meetingPortion": "Meeting portion",
   "tr_specialTalkOnly": "Special talk only",
   "tr_hostCongregationShort": "Host",
-  "tr_outgoingSpeakersSchedule": "Outgoing speakers schedule"
+  "tr_outgoingSpeakersSchedule": "Outgoing speakers schedule",
+  "tr_thisWeek": "This week",
+  "tr_nextWeek": "Next week"
 }
