@@ -98,6 +98,7 @@
   "tr_present": "נוכחים",
   "tr_deaf": "חירש",
   "tr_hearing": "שמיעה",
+  "tr_meetingAttendanceGroup": "{{ label }}: {{ group }}",
   "tr_clickerMode": "מונה",
   "tr_increase": "הגדל",
   "tr_decrease": "הקטן",
