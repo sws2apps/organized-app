@@ -23,8 +23,7 @@ const isPlainObject = (v: unknown): v is Record<string, unknown> =>
  * - null/undefined (e.g., from corrupted backups) → Schema default
  * - Arrays → Each local record is individually normalized against the schema
  *   template; content and order are preserved, NO index-based merge is applied
- * - Objects → Recursively processed per schema key; local extra fields are
- *   intentionally dropped (keeps the dataset schema-compliant)
+ * - Objects → Recursively processed per schema key; local extra fields are preserved for forward compatibility
  * - Primitives → Retained only if the type matches exactly
  */
 const withSchemaDefaults = <T>(schema: T, local: unknown): T => {
@@ -60,12 +59,15 @@ const withSchemaDefaults = <T>(schema: T, local: unknown): T => {
     return local.map((record) => withSchemaDefaults(template, record)) as T;
   }
 
+  // Keep local fields that are unknown to the bundled schema (e.g. fields
+  // written by a newer app version) so a Pocket refresh cannot erase
+  // forward-compatible data. Known keys stay schema-controlled below.
   if (isPlainObject(schema)) {
     if (!isPlainObject(local)) {
       return structuredClone(schema);
     }
 
-    const result: Record<string, unknown> = {};
+    const result: Record<string, unknown> = { ...local };
 
     for (const key of Object.keys(schema)) {
       result[key] = withSchemaDefaults(
