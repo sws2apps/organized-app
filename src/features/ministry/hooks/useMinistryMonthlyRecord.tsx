@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useRef } from 'react';
 import { useAtomValue } from 'jotai';
 import { userFieldServiceMonthlyReportsState } from '@states/user_field_service_reports';
 import { monthNamesState } from '@states/app';
@@ -68,6 +68,23 @@ const useMinistryMonthlyRecord = ({
         record.report_data.person_uid === person_uid
     );
   }, [congReports, month, person_uid]);
+
+  // Congregation Form S4 saves every field straight to the persisted record,
+  // so judging the lock on the live shared flag locks the rest of the form
+  // after the first entry. Latch the shared state from when this
+  // month/person was first shown instead: reports already shared on open
+  // stay locked, backfills stay editable until the form is closed.
+  const lockSessionRef = useRef({ key: '', sharedAtOpen: false });
+  const lockSessionKey = `${month}/${person_uid}`;
+
+  if (lockSessionRef.current.key !== lockSessionKey) {
+    lockSessionRef.current = {
+      key: lockSessionKey,
+      sharedAtOpen: congReport?.report_data.shared_ministry ?? false,
+    };
+  }
+
+  const lockSessionShared = lockSessionRef.current.sharedAtOpen;
 
   const userReport = useMemo(() => {
     return userReports.find((record) => record.report_date === month);
@@ -218,10 +235,12 @@ const useMinistryMonthlyRecord = ({
 
     // Same submitted-month gate as the publisher record editors: transfer
     // backfills (never shared) stay editable without the late workflow.
+    // Shared is judged on the session-start value, not the live record.
     return isCongReportLocked(
       congReport,
       branchReport.report_data.submitted,
-      congReport?.report_data.late
+      congReport?.report_data.late,
+      lockSessionShared
     );
   }, [
     publisher,
@@ -231,6 +250,7 @@ const useMinistryMonthlyRecord = ({
     month,
     person_uid,
     congReport,
+    lockSessionShared,
   ]);
 
   const hours_fields = useMemo(() => {
