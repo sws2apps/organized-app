@@ -98,6 +98,7 @@
   "tr_present": "참석",
   "tr_deaf": "농인",
   "tr_hearing": "청인",
+  "tr_meetingAttendanceGroup": "{{ label }}: {{ group }}",
   "tr_clickerMode": "계수기",
   "tr_increase": "증가",
   "tr_decrease": "감소",
