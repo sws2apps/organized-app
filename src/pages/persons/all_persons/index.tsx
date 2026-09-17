@@ -37,6 +37,15 @@ const PersonsAll = () => {
     handleCloseExchange,
   } = useAllPersons();
 
+  const isFilterSubpage = !desktopUp && isPanelOpen;
+
+  const handleCloseFilter = () => {
+    setIsPanelOpen(false);
+
+    // the filters can be scrolled far past where the list starts
+    window.scroll({ top: 0 });
+  };
+
   const listCardStyles = {
     backgroundColor: 'var(--white)',
     border: '1px solid var(--accent-300)',
@@ -87,8 +96,11 @@ const PersonsAll = () => {
       }}
     >
       <PageTitle
-        title={t('tr_personsAll')}
+        title={isFilterSubpage ? t('tr_filters') : t('tr_personsAll')}
+        secondaryTitle={isFilterSubpage ? t('tr_personsAll') : undefined}
+        onBack={isFilterSubpage ? handleCloseFilter : undefined}
         buttons={
+          !isFilterSubpage &&
           isPersonEditor && (
             <NavBarButtonGroup>
               <NavBarButton
@@ -133,7 +145,7 @@ const PersonsAll = () => {
                 key: 'filter',
                 content: (
                   <Box sx={filterCardStyles}>
-                    <PersonsFilter />
+                    <PersonsFilter hideTitle />
                   </Box>
                 ),
               },
