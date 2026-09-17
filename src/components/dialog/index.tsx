@@ -110,6 +110,28 @@ const Dialog = ({
     actions ? items : items.filter((item) => !isActionsRow(item))
   ).filter((item) => item !== null && item !== false && item !== '');
 
+  let heading: ReactNode = null;
+
+  if (header) {
+    heading = (
+      <Box id={titleId} sx={{ minWidth: 0 }}>
+        {header}
+      </Box>
+    );
+  } else if (title) {
+    heading = (
+      <Stack spacing="2px">
+        <Typography component="h2" className="h2" id={titleId}>
+          {title}
+        </Typography>
+
+        {description && (
+          <Typography color="var(--grey-400)">{description}</Typography>
+        )}
+      </Stack>
+    );
+  }
+
   // the close button belongs to the row whichever way the header is built
   const titleRow = (header || title || closable) && (
     <Box
@@ -122,24 +144,14 @@ const Dialog = ({
         width: '100%',
       }}
     >
-      {header ?? (
-        <Stack spacing="2px">
-          <Typography component="h2" className="h2" id={titleId}>
-            {title}
-          </Typography>
-
-          {description && (
-            <Typography color="var(--grey-400)">{description}</Typography>
-          )}
-        </Stack>
-      )}
+      {heading}
 
       {closable && (
         <IconButton
           aria-label={t('tr_close')}
           onClick={onClose}
           // pulled into its padding, so the icon lines up with the edge
-          sx={{ padding: '4px', margin: '-4px -4px -4px 0' }}
+          sx={{ padding: '4px', margin: '-4px -4px -4px auto' }}
         >
           <IconClose color="var(--black)" />
         </IconButton>
@@ -164,7 +176,7 @@ const Dialog = ({
       fullWidth
       open={open}
       onClose={handleClose}
-      aria-labelledby={title ? titleId : undefined}
+      aria-labelledby={header || title ? titleId : undefined}
       sx={{
         boxSizing: 'border-box',
         '.MuiPaper-root': {
