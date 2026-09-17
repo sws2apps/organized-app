@@ -44,6 +44,7 @@ import {
   getSpacingDeficit,
   hasAssignmentConflict,
   isValidAssistantForStudent,
+  RECENT_REPEAT_WEEKS,
   sortCandidatesMultiLevel,
 } from './assignment_selection';
 import {
@@ -1877,7 +1878,7 @@ const processingTasks = ({
         currentSortStrategy = 'default';
       }
 
-      // The quota must not force a repeat: if everyone within the quota had this
+      // The quota must not force a recent repeat: if everyone within the quota had this
       // assignment too recently, open the task to the persons who did not.
       const hasSpacingDeficit = (p: PersonType) =>
         getSpacingDeficit(
@@ -1886,7 +1887,7 @@ const processingTasks = ({
           task.schedule.weekOf,
           task.dataView,
           task.code,
-          rotationWeeks
+          Math.min(rotationWeeks, RECENT_REPEAT_WEEKS)
         ) > 0;
 
       if (finalCandidates.every(hasSpacingDeficit)) {

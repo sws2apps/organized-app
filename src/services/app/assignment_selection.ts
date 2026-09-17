@@ -455,17 +455,17 @@ export const getActualLoad = (
 };
 
 /**
- * Upper limit for the rotation spacing, so large pools are balanced by the fairness tiers
- * instead of a strict round robin.
+ * Window in which repeating the same assignment is avoided before anything else,
+ * even before giving a person a second task in the same meeting.
  */
-const MAX_ROTATION_WEEKS = 4;
+export const RECENT_REPEAT_WEEKS = 4;
 
 /**
  * Calculates how many weeks should pass before the same person receives the same assignment code again.
  *
  * In a perfect rotation every eligible person takes a turn before anyone repeats, so the ideal
  * spacing is `eligible persons / weekly frequency` (e.g., 3 CBS conductors, once per week → every 3 weeks;
- * 5 brothers for prayers, twice per week → every 2 weeks). The result is capped at `MAX_ROTATION_WEEKS`.
+ * 5 brothers for prayers, twice per week → every 2 weeks).
  *
  * @param poolSize - Number of persons eligible for the assignment code in the current data view.
  * @param weeklyFrequency - How often the assignment code occurs per week.
@@ -479,7 +479,7 @@ export const getRotationWeeks = (
 
   const interval = Math.floor(poolSize / weeklyFrequency);
 
-  return Math.max(1, Math.min(MAX_ROTATION_WEEKS, interval));
+  return Math.max(1, interval);
 };
 
 /**
@@ -648,6 +648,7 @@ const getWeeksSinceLastRoom2 = (
  * Caches calculated fairness tiers and statistical metrics for a specific assignment candidate.
  */
 type CandidateMeta = {
+  recentDeficit: number;
   spacingDeficit: number;
   dataViewTier: number;
   assignmentsKindTier: number;
@@ -665,12 +666,13 @@ type CandidateMeta = {
  *
  * This sorting algorithm applies a cascading sequence of tie-breakers to prioritize candidates.
  * The evaluation strictly follows this hierarchical order:
- * 0. **Rotation Spacing:** Minimizes `spacingDeficit` (avoids giving the same assignment to someone who just had it).
- * 1. **Current Meeting Load:** Minimizes `tasksInCurrentMeeting` (candidates with fewer tasks today are preferred).
- * 2. **DataView Fairness:** Maximizes `dataViewTier` (prioritizes candidates under-assigned in the current group/language).
- * 3. **Meeting Type Fairness:** Maximizes `assignmentsKindTier` (balances Midweek vs. Weekend workload).
- * 4. **Task Specific Fairness:** Maximizes `assignmentCodeTier` (balances the specific assignment code frequency).
- * 5. **Pairing Rotation:** Maximizes `assistantClosestPairingDistance` (prefers assistants who haven't worked with the student recently).
+ * 1. **Recent Repeat:** Minimizes `recentDeficit` (avoids the same assignment within `RECENT_REPEAT_WEEKS`).
+ * 2. **Current Meeting Load:** Minimizes `tasksInCurrentMeeting` (candidates with fewer tasks today are preferred).
+ * 3. **Rotation Spacing:** Minimizes `spacingDeficit` (lets every eligible person take a turn before anyone repeats).
+ * 4. **DataView Fairness:** Maximizes `dataViewTier` (prioritizes candidates under-assigned in the current group/language).
+ * 5. **Meeting Type Fairness:** Maximizes `assignmentsKindTier` (balances Midweek vs. Weekend workload).
+ * 6. **Task Specific Fairness:** Maximizes `assignmentCodeTier` (balances the specific assignment code frequency).
+ * 7. **Pairing Rotation:** Maximizes `assistantClosestPairingDistance` (prefers assistants who haven't worked with the student recently).
  *
  * @param metaA - Metadata metrics for the first candidate.
  * @param metaB - Metadata metrics for the second candidate.
@@ -680,11 +682,14 @@ const compareByDefaultStrategy = (
   metaA: CandidateMeta,
   metaB: CandidateMeta
 ): number => {
-  if (metaA.spacingDeficit !== metaB.spacingDeficit) {
-    return metaA.spacingDeficit - metaB.spacingDeficit;
+  if (metaA.recentDeficit !== metaB.recentDeficit) {
+    return metaA.recentDeficit - metaB.recentDeficit;
   }
   if (metaA.tasksInCurrentMeeting !== metaB.tasksInCurrentMeeting) {
     return metaA.tasksInCurrentMeeting - metaB.tasksInCurrentMeeting;
+  }
+  if (metaA.spacingDeficit !== metaB.spacingDeficit) {
+    return metaA.spacingDeficit - metaB.spacingDeficit;
   }
   if (metaA.dataViewTier !== metaB.dataViewTier) {
     return metaB.dataViewTier - metaA.dataViewTier;
@@ -712,11 +717,12 @@ const compareByDefaultStrategy = (
  *
  * This sorting algorithm focuses on bringing candidates closer to their target assignment quotas.
  * It applies a cascading sequence of tie-breakers, strictly following this hierarchical order:
- * 0. **Rotation Spacing:** Minimizes `spacingDeficit` (avoids giving the same assignment to someone who just had it).
- * 1. **Quota Gap (Percentage):** Maximizes `percentageGap` (prioritizes candidates who are furthest below their target assignment percentage).
+ * 1. **Recent Repeat:** Minimizes `recentDeficit` (avoids the same assignment within `RECENT_REPEAT_WEEKS`).
  * 2. **Current Meeting Load:** Minimizes `tasksInCurrentMeeting` (candidates with fewer tasks today are preferred).
- * 3. **Task Specific Fairness:** Maximizes `assignmentCodeTier` (prioritizes candidates under-assigned for this specific task code).
- * 4. **Pairing Rotation:** Maximizes `assistantClosestPairingDistance` (prefers assistants who haven't worked with the student recently).
+ * 3. **Rotation Spacing:** Minimizes `spacingDeficit` (lets every eligible person take a turn before anyone repeats).
+ * 4. **Quota Gap (Percentage):** Maximizes `percentageGap` (prioritizes candidates who are furthest below their target assignment percentage).
+ * 5. **Task Specific Fairness:** Maximizes `assignmentCodeTier` (prioritizes candidates under-assigned for this specific task code).
+ * 6. **Pairing Rotation:** Maximizes `assistantClosestPairingDistance` (prefers assistants who haven't worked with the student recently).
  *
  * @param metaA - Metadata metrics for the first candidate.
  * @param metaB - Metadata metrics for the second candidate.
@@ -726,14 +732,17 @@ const compareByAlternativeStrategy = (
   metaA: CandidateMeta,
   metaB: CandidateMeta
 ): number => {
+  if (metaA.recentDeficit !== metaB.recentDeficit) {
+    return metaA.recentDeficit - metaB.recentDeficit;
+  }
+  if (metaA.tasksInCurrentMeeting !== metaB.tasksInCurrentMeeting) {
+    return metaA.tasksInCurrentMeeting - metaB.tasksInCurrentMeeting;
+  }
   if (metaA.spacingDeficit !== metaB.spacingDeficit) {
     return metaA.spacingDeficit - metaB.spacingDeficit;
   }
   if (Math.abs(metaA.percentageGap - metaB.percentageGap) > 0.01) {
     return metaB.percentageGap - metaA.percentageGap;
-  }
-  if (metaA.tasksInCurrentMeeting !== metaB.tasksInCurrentMeeting) {
-    return metaA.tasksInCurrentMeeting - metaB.tasksInCurrentMeeting;
   }
   if (metaA.assignmentCodeTier !== metaB.assignmentCodeTier) {
     return metaB.assignmentCodeTier - metaA.assignmentCodeTier;
@@ -770,17 +779,18 @@ const isQualifiedForClassroom = (
  * that balance **global fairness**, **dataview fairness**, **meeting-type fairness** (Midweek MM vs Weekend WM),
  * and **task-specific fairness**. Two strategies ensure comprehensive distribution:
  *
- * Both strategies first minimize the rotation spacing deficit (`spacingDeficit`), so a person who had
- * the same assignment within the last `rotationWeeks` weeks is only chosen when nobody else is available.
+ * Both strategies start with the same rotation rules: avoid a repeat of the same assignment within
+ * `RECENT_REPEAT_WEEKS`, then prefer fewer tasks in the current meeting, then prefer persons who have
+ * waited longest compared to the full rotation (`rotationWeeks`).
  *
  * **Default Strategy** (broad fairness, Round 1):
- * 1. Minimize current meeting load (`tasksInCurrentMeeting`)
+ * 1. Rotation rules
  * 2. Maximize dataView tier → meeting-type tier → code tier
  * 3. Maximize assistant pairing time (MM_AssistantOnly only)
  *
  * **Alternative Strategy** (quota filling, Round 2):
- * 1. Maximize percentage gap (target% - actual% of task code within meeting type)
- * 2. Minimize current meeting load
+ * 1. Rotation rules
+ * 2. Maximize percentage gap (target% - actual% of task code within meeting type)
  * 3. Maximize code tier → assistant pairing time
  *
  * **Room 1 Swap Post-Processing** (alternative + `_A` tasks):
@@ -974,8 +984,18 @@ export const sortCandidatesMultiLevel = (
       rotationWeeks
     );
 
+    const recentDeficit = getSpacingDeficit(
+      p.person_uid,
+      history,
+      task.schedule.weekOf,
+      task.dataView,
+      task.code!,
+      Math.min(rotationWeeks, RECENT_REPEAT_WEEKS)
+    );
+
     metaCache.set(p.person_uid, {
       spacingDeficit,
+      recentDeficit,
       dataViewTier,
       assignmentsKindTier: meetingTypeTier,
       assignmentCodeTier: codeTier,
