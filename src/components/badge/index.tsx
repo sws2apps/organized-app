@@ -62,64 +62,65 @@ const BadgeTypography = ({
   );
 };
 
+const getColor = ({ filled, color, faded, size }: BadgePropsType) => {
+  if (filled) return `var(--always-white)`;
+
+  if (color === 'grey') {
+    if (faded) {
+      return `var(--${color}-300)`;
+    }
+
+    return `var(--${color}-400)`;
+  } else if (color === 'green') {
+    return `var(--${color}-main)`;
+  } else if (color === 'transparent') return 'var(--accent-400)';
+  else {
+    if (size === 'big' && color === 'red') {
+      return `var(--${color}-main)`;
+    } else {
+      return `var(--${color}-dark)`;
+    }
+  }
+};
+
+const getBackgroundColor = ({ filled, color, faded }: BadgePropsType) => {
+  if (color === 'transparent') return color;
+  if (filled) {
+    if (color === 'grey') {
+      return `var(--${color}-400)`;
+    } else {
+      return `var(--${color}-main)`;
+    }
+  } else {
+    if (color === 'grey') {
+      if (faded) {
+        return `var(--${color}-100)`;
+      }
+
+      return `var(--${color}-150)`;
+    } else if (color === 'accent') {
+      return `var(--accent-150)`;
+    } else {
+      return `var(--${color}-secondary)`;
+    }
+  }
+};
+
 const Badge = (props: BadgePropsType) => {
   const {
     icon,
     size,
     filled,
-    color,
     text,
     fullWidth,
     centerContent,
     borderStyle,
     className,
-    faded,
     sx = {},
   } = props;
 
-  const getColor = () => {
-    if (filled) return `var(--always-white)`;
-
-    if (color === 'grey') {
-      if (faded) {
-        return `var(--${color}-300)`;
-      }
-
-      return `var(--${color}-400)`;
-    } else if (color === 'green') {
-      return `var(--${color}-main)`;
-    } else if (color === 'transparent') return 'var(--accent-400)';
-    else {
-      if (size === 'big' && color === 'red') {
-        return `var(--${color}-main)`;
-      } else {
-        return `var(--${color}-dark)`;
-      }
-    }
-  };
-
-  const getBackgroundColor = () => {
-    if (color === 'transparent') return color;
-    if (filled) {
-      if (color === 'grey') {
-        return `var(--${color}-400)`;
-      } else {
-        return `var(--${color}-main)`;
-      }
-    } else {
-      if (color === 'grey') {
-        if (faded) {
-          return `var(--${color}-100)`;
-        }
-
-        return `var(--${color}-150)`;
-      } else if (color === 'accent') {
-        return `var(--accent-150)`;
-      } else {
-        return `var(--${color}-secondary)`;
-      }
-    }
-  };
+  const textColor = getColor(props);
+  const backgroundColor = getBackgroundColor(props);
 
   return (
     <>
@@ -129,7 +130,7 @@ const Badge = (props: BadgePropsType) => {
           sx={{
             border: '2px',
             height: props.multiLine ? 'unset' : '20px',
-            background: getBackgroundColor(),
+            background: backgroundColor,
             display: 'flex',
             flexDirection: 'row',
             borderRadius: 'var(--radius-s)',
@@ -146,12 +147,12 @@ const Badge = (props: BadgePropsType) => {
             icon={icon}
             iconHeight={'16px'}
             iconWidth={'16px'}
-            color={getColor()}
+            color={textColor}
           >
             <BadgeTypography
               className={className}
               sx={{
-                color: getColor(),
+                color: textColor,
               }}
             >
               {text}
@@ -166,7 +167,7 @@ const Badge = (props: BadgePropsType) => {
             border: '1px',
             borderColor: 'var(--accent-350)',
             height: props.multiLine ? 'unset' : '22px',
-            background: getBackgroundColor(),
+            background: backgroundColor,
             display: 'flex',
             flexDirection: 'row',
             borderRadius: 'var(--radius-m)',
@@ -183,12 +184,12 @@ const Badge = (props: BadgePropsType) => {
             icon={icon}
             iconHeight={'18px'}
             iconWidth={'18px'}
-            color={getColor()}
+            color={textColor}
           >
             <BadgeTypography
               className={className}
               sx={{
-                color: getColor(),
+                color: textColor,
               }}
             >
               {text}
@@ -202,7 +203,7 @@ const Badge = (props: BadgePropsType) => {
           sx={{
             border: '4px',
             height: props.multiLine ? 'unset' : filled ? '24px' : '28px',
-            background: getBackgroundColor(),
+            background: backgroundColor,
             display: 'flex',
             flexDirection: 'row',
             borderRadius: 'var(--radius-m)',
@@ -220,12 +221,12 @@ const Badge = (props: BadgePropsType) => {
               icon={icon}
               iconHeight={'20px'}
               iconWidth={'20px'}
-              color={getColor()}
+              color={textColor}
             >
               <BadgeTypography
                 className={className}
                 sx={{
-                  color: getColor(),
+                  color: textColor,
                 }}
               >
                 {text}
