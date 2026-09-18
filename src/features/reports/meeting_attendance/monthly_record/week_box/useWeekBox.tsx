@@ -1,4 +1,4 @@
-import { ChangeEvent, useMemo, useState } from 'react';
+import { ChangeEvent, useMemo, useRef, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { Week } from '@definition/week_type';
 import {
@@ -20,8 +20,7 @@ import {
 } from '@states/meeting_attendance';
 import { WeeklyAttendance } from '@definition/meeting_attendance';
 import {
-  attendanceDeafRecordState,
-  attendanceOnlineRecordState,
+  attendanceRecordSettingsState,
   userDataViewState,
   settingsState,
   COMidweekMeetingDayState,
@@ -38,11 +37,12 @@ const EMPTY_VALUES: WeekBoxValues = {
   onlineDeaf: '',
 };
 
-// stored counts include the deaf attendees, so the hearing input holds the rest
-const hearingCount = (total?: number, deaf?: number) => {
-  const hearing = (total || 0) - (deaf || 0);
-
-  return total === undefined ? '' : String(Math.max(0, hearing));
+const CLICKER_FIELDS: Record<
+  'hearing' | 'deaf',
+  Record<ClickerTab, keyof WeekBoxValues>
+> = {
+  hearing: { present: 'present', online: 'online' },
+  deaf: { present: 'presentDeaf', online: 'onlineDeaf' },
 };
 
 const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
@@ -53,8 +53,7 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
 
   const attendances = useAtomValue(meetingAttendanceState);
   const dataView = useAtomValue(userDataViewState);
-  const recordOnline = useAtomValue(attendanceOnlineRecordState);
-  const recordDeaf = useAtomValue(attendanceDeafRecordState);
+  const recordSettings = useAtomValue(attendanceRecordSettingsState);
   const months = useAtomValue(monthShortNamesState);
   const schedules = useAtomValue(schedulesState);
   const settings = useAtomValue(settingsState);
@@ -65,7 +64,13 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
   const canEdit =
     editableViews === undefined || editableViews.includes(currentView);
 
-  const [focusedField, setFocusedField] = useState<ClickerTab | null>(null);
+  const recordSetting = recordSettings(currentView);
+
+  const [focusedField, setFocusedField] = useState<keyof WeekBoxValues | null>(
+    null
+  );
+  const [clickerField, setClickerField] =
+    useState<keyof WeekBoxValues>('present');
   const [clickerOpen, setClickerOpen] = useState(false);
 
   const schedule = useMemo(() => {
@@ -88,23 +93,33 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
   const initialValues = useMemo<WeekBoxValues>(() => {
     if (!weekRecord) return EMPTY_VALUES;
 
-    if (!recordDeaf) {
-      return {
-        ...EMPTY_VALUES,
-        present: weekRecord.present?.toString() || '',
-        online: weekRecord.online?.toString() || '',
-      };
-    }
-
     return {
-      present: hearingCount(weekRecord.present, weekRecord.present_deaf),
-      online: hearingCount(weekRecord.online, weekRecord.online_deaf),
+      present: weekRecord.present?.toString() || '',
+      online: weekRecord.online?.toString() || '',
       presentDeaf: weekRecord.present_deaf?.toString() || '',
       onlineDeaf: weekRecord.online_deaf?.toString() || '',
     };
-  }, [weekRecord, recordDeaf]);
+  }, [weekRecord]);
 
-  const recordKey = `${month}-${index}-${type}-${currentView}-${recordDeaf}-${recordOnline}`;
+  const recordKey = `${month}-${index}-${type}-${currentView}`;
+
+  // a count kept from before its setting was turned off still adds to the
+  // meeting, so its field stays visible for this week, cleared or not
+  const shown = useRef({ key: recordKey, online: false, deaf: false });
+
+  if (shown.current.key !== recordKey) {
+    shown.current = { key: recordKey, online: false, deaf: false };
+  }
+
+  shown.current.online ||=
+    initialValues.online !== '' || initialValues.onlineDeaf !== '';
+
+  shown.current.deaf ||=
+    initialValues.presentDeaf !== '' || initialValues.onlineDeaf !== '';
+
+  const recordOnline = recordSetting.online || shown.current.online;
+  const recordDeaf = recordSetting.deaf || shown.current.deaf;
+
   const weeksList = useMemo(() => {
     const weeks = weeksInMonth(month);
     return weeks;
@@ -226,12 +241,15 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
     initialValues,
     recordKey,
     disabled: noMeeting || !canEdit,
-    params: { month, index, type, dataView: currentView, recordDeaf },
+    params: { month, index, type, dataView: currentView },
   });
 
   const total = useMemo(() => {
-    return fields.reduce((acc, field) => acc + (+values[field.name] || 0), 0);
-  }, [fields, values]);
+    return Object.values(values).reduce(
+      (acc, value) => acc + (Number(value) || 0),
+      0
+    );
+  }, [values]);
 
   const handleValueChange =
     (field: keyof WeekBoxValues) => (e: ChangeEvent<HTMLInputElement>) => {
@@ -259,19 +277,50 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
     return `${box_label}: ${meetingLabel}`;
   }, [box_label, type, t]);
 
-  const handleFieldFocus = (field: ClickerTab) => setFocusedField(field);
+  // the counter keeps the present and online tabs; with deaf recording the
+  // field it was opened from decides whether it counts the deaf or the hearing
+  const clickerDeaf =
+    recordDeaf &&
+    (clickerField === 'presentDeaf' || clickerField === 'onlineDeaf');
+
+  const clickerFields = CLICKER_FIELDS[clickerDeaf ? 'deaf' : 'hearing'];
+
+  const clickerTab: ClickerTab =
+    clickerField === 'online' || clickerField === 'onlineDeaf'
+      ? 'online'
+      : 'present';
+
+  const clickerSecondaryTitle = recordDeaf
+    ? t('tr_meetingAttendanceGroup', {
+        label: t('tr_meetingAttendanceRecord'),
+        group: clickerDeaf ? t('tr_deaf') : t('tr_hearing'),
+      })
+    : undefined;
+
+  const handleFieldFocus = (field: keyof WeekBoxValues) =>
+    setFocusedField(field);
 
   const handleFieldBlur = () => setFocusedField(null);
 
-  const handleClickerOpen = () => setClickerOpen(true);
+  const handleClickerOpen = () => {
+    setClickerField(focusedField ?? 'present');
+    setClickerOpen(true);
+  };
 
   const handleClickerClose = () => setClickerOpen(false);
 
   const handleClickerSave = (counts: ClickerSaveValues) => {
-    const next: Partial<WeekBoxValues> = {};
-    if (counts.present !== undefined) next.present = String(counts.present);
-    if (counts.online !== undefined) next.online = String(counts.online);
-    saveValues(next);
+    const changes: Partial<WeekBoxValues> = {};
+
+    if (counts.present !== undefined) {
+      changes[clickerFields.present] = String(counts.present);
+    }
+
+    if (recordOnline && counts.online !== undefined) {
+      changes[clickerFields.online] = String(counts.online);
+    }
+
+    saveValues(changes);
   };
 
   return {
@@ -290,6 +339,10 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
     clickerEnabled,
     clickerOpen,
     clickerTitle,
+    clickerSecondaryTitle,
+    clickerTab,
+    clickerPresent: Number(values[clickerFields.present]) || 0,
+    clickerOnline: Number(values[clickerFields.online]) || 0,
     focusedField,
     handleFieldFocus,
     handleFieldBlur,

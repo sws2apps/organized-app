@@ -31,7 +31,7 @@ const useAttendanceDrafts = ({
   const saveAttendanceRecord = useSetAtom(meetingAttendanceSaveState);
   const { key, drafts, getDrafts, updateDrafts, isCurrentScope } =
     useAutosaveDrafts(`attendance:${recordKey}`);
-  const { month, index, type, dataView, recordDeaf } = params;
+  const { month, index, type, dataView } = params;
   const { saves: pending } = useMemo(
     () => ({
       key,
@@ -72,7 +72,6 @@ const useAttendanceDrafts = ({
         index,
         type,
         dataView,
-        recordDeaf,
         values: counts,
       });
       setStatus(success ? 'saved' : 'failed');
@@ -87,7 +86,6 @@ const useAttendanceDrafts = ({
       index,
       type,
       dataView,
-      recordDeaf,
     ]
   );
 

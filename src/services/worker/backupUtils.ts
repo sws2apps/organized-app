@@ -3,6 +3,8 @@ import { mergeHallInfo } from '@utils/hall_info';
 import {
   getAttendanceDataViews,
   getAttendanceForUpload,
+  meetingAttendanceFillCounts,
+  meetingAttendanceSplitDeaf,
 } from '@utils/meeting_attendance';
 // to minimize the size of the worker file, we recreate all its needed functions in this file
 
@@ -741,7 +743,8 @@ const dbRestoreSettings = async (
     });
 
     const remoteUserSettings = remoteSettings.user_settings as
-      Record<string, unknown> | undefined;
+      | Record<string, unknown>
+      | undefined;
 
     if (remoteUserSettings && 'user_avatar' in remoteUserSettings) {
       // a legacy avatar can still arrive embedded in the user settings from
@@ -1388,6 +1391,9 @@ const dbRestoreMeetingAttendance = async (
         accessCode,
       });
 
+      meetingAttendanceSplitDeaf(data);
+      meetingAttendanceFillCounts(data);
+
       return data;
     });
 
@@ -1786,7 +1792,8 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
       await oldData.settings.cong_settings.cong_master_key;
 
     const backupCongSettings = backupData.app_settings?.cong_settings as
-      Record<string, string> | undefined;
+      | Record<string, string>
+      | undefined;
 
     if (!backupCongSettings?.['cong_access_code']) {
       throw new Error('app_settings.cong_settings not found in backup data');

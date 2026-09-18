@@ -1,9 +1,14 @@
 import {
   AttendanceCongregation,
+  AttendanceRecordField,
   AttendanceSaveParams,
 } from '@definition/meeting_attendance';
 import appDb from '@db/appDb';
 import { meetingAttendanceSchema } from '@services/dexie/schema';
+import {
+  attendanceHasDeafCount,
+  attendanceSplitDeaf,
+} from '@utils/meeting_attendance';
 
 const dbUpdateMeetingAttendanceMetadata = async () => {
   const metadata = await appDb.metadata.get(1);
@@ -17,8 +22,6 @@ const dbUpdateMeetingAttendanceMetadata = async () => {
 
   await appDb.metadata.put(metadata);
 };
-
-type CountField = 'present' | 'online';
 
 /** A time that never goes back, even when the device clock does. */
 const nextTimestamp = (previous?: string) =>
@@ -65,66 +68,12 @@ const viewRecord = (records: AttendanceCongregation[], dataView: string) => {
   return created;
 };
 
-/** The hearing part of a stored total, for when only the deaf count changes. */
-const storedHearing = (
-  current: AttendanceCongregation,
-  field: CountField,
-  deafField: 'present_deaf' | 'online_deaf'
-) => {
-  const total = current[field];
-  if (total === undefined) return '';
-
-  return String(Math.max(0, total - (current[deafField] ?? 0)));
-};
-
-/** Writes a count kept as hearing and deaf, with either side edited. */
-const applyHearingAndDeaf = (
-  current: AttendanceCongregation,
-  field: CountField,
-  deafField: 'present_deaf' | 'online_deaf',
-  values: AttendanceSaveParams['values']
-) => {
-  const hearing =
-    field in values ? values[field] : storedHearing(current, field, deafField);
-  const deaf =
-    deafField in values
-      ? values[deafField]
-      : (current[deafField]?.toString() ?? '');
-
-  current[field] =
-    hearing === '' && deaf === '' ? undefined : Number(hearing) + Number(deaf);
-  current[deafField] = toCount(deaf ?? '');
-};
-
-/** Writes one count, split into hearing and deaf where those are kept apart. */
-const applyCount = (
-  current: AttendanceCongregation,
-  field: CountField,
-  values: AttendanceSaveParams['values'],
-  recordDeaf: boolean
-) => {
-  const deafField = field === 'present' ? 'present_deaf' : 'online_deaf';
-  if (!(field in values) && !(deafField in values)) return;
-
-  if (recordDeaf) {
-    applyHearingAndDeaf(current, field, deafField, values);
-  } else {
-    const count = values[field];
-    if (count !== undefined) current[field] = toCount(count);
-  }
-
-  if (current[field] !== undefined && !Number.isSafeInteger(current[field])) {
-    throw new Error('error_app_generic-desc');
-  }
-};
-
 export const dbMeetingAttendanceSave = ({
   month,
   index,
   type,
   dataView,
   values,
-  recordDeaf = false,
 }: AttendanceSaveParams) =>
   appDb.transaction(
     'rw',
@@ -144,9 +93,27 @@ export const dbMeetingAttendanceSave = ({
 
       const current = viewRecord(week[type], dataView);
 
-      for (const field of ['present', 'online'] as const) {
-        applyCount(current, field, values, recordDeaf);
+      // a record still holding the deaf inside its totals is split before
+      // any of its counts is replaced
+      attendanceSplitDeaf(current);
+
+      const entries = Object.entries(values) as [
+        AttendanceRecordField,
+        string,
+      ][];
+
+      for (const [field, count] of entries) {
+        current[field] = toCount(count);
+
+        if (
+          current[field] !== undefined &&
+          !Number.isSafeInteger(current[field])
+        ) {
+          throw new Error('error_app_generic-desc');
+        }
       }
+
+      if (attendanceHasDeafCount(current)) current.deaf_separate = true;
 
       current.updatedAt = nextTimestamp(current.updatedAt);
 

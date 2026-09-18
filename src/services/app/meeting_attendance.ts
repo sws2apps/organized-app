@@ -10,6 +10,7 @@ import { MeetingType } from '@definition/app';
 import { dbMeetingAttendanceSave } from '@services/dexie/meeting_attendance';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode, getTranslation } from '@services/i18n/translation';
+import { attendanceRecordTotal } from '@utils/meeting_attendance';
 
 export const meetingAttendancePresentSave = async (
   params: AttendanceSaveParams
@@ -63,14 +64,16 @@ export const meetingAttendanceGetStats = (
       ? weekData[meeting].filter((record) => record.type === category)
       : weekData[meeting];
 
-    const weekTotal =
-      sumField(records, 'present') + sumField(records, 'online');
+    const weekTotal = records.reduce(
+      (acc, record) => acc + attendanceRecordTotal(record),
+      0
+    );
 
     if (weekTotal === 0) continue;
 
     count++;
     total += weekTotal;
-    online += sumField(records, 'online');
+    online += sumField(records, 'online') + sumField(records, 'online_deaf');
     deaf +=
       sumField(records, 'present_deaf') + sumField(records, 'online_deaf');
   }

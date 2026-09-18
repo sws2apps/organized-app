@@ -594,5 +594,6 @@
   "tr_hallDeleteNote": "Delete note",
   "tr_hallDeleteNoteDesc": "Delete this note from the auditorium attendant information?",
   "tr_hallDeleteNumber": "Delete number",
-  "tr_hallDeleteNumberDesc": "Delete “{{ name }}” from the emergency numbers?"
+  "tr_hallDeleteNumberDesc": "Delete “{{ name }}” from the emergency numbers?",
+  "tr_importCsvParseError": "The file could not be read. Please check the column structure and try again."
 }

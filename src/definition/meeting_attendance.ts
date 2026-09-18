@@ -5,6 +5,7 @@ export type AttendanceCongregation = {
   online?: number;
   present_deaf?: number;
   online_deaf?: number;
+  deaf_separate?: boolean;
   type: string;
   updatedAt: string;
 };
@@ -23,7 +24,6 @@ export type AttendanceSaveParams = {
   type: MeetingType;
   dataView: string;
   values: AttendanceValues;
-  recordDeaf?: boolean;
 };
 
 export type WeeklyAttendance = {
