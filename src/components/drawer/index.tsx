@@ -53,7 +53,11 @@ const Drawer: FC<DrawerProps & CustomDrawerProps> = ({
     <MUIDrawer
       {...props}
       onClose={handleClose}
+      sx={{ zIndex: (theme) => theme.zIndex.modal }}
       slotProps={{
+        backdrop: {
+          style: { backgroundColor: 'var(--accent-dark-overlay)' },
+        },
         paper: {
           sx: {
             backgroundColor: 'unset',
