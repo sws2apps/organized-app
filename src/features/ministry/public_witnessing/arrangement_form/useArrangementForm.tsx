@@ -10,6 +10,7 @@ import { dbPublicWitnessingArrangementsSave } from '@services/dexie/public_witne
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { buildPersonFullname } from '@utils/common';
+import { formatDate } from '@utils/date';
 import usePublicWitnessingPermissions from '../usePermissions';
 import {
   ArrangementFormProps,
@@ -105,6 +106,26 @@ const useArrangementForm = ({
 
   const names = partnerNames.slice(0, maxNames);
 
+  // Booking for others, or with a partner, needs at least one name: an empty
+  // non-seeking record would otherwise mark the whole shift as full.
+  const needsNames =
+    mode !== 'join' && (forOthers || (canInvitePartners && !partnerNeeded));
+
+  const canConfirm =
+    !needsNames || names.some((partner) => partner.name.trim().length > 0);
+
+  // The card only refreshes its clock every minute, so check again that the
+  // shift has not ended while the dialog was open.
+  const isElapsed = () => {
+    const now = new Date();
+    const today = formatDate(now, 'yyyy/MM/dd');
+
+    return (
+      slot.date < today ||
+      (slot.date === today && slot.end_time <= formatDate(now, 'HH:mm'))
+    );
+  };
+
   const buildPublishers = (): PublicWitnessingPublisherType[] => {
     const toPublisher = (name: string): PublicWitnessingPublisherType => {
       const match = personOptions.find((option) => option.label === name);
@@ -154,7 +175,12 @@ const useArrangementForm = ({
   };
 
   const handleConfirm = async () => {
-    if (seatsLeft === 0) return false;
+    if (seatsLeft === 0 || !canConfirm) return false;
+
+    if (isElapsed()) {
+      onClose();
+      return false;
+    }
 
     if (mode === 'join') {
       return handleSave({
@@ -241,6 +267,7 @@ const useArrangementForm = ({
     setForOthers,
     maxNames,
     canInvitePartners,
+    canConfirm,
     personOptions,
     handleConfirm,
     handleDelete,

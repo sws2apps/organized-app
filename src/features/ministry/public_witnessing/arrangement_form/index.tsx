@@ -36,6 +36,7 @@ const ArrangementForm = (props: ArrangementFormProps) => {
     setForOthers,
     maxNames,
     canInvitePartners,
+    canConfirm,
     personOptions,
     handleConfirm,
     handleDelete,
@@ -271,7 +272,7 @@ const ArrangementForm = (props: ArrangementFormProps) => {
           <Stack spacing="8px" width="100%">
             <Button
               variant="main"
-              disabled={isSaving}
+              disabled={isSaving || !canConfirm}
               onClick={handleConfirmClick}
             >
               {t('tr_confirm')}

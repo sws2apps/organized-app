@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useAtom, useAtomValue } from 'jotai';
 import {
   publicWitnessingArrangementsState,
@@ -37,20 +37,26 @@ const parseDate = (date: string) => {
 const getScheduleWeekday = (date: Date) => date.getDay() || 7;
 
 // A seeker keeps the slot open until the partners they asked for have joined;
-// a booking made with a partner closes the slot entirely.
+// a booking made with a partner closes the slot entirely. Several seekers in
+// one slot add up their requests, so their authors do not count as each
+// other's partners.
 const isSeekingPartner = (
   records: PublicWitnessingArrangementType[],
   publisherCount: number,
   capacity: number
-) =>
-  records.some((record) => {
-    const { partner_needed, partner_count, publishers } =
-      record.arrangement_data;
-    if (!partner_needed) return false;
+) => {
+  const wanted = records
+    .filter((record) => record.arrangement_data.partner_needed)
+    .reduce(
+      (total, record) =>
+        total +
+        record.arrangement_data.publishers.length +
+        (record.arrangement_data.partner_count ?? 1),
+      0
+    );
 
-    const wanted = publishers.length + (partner_count ?? 1);
-    return publisherCount < Math.min(wanted, capacity);
-  });
+  return publisherCount < Math.min(wanted, capacity);
+};
 
 const getSlotStatus = (
   isPast: boolean,
@@ -72,8 +78,16 @@ const useShiftsCard = ({ location }: ShiftsCardProps) => {
   const userUID = useAtomValue(userLocalUIDState);
   const firstDayWeek = useAtomValue(firstDayWeekState);
 
-  const today = formatDate(new Date(), 'yyyy/MM/dd');
-  const currentTime = formatDate(new Date(), 'HH:mm');
+  // refreshed every minute, so shifts turn past while the page stays open
+  const [now, setNow] = useState(() => new Date());
+
+  useEffect(() => {
+    const timer = setInterval(() => setNow(new Date()), 60_000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const today = formatDate(now, 'yyyy/MM/dd');
+  const currentTime = formatDate(now, 'HH:mm');
 
   const dateObj = useMemo(() => parseDate(selectedDate), [selectedDate]);
 
