@@ -33,5 +33,14 @@
       "tr_note_06": "Fanamarihana mpisava lalana efa osa ka tsy takiana ora isan-taona",
       "tr_note_07": "Fisafidianana ny endriky ny pejy sy haben’ny soratra rehefa maka ny lisitry ny andiam-pitory"
     }
+  },
+  "2026-10-01T00:00": {
+    "images": {
+      "img_01": {
+        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-profile-pictures.svg",
+        "tr_title": "New look for your profile",
+        "tr_desc": "Pick a new profile picture: Bible stories, friendly faces, abstract art or bright gradients."
+      }
+    }
   }
 }
