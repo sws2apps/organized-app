@@ -138,8 +138,8 @@
   "tr_hoursDecreaseError": "Et voi muuttaa tuntimäärää",
   "tr_hoursDecreaseErrorDesc": "Et voi asettaa vähemmän tunteja mitä sinulla on päivittäisissä rekistereissä",
   "tr_SCEL": "Seurakunnan vanhinten koulu",
-  "tr_timerNothingToSave": "Nothing to save",
-  "tr_timerNothingToSaveDesc": "The session was shorter than a minute, so no time was added to the report.",
-  "tr_timerNoOpenMonth": "No month to add the time to",
-  "tr_timerNoOpenMonthDesc": "Every month since this session started is already confirmed. The session stays paused."
+  "tr_timerNothingToSave": "Ei tallennettavaa",
+  "tr_timerNothingToSaveDesc": "Istunto oli lyhyempi kuin minuutti, joten raporttiin ei ole lisätty aikaa.",
+  "tr_timerNoOpenMonth": "Ei kuukautta, jotta aikaa lisättäisiin",
+  "tr_timerNoOpenMonthDesc": "Joka kuukausi tämän istunnon alkamisesta on jo vahvistettu. Istunto pysyy pysäytettynä."
 }
