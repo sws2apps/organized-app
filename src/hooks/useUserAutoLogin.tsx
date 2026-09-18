@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   apiHostState,
   congAccountConnectedState,
@@ -12,8 +12,8 @@ import {
   offlineOverrideState,
   userIDState,
 } from '@states/app';
-import { apiValidateMe } from '@services/api/user';
-import { userSignOut } from '@services/firebase/auth';
+import { apiSendAuthorization, apiValidateMe } from '@services/api/user';
+import { currentAuthUser, userSignOut } from '@services/firebase/auth';
 import { handleDeleteDatabase } from '@services/app';
 import { APP_ROLES, isTest, VIP_ROLES } from '@constants/index';
 import { accountTypeState, congIDState } from '@states/settings';
@@ -22,7 +22,7 @@ import logger from '@services/logger/index';
 import worker from '@services/worker/backupWorker';
 import { apiPocketValidateMe } from '@services/api/pocket';
 import { displaySnackNotification } from '@services/states/app';
-import { IconInfo } from '@components/icons';
+import { IconInfo, IconNoConnection } from '@components/icons';
 import { useAppTranslation } from '.';
 import {
   dbAppSettingsGet,
@@ -34,6 +34,11 @@ const useUserAutoLogin = () => {
   const { isAuthenticated } = useFirebaseAuth();
 
   const { t } = useAppTranslation();
+
+  const queryClient = useQueryClient();
+
+  // one quiet attempt to re-register this device per missing-cookie episode
+  const deviceRestoreTried = useRef(false);
 
   const setCongConnected = useSetAtom(congAccountConnectedState);
   const setUserID = useSetAtom(userIDState);
@@ -74,6 +79,7 @@ const useUserAutoLogin = () => {
     isPending: isPendingVip,
     data: dataVip,
     error: errorVip,
+    dataUpdatedAt: dataVipUpdatedAt,
   } = useQuery({
     queryKey: ['whoami-vip'],
     queryFn: apiValidateMe,
@@ -85,6 +91,7 @@ const useUserAutoLogin = () => {
     isPending: isPendingPocket,
     data: dataPocket,
     error: errorPocket,
+    dataUpdatedAt: dataPocketUpdatedAt,
   } = useQuery({
     queryKey: ['whoami-pocket'],
     queryFn: apiPocketValidateMe,
@@ -104,6 +111,42 @@ const useUserAutoLogin = () => {
         if (!dataVip) return;
 
         if (dataVip.status === 403) {
+          const reason = dataVip.result?.message;
+
+          // The Firebase session is fine but the device cookie is gone (Safari
+          // caps it to 7 days because the API is on another host). Register
+          // this device again with the valid Firebase session instead of
+          // signing the user out.
+          if (reason === 'DEVICE_REVOKED' && !deviceRestoreTried.current) {
+            deviceRestoreTried.current = true;
+
+            const { status } = await apiSendAuthorization();
+
+            if (status === 200) {
+              await queryClient.invalidateQueries({ queryKey: ['whoami-vip'] });
+              return;
+            }
+          }
+
+          // a token the server did not accept: refresh it once and check again
+          if (reason === 'LOGIN_FIRST' && !deviceRestoreTried.current) {
+            deviceRestoreTried.current = true;
+
+            await currentAuthUser()?.getIdToken(true);
+            await queryClient.invalidateQueries({ queryKey: ['whoami-vip'] });
+            return;
+          }
+
+          // revoked from another device, or the account is gone: sign out,
+          // and say so instead of leaving the app looking merely offline
+          setCongConnected(false);
+
+          displaySnackNotification({
+            header: t('tr_deviceSignedOut'),
+            message: t('tr_deviceSignedOutDesc'),
+            icon: <IconInfo color="var(--white)" />,
+          });
+
           await userSignOut();
           return;
         }
@@ -122,6 +165,8 @@ const useUserAutoLogin = () => {
         }
 
         if (dataVip.status === 200) {
+          deviceRestoreTried.current = false;
+
           if (congID.length > 0 && dataVip.result.cong_id !== congID) {
             await handleDeleteDatabase();
             return;
@@ -221,9 +266,13 @@ const useUserAutoLogin = () => {
     }
   }, [
     t,
+    queryClient,
     accountType,
     isPendingVip,
     dataVip,
+    // a successful check that returns the same answer as before must still
+    // reconnect the account, e.g. after the network came back
+    dataVipUpdatedAt,
     errorVip,
     setCongConnected,
     setUserID,
@@ -244,9 +293,24 @@ const useUserAutoLogin = () => {
 
         setAutoLoginStatus('auto login process started');
 
-        // congregation not found -> user not authorized and delete local data
         if (dataPocket.status === 403) {
-          await handleDeleteDatabase();
+          // the pocket user was removed: local data belongs to nobody anymore
+          if (dataPocket.result?.message === 'ACCOUNT_NOT_FOUND') {
+            await handleDeleteDatabase();
+            return;
+          }
+
+          // Only this device's session cookie is gone (Safari caps it to 7
+          // days). The data on the device is still the user's: keep it.
+          setCongConnected(false);
+
+          displaySnackNotification({
+            header: t('tr_deviceNeedsReconnect'),
+            message: t('tr_deviceNeedsReconnectDesc'),
+            icon: <IconNoConnection color="var(--always-white)" />,
+            severity: 'error',
+          });
+
           return;
         }
 
@@ -305,9 +369,11 @@ const useUserAutoLogin = () => {
       handleLoginData();
     }
   }, [
+    t,
     accountType,
     isPendingPocket,
     dataPocket,
+    dataPocketUpdatedAt,
     errorPocket,
     setCongConnected,
     setUserID,

@@ -180,5 +180,9 @@
   "tr_normal": "Normal",
   "tr_large": "Large",
   "tr_chooseFields": "Choose export fields",
-  "tr_chooseFieldsDesc": "Please select the fields you want to include in the export file."
+  "tr_chooseFieldsDesc": "Please select the fields you want to include in the export file.",
+  "tr_deviceSignedOut": "Signed out on this device",
+  "tr_deviceSignedOutDesc": "This device was signed out from your account. Sign in again to continue syncing. The data on this device is kept.",
+  "tr_deviceNeedsReconnect": "Reconnect this device",
+  "tr_deviceNeedsReconnectDesc": "This device lost its connection to your account. Sign in again with your invitation code to continue syncing. The data on this device is kept."
 }
