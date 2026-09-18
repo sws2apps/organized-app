@@ -28,7 +28,7 @@ const MonthItem = (props: MonthItemProps) => {
       sx={{
         padding: '2px 8px',
         display: 'flex',
-        alignItems: tablet600Up && 'center',
+        ...(tablet600Up && { alignItems: 'center' }),
         justifyContent: 'space-between',
         gap: tablet600Up ? '16px' : '4px',
         flexDirection: tablet600Up ? 'row' : 'column',
@@ -66,7 +66,12 @@ const MonthItem = (props: MonthItemProps) => {
         </Box>
 
         {!isCurrent && !isAhead && comments?.length > 0 && (
-          <Typography className="body-small-regular" color="var(--grey-350)">
+          <Typography
+            className="body-small-regular"
+            sx={{
+              color: 'var(--grey-350)',
+            }}
+          >
             {comments}
           </Typography>
         )}

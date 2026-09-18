@@ -24,7 +24,12 @@ const Toolbar = ({ selected }: ToolbarProps) => {
         borderBottom: '1px solid var(--accent-200)',
       }}
     >
-      <Typography className="body-small-semibold" color={'var(--grey-400)'}>
+      <Typography
+        className="body-small-semibold"
+        sx={{
+          color: 'var(--grey-400)',
+        }}
+      >
         {t('tr_pickerSelectDate')}
       </Typography>
       <Typography className="h2">{value}</Typography>

@@ -22,12 +22,19 @@ const YearDetails = (props: YearDetailsProps) => {
   } = useYearDetails(props);
 
   return (
-    <Stack spacing="16px" marginBottom="-24px">
+    <Stack
+      spacing="16px"
+      sx={{
+        marginBottom: '-24px',
+      }}
+    >
       <Stack
         direction={laptopUp ? 'row' : 'column'}
         spacing="12px"
-        alignItems={laptopUp ? 'center' : 'stretch'}
-        justifyContent="space-between"
+        sx={{
+          alignItems: laptopUp ? 'center' : 'stretch',
+          justifyContent: 'space-between',
+        }}
       >
         <SelectPublishers
           onChange={handleChangeSelectedPublishers}

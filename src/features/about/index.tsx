@@ -44,7 +44,12 @@ const About = (props: AboutProps) => {
           <IconLogo width={40} height={40} />
           <Box>
             <Typography className="h3">Organized</Typography>
-            <Typography className="body-regular" color="var(--grey-350)">
+            <Typography
+              className="body-regular"
+              sx={{
+                color: 'var(--grey-350)',
+              }}
+            >
               {import.meta.env.PACKAGE_VERSION}
             </Typography>
           </Box>
@@ -76,7 +81,12 @@ const About = (props: AboutProps) => {
         </Button>
       </Box>
 
-      <Typography className="body-small-regular" color="var(--grey-350)">
+      <Typography
+        className="body-small-regular"
+        sx={{
+          color: 'var(--grey-350)',
+        }}
+      >
         © {currentYear} Organized (sws2apps) |{' '}
         <Link
           className="body-small-semibold"

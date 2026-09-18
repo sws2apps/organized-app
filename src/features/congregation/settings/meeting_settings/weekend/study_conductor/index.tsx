@@ -51,8 +51,8 @@ const StudyConductor = () => {
         {personsWTCondcutorList.length === 0 ? (
           <Typography
             className="body-small-regular"
-            color="var(--grey-350)"
             sx={{
+              color: 'var(--grey-350)',
               marginLeft: '8px',
               marginRight: '8px',
               maxWidth: '300px',

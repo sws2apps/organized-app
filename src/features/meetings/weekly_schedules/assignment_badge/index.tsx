@@ -17,7 +17,12 @@ const AssignmentBadge = ({ count }: AssignmentBadgeProps) => {
       }}
     >
       <IconAssignment color="var(--accent-dark)" height={16} width={16} />
-      <Typography color="var(--accent-dark)" className="body-small-semibold">
+      <Typography
+        className="body-small-semibold"
+        sx={{
+          color: 'var(--accent-dark)',
+        }}
+      >
         {count.toString()}
       </Typography>
     </Box>

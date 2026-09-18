@@ -28,7 +28,11 @@ const SubmitReport = (props: SubmitReportProps) => {
       }
       closable={minutes_remains > 0}
     >
-      <Typography color="var(--grey-400)">
+      <Typography
+        sx={{
+          color: 'var(--grey-400)',
+        }}
+      >
         {minutes_remains === 0
           ? t('tr_submitReportDesc')
           : t('tr_extraTimeDesc')}

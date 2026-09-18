@@ -19,9 +19,20 @@ const SwitchWithLabel = ({
         readOnly={readOnly}
       />
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-        <Typography color="var(--black)">{label}</Typography>
+        <Typography
+          sx={{
+            color: 'var(--black)',
+          }}
+        >
+          {label}
+        </Typography>
         {helper && (
-          <Typography className="label-small-regular" color="var(--grey-350)">
+          <Typography
+            className="label-small-regular"
+            sx={{
+              color: 'var(--grey-350)',
+            }}
+          >
             {helper}
           </Typography>
         )}

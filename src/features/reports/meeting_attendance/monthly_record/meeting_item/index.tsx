@@ -29,7 +29,12 @@ const MeetingItem = (props: MeetingItemProps) => {
               : 'var(--weekend-meeting)',
         }}
       >
-        <Typography className="h3" color="var(--always-white)">
+        <Typography
+          className="h3"
+          sx={{
+            color: 'var(--always-white)',
+          }}
+        >
           {type === 'midweek' ? t('tr_midweekMeeting') : t('tr_weekendMeeting')}
         </Typography>
       </Box>
@@ -64,8 +69,10 @@ const MeetingItem = (props: MeetingItemProps) => {
 
           <Stack
             spacing="18px"
-            marginTop="8px !important"
             divider={<Divider color="var(--accent-200)" />}
+            sx={{
+              marginTop: '8px !important',
+            }}
           >
             {groups.map((group) => (
               <Stack key={group.id} spacing="16px">

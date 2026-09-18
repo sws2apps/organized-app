@@ -10,12 +10,23 @@ import { IconInfo } from '@components/icons';
 const PioneerStats = ({ year }: PioneerStatsProps) => {
   const { t } = useAppTranslation();
 
-  const { goal, hours_left, isCurrentSY, hours_balance, monthly_goal, isInfirm } =
-    usePioneerStats(year);
+  const {
+    goal,
+    hours_left,
+    isCurrentSY,
+    hours_balance,
+    monthly_goal,
+    isInfirm,
+  } = usePioneerStats(year);
 
   if (isInfirm) {
     return (
-      <Stack spacing="16px" padding="8px 0">
+      <Stack
+        spacing="16px"
+        sx={{
+          padding: '8px 0',
+        }}
+      >
         <Typography className="h3">{t('tr_pioneerServiceStats')}</Typography>
 
         <Box
@@ -27,7 +38,12 @@ const PioneerStats = ({ year }: PioneerStatsProps) => {
           }}
         >
           <IconInfo color="var(--grey-350)" />
-          <Typography className="body-small-regular" color="var(--grey-350)">
+          <Typography
+            className="body-small-regular"
+            sx={{
+              color: 'var(--grey-350)',
+            }}
+          >
             {t('tr_infirmPioneerNoGoal')}
           </Typography>
         </Box>
@@ -36,7 +52,12 @@ const PioneerStats = ({ year }: PioneerStatsProps) => {
   }
 
   return (
-    <Stack spacing="16px" padding="8px 0">
+    <Stack
+      spacing="16px"
+      sx={{
+        padding: '8px 0',
+      }}
+    >
       <Typography className="h3">{t('tr_pioneerServiceStats')}</Typography>
 
       <Stack
