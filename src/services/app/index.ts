@@ -41,6 +41,7 @@ import {
 } from '@services/dexie/settings';
 import { dbRemoveDuplicateReports } from '@services/dexie/cong_field_service_reports';
 import { LanguageItem } from '@definition/app';
+import { localStorageGetItem } from '@utils/common';
 import {
   dbPersonsCleanUp,
   dbPersonsUpdateAssignments,
@@ -187,24 +188,13 @@ const setSourceLanguageDefault = async (lang: string) => {
 };
 
 export const getAppLang = () => {
-  let appLang = localStorage?.getItem('ui_lang');
+  if (localStorageGetItem('ui_lang')) return store.get(appLangState);
 
-  if (!appLang) {
-    const browserLang = convertBrowserLanguage();
+  const browserLang = convertBrowserLanguage();
+  const appLang = browserLang?.threeLettersCode ?? 'eng';
 
-    if (browserLang) {
-      appLang = browserLang.threeLettersCode;
-
-      // settings source language
-      setSourceLanguageDefault(browserLang.code);
-    }
-
-    if (!browserLang) {
-      appLang = 'eng';
-    }
-
-    localStorage?.setItem('ui_lang', appLang);
-  }
+  // settings source language
+  if (browserLang) setSourceLanguageDefault(browserLang.code);
 
   store.set(appLangState, appLang);
 

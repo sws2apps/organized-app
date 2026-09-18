@@ -36,8 +36,6 @@ export const appLanguageApply = async (lang: string) => {
     (record) => record.threeLettersCode === lang
   );
 
-  localStorage.setItem('ui_lang', lang);
-
   store.set(appFontState, language?.font || 'Inter');
   store.set(appLangState, lang);
 
