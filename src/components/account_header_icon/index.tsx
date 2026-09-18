@@ -57,21 +57,18 @@ const AccountHeaderIcon = ({
       'linear-gradient(180deg, rgba(90, 96, 120, 0) 0%, var(--accent-main) 100%)',
   };
 
-  const borderColor =
-    badge === 'paused'
-      ? 'var(--orange-main)'
-      : badge && badge !== 'connecting'
-        ? 'var(--red-main)'
-        : undefined;
+  let borderColor: string | undefined;
+  if (badge === 'paused') borderColor = 'var(--orange-main)';
+  else if (badge && badge !== 'connecting') borderColor = 'var(--red-main)';
 
-  const BadgeIcon =
-    badge === 'paused'
-      ? IconNoConnection
-      : badge === 'no-network' || badge === 'server-unreachable'
-        ? IconCloudOff
-        : badge === 'connecting'
-          ? IconCloudSync
-          : IconInfo;
+  const badgeIcons: Record<string, typeof IconInfo> = {
+    paused: IconNoConnection,
+    'no-network': IconCloudOff,
+    'server-unreachable': IconCloudOff,
+    connecting: IconCloudSync,
+  };
+
+  const BadgeIcon = (badge && badgeIcons[badge]) ?? IconInfo;
 
   return (
     <Box

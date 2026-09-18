@@ -12,11 +12,6 @@ import { useNavigate } from 'react-router';
 import { useAtom, useAtomValue } from 'jotai';
 import { useQueryClient } from '@tanstack/react-query';
 import { store } from '@states/index';
-import {
-  accountAttentionState,
-  connectionStatusState,
-  congAccountConnectedState as connectedState,
-} from '@states/app';
 import { currentAuthUser } from '@services/firebase/auth';
 import usePwaInstall from '@hooks/usePwaInstall';
 import {
@@ -34,7 +29,9 @@ import {
 } from '@services/states/app';
 import { useBreakpoints } from '@hooks/index';
 import {
+  accountAttentionState,
   congAccountConnectedState,
+  connectionStatusState,
   isAppLoadState,
   navBarAnchorElState,
   navBarOptionsState,
@@ -130,12 +127,11 @@ const useNavbar = () => {
   const connectionStatus = useAtomValue(connectionStatusState);
   const accountAttention = useAtomValue(accountAttentionState);
 
-  const reconnectLabel =
-    connectionStatus === 'attention' && accountAttention === 'two-step'
-      ? 'tr_confirmTwoStep'
-      : connectionStatus === 'attention'
-        ? 'tr_loginAgain'
-        : 'tr_reconnectNow';
+  let reconnectLabel = 'tr_reconnectNow';
+  if (connectionStatus === 'attention') {
+    reconnectLabel =
+      accountAttention === 'two-step' ? 'tr_confirmTwoStep' : 'tr_loginAgain';
+  }
 
   const handleReconnectAccount = async () => {
     handleCloseMore();
@@ -147,7 +143,7 @@ const useNavbar = () => {
       await queryClient.refetchQueries({ queryKey: ['whoami-vip'] });
 
       for (let i = 0; i < 20; i++) {
-        if (store.get(connectedState)) return;
+        if (store.get(congAccountConnectedState)) return;
         await new Promise((resolve) => setTimeout(resolve, 250));
       }
     }

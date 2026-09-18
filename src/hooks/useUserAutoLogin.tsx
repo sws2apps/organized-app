@@ -513,23 +513,21 @@ const useUserAutoLogin = () => {
             return;
           }
 
-          if (approvedRole) {
-            await dbAppSettingsUpdateWithoutNotice({
-              'user_settings.id': dataPocket.result.id,
-            });
+          await dbAppSettingsUpdateWithoutNotice({
+            'user_settings.id': dataPocket.result.id,
+          });
 
-            setUserID(dataPocket.result.id);
-            setCongConnected(true);
+          setUserID(dataPocket.result.id);
+          setCongConnected(true);
 
-            worker.postMessage({
-              field: 'userID',
-              value: dataPocket.result.id,
-            });
+          worker.postMessage({
+            field: 'userID',
+            value: dataPocket.result.id,
+          });
 
-            worker.postMessage({ field: 'accountType', value: 'pocket' });
+          worker.postMessage({ field: 'accountType', value: 'pocket' });
 
-            worker.postMessage('startWorker');
-          }
+          worker.postMessage('startWorker');
 
           setAutoLoginStatus('auto login process completed');
         }
