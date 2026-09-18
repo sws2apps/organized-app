@@ -107,7 +107,7 @@
   "tr_S10ReportNotGenerated": "Tegoroczne sprawozdanie nie zostało jeszcze wygenerowane. Wygeneruj je, aby zobaczyć wszystkie szczegóły, a następnie wyślij.",
   "tr_quickAssignAP": "Pionier pomocniczy przydzielony",
   "tr_quickAssignAPDesc": "Ten głosiciel został mianowany pionierem pomocniczym w tym miesiącu. Możesz to zmienić na liście przydziałów głosiciela na stronie Osoby.",
-  "tr_reactivatePublisher": "Reaktywuj tego głosiciela",
+  "tr_reactivatePublisher": "Reactivate publisher",
   "tr_S21CardTitle": "Eksportuj wiele kart głosiciela (S-21)",
   "tr_S21CardTitleDesc": "Wybierz „Wszyscy głosiciele”, aby wyeksportować i posortować wszystkie karty dla głosicieli, sług pełnoczasowych i pomocniczych, lub „Wybrani głosiciele”, aby wyeksportować karty tylko dla wybranych głosicieli.",
   "tr_allPublisherRecords": "Wszyscy głosiciele",
@@ -136,5 +136,6 @@
   "tr_congregationReports": "Sprawozdania zboru",
   "tr_bibleStudiesMonthlyLess": "Nie możesz ustawić liczby studiów biblijnych mniejszej niż suma z Twoich dziennych wpisów",
   "tr_hoursDecreaseError": "Nie można zmienić godzin",
-  "tr_hoursDecreaseErrorDesc": "Nie możesz ustawić liczby godzin mniejszej niż suma z Twoich dziennych wpisów"
+  "tr_hoursDecreaseErrorDesc": "Nie możesz ustawić liczby godzin mniejszej niż suma z Twoich dziennych wpisów",
+  "tr_SCEL": "School for Congregation Elders"
 }

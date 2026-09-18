@@ -24,7 +24,6 @@ registerFonts();
 
 const TemplateS140AppNormal = ({
   data,
-  class_count,
   cong_name,
   fullname,
   lang,
@@ -238,7 +237,6 @@ const TemplateS140AppNormal = ({
                   >
                     <S140AYF
                       meetingData={meetingData}
-                      class_count={class_count}
                       fullname={fullname}
                       lang={lang}
                     />

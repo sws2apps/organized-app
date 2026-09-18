@@ -1,3 +1,4 @@
+import { MouseEvent } from 'react';
 import { Box, IconButton } from '@mui/material';
 import {
   IconCheck,
@@ -7,9 +8,13 @@ import {
   IconEdit,
   IconExpand,
 } from '@components/icons';
-import { useBreakpoints, useCurrentUser } from '@hooks/index';
+import {
+  useAppTranslation,
+  useBreakpoints,
+  useCurrentUser,
+} from '@hooks/index';
 import { IncomingCongregationHeaderType } from './index.types';
-import useHeader from './useHeader';
+import Tooltip from '@components/tooltip';
 import Typography from '@components/typography';
 
 const IncomingCongregationHeader = ({
@@ -22,25 +27,33 @@ const IncomingCongregationHeader = ({
   cong_synced,
   onDelete,
 }: IncomingCongregationHeaderType) => {
-  const { laptopDown } = useBreakpoints();
+  const { t } = useAppTranslation();
 
   const { isPublicTalkCoordinator } = useCurrentUser();
 
-  const { handleHideDelete, handleShowDelete, showDelete } = useHeader();
-
   const { tablet600Down } = useBreakpoints();
+
+  const handleToggleExpand = () => onExpandChange(cong_number);
+
+  const handleActionClick = (
+    event: MouseEvent<HTMLButtonElement>,
+    action: VoidFunction
+  ) => {
+    event.stopPropagation();
+    action();
+  };
 
   return (
     <Box
+      onClick={handleToggleExpand}
       sx={{
         display: 'flex',
         justifyContent: 'space-between',
         flexWrap: 'wrap',
         alignItems: 'center',
         gap: '16px',
+        cursor: 'pointer',
       }}
-      onMouseEnter={handleShowDelete}
-      onMouseLeave={handleHideDelete}
     >
       <Box
         sx={{
@@ -52,8 +65,20 @@ const IncomingCongregationHeader = ({
         }}
       >
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          {cong_synced && <IconCloud />}
-          {!cong_synced && <IconCloudOff color="var(--grey-300)" />}
+          {cong_synced && (
+            <Tooltip title={t('tr_congregationShared')}>
+              <Box sx={{ display: 'flex' }}>
+                <IconCloud />
+              </Box>
+            </Tooltip>
+          )}
+          {!cong_synced && (
+            <Tooltip title={t('tr_congregationManual')}>
+              <Box sx={{ display: 'flex' }}>
+                <IconCloudOff color="var(--grey-300)" />
+              </Box>
+            </Tooltip>
+          )}
 
           <Typography className="h4" color="var(--grey-400)">
             {cong_name}
@@ -71,7 +96,10 @@ const IncomingCongregationHeader = ({
           </Typography>
         </Box>
         {tablet600Down && (
-          <IconButton onClick={() => onExpandChange(cong_number)}>
+          <IconButton
+            aria-expanded={expanded}
+            onClick={(e) => handleActionClick(e, handleToggleExpand)}
+          >
             <IconExpand
               color="var(--black)"
               sx={{
@@ -86,21 +114,27 @@ const IncomingCongregationHeader = ({
       {!tablet600Down && (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           {isPublicTalkCoordinator && (
-            <>
-              {(laptopDown || showDelete) && (
-                <IconButton onClick={onDelete}>
-                  <IconDelete color="var(--red-main)" />
-                </IconButton>
-              )}
+            <Box
+              className="congregation-actions"
+              sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}
+            >
+              <IconButton onClick={(e) => handleActionClick(e, onDelete)}>
+                <IconDelete color="var(--red-main)" />
+              </IconButton>
 
-              <IconButton onClick={onEditModeChange}>
+              <IconButton
+                onClick={(e) => handleActionClick(e, onEditModeChange)}
+              >
                 {!editMode && <IconEdit color="var(--accent-main)" />}
                 {editMode && <IconCheck color="var(--accent-main)" />}
               </IconButton>
-            </>
+            </Box>
           )}
 
-          <IconButton onClick={() => onExpandChange(cong_number)}>
+          <IconButton
+            aria-expanded={expanded}
+            onClick={(e) => handleActionClick(e, handleToggleExpand)}
+          >
             <IconExpand
               color="var(--black)"
               sx={{

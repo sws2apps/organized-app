@@ -1,5 +1,5 @@
 import { View, Text } from '@react-pdf/renderer';
-import { cloneElement } from 'react';
+import { cloneElement, Fragment } from 'react';
 import {
   UpcomingEventCategory,
   UpcomingEventDuration,
@@ -11,6 +11,17 @@ import UpcomingEventDate from './UpcomingEventDate';
 
 const UpcomingEvent = ({ event }: UpcomingEventProps) => {
   const { t } = useAppTranslation();
+
+  const decoration =
+    decorationsForEvent[event.category] ?? decorationsForEvent.at(-1);
+
+  const days = event.dates.map((date, index) => ({ ...date, index }));
+
+  const splitIndex = Math.ceil(days.length / 2);
+
+  const dayColumns = [days.slice(0, splitIndex), days.slice(splitIndex)].filter(
+    (column) => column.length > 0
+  );
 
   return (
     <View
@@ -32,7 +43,7 @@ const UpcomingEvent = ({ event }: UpcomingEventProps) => {
               gap: '2px',
             }}
           >
-            {cloneElement(decorationsForEvent[event.category].icon, {
+            {cloneElement(decoration.icon, {
               size: 14,
               backgroundColor: 'none',
             })}
@@ -41,7 +52,7 @@ const UpcomingEvent = ({ event }: UpcomingEventProps) => {
               style={{ fontWeight: 500, fontSize: '11px', color: '#222222' }}
             >
               {event.category !== UpcomingEventCategory.Custom
-                ? t(decorationsForEvent[event.category].translationKey)
+                ? t(decoration.translationKey)
                 : event.custom}
             </Text>
           </View>
@@ -55,23 +66,49 @@ const UpcomingEvent = ({ event }: UpcomingEventProps) => {
           <UpcomingEventDate
             date={event.date}
             day={event.day}
-            title={event.time}
+            title={event.wholeDay ? t('tr_wholeDay') : event.time}
           />
         )}
 
         {event.duration === UpcomingEventDuration.MultipleDays &&
-          event.category !== UpcomingEventCategory.SpecialCampaignWeek &&
-          event.dates.map((eventDate, eventDateIndex) => (
-            <UpcomingEventDate
-              key={eventDate.date}
-              date={eventDate.dateFormatted}
-              day={eventDate.day}
-              title={t('tr_wholeDay')}
-              description={`${t('tr_day')} ${eventDateIndex + 1}/${event.dates.length}`}
-            />
-          ))}
+          !event.showAsRange && (
+            <View style={{ flexDirection: 'row', gap: '12px' }}>
+              {dayColumns.map((column, columnIndex) => (
+                <View
+                  key={column[0].date}
+                  style={{
+                    flex: 1,
+                    flexDirection: 'column',
+                    gap: '10px',
+                    borderLeft: columnIndex > 0 ? '1px solid #E5E9F5' : 'none',
+                    paddingLeft: columnIndex > 0 ? '12px' : '0px',
+                  }}
+                >
+                  {column.map((eventDate, indexInColumn) => (
+                    <Fragment key={eventDate.date}>
+                      <UpcomingEventDate
+                        date={eventDate.dateFormatted}
+                        day={eventDate.day}
+                        title={t('tr_wholeDay')}
+                        description={`${t('tr_day')} ${eventDate.index + 1}/${event.dates.length}`}
+                      />
 
-        {event.category === UpcomingEventCategory.SpecialCampaignWeek && (
+                      {indexInColumn + 1 !== column.length && (
+                        <View
+                          style={{
+                            width: '100%',
+                            borderBottom: '1px solid #E5E9F5',
+                          }}
+                        />
+                      )}
+                    </Fragment>
+                  ))}
+                </View>
+              ))}
+            </View>
+          )}
+
+        {event.showAsRange && (
           <UpcomingEventDate
             range={event.datesRange}
             title={t('tr_everyDay')}

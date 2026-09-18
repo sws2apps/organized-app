@@ -17,6 +17,7 @@ import SchedulePublish from '@features/meetings/schedule_publish';
 import ScheduleAutofillDialog from '@features/meetings/schedule_autofill';
 import WeekSelector from '@features/meetings/week_selector';
 import NavBarButton from '@components/nav_bar_button';
+import NavBarButtonGroup from '@components/nav_bar_button_group';
 
 const MidweekMeeting = () => {
   const { t } = useAppTranslation();
@@ -84,7 +85,7 @@ const MidweekMeeting = () => {
         quickSettings={handleOpenQuickSettings}
         buttons={
           hasWeeks && (
-            <>
+            <NavBarButtonGroup>
               {openWeekView
                 ? desktopUp && (
                     <NavBarButton
@@ -118,7 +119,7 @@ const MidweekMeeting = () => {
                   onClick={handleOpenPublish}
                 ></NavBarButton>
               )}
-            </>
+            </NavBarButtonGroup>
           )
         }
       />

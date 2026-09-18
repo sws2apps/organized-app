@@ -1,12 +1,12 @@
-import { Box, Stack } from '@mui/material';
+import { Box } from '@mui/material';
 import { IconDelete, IconEncryptionKey } from '@components/icons';
 import IconLoading from '@components/icon_loading';
 import { useAppTranslation } from '@hooks/index';
 import useDeleteCongregation from './useDeleteCongregation';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
+import DialogActions from '@components/dialog_actions';
 import TextField from '@components/textfield';
-import Typography from '@components/typography';
 
 const DeleteCongregation = () => {
   const { t } = useAppTranslation();
@@ -27,16 +27,9 @@ const DeleteCongregation = () => {
         <Dialog
           onClose={handleDeleteClose}
           open={modalOpen}
-          sx={{ padding: '24px' }}
+          title={t('tr_deleteCongregation')}
+          description={t('tr_deleteCongregationDesc')}
         >
-          <Stack spacing="16px">
-            <Typography className="h3">{t('tr_deleteCongregation')}</Typography>
-
-            <Typography color="var(--grey-400)">
-              {t('tr_deleteCongregationDesc')}
-            </Typography>
-          </Stack>
-
           <TextField
             type="password"
             placeholder={t('tr_deleteCongregationMasterKeyRequired')}
@@ -48,14 +41,14 @@ const DeleteCongregation = () => {
             resetHelperPadding={true}
           />
 
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '8px',
-              width: '100%',
-            }}
-          >
+          <DialogActions>
+            <Button
+              variant="secondary"
+              disabled={isProcessing}
+              onClick={handleDeleteClose}
+            >
+              {t('tr_cancel')}
+            </Button>
             <Button
               variant="main"
               color="red"
@@ -65,14 +58,7 @@ const DeleteCongregation = () => {
             >
               {t('tr_delete')}
             </Button>
-            <Button
-              variant="secondary"
-              disabled={isProcessing}
-              onClick={handleDeleteClose}
-            >
-              {t('tr_cancel')}
-            </Button>
-          </Box>
+          </DialogActions>
         </Dialog>
       )}
 

@@ -1,5 +1,7 @@
 import BaseDexie from 'dexie';
 import { settingSchema } from '@services/dexie/schema';
+import { MeetingAttendanceType } from '@definition/meeting_attendance';
+import { meetingAttendanceSplitDeaf } from '@utils/meeting_attendance';
 import { PersonsTable, personsSchema } from './tables/persons';
 import { SettingsTable, settingsSchema } from './tables/settings';
 import { SourcesTable, sourcesSchema } from './tables/sources';
@@ -57,6 +59,7 @@ import {
 import { publicTalkSchema, PublicTalkTable } from './tables/public_talk';
 import { songSchema, SongTable } from './tables/songs';
 import { AppLogsTable, appLogsSchema } from './tables/app_logs';
+import { appLocalsSchema, AppLocalsTable } from './tables/app_locals';
 
 type DexieTables = PersonsTable &
   SettingsTable &
@@ -79,6 +82,7 @@ type DexieTables = PersonsTable &
   DelegatedFieldServiceReportsTable &
   PublicTalkTable &
   SongTable &
+  AppLocalsTable &
   AppLogsTable;
 
 type Dexie<T = DexieTables> = BaseDexie & T;
@@ -184,20 +188,90 @@ appDb.version(12).stores({
   ...upcomingEventsSchema,
 });
 
-appDb.version(13).stores({
-  ...schema,
-  ...metadataSchema,
-  ...delegatedFieldServiceReportsSchema,
-  ...weekTypeSchema,
-  ...publicTalkSchema,
-  ...songSchema,
-  ...upcomingEventsSchema,
-  app_logs: '&id, updatedAt, actor_uid, module, action',
-});
+appDb
+  .version(13)
+  .stores({
+    ...schema,
+    ...metadataSchema,
+    ...delegatedFieldServiceReportsSchema,
+    ...weekTypeSchema,
+    ...publicTalkSchema,
+    ...songSchema,
+    ...upcomingEventsSchema,
+  })
+  .upgrade(async (tx) => {
+    // congregation reports were dropped on restore for elders and group
+    // overseers while their version kept advancing: clear it once so the
+    // next sync pulls the reports they never received
+    const record = await tx.table('metadata').get(1);
 
-// v14 drops the unused app_logs secondary indexes (actor_uid, module, action) —
-// they were never queried; filtering happens client-side.
-appDb.version(14).stores({
+    if (!record?.metadata?.cong_field_service_reports) return;
+
+    record.metadata.cong_field_service_reports.version = '';
+
+    await tx.table('metadata').put(record);
+  });
+
+appDb
+  .version(14)
+  .stores({
+    ...schema,
+    ...metadataSchema,
+    ...delegatedFieldServiceReportsSchema,
+    ...weekTypeSchema,
+    ...publicTalkSchema,
+    ...songSchema,
+    ...upcomingEventsSchema,
+    ...appLocalsSchema,
+  })
+  .upgrade(async (tx) => {
+    // the account photo used to live inside the settings row, which made
+    // IndexedDB panels freeze and bloated restores: move it to its own table
+    // for local-only device data and drop it from the settings record
+    const settings = await tx.table('app_settings').get(1);
+
+    if (!settings || !('user_avatar' in settings.user_settings)) return;
+
+    if (settings.user_settings.user_avatar) {
+      await tx.table('app_locals').put({
+        id: 1,
+        avatar: settings.user_settings.user_avatar,
+      });
+    }
+
+    const newSettings = structuredClone(settings);
+
+    delete newSettings.user_settings.user_avatar;
+
+    await tx.table('app_settings').put(newSettings);
+  });
+
+appDb
+  .version(15)
+  .stores({
+    ...schema,
+    ...metadataSchema,
+    ...delegatedFieldServiceReportsSchema,
+    ...weekTypeSchema,
+    ...publicTalkSchema,
+    ...songSchema,
+    ...upcomingEventsSchema,
+    ...appLocalsSchema,
+  })
+  .upgrade(async (tx) => {
+    // present and online used to include the deaf count: keep the hearing count
+    // only. updatedAt stays as it was, so a device converting an outdated
+    // record cannot push it over a newer edit made elsewhere; records still in
+    // the old format are converted again whenever they arrive from sync
+    await tx
+      .table('meeting_attendance')
+      .toCollection()
+      .modify((attendance: MeetingAttendanceType) => {
+        meetingAttendanceSplitDeaf(attendance);
+      });
+  });
+
+appDb.version(16).stores({
   ...schema,
   ...metadataSchema,
   ...delegatedFieldServiceReportsSchema,
@@ -205,6 +279,7 @@ appDb.version(14).stores({
   ...publicTalkSchema,
   ...songSchema,
   ...upcomingEventsSchema,
+  ...appLocalsSchema,
   ...appLogsSchema,
 });
 

@@ -54,6 +54,7 @@
   "tr_initialCallVariations": "0",
   "tr_returnVisitVariations": "0",
   "tr_lcNoAssignedVariations": "Чего достигла наша организация|Обращение Руководящего совета",
+  "tr_lcNoAssignedContentVariations": "Play the VIDEO",
   "tr_cbsLffWithPointsVariations": "lff урок {{ lesson }} пункты {{ points }}|lff урок {{ lesson }} пункт {{ points }}",
   "tr_cbsLffSectionOnlyVariations": "lff раздел",
   "tr_lcSourceElderVariations": "Местные потребности",

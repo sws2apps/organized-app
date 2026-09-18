@@ -1,34 +1,51 @@
+import { memo } from 'react';
 import { Box, Stack } from '@mui/material';
 import { useAppTranslation } from '@hooks/index';
 import { TextFieldStyles } from './index.styles';
-import { WeekBoxProps } from './index.types';
+import { WeekBoxField, WeekBoxProps } from './index.types';
 import useWeekBox from './useWeekBox';
 import NowIndicator from './now_indicator';
 import TextField from '@components/textfield';
 import Typography from '@components/typography';
-import { memo } from 'react';
+import ClickerMode from '../clicker_mode';
+import ClickerSuggestion from '../clicker_mode/suggestion_button';
 
 const WeekBox = (props: WeekBoxProps) => {
   const { t } = useAppTranslation();
 
   const {
     isCurrent,
+    isMeetingDay,
+    detailed,
     recordOnline,
-    handlePresentChange,
-    present,
-    online,
-    handleOnlineChange,
+    fields,
+    values,
+    handleValueChange,
     total,
-    isMidweek,
-    isWeekend,
     box_label,
     noMeeting,
+    clickerEnabled,
+    clickerOpen,
+    clickerTitle,
+    clickerSecondaryTitle,
+    clickerTab,
+    clickerPresent,
+    clickerOnline,
+    focusedField,
+    handleFieldFocus,
+    handleFieldBlur,
+    handleClickerOpen,
+    handleClickerClose,
+    handleClickerSave,
   } = useWeekBox(props);
+
+  const suggestionOpen = (field: WeekBoxField['name']) =>
+    !clickerOpen && focusedField === field;
 
   return (
     <Stack spacing="4px" flex={1}>
       <Stack spacing="16px">
-        {recordOnline && (
+        {detailed && (
           <Box
             sx={{
               padding: '4px 16px',
@@ -41,51 +58,77 @@ const WeekBox = (props: WeekBoxProps) => {
           >
             <Typography
               className="body-small-semibold"
-              color={`var(--${props.type}-meeting)`}
+              color={
+                props.type === 'midweek'
+                  ? 'var(--accent-dark)'
+                  : 'var(--weekend-meeting)'
+              }
             >
               {box_label}
             </Typography>
           </Box>
         )}
 
-        <TextField
-          type="number"
-          label={recordOnline ? t('tr_present') : box_label}
-          value={present}
-          onChange={handlePresentChange}
-          disabled={noMeeting}
-          slotProps={{
-            htmlInput: { className: 'h4' },
-          }}
-          sx={TextFieldStyles}
-        />
+        {fields.map((field, index) => {
+          const last = detailed && index === fields.length - 1;
 
-        {recordOnline && (
-          <Stack
-            spacing="4px"
-            height={
-              (props.type === 'midweek' && isMidweek) ||
-              (props.type === 'weekend' && isWeekend)
-                ? '56px'
-                : 'unset'
-            }
-          >
-            <TextField
-              type="number"
-              label={t('tr_online')}
-              value={online}
-              onChange={handleOnlineChange}
-              disabled={noMeeting}
-              slotProps={{
-                htmlInput: { className: 'h4' },
-              }}
-              sx={TextFieldStyles}
-            />
-            {isCurrent && <NowIndicator type={props.type} />}
-          </Stack>
-        )}
+          return (
+            <Stack
+              key={field.name}
+              spacing="4px"
+              height={last && isMeetingDay ? '56px' : 'unset'}
+            >
+              {field.section && (
+                <Typography
+                  className="body-small-semibold"
+                  color="var(--grey-400)"
+                  // padding, since the Stack spacing resets child margins
+                  sx={{ paddingBottom: '4px' }}
+                >
+                  {field.section}
+                </Typography>
+              )}
 
-        {recordOnline && (
+              <Box
+                sx={{ position: 'relative' }}
+                onBlur={(event) => {
+                  if (
+                    !event.currentTarget.contains(
+                      event.relatedTarget as Node | null
+                    )
+                  ) {
+                    handleFieldBlur();
+                  }
+                }}
+              >
+                <TextField
+                  type="number"
+                  label={field.label}
+                  value={values[field.name]}
+                  onChange={handleValueChange(field.name)}
+                  onFocus={() => handleFieldFocus(field.name)}
+                  disabled={noMeeting}
+                  slotProps={{
+                    htmlInput: { className: 'h4' },
+                  }}
+                  sx={TextFieldStyles}
+                />
+
+                {clickerEnabled && (
+                  <ClickerSuggestion
+                    open={suggestionOpen(field.name)}
+                    onOpen={handleClickerOpen}
+                    label={t('tr_clickerMode')}
+                  />
+                )}
+              </Box>
+
+              {last && isCurrent && <NowIndicator type={props.type} />}
+            </Stack>
+          );
+        })}
+
+        {detailed && (
           <Box
             sx={{
               padding: '4px 16px',
@@ -111,7 +154,21 @@ const WeekBox = (props: WeekBoxProps) => {
         )}
       </Stack>
 
-      {!recordOnline && isCurrent && <NowIndicator type={props.type} />}
+      {!detailed && isCurrent && <NowIndicator type={props.type} />}
+
+      {clickerEnabled && (
+        <ClickerMode
+          open={clickerOpen}
+          onClose={handleClickerClose}
+          title={clickerTitle}
+          secondaryTitle={clickerSecondaryTitle}
+          initialTab={clickerTab}
+          recordOnline={recordOnline}
+          presentValue={clickerPresent}
+          onlineValue={clickerOnline}
+          onSave={handleClickerSave}
+        />
+      )}
     </Stack>
   );
 };

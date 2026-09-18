@@ -1,11 +1,10 @@
-import { Stack } from '@mui/material';
 import IconLoading from '@components/icon_loading';
 import { useAppTranslation } from '@hooks/index';
 import { WithdrawReportProps } from './index.types';
 import useWithdrawReport from './useWithdrawReport';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
-import Typography from '@components/typography';
+import DialogActions from '@components/dialog_actions';
 
 const WithdrawReport = (props: WithdrawReportProps) => {
   const { t } = useAppTranslation();
@@ -13,14 +12,20 @@ const WithdrawReport = (props: WithdrawReportProps) => {
   const { isProcessing, handleWithdrawal } = useWithdrawReport(props);
 
   return (
-    <Dialog onClose={props.onClose} open={props.open} sx={{ padding: '24px' }}>
-      <Typography className="h2">{t('tr_undoSubmission')}</Typography>
-
-      <Typography color="var(--grey-400)">
-        {t('tr_undoSubmissionDesc')}
-      </Typography>
-
-      <Stack spacing="8px" width="100%">
+    <Dialog
+      onClose={props.onClose}
+      open={props.open}
+      title={t('tr_undoSubmission')}
+      description={t('tr_undoSubmissionDesc')}
+    >
+      <DialogActions>
+        <Button
+          variant="secondary"
+          onClick={props.onClose}
+          disabled={isProcessing}
+        >
+          {t('tr_cancel')}
+        </Button>
         <Button
           variant="main"
           onClick={handleWithdrawal}
@@ -29,14 +34,7 @@ const WithdrawReport = (props: WithdrawReportProps) => {
         >
           {t('tr_yes')}
         </Button>
-        <Button
-          variant="secondary"
-          onClick={props.onClose}
-          disabled={isProcessing}
-        >
-          {t('tr_cancel')}
-        </Button>
-      </Stack>
+      </DialogActions>
     </Dialog>
   );
 };

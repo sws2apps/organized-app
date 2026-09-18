@@ -1,4 +1,4 @@
-import { Box, IconButton, useTheme } from '@mui/material';
+import { Box, IconButton } from '@mui/material';
 import { IconArrowBack } from '@icons/index';
 import Typography from '@components/typography';
 
@@ -11,8 +11,6 @@ const PageHeader = ({
   description?: string;
   onClick?: VoidFunction;
 }) => {
-  const theme = useTheme();
-
   return (
     <Box sx={{ marginBottom: '32px' }}>
       <Box
@@ -25,21 +23,11 @@ const PageHeader = ({
       >
         {onClick && (
           <IconButton
+            className="back-arrow-button"
             sx={{
               margin: 0,
               marginLeft: '-8px',
-              '&:hover': {
-                backgroundColor: 'var(--accent-200)',
-                '& svg': {
-                  transform:
-                    theme.direction === 'rtl'
-                      ? 'translateX(-4px) scaleX(-1)'
-                      : 'translateX(-4px)',
-                },
-              },
-              '& svg': {
-                transition: 'transform 0.2s ease-in-out',
-              },
+              '&:hover': { backgroundColor: 'var(--accent-200)' },
             }}
             onClick={onClick}
           >

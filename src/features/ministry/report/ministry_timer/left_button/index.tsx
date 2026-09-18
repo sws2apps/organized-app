@@ -3,7 +3,7 @@ import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { LeftButtonProps } from './index.types';
 import TimerButton from '../timer_button';
 
-const LeftButton = ({ onClick, state }: LeftButtonProps) => {
+const LeftButton = ({ onClick, state, disabled }: LeftButtonProps) => {
   const { t } = useAppTranslation();
 
   const { isGroup } = useCurrentUser();
@@ -19,6 +19,7 @@ const LeftButton = ({ onClick, state }: LeftButtonProps) => {
             />
           }
           onClick={onClick}
+          disabled={disabled}
         />
       );
 
@@ -32,6 +33,7 @@ const LeftButton = ({ onClick, state }: LeftButtonProps) => {
             />
           }
           onClick={onClick}
+          disabled={disabled}
         />
       );
   }

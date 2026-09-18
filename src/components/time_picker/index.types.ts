@@ -22,4 +22,6 @@ export interface CustomTimePickerProps {
   onChange?: (value: Date) => void;
   sx?: SxProps<Theme>;
   readOnly?: boolean;
+  error?: boolean;
+  helperText?: string;
 }

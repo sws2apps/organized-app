@@ -107,7 +107,7 @@
   "tr_S10ReportNotGenerated": "Il rapporto di quest'anno non è stato ancora generato. Generalo per vedere tutti i dettagli e poi inviarlo.",
   "tr_quickAssignAP": "Pioniere ausiliario assegnato",
   "tr_quickAssignAPDesc": "Questo proclamatore è assegnato come pioniere ausiliario questo mese. Puoi cambiarlo nella lista delle iscrizioni del proclamatore dalla pagina Persone.",
-  "tr_reactivatePublisher": "Riattiva questo proclamatore",
+  "tr_reactivatePublisher": "Reactivate publisher",
   "tr_S21CardTitle": "Esporta rapporti proclamatore multipli (S-21)",
   "tr_S21CardTitleDesc": "Selezionare ‘Tutti i proclamatori’ per esportare e ordinare tutti i rapporti per proclamatori, a tempo pieno e ausiliari, o ‘Specifici proclamatori’ per esportare rapporti solo per i proclamatori selezionati.",
   "tr_allPublisherRecords": "Tutti i proclamatori",
@@ -136,5 +136,6 @@
   "tr_congregationReports": "Rapporti della congregazione",
   "tr_bibleStudiesMonthlyLess": "Il numero totale di studi biblici non può essere inferiore al massimo valore riportato in un solo giorno",
   "tr_hoursDecreaseError": "Impossibile cambiare ore",
-  "tr_hoursDecreaseErrorDesc": "Il numero totale di studi biblici non può essere inferiore al massimo valore riportato in un solo giorno"
+  "tr_hoursDecreaseErrorDesc": "Il numero totale di studi biblici non può essere inferiore al massimo valore riportato in un solo giorno",
+  "tr_SCEL": "School for Congregation Elders"
 }

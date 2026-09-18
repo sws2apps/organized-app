@@ -1,9 +1,8 @@
 import { Box } from '@mui/material';
-import { IconInfo } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import useScheduleHeader from './useScheduleHeader';
 import Badge from '@components/badge';
-import Typography from '@components/typography';
+import InfoNote from '@components/info_note';
 
 const ScheduleHeader = () => {
   const { t } = useAppTranslation();
@@ -20,12 +19,7 @@ const ScheduleHeader = () => {
         marginBottom: '8px',
       }}
     >
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-        <IconInfo color="var(--grey-350)" />
-        <Typography color="var(--grey-350)">
-          {t('tr_infoOutgoingTalk')}
-        </Typography>
-      </Box>
+      <InfoNote message={t('tr_infoOutgoingTalk')} />
       <Badge
         text={t('tr_lastUpdated', { date: scheduleLastUpdated })}
         color="grey"

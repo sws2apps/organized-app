@@ -3,6 +3,7 @@ import { useAppTranslation } from '@hooks/index';
 import { GroupMembersProps } from './index.types';
 import useGroupMembers from './useGroupMembers';
 import Button from '@components/button';
+import DialogActions from '@components/dialog_actions';
 import IconLoading from '@components/icon_loading';
 import Typography from '@components/typography';
 import LanguageGroupMembers from '../../group_members';
@@ -24,7 +25,10 @@ const GroupMembers = (props: GroupMembersProps) => {
         group={props.group}
       />
 
-      <Stack spacing="8px">
+      <DialogActions>
+        <Button variant="secondary" onClick={props.onClose}>
+          {t('tr_cancel')}
+        </Button>
         <Button
           variant="main"
           onClick={handleCreateGroup}
@@ -32,10 +36,7 @@ const GroupMembers = (props: GroupMembersProps) => {
         >
           {t('tr_createGroup')}
         </Button>
-        <Button variant="secondary" onClick={props.onClose}>
-          {t('tr_cancel')}
-        </Button>
-      </Stack>
+      </DialogActions>
     </Stack>
   );
 };

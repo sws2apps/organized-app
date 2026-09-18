@@ -16,6 +16,8 @@ export const getTranslation = ({
 
     return i18n.t(key, { lng: language, ...params });
   }
+
+  return 'not-found';
 };
 
 export const generateWeekday = (language?: string) => {
@@ -44,7 +46,7 @@ export const getMessageByCode = (code: string) => {
   return getTranslation({ key: code });
 };
 
-export const handleAppChangeLanguage = (lang) => {
+export const handleAppChangeLanguage = (lang: string) => {
   const I18n = getI18n();
 
   I18n.changeLanguage(lang);
@@ -105,7 +107,7 @@ export const generateDayNames = (language?: string) => {
 export const generateDayCapitalNames = (language?: string) => {
   const days = generateDayNames(language);
 
-  return days.map((record) => record.at(0).toUpperCase());
+  return days.map((record) => record.at(0)!.toUpperCase());
 };
 
 export const generateDayShortNames = (language?: string) => {

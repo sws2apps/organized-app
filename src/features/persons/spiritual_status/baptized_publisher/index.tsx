@@ -14,6 +14,7 @@ import Radio from '@components/radio';
 import SpiritualStatusTitle from '../title';
 import StatusHistory from '../history';
 import Typography from '@components/typography';
+import Indicator, { IndicatorRow } from '@components/indicator';
 
 const BaptizedPublisher = ({
   checked,
@@ -106,49 +107,23 @@ const BaptizedPublisher = ({
             </RadioGroup>
           </Box>
 
-          <Box
-            sx={{
-              display: 'flex',
-              gap: '8px',
-              alignItems: tabletDown ? 'flex-start' : 'center',
-              flexWrap: 'wrap',
-              width: '100%',
-              flexDirection: tabletDown ? 'column' : 'row',
-            }}
-          >
-            <Box sx={{ flexGrow: 1, width: tabletDown ? '100%' : 'unset' }}>
-              <DatePicker
-                label={t('tr_baptismDate')}
-                value={
-                  person.person_data.publisher_baptized.baptism_date.value ===
-                  null
-                    ? null
-                    : new Date(
-                        person.person_data.publisher_baptized.baptism_date.value
-                      )
-                }
-                onChange={handleChangeBaptismDate}
-                maxDate={new Date()}
-                readOnly={!isPersonEditor}
-              />
-            </Box>
-            <Box
-              sx={{
-                backgroundColor: 'var(--accent-150)',
-                padding: '8px 16px',
-                borderRadius: 'var(--radius-l)',
-                height: tabletDown ? 'auto' : '48px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: '120px',
-              }}
-            >
-              <Typography className="h4" color="var(--accent-dark)">
-                {t('tr_yearsNumber', { yearsCount: age })}
-              </Typography>
-            </Box>
-          </Box>
+          <IndicatorRow sx={{ gap: '8px' }}>
+            <DatePicker
+              label={t('tr_baptismDate')}
+              value={
+                person.person_data.publisher_baptized.baptism_date.value ===
+                null
+                  ? null
+                  : new Date(
+                      person.person_data.publisher_baptized.baptism_date.value
+                    )
+              }
+              onChange={handleChangeBaptismDate}
+              maxDate={new Date()}
+              readOnly={!isPersonEditor}
+            />
+            <Indicator>{t('tr_yearsNumber', { yearsCount: age })}</Indicator>
+          </IndicatorRow>
 
           <FirstReport />
 

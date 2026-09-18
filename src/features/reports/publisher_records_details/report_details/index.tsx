@@ -6,12 +6,12 @@ import BibleStudies from './bible_studies';
 import Comments from './comments';
 import CreditField from './credit_field';
 import Dialog from '@components/dialog';
+import DialogActions from '@components/dialog_actions';
 import Divider from '@components/divider';
 import Button from '@components/button';
 import HoursField from './hours_field';
 import LateReport from './late_report';
 import MinistryShared from './ministry_shared';
-import Typography from '@components/typography';
 import { IconAuxiliaryPioneer } from '@components/icons';
 
 const ReportDetails = (props: ReportDetailsProps) => {
@@ -27,11 +27,11 @@ const ReportDetails = (props: ReportDetailsProps) => {
   } = useReportDetails(props);
 
   return (
-    <Dialog open={props.open} onClose={props.onClose} sx={{ padding: '24px' }}>
-      <Typography className="h2">
-        {t('tr_fieldReportEdit')} ({reportMonth})
-      </Typography>
-
+    <Dialog
+      open={props.open}
+      onClose={props.onClose}
+      title={`${t('tr_fieldReportEdit')} (${reportMonth})`}
+    >
       <Stack spacing="8px" width="100%">
         <LateReport />
 
@@ -55,7 +55,7 @@ const ReportDetails = (props: ReportDetailsProps) => {
 
       <Comments />
 
-      <Stack spacing="8px" width="100%">
+      <DialogActions>
         {enable_quick_AP && (
           <Button
             variant="tertiary"
@@ -66,13 +66,13 @@ const ReportDetails = (props: ReportDetailsProps) => {
           </Button>
         )}
 
-        <Button variant="main" onClick={handleSaveReport}>
-          {t('tr_save')}
-        </Button>
         <Button variant="secondary" onClick={props.onClose}>
           {t('tr_cancel')}
         </Button>
-      </Stack>
+        <Button variant="main" onClick={handleSaveReport}>
+          {t('tr_save')}
+        </Button>
+      </DialogActions>
     </Dialog>
   );
 };

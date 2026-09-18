@@ -7,12 +7,12 @@ import Typography from '@components/typography';
 import IconButton from '@components/icon_button';
 
 const BibleStudyItem = (props: BibleStudyItemProps) => {
-  const { handleEditStudy, handleSelectStudy } = useBibleStudyItem(props);
+  const { handleEditStudy, handleToggleStudy } = useBibleStudyItem(props);
 
   return (
     <MenuItem
       sx={{ height: '40px', minHeight: '40px' }}
-      onClick={props.selected ? null : handleSelectStudy}
+      onClick={handleToggleStudy}
     >
       <Box
         sx={{

@@ -3,6 +3,7 @@ import { IconClose } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import { SongSelectorProps } from './index.types';
 import Dialog from '@components/dialog';
+import DialogActions from '@components/dialog_actions';
 import IconButton from '@components/icon_button';
 import Typography from '@components/typography';
 import useSongSelector from './useSongSelector';
@@ -24,7 +25,7 @@ const SongSelector = (props: SongSelectorProps) => {
   } = useSongSelector(props);
 
   return (
-    <Dialog onClose={handleClose} open={selectorOpen} sx={{ padding: '24px' }}>
+    <Dialog onClose={handleClose} open={selectorOpen}>
       <Stack spacing="16px">
         <Box
           sx={{
@@ -35,7 +36,7 @@ const SongSelector = (props: SongSelectorProps) => {
             width: '100%',
           }}
         >
-          <Typography className="h3">{t('tr_selectSong')}</Typography>
+          <Typography className="h2">{t('tr_selectSong')}</Typography>
 
           <IconButton sx={{ padding: 0 }} onClick={handleClose}>
             <IconClose color="var(--grey-400)" />
@@ -73,14 +74,14 @@ const SongSelector = (props: SongSelectorProps) => {
           ))}
         </RadioGroup>
 
-        <Stack spacing="8px">
-          <Button variant="main" onClick={handleAddSong}>
-            {t('tr_addSong')}
-          </Button>
+        <DialogActions>
           <Button variant="secondary" onClick={handleClose}>
             {t('tr_skip')}
           </Button>
-        </Stack>
+          <Button variant="main" onClick={handleAddSong}>
+            {t('tr_addSong')}
+          </Button>
+        </DialogActions>
       </Stack>
     </Dialog>
   );

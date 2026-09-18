@@ -36,8 +36,14 @@ const EnrollmentItem = ({
         <MenuItem value="FR">
           <Typography>{t('tr_FR')}</Typography>
         </MenuItem>
+        <MenuItem value="FRI">
+          <Typography>{t('tr_FRI')}</Typography>
+        </MenuItem>
         <MenuItem value="FS">
           <Typography>{t('tr_FS')}</Typography>
+        </MenuItem>
+        <MenuItem value="FSI">
+          <Typography>{t('tr_FSI')}</Typography>
         </MenuItem>
         <MenuItem value="FMF">
           <Typography>{t('tr_FMF')}</Typography>

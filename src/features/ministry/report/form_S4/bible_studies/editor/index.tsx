@@ -1,12 +1,9 @@
-import { Box, Stack } from '@mui/material';
-import { IconClose } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import { BibleStudyEditorProps } from './index.types';
 import useBibleStudy from './useBibleStudy';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
-import IconButton from '@components/icon_button';
-import Typography from '@components/typography';
+import DialogActions from '@components/dialog_actions';
 import TextField from '@components/textfield';
 
 const BibleStudyEditor = (props: BibleStudyEditorProps) => {
@@ -20,32 +17,16 @@ const BibleStudyEditor = (props: BibleStudyEditorProps) => {
       open={props.open}
       onClose={props.onClose}
       sx={{ padding: '12px 24px', alignItems: 'stretch' }}
+      title={props.bibleStudy ? t('tr_editBibleStudy') : t('tr_addNewStudy')}
+      closable
     >
-      <Box
-        sx={{
-          alignItems: 'center',
-          display: 'flex',
-          justifyContent: 'space-between',
-        }}
-      >
-        <Typography className="h2">
-          {props.bibleStudy ? t('tr_editBibleStudy') : t('tr_addNewStudy')}
-        </Typography>
-        <IconButton onClick={props.onClose}>
-          <IconClose color="var(--black)" />
-        </IconButton>
-      </Box>
-
       <TextField
         label={t('tr_name')}
         value={value}
         onChange={(e) => handleChange(e.target.value)}
       />
 
-      <Stack spacing="8px">
-        <Button variant="main" onClick={handleSave}>
-          {props.bibleStudy ? t('tr_saveChanges') : t('tr_save')}
-        </Button>
+      <DialogActions>
         <Button
           variant="secondary"
           color="red"
@@ -53,7 +34,10 @@ const BibleStudyEditor = (props: BibleStudyEditorProps) => {
         >
           {props.bibleStudy ? t('tr_deleteStudy') : t('tr_cancel')}
         </Button>
-      </Stack>
+        <Button variant="main" onClick={handleSave}>
+          {props.bibleStudy ? t('tr_saveChanges') : t('tr_save')}
+        </Button>
+      </DialogActions>
     </Dialog>
   );
 };

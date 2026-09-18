@@ -11,10 +11,12 @@ import { EditUpcomingEventProps } from './index.types';
 import useEditUpcomingEvent from './useEditUpcomingEvent';
 import Button from '@components/button';
 import DatePicker from '@components/date_picker';
+import DeleteEvent from '../delete_event';
 import Divider from '@components/divider';
 import IconButton from '@components/icon_button';
 import MenuItem from '@components/menuitem';
 import Select from '@components/select';
+import SwitchWithLabel from '@components/switch_with_label';
 import TextField from '@components/textfield';
 import TimePicker from '@components/time_picker';
 import Typography from '@components/typography';
@@ -38,6 +40,12 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
     handleChangeEventStartTime,
     handleChangeEventEndDate,
     handleChangeEventEndTime,
+    wholeDay,
+    handleToggleWholeDay,
+    deleteOpen,
+    handleOpenDeleteConfirm,
+    handleCloseDeleteConfirm,
+    eventTitle,
   } = useEditUpcomingEvent(props);
 
   return (
@@ -52,6 +60,15 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
         backgroundColor: 'var(--white)',
       }}
     >
+      {deleteOpen && (
+        <DeleteEvent
+          open={deleteOpen}
+          title={eventTitle}
+          onClose={handleCloseDeleteConfirm}
+          onConfirm={handleDeleteEvent}
+        />
+      )}
+
       <Box
         sx={{
           display: 'flex',
@@ -67,7 +84,7 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
         </Typography>
 
         {props.type === 'edit' && !tabletUp && (
-          <IconButton onClick={handleDeleteEvent} color="error">
+          <IconButton onClick={handleOpenDeleteConfirm} color="error">
             <IconDelete color="var(--red-main)" height={20} width={20} />
           </IconButton>
         )}
@@ -81,7 +98,7 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
               height: '32px',
               minHeight: '32px !important',
             }}
-            onClick={handleDeleteEvent}
+            onClick={handleOpenDeleteConfirm}
           >
             {t('tr_delete')}
           </Button>
@@ -158,6 +175,7 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
             gap: '16px',
 
             flexWrap: !desktopUp ? 'wrap' : 'nowrap',
+            '& > *': { flex: !desktopUp ? 'none' : '1' },
           }}
         >
           <Select
@@ -181,27 +199,11 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
 
           {localEvent.event_data.duration ===
           UpcomingEventDuration.SingleDay ? (
-            <>
-              <DatePicker
-                label={t('tr_date')}
-                onChange={handleChangeEventStartDate}
-                value={new Date(localEvent.event_data.start)}
-              />
-              <TimePicker
-                onChange={handleChangeEventStartTime}
-                label={t('tr_startTime')}
-                ampm={!hour24}
-                sx={{ minWidth: hour24 ? '140px' : '150px' }}
-                value={new Date(localEvent.event_data.start)}
-              />
-              <TimePicker
-                onChange={handleChangeEventEndTime}
-                label={t('tr_endTime')}
-                ampm={!hour24}
-                sx={{ minWidth: hour24 ? '140px' : '150px' }}
-                value={new Date(localEvent.event_data.end)}
-              />
-            </>
+            <DatePicker
+              label={t('tr_date')}
+              onChange={handleChangeEventStartDate}
+              value={new Date(localEvent.event_data.start)}
+            />
           ) : (
             <>
               <DatePicker
@@ -213,10 +215,51 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
                 label={t('tr_endDate')}
                 onChange={handleChangeEventEndDate}
                 value={new Date(localEvent.event_data.end)}
+                error={errors.endTime}
+                helperText={errors.endTime ? t('tr_endDateAfterStart') : ''}
               />
             </>
           )}
         </Box>
+
+        {localEvent.event_data.duration === UpcomingEventDuration.SingleDay && (
+          <>
+            <SwitchWithLabel
+              label={t('tr_wholeDay')}
+              checked={wholeDay}
+              onChange={handleToggleWholeDay}
+            />
+
+            {!wholeDay && (
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  gap: '16px',
+                  flexWrap: !desktopUp ? 'wrap' : 'nowrap',
+                  '& > *': { flex: !desktopUp ? 'none' : '1' },
+                }}
+              >
+                <TimePicker
+                  onChange={handleChangeEventStartTime}
+                  label={t('tr_startTime')}
+                  ampm={!hour24}
+                  sx={{ minWidth: hour24 ? '140px' : '150px' }}
+                  value={new Date(localEvent.event_data.start)}
+                />
+                <TimePicker
+                  onChange={handleChangeEventEndTime}
+                  label={t('tr_endTime')}
+                  ampm={!hour24}
+                  sx={{ minWidth: hour24 ? '140px' : '150px' }}
+                  value={new Date(localEvent.event_data.end)}
+                  error={errors.endTime}
+                  helperText={errors.endTime ? t('tr_endTimeAfterStart') : ''}
+                />
+              </Box>
+            )}
+          </>
+        )}
         <Divider color="var(--accent-200)" />
       </Box>
 

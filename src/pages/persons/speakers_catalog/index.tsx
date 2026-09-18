@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { IconAddCongregation } from '@components/icons';
+import { IconAddCongregation, IconImportExport } from '@components/icons';
 import { PageTitle } from '@components/index';
 import {
   useAppTranslation,
@@ -10,6 +10,8 @@ import useSpeakersCatalog from './useSpeakersCatalog';
 import MyCongregation from '@features/persons/speakers_catalog/my_congregation';
 import OtherCongregations from '@features/persons/speakers_catalog/other_congregations';
 import NavBarButton from '@components/nav_bar_button';
+import ImportExport from '@features/persons/speakers_catalog/import_export';
+import NavBarButtonGroup from '@components/nav_bar_button_group';
 
 const SpeakersCatalog = () => {
   const { t } = useAppTranslation();
@@ -18,7 +20,12 @@ const SpeakersCatalog = () => {
 
   const { isPublicTalkCoordinator } = useCurrentUser();
 
-  const { handleIsAddingOpen } = useSpeakersCatalog();
+  const {
+    handleIsAddingOpen,
+    handleOpenExchange,
+    isDataExchangeOpen,
+    handleCloseExchange,
+  } = useSpeakersCatalog();
 
   return (
     <Box
@@ -32,18 +39,28 @@ const SpeakersCatalog = () => {
       <PageTitle
         title={t('tr_speakersCatalog')}
         buttons={
-          <>
-            {isPublicTalkCoordinator && (
+          isPublicTalkCoordinator && (
+            <NavBarButtonGroup>
+              <NavBarButton
+                text={t('tr_importExport')}
+                main={false}
+                icon={<IconImportExport />}
+                onClick={handleOpenExchange}
+              ></NavBarButton>
+
               <NavBarButton
                 text={t('tr_btnAdd')}
-                main
                 icon={<IconAddCongregation color="var(--always-white)" />}
                 onClick={handleIsAddingOpen}
               ></NavBarButton>
-            )}
-          </>
+            </NavBarButtonGroup>
+          )
         }
       />
+
+      {isDataExchangeOpen && (
+        <ImportExport open={isDataExchangeOpen} onClose={handleCloseExchange} />
+      )}
 
       <Box
         sx={{

@@ -8,6 +8,7 @@ import {
 import { localStorageGetItem } from '@utils/common';
 import {
   BackupFileType,
+  BeforeInstallPromptEvent,
   ColorSchemeType,
   NavBarOptionsType,
   SnackBarSeverityType,
@@ -43,6 +44,12 @@ export const appLangState = atom(localStorageGetItem('ui_lang'));
 
 export const appFontState = atomWithStorage('font', 'Inter');
 
+// MUI paints keyboard focus with its own grey, and blue once the row is selected
+const focusedRowStyles = {
+  '&.Mui-focusVisible': { backgroundColor: 'var(--accent-150)' },
+  '&.Mui-selected.Mui-focusVisible': { backgroundColor: 'var(--accent-100)' },
+};
+
 export const appThemeState = atom((get) => {
   const font = get(appFontState) ?? 'Inter';
   const appLang = get(appLangState);
@@ -68,6 +75,32 @@ export const appThemeState = atom((get) => {
           },
           text: {
             fontFamily: `${font} !important`,
+          },
+        },
+      },
+      MuiMenuItem: { styleOverrides: { root: focusedRowStyles } },
+      MuiListItemButton: { styleOverrides: { root: focusedRowStyles } },
+      MuiIconButton: {
+        styleOverrides: {
+          // the keyboard focus ring is otherwise drawn in the text color
+          root: {
+            '& .MuiTouchRipple-childPulsate': {
+              backgroundColor: 'var(--accent-main)',
+            },
+          },
+        },
+      },
+      MuiAutocomplete: {
+        styleOverrides: {
+          // on the listbox, so it follows MUI's option styles set there
+          listbox: {
+            '& .MuiAutocomplete-option': {
+              '&[aria-selected="true"]': {
+                backgroundColor: 'var(--accent-100)',
+              },
+              '&.Mui-focused, &.Mui-focusVisible, &[aria-selected="true"]:is(.Mui-focused, .Mui-focusVisible)':
+                { backgroundColor: 'var(--accent-150)' },
+            },
           },
         },
       },
@@ -101,7 +134,7 @@ export const appThemeState = atom((get) => {
 });
 
 export const monthNamesState = atom((get) => {
-  const appLang = get(appLangState);
+  const appLang = get(appLangState)!;
 
   const months: string[] = [];
 
@@ -122,7 +155,7 @@ export const monthNamesState = atom((get) => {
 });
 
 export const monthShortNamesState = atom((get) => {
-  const appLang = get(appLangState);
+  const appLang = get(appLangState)!;
 
   const months: string[] = [];
 
@@ -143,7 +176,7 @@ export const monthShortNamesState = atom((get) => {
 });
 
 export const dayNamesState = atom((get) => {
-  const appLang = get(appLangState);
+  const appLang = get(appLangState)!;
 
   const days: string[] = [];
 
@@ -159,7 +192,7 @@ export const dayNamesState = atom((get) => {
 });
 
 export const dayNamesShortState = atom((get) => {
-  const appLang = get(appLangState);
+  const appLang = get(appLangState)!;
 
   const days: string[] = [];
 
@@ -176,7 +209,7 @@ export const dayNamesShortState = atom((get) => {
 
 export const dayNamesCapitalState = atom((get) => {
   const days = get(dayNamesState);
-  return days.map((record) => record.at(0).toUpperCase());
+  return days.map((record) => record.at(0)!.toUpperCase());
 });
 
 export const shortDatePickerFormatState = atom(getShortDatePickerFormat());
@@ -253,7 +286,7 @@ export const appMessageState = atom('');
 
 export const appMessageHeaderState = atom('');
 
-export const appMessageIconState = atom<ReactElement>(null as ReactElement);
+export const appMessageIconState = atom<ReactElement>();
 
 export const congAccountConnectedState = atom(false);
 
@@ -366,3 +399,11 @@ export const devAuthOTPState = atom('');
 export const congPrefixState = atom('');
 
 export const countriesState = atom<CountryResponseType[]>([]);
+
+export const pwaInstallPromptState = atom(
+  null as BeforeInstallPromptEvent | null
+);
+
+export const pwaStandaloneState = atom(false);
+
+export const pwaInstalledState = atom(false);

@@ -107,7 +107,7 @@
   "tr_S10ReportNotGenerated": "Báo cáo năm nầy chưa được tạo. Tạo nó để xem tất cả thông tin rồi gửi đi.",
   "tr_quickAssignAP": "Auxiliary pioneer assigned",
   "tr_quickAssignAPDesc": "This publisher is assigned as an auxiliary pioneer this month. You can change this on the publisher's enrollments list on the Persons page.",
-  "tr_reactivatePublisher": "Tái hoạt động công bố nầy",
+  "tr_reactivatePublisher": "Reactivate publisher",
   "tr_S21CardTitle": "Export multiple publisher records (S-21)",
   "tr_S21CardTitleDesc": "Select ‘All publishers’ to export and sort all records for publishers, full-time, and auxiliary servants, or ‘Specific publishers’ to export records only for selected publishers.",
   "tr_allPublisherRecords": "Tất cả công bố",
@@ -136,5 +136,6 @@
   "tr_congregationReports": "Báo cáo hội thánh",
   "tr_bibleStudiesMonthlyLess": "You cannot set the Bible studies less than the total you have from your daily records",
   "tr_hoursDecreaseError": "Không thể thay đổi số giờ",
-  "tr_hoursDecreaseErrorDesc": "You cannot set the hours less than the total you have from your daily records"
+  "tr_hoursDecreaseErrorDesc": "You cannot set the hours less than the total you have from your daily records",
+  "tr_SCEL": "School for Congregation Elders"
 }

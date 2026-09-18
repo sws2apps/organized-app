@@ -107,7 +107,7 @@
   "tr_S10ReportNotGenerated": "Mbo tsy namboary tatitsy io. Laha ta hahita ty tsipiriany noho handefa azy, le amboary tse raha io.",
   "tr_quickAssignAP": "Fanendrea mpisava lala mpanampy",
   "tr_quickAssignAPDesc": "Notendrena ho mpisava lalana mpanampy io mpitory io amin’ity volana ity. Azonao ovana izany any amin’ny mombamomba an’ilay olona.",
-  "tr_reactivatePublisher": "Mimpoly nitory ndraiky",
+  "tr_reactivatePublisher": "Reactivate publisher",
   "tr_S21CardTitle": "Haka firaketana maromaro (S-21)",
   "tr_S21CardTitleDesc": "Safidio ‘Mpitory rehetra’ raha hitahiry ny firaketana rehetra, sady handamina an’ireo rakitra isaky ny mpitory, mpanompo manontolo andro ary mpisava lalana mpanampy. Safidio ‘Mpitory sasantsasany ihany’ raha hisafidy ny karatry ny mpitory tianao hotehirizina.",
   "tr_allPublisherRecords": "Mpitory iaby",
@@ -136,5 +136,6 @@
   "tr_congregationReports": "Tatitsin'ny fiangona",
   "tr_bibleStudiesMonthlyLess": "Tsy tokony ho latsakin'ny fitambaran’ny fampianara Baiboly anatin'ny vola iny ty isaky ampilirinao ao",
   "tr_hoursDecreaseError": "Tsy voatahiry ny ora",
-  "tr_hoursDecreaseErrorDesc": "Tsy tokony ho latsakin'ny fitambaran’ny fampianara Baiboly anatin'ny vola iny ty isaky ampilirinao ao"
+  "tr_hoursDecreaseErrorDesc": "Tsy tokony ho latsakin'ny fitambaran’ny fampianara Baiboly anatin'ny vola iny ty isaky ampilirinao ao",
+  "tr_SCEL": "Sekolin’ny Anti-panahy"
 }

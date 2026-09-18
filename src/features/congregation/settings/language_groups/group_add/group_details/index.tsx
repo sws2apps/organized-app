@@ -3,6 +3,7 @@ import { useAppTranslation } from '@hooks/index';
 import { GroupDetailsProps } from './index.types';
 import useGroupDetails from './useGroupDetails';
 import Button from '@components/button';
+import DialogActions from '@components/dialog_actions';
 import Typography from '@components/typography';
 import LanguageGroupDetails from '../../group_details';
 
@@ -27,14 +28,14 @@ const GroupDetails = (props: GroupDetailsProps) => {
         onLanguageChange={handleLanguageChange}
       />
 
-      <Stack spacing="8px">
-        <Button variant="main" onClick={props.onAction}>
-          {t('tr_next')}
-        </Button>
+      <DialogActions>
         <Button variant="secondary" onClick={props.onClose}>
           {t('tr_cancel')}
         </Button>
-      </Stack>
+        <Button variant="main" onClick={props.onAction}>
+          {t('tr_next')}
+        </Button>
+      </DialogActions>
     </Stack>
   );
 };

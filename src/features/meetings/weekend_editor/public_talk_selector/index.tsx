@@ -62,7 +62,6 @@ const PublicTalkSelector = ({
               margin: 0,
               padding: 0,
               '&.Mui-focused': {
-                backgroundColor: 'var(--accent-100) !important',
                 '& p': {
                   color:
                     showSpeakerCount && option.speakers === 0
@@ -71,7 +70,6 @@ const PublicTalkSelector = ({
                 },
               },
               '&[aria-selected="true"]': {
-                backgroundColor: 'var(--accent-200) !important',
                 '& p:nth-of-type(1)': {
                   color:
                     showSpeakerCount && option.speakers === 0
@@ -128,8 +126,13 @@ const PublicTalkSelector = ({
           <IconClose width={20} height={20} sx={{ marginLeft: '-90px' }} />
         }
         sx={{
+          '& .MuiOutlinedInput-root': {
+            height: '44px !important',
+            minHeight: '44px !important',
+          },
           '& .MuiOutlinedInput-input': {
             paddingRight: '80px !important',
+            height: '44px !important',
           },
         }}
       />
