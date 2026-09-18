@@ -408,6 +408,8 @@
   "tr_showGroupBadges": "Show additional badges",
   "tr_awayDates": "Away: {{ startDate }} - {{ endDate }}",
   "tr_awaySoonDates": "Away soon: {{ startDate }} - {{ endDate }}",
+  "tr_awayFromDate": "Away: from {{ startDate }}",
+  "tr_awaySoonFromDate": "Away soon: from {{ startDate }}",
   "tr_showGroupBadgesDesc": "Label publishers as elder, ministerial servant or pioneer.",
   "tr_importExport": "Import/export",
   "tr_count": "Count",

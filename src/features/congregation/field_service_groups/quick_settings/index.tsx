@@ -1,5 +1,5 @@
 import { Stack } from '@mui/material';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { QuickSettingsFieldServiceGroupsProps } from './index.types';
 import GroupBadgesVisibility from './group_badges_visibility';
 import PublishersSort from '@features/congregation/settings/congregation_privacy/publishers_sort';
@@ -12,6 +12,8 @@ const QuickSettingsFieldServiceGroups = ({
 }: QuickSettingsFieldServiceGroupsProps) => {
   const { t } = useAppTranslation();
 
+  const { isServiceCommittee } = useCurrentUser();
+
   return (
     <QuickSettings
       title={t('tr_fieldServiceGroups')}
@@ -20,8 +22,12 @@ const QuickSettingsFieldServiceGroups = ({
     >
       <Stack spacing="16px" width="100%">
         <Stack spacing="16px">
-          <PublishersSort />
-          <TimeAwayVisibility />
+          {isServiceCommittee && (
+            <>
+              <PublishersSort />
+              <TimeAwayVisibility />
+            </>
+          )}
           <GroupBadgesVisibility />
         </Stack>
       </Stack>
