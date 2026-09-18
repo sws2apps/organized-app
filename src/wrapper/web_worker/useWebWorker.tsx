@@ -17,8 +17,7 @@ import {
   JWLangState,
 } from '@states/settings';
 import { useCurrentUser, useFirebaseAuth } from '@hooks/index';
-import { schedulesBuildHistoryList } from '@services/app/schedules';
-import { setAssignmentsHistory } from '@services/states/schedules';
+import { buildAssignmentHistory } from '@services/app';
 import { refreshLocalesResources } from '@services/i18n';
 import { getMessageByCode } from '@services/i18n/translation';
 import { dbPublicTalkUpdate } from '@services/dexie/public_talk';
@@ -71,9 +70,10 @@ const useWebWorker = () => {
           await dbPublicTalkUpdate();
           await dbSongUpdate();
 
-          // load assignment history
-          const history = schedulesBuildHistoryList();
-          setAssignmentsHistory(history);
+          // the sync has just written schedules and sources; rebuild the
+          // history from the database, not from atoms that may still hold the
+          // pre-sync rows
+          await buildAssignmentHistory();
 
           await dbSpeakersCongregationsSetName();
         }

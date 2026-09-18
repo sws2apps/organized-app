@@ -22,7 +22,10 @@ import {
 } from '@services/states/app';
 import { dbWeekTypeUpdate } from '@services/dexie/weekType';
 import { dbAssignmentUpdate } from '@services/dexie/assignment';
-import { dbAppDelete } from '@services/dexie/app';
+import {
+  dbAppDelete,
+  dbAppGetAssignmentHistorySources,
+} from '@services/dexie/app';
 import { schedulesBuildHistoryList } from './schedules';
 import { setAssignmentsHistory } from '@services/states/schedules';
 import {
@@ -72,22 +75,13 @@ import { dbSpeakersCongregationsSetName } from '@services/dexie/speakers_congreg
 /**
  * The assignment history is built from schedules, sources, public talks and
  * settings. Their atoms are fed by live queries, which catch up with the
- * database only after a render, and runUpdater may have just rewritten those
- * tables. Read them straight from the database instead, in one transaction,
- * and prime the atoms with the same rows the live queries will deliver.
+ * database only after a render, and startup (runUpdater) or a sync may have
+ * just rewritten those tables. Read them from the database instead and prime
+ * the atoms with the same rows the live queries will deliver.
  */
 const primeAssignmentHistorySources = async () => {
-  const [settings, schedules, sources, publicTalks] = await appDb.transaction(
-    'r',
-    [appDb.app_settings, appDb.sched, appDb.sources, appDb.public_talks],
-    () =>
-      Promise.all([
-        appDb.app_settings.get(1),
-        appDb.sched.toArray(),
-        appDb.sources.toArray(),
-        appDb.public_talks.toArray(),
-      ])
-  );
+  const { settings, schedules, sources, publicTalks } =
+    await dbAppGetAssignmentHistorySources();
 
   if (settings) store.set(settingsState, settings);
   store.set(schedulesState, schedules);
@@ -95,16 +89,30 @@ const primeAssignmentHistorySources = async () => {
   store.set(publicTalksState, publicTalks);
 };
 
-export const loadApp = async () => {
-  await primeAssignmentHistorySources();
+/**
+ * Rebuilds the assignment history from what is in the database right now.
+ * Used after startup and after a sync, both of which have just written the
+ * tables the history is built from. A failed read is not worth keeping the
+ * app on its loading screen for, so it falls back to the rows the atoms
+ * already hold.
+ */
+export const buildAssignmentHistory = async () => {
+  try {
+    await primeAssignmentHistorySources();
+  } catch (error) {
+    console.error(error);
+  }
 
+  const history = schedulesBuildHistoryList();
+  setAssignmentsHistory(history);
+};
+
+export const loadApp = async () => {
   const appLang = store.get(appLangState);
 
   handleAppChangeLanguage(appLang);
 
-  // load assignment history
-  const history = schedulesBuildHistoryList();
-  setAssignmentsHistory(history);
+  await buildAssignmentHistory();
 };
 
 export const runUpdater = async () => {
