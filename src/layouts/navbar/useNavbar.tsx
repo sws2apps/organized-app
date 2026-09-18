@@ -12,8 +12,6 @@ import { useNavigate } from 'react-router';
 import { useAtom, useAtomValue } from 'jotai';
 import { useQueryClient } from '@tanstack/react-query';
 import { store } from '@states/index';
-import { congAccountConnectedState as connectedState } from '@states/app';
-import { currentAuthUser } from '@services/firebase/auth';
 import usePwaInstall from '@hooks/usePwaInstall';
 import {
   IconInstallDesktop,
@@ -41,7 +39,7 @@ import {
   congNameState,
   fullnameState,
 } from '@states/settings';
-import { userSignOut } from '@services/firebase/auth';
+import { currentAuthUser, userSignOut } from '@services/firebase/auth';
 
 import NavBarButton from '@components/nav_bar_button';
 import { NavBarButtonProps } from '@components/nav_bar_button/index.types';
@@ -135,7 +133,7 @@ const useNavbar = () => {
       await queryClient.refetchQueries({ queryKey: ['whoami-vip'] });
 
       for (let i = 0; i < 20; i++) {
-        if (store.get(connectedState)) return;
+        if (store.get(congAccountConnectedState)) return;
         await new Promise((resolve) => setTimeout(resolve, 250));
       }
     }
