@@ -32,13 +32,6 @@ export const isAppLoadState = atom(true);
 
 export const isSetupState = atom(true);
 
-/**
- * Turns true once schedules, sources and public talks have been read from
- * IndexedDb. loadApp builds the assignment history from them, so it waits for
- * this instead of relying on the time the startup screen used to take.
- */
-export const dbHydratedState = atom(false);
-
 export const apiHostState = atom('');
 
 export const isAboutOpenState = atom(false);

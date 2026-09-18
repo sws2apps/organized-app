@@ -1,8 +1,7 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 import { useSetAtom } from 'jotai';
 import { useLiveQuery } from 'dexie-react-hooks';
 import appDb from '@db/appDb';
-import { dbHydratedState } from '@states/app';
 
 import { settingsLoadedState, settingsState } from '@states/settings';
 import { personsState } from '@states/persons';
@@ -70,7 +69,6 @@ const useIndexedDb = () => {
   const dbAppLocals = useLiveQuery(() => appDb.app_locals.toArray());
 
   const setSettings = useSetAtom(settingsState);
-  const setDbHydrated = useSetAtom(dbHydratedState);
   const setSettingsLoaded = useSetAtom(settingsLoadedState);
   const setPersons = useSetAtom(personsState);
   const setWeekType = useSetAtom(weekTypeState);
@@ -94,12 +92,6 @@ const useIndexedDb = () => {
   const setPublicTalks = useSetAtom(publicTalksState);
   const setSongs = useSetAtom(songsState);
   const setAppLocals = useSetAtom(appLocalsState);
-
-  useEffect(() => {
-    if (dbSchedules && dbSources && dbPublicTalks) {
-      setDbHydrated(true);
-    }
-  }, [dbSchedules, dbSources, dbPublicTalks, setDbHydrated]);
 
   const loadSettings = useCallback(() => {
     if (!dbSettings) return;

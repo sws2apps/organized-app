@@ -44,7 +44,7 @@ const useSignup = () => {
   const handleLoadApp = async () => {
     await runUpdater();
 
-    loadApp();
+    await loadApp();
 
     setIsSetup(false);
 

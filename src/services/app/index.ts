@@ -9,7 +9,6 @@ import {
 import {
   appLangState,
   congAccountConnectedState,
-  dbHydratedState,
   isAppLoadState,
   isPocketSignUpState,
   isSetupState,
@@ -60,6 +59,9 @@ import {
   settingsState,
   userLocalUIDState,
 } from '@states/settings';
+import { schedulesState } from '@states/schedules';
+import { sourcesState } from '@states/sources';
+import { publicTalksState } from '@states/public_talks';
 import { apiPocketValidateMe } from '@services/api/pocket';
 import { UserLoginResponseType } from '@definition/api';
 import { settingSchema } from '@services/dexie/schema';
@@ -67,21 +69,34 @@ import { dbUpcomingEventsCleanup } from '@services/dexie/upcoming_events';
 import appDb from '@db/appDb';
 import { dbSpeakersCongregationsSetName } from '@services/dexie/speakers_congregations';
 
-const waitForDbHydrated = () => {
-  if (store.get(dbHydratedState)) return Promise.resolve();
+/**
+ * The assignment history is built from schedules, sources, public talks and
+ * settings. Their atoms are fed by live queries, which catch up with the
+ * database only after a render, and runUpdater may have just rewritten those
+ * tables. Read them straight from the database instead, in one transaction,
+ * and prime the atoms with the same rows the live queries will deliver.
+ */
+const primeAssignmentHistorySources = async () => {
+  const [settings, schedules, sources, publicTalks] = await appDb.transaction(
+    'r',
+    [appDb.app_settings, appDb.sched, appDb.sources, appDb.public_talks],
+    () =>
+      Promise.all([
+        appDb.app_settings.get(1),
+        appDb.sched.toArray(),
+        appDb.sources.toArray(),
+        appDb.public_talks.toArray(),
+      ])
+  );
 
-  return new Promise<void>((resolve) => {
-    const unsubscribe = store.sub(dbHydratedState, () => {
-      if (!store.get(dbHydratedState)) return;
-
-      unsubscribe();
-      resolve();
-    });
-  });
+  if (settings) store.set(settingsState, settings);
+  store.set(schedulesState, schedules);
+  store.set(sourcesState, sources);
+  store.set(publicTalksState, publicTalks);
 };
 
 export const loadApp = async () => {
-  await waitForDbHydrated();
+  await primeAssignmentHistorySources();
 
   const appLang = store.get(appLangState);
 
