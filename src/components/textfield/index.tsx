@@ -127,6 +127,9 @@ const TextField = (props: TextFieldTypeProps) => {
               : '1px solid var(--accent-main)',
           },
           '&.Mui-error': {
+            '& .MuiOutlinedInput-notchedOutline': {
+              border: '1px solid var(--red-main)',
+            },
             '&:hover fieldset': {
               border: '1px solid var(--red-main)',
             },

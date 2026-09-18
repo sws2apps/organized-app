@@ -53,6 +53,8 @@ export type BadgePropsType = {
    */
   icon?: ReactElement;
 
+  light?: boolean;
+
   /**
    * Custom styles for the badge.
    */
@@ -63,7 +65,7 @@ export type BadgePropsType = {
    */
   key?: number | string;
 
-  faded?: boolean
+  faded?: boolean;
 };
 
 /**
