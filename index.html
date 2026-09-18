@@ -7,42 +7,48 @@
     <meta charset="utf-8" />
     <script>
       (function () {
-        try {
-          var read = function (key, fallback) {
-            var value = localStorage.getItem(key);
-            if (!value) return fallback;
-            try {
-              return JSON.parse(value);
-            } catch (e) {
-              return value;
-            }
-          };
+        var read = function (key, fallback) {
+          var value;
 
-          var theme = read('color', 'blue') + '-' + read('theme', 'light');
-          var backgrounds = {
-            'blue-light': '#f8f9ff',
-            'blue-dark': '#151519',
-            'green-light': '#f3faf3',
-            'green-dark': '#131413',
-            'purple-light': '#f8f6ff',
-            'purple-dark': '#141216',
-            'orange-light': '#fefbf5',
-            'orange-dark': '#161412',
-            'teal-light': '#f8fcfd',
-            'teal-dark': '#0e1214',
-            'rose-light': '#fff9fb',
-            'rose-dark': '#141012',
-            'slate-light': '#f6fafe',
-            'slate-dark': '#12161a',
-          };
+          try {
+            value = localStorage.getItem(key);
+          } catch (e) {
+            return fallback;
+          }
 
-          var root = document.documentElement;
-          root.setAttribute('data-theme', theme);
-          root.style.setProperty(
-            '--boot-background',
-            backgrounds[theme] || backgrounds['blue-light']
-          );
-        } catch (e) {}
+          if (!value) return fallback;
+
+          try {
+            return JSON.parse(value);
+          } catch (e) {
+            return value;
+          }
+        };
+
+        var theme = read('color', 'blue') + '-' + read('theme', 'light');
+        var backgrounds = {
+          'blue-light': '#f8f9ff',
+          'blue-dark': '#151519',
+          'green-light': '#f3faf3',
+          'green-dark': '#131413',
+          'purple-light': '#f8f6ff',
+          'purple-dark': '#141216',
+          'orange-light': '#fefbf5',
+          'orange-dark': '#161412',
+          'teal-light': '#f8fcfd',
+          'teal-dark': '#0e1214',
+          'rose-light': '#fff9fb',
+          'rose-dark': '#141012',
+          'slate-light': '#f6fafe',
+          'slate-dark': '#12161a',
+        };
+
+        var root = document.documentElement;
+        root.dataset.theme = theme;
+        root.style.setProperty(
+          '--boot-background',
+          backgrounds[theme] || backgrounds['blue-light']
+        );
       })();
     </script>
     <link rel="icon" href="favicon.svg" />
