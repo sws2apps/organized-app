@@ -569,5 +569,5 @@
   "tr_error_app_data_no_valid_data_found": "Voimassa olevia tietoja ei löytynyt tai puhujaa ei ole valittu.",
   "tr_infirmPioneer": "Kunniatienraivaaja",
   "tr_infirmPioneerNoGoal": "Kunniatienraivaajana voit palvella niin paljon kuin pystyt ilman vuotuista tuntitavoitetta.",
-  "tr_importCsvParseError": "The file could not be read. Please check the column structure and try again."
+  "tr_importCsvParseError": "Tiedostoa ei voitu lukea. Tarkista sarakkeen rakenne ja yritä uudelleen."
 }
