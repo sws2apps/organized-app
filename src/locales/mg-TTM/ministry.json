@@ -137,5 +137,9 @@
   "tr_bibleStudiesMonthlyLess": "Tsy tokony ho latsaky ny fitambaran’ny fampianarana Baiboly nandritra ny volana ny isa ampidirina",
   "tr_hoursDecreaseError": "Tsy voatahiry ny ora",
   "tr_hoursDecreaseErrorDesc": "Tsy tokony ho latsaky ny fitambaran’ny ora nandritra ny volana ny ora ampidirina",
-  "tr_SCEL": "Sekolin’ny Anti-panahy"
+  "tr_SCEL": "Sekolin’ny Anti-panahy",
+  "tr_timerNothingToSave": "Nothing to save",
+  "tr_timerNothingToSaveDesc": "The session was shorter than a minute, so no time was added to the report.",
+  "tr_timerNoOpenMonth": "No month to add the time to",
+  "tr_timerNoOpenMonthDesc": "Every month since this session started is already confirmed. The session stays paused."
 }

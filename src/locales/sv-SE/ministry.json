@@ -137,5 +137,9 @@
   "tr_bibleStudiesMonthlyLess": "Du kan inte ange färre bibelstudier än den totala du har från dina dagliga register",
   "tr_hoursDecreaseError": "Kan inte ändra timmar",
   "tr_hoursDecreaseErrorDesc": "Du kan inte ange färre bibelstudier än den totala du har från dina dagliga register",
-  "tr_SCEL": "Skolan för församlingsäldste"
+  "tr_SCEL": "Skolan för församlingsäldste",
+  "tr_timerNothingToSave": "Inget att spara",
+  "tr_timerNothingToSaveDesc": "Sessionen var kortare än en minut, så ingen tid lades till i rapporten.",
+  "tr_timerNoOpenMonth": "Ingen månad att lägga till tid till",
+  "tr_timerNoOpenMonthDesc": "Varje månad sedan den här sessionen startade är redan bekräftad. Sessionen är pausad."
 }
