@@ -46,7 +46,11 @@ import { dbSourcesBulkPut } from '@services/dexie/sources';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import PERSON_MOCK from '@constants/person_mock';
 import appDb from '@db/appDb';
-import { AppLogEntryType, AppLogModule, AppLogAction } from '@definition/app_logs';
+import {
+  AppLogEntryType,
+  AppLogModule,
+  AppLogAction,
+} from '@definition/app_logs';
 import { AppRoleType } from '@definition/app';
 import { assignmentsHistoryState, schedulesState } from '@states/schedules';
 import { Week } from '@definition/week_type';
@@ -1580,37 +1584,195 @@ type LogTemplate = {
 // Mirrors the real logger payloads (keys + raw data) so the demo renders localized.
 const APP_LOG_TEMPLATES: LogTemplate[] = [
   // Settings
-  { module: 'settings', action: 'update', entity_type: 'cong_settings', field_key: 'tr_logFieldMeetingTime', value_before: '19:00', value_after: '19:30' },
-  { module: 'settings', action: 'update', entity_type: 'cong_settings', field_key: 'tr_meetingDay', value_before: 'Saturday', value_after: 'Sunday' },
-  { module: 'settings', action: 'update', entity_type: 'cong_settings', field_key: 'tr_logFieldCongNumber', value_before: '12345', value_after: '12346' },
-  { module: 'settings', action: 'update', entity_type: 'cong_settings', field_key: 'tr_displayName', value_before: 'Off', value_after: 'On' },
-  { module: 'settings', action: 'update', entity_type: 'cong_settings', field_key: 'tr_logFieldDateFormat', value_before: 'MM/dd/yyyy', value_after: 'dd/MM/yyyy' },
+  {
+    module: 'settings',
+    action: 'update',
+    entity_type: 'cong_settings',
+    field_key: 'tr_logFieldMeetingTime',
+    value_before: '19:00',
+    value_after: '19:30',
+  },
+  {
+    module: 'settings',
+    action: 'update',
+    entity_type: 'cong_settings',
+    field_key: 'tr_meetingDay',
+    value_before: 'Saturday',
+    value_after: 'Sunday',
+  },
+  {
+    module: 'settings',
+    action: 'update',
+    entity_type: 'cong_settings',
+    field_key: 'tr_logFieldCongNumber',
+    value_before: '12345',
+    value_after: '12346',
+  },
+  {
+    module: 'settings',
+    action: 'update',
+    entity_type: 'cong_settings',
+    field_key: 'tr_displayName',
+    value_before: 'Off',
+    value_after: 'On',
+  },
+  {
+    module: 'settings',
+    action: 'update',
+    entity_type: 'cong_settings',
+    field_key: 'tr_logFieldDateFormat',
+    value_before: 'MM/dd/yyyy',
+    value_after: 'dd/MM/yyyy',
+  },
   // Persons
-  { module: 'persons', action: 'create', entity_type: 'person', detail: 'James Wilson' },
-  { module: 'persons', action: 'create', entity_type: 'person', detail: 'Anna Chen' },
-  { module: 'persons', action: 'update', entity_type: 'person', field_key: 'tr_phoneNumber', value_before: '+1-555-0100', value_after: '+1-555-0199' },
-  { module: 'persons', action: 'update', entity_type: 'person', field_key: 'tr_logFieldAppointment', value_before: 'Publisher', value_after: 'Regular Pioneer' },
-  { module: 'persons', action: 'delete', entity_type: 'person', detail: 'Mark Thompson' },
-  { module: 'persons', action: 'update', entity_type: 'person', field_key: 'tr_address', value_before: '123 Oak St', value_after: '456 Maple Ave' },
-  { module: 'persons', action: 'create', entity_type: 'person', detail: 'Daniel Lee' },
+  {
+    module: 'persons',
+    action: 'create',
+    entity_type: 'person',
+    detail: 'James Wilson',
+  },
+  {
+    module: 'persons',
+    action: 'create',
+    entity_type: 'person',
+    detail: 'Anna Chen',
+  },
+  {
+    module: 'persons',
+    action: 'update',
+    entity_type: 'person',
+    field_key: 'tr_phoneNumber',
+    value_before: '+1-555-0100',
+    value_after: '+1-555-0199',
+  },
+  {
+    module: 'persons',
+    action: 'update',
+    entity_type: 'person',
+    field_key: 'tr_logFieldAppointment',
+    value_before: 'Publisher',
+    value_after: 'Regular Pioneer',
+  },
+  {
+    module: 'persons',
+    action: 'delete',
+    entity_type: 'person',
+    detail: 'Mark Thompson',
+  },
+  {
+    module: 'persons',
+    action: 'update',
+    entity_type: 'person',
+    field_key: 'tr_address',
+    value_before: '123 Oak St',
+    value_after: '456 Maple Ave',
+  },
+  {
+    module: 'persons',
+    action: 'create',
+    entity_type: 'person',
+    detail: 'Daniel Lee',
+  },
   // Schedules
-  { module: 'schedules', action: 'publish', entity_type: 'midweek_schedule', field_key: 'tr_logFieldWeeks', value_before: '2026/05/18', value_after: '2026/06/08' },
-  { module: 'schedules', action: 'publish', entity_type: 'weekend_schedule', field_key: 'tr_logFieldWeeks', value_before: '2026/05/18', value_after: '2026/06/08' },
-  { module: 'schedules', action: 'update', entity_type: 'midweek_schedule', field_key: 'tr_logFieldWeeks', value_before: '2026/06/01', value_after: '2026/06/29' },
-  { module: 'schedules', action: 'publish', entity_type: 'weekend_schedule', field_key: 'tr_logFieldWeeks', value_before: '2026/06/01', value_after: '2026/06/29' },
+  {
+    module: 'schedules',
+    action: 'publish',
+    entity_type: 'midweek_schedule',
+    field_key: 'tr_logFieldWeeks',
+    value_before: '2026/05/18',
+    value_after: '2026/06/08',
+  },
+  {
+    module: 'schedules',
+    action: 'publish',
+    entity_type: 'weekend_schedule',
+    field_key: 'tr_logFieldWeeks',
+    value_before: '2026/05/18',
+    value_after: '2026/06/08',
+  },
+  {
+    module: 'schedules',
+    action: 'update',
+    entity_type: 'midweek_schedule',
+    field_key: 'tr_logFieldWeeks',
+    value_before: '2026/06/01',
+    value_after: '2026/06/29',
+  },
+  {
+    module: 'schedules',
+    action: 'publish',
+    entity_type: 'weekend_schedule',
+    field_key: 'tr_logFieldWeeks',
+    value_before: '2026/06/01',
+    value_after: '2026/06/29',
+  },
   // Access
-  { module: 'access', action: 'create', entity_type: 'user', detail: 'Thomas Martin' },
-  { module: 'access', action: 'update', entity_type: 'user', field_key: 'tr_roles', value_before: 'Publisher', value_after: 'MS, Elder' },
-  { module: 'access', action: 'delete', entity_type: 'user', detail: 'Chris Martinez' },
-  { module: 'access', action: 'create', entity_type: 'pocket_user', detail: 'Kevin Rodriguez' },
-  { module: 'access', action: 'accepted', entity_type: 'user', detail: 'Amanda Clark' },
+  {
+    module: 'access',
+    action: 'create',
+    entity_type: 'user',
+    detail: 'Thomas Martin',
+  },
+  {
+    module: 'access',
+    action: 'update',
+    entity_type: 'user',
+    field_key: 'tr_roles',
+    value_before: 'Publisher',
+    value_after: 'MS, Elder',
+  },
+  {
+    module: 'access',
+    action: 'delete',
+    entity_type: 'user',
+    detail: 'Chris Martinez',
+  },
+  {
+    module: 'access',
+    action: 'create',
+    entity_type: 'pocket_user',
+    detail: 'Kevin Rodriguez',
+  },
+  {
+    module: 'access',
+    action: 'accepted',
+    entity_type: 'user',
+    detail: 'Amanda Clark',
+  },
   // Groups
-  { module: 'groups', action: 'update', entity_type: 'field_service_group', detail_key: 'tr_logGroupsReorganized' },
-  { module: 'groups', action: 'create', entity_type: 'field_service_group', detail_key: 'tr_logGroupCreated', detail_params: { number: '5' } },
+  {
+    module: 'groups',
+    action: 'update',
+    entity_type: 'field_service_group',
+    detail_key: 'tr_logGroupsReorganized',
+  },
+  {
+    module: 'groups',
+    action: 'create',
+    entity_type: 'field_service_group',
+    detail_key: 'tr_logGroupCreated',
+    detail_params: { number: '5' },
+  },
   // Sync
-  { module: 'sync', action: 'sync', entity_type: 'congregation_data', detail_key: 'tr_logSyncCompleted' },
-  { module: 'sync', action: 'sync', entity_type: 'congregation_data', detail_key: 'tr_logSyncRecords', detail_params: { count: '12' } },
-  { module: 'sync', action: 'sync', entity_type: 'congregation_data', detail_key: 'tr_logSyncFailed' },
+  {
+    module: 'sync',
+    action: 'sync',
+    entity_type: 'congregation_data',
+    detail_key: 'tr_logSyncCompleted',
+  },
+  {
+    module: 'sync',
+    action: 'sync',
+    entity_type: 'congregation_data',
+    detail_key: 'tr_logSyncRecords',
+    detail_params: { count: '12' },
+  },
+  {
+    module: 'sync',
+    action: 'sync',
+    entity_type: 'congregation_data',
+    detail_key: 'tr_logSyncFailed',
+  },
 ];
 
 /**
