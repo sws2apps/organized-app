@@ -33,5 +33,14 @@
       "tr_note_06": "Merkitse kunnia tienraivaajat vapautetuiksi vuotuisesta tuntitavoitteesta",
       "tr_note_07": "Valitse suunta ja fonttikoko kenttäpalveluryhmän PDF-vientiä varten"
     }
+  },
+  "2026-10-01T00:00": {
+    "images": {
+      "img_01": {
+        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-profile-pictures.svg",
+        "tr_title": "New look for your profile",
+        "tr_desc": "Pick a new profile picture: Bible stories, friendly faces, abstract art or bright gradients."
+      }
+    }
   }
 }
