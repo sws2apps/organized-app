@@ -9,7 +9,7 @@ const useCongregationInfo = ({ congregation }: CongregationInfoViewType) => {
 
     const weekDay = congregation.cong_data.midweek_meeting.weekday.value;
 
-    if (weekDay > 0) {
+    if (Number.isInteger(weekDay) && weekDay >= 0 && weekDay <= 6) {
       result = weekdays[weekDay];
     }
 
@@ -29,7 +29,7 @@ const useCongregationInfo = ({ congregation }: CongregationInfoViewType) => {
 
     if (weekDay > 6) weekDay = 6;
 
-    if (weekDay > 0) {
+    if (Number.isInteger(weekDay) && weekDay >= 0 && weekDay <= 6) {
       result = weekdays[weekDay];
     }
 
