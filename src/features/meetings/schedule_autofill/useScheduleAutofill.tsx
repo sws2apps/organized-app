@@ -22,7 +22,6 @@ const useScheduleAutofill = (
 
   const handleStartAutoFill = async () => {
     if (startWeek.length === 0 || endWeek.length === 0) return;
-
     try {
       setIsProcessing(true);
 
@@ -37,10 +36,11 @@ const useScheduleAutofill = (
 
       setIsProcessing(false);
       onClose?.();
+      const errMessage = error instanceof Error ? error.message : String(error);
 
       displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
-        message: getMessageByCode(error.message),
+        message: getMessageByCode(errMessage),
         severity: 'error',
       });
     }

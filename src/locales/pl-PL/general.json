@@ -36,6 +36,8 @@
   "tr_december": "Grudzień",
   "tr_longDateFormat": "EEE, dd MMM åååå",
   "tr_delete": "Usuń",
+  "tr_continueEditing": "Continue editing",
+  "tr_discardChanges": "Discard changes",
   "tr_add": "Dodaj",
   "tr_pickerSelectTime": "Wybierz czas",
   "tr_pickerSelectDate": "Wybierz datę",
@@ -129,12 +131,12 @@
   "tr_appliesOnlyToBrothers": "Dotyczy tylko braci",
   "tr_circuit": "Obwód: {{ circuitNumber }}",
   "tr_ageInYearsAndMonths": "{{ years }} lat, {{months}} miesięcy",
-  "tr_personHasNoAssignmentHistory": "Ta osoba nie ma jeszcze historii zadań",
+  "tr_personHasNoAssignmentHistory": "No assignment history yet",
   "tr_appUserProfile": "Konto użytkownika aplikacji",
   "tr_appUserProfileNotRegisteredDesc": "Ta osoba nie korzysta jeszcze z aplikacji. Możesz utworzyć konto Organized dla tej osoby na stronie „Konta użytkowników”.",
   "tr_appUserProfileRegisteredDesc": "Ta osoba już korzysta z Organized. Ostatni raz online: <span class='h4'>{{ lastTimeOnline }}</span>. Edytuj inne uprawnienia i ustawienia na stronie „Konta użytkowników”.",
   "tr_notYet": "Jeszcze nie",
-  "tr_manageUserProfileSettings": "Zarządzaj ustawieniami konta użytkownika",
+  "tr_manageUserProfileSettings": "Manage user account",
   "tr_createUserProfile": "Utwórz konto użytkownika",
   "tr_download": "Pobierz",
   "tr_import": "Importuj",
@@ -176,5 +178,7 @@
   "tr_fontSize": "Font size",
   "tr_small": "Small",
   "tr_normal": "Normal",
-  "tr_large": "Large"
+  "tr_large": "Large",
+  "tr_chooseFields": "Choose export fields",
+  "tr_chooseFieldsDesc": "Please select the fields you want to include in the export file."
 }

@@ -36,10 +36,13 @@ for await (const jsonFile of jsonFiles) {
       let tmpValue = data[key];
 
       if (key === 'collections') {
-        key = 'colors';
-        const modes = value.find(
-          (collection) => collection.name === 'Colors'
-        ).modes;
+        const collection = value.find(
+          (collection) =>
+            collection.name === 'Colors' ||
+            collection.name === 'Additional colors'
+        );
+        key = collection.name === 'Colors' ? 'colors' : 'additional-colors';
+        const modes = collection.modes;
 
         value = {};
 
@@ -97,7 +100,11 @@ for (const [key, details] of Object.entries(tokens['meeting-colors'])) {
 // group colors variables
 data += `\n/* global group-colors variables */\n`;
 for (const [key, details] of Object.entries(tokens['group-colors'])) {
+  const [r, g, b] = details.value
+    .match(/[\da-f]{2}/gi)
+    .map((hex) => parseInt(hex, 16));
   data += `--${key}: ${details.value};\n`;
+  data += `--${key}-base: ${r}, ${g}, ${b};\n`;
 }
 
 // print pdf templates colors variables
@@ -182,19 +189,31 @@ for (let [effectName, details] of Object.entries(tokens.effect.dark)) {
 data += '}\n\n';
 
 // converting colors tokens to css variables
-for (const [theme, details] of Object.entries(tokens.colors)) {
-  data += `/* colors for ${theme} theme */\n`;
-  data += `[data-theme='${theme}'] {\n`;
+const convertColors = (colors) => {
+  let result = '';
 
-  for (const [color, props] of Object.entries(details)) {
-    data += `--${color}-base: ${props.value.r}, ${props.value.g}, ${props.value.b};\n`;
-    data += `--${color}: rgba(var(--${color}-base), ${props.value.a});\n`;
+  for (const [theme, details] of Object.entries(colors)) {
+    result += `/* colors for ${theme} theme */\n`;
+    result += `[data-theme='${theme}'] {\n`;
+
+    for (const [color, props] of Object.entries(details)) {
+      result += `--${color}-base: ${props.value.r}, ${props.value.g}, ${props.value.b};\n`;
+      result += `--${color}: rgba(var(--${color}-base), ${props.value.a});\n`;
+    }
+
+    result += '}\n\n';
   }
 
-  data += '}\n\n';
-}
+  return result;
+};
+
+data += convertColors(tokens.colors);
 
 // converting font tokens to css properties
+const fontSelector = (className) => {
+  if (className === 'h2') return '.h2,\n.MuiTypography-root.h2';
+  return `.${className}`;
+};
 
 // rem font sizes, with line heights and letter spacings relative to them, so
 // every text style follows the root font size set for the chosen font size
@@ -274,7 +293,7 @@ data += `/* font styles used for tablet & mobile devices */\n`;
 data += `@media (max-width: 768px) {\n`;
 for (const [font, details] of Object.entries(tokens.font.mobile)) {
   const className = font.replace('m-', '');
-  data += `.${className} {\n`;
+  data += `${fontSelector(className)} {\n`;
   data += fontDeclarations(details.value);
   data += '}\n\n';
 }
@@ -289,7 +308,7 @@ for (const [className, details] of Object.entries(tokens.font)) {
     className !== 'pdf-templates' &&
     !Object.keys(common).includes(className)
   ) {
-    data += `.${className} {\n`;
+    data += `${fontSelector(className)} {\n`;
     data += fontDeclarations(details.value, { withMargin: true });
     data += '}\n\n';
   }
@@ -370,6 +389,8 @@ for (let [effectName, details] of Object.entries(tokens.effect.dark)) {
   data += '}\n\n';
 }
 data += '}\n\n';
+
+data += convertColors(tokens['additional-colors']);
 
 fs.writeFile('./src/global/global.css', data);
 

@@ -10,7 +10,6 @@ import MenuItem from '@components/menuitem';
 import MonthContainer from './month_container';
 import NoAssigmentsImg from '@assets/img/illustration_no_assigments.svg?component';
 import Select from '@components/select';
-import TabLabel from '@components/tab_label_with_badge';
 import Tabs from '@components/tabs';
 import Typography from '@components/typography';
 
@@ -103,18 +102,15 @@ const MyAssignments = () => {
 
   const tabs = [
     {
-      label: <TabLabel count={ownAssignments.total} label={t('tr_myOwn')} />,
+      label: t('tr_myOwn'),
+      badge: ownAssignments.total,
       Component: renderAssignments(ownAssignments.byDate),
     },
     ...(hasDelegatedAssignments
       ? [
           {
-            label: (
-              <TabLabel
-                count={delegateAssignments.total}
-                label={t('tr_delegated')}
-              />
-            ),
+            label: t('tr_delegated'),
+            badge: delegateAssignments.total,
             Component: renderAssignments(delegateAssignments.byDate),
           },
         ]

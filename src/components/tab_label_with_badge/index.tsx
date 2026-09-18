@@ -20,8 +20,6 @@ const LabelBadge = ({
       minHeight: '24px',
       padding: '0 6px',
       fontSize: '0.875rem',
-      opacity: 1,
-      transition: 'opacity 0.2s',
     }}
   >
     <Typography className="body-small-semibold" sx={{ color: badgeColor }}>
@@ -49,8 +47,6 @@ const TabLabelWithBadge = ({
         display: 'flex',
         alignItems: 'center',
         gap: '8px',
-        transform: count === 0 && 'translateX(12px)',
-        transition: 'transform 0.2s',
         userSelect: 'none',
       }}
     >
