@@ -5,7 +5,7 @@ import {
   isSetupState,
   isUnauthorizedRoleState,
 } from '@states/app';
-import { accountTypeState } from '@states/settings';
+import { accountTypeState, settingsLoadedState } from '@states/settings';
 import { setIsAccountChoose } from '@services/states/app';
 
 const useStartup = () => {
@@ -13,6 +13,7 @@ const useStartup = () => {
   const isSetup = useAtomValue(isSetupState);
   const accountType = useAtomValue(accountTypeState);
   const isAccountChoose = useAtomValue(isAccountChooseState);
+  const settingsLoaded = useAtomValue(settingsLoadedState);
 
   const [isAuth, setIsAuth] = useState(true);
 
@@ -28,14 +29,12 @@ const useStartup = () => {
       setIsAuth(false);
     };
 
-    const timeout = setTimeout(() => {
-      checkAccount();
-    }, 3000);
+    // wait for the stored settings rather than a fixed delay, so the account
+    // chooser never flashes for a returning user and nobody waits needlessly
+    if (!settingsLoaded) return;
 
-    return () => {
-      clearTimeout(timeout);
-    };
-  }, [accountType]);
+    checkAccount();
+  }, [accountType, settingsLoaded]);
 
   return { isUnauthorizedRole, isSetup, isAuth, isAccountChoose, accountType };
 };

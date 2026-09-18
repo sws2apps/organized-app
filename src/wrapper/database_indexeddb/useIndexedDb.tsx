@@ -3,7 +3,7 @@ import { useSetAtom } from 'jotai';
 import { useLiveQuery } from 'dexie-react-hooks';
 import appDb from '@db/appDb';
 
-import { settingsState } from '@states/settings';
+import { settingsLoadedState, settingsState } from '@states/settings';
 import { personsState } from '@states/persons';
 import { weekTypeState } from '@states/weekType';
 import { assignmentState } from '@states/assignment';
@@ -69,6 +69,7 @@ const useIndexedDb = () => {
   const dbAppLocals = useLiveQuery(() => appDb.app_locals.toArray());
 
   const setSettings = useSetAtom(settingsState);
+  const setSettingsLoaded = useSetAtom(settingsLoadedState);
   const setPersons = useSetAtom(personsState);
   const setWeekType = useSetAtom(weekTypeState);
   const setAssignment = useSetAtom(assignmentState);
@@ -93,10 +94,14 @@ const useIndexedDb = () => {
   const setAppLocals = useSetAtom(appLocalsState);
 
   const loadSettings = useCallback(() => {
-    if (dbSettings && dbSettings[0]) {
+    if (!dbSettings) return;
+
+    if (dbSettings[0]) {
       setSettings(dbSettings[0]);
     }
-  }, [dbSettings, setSettings]);
+
+    setSettingsLoaded(true);
+  }, [dbSettings, setSettings, setSettingsLoaded]);
 
   const loadPersons = useCallback(() => {
     if (dbPersons) {

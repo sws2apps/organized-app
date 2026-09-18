@@ -107,10 +107,7 @@ const useStartup = () => {
         setIsSetup(false);
         await runUpdater();
         loadApp();
-        setTimeout(() => {
-          setIsSetup(false);
-          setIsAppLoad(false);
-        }, 1000);
+        setIsAppLoad(false);
 
         return;
       }
