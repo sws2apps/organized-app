@@ -26,6 +26,7 @@ import { songsState } from '@states/songs';
 import {
   publicWitnessingArrangementsDbState,
   publicWitnessingLocationsDbState,
+  publicWitnessingLocationsLoadedState,
 } from '@states/public_witnessing';
 import { appLocalsState } from '@states/app_locals';
 
@@ -102,6 +103,9 @@ const useIndexedDb = () => {
   const setSongs = useSetAtom(songsState);
   const setPublicWitnessingLocations = useSetAtom(
     publicWitnessingLocationsDbState
+  );
+  const setPublicWitnessingLocationsLoaded = useSetAtom(
+    publicWitnessingLocationsLoadedState
   );
   const setPublicWitnessingArrangements = useSetAtom(
     publicWitnessingArrangementsDbState
@@ -231,8 +235,13 @@ const useIndexedDb = () => {
   const loadPublicWitnessingLocations = useCallback(() => {
     if (dbPublicWitnessingLocations) {
       setPublicWitnessingLocations(dbPublicWitnessingLocations);
+      setPublicWitnessingLocationsLoaded(true);
     }
-  }, [dbPublicWitnessingLocations, setPublicWitnessingLocations]);
+  }, [
+    dbPublicWitnessingLocations,
+    setPublicWitnessingLocations,
+    setPublicWitnessingLocationsLoaded,
+  ]);
 
   const loadPublicWitnessingArrangements = useCallback(() => {
     if (dbPublicWitnessingArrangements) {

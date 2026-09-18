@@ -5,6 +5,7 @@ import { useNavigate, useParams } from 'react-router';
 import { useAtom, useAtomValue } from 'jotai';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import {
+  publicWitnessingLocationsLoadedState,
   publicWitnessingLocationsState,
   publicWitnessingSelectedLocationRecordState,
   publicWitnessingSelectedLocationState,
@@ -32,6 +33,7 @@ const PublicWitnessingContainer = () => {
   const { locationId } = useParams();
 
   const locations = useAtomValue(publicWitnessingLocationsState);
+  const locationsLoaded = useAtomValue(publicWitnessingLocationsLoadedState);
   const selectedLocation = useAtomValue(
     publicWitnessingSelectedLocationRecordState
   );
@@ -40,6 +42,9 @@ const PublicWitnessingContainer = () => {
   );
 
   useEffect(() => {
+    // before the first read, an empty list would reject every deep link
+    if (!locationsLoaded) return;
+
     if (locationId) {
       // A stale link — a location deleted here or on another device — would
       // otherwise open an empty subpage.
@@ -65,7 +70,17 @@ const PublicWitnessingContainer = () => {
     if (!isValid) {
       setSelected(locations.at(0)?.location_uid ?? null);
     }
-  }, [locationId, locations, selected, setSelected, laptopUp, navigate]);
+  }, [
+    locationsLoaded,
+    locationId,
+    locations,
+    selected,
+    setSelected,
+    laptopUp,
+    navigate,
+  ]);
+
+  if (!locationsLoaded) return null;
 
   if (locations.length === 0) {
     return <InfoNote variant="card" message={t('tr_PWLocationsEmpty')} />;

@@ -10,6 +10,10 @@ export const publicWitnessingLocationsDbState = atom<
   PublicWitnessingLocationType[]
 >([]);
 
+// Turns true once the locations have been read from IndexedDB, so an empty
+// list can be told apart from one that has not loaded yet.
+export const publicWitnessingLocationsLoadedState = atom(false);
+
 export const publicWitnessingArrangementsDbState = atom<
   PublicWitnessingArrangementType[]
 >([]);
