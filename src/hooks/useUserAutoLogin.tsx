@@ -4,6 +4,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   apiHostState,
   congAccountConnectedState,
+  featureFlagsState,
   congPrefixState,
   isAppLoadState,
   isMFAEnabledState,
@@ -49,6 +50,7 @@ const useUserAutoLogin = () => {
   const setIsAppLoad = useSetAtom(isAppLoadState);
 
   const isOnline = useAtomValue(isOnlineState);
+  const featureFlags = useAtomValue(featureFlagsState);
   const isConnected = useAtomValue(congAccountConnectedState);
   const apiHost = useAtomValue(apiHostState);
   const isAppLoad = useAtomValue(isAppLoadState);
@@ -110,7 +112,13 @@ const useUserAutoLogin = () => {
   // pretending it is connected.
   useEffect(() => {
     if (errorVip || errorPocket) setCongConnected(false);
-  }, [errorVip, errorPocket, errorVipUpdatedAt, errorPocketUpdatedAt, setCongConnected]);
+  }, [
+    errorVip,
+    errorPocket,
+    errorVipUpdatedAt,
+    errorPocketUpdatedAt,
+    setCongConnected,
+  ]);
 
   // A decision from the server that retrying cannot change (signed out,
   // device needs a new sign-in) stops the automatic re-checks below.
@@ -168,8 +176,17 @@ const useUserAutoLogin = () => {
           // The Firebase session is fine but the device cookie is gone (Safari
           // caps it to 7 days because the API is on another host). Register
           // this device again with the valid Firebase session instead of
-          // signing the user out.
-          if (reason === 'DEVICE_REVOKED' && !deviceRestoreTried.current) {
+          // logging the user out.
+          //
+          // Behind a flag: this is only safe once the API refuses to register
+          // a device again with a login that was revoked on purpose (from the
+          // sessions list). Without the flag the user is logged out, as
+          // before, but now told why.
+          if (
+            reason === 'DEVICE_REVOKED' &&
+            featureFlags['DEVICE_SESSION_RESTORE'] &&
+            !deviceRestoreTried.current
+          ) {
             deviceRestoreTried.current = true;
 
             const { status } = await apiSendAuthorization();
@@ -336,6 +353,7 @@ const useUserAutoLogin = () => {
   }, [
     t,
     queryClient,
+    featureFlags,
     accountType,
     isPendingVip,
     dataVip,
