@@ -757,10 +757,9 @@ const useBrotherSelector = ({
     setGender(value);
   };
 
+  // the list follows the assigned person, and an empty field starts on brothers
   useEffect(() => {
-    if (!value) return;
-
-    setGender(value.person_data.male.value ? 'male' : 'female');
+    setGender(!value || value.person_data.male.value ? 'male' : 'female');
   }, [value]);
 
   return {
