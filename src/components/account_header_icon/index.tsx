@@ -43,20 +43,28 @@ const AccountHeaderIcon = ({
     attention: t('tr_statusAttention'),
   };
 
-  // red: something the user has to act on, or offline mode they chose
+  // orange: offline mode the user chose; red: connection lost or action needed
   const badge = isTest || status === 'connected' ? null : status;
-  const isRed = badge === 'attention' || badge === 'paused';
+
+  const redBadge =
+    'linear-gradient(180deg, rgba(202, 38, 38, 0) 0%, #CA2626 100%)';
 
   const badgeBackground: Record<string, string> = {
-    attention: 'linear-gradient(180deg, rgba(202, 38, 38, 0) 0%, #CA2626 100%)',
-    paused: 'linear-gradient(180deg, rgba(202, 38, 38, 0) 0%, #CA2626 100%)',
-    'no-network':
-      'linear-gradient(180deg, rgba(90, 96, 120, 0) 0%, var(--grey-400) 100%)',
-    'server-unreachable':
-      'linear-gradient(180deg, rgba(90, 96, 120, 0) 0%, var(--grey-400) 100%)',
+    attention: redBadge,
+    'no-network': redBadge,
+    'server-unreachable': redBadge,
+    paused:
+      'linear-gradient(180deg, rgba(221, 140, 44, 0) 0%, var(--orange-main) 100%)',
     connecting:
       'linear-gradient(180deg, rgba(90, 96, 120, 0) 0%, var(--accent-main) 100%)',
   };
+
+  const borderColor =
+    badge === 'paused'
+      ? 'var(--orange-main)'
+      : badge && badge !== 'connecting'
+        ? 'var(--red-main)'
+        : undefined;
 
   const BadgeIcon =
     badge === 'paused'
@@ -77,13 +85,7 @@ const AccountHeaderIcon = ({
         flexDirection: 'row',
         gap: '4px',
         borderRadius: 'var(--radius-max)',
-        border: `1px solid ${
-          isRed
-            ? 'var(--red-main)'
-            : badge === 'no-network' || badge === 'server-unreachable'
-              ? 'var(--grey-400)'
-              : 'var(--accent-200)'
-        }`,
+        border: `1px solid ${borderColor ?? 'var(--accent-200)'}`,
         backgroundColor: 'var(--accent-150)',
         padding: '6px 6px 6px 6px',
         alignItems: 'center',
@@ -96,11 +98,7 @@ const AccountHeaderIcon = ({
 
         '&:hover': {
           backgroundColor: 'var(--accent-200)',
-          borderColor: isRed
-            ? 'var(--red-main)'
-            : badge === 'no-network' || badge === 'server-unreachable'
-              ? 'var(--grey-400)'
-              : 'var(--accent-300)',
+          borderColor: borderColor ?? 'var(--accent-300)',
         },
         ...sx,
       }}
