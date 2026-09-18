@@ -21,11 +21,6 @@ import { AssignmentFieldType } from '@definition/assignment';
 
 export const settingsState = atom(settingSchema);
 
-/**
- * Turns true as soon as the local settings record has been read from
- * IndexedDb, whether or not a congregation is set up. The startup flow waits
- * on this instead of a fixed timeout.
- */
 export const settingsLoadedState = atom(false);
 
 // CONGREGATION SETTINGS

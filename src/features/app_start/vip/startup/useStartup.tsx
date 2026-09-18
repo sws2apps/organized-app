@@ -64,17 +64,11 @@ const useStartup = () => {
   const [isStart, setIsStart] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
-  // the check makes a server round trip; it must not start a second time
-  // while the first is still in flight
   const checkStarted = useRef(false);
 
-  // bumped only to re-run the check once a slow Firebase session restore
-  // finally completes (see the catch in runStartupCheck)
   const [checkRetry, setCheckRetry] = useState(0);
 
-  // read from the recovery callback, which outlives the render it came from.
-  // It is also written directly wherever this hook changes the sign-in state,
-  // so it is current even before React re-renders.
+  // also written directly, so the recovery callback never reads a stale value
   const isUserSignInRef = useRef(isUserSignIn);
 
   useEffect(() => {
@@ -132,10 +126,7 @@ const useStartup = () => {
         return;
       }
 
-      // the server check needs the Firebase session, which is restored from
-      // storage asynchronously; without this wait the request carries no token
-      // and the user is signed out. If it never settles this throws, and the
-      // catch below shows the sign-in screen without signing anyone out.
+      // otherwise the request can go out without a token and sign the user out
       const authUser = await waitForAuthReady();
       const isAuthenticated = Boolean(authUser);
 
@@ -214,15 +205,11 @@ const useStartup = () => {
       setIsLoading(false);
       console.error(error);
 
-      // Firebase was too slow, not necessarily signed out. If it restores a
-      // user later while the sign-in screen is still showing, run the check
-      // again instead of leaving a signed-in user there.
+      // Firebase was slow, not signed out: retry once it restores a user
       if (error instanceof AuthNotReadyError) {
         whenAuthSettled()
           .then((user) => {
             if (user && isUserSignInRef.current) {
-              // the sign-in screen outranks every other startup screen; the
-              // check shows it again itself if it is still needed
               isUserSignInRef.current = false;
               setIsUserSignIn(false);
               checkStarted.current = false;

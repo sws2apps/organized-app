@@ -60,9 +60,7 @@ const useWebWorker = () => {
         }
 
         if (event.data === 'Done') {
-          // sync complete -> refresh app data. The syncing state stays on
-          // until the refresh is done, so nothing reads the history while it
-          // still holds the pre-sync rows, and is cleared even if it fails.
+          // sync complete -> refresh app data before clearing the syncing state
           try {
             await refreshLocalesResources();
             await dbWeekTypeUpdate();
@@ -70,9 +68,6 @@ const useWebWorker = () => {
             await dbPublicTalkUpdate();
             await dbSongUpdate();
 
-            // the sync has just written schedules and sources; rebuild the
-            // history from the database, not from atoms that may still hold
-            // the pre-sync rows
             await buildAssignmentHistory();
 
             await dbSpeakersCongregationsSetName();

@@ -25,15 +25,7 @@ export class AuthNotReadyError extends Error {
   }
 }
 
-/**
- * Resolves once Firebase has restored (or ruled out) the signed-in user from
- * storage. Until then currentUser is null even for a signed-in user, and any
- * API call made in that window goes out without a token.
- *
- * If the SDK has not settled within the timeout this rejects instead of
- * resolving to null: "not known yet" must not be read as "signed out", or the
- * caller would send an unauthenticated request and sign the user out.
- */
+// rejects on timeout: "not known yet" must not be read as "signed out"
 export const waitForAuthReady = async (timeoutMs = 10000) => {
   const auth = getAuth();
 
@@ -53,10 +45,6 @@ export const waitForAuthReady = async (timeoutMs = 10000) => {
   return auth.currentUser;
 };
 
-/**
- * Resolves with the signed-in user (or null) once Firebase has settled,
- * however long that takes. For recovering after waitForAuthReady timed out.
- */
 export const whenAuthSettled = async () => {
   const auth = getAuth();
 

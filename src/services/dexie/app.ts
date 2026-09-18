@@ -10,11 +10,6 @@ export const dbAppOpen = async () => {
   await appDb.open();
 };
 
-/**
- * Reads everything the assignment history is built from in one read
- * transaction, so the rows are consistent with each other and with any write
- * that finished before the call.
- */
 export const dbAppGetAssignmentHistorySources = async () => {
   const [settings, schedules, sources, publicTalks] = await appDb.transaction(
     'r',

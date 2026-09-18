@@ -29,8 +29,6 @@ const useStartup = () => {
       setIsAuth(false);
     };
 
-    // wait for the stored settings rather than a fixed delay, so the account
-    // chooser never flashes for a returning user and nobody waits needlessly
     if (!settingsLoaded) return;
 
     checkAccount();

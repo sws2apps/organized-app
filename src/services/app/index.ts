@@ -72,13 +72,7 @@ import { dbUpcomingEventsCleanup } from '@services/dexie/upcoming_events';
 import appDb from '@db/appDb';
 import { dbSpeakersCongregationsSetName } from '@services/dexie/speakers_congregations';
 
-/**
- * The assignment history is built from schedules, sources, public talks and
- * settings. Their atoms are fed by live queries, which catch up with the
- * database only after a render, and startup (runUpdater) or a sync may have
- * just rewritten those tables. Read them from the database instead and prime
- * the atoms with the same rows the live queries will deliver.
- */
+// live queries lag behind the writes of runUpdater and sync, so read directly
 const primeAssignmentHistorySources = async () => {
   const { settings, schedules, sources, publicTalks } =
     await dbAppGetAssignmentHistorySources();
@@ -89,13 +83,6 @@ const primeAssignmentHistorySources = async () => {
   store.set(publicTalksState, publicTalks);
 };
 
-/**
- * Rebuilds the assignment history from what is in the database right now.
- * Used after startup and after a sync, both of which have just written the
- * tables the history is built from. A failed read is not worth keeping the
- * app on its loading screen for, so it falls back to the rows the atoms
- * already hold.
- */
 export const buildAssignmentHistory = async () => {
   try {
     await primeAssignmentHistorySources();
