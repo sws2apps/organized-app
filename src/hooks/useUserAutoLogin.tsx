@@ -210,6 +210,22 @@ const useUserAutoLogin = () => {
           return;
         }
 
+        // A new session on this device (e.g. after the device cookie was
+        // replaced) needs the two-step code again. Say so instead of
+        // leaving the account silently offline.
+        if (dataVip.status === 401) {
+          recheckBlocked.current = true;
+          setCongConnected(false);
+
+          displaySnackNotification({
+            header: t('tr_confirmTwoStep'),
+            message: t('tr_confirmTwoStepDesc'),
+            icon: <IconInfo color="var(--white)" />,
+          });
+
+          return;
+        }
+
         if (errorVip || dataVip.result.message) {
           const msg = errorVip?.message || dataVip.result.message;
           logger.error('app', msg);
