@@ -21,16 +21,30 @@ export const userSignOut = async () => {
 /**
  * Resolves once Firebase has restored (or ruled out) the signed-in user from
  * storage. Until then currentUser is null even for a signed-in user, and any
- * API call made in that window goes out without a token. The timeout guards
- * against the rare case where the SDK never settles.
+ * API call made in that window goes out without a token.
+ *
+ * If the SDK has not settled within the timeout this rejects instead of
+ * resolving to null: "not known yet" must not be read as "signed out", or the
+ * caller would send an unauthenticated request and sign the user out.
  */
 export const waitForAuthReady = async (timeoutMs = 10000) => {
   const auth = getAuth();
 
-  await Promise.race([
-    auth.authStateReady(),
-    new Promise((resolve) => setTimeout(resolve, timeoutMs)),
-  ]);
+  let timer: ReturnType<typeof setTimeout> | undefined;
+
+  try {
+    await Promise.race([
+      auth.authStateReady(),
+      new Promise<never>((_, reject) => {
+        timer = setTimeout(
+          () => reject(new Error('Firebase auth did not settle in time')),
+          timeoutMs
+        );
+      }),
+    ]);
+  } finally {
+    clearTimeout(timer);
+  }
 
   return auth.currentUser;
 };

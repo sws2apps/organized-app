@@ -115,7 +115,8 @@ const useStartup = () => {
 
       // the server check needs the Firebase session, which is restored from
       // storage asynchronously; without this wait the request carries no token
-      // and the user is signed out
+      // and the user is signed out. If it never settles this throws, and the
+      // catch below shows the sign-in screen without signing anyone out.
       const authUser = await waitForAuthReady();
       const isAuthenticated = Boolean(authUser);
 
