@@ -3,7 +3,6 @@ import usePressFeedback from '@hooks/usePressFeedback';
 import { IconRemove } from '@icons/index';
 import { MinusButtonProps } from './index.types';
 
-// shared by :active and the held pressed state
 const activeSx = {
   backgroundColor: 'var(--accent-150)',
   border: '1px solid var(--accent-dark)',
@@ -46,7 +45,6 @@ const MinusButton = ({ onClick, sx }: MinusButtonProps) => {
         '& svg, & svg g, & svg g path': {
           fill: 'var(--accent-350)',
         },
-        // a quick tap is held pressed a little longer than :active lasts
         ...(pressed && activeSx),
         ...pressSx,
         ...sx,

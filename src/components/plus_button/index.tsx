@@ -3,7 +3,6 @@ import usePressFeedback from '@hooks/usePressFeedback';
 import { IconAdd } from '@icons/index';
 import { PlusButtonProps } from './index.types';
 
-// shared by :active and the held pressed state
 const activeSx = {
   backgroundColor: 'var(--accent-150)',
   border: '1px solid var(--accent-dark)',
@@ -45,7 +44,6 @@ const PlusButton = ({ onClick, sx }: PlusButtonProps) => {
         '& svg, & svg g, & svg g path': {
           fill: 'var(--accent-350)',
         },
-        // a quick tap is held pressed a little longer than :active lasts
         ...(pressed && activeSx),
         ...pressSx,
         ...sx,
