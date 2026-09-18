@@ -27,7 +27,7 @@ const Duration = (props: DurationProps) => {
   const { first, isHour, second, defaultColor, hoverColor, activeColor } =
     useDuration(props);
 
-  const animate = Boolean(props.started);
+  const animate = Boolean(props.animate);
 
   return (
     <Box
