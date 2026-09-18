@@ -291,6 +291,9 @@ export const settingSchema: SettingsType = {
     attendance_online_record: [
       { type: 'main', value: false, updatedAt: '', _deleted: false },
     ],
+    attendance_deaf_record: [
+      { type: 'main', value: false, updatedAt: '', _deleted: false },
+    ],
     special_months: [],
     source_material: {
       auto_import: {
@@ -370,7 +373,7 @@ export const settingSchema: SettingsType = {
     lastname: { value: '', updatedAt: '' },
     theme_follow_os_enabled: { value: false, updatedAt: '' },
     haptics_enabled: { value: true, updatedAt: '' },
-    user_avatar: undefined,
+    user_avatar_type: { value: 'google', updatedAt: '' },
     user_local_uid: '',
     user_members_delegate: [],
     data_view: { value: 'main', updatedAt: '' },

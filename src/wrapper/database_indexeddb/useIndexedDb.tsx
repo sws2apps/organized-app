@@ -23,6 +23,7 @@ import { delegatedFieldServiceReportsDbState } from '@states/delegated_field_ser
 import { upcomingEventsDbState } from '@states/upcoming_events';
 import { publicTalksState } from '@states/public_talks';
 import { songsState } from '@states/songs';
+import { appLocalsState } from '@states/app_locals';
 
 const useIndexedDb = () => {
   const dbSettings = useLiveQuery(() => appDb.app_settings.toArray());
@@ -65,6 +66,7 @@ const useIndexedDb = () => {
   const dbUpcomingEvents = useLiveQuery(() => appDb.upcoming_events.toArray());
   const dbPublicTalks = useLiveQuery(() => appDb.public_talks.toArray());
   const dbSongs = useLiveQuery(() => appDb.songs.toArray());
+  const dbAppLocals = useLiveQuery(() => appDb.app_locals.toArray());
 
   const setSettings = useSetAtom(settingsState);
   const setPersons = useSetAtom(personsState);
@@ -88,6 +90,7 @@ const useIndexedDb = () => {
   const setUpcomingEvents = useSetAtom(upcomingEventsDbState);
   const setPublicTalks = useSetAtom(publicTalksState);
   const setSongs = useSetAtom(songsState);
+  const setAppLocals = useSetAtom(appLocalsState);
 
   const loadSettings = useCallback(() => {
     if (dbSettings && dbSettings[0]) {
@@ -209,6 +212,12 @@ const useIndexedDb = () => {
     }
   }, [dbSongs, setSongs]);
 
+  const loadAppLocals = useCallback(() => {
+    if (dbAppLocals) {
+      setAppLocals(dbAppLocals);
+    }
+  }, [dbAppLocals, setAppLocals]);
+
   return {
     loadSettings,
     loadPersons,
@@ -230,6 +239,7 @@ const useIndexedDb = () => {
     loadUpcomingEvents,
     loadPublicTalks,
     loadSongs,
+    loadAppLocals,
   };
 };
 

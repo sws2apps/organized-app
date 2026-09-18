@@ -1,11 +1,11 @@
-import { store } from '@states/index';
+import { FullnameOption } from '@definition/settings';
 import { VisitingSpeakerType } from '@definition/visiting_speakers';
 import { buildPersonFullname } from '@utils/common';
-import { fullnameOptionState } from '@states/settings';
 
-export const speakersSortByName = (speakers: VisitingSpeakerType[]) => {
-  const fullnameOption = store.get(fullnameOptionState);
-
+export const speakersSortByName = (
+  speakers: VisitingSpeakerType[],
+  fullnameOption: FullnameOption
+) => {
   return speakers.toSorted((a, b) => {
     const fullnameA = buildPersonFullname(
       a.speaker_data.person_lastname.value,

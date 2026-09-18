@@ -1,4 +1,4 @@
-import { Stack } from '@mui/material';
+import { Box, Stack } from '@mui/material';
 import { IconLivingPart } from '@components/icons';
 import { Week } from '@definition/week_type';
 import {
@@ -18,6 +18,7 @@ import PartRow from './part_row';
 import PartTiming from '../../part_timing';
 import PersonComponent from '../../person_component';
 import SongSource from '@features/meetings/song_source';
+import Typography from '@components/typography';
 
 const LivingPart = (props: LivingPartProps) => {
   const { t } = useAppTranslation();
@@ -96,6 +97,36 @@ const LivingPart = (props: LivingPartProps) => {
                   dataView={props.dataView}
                 />
               </Stack>
+            </SecondaryFieldContainer>
+          </DoubleFieldContainer>
+        )}
+
+        {MIDWEEK_FULL.includes(weekType) && (
+          <DoubleFieldContainer
+            sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
+          >
+            <PrimaryFieldContainer>
+              {props.timings?.concluding_comments && (
+                <PartTiming time={props.timings.concluding_comments} />
+              )}
+
+              <Box
+                sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}
+              >
+                <Typography className="h4" color="var(--living-as-christians)">
+                  {`${t('tr_concludingComments')} ${t('tr_partDuration', { time: 3 })}`}
+                </Typography>
+              </Box>
+            </PrimaryFieldContainer>
+            <SecondaryFieldContainer
+              sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
+            >
+              <PersonComponent
+                label={`${t('tr_chairman')}:`}
+                week={props.week}
+                assignment="MM_Chairman_A"
+                dataView={props.dataView}
+              />
             </SecondaryFieldContainer>
           </DoubleFieldContainer>
         )}

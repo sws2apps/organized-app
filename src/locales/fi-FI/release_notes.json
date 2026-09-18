@@ -15,5 +15,23 @@
     "improvements": {
       "tr_note_01": "Lisätty valmis tuntimäärä seurakunnan vanhinten koulua varten"
     }
+  },
+  "2026-09-01T00:00": {
+    "images": {
+      "img_01": {
+        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-click-counter.svg",
+        "tr_title": "Napauta laskeaksesi mobiililaitteilla",
+        "tr_desc": "Napauta osallistujamääräkenttää ja valitse sitten Laskuri, niin laskuri avautuu koko näytön tilassa. Nopea, helppo ja intuitiivinen."
+      }
+    },
+    "improvements": {
+      "tr_note_01": "Asenna sovellus tietokoneellesi tai puhelimeesi profiilivalikosta",
+      "tr_note_02": "Määritä oppilaiden kelpoisuusvaatimukset joustavasti pääsaliin tai lisäluokkaan",
+      "tr_note_03": "Viittomakieliset seurakunnat voivat kirjata kuurojen kokousläsnäolon erikseen",
+      "tr_note_04": "Täytä automaattisesti yksi viikko kerrallaan tietokoneen viikkokokouksen kuukausinäkymässä",
+      "tr_note_05": "Määritä kuka tahansa perheenjäsen avustajaksi",
+      "tr_note_06": "Merkitse kunnia tienraivaajat vapautetuiksi vuotuisesta tuntitavoitteesta",
+      "tr_note_07": "Valitse suunta ja fonttikoko kenttäpalveluryhmän PDF-vientiä varten"
+    }
   }
 }

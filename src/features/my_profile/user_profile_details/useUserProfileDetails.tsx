@@ -5,11 +5,14 @@ import {
   lastnameState,
   middlenameState,
 } from '@states/settings';
+import useBreakpoints from '@hooks/useBreakpoints';
 import useFirebaseAuth from '@hooks/useFirebaseAuth';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { congAccountConnectedState } from '@states/app';
 
 const useUserProfileDetails = () => {
+  const { tabletDown } = useBreakpoints();
+
   const { user } = useFirebaseAuth();
 
   const userEmail = user?.email || '';
@@ -22,8 +25,12 @@ const useUserProfileDetails = () => {
   const [firstNameTmp, setFirstNameTmp] = useState(firstName);
   const [middleNameTmp, setMiddleNameTmp] = useState(middleName);
   const [lastNameTmp, setLastNameTmp] = useState(lastName);
+  const [isOpenSelector, setIsOpenSelector] = useState(false);
 
-  const handleChangeFirstName = async (value) => {
+  const handleOpenSelector = () => setIsOpenSelector(true);
+  const handleCloseSelector = () => setIsOpenSelector(false);
+
+  const handleChangeFirstName = async (value: string) => {
     setFirstNameTmp(value);
 
     await dbAppSettingsUpdate({
@@ -42,7 +49,7 @@ const useUserProfileDetails = () => {
     });
   };
 
-  const handleChangeLastName = async (value) => {
+  const handleChangeLastName = async (value: string) => {
     setLastNameTmp(value);
 
     await dbAppSettingsUpdate({
@@ -51,6 +58,7 @@ const useUserProfileDetails = () => {
   };
 
   return {
+    tabletDown,
     firstNameTmp,
     middleNameTmp,
     lastNameTmp,
@@ -59,6 +67,9 @@ const useUserProfileDetails = () => {
     handleChangeLastName,
     userEmail,
     isConnected,
+    isOpenSelector,
+    handleOpenSelector,
+    handleCloseSelector,
   };
 };
 

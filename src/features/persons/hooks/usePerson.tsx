@@ -219,7 +219,7 @@ const usePerson = () => {
 
     if (!isDisqualified && !isInactivePublisher) {
       if (isElder) {
-        badges.push({ name: t('tr_elder'), color: 'green' });
+        badges.push({ name: t('tr_elder'), color: 'accent' });
       }
 
       if (isMS) {

@@ -5,6 +5,8 @@ import useCurrentUser from '@hooks/useCurrentUser';
 import useUserProfileDetails from './useUserProfileDetails';
 import TextField from '@components/textfield';
 import Typography from '@components/typography';
+import ProfilePictureEntry from './profile_picture_entry';
+import ProfilePictureSelector from './profile_picture_selector';
 
 const UserProfileDetails = () => {
   const { t } = useAppTranslation();
@@ -12,6 +14,7 @@ const UserProfileDetails = () => {
   const { accountType } = useCurrentUser();
 
   const {
+    tabletDown,
     firstNameTmp,
     handleChangeFirstName,
     middleNameTmp,
@@ -20,6 +23,9 @@ const UserProfileDetails = () => {
     lastNameTmp,
     userEmail,
     isConnected,
+    isOpenSelector,
+    handleOpenSelector,
+    handleCloseSelector,
   } = useUserProfileDetails();
 
   return (
@@ -36,30 +42,42 @@ const UserProfileDetails = () => {
           sx={{
             display: 'flex',
             gap: '16px',
-            flexWrap: 'wrap',
+            justifyContent: 'flex-start',
+            alignItems: tabletDown ? 'flex-start' : 'center',
+            flexDirection: 'row',
           }}
         >
-          <TextField
-            label={t('tr_firstname')}
-            height={48}
-            value={firstNameTmp}
-            onChange={(e) => handleChangeFirstName(e.target.value)}
-            sx={{ flex: '1 0 200px' }}
+          <ProfilePictureEntry
+            size={tabletDown ? 44 : 48}
+            onOpen={handleOpenSelector}
           />
-          <TextField
-            label={t('tr_middlename')}
-            height={48}
-            value={middleNameTmp}
-            onChange={(e) => handleChangeMiddleName(e.target.value)}
-            sx={{ flex: '1 0 200px' }}
-          />
-          <TextField
-            label={t('tr_lastname')}
-            height={48}
-            value={lastNameTmp}
-            onChange={(e) => handleChangeLastName(e.target.value)}
-            sx={{ flex: '1 0 200px' }}
-          />
+          <Box
+            sx={{
+              display: 'flex',
+              gap: '16px',
+              flex: 1,
+              flexDirection: tabletDown ? 'column' : 'row',
+            }}
+          >
+            <TextField
+              label={t('tr_firstname')}
+              height={48}
+              value={firstNameTmp}
+              onChange={(e) => handleChangeFirstName(e.target.value)}
+            />
+            <TextField
+              label={t('tr_middlename')}
+              height={48}
+              value={middleNameTmp}
+              onChange={(e) => handleChangeMiddleName(e.target.value)}
+            />
+            <TextField
+              label={t('tr_lastname')}
+              height={48}
+              value={lastNameTmp}
+              onChange={(e) => handleChangeLastName(e.target.value)}
+            />
+          </Box>
         </Box>
         {isConnected && accountType === 'vip' && (
           <TextField
@@ -77,6 +95,13 @@ const UserProfileDetails = () => {
           />
         )}
       </Box>
+
+      {isOpenSelector && (
+        <ProfilePictureSelector
+          open={isOpenSelector}
+          onClose={handleCloseSelector}
+        />
+      )}
     </ProfileItemContainer>
   );
 };

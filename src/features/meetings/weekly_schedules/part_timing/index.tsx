@@ -12,7 +12,7 @@ const PartTiming = ({ time }: PartTimingProps) => {
       sx={{
         width: '45px',
         borderRadius: 'var(--radius-max)',
-        padding: '12px 6px',
+        padding: '6px 6px',
       }}
     />
   );

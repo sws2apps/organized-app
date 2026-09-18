@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'react-router';
-import { useAtomValue } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
 import { useResetAtom } from 'jotai/utils';
 import { MeetingType } from '@definition/app';
 import { SourcesFormattedType } from '@definition/sources';
@@ -10,7 +10,11 @@ import { selectedWeekState } from '@states/schedules';
 import { convertStringToBoolean } from '@utils/common';
 import { JWLangState, meetingExactDateState } from '@states/settings';
 import MonthsContainer from './months_container';
-import { schedulesGetMeetingDate } from '@services/app/schedules';
+import {
+  schedulesGetMeetingDate,
+  schedulesWeekAssignmentsInfo,
+} from '@services/app/schedules';
+import { formatDate, getWeekDate } from '@utils/date';
 
 const useWeekSelector = () => {
   const location = useLocation();
@@ -21,7 +25,7 @@ const useWeekSelector = () => {
 
   const sourcesValid = useAtomValue(sourcesValidState);
   const sourcesFormattedByWeek = useAtomValue(sourcesFormattedState);
-  const selectedWeek = useAtomValue(selectedWeekState);
+  const [selectedWeek, setSelectedWeek] = useAtom(selectedWeekState);
   const meetingExactDate = useAtomValue(meetingExactDateState);
   const lang = useAtomValue(JWLangState);
 
@@ -31,6 +35,7 @@ const useWeekSelector = () => {
     convertStringToBoolean(localStorage.getItem('meeting_sort_down'))
   );
   const [activeTab, setActiveTab] = useState(0);
+  const [initialSelectDone, setInitialSelectDone] = useState(false);
 
   const meeting: MeetingType = useMemo(() => {
     return location.pathname === '/midweek-meeting' ? 'midweek' : 'weekend';
@@ -208,6 +213,47 @@ const useWeekSelector = () => {
       resetSelectedWeek();
     };
   }, [resetSelectedWeek]);
+
+  const findNextIncompleteWeek = useCallback(() => {
+    const sortedWeeks = [...weeksWithoutMemorial.weeks]
+      .map((w) => w.weekOf)
+      .sort((a, b) => a.localeCompare(b));
+
+    if (sortedWeeks.length === 0) return '';
+
+    const now = getWeekDate();
+    const currentWeekOf = formatDate(now, 'yyyy/MM/dd');
+
+    const foundWeek = sortedWeeks.find((week) => {
+      if (week < currentWeekOf) return false;
+      const data = schedulesWeekAssignmentsInfo(week, meeting);
+      return data.total === 0 || data.assigned < data.total;
+    });
+
+    return foundWeek ?? sortedWeeks.at(-1) ?? '';
+  }, [weeksWithoutMemorial.weeks, meeting]);
+
+  useEffect(() => {
+    if (initialSelectDone) return;
+    if (selectedWeek.length > 0) {
+      setInitialSelectDone(true);
+      return;
+    }
+    if (weeksWithoutMemorial.weeks.length === 0) return;
+
+    const foundWeek = findNextIncompleteWeek();
+
+    if (foundWeek) {
+      setSelectedWeek(foundWeek);
+      setInitialSelectDone(true);
+    }
+  }, [
+    initialSelectDone,
+    selectedWeek.length,
+    weeksWithoutMemorial.weeks.length,
+    findNextIncompleteWeek,
+    setSelectedWeek,
+  ]);
 
   return {
     tabs,

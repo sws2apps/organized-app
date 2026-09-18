@@ -24,6 +24,9 @@ export type CustomClassName =
   | 'big-numbers'
   | 'label-small-medium'
   | 'label-small-regular'
+  | 'label-xsmall-semibold'
+  | 'label-small-semibold'
+  | 'label-large-medium'
   | 'h1'
   | 'h2'
   | 'h2-caps'
@@ -89,6 +92,11 @@ export type UpdateStatusType = {
 };
 
 export type BackupFileType = 'Organized' | 'Hourglass' | '';
+
+export type BeforeInstallPromptEvent = Event & {
+  prompt: () => Promise<void>;
+  userChoice: Promise<{ outcome: 'accepted' | 'dismissed'; platform: string }>;
+};
 
 export type NavBarOptionsType = {
   title?: string;
