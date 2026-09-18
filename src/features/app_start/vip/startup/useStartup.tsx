@@ -72,7 +72,9 @@ const useStartup = () => {
   // finally completes (see the catch in runStartupCheck)
   const [checkRetry, setCheckRetry] = useState(0);
 
-  // read from the recovery callback, which outlives the render it came from
+  // read from the recovery callback, which outlives the render it came from.
+  // It is also written directly wherever this hook changes the sign-in state,
+  // so it is current even before React re-renders.
   const isUserSignInRef = useRef(isUserSignIn);
 
   useEffect(() => {
@@ -82,6 +84,7 @@ const useStartup = () => {
   const isEmailLink = searchParams.get('code') !== null;
 
   const showSignin = useCallback(() => {
+    isUserSignInRef.current = !isEmailLink;
     setIsUserSignIn(!isEmailLink);
     setUserMfaVerify(false);
   }, [setIsUserSignIn, isEmailLink]);
@@ -220,6 +223,7 @@ const useStartup = () => {
             if (user && isUserSignInRef.current) {
               // the sign-in screen outranks every other startup screen; the
               // check shows it again itself if it is still needed
+              isUserSignInRef.current = false;
               setIsUserSignIn(false);
               checkStarted.current = false;
               setCheckRetry((prev) => prev + 1);
