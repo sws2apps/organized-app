@@ -5,9 +5,11 @@ import pluginReact from 'eslint-plugin-react';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
 import importPlugin from 'eslint-plugin-import';
+import storybook from 'eslint-plugin-storybook';
 
 export default [
   { files: ['**/*.{js,mjs,cjs,ts,jsx,tsx}'] },
+  { ignores: ['.storybook/public'] },
   { languageOptions: { globals: globals.browser } },
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
@@ -64,4 +66,5 @@ export default [
       'import/no-cycle': ['error', { maxDepth: 9999 }],
     },
   },
+  ...storybook.configs['flat/recommended'],
 ];
