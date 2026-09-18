@@ -5,8 +5,13 @@ import {
   appSnackOpenState,
   congAccountConnectedState,
   isDarkThemeState,
+  workOfflineState,
 } from '@states/app';
-import { disconnectCongAccount, setIsOnline } from '@services/states/app';
+import {
+  disconnectCongAccount,
+  setIsOnline,
+  setWorkOffline,
+} from '@services/states/app';
 import {
   adminRoleState,
   coordinatorRoleState,
@@ -34,13 +39,33 @@ const useGlobal = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isSupported, setIsSupported] = useState(true);
 
-  useEffect(() => {
-    setIsOnline(isNavigatorOnline);
+  const workOffline = useAtomValue(workOfflineState);
 
-    if (!isNavigatorOnline) {
+  // The rest of the app only ever asks "can I use the server?". Working
+  // offline by choice answers no, exactly like having no network, so every
+  // server feature, sync and account check pauses without a sign-out.
+  useEffect(() => {
+    const canUseServer = isNavigatorOnline && !workOffline;
+
+    setIsOnline(canUseServer);
+
+    if (!canUseServer) {
       disconnectCongAccount();
     }
-  }, [isNavigatorOnline]);
+  }, [isNavigatorOnline, workOffline]);
+
+  // an automatic resume time, if one was chosen
+  useEffect(() => {
+    if (!workOffline?.until) return;
+
+    const wait = new Date(workOffline.until).getTime() - Date.now();
+    const timer = setTimeout(
+      () => setWorkOffline(undefined),
+      Math.max(wait, 0)
+    );
+
+    return () => clearTimeout(timer);
+  }, [workOffline]);
 
   useEffect(() => {
     if (isLight) {

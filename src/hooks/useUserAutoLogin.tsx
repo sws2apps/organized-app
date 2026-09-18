@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
+import { store } from '@states/index';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   apiHostState,
@@ -11,6 +12,7 @@ import {
   isOnlineState,
   isSetupState,
   offlineOverrideState,
+  offlineConfirmedState,
   userIDState,
 } from '@states/app';
 import { apiSendAuthorization, apiValidateMe } from '@services/api/user';
@@ -22,7 +24,11 @@ import useFirebaseAuth from '@hooks/useFirebaseAuth';
 import logger from '@services/logger/index';
 import worker from '@services/worker/backupWorker';
 import { apiPocketValidateMe } from '@services/api/pocket';
-import { displaySnackNotification } from '@services/states/app';
+import {
+  displaySnackNotification,
+  retryConnectionNow,
+  setAccountAttention,
+} from '@services/states/app';
 import { IconInfo, IconNoConnection } from '@components/icons';
 import { useAppTranslation } from '.';
 import {
@@ -30,6 +36,11 @@ import {
   dbAppSettingsUpdate,
   dbAppSettingsUpdateWithoutNotice,
 } from '@services/dexie/settings';
+
+// retry schedule while disconnected (then every 30 s, so a server that is
+// back is noticed within half a minute); a random +-20 % spreads the load
+// when many phones retry against a server that is coming back
+const RECHECK_STEPS = [5000, 10000, 15000, 30000];
 
 const useUserAutoLogin = () => {
   const { isAuthenticated } = useFirebaseAuth();
@@ -110,9 +121,38 @@ const useUserAutoLogin = () => {
   // The server could not be reached although the device reports a network
   // (captive portal, server outage): show the account as offline instead of
   // pretending it is connected.
+  // A failed check first shows a quiet "Connecting". Only when the server
+  // stays unreachable for at least 3 checks over 30 s is it announced.
+  const failedChecks = useRef(0);
+  const firstFailureAt = useRef(0);
+
   useEffect(() => {
-    if (errorVip || errorPocket) setCongConnected(false);
+    if (!errorVip && !errorPocket) return;
+
+    setCongConnected(false);
+
+    if (failedChecks.current === 0) firstFailureAt.current = Date.now();
+    failedChecks.current += 1;
+
+    // the retry near the 30 s mark is jittered, so allow it from 25 s on
+    const lasting = Date.now() - firstFailureAt.current >= 25000;
+
+    if (
+      failedChecks.current >= 3 &&
+      lasting &&
+      store.get(offlineConfirmedState) === ''
+    ) {
+      store.set(offlineConfirmedState, 'server');
+
+      displaySnackNotification({
+        header: t('tr_cantReachServer'),
+        message: t('tr_cantReachServerDesc'),
+        icon: <IconNoConnection color="var(--always-white)" />,
+        action: { text: t('tr_tryAgain'), onClick: retryConnectionNow },
+      });
+    }
   }, [
+    t,
     errorVip,
     errorPocket,
     errorVipUpdatedAt,
@@ -120,16 +160,51 @@ const useUserAutoLogin = () => {
     setCongConnected,
   ]);
 
+  // any answer from the server, even a refusal, means it is reachable again
+  useEffect(() => {
+    if (!dataVipUpdatedAt && !dataPocketUpdatedAt) return;
+
+    failedChecks.current = 0;
+
+    if (store.get(offlineConfirmedState) === 'server') {
+      store.set(offlineConfirmedState, '');
+
+      displaySnackNotification({
+        header: t('tr_backOnline'),
+        message: t('tr_backOnlineDesc'),
+        severity: 'success',
+      });
+    }
+  }, [t, dataVipUpdatedAt, dataPocketUpdatedAt]);
+
   // A decision from the server that retrying cannot change (signed out,
   // device needs a new sign-in) stops the automatic re-checks below.
   const recheckBlocked = useRef(false);
-  const recheckDelay = useRef(2000);
+  const recheckStep = useRef(0);
+
+  // "Try again": check at once, and start the retry schedule from the top
+  useEffect(() => {
+    const retryNow = () => {
+      recheckStep.current = 0;
+      recheckBlocked.current = false;
+
+      const queryKey =
+        accountType === 'pocket' ? ['whoami-pocket'] : ['whoami-vip'];
+
+      queryClient.invalidateQueries({ queryKey });
+    };
+
+    window.addEventListener('organized:retry-connection', retryNow);
+
+    return () =>
+      window.removeEventListener('organized:retry-connection', retryNow);
+  }, [accountType, queryClient]);
 
   // While the account is not connected, keep checking again with a growing
   // delay (2 s up to 1 min) instead of waiting for a restart.
   useEffect(() => {
     if (isConnected) {
-      recheckDelay.current = 2000;
+      recheckStep.current = 0;
       recheckBlocked.current = false;
       return;
     }
@@ -140,10 +215,14 @@ const useUserAutoLogin = () => {
 
     const queryKey = accountType === 'vip' ? ['whoami-vip'] : ['whoami-pocket'];
 
+    const base =
+      RECHECK_STEPS[Math.min(recheckStep.current, RECHECK_STEPS.length - 1)];
+    const delay = base * (0.8 + Math.random() * 0.4);
+
     const timer = setTimeout(() => {
       queryClient.invalidateQueries({ queryKey });
-      recheckDelay.current = Math.min(recheckDelay.current * 2, 60000);
-    }, recheckDelay.current);
+      recheckStep.current += 1;
+    }, delay);
 
     return () => clearTimeout(timer);
   }, [
@@ -210,6 +289,7 @@ const useUserAutoLogin = () => {
           // and say so instead of leaving the app looking merely offline
           recheckBlocked.current = true;
           setCongConnected(false);
+          setAccountAttention('signin');
 
           displaySnackNotification({
             header: t('tr_deviceSignedOut'),
@@ -233,6 +313,7 @@ const useUserAutoLogin = () => {
         if (dataVip.status === 401) {
           recheckBlocked.current = true;
           setCongConnected(false);
+          setAccountAttention('two-step');
 
           displaySnackNotification({
             header: t('tr_confirmTwoStep'),
@@ -252,6 +333,7 @@ const useUserAutoLogin = () => {
 
         if (dataVip.status === 200) {
           deviceRestoreTried.current = false;
+          setAccountAttention('');
 
           if (congID.length > 0 && dataVip.result.cong_id !== congID) {
             await handleDeleteDatabase();
@@ -391,6 +473,7 @@ const useUserAutoLogin = () => {
           // days). The data on the device is still the user's: keep it.
           recheckBlocked.current = true;
           setCongConnected(false);
+          setAccountAttention('pocket-reconnect');
 
           displaySnackNotification({
             header: t('tr_deviceNeedsReconnect'),
@@ -410,6 +493,7 @@ const useUserAutoLogin = () => {
         }
 
         if (dataPocket.status === 200) {
+          setAccountAttention('');
           if (
             congID.length > 0 &&
             dataPocket.result.app_settings.cong_settings.id !== congID

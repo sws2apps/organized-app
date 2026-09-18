@@ -1,8 +1,15 @@
 import { Box, SxProps, Theme } from '@mui/material';
-import { IconExpand, IconNoConnection } from '@icons/index';
+import {
+  IconCloudOff,
+  IconCloudSync,
+  IconExpand,
+  IconInfo,
+  IconPause,
+} from '@icons/index';
 import { useAccountHeaderIcon } from './useAccountHeaderIcon';
 import { isTest } from '@constants/index';
 import ProfilePicture from '@components/profile_picture';
+import { useAppTranslation } from '@hooks/index';
 
 /**
  * Functional component for rendering the user's avatar or a default icon
@@ -23,20 +30,63 @@ const AccountHeaderIcon = ({
   isMoreOpen?: boolean;
   sx?: SxProps<Theme>;
 }) => {
-  const { isOffline } = useAccountHeaderIcon();
+  const { status } = useAccountHeaderIcon();
+  const { t } = useAppTranslation();
 
-  const isRed = !isTest && isOffline;
+  // never colour alone: the state is also spoken
+  const statusLabel: Record<string, string> = {
+    connected: t('tr_statusConnected'),
+    connecting: t('tr_statusConnecting'),
+    paused: t('tr_workingOffline'),
+    'no-network': t('tr_statusNoNetwork'),
+    'server-unreachable': t('tr_cantReachServer'),
+    attention: t('tr_statusAttention'),
+  };
+
+  // only a state the user has to act on is red
+  const badge = isTest || status === 'connected' ? null : status;
+  const isRed = badge === 'attention';
+
+  const badgeBackground: Record<string, string> = {
+    attention: 'linear-gradient(180deg, rgba(202, 38, 38, 0) 0%, #CA2626 100%)',
+    paused:
+      'linear-gradient(180deg, rgba(90, 96, 120, 0) 0%, var(--grey-400) 100%)',
+    'no-network':
+      'linear-gradient(180deg, rgba(90, 96, 120, 0) 0%, var(--grey-400) 100%)',
+    'server-unreachable':
+      'linear-gradient(180deg, rgba(90, 96, 120, 0) 0%, var(--grey-400) 100%)',
+    connecting:
+      'linear-gradient(180deg, rgba(90, 96, 120, 0) 0%, var(--accent-main) 100%)',
+  };
+
+  const BadgeIcon =
+    badge === 'paused'
+      ? IconPause
+      : badge === 'no-network' || badge === 'server-unreachable'
+        ? IconCloudOff
+        : badge === 'connecting'
+          ? IconCloudSync
+          : IconInfo;
 
   return (
     <Box
       role="button"
       tabIndex={0}
+      aria-label={statusLabel[status]}
       sx={{
         display: 'flex',
         flexDirection: 'row',
         gap: '4px',
         borderRadius: 'var(--radius-max)',
-        border: `1px solid ${isRed ? 'var(--red-main)' : 'var(--accent-200)'}`,
+        border: `1px ${badge === 'paused' ? 'dashed' : 'solid'} ${
+          isRed
+            ? 'var(--red-main)'
+            : badge === 'paused' ||
+                badge === 'no-network' ||
+                badge === 'server-unreachable'
+              ? 'var(--grey-400)'
+              : 'var(--accent-200)'
+        }`,
         backgroundColor: 'var(--accent-150)',
         padding: '6px 6px 6px 6px',
         alignItems: 'center',
@@ -49,7 +99,13 @@ const AccountHeaderIcon = ({
 
         '&:hover': {
           backgroundColor: 'var(--accent-200)',
-          borderColor: isRed ? 'var(--red-main)' : 'var(--accent-300)',
+          borderColor: isRed
+            ? 'var(--red-main)'
+            : badge === 'paused' ||
+                badge === 'no-network' ||
+                badge === 'server-unreachable'
+              ? 'var(--grey-400)'
+              : 'var(--accent-300)',
         },
         ...sx,
       }}
@@ -68,7 +124,7 @@ const AccountHeaderIcon = ({
         }}
       >
         <ProfilePicture size={28} />
-        {isRed && (
+        {badge && (
           <Box
             sx={{
               width: '32px',
@@ -80,15 +136,10 @@ const AccountHeaderIcon = ({
               flexDirection: 'row',
               justifyContent: 'center',
               alignItems: 'center',
-              background:
-                'linear-gradient(180deg, rgba(202, 38, 38, 0) 0%, #CA2626 100%)',
+              background: badgeBackground[badge],
             }}
           >
-            <IconNoConnection
-              color="var(--always-white)"
-              width={12}
-              height={12}
-            />
+            <BadgeIcon color="var(--always-white)" width={12} height={12} />
           </Box>
         )}
       </Box>

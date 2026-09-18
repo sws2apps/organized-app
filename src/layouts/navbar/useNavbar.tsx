@@ -12,7 +12,11 @@ import { useNavigate } from 'react-router';
 import { useAtom, useAtomValue } from 'jotai';
 import { useQueryClient } from '@tanstack/react-query';
 import { store } from '@states/index';
-import { congAccountConnectedState as connectedState } from '@states/app';
+import {
+  accountAttentionState,
+  connectionStatusState,
+  congAccountConnectedState as connectedState,
+} from '@states/app';
 import { currentAuthUser } from '@services/firebase/auth';
 import usePwaInstall from '@hooks/usePwaInstall';
 import {
@@ -125,13 +129,26 @@ const useNavbar = () => {
 
   const queryClient = useQueryClient();
 
+  const connectionStatus = useAtomValue(connectionStatusState);
+  const accountAttention = useAtomValue(accountAttentionState);
+
+  const reconnectLabel =
+    connectionStatus === 'attention' && accountAttention === 'two-step'
+      ? 'tr_confirmTwoStep'
+      : connectionStatus === 'attention'
+        ? 'tr_loginAgain'
+        : 'tr_reconnectNow';
+
   const handleReconnectAccount = async () => {
     handleCloseMore();
 
-    // Usually nothing is wrong with the sign-in: the account only lost its
+    // Usually nothing is wrong with the login: the account only lost its
     // connection (network drop, expired device cookie). Check again quietly
-    // and only send the user to the sign-in screen if that does not help.
-    if (accountType === 'vip' && currentAuthUser()) {
+    // and only send the user to the log-in screen if that does not help.
+    // When the server has already asked for a new login, go there directly.
+    const needsLogin = store.get(accountAttentionState) !== '';
+
+    if (!needsLogin && accountType === 'vip' && currentAuthUser()) {
       await queryClient.refetchQueries({ queryKey: ['whoami-vip'] });
 
       for (let i = 0; i < 20; i++) {
@@ -272,6 +289,7 @@ const useNavbar = () => {
     handleGoDashboard,
     isAppLoad,
     handleReconnectAccount,
+    reconnectLabel,
     handleOpenRealApp,
     accountType,
     handleDisconnectAccount,

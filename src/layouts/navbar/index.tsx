@@ -27,6 +27,9 @@ import { APP_ENVIRONMENT, isTest } from '@constants/index';
 import { NavBarType } from './index.types';
 import useNavbar from './useNavbar';
 import AccountHeaderIcon from '@components/account_header_icon';
+import { WorkOfflineChip, WorkOfflineMenuItem } from '@features/work_offline';
+import { accountAttentionState, workOfflineState } from '@states/app';
+import { useAtomValue } from 'jotai';
 import AppNotification from '@features/app_notification';
 import InstallDialog from '@features/app_install/install_dialog';
 import Button from '@components/button';
@@ -80,6 +83,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
     handleGoDashboard,
     isAppLoad,
     handleReconnectAccount,
+    reconnectLabel,
     handleOpenRealApp,
     handleBack,
     accountType,
@@ -97,6 +101,9 @@ const NavBar = ({ isSupported }: NavBarType) => {
     installGuide,
     markLastNavBarButton,
   } = useNavbar();
+
+  const workOffline = useAtomValue(workOfflineState);
+  const accountAttention = useAtomValue(accountAttentionState);
 
   return (
     <>
@@ -223,6 +230,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
                           marginLeft: !tabletUp ? '4px' : '0px',
                         }}
                       >
+                        {!isTest && <WorkOfflineChip />}
                         <AccountHeaderIcon
                           handleOpenMore={handleOpenMoreMenu}
                           isMoreOpen={openMore}
@@ -451,8 +459,20 @@ const NavBar = ({ isSupported }: NavBarType) => {
                           </MenuItem>
                         )}
 
+                        {/* nothing to pause while logged out: Log in again is the action */}
                         {!isTest &&
                           !isAppLoad &&
+                          accountType !== '' &&
+                          accountAttention !== 'signin' && (
+                            <WorkOfflineMenuItem
+                              sx={menuStyle}
+                              onDone={handleCloseMore}
+                            />
+                          )}
+
+                        {!isTest &&
+                          !isAppLoad &&
+                          !workOffline &&
                           !isCongAccountConnected &&
                           accountType === 'vip' && (
                             <MenuItem
@@ -472,7 +492,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
                               </ListItemIcon>
                               <ListItemText>
                                 <Typography className="body-regular">
-                                  {t('tr_reconnectAccount')}
+                                  {t(reconnectLabel)}
                                 </Typography>
                               </ListItemText>
                             </MenuItem>
@@ -496,7 +516,13 @@ const NavBar = ({ isSupported }: NavBarType) => {
                             </ListItemIcon>
                             <ListItemText>
                               <Typography className="body-regular">
-                                {t('tr_disconnectAccount')}
+                                {t('tr_logoutKeepData')}
+                              </Typography>
+                              <Typography
+                                className="label-small-regular"
+                                color="var(--grey-350)"
+                              >
+                                {t('tr_logoutKeepDataDesc')}
                               </Typography>
                             </ListItemText>
                           </MenuItem>

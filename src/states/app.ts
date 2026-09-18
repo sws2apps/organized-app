@@ -288,7 +288,86 @@ export const appMessageHeaderState = atom('');
 
 export const appMessageIconState = atom<ReactElement>();
 
+export const appMessageActionState = atom<
+  { text: string; onClick: VoidFunction } | undefined
+>(undefined);
+
 export const congAccountConnectedState = atom(false);
+
+export type WorkOfflineType = {
+  /** when the user switched to working offline (ISO) */
+  since: string;
+  /** optional automatic resume time (ISO); absent = until turned off */
+  until?: string;
+};
+
+const WORK_OFFLINE_KEY = 'organized_work_offline';
+
+const readWorkOffline = (): WorkOfflineType | undefined => {
+  try {
+    const raw = localStorage.getItem(WORK_OFFLINE_KEY);
+    if (!raw) return undefined;
+
+    const value = JSON.parse(raw) as WorkOfflineType;
+
+    // an automatic resume time that passed while the app was closed
+    if (value.until && new Date(value.until).getTime() <= Date.now()) {
+      localStorage.removeItem(WORK_OFFLINE_KEY);
+      return undefined;
+    }
+
+    return value;
+  } catch {
+    return undefined;
+  }
+};
+
+/**
+ * Set when the user chose to work offline: nothing is sent to or fetched from
+ * the server, but the sign-in is kept, so turning it off needs no new login.
+ */
+export const workOfflineState = atom<WorkOfflineType | undefined>(
+  readWorkOffline()
+);
+
+export const workOfflineStorageKey = WORK_OFFLINE_KEY;
+
+/**
+ * Something only the user can resolve: sign in again, confirm the two-step
+ * code, or reconnect a pocket device.
+ */
+export const accountAttentionState = atom<
+  '' | 'signin' | 'two-step' | 'pocket-reconnect'
+>('');
+
+export type ConnectionStatusType =
+  | 'connected'
+  | 'connecting'
+  | 'paused'
+  | 'no-network'
+  | 'server-unreachable'
+  | 'attention';
+
+/**
+ * Set only once a connection problem has lasted (about 30 s of failed
+ * retries), and announced then. Short problems stay a quiet "Connecting".
+ */
+export const offlineConfirmedState = atom<'' | 'network' | 'server'>('');
+
+/** set when the user resumes, cleared by the first finished sync */
+export const justResumedState = atom(false);
+
+export const connectionStatusState = atom<ConnectionStatusType>((get) => {
+  if (get(workOfflineState)) return 'paused';
+  if (get(accountAttentionState) !== '') return 'attention';
+
+  const confirmed = get(offlineConfirmedState);
+  if (confirmed === 'network') return 'no-network';
+  if (confirmed === 'server') return 'server-unreachable';
+
+  if (get(congAccountConnectedState)) return 'connected';
+  return 'connecting';
+});
 
 export const themeOptionsState = atom((get) => {
   const isLight = get(isDarkThemeState);
