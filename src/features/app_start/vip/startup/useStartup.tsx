@@ -31,13 +31,12 @@ import { APP_ROLES, VIP_ROLES } from '@constants/index';
 import { handleDeleteDatabase, loadApp, runUpdater } from '@services/app';
 import { apiValidateMe } from '@services/api/user';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
-import { getAuth } from 'firebase/auth';
 import {
   AuthNotReadyError,
   userSignOut,
   waitForAuthReady,
+  whenAuthSettled,
 } from '@services/firebase/auth';
-import { store } from '@states/index';
 
 const useStartup = () => {
   const [searchParams] = useSearchParams();
@@ -72,6 +71,13 @@ const useStartup = () => {
   // bumped only to re-run the check once a slow Firebase session restore
   // finally completes (see the catch in runStartupCheck)
   const [checkRetry, setCheckRetry] = useState(0);
+
+  // read from the recovery callback, which outlives the render it came from
+  const isUserSignInRef = useRef(isUserSignIn);
+
+  useEffect(() => {
+    isUserSignInRef.current = isUserSignIn;
+  }, [isUserSignIn]);
 
   const isEmailLink = searchParams.get('code') !== null;
 
@@ -209,10 +215,9 @@ const useStartup = () => {
       // user later while the sign-in screen is still showing, run the check
       // again instead of leaving a signed-in user there.
       if (error instanceof AuthNotReadyError) {
-        getAuth()
-          .authStateReady()
-          .then(() => {
-            if (getAuth().currentUser && store.get(isUserSignInState)) {
+        whenAuthSettled()
+          .then((user) => {
+            if (user && isUserSignInRef.current) {
               // the sign-in screen outranks every other startup screen; the
               // check shows it again itself if it is still needed
               setIsUserSignIn(false);

@@ -53,6 +53,18 @@ export const waitForAuthReady = async (timeoutMs = 10000) => {
   return auth.currentUser;
 };
 
+/**
+ * Resolves with the signed-in user (or null) once Firebase has settled,
+ * however long that takes. For recovering after waitForAuthReady timed out.
+ */
+export const whenAuthSettled = async () => {
+  const auth = getAuth();
+
+  await auth.authStateReady();
+
+  return auth.currentUser;
+};
+
 export const currentAuthUser = () => {
   const auth = getAuth();
   const user = auth?.currentUser;
