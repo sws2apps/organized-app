@@ -34,7 +34,8 @@ const useCreditField = () => {
     return isCongReportLocked(
       persistedReport,
       branchReport?.report_data.submitted,
-      currentReport.report_data.late
+      currentReport.report_data.late,
+      currentReport.report_data.lock_override
     );
   }, [branchReports, congReports, currentReport]);
 
