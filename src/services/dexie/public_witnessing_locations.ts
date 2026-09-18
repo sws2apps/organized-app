@@ -1,5 +1,6 @@
 import appDb from '@db/appDb';
 import { PublicWitnessingLocationType } from '@definition/public_witnessing';
+import { dbPublicWitnessingArrangementsDeleteByLocation } from './public_witnessing_arrangements';
 
 const dbUpdatePublicWitnessingLocationsMetadata = async () => {
   const metadata = await appDb.metadata.get(1);
@@ -35,6 +36,33 @@ export const dbPublicWitnessingLocationsBulkSave = async (
     async () => {
       await appDb.public_witnessing_locations.bulkPut(locations);
       await dbUpdatePublicWitnessingLocationsMetadata();
+    }
+  );
+};
+
+/**
+ * Deletes a location together with its bookings in one transaction, so a
+ * failed write cannot leave the location active without its arrangements.
+ */
+export const dbPublicWitnessingLocationDelete = async (
+  location: PublicWitnessingLocationType
+) => {
+  const record = structuredClone(location);
+  record.location_data._deleted = true;
+  record.location_data.updatedAt = new Date().toISOString();
+
+  await appDb.transaction(
+    'rw',
+    [
+      appDb.public_witnessing_locations,
+      appDb.public_witnessing_arrangements,
+      appDb.metadata,
+    ],
+    async () => {
+      await dbPublicWitnessingArrangementsDeleteByLocation(
+        location.location_uid
+      );
+      await dbPublicWitnessingLocationsSave(record);
     }
   );
 };
