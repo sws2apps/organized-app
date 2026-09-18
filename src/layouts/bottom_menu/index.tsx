@@ -14,6 +14,7 @@ const BottomMenu = (props: BottomMenuProps) => {
   return (
     <>
       <Box
+        className="mui-fixed"
         sx={{
           position: 'fixed',
           bottom: 0,
@@ -27,31 +28,41 @@ const BottomMenu = (props: BottomMenuProps) => {
         }}
       />
       <Box
-        component={'nav'}
-        ref={menuRef}
-        aria-label={t('tr_bottomActionsMenu')}
+        className="mui-fixed"
         sx={{
           position: 'fixed',
-          backgroundColor: 'var(--accent-150)',
-          border: '1px solid var(--accent-200)',
-          borderRadius: 'var(--radius-xl)',
-          overflow: 'hidden',
           bottom: `calc(${GLOW_BOTTOM_SPACE} + env(safe-area-inset-bottom, 0px))`,
-          width: 'fit-content',
-          maxWidth: 'calc(100% - 32px)',
-          left: '50%',
-          transform: 'translate(-50%)',
-          zIndex: (theme) => theme.zIndex.drawer + 1,
-          boxShadow: 'var(--message-glow-small)',
-          padding: '6px',
+          left: 0,
+          right: 0,
           display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
           justifyContent: 'center',
-          gap: '4px',
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+          pointerEvents: 'none',
         }}
       >
-        {props.buttons}
+        <Box
+          component={'nav'}
+          ref={menuRef}
+          aria-label={t('tr_bottomActionsMenu')}
+          sx={{
+            backgroundColor: 'var(--accent-150)',
+            border: '1px solid var(--accent-200)',
+            borderRadius: 'var(--radius-xl)',
+            overflow: 'hidden',
+            width: 'fit-content',
+            maxWidth: 'calc(100% - 32px)',
+            boxShadow: 'var(--message-glow-small)',
+            padding: '6px',
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '4px',
+            pointerEvents: 'auto',
+          }}
+        >
+          {props.buttons}
+        </Box>
       </Box>
     </>
   );

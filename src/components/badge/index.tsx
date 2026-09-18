@@ -1,6 +1,5 @@
 import { Box } from '@mui/material';
 import Typography from '@components/typography';
-import { CustomClassName } from '@definition/app';
 import {
   BadgeContentPropsType,
   BadgePropsType,
@@ -44,17 +43,19 @@ const BadgeContent = (props: BadgeContentPropsType) => {
 
 const BadgeTypography = ({
   children,
-  className = 'body-small-semibold',
+  className,
   sx,
 }: BadgeTypographyPropsType) => {
+  const styles = { display: 'flex', alignItems: 'center', ...sx };
+
   return (
     <Typography
       className={className}
-      sx={{
-        display: 'flex',
-        alignItems: 'center',
-        ...sx,
-      }}
+      sx={
+        className
+          ? styles
+          : { '&&': { font: 'inherit', letterSpacing: 'inherit', ...styles } }
+      }
     >
       {children}
     </Typography>
@@ -90,7 +91,7 @@ const resolveBackgroundColor = ({
       : `var(--${color}-secondary)`;
   }
   if (color === 'grey') return faded ? 'var(--grey-100)' : 'var(--grey-150)';
-  if (color === 'accent') return 'var(--accent-200)';
+  if (color === 'accent') return 'var(--accent-150)';
 
   return `var(--${color}-secondary)`;
 };
@@ -100,38 +101,27 @@ const bigBadgeHeight = (multiLine?: boolean, filled?: boolean) => {
   return filled ? '24px' : '28px';
 };
 
-const sizeClassName: Record<BadgePropsType['size'], CustomClassName> = {
-  small: 'label-small-regular',
-  medium: 'body-small-semibold',
-  big: 'body-regular',
-};
-
 const Badge = (props: BadgePropsType) => {
   const {
     icon,
     size,
     filled,
-    color,
     text,
     fullWidth,
     centerContent,
     borderStyle,
     className,
-    faded,
-    light,
     sx = {},
   } = props;
 
-  const textClassName = className ?? sizeClassName[size];
-
-  const colorProps = { color, filled, faded, size, light };
-  const textColor = resolveTextColor(colorProps);
-  const backgroundColor = resolveBackgroundColor(colorProps);
+  const textColor = resolveTextColor(props);
+  const backgroundColor = resolveBackgroundColor(props);
 
   return (
     <>
       {size === 'small' && (
         <Box
+          className={className ? undefined : 'label-xsmall-semibold'}
           sx={{
             border: '2px',
             height: props.multiLine ? 'unset' : '20px',
@@ -155,8 +145,10 @@ const Badge = (props: BadgePropsType) => {
             color={textColor}
           >
             <BadgeTypography
-              className={textClassName}
-              sx={{ lineHeight: '16px', color: textColor }}
+              className={className}
+              sx={{
+                color: textColor,
+              }}
             >
               {text}
             </BadgeTypography>
@@ -165,6 +157,7 @@ const Badge = (props: BadgePropsType) => {
       )}
       {size === 'medium' && (
         <Box
+          className={className ? undefined : 'label-small-semibold'}
           sx={{
             border: '1px',
             borderColor: 'var(--accent-350)',
@@ -172,7 +165,7 @@ const Badge = (props: BadgePropsType) => {
             background: backgroundColor,
             display: 'flex',
             flexDirection: 'row',
-            borderRadius: 'var(--radius-s)',
+            borderRadius: 'var(--radius-m)',
             padding: '2px 8px',
             gap: '4px',
             flexShrink: '0',
@@ -189,8 +182,10 @@ const Badge = (props: BadgePropsType) => {
             color={textColor}
           >
             <BadgeTypography
-              className={textClassName}
-              sx={{ lineHeight: '16px', color: textColor }}
+              className={className}
+              sx={{
+                color: textColor,
+              }}
             >
               {text}
             </BadgeTypography>
@@ -199,13 +194,14 @@ const Badge = (props: BadgePropsType) => {
       )}
       {size === 'big' && (
         <Box
+          className={className ? undefined : 'label-large-medium'}
           sx={{
             border: '4px',
             height: bigBadgeHeight(props.multiLine, filled),
             background: backgroundColor,
             display: 'flex',
             flexDirection: 'row',
-            borderRadius: 'var(--radius-s)',
+            borderRadius: 'var(--radius-m)',
             gap: filled ? '10px' : '8px',
             padding: filled ? '2px 6px' : '4px 8px',
             flexShrink: '0',
@@ -223,9 +219,8 @@ const Badge = (props: BadgePropsType) => {
               color={textColor}
             >
               <BadgeTypography
-                className={textClassName}
+                className={className}
                 sx={{
-                  lineHeight: '20px',
                   color: textColor,
                 }}
               >
