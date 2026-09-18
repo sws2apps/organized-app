@@ -1,21 +1,4 @@
 {
-  "2026-07-01T00:00": {
-    "images": {
-      "img_01": {
-        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-color-schemes.svg",
-        "tr_title": "Uudet väriteemat",
-        "tr_desc": "Lisää tapoja tehdä Organizedista omannäköisesi! Tutustu profiiliasetusten uusiin väreihin hillitystä yksivärisestä kirkkaan vaaleanpunaiseen."
-      },
-      "img_02": {
-        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-homescreen-shortcuts.svg",
-        "tr_title": "Aloitusnäytön pikavalinnat",
-        "tr_desc": "Siirry suoraan tärkeimpiin toimintoihin sekä tietokoneella että mobiililaitteilla."
-      }
-    },
-    "improvements": {
-      "tr_note_01": "Lisätty valmis tuntimäärä seurakunnan vanhinten koulua varten"
-    }
-  },
   "2026-09-01T00:00": {
     "images": {
       "img_01": {
