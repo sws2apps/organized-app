@@ -11,10 +11,7 @@ const blink = keyframes`
   100% { opacity: 1; }
 `;
 
-/**
- * Digits keyed by their place from the right, so the ones digit keeps its
- * slot when the group changes length (59 minutes → 1 hour).
- */
+// keyed from the right so the ones digit keeps its slot when 59:59 becomes 1:00
 const renderDigits = (value: string, animate: boolean) =>
   value
     .split('')
@@ -30,8 +27,6 @@ const Duration = (props: DurationProps) => {
   const { first, isHour, second, defaultColor, hoverColor, activeColor } =
     useDuration(props);
 
-  // digits only roll while the clock is running; pausing, stopping and
-  // adding time by hand change them in place
   const animate = Boolean(props.started);
 
   return (
