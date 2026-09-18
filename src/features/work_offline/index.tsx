@@ -1,6 +1,6 @@
 import { Box, ListItemIcon, ListItemText, MenuItem } from '@mui/material';
 import { useAtomValue } from 'jotai';
-import { IconCheck, IconCloudSync, IconPause } from '@icons/index';
+import { IconCloudSync, IconPause } from '@icons/index';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { workOfflineState } from '@states/app';
 import { setWorkOffline } from '@services/states/app';
@@ -9,6 +9,8 @@ import { useEffect, useRef, useState } from 'react';
 import { displaySnackNotification } from '@services/states/app';
 import { getTranslation } from '@services/i18n/translation';
 import Typography from '@components/typography';
+import { hour24FormatState } from '@states/settings';
+import { formatDate } from '@utils/date';
 
 type PauseChoice = 'hour' | 'tomorrow' | 'manual';
 
@@ -61,8 +63,8 @@ export const WorkOfflineMenuItem = ({
 }) => {
   const { t } = useAppTranslation();
   const workOffline = useAtomValue(workOfflineState);
-  const { pendingCount } = usePendingSync();
   const [choosing, setChoosing] = useState(false);
+  const hour24 = useAtomValue(hour24FormatState);
 
   const iconBox = {
     '&.MuiListItemIcon-root': { width: '24px', minWidth: '24px !important' },
@@ -100,34 +102,48 @@ export const WorkOfflineMenuItem = ({
     );
   }
 
-  return (
-    <MenuItem
-      disableRipple
-      sx={sx}
-      role="menuitemcheckbox"
-      aria-checked={!!workOffline}
-      onClick={() => {
-        if (workOffline) {
+  if (workOffline) {
+    const until = workOffline.until
+      ? formatDate(new Date(workOffline.until), hour24 ? 'HH:mm' : 'h:mm a')
+      : undefined;
+
+    return (
+      <MenuItem
+        disableRipple
+        sx={sx}
+        onClick={() => {
           resumeWork();
           onDone?.();
-          return;
-        }
+        }}
+      >
+        <ListItemIcon sx={iconBox}>
+          <IconCloudSync color="var(--black)" />
+        </ListItemIcon>
+        <ListItemText>
+          <Typography className="body-regular">
+            {t('tr_resumeSyncing')}
+          </Typography>
+          <Typography className="label-small-regular" color="var(--grey-350)">
+            {until
+              ? t('tr_workingOfflineUntil', { time: until })
+              : t('tr_workingOffline')}
+          </Typography>
+        </ListItemText>
+      </MenuItem>
+    );
+  }
 
-        setChoosing(true);
-      }}
-    >
+  return (
+    <MenuItem disableRipple sx={sx} onClick={() => setChoosing(true)}>
       <ListItemIcon sx={iconBox}>
         <IconPause color="var(--black)" />
       </ListItemIcon>
       <ListItemText>
         <Typography className="body-regular">{t('tr_workOffline')}</Typography>
         <Typography className="label-small-regular" color="var(--grey-350)">
-          {workOffline && pendingCount > 0
-            ? t('tr_changesWaiting', { count: pendingCount })
-            : t('tr_workOfflineDesc')}
+          {t('tr_workOfflineDesc')}
         </Typography>
       </ListItemText>
-      {workOffline && <IconCheck color="var(--accent-main)" />}
     </MenuItem>
   );
 };

@@ -197,8 +197,17 @@ const useNavbar = () => {
     if (!prompted) setInstallDialogOpen(true);
   };
 
-  const handleDisconnectAccount = async () => {
+  const [logoutConfirmOpen, setLogoutConfirmOpen] = useState(false);
+
+  const handleDisconnectAccount = () => {
     handleCloseMore();
+    setLogoutConfirmOpen(true);
+  };
+
+  const handleCloseLogoutConfirm = () => setLogoutConfirmOpen(false);
+
+  const handleConfirmLogout = async () => {
+    setLogoutConfirmOpen(false);
 
     await userSignOut();
     disconnectCongAccount();
@@ -293,6 +302,9 @@ const useNavbar = () => {
     handleOpenRealApp,
     accountType,
     handleDisconnectAccount,
+    logoutConfirmOpen,
+    handleCloseLogoutConfirm,
+    handleConfirmLogout,
     navBarOptions,
     handleBack,
     desktopUp,

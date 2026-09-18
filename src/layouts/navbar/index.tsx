@@ -3,6 +3,7 @@ import {
   AppBar,
   Box,
   Container,
+  Divider,
   ListItemIcon,
   ListItemText,
   Menu,
@@ -32,6 +33,7 @@ import { accountAttentionState, workOfflineState } from '@states/app';
 import { useAtomValue } from 'jotai';
 import AppNotification from '@features/app_notification';
 import InstallDialog from '@features/app_install/install_dialog';
+import LogoutConfirm from '@features/logout_confirm';
 import Button from '@components/button';
 import DemoBanner from '@features/demo/banner';
 import LanguageSwitcher from '@features/language_switcher';
@@ -89,6 +91,9 @@ const NavBar = ({ isSupported }: NavBarType) => {
     accountType,
     tablet688Up,
     handleDisconnectAccount,
+    logoutConfirmOpen,
+    handleCloseLogoutConfirm,
+    handleConfirmLogout,
     congName,
     fullname,
     navBarOptions,
@@ -498,6 +503,11 @@ const NavBar = ({ isSupported }: NavBarType) => {
                             </MenuItem>
                           )}
 
+                        {/* logging out is not a sync switch: keep it apart */}
+                        {isAuthenticated && (
+                          <Divider sx={{ margin: '4px 0' }} />
+                        )}
+
                         {isAuthenticated && (
                           <MenuItem
                             disableRipple
@@ -643,6 +653,12 @@ const NavBar = ({ isSupported }: NavBarType) => {
       {navBarOptions.buttons && !tablet688Up && (
         <BottomMenu buttons={markLastNavBarButton(navBarOptions.buttons)} />
       )}
+      <LogoutConfirm
+        open={logoutConfirmOpen}
+        onClose={handleCloseLogoutConfirm}
+        onConfirm={handleConfirmLogout}
+      />
+
       <InstallDialog
         open={installDialogOpen}
         onClose={handleCloseInstallDialog}

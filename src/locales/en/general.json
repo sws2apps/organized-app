@@ -208,8 +208,13 @@
   "tr_cantReachServerDesc": "Your changes are saved on this device and will sync as soon as the connection is back.",
   "tr_backOnlineDesc": "Everything is connected again.",
   "tr_tryAgain": "Try again",
-  "tr_logoutKeepData": "Log out on this device",
-  "tr_logoutKeepDataDesc": "Your data stays on this device.",
+  "tr_logoutKeepData": "Log out",
+  "tr_logoutKeepDataDesc": "You’ll need to log in again to sync.",
   "tr_reconnectNow": "Reconnect now",
-  "tr_loginAgain": "Log in again"
+  "tr_loginAgain": "Log in again",
+  "tr_resumeSyncing": "Resume syncing",
+  "tr_workingOfflineUntil": "Working offline until {{time}}",
+  "tr_logoutConfirmTitle": "Log out of your account?",
+  "tr_logoutConfirmDesc": "To sync again, you’ll need to log in again, with your two-step verification code if it’s turned on. The data on this device is kept.",
+  "tr_logoutConfirmHint": "Only want to stop syncing for a while? Choose Work offline instead. You stay logged in."
 }
