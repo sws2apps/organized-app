@@ -3,17 +3,11 @@ import { Box } from '@mui/material';
 import { keyframes } from '@emotion/react';
 import { RollingDigitProps } from './index.types';
 
-// Same feel as the clicker counter's rolling digits, but a short roll: the
-// new digit drops in from just above and the old one slips below, both fading,
-// instead of a full-height scroll.
 const DURATION = 320;
 const EASING = 'cubic-bezier(0.22, 1, 0.36, 1)';
 const DISTANCE = '0.45em';
 
-// The old digit has to be gone about as fast as the new one lands, or it
-// lingers under it and reads as the stronger of the two. It fades first,
-// barely moving, and only slips the rest of its shorter way once nearly
-// invisible.
+// the old digit fades before it moves, so it doesn't linger under the new one
 const EXIT_DURATION = 200;
 const EXIT_DISTANCE = '0.3em';
 
@@ -51,7 +45,6 @@ const RollingDigit = ({ char, animate }: RollingDigitProps) => {
     seq: 0,
   });
 
-  // Derived during render so the old and new digit appear in the same commit.
   if (model.current !== char) {
     setModel((prev) => ({
       current: char,
