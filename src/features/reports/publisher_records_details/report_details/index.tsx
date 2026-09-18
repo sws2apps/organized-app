@@ -32,7 +32,12 @@ const ReportDetails = (props: ReportDetailsProps) => {
       onClose={props.onClose}
       title={`${t('tr_fieldReportEdit')} (${reportMonth})`}
     >
-      <Stack spacing="8px" width="100%">
+      <Stack
+        spacing="8px"
+        sx={{
+          width: '100%',
+        }}
+      >
         <LateReport />
 
         <Stack spacing="24px" divider={<Divider color="var(--accent-200)" />}>

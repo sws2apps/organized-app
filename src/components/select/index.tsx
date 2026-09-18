@@ -79,7 +79,12 @@ const Select = ({ helperText, ...props }: SelectPropsType) => {
       >
         {(props.children as []).length === 0 && (
           <MenuItem value="">
-            <Typography className="body-small-regular" color="var(--grey-350)">
+            <Typography
+              className="body-small-regular"
+              sx={{
+                color: 'var(--grey-350)',
+              }}
+            >
               {t('tr_noOptions')}
             </Typography>
           </MenuItem>

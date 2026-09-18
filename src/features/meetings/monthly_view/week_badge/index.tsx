@@ -33,9 +33,12 @@ const WeekBadge = (props: WeekBadgeType) => {
       )}
 
       <Typography
-        color="var(--accent-dark)"
         className="h4"
-        sx={{ flex: 1, textAlign: 'center' }}
+        sx={{
+          color: 'var(--accent-dark)',
+          flex: 1,
+          textAlign: 'center',
+        }}
       >
         {props.text}
       </Typography>

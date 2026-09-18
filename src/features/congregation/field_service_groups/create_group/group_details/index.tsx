@@ -29,7 +29,11 @@ const GroupDetails = (props: GroupDetailsProps) => {
     <Stack spacing="24px">
       <Stack spacing="16px">
         <Typography className="h2">{t('tr_createNewGroupTitle')}</Typography>
-        <Typography color="var(--grey-400)">
+        <Typography
+          sx={{
+            color: 'var(--grey-400)',
+          }}
+        >
           {t('tr_createNewGroupDesc')}
         </Typography>
       </Stack>

@@ -27,8 +27,11 @@ const CongregationItem = ({ congregation, onDelete }: CongregationItemType) => {
         {congregation.cong_number && (
           <Typography
             className="body-small-semibold"
-            color="var(--grey-400)"
-            sx={{ padding: '2px 8px', backgroundColor: 'var(--grey-150)' }}
+            sx={{
+              color: 'var(--grey-400)',
+              padding: '2px 8px',
+              backgroundColor: 'var(--grey-150)',
+            }}
           >
             {congregation.cong_number}
           </Typography>

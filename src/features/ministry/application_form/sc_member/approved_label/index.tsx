@@ -9,7 +9,12 @@ const ApprovedLabel = () => {
   return (
     <LabelContainer sx={{ backgroundColor: 'var(--green-main)' }}>
       <IconCheckCircle color="var(--always-white)" />
-      <Typography className="button-caps" color="var(--always-white)">
+      <Typography
+        className="button-caps"
+        sx={{
+          color: 'var(--always-white)',
+        }}
+      >
         {t('tr_approved')}
       </Typography>
     </LabelContainer>

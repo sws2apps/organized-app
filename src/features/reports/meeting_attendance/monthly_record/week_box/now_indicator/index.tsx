@@ -8,10 +8,12 @@ const NowIndicator = ({ type }: NowIndicatorProps) => {
   return (
     <Typography
       className="label-small-medium"
-      textAlign="center"
       color={
         type === 'midweek' ? 'var(--accent-dark)' : 'var(--weekend-meeting)'
       }
+      sx={{
+        textAlign: 'center',
+      }}
     >
       • {t('tr_today')}
     </Typography>
