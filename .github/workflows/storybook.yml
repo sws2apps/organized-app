@@ -32,10 +32,10 @@ jobs:
           node-version: lts/Krypton
 
       - name: Install Dependencies
-        run: npm ci
+        run: npm ci --ignore-scripts
 
       - name: Install Playwright browser
-        run: npx playwright install chromium --with-deps
+        run: ./node_modules/.bin/playwright install chromium --with-deps
 
       - name: Run story tests
         run: npm run test:storybook
