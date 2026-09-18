@@ -1,119 +1,33 @@
-import { Box, Stack } from '@mui/material';
-import { useAppTranslation, useBreakpoints } from '@hooks/index';
-import { AssignmentHistoryType } from '@definition/schedules';
-import { DisplayRange } from './indextypes';
+import { Box } from '@mui/material';
+import { useAppTranslation } from '@hooks/index';
 import useMyAssignments from './useAssignments';
+import AssignmentsList from './assignments_list';
 import Drawer from '@components/drawer';
 import InfoNote from '@components/info_note';
 import Markup from '@components/text_markup';
-import MenuItem from '@components/menuitem';
-import MonthContainer from './month_container';
-import NoAssigmentsImg from '@assets/img/illustration_no_assigments.svg?component';
-import Select from '@components/select';
+import NoAssignments from './no_assignments';
 import Tabs from '@components/tabs';
-import Typography from '@components/typography';
 
 const MyAssignments = () => {
   const { t } = useAppTranslation();
 
-  const { tabletDown, laptopDown } = useBreakpoints();
-
   const {
     handleClose,
     handleOpenManageAccess,
+    handleOpenAssignment,
     open,
     isSetup,
-    displayRange,
-    handleRangeChange,
     personAssignments: { ownAssignments, delegateAssignments },
+    tab,
+    setTab,
+    hasDelegated,
+    current,
   } = useMyAssignments();
 
-  const hasDelegatedAssignments = delegateAssignments.total > 0;
-
-  const actionComponent = (
-    <Box
-      sx={{
-        width: tabletDown || !hasDelegatedAssignments ? '100%' : '240px',
-      }}
-    >
-      <Select
-        label={t('tr_display')}
-        value={displayRange}
-        onChange={(e) => {
-          handleRangeChange(+e.target.value);
-        }}
-      >
-        <MenuItem value={DisplayRange.MONTHS_3}>
-          <Typography>{t('tr_next3MonthsLabel')}</Typography>
-        </MenuItem>
-        <MenuItem value={DisplayRange.MONTHS_6}>
-          <Typography>{t('tr_next6MonthsLabel')}</Typography>
-        </MenuItem>
-        <MenuItem value={DisplayRange.MONTHS_12}>
-          <Typography>{t('tr_next12MonthsLabel')}</Typography>
-        </MenuItem>
-      </Select>
-    </Box>
-  );
-
-  const renderAssignments = (
-    assignments: {
-      month: string;
-      children: AssignmentHistoryType[];
-    }[]
-  ) => (
-    <Box
-      sx={{
-        height: tabletDown ? '70dvh' : laptopDown ? '80dvh' : '77dvh',
-        overflowY: 'scroll',
-        '&::-webkit-scrollbar': {
-          width: '4px',
-        },
-        paddingBottom: laptopDown ? '20px' : '10px',
-      }}
-    >
-      {assignments.length === 0 ? (
-        <Box
-          sx={{
-            height: '100%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '24px',
-          }}
-        >
-          <NoAssigmentsImg viewBox="0 0 128 128" />
-          <Stack spacing="8px">
-            <Typography className="h2">{t('tr_noAssignmentsYet')}</Typography>
-            <Typography color="var(--grey-400)" sx={{ maxWidth: '350px' }}>
-              {t('tr_noAssignmentsYetDesc')}
-            </Typography>
-          </Stack>
-        </Box>
-      ) : (
-        <Stack spacing={2.3}>
-          {assignments.map((month) => (
-            <MonthContainer key={month.month} monthData={month} />
-          ))}
-        </Stack>
-      )}
-    </Box>
-  );
-
   const tabs = [
-    {
-      label: t('tr_myOwn'),
-      badge: ownAssignments.total,
-      Component: renderAssignments(ownAssignments.byDate),
-    },
-    ...(hasDelegatedAssignments
-      ? [
-          {
-            label: t('tr_delegated'),
-            badge: delegateAssignments.total,
-            Component: renderAssignments(delegateAssignments.byDate),
-          },
-        ]
+    { label: t('tr_myOwn'), badge: ownAssignments.total },
+    ...(hasDelegated
+      ? [{ label: t('tr_delegated'), badge: delegateAssignments.total }]
       : []),
   ];
 
@@ -138,18 +52,26 @@ const MyAssignments = () => {
       {!isSetup && (
         <Box
           sx={{
+            flex: 1,
+            minHeight: 0,
             display: 'flex',
-            gap: '16px',
-            flexWrap: 'wrap',
-            justifyContent: 'space-between',
-            flexDirection: tabletDown ? 'column' : 'row',
+            flexDirection: 'column',
+            gap: '4px',
+            padding: '0 4px',
+            '& [role="tabpanel"]': { display: 'none' },
           }}
         >
-          <Tabs
-            tabs={tabs}
-            actionComponent={actionComponent}
-            showTabs={hasDelegatedAssignments}
-          />
+          <Tabs tabs={tabs} value={tab} onChange={setTab} divider />
+
+          {current.total === 0 ? (
+            <NoAssignments />
+          ) : (
+            <AssignmentsList
+              months={current.byMonth}
+              resetKey={String(tab)}
+              onOpen={handleOpenAssignment}
+            />
+          )}
         </Box>
       )}
     </Drawer>

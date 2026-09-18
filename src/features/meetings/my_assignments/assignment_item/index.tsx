@@ -1,136 +1,77 @@
-import { Box, Stack } from '@mui/material';
-import { IconAddMonth } from '@components/icons';
+import { KeyboardEvent } from 'react';
+import { Box } from '@mui/material';
+import { IconPerson } from '@components/icons';
 import { AssignmentItemProps } from './index.types';
-import { useAppTranslation } from '@hooks/index';
 import useAssignmentItem from './useAssignmentItem';
+import AssignmentTitle from '../assignment_title';
 import Badge from '@components/badge';
-import IconButton from '@components/icon_button';
 import Typography from '@components/typography';
 
-const AssignmentItem = (props: AssignmentItemProps) => {
-  const { t } = useAppTranslation();
+const AssignmentItem = ({ history, onOpen }: AssignmentItemProps) => {
+  const { details, delegate } = useAssignmentItem({ history });
 
-  const {
-    assignmentDate,
-    isMidweek,
-    personGetName,
-    userUID,
-    ADD_CALENDAR_SHOW,
-    history,
-    badges,
-  } = useAssignmentItem(props);
+  const handleKeyDown = (event: KeyboardEvent) => {
+    if (event.key !== 'Enter' && event.key !== ' ') return;
+
+    event.preventDefault();
+    onOpen(history);
+  };
 
   return (
-    <Stack direction="row" spacing={2} alignItems="center">
-      <Box
-        style={{
-          textAlign: 'center',
-          width: '56px',
-          borderRadius: 'var(--radius-m)',
-          padding: '8px 4px',
-          backgroundColor: isMidweek
-            ? 'var(--midweek-meeting)'
-            : 'var(--weekend-meeting)',
-        }}
-      >
-        <Typography className="h2" color="var(--always-white)">
-          {assignmentDate}
+    <Box
+      role="button"
+      tabIndex={0}
+      onClick={() => onOpen(history)}
+      onKeyDown={handleKeyDown}
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '2px',
+        padding: '8px',
+        // fits the title and one details line, so the date beside the row
+        // never hangs below it
+        minHeight: '56px',
+        borderRadius: 'var(--radius-m)',
+        cursor: 'pointer',
+        transition: 'background-color 0.15s',
+        '&:hover': { backgroundColor: 'var(--accent-150)' },
+        '&:active': { backgroundColor: 'var(--accent-200)' },
+        '&:focus-visible': {
+          outline: '2px solid var(--accent-main)',
+          outlineOffset: '-2px',
+        },
+      }}
+    >
+      <AssignmentTitle history={history} />
+
+      {details.map((detail) => (
+        <Typography
+          key={detail}
+          className="body-small-regular"
+          color="var(--grey-400)"
+          sx={{
+            display: '-webkit-box',
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: 'vertical',
+            overflow: 'hidden',
+          }}
+        >
+          {detail}
         </Typography>
-      </Box>
+      ))}
 
-      <Stack
-        alignItems="center"
-        justifyContent="space-between"
-        direction="row"
-        width="calc(100% - 72px)"
-        spacing={1}
-        sx={(theme) => ({
-          [theme.breakpoints.up('tablet')]: {
-            ':hover': {
-              button: {
-                backgroundColor: 'var(--accent-200)',
-                opacity: 1,
-                pointerEvents: 'all',
-              },
-            },
-          },
-        })}
-      >
-        <Stack justifyContent="center">
-          <Stack direction="row" spacing={1} alignItems="center">
-            <Typography className="h3">{history.assignment.title}</Typography>
-
-            {badges.map((badge) => badge)}
-          </Stack>
-
-          {userUID !== history.assignment.person && (
-            <Badge
-              size="small"
-              filled
-              color="orange"
-              sx={{ width: 'fit-content', height: 'auto' }}
-              text={t('tr_deliveredBy', {
-                name: personGetName(history.assignment.person),
-              })}
-            />
-          )}
-
-          {history.assignment.ayf?.student && (
-            <Typography
-              className={'body-small-semibold'}
-              color={'var(--grey-400)'}
-            >
-              {`${t('tr_student')}: ${personGetName(history.assignment.ayf.student)}`}
-            </Typography>
-          )}
-
-          {history.assignment.ayf?.assistant && (
-            <Typography
-              className={'body-small-semibold'}
-              color={'var(--grey-400)'}
-            >
-              {`${t('tr_assistant')}: ${personGetName(history.assignment.ayf.assistant)}`}
-            </Typography>
-          )}
-
-          {history.assignment.src && (
-            <Typography
-              className={
-                history.assignment.ayf
-                  ? 'body-small-regular'
-                  : 'body-small-semibold'
-              }
-              color={
-                history.assignment.ayf ? 'var(--grey-350)' : 'var(--grey-400)'
-              }
-            >
-              {history.assignment.src}
-            </Typography>
-          )}
-
-          {history.assignment.desc && (
-            <Typography className="body-small-regular" color="var(--grey-400)">
-              {history.assignment.desc}
-            </Typography>
-          )}
-        </Stack>
-
-        {ADD_CALENDAR_SHOW && (
-          <IconButton
-            sx={(theme) => ({
-              borderRadius: 'var(--radius-l)',
-              [theme.breakpoints.up('tablet')]: {
-                opacity: 0,
-                pointerEvents: 'none',
-                transition: 'opacity 500ms ease',
-              },
-            })}
-          >
-            <IconAddMonth color="var(--accent-main)" />
-          </IconButton>
-        )}
-      </Stack>
-    </Stack>
+      {delegate && (
+        <Box sx={{ display: 'flex', marginTop: '2px' }}>
+          <Badge
+            text={delegate}
+            icon={<IconPerson />}
+            color="orange"
+            size="small"
+            filled
+          />
+        </Box>
+      )}
+    </Box>
   );
 };
 
