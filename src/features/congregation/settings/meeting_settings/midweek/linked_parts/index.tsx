@@ -1,4 +1,4 @@
-import { Stack } from '@mui/material';
+import { Box, Stack } from '@mui/material';
 import {
   useAppTranslation,
   useBreakpoints,
@@ -26,7 +26,7 @@ const LinkedParts = () => {
   } = useLinkedParts();
 
   return (
-    <>
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
       <Typography className="body-small-regular" color="var(--grey-400)">
         {t('tr_linkedPartsDesc')}
       </Typography>
@@ -69,7 +69,7 @@ const LinkedParts = () => {
           ))}
         </Select>
       </Stack>
-    </>
+    </Box>
   );
 };
 

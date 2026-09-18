@@ -1,3 +1,3 @@
 export type ExportType = {
-  onClose: VoidFunction;
+  onClose?: VoidFunction;
 };
