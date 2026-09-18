@@ -137,5 +137,9 @@
   "tr_bibleStudiesMonthlyLess": "Et voi asettaa vähemmän raamatuntutkisteluja mitä sinulla on päivittäisissä rekistereissä",
   "tr_hoursDecreaseError": "Et voi muuttaa tuntimäärää",
   "tr_hoursDecreaseErrorDesc": "Et voi asettaa vähemmän tunteja mitä sinulla on päivittäisissä rekistereissä",
-  "tr_SCEL": "Seurakunnan vanhinten koulu"
+  "tr_SCEL": "Seurakunnan vanhinten koulu",
+  "tr_timerNothingToSave": "Ei tallennettavaa",
+  "tr_timerNothingToSaveDesc": "Istunto oli lyhyempi kuin minuutti, joten raporttiin ei ole lisätty aikaa.",
+  "tr_timerNoOpenMonth": "Ei kuukautta, jotta aikaa lisättäisiin",
+  "tr_timerNoOpenMonthDesc": "Joka kuukausi tämän istunnon alkamisesta on jo vahvistettu. Istunto pysyy pysäytettynä."
 }
