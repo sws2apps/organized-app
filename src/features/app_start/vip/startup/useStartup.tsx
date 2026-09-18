@@ -31,7 +31,13 @@ import { APP_ROLES, VIP_ROLES } from '@constants/index';
 import { handleDeleteDatabase, loadApp, runUpdater } from '@services/app';
 import { apiValidateMe } from '@services/api/user';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
-import { userSignOut, waitForAuthReady } from '@services/firebase/auth';
+import { getAuth } from 'firebase/auth';
+import {
+  AuthNotReadyError,
+  userSignOut,
+  waitForAuthReady,
+} from '@services/firebase/auth';
+import { store } from '@states/index';
 
 const useStartup = () => {
   const [searchParams] = useSearchParams();
@@ -62,6 +68,10 @@ const useStartup = () => {
   // the check makes a server round trip; it must not start a second time
   // while the first is still in flight
   const checkStarted = useRef(false);
+
+  // bumped only to re-run the check once a slow Firebase session restore
+  // finally completes (see the catch in runStartupCheck)
+  const [checkRetry, setCheckRetry] = useState(0);
 
   const isEmailLink = searchParams.get('code') !== null;
 
@@ -194,6 +204,24 @@ const useStartup = () => {
       showSignin();
       setIsLoading(false);
       console.error(error);
+
+      // Firebase was too slow, not necessarily signed out. If it restores a
+      // user later while the sign-in screen is still showing, run the check
+      // again instead of leaving a signed-in user there.
+      if (error instanceof AuthNotReadyError) {
+        getAuth()
+          .authStateReady()
+          .then(() => {
+            if (getAuth().currentUser && store.get(isUserSignInState)) {
+              // the sign-in screen outranks every other startup screen; the
+              // check shows it again itself if it is still needed
+              setIsUserSignIn(false);
+              checkStarted.current = false;
+              setCheckRetry((prev) => prev + 1);
+            }
+          })
+          .catch((err) => console.error(err));
+      }
     }
   }, [
     isOfflineOverride,
@@ -231,7 +259,7 @@ const useStartup = () => {
       checkStarted.current = true;
       runStartupCheck();
     }
-  }, [setIsUserSignIn, cookiesConsent, isStart, runStartupCheck]);
+  }, [setIsUserSignIn, cookiesConsent, isStart, runStartupCheck, checkRetry]);
 
   return {
     isUserSignIn,

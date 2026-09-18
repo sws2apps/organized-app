@@ -18,6 +18,13 @@ export const userSignOut = async () => {
   }
 };
 
+export class AuthNotReadyError extends Error {
+  constructor() {
+    super('Firebase auth did not settle in time');
+    this.name = 'AuthNotReadyError';
+  }
+}
+
 /**
  * Resolves once Firebase has restored (or ruled out) the signed-in user from
  * storage. Until then currentUser is null even for a signed-in user, and any
@@ -36,10 +43,7 @@ export const waitForAuthReady = async (timeoutMs = 10000) => {
     await Promise.race([
       auth.authStateReady(),
       new Promise<never>((_, reject) => {
-        timer = setTimeout(
-          () => reject(new Error('Firebase auth did not settle in time')),
-          timeoutMs
-        );
+        timer = setTimeout(() => reject(new AuthNotReadyError()), timeoutMs);
       }),
     ]);
   } finally {
