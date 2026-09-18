@@ -49,6 +49,7 @@ const useUserAutoLogin = () => {
   const setIsAppLoad = useSetAtom(isAppLoadState);
 
   const isOnline = useAtomValue(isOnlineState);
+  const isConnected = useAtomValue(congAccountConnectedState);
   const apiHost = useAtomValue(apiHostState);
   const isAppLoad = useAtomValue(isAppLoadState);
   const accountType = useAtomValue(accountTypeState);
@@ -80,11 +81,14 @@ const useUserAutoLogin = () => {
     data: dataVip,
     error: errorVip,
     dataUpdatedAt: dataVipUpdatedAt,
+    errorUpdatedAt: errorVipUpdatedAt,
   } = useQuery({
     queryKey: ['whoami-vip'],
     queryFn: apiValidateMe,
     enabled: runFetchVip,
     refetchOnWindowFocus: 'always',
+    // retries are scheduled below, with a backoff that keeps going
+    retry: false,
   });
 
   const {
@@ -92,12 +96,60 @@ const useUserAutoLogin = () => {
     data: dataPocket,
     error: errorPocket,
     dataUpdatedAt: dataPocketUpdatedAt,
+    errorUpdatedAt: errorPocketUpdatedAt,
   } = useQuery({
     queryKey: ['whoami-pocket'],
     queryFn: apiPocketValidateMe,
     enabled: runFetchPocket,
     refetchOnWindowFocus: 'always',
+    retry: false,
   });
+
+  // The server could not be reached although the device reports a network
+  // (captive portal, server outage): show the account as offline instead of
+  // pretending it is connected.
+  useEffect(() => {
+    if (errorVip || errorPocket) setCongConnected(false);
+  }, [errorVip, errorPocket, errorVipUpdatedAt, errorPocketUpdatedAt, setCongConnected]);
+
+  // A decision from the server that retrying cannot change (signed out,
+  // device needs a new sign-in) stops the automatic re-checks below.
+  const recheckBlocked = useRef(false);
+  const recheckDelay = useRef(2000);
+
+  // While the account is not connected, keep checking again with a growing
+  // delay (2 s up to 1 min) instead of waiting for a restart.
+  useEffect(() => {
+    if (isConnected) {
+      recheckDelay.current = 2000;
+      recheckBlocked.current = false;
+      return;
+    }
+
+    if (recheckBlocked.current || isAppLoad || !isOnline) return;
+    if (accountType === 'vip' && !isAuthenticated) return;
+    if (accountType !== 'vip' && accountType !== 'pocket') return;
+
+    const queryKey = accountType === 'vip' ? ['whoami-vip'] : ['whoami-pocket'];
+
+    const timer = setTimeout(() => {
+      queryClient.invalidateQueries({ queryKey });
+      recheckDelay.current = Math.min(recheckDelay.current * 2, 60000);
+    }, recheckDelay.current);
+
+    return () => clearTimeout(timer);
+  }, [
+    isConnected,
+    isAppLoad,
+    isOnline,
+    accountType,
+    isAuthenticated,
+    queryClient,
+    dataVipUpdatedAt,
+    errorVipUpdatedAt,
+    dataPocketUpdatedAt,
+    errorPocketUpdatedAt,
+  ]);
 
   const [autoLoginStatus, setAutoLoginStatus] = useState('');
 
@@ -139,6 +191,7 @@ const useUserAutoLogin = () => {
 
           // revoked from another device, or the account is gone: sign out,
           // and say so instead of leaving the app looking merely offline
+          recheckBlocked.current = true;
           setCongConnected(false);
 
           displaySnackNotification({
@@ -302,6 +355,7 @@ const useUserAutoLogin = () => {
 
           // Only this device's session cookie is gone (Safari caps it to 7
           // days). The data on the device is still the user's: keep it.
+          recheckBlocked.current = true;
           setCongConnected(false);
 
           displaySnackNotification({
