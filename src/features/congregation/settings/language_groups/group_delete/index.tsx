@@ -26,11 +26,9 @@ const GroupDelete = (props: GroupDeleteProps) => {
       <Dialog
         onClose={handleClose}
         open={open}
-        sx={{ padding: '24px', gap: '16px' }}
+        sx={{ gap: '16px' }}
+        title={t('tr_languageGroupDelete', { languageGroup: group_name })}
       >
-        <Typography className="h2">
-          {t('tr_languageGroupDelete', { languageGroup: group_name })}
-        </Typography>
         <Typography className="body-regular" color="var(--grey-400)">
           {t('tr_languageGroupDeleteDesc')}
         </Typography>

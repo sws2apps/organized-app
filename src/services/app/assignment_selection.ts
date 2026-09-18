@@ -290,11 +290,14 @@ const getClosestPairingDistanceInWeeks = (
   return minWeeks;
 };
 
+type LoadWindow = {
+  boundaryStart: Date;
+  boundaryEnd: Date;
+  windowSizeInWeeks: number;
+};
+
 /**
- * Calculates a person's historical assignment density (load) within a dynamically determined time window.
- *
- * This function analyzes a person's assignment history relative to a target date to determine their recent workload.
- * The analysis window is intelligently constructed based on the closest past and future assignments:
+ * Determines the analysis window used to measure a person's assignment density around a target date.
  *
  * **Window Logic:**
  * - **Case 1 (Exact Balance):** If the closest past and future assignments are equidistant, the window spans exactly
@@ -303,10 +306,116 @@ const getClosestPairingDistanceInWeeks = (
  *   around the target date (e.g., last task 2 weeks ago → 5-week window from -2 to +2).
  * - **Edge Cases:**
  *   - Only assignment in target week → 1-week window
- *   - No assignments found → returns `0`
+ *   - No assignments found → `null`
  *
- * The load is calculated as `taskCount / windowSizeInWeeks`, where only relevant assignments (matching filters)
- * within the calculated boundaries are counted.
+ * @param personUid - The unique identifier of the person to evaluate.
+ * @param history - The complete assignment history to analyze.
+ * @param targetDateStr - The reference target date (ISO string) for window calculation.
+ * @param dataView - (Optional) Filter to assignments in this specific data view (e.g., 'main').
+ * @param codesToCheck - (Optional) Only consider assignments matching these specific codes.
+ *
+ * @returns The window boundaries and size in weeks, or `null` if the person has no relevant history.
+ */
+const getLoadWindow = (
+  personUid: string,
+  history: AssignmentHistoryType[],
+  targetDateStr: string,
+  dataView?: string,
+  codesToCheck?: AssignmentCode[]
+): LoadWindow | null => {
+  const distances = getDistanceInWeeks(
+    history,
+    personUid,
+    targetDateStr,
+    dataView,
+    codesToCheck
+  );
+
+  const pastAbs = Math.abs(distances.minPast);
+  const futureAbs = Math.abs(distances.minFuture);
+
+  const targetDate = new Date(targetDateStr);
+
+  // CASE 1: Exact tie between past and future distance
+  if (pastAbs !== Infinity && futureAbs !== Infinity && pastAbs === futureAbs) {
+    return {
+      boundaryStart: addWeeks(targetDate, distances.minPast),
+      boundaryEnd: addWeeks(targetDate, distances.minFuture),
+      windowSizeInWeeks: futureAbs + pastAbs + 1,
+    };
+  }
+
+  // CASE 2: Default case
+  const closestDistance = Math.min(pastAbs, futureAbs);
+
+  if (closestDistance === Infinity) {
+    // Person has ONLY one task today and nothing else in the entire DB.
+    if (distances.hasAssignmentToday) {
+      return {
+        boundaryStart: targetDate,
+        boundaryEnd: targetDate,
+        windowSizeInWeeks: 1,
+      };
+    }
+
+    return null;
+  }
+
+  // Default logic: mirror the shortest distance in both directions
+  return {
+    boundaryStart: addWeeks(targetDate, -closestDistance),
+    boundaryEnd: addWeeks(targetDate, closestDistance),
+    windowSizeInWeeks: closestDistance * 2 + 1,
+  };
+};
+
+/**
+ * Counts a person's assignments that fall inside a given window.
+ *
+ * @param personUid - The unique identifier of the person to evaluate.
+ * @param history - The complete assignment history to analyze.
+ * @param loadWindow - The window boundaries from `getLoadWindow()`.
+ * @param dataView - (Optional) Filter to assignments in this specific data view (e.g., 'main').
+ * @param codesToCheck - (Optional) Only count assignments matching these specific codes.
+ *
+ * @returns The number of matching assignments within the window.
+ */
+const countAssignmentsInWindow = (
+  personUid: string,
+  history: AssignmentHistoryType[],
+  loadWindow: LoadWindow,
+  dataView?: string,
+  codesToCheck?: AssignmentCode[]
+): number => {
+  return history.filter((entry) => {
+    if (entry.assignment.person !== personUid) return false;
+    if (
+      codesToCheck &&
+      codesToCheck.length > 0 &&
+      !codesToCheck.includes(entry.assignment.code!)
+    )
+      return false;
+    if (
+      dataView &&
+      dataView.length > 0 &&
+      dataView !== entry.assignment.dataView
+    )
+      return false;
+
+    // Note: We cut off exactly at the calculated week boundaries
+    const entryDate = new Date(entry.weekOf);
+    return (
+      entryDate >= loadWindow.boundaryStart &&
+      entryDate <= loadWindow.boundaryEnd
+    );
+  }).length;
+};
+
+/**
+ * Calculates a person's historical assignment density (load) within a dynamically determined time window.
+ *
+ * The window is built by `getLoadWindow()`. The load is calculated as `taskCount / windowSizeInWeeks`,
+ * where only relevant assignments (matching filters) within the calculated boundaries are counted.
  *
  * @param personUid - The unique identifier of the person to evaluate.
  * @param history - The complete assignment history to analyze.
@@ -324,85 +433,92 @@ export const getActualLoad = (
   dataView?: string,
   codesToCheck?: AssignmentCode[]
 ): number => {
-  const distances = getDistanceInWeeks(
-    history,
+  const loadWindow = getLoadWindow(
     personUid,
+    history,
     targetDateStr,
     dataView,
     codesToCheck
   );
 
-  const pastAbs = Math.abs(distances.minPast);
-  const futureAbs = Math.abs(distances.minFuture);
+  if (!loadWindow) return 0;
 
-  const targetDate = new Date(targetDateStr);
-  let boundaryStart: Date;
-  let boundaryEnd: Date;
-  let windowSizeInWeeks: number;
+  const taskCount = countAssignmentsInWindow(
+    personUid,
+    history,
+    loadWindow,
+    dataView,
+    codesToCheck
+  );
 
-  // CASE 1: Exact tie between past and future distance
-  if (pastAbs !== Infinity && futureAbs !== Infinity && pastAbs === futureAbs) {
-    // If the gap is equal, the time window is crystal clear.
-    // No buffer estimation needed. The window spans exactly from the last to the next task.
+  return taskCount / loadWindow.windowSizeInWeeks;
+};
 
-    boundaryStart = addWeeks(targetDate, distances.minPast);
-    boundaryEnd = addWeeks(targetDate, distances.minFuture);
-    windowSizeInWeeks = futureAbs + pastAbs + 1;
-  }
-  // CASE 2: Default case
-  else {
-    let closestDistance = Infinity;
+/**
+ * Window in which repeating the same assignment is avoided before anything else,
+ * even before giving a person a second task in the same meeting.
+ */
+export const RECENT_REPEAT_WEEKS = 4;
 
-    if (pastAbs < futureAbs) {
-      closestDistance = pastAbs;
-    } else if (futureAbs < pastAbs) {
-      closestDistance = futureAbs;
-    }
+/**
+ * Calculates how many weeks should pass before the same person receives the same assignment code again.
+ *
+ * In a perfect rotation every eligible person takes a turn before anyone repeats, so the ideal
+ * spacing is `eligible persons / weekly frequency` (e.g., 3 CBS conductors, once per week → every 3 weeks;
+ * 5 brothers for prayers, twice per week → every 2 weeks).
+ *
+ * @param poolSize - Number of persons eligible for the assignment code in the current data view.
+ * @param weeklyFrequency - How often the assignment code occurs per week.
+ * @returns The target spacing in weeks (at least `1`).
+ */
+export const getRotationWeeks = (
+  poolSize: number,
+  weeklyFrequency: number
+): number => {
+  if (!poolSize || !weeklyFrequency || weeklyFrequency <= 0) return 1;
 
-    if (closestDistance === Infinity) {
-      // Fallback: the person has no assignments, or only one today
-      if (distances.hasAssignmentToday) {
-        // Person has ONLY one task today and nothing else in the entire DB.
-        boundaryStart = targetDate;
-        boundaryEnd = targetDate;
-        windowSizeInWeeks = 1;
-      } else {
-        return 0;
-      }
-    } else {
-      // Default logic: mirror the shortest distance in both directions
-      boundaryStart = addWeeks(targetDate, -closestDistance);
-      boundaryEnd = addWeeks(targetDate, closestDistance);
-      windowSizeInWeeks = closestDistance * 2 + 1;
-    }
-  }
+  const interval = Math.floor(poolSize / weeklyFrequency);
 
-  // --- Count the tasks within the calculated boundaries ---
-  const validHistory = history.filter((entry) => {
-    if (entry.assignment.person !== personUid) return false;
-    if (
-      codesToCheck &&
-      codesToCheck.length > 0 &&
-      !codesToCheck.includes(entry.assignment.code!)
-    )
-      return false;
-    if (
-      dataView &&
-      dataView.length > 0 &&
-      dataView !== entry.assignment.dataView
-    )
-      return false;
+  return Math.max(1, interval);
+};
 
-    // Boundary-Check
-    const entryDate = new Date(entry.weekOf);
-    // Note: We cut off exactly at the calculated week boundaries
-    return entryDate >= boundaryStart && entryDate <= boundaryEnd;
-  });
+/**
+ * Calculates how far a candidate falls short of the rotation spacing for a specific assignment code.
+ *
+ * The distance to the closest same-code assignment is checked in both directions, because weeks
+ * later in the schedule may already be filled.
+ *
+ * @param personUid - The candidate being evaluated.
+ * @param history - The complete assignment history, including already planned weeks.
+ * @param targetDateStr - The week currently being planned.
+ * @param dataView - The data view of the task.
+ * @param code - The assignment code of the task.
+ * @param rotationWeeks - Target spacing from `getRotationWeeks()`.
+ * @returns `0` if the spacing is respected, otherwise the number of missing weeks (higher = assigned more recently).
+ */
+export const getSpacingDeficit = (
+  personUid: string,
+  history: AssignmentHistoryType[],
+  targetDateStr: string,
+  dataView: string,
+  code: AssignmentCode,
+  rotationWeeks: number
+): number => {
+  if (rotationWeeks <= 1) return 0;
 
-  const taskCount = validHistory.length;
+  const distances = getDistanceInWeeks(
+    history,
+    personUid,
+    targetDateStr,
+    dataView,
+    [code]
+  );
 
-  // Calculate load: How many tasks fell within this window?
-  return taskCount / windowSizeInWeeks;
+  const closest = distances.hasAssignmentToday
+    ? 0
+    : Math.min(Math.abs(distances.minPast), Math.abs(distances.minFuture));
+
+  return Math.max(0, rotationWeeks - closest);
 };
 
 /**
@@ -531,6 +647,8 @@ const getWeeksSinceLastRoom2 = (
  * Caches calculated fairness tiers and statistical metrics for a specific assignment candidate.
  */
 type CandidateMeta = {
+  recentDeficit: number;
+  spacingDeficit: number;
   dataViewTier: number;
   assignmentsKindTier: number;
   assignmentCodeTier: number;
@@ -547,11 +665,13 @@ type CandidateMeta = {
  *
  * This sorting algorithm applies a cascading sequence of tie-breakers to prioritize candidates.
  * The evaluation strictly follows this hierarchical order:
- * 1. **Current Meeting Load:** Minimizes `tasksInCurrentMeeting` (candidates with fewer tasks today are preferred).
- * 2. **DataView Fairness:** Maximizes `dataViewTier` (prioritizes candidates under-assigned in the current group/language).
- * 3. **Meeting Type Fairness:** Maximizes `assignmentsKindTier` (balances Midweek vs. Weekend workload).
- * 4. **Task Specific Fairness:** Maximizes `assignmentCodeTier` (balances the specific assignment code frequency).
- * 5. **Pairing Rotation:** Maximizes `assistantClosestPairingDistance` (prefers assistants who haven't worked with the student recently).
+ * 1. **Recent Repeat:** Minimizes `recentDeficit` (avoids the same assignment within `RECENT_REPEAT_WEEKS`).
+ * 2. **Current Meeting Load:** Minimizes `tasksInCurrentMeeting` (candidates with fewer tasks today are preferred).
+ * 3. **Rotation Spacing:** Minimizes `spacingDeficit` (lets every eligible person take a turn before anyone repeats).
+ * 4. **DataView Fairness:** Maximizes `dataViewTier` (prioritizes candidates under-assigned in the current group/language).
+ * 5. **Meeting Type Fairness:** Maximizes `assignmentsKindTier` (balances Midweek vs. Weekend workload).
+ * 6. **Task Specific Fairness:** Maximizes `assignmentCodeTier` (balances the specific assignment code frequency).
+ * 7. **Pairing Rotation:** Maximizes `assistantClosestPairingDistance` (prefers assistants who haven't worked with the student recently).
  *
  * @param metaA - Metadata metrics for the first candidate.
  * @param metaB - Metadata metrics for the second candidate.
@@ -561,8 +681,14 @@ const compareByDefaultStrategy = (
   metaA: CandidateMeta,
   metaB: CandidateMeta
 ): number => {
+  if (metaA.recentDeficit !== metaB.recentDeficit) {
+    return metaA.recentDeficit - metaB.recentDeficit;
+  }
   if (metaA.tasksInCurrentMeeting !== metaB.tasksInCurrentMeeting) {
     return metaA.tasksInCurrentMeeting - metaB.tasksInCurrentMeeting;
+  }
+  if (metaA.spacingDeficit !== metaB.spacingDeficit) {
+    return metaA.spacingDeficit - metaB.spacingDeficit;
   }
   if (metaA.dataViewTier !== metaB.dataViewTier) {
     return metaB.dataViewTier - metaA.dataViewTier;
@@ -590,10 +716,12 @@ const compareByDefaultStrategy = (
  *
  * This sorting algorithm focuses on bringing candidates closer to their target assignment quotas.
  * It applies a cascading sequence of tie-breakers, strictly following this hierarchical order:
- * 1. **Quota Gap (Percentage):** Maximizes `percentageGap` (prioritizes candidates who are furthest below their target assignment percentage).
+ * 1. **Recent Repeat:** Minimizes `recentDeficit` (avoids the same assignment within `RECENT_REPEAT_WEEKS`).
  * 2. **Current Meeting Load:** Minimizes `tasksInCurrentMeeting` (candidates with fewer tasks today are preferred).
- * 3. **Task Specific Fairness:** Maximizes `assignmentCodeTier` (prioritizes candidates under-assigned for this specific task code).
- * 4. **Pairing Rotation:** Maximizes `assistantClosestPairingDistance` (prefers assistants who haven't worked with the student recently).
+ * 3. **Rotation Spacing:** Minimizes `spacingDeficit` (lets every eligible person take a turn before anyone repeats).
+ * 4. **Quota Gap (Percentage):** Maximizes `percentageGap` (prioritizes candidates who are furthest below their target assignment percentage).
+ * 5. **Task Specific Fairness:** Maximizes `assignmentCodeTier` (prioritizes candidates under-assigned for this specific task code).
+ * 6. **Pairing Rotation:** Maximizes `assistantClosestPairingDistance` (prefers assistants who haven't worked with the student recently).
  *
  * @param metaA - Metadata metrics for the first candidate.
  * @param metaB - Metadata metrics for the second candidate.
@@ -603,11 +731,17 @@ const compareByAlternativeStrategy = (
   metaA: CandidateMeta,
   metaB: CandidateMeta
 ): number => {
-  if (Math.abs(metaA.percentageGap - metaB.percentageGap) > 0.01) {
-    return metaB.percentageGap - metaA.percentageGap;
+  if (metaA.recentDeficit !== metaB.recentDeficit) {
+    return metaA.recentDeficit - metaB.recentDeficit;
   }
   if (metaA.tasksInCurrentMeeting !== metaB.tasksInCurrentMeeting) {
     return metaA.tasksInCurrentMeeting - metaB.tasksInCurrentMeeting;
+  }
+  if (metaA.spacingDeficit !== metaB.spacingDeficit) {
+    return metaA.spacingDeficit - metaB.spacingDeficit;
+  }
+  if (Math.abs(metaA.percentageGap - metaB.percentageGap) > 0.01) {
+    return metaB.percentageGap - metaA.percentageGap;
   }
   if (metaA.assignmentCodeTier !== metaB.assignmentCodeTier) {
     return metaB.assignmentCodeTier - metaA.assignmentCodeTier;
@@ -644,14 +778,18 @@ const isQualifiedForClassroom = (
  * that balance **global fairness**, **dataview fairness**, **meeting-type fairness** (Midweek MM vs Weekend WM),
  * and **task-specific fairness**. Two strategies ensure comprehensive distribution:
  *
+ * Both strategies start with the same rotation rules: avoid a repeat of the same assignment within
+ * `RECENT_REPEAT_WEEKS`, then prefer fewer tasks in the current meeting, then prefer persons who have
+ * waited longest compared to the full rotation (`rotationWeeks`).
+ *
  * **Default Strategy** (broad fairness, Round 1):
- * 1. Minimize current meeting load (`tasksInCurrentMeeting`)
+ * 1. Rotation rules
  * 2. Maximize dataView tier → meeting-type tier → code tier
  * 3. Maximize assistant pairing time (MM_AssistantOnly only)
  *
  * **Alternative Strategy** (quota filling, Round 2):
- * 1. Maximize percentage gap (target% - actual% of task code within meeting type)
- * 2. Minimize current meeting load
+ * 1. Rotation rules
+ * 2. Maximize percentage gap (target% - actual% of task code within meeting type)
  * 3. Maximize code tier → assistant pairing time
  *
  * **Room 1 Swap Post-Processing** (alternative + `_A` tasks):
@@ -665,7 +803,9 @@ const isQualifiedForClassroom = (
  * @param personsCompleteMetrics - Precomputed expected scores per dataView/person.
  * @param weightingMetrics - Person-specific weighting factors.
  * @param assignmentsMetricsTotal - Global task frequency stats.
- * @param sortStrategy - `'default'` (broad) or `'alternative'` (quota-focused).
+ * @param options - Sorting options:
+ *   - `sortStrategy`: `'default'` (broad) or `'alternative'` (quota-focused).
+ *   - `rotationWeeks`: Target spacing between two assignments of the same code for one person (see `getRotationWeeks()`).
  *
  * @returns Sorted candidates (index 0 = best).
  */
@@ -676,8 +816,13 @@ export const sortCandidatesMultiLevel = (
   personsCompleteMetrics: personsAssignmentMetrics,
   weightingMetrics: personsWeightingMetrics,
   assignmentsMetricsTotal: AssignmentStatisticsView | undefined,
-  sortStrategy: 'default' | 'alternative' = 'default'
+  options: {
+    sortStrategy?: 'default' | 'alternative';
+    rotationWeeks?: number;
+  } = {}
 ): PersonType[] => {
+  const { sortStrategy = 'default', rotationWeeks = 1 } = options;
+
   const metaCache = new Map<string, CandidateMeta>();
 
   const personsDataViewMetrics = personsCompleteMetrics.get(task.dataView);
@@ -756,8 +901,35 @@ export const sortCandidatesMultiLevel = (
     if (expectedMetricsForCode) {
       targetPercentage = expectedMetricsForCode.percentageOfTotal;
 
-      if (actualAssignmentsKindTypeLoad > 0) {
-        actualPercentage = actualCodeLoad / actualAssignmentsKindTypeLoad;
+      // Both counts must come from the same window, otherwise the share is not a real percentage
+      const kindWindow = getLoadWindow(
+        p.person_uid,
+        history,
+        task.schedule.weekOf,
+        task.dataView,
+        relevantMeetingTypeCodes
+      );
+
+      if (kindWindow) {
+        const kindCount = countAssignmentsInWindow(
+          p.person_uid,
+          history,
+          kindWindow,
+          task.dataView,
+          relevantMeetingTypeCodes
+        );
+
+        const codeCount = countAssignmentsInWindow(
+          p.person_uid,
+          history,
+          kindWindow,
+          task.dataView,
+          [task.code!]
+        );
+
+        if (kindCount > 0) {
+          actualPercentage = codeCount / kindCount;
+        }
       }
 
       percentageGap = targetPercentage - actualPercentage;
@@ -807,7 +979,27 @@ export const sortCandidatesMultiLevel = (
           )
         : 0;
 
+    const spacingDeficit = getSpacingDeficit(
+      p.person_uid,
+      history,
+      task.schedule.weekOf,
+      task.dataView,
+      task.code!,
+      rotationWeeks
+    );
+
+    const recentDeficit = getSpacingDeficit(
+      p.person_uid,
+      history,
+      task.schedule.weekOf,
+      task.dataView,
+      task.code!,
+      RECENT_REPEAT_WEEKS
+    );
+
     metaCache.set(p.person_uid, {
+      spacingDeficit,
+      recentDeficit,
       dataViewTier,
       assignmentsKindTier: meetingTypeTier,
       assignmentCodeTier: codeTier,
@@ -861,6 +1053,9 @@ export const sortCandidatesMultiLevel = (
     if (
       metaFirst &&
       metaSecond &&
+      // Never let the room swap undo the rotation order
+      metaSecond.recentDeficit === metaFirst.recentDeficit &&
+      metaSecond.spacingDeficit === metaFirst.spacingDeficit &&
       metaSecond.weeksSinceLastRoom2 < metaFirst.weeksSinceLastRoom2 &&
       // Skip the swap if the demoted candidate cannot actually take Room 2
       isQualifiedForClassroom(first, task, '2')
