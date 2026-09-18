@@ -13,10 +13,7 @@ const useInternetChecker = () => {
 
   const [isNavigatorOnline, setIsNavigatorOnline] = useState(navigator.onLine);
 
-  // Phones report network losses that fix themselves: switching between
-  // Wi-Fi and mobile data can take from a second to over a minute. A loss
-  // shorter than 3 s changes nothing; after 3 s the badge shows Connecting;
-  // only a loss that lasts 30 s is announced as offline.
+  // switching Wi-Fi and mobile data drops the network briefly: ignore it
   const quietTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
   const confirmTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
 

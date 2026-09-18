@@ -458,7 +458,6 @@ const NavBar = ({ isSupported }: NavBarType) => {
                           </MenuItem>
                         )}
 
-                        {/* nothing to pause while logged out: Log in again is the action */}
                         {!isTest &&
                           !isAppLoad &&
                           accountType !== '' &&

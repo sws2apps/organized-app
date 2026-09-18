@@ -90,7 +90,6 @@ export const displaySnackNotification = ({
   message: string;
   severity?: SnackBarSeverityType;
   icon?: ReactElement;
-  /** one button; the message then stays until closed or replaced */
   action?: { text: string; onClick: VoidFunction };
 }) => {
   store.set(appMessageActionState, action);
@@ -145,16 +144,14 @@ export const setWorkOffline = (value: WorkOfflineType | undefined) => {
       localStorage.setItem(workOfflineStorageKey, JSON.stringify(value));
     else localStorage.removeItem(workOfflineStorageKey);
   } catch {
-    /* storage unavailable: the choice lasts until the app is closed */
+    // storage unavailable: offline mode lasts until the app is closed
   }
 
-  // resuming: confirm once the first sync after it has finished
   if (!value && store.get(workOfflineState)) store.set(justResumedState, true);
 
   store.set(workOfflineState, value);
 };
 
-/** Ask the account check to run now instead of waiting for the next retry. */
 export const retryConnectionNow = () => {
   window.dispatchEvent(new Event('organized:retry-connection'));
 };

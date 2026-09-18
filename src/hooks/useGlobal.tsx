@@ -37,9 +37,7 @@ const useGlobal = () => {
 
   const workOffline = useAtomValue(workOfflineState);
 
-  // The rest of the app only ever asks "can I use the server?". Working
-  // offline by choice answers no, exactly like having no network, so every
-  // server feature, sync and account check pauses without a sign-out.
+  // offline mode reads as "no network" everywhere, without logging out
   useEffect(() => {
     const canUseServer = isNavigatorOnline && !workOffline;
 

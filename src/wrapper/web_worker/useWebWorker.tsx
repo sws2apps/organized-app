@@ -65,7 +65,6 @@ const useWebWorker = () => {
         if (event.data === 'Done') {
           setIsAppDataSyncing(false);
 
-          // the first sync after working offline: confirm nothing is left behind
           if (store.get(justResumedState)) {
             store.set(justResumedState, false);
 

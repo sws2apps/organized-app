@@ -140,10 +140,7 @@ const useNavbar = () => {
   const handleReconnectAccount = async () => {
     handleCloseMore();
 
-    // Usually nothing is wrong with the login: the account only lost its
-    // connection (network drop, expired device cookie). Check again quietly
-    // and only send the user to the log-in screen if that does not help.
-    // When the server has already asked for a new login, go there directly.
+    // usually only the connection was lost: retry quietly before the log-in screen
     const needsLogin = store.get(accountAttentionState) !== '';
 
     if (!needsLogin && accountType === 'vip' && currentAuthUser()) {

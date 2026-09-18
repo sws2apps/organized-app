@@ -295,7 +295,6 @@ export const appMessageActionState = atom<
 export const congAccountConnectedState = atom(false);
 
 export type WorkOfflineType = {
-  /** when the user switched to working offline (ISO) */
   since: string;
 };
 
@@ -312,20 +311,12 @@ const readWorkOffline = (): WorkOfflineType | undefined => {
   }
 };
 
-/**
- * Set when the user chose to work offline: nothing is sent to or fetched from
- * the server, but the sign-in is kept, so turning it off needs no new login.
- */
 export const workOfflineState = atom<WorkOfflineType | undefined>(
   readWorkOffline()
 );
 
 export const workOfflineStorageKey = WORK_OFFLINE_KEY;
 
-/**
- * Something only the user can resolve: sign in again, confirm the two-step
- * code, or reconnect a pocket device.
- */
 export const accountAttentionState = atom<
   '' | 'signin' | 'two-step' | 'pocket-reconnect'
 >('');
@@ -338,13 +329,8 @@ export type ConnectionStatusType =
   | 'server-unreachable'
   | 'attention';
 
-/**
- * Set only once a connection problem has lasted (about 30 s of failed
- * retries), and announced then. Short problems stay a quiet "Connecting".
- */
 export const offlineConfirmedState = atom<'' | 'network' | 'server'>('');
 
-/** set when the user resumes, cleared by the first finished sync */
 export const justResumedState = atom(false);
 
 export const connectionStatusState = atom<ConnectionStatusType>((get) => {

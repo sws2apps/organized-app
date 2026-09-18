@@ -37,9 +37,7 @@ import {
   dbAppSettingsUpdateWithoutNotice,
 } from '@services/dexie/settings';
 
-// retry schedule while disconnected (then every 30 s, so a server that is
-// back is noticed within half a minute); a random +-20 % spreads the load
-// when many phones retry against a server that is coming back
+// then every 30 s, with jitter so phones don't retry in step
 const RECHECK_STEPS = [5000, 10000, 15000, 30000];
 
 const useUserAutoLogin = () => {
@@ -121,8 +119,6 @@ const useUserAutoLogin = () => {
   // The server could not be reached although the device reports a network
   // (captive portal, server outage): show the account as offline instead of
   // pretending it is connected.
-  // A failed check first shows a quiet "Connecting". Only when the server
-  // stays unreachable for at least 3 checks over 30 s is it announced.
   const failedChecks = useRef(0);
   const firstFailureAt = useRef(0);
 
@@ -134,7 +130,7 @@ const useUserAutoLogin = () => {
     if (failedChecks.current === 0) firstFailureAt.current = Date.now();
     failedChecks.current += 1;
 
-    // the retry near the 30 s mark is jittered, so allow it from 25 s on
+    // 25 s, not 30: the retry near 30 s is jittered
     const lasting = Date.now() - firstFailureAt.current >= 25000;
 
     if (
@@ -182,7 +178,6 @@ const useUserAutoLogin = () => {
   const recheckBlocked = useRef(false);
   const recheckStep = useRef(0);
 
-  // "Try again": check at once, and start the retry schedule from the top
   useEffect(() => {
     const retryNow = () => {
       recheckStep.current = 0;
@@ -245,7 +240,7 @@ const useUserAutoLogin = () => {
       try {
         setAutoLoginStatus('auto login process started');
 
-        // cached answers must not reconnect the account in offline mode
+        // cached answers must not reconnect the account while offline
         if (!isOnline) return;
 
         if (isPendingVip) return;

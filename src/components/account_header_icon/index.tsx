@@ -33,7 +33,6 @@ const AccountHeaderIcon = ({
   const { status } = useAccountHeaderIcon();
   const { t } = useAppTranslation();
 
-  // never colour alone: the state is also spoken
   const statusLabel: Record<string, string> = {
     connected: t('tr_statusConnected'),
     connecting: t('tr_statusConnecting'),
@@ -43,7 +42,6 @@ const AccountHeaderIcon = ({
     attention: t('tr_statusAttention'),
   };
 
-  // orange: offline mode the user chose; red: connection lost or action needed
   const badge = isTest || status === 'connected' ? null : status;
 
   const redBadge =
@@ -53,7 +51,6 @@ const AccountHeaderIcon = ({
     attention: redBadge,
     'no-network': redBadge,
     'server-unreachable': redBadge,
-    // stronger and higher than the others: the icon must read on any photo
     paused:
       'linear-gradient(180deg, rgba(221, 140, 44, 0) 0%, rgba(221, 140, 44, 0.85) 45%, var(--orange-main) 80%)',
     connecting:

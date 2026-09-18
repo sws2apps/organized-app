@@ -14,7 +14,6 @@ const appOpenedAt = Date.now();
 const startWorkOffline = () => {
   setWorkOffline({ since: new Date().toISOString() });
 
-  // others will not see this device's changes until it goes back online: say so once
   displaySnackNotification({
     header: getTranslation({ key: 'tr_offlineMode' }),
     message: getTranslation({ key: 'tr_workOfflineStarted' }),
@@ -71,7 +70,6 @@ export const WorkOfflineMenuItem = ({
   );
 };
 
-// a pause is easy to forget: remind on every app open
 export const WorkOfflineReminder = () => {
   const { t } = useAppTranslation();
   const workOffline = useAtomValue(workOfflineState);
