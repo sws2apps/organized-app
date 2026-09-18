@@ -1,21 +1,4 @@
 {
-  "2026-07-01T00:00": {
-    "images": {
-      "img_01": {
-        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-color-schemes.svg",
-        "tr_title": "Nove barvne sheme",
-        "tr_desc": "Še več načinov, kako si lahko aplikacijo Organized prilagodite po svoje! V nastavitvah profila odkrijte nove barve, od minimalistične enobarvne do živahne roza."
-      },
-      "img_02": {
-        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-homescreen-shortcuts.svg",
-        "tr_title": "Bližnjice začetnega zaslona",
-        "tr_desc": "Pojdite neposredno k najpomembnejšim funkcijam na namiznih in mobilnih napravah."
-      }
-    },
-    "improvements": {
-      "tr_note_01": "Dodana prednastavitev odobrenih ur za šolo za občinske starešine"
-    }
-  },
   "2026-09-01T00:00": {
     "images": {
       "img_01": {
