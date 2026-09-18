@@ -1003,6 +1003,27 @@ export const personSkipsAutofill = (person: PersonType) => {
   return person.person_data.autofill_skipped?.value === true;
 };
 
+export const isPersonBlockedOnDate = (
+  person: PersonType,
+  targetDate: string
+): boolean => {
+  const timeAways = person.person_data.timeAway;
+  if (!timeAways || timeAways.length === 0) return false;
+
+  return timeAways.some((record) => {
+    if (record._deleted || !record.start_date) return false;
+
+    const startDateStr = formatDate(new Date(record.start_date), 'yyyy/MM/dd');
+
+    if (!record.end_date) {
+      return targetDate >= startDateStr;
+    }
+
+    const endDateStr = formatDate(new Date(record.end_date), 'yyyy/MM/dd');
+    return targetDate >= startDateStr && targetDate <= endDateStr;
+  });
+};
+
 export const personIsAway = (person: PersonType, date: string) => {
   const timeAwaysActive =
     person.person_data.timeAway

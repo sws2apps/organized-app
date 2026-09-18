@@ -36,6 +36,8 @@
   "tr_december": "Грудень",
   "tr_longDateFormat": "EE, dd MMM, yyyy",
   "tr_delete": "Видалити",
+  "tr_continueEditing": "Continue editing",
+  "tr_discardChanges": "Discard changes",
   "tr_add": "Додати",
   "tr_pickerSelectTime": "Обрати час",
   "tr_pickerSelectDate": "Обрати дату",
@@ -129,12 +131,12 @@
   "tr_appliesOnlyToBrothers": "Стосується лише братів",
   "tr_circuit": "Район: {{ circuitNumber }}",
   "tr_ageInYearsAndMonths": "{{ years }} років, {{months}} місяців",
-  "tr_personHasNoAssignmentHistory": "Ця особа ще не має історії завдань",
+  "tr_personHasNoAssignmentHistory": "No assignment history yet",
   "tr_appUserProfile": "Акаунт користувача додатку",
   "tr_appUserProfileNotRegisteredDesc": "Ця особа ще не користується програмою. Ти можеш створити обліковий запис Organized для цієї людини на сторінці 'Акаунти користувачів'.",
   "tr_appUserProfileRegisteredDesc": "Ця особа вже користується Organized. Востаннє онлайн: <span class='h4'>{{ lastTimeOnline }}</span>. Редагуй інші права та налаштування на сторінці 'Акаунти користувачів'.",
   "tr_notYet": "Ще ні",
-  "tr_manageUserProfileSettings": "Управління налаштуваннями акканута користувача",
+  "tr_manageUserProfileSettings": "Manage user account",
   "tr_createUserProfile": "Створити акаунт користувача",
   "tr_download": "Завантажити",
   "tr_import": "Імпортувати",
@@ -176,5 +178,7 @@
   "tr_fontSize": "Font size",
   "tr_small": "Small",
   "tr_normal": "Normal",
-  "tr_large": "Large"
+  "tr_large": "Large",
+  "tr_chooseFields": "Choose export fields",
+  "tr_chooseFieldsDesc": "Please select the fields you want to include in the export file."
 }

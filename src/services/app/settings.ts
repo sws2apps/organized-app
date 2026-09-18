@@ -1,4 +1,5 @@
 import { SettingsType } from '@definition/settings';
+import { dbAppSettingsSaveProfilePic } from '@services/dexie/settings';
 
 export const convertSettingsObjectToArray = (settings: SettingsType) => {
   if (!Array.isArray(settings.cong_settings.display_name_enabled)) {
@@ -58,4 +59,8 @@ export const convertSettingsObjectToArray = (settings: SettingsType) => {
   }
 
   return settings;
+};
+
+export const saveProfilePicture = (url: string, provider: string) => {
+  dbAppSettingsSaveProfilePic(url, provider);
 };

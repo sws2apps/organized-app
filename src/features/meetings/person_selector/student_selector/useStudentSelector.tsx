@@ -25,6 +25,8 @@ import { Gender } from './index.types';
 import {
   schedulesGetData,
   schedulesGetMeetingDate,
+  schedulesPersonHasConsecutiveAssignment,
+  schedulesPersonHasMeetingConflict,
   schedulesSaveAssignment,
 } from '@services/app/schedules';
 import { AssignmentCongregation } from '@definition/schedules';
@@ -383,6 +385,33 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
     );
   }, [value, assignmentsHistory]);
 
+  const isMeetingConflict = useMemo(() => {
+    if (!value) return false;
+
+    return schedulesPersonHasMeetingConflict({
+      history: assignmentsHistory,
+      week,
+      assignment,
+      person_uid: value.person_uid,
+      dataView,
+      type,
+    });
+  }, [value, assignmentsHistory, week, assignment, dataView, type]);
+
+  const isConsecutiveAssignment = useMemo(() => {
+    if (!value) return false;
+
+    // Assistants share the student part qualification in type, but history
+    // stores them as MM_AssistantOnly. Normalize so assistant repeats warn.
+    return schedulesPersonHasConsecutiveAssignment({
+      history: assignmentsHistory,
+      week,
+      type: isAssistant ? AssignmentCode.MM_AssistantOnly : type,
+      person_uid: value.person_uid,
+      dataView,
+    });
+  }, [value, assignmentsHistory, week, type, dataView, isAssistant]);
+
   const meetingDate = useMemo(() => {
     const meeting = location.pathname.includes('midweek')
       ? 'midweek'
@@ -396,6 +425,13 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
   const helperText = useMemo(() => {
     if (!value || week.length === 0) return '';
 
+    // same-meeting conflict first: the helper color and decorator turn red
+    // on conflict alone, so the text must match instead of showing the
+    // absence notice in red
+    if (isMeetingConflict) {
+      return t('tr_personAlreadyAssignmentMeeting');
+    }
+
     // check for person time away
     const person = persons.find(
       (record) => record.person_uid === value.person_uid
@@ -408,12 +444,8 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
     }
 
     // check week assignments
-    const weekAssignments = personHistory.filter(
-      (record) => record.weekOf === week
-    );
-
-    if (weekAssignments.length > 1) {
-      return t('tr_personAlreadyAssignmentWeek');
+    if (isConsecutiveAssignment) {
+      return t('tr_personAssignedPreviousWeek');
     }
 
     const [currentYear, currentMonth] = week.split('/');
@@ -428,7 +460,16 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
     }
 
     return '';
-  }, [persons, value, week, personHistory, t, meetingDate]);
+  }, [
+    persons,
+    value,
+    week,
+    personHistory,
+    t,
+    meetingDate,
+    isMeetingConflict,
+    isConsecutiveAssignment,
+  ]);
 
   const handleGenderChange = (
     e: MouseEvent<HTMLLabelElement>,
@@ -519,6 +560,7 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
     groupChecked,
     mainStudentGender,
     showFamilyFilter: familyMemberUIDs.size > 0,
+    isMeetingConflict,
   };
 };
 

@@ -36,6 +36,8 @@
   "tr_december": "דצמבר",
   "tr_longDateFormat": "EEE, dd MMMM yyyy",
   "tr_delete": "מחק",
+  "tr_continueEditing": "להמשיך עריכה",
+  "tr_discardChanges": "בטל שינויים",
   "tr_add": "הוסף",
   "tr_pickerSelectTime": "בחר שעה",
   "tr_pickerSelectDate": "בחר תאריך",
@@ -129,12 +131,12 @@
   "tr_appliesOnlyToBrothers": "חל רק על אחים",
   "tr_circuit": "נפה: {{ circuitNumber }}",
   "tr_ageInYearsAndMonths": "{{ years }} שנים, {{months}} חודשים",
-  "tr_personHasNoAssignmentHistory": "לאדם זה אין עדיין היסטוריית משימות",
+  "tr_personHasNoAssignmentHistory": "עדיין אין היסטוריית משימות",
   "tr_appUserProfile": "חשבון משתמש באפליקציה",
   "tr_appUserProfileNotRegisteredDesc": "אדם זה עדיין לא משתמש באפליקציה. תוכל ליצור חשבון Organized עבור אדם זה בדף 'חשבונות משתמשים'.",
   "tr_appUserProfileRegisteredDesc": "אדם זה כבר משתמש ב־Organized. פעם אחרונה באונליין: <span class='h4'>{{ lastTimeOnline }}</span>. ערוך זכויות והגדרות אחרות בדף 'חשבונות משתמשים'.",
   "tr_notYet": "עדיין לא",
-  "tr_manageUserProfileSettings": "נהל הגדרות חשבון משתמש",
+  "tr_manageUserProfileSettings": "נהל את חשבון המשתמש",
   "tr_createUserProfile": "צור חשבון משתמש",
   "tr_download": "הורד",
   "tr_import": "ייבא",
@@ -176,5 +178,7 @@
   "tr_fontSize": "גודל גופן",
   "tr_small": "קטן",
   "tr_normal": "רגיל",
-  "tr_large": "גדול"
+  "tr_large": "גדול",
+  "tr_chooseFields": "בחר שדות לייצוא",
+  "tr_chooseFieldsDesc": "אנא בחר את השדות שברצונך לכלול בקובץ הייצוא."
 }
