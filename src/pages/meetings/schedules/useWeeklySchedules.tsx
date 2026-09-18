@@ -3,10 +3,7 @@ import { useAtomValue } from 'jotai';
 import { useLocation } from 'react-router';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { localStorageGetItem } from '@utils/common';
-import {
-  WeeklySchedulesLocationState,
-  WeeklySchedulesType,
-} from './index.types';
+import { WeeklySchedulesType } from './index.types';
 import { settingsState, userDataViewState } from '@states/settings';
 import MidweekContainer from '@features/meetings/weekly_schedules/midweek_container';
 import OutgoingTalks from '@features/meetings/weekly_schedules/outgoing_talks';
@@ -17,15 +14,11 @@ const LOCALSTORAGE_KEY = 'organized_weekly_schedules';
 const useWeeklySchedules = () => {
   const { t } = useAppTranslation();
 
-  const location = useLocation();
-  const locationState = location.state as WeeklySchedulesLocationState | null;
+  useLocation();
 
-  const scheduleType = useMemo(() => {
-    return (
-      locationState?.schedule ??
-      (localStorageGetItem(LOCALSTORAGE_KEY) as WeeklySchedulesType)
-    );
-  }, [locationState]);
+  const scheduleType = localStorageGetItem(
+    LOCALSTORAGE_KEY
+  ) as WeeklySchedulesType;
 
   const { isAppointed } = useCurrentUser();
 
