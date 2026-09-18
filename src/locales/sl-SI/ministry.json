@@ -137,5 +137,9 @@
   "tr_bibleStudiesMonthlyLess": "Število svetopisemskih tečajev ne more biti manjše od skupnega števila tečajev v dnevnih poročilih",
   "tr_hoursDecreaseError": "Ur ni mogoče spreminjati",
   "tr_hoursDecreaseErrorDesc": "Število ur ne more biti manjše od skupnega števila ur v dnevnih poročilih",
-  "tr_SCEL": "Šola za občinske starešine"
+  "tr_SCEL": "Šola za občinske starešine",
+  "tr_timerNothingToSave": "Nothing to save",
+  "tr_timerNothingToSaveDesc": "The session was shorter than a minute, so no time was added to the report.",
+  "tr_timerNoOpenMonth": "No month to add the time to",
+  "tr_timerNoOpenMonthDesc": "Every month since this session started is already confirmed. The session stays paused."
 }
