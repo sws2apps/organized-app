@@ -568,5 +568,6 @@
   "tr_congregationAlreadySynced": "Församlingen är redan ansluten och synkroniserad.",
   "tr_error_app_data_no_valid_data_found": "Inga giltiga data hittades eller ingen talare vald.",
   "tr_infirmPioneer": "Ålderspionjär",
-  "tr_infirmPioneerNoGoal": "Som ålderspionjär kan du tjäna så mycket du kan, utan ett årligt timmål."
+  "tr_infirmPioneerNoGoal": "Som ålderspionjär kan du tjäna så mycket du kan, utan ett årligt timmål.",
+  "tr_importCsvParseError": "The file could not be read. Please check the column structure and try again."
 }
