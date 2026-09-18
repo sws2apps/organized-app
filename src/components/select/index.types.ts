@@ -22,4 +22,5 @@ export type SelectPropsType<T = unknown> = SelectProps<T> & {
     | 'body-small-semibold'
     | 'body-small-regular';
   helperText?: string;
+  menuMaxHeight?: string;
 };

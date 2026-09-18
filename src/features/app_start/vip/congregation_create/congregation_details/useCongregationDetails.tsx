@@ -15,9 +15,47 @@ import {
   CongregationResponseType,
   CountryResponseType,
 } from '@definition/api';
-import { congregationCreateStepState } from '@states/app';
+import { appLangState, congregationCreateStepState } from '@states/app';
+import { LANGUAGE_LIST } from '@constants/index';
+import { FullnameOption, SettingsType } from '@definition/settings';
 import { settingSchema } from '@services/dexie/schema';
 import useFeedback from '@features/app_start/shared/hooks/useFeedback';
+
+const buildLanguageDefaults = (
+  settings: SettingsType,
+  appLang: string | null | undefined
+) => {
+  const language = LANGUAGE_LIST.find(
+    (record) => record.threeLettersCode === appLang
+  );
+
+  const updatedAt = new Date().toISOString();
+
+  const sourceLanguage = structuredClone(
+    settings.cong_settings.source_material.language
+  );
+
+  const mainSource = sourceLanguage.find((record) => record.type === 'main');
+
+  if (mainSource) {
+    mainSource.value = language?.code.toUpperCase() || 'E';
+    mainSource.updatedAt = updatedAt;
+  }
+
+  const fullnameOption = structuredClone(
+    settings.cong_settings.fullname_option
+  );
+
+  const mainFullname = fullnameOption.find((record) => record.type === 'main');
+
+  if (mainFullname) {
+    mainFullname.value =
+      language?.fullnameOption || FullnameOption.FIRST_BEFORE_LAST;
+    mainFullname.updatedAt = updatedAt;
+  }
+
+  return { sourceLanguage, fullnameOption };
+};
 
 const useCongregationDetails = () => {
   const { t } = useAppTranslation();
@@ -27,6 +65,7 @@ const useCongregationDetails = () => {
   const setCurrentStep = useSetAtom(congregationCreateStepState);
 
   const settings = useAtomValue(settingsState);
+  const appLang = useAtomValue(appLangState);
 
   const [isProcessing, setIsProcessing] = useState(false);
   const [country, setCountry] = useState<CountryResponseType>(null);
@@ -145,7 +184,14 @@ const useCongregationDetails = () => {
         }
       }
 
+      const { sourceLanguage, fullnameOption } = buildLanguageDefaults(
+        settings,
+        appLang
+      );
+
       await dbAppSettingsUpdate({
+        'cong_settings.source_material.language': sourceLanguage,
+        'cong_settings.fullname_option': fullnameOption,
         'cong_settings.country_code': result.cong_settings.country_code,
         'cong_settings.cong_id': result.cong_id,
         'cong_settings.cong_name': result.cong_settings.cong_name,
