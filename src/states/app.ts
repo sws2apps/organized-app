@@ -297,8 +297,6 @@ export const congAccountConnectedState = atom(false);
 export type WorkOfflineType = {
   /** when the user switched to working offline (ISO) */
   since: string;
-  /** optional automatic resume time (ISO); absent = until turned off */
-  until?: string;
 };
 
 const WORK_OFFLINE_KEY = 'organized_work_offline';
@@ -308,15 +306,7 @@ const readWorkOffline = (): WorkOfflineType | undefined => {
     const raw = localStorage.getItem(WORK_OFFLINE_KEY);
     if (!raw) return undefined;
 
-    const value = JSON.parse(raw) as WorkOfflineType;
-
-    // an automatic resume time that passed while the app was closed
-    if (value.until && new Date(value.until).getTime() <= Date.now()) {
-      localStorage.removeItem(WORK_OFFLINE_KEY);
-      return undefined;
-    }
-
-    return value;
+    return JSON.parse(raw) as WorkOfflineType;
   } catch {
     return undefined;
   }

@@ -197,9 +197,6 @@
   "tr_statusConnecting": "Connecting",
   "tr_statusNoNetwork": "No internet connection",
   "tr_statusAttention": "Action needed",
-  "tr_pauseOneHour": "For 1 hour",
-  "tr_pauseUntilTomorrow": "Until tomorrow morning",
-  "tr_pauseUntilResume": "Until I turn it back on",
   "tr_workOfflineStarted": "Sync is paused and you stay logged in. Others won’t see your changes until you resume.",
   "tr_workOfflineReminder": "Your changes are only on this device. Tap Resume at the top when you want to share them.",
   "tr_backOnline": "Back online",
@@ -213,7 +210,6 @@
   "tr_reconnectNow": "Reconnect now",
   "tr_loginAgain": "Log in again",
   "tr_resumeSyncing": "Resume syncing",
-  "tr_workingOfflineUntil": "Working offline until {{time}}",
   "tr_logoutConfirmTitle": "Log out of your account?",
   "tr_logoutConfirmDesc": "To sync again, you’ll need to log in again, with your two-step verification code if it’s turned on. The data on this device is kept.",
   "tr_logoutConfirmHint": "Only want to stop syncing for a while? Choose Work offline instead. You stay logged in."

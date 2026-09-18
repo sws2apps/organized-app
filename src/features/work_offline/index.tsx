@@ -5,36 +5,16 @@ import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { workOfflineState } from '@states/app';
 import { setWorkOffline } from '@services/states/app';
 import usePendingSync from '@hooks/usePendingSync';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { displaySnackNotification } from '@services/states/app';
 import { getTranslation } from '@services/i18n/translation';
 import Typography from '@components/typography';
-import { hour24FormatState } from '@states/settings';
-import { formatDate } from '@utils/date';
-
-type PauseChoice = 'hour' | 'tomorrow' | 'manual';
 
 // pauses started before this app launch are the ones to remind about
 const appOpenedAt = Date.now();
 
-const pauseUntil = (choice: PauseChoice): string | undefined => {
-  if (choice === 'hour') return new Date(Date.now() + 3600000).toISOString();
-
-  if (choice === 'tomorrow') {
-    const next = new Date();
-    next.setDate(next.getDate() + 1);
-    next.setHours(6, 0, 0, 0);
-    return next.toISOString();
-  }
-
-  return undefined;
-};
-
-const startWorkOffline = (choice: PauseChoice) => {
-  setWorkOffline({
-    since: new Date().toISOString(),
-    until: pauseUntil(choice),
-  });
+const startWorkOffline = () => {
+  setWorkOffline({ since: new Date().toISOString() });
 
   // others will not see this device's changes until it resumes: say so once
   displaySnackNotification({
@@ -45,11 +25,6 @@ const startWorkOffline = (choice: PauseChoice) => {
 };
 
 const resumeWork = () => setWorkOffline(undefined);
-
-const toggleWorkOffline = (on: boolean) => {
-  if (on) startWorkOffline('hour');
-  else resumeWork();
-};
 
 /**
  * Menu entry: pause every server connection and sync without signing out.
@@ -63,85 +38,34 @@ export const WorkOfflineMenuItem = ({
 }) => {
   const { t } = useAppTranslation();
   const workOffline = useAtomValue(workOfflineState);
-  const [choosing, setChoosing] = useState(false);
-  const hour24 = useAtomValue(hour24FormatState);
 
   const iconBox = {
     '&.MuiListItemIcon-root': { width: '24px', minWidth: '24px !important' },
   };
 
-  if (choosing && !workOffline) {
-    const choices: [PauseChoice, string][] = [
-      ['hour', t('tr_pauseOneHour')],
-      ['tomorrow', t('tr_pauseUntilTomorrow')],
-      ['manual', t('tr_pauseUntilResume')],
-    ];
-
-    return (
-      <>
-        {choices.map(([choice, label]) => (
-          <MenuItem
-            key={choice}
-            disableRipple
-            sx={sx}
-            onClick={() => {
-              startWorkOffline(choice);
-              setChoosing(false);
-              onDone?.();
-            }}
-          >
-            <ListItemIcon sx={iconBox}>
-              <IconPause color="var(--grey-400)" />
-            </ListItemIcon>
-            <ListItemText>
-              <Typography className="body-regular">{label}</Typography>
-            </ListItemText>
-          </MenuItem>
-        ))}
-      </>
-    );
-  }
-
-  if (workOffline) {
-    const until = workOffline.until
-      ? formatDate(new Date(workOffline.until), hour24 ? 'HH:mm' : 'h:mm a')
-      : undefined;
-
-    return (
-      <MenuItem
-        disableRipple
-        sx={sx}
-        onClick={() => {
-          resumeWork();
-          onDone?.();
-        }}
-      >
-        <ListItemIcon sx={iconBox}>
-          <IconCloudSync color="var(--black)" />
-        </ListItemIcon>
-        <ListItemText>
-          <Typography className="body-regular">
-            {t('tr_resumeSyncing')}
-          </Typography>
-          <Typography className="label-small-regular" color="var(--grey-350)">
-            {until
-              ? t('tr_workingOfflineUntil', { time: until })
-              : t('tr_workingOffline')}
-          </Typography>
-        </ListItemText>
-      </MenuItem>
-    );
-  }
-
   return (
-    <MenuItem disableRipple sx={sx} onClick={() => setChoosing(true)}>
+    <MenuItem
+      disableRipple
+      sx={sx}
+      onClick={() => {
+        if (workOffline) resumeWork();
+        else startWorkOffline();
+        onDone?.();
+      }}
+    >
       <ListItemIcon sx={iconBox}>
-        <IconPause color="var(--black)" />
+        {workOffline ? (
+          <IconCloudSync color="var(--black)" />
+        ) : (
+          <IconPause color="var(--black)" />
+        )}
       </ListItemIcon>
       <ListItemText>
-        <Typography className="body-regular">{t('tr_workOffline')}</Typography>
+        <Typography className="body-regular">
+          {t(workOffline ? 'tr_resumeSyncing' : 'tr_workOffline')}
+        </Typography>
         <Typography className="label-small-regular" color="var(--grey-350)">
-          {t('tr_workOfflineDesc')}
+          {t(workOffline ? 'tr_workingOffline' : 'tr_workOfflineDesc')}
         </Typography>
       </ListItemText>
     </MenuItem>
@@ -158,11 +82,11 @@ export const WorkOfflineChip = () => {
   const workOffline = useAtomValue(workOfflineState);
   const { pendingCount } = usePendingSync();
 
-  // a pause with no end time is the one people forget: remind on every open
+  // a pause is easy to forget: remind on every open
   const reminded = useRef(false);
 
   useEffect(() => {
-    if (reminded.current || !workOffline || workOffline.until) return;
+    if (reminded.current || !workOffline) return;
     if (new Date(workOffline.since).getTime() >= appOpenedAt) return;
 
     reminded.current = true;
@@ -181,9 +105,9 @@ export const WorkOfflineChip = () => {
       role="button"
       tabIndex={0}
       aria-label={`${t('tr_workingOffline')}. ${t('tr_resumeSync')}`}
-      onClick={() => toggleWorkOffline(false)}
+      onClick={() => resumeWork()}
       onKeyDown={(e) =>
-        e.key === 'Enter' || e.key === ' ' ? toggleWorkOffline(false) : null
+        e.key === 'Enter' || e.key === ' ' ? resumeWork() : null
       }
       sx={{
         display: 'flex',

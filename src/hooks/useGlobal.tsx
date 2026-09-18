@@ -7,11 +7,7 @@ import {
   isDarkThemeState,
   workOfflineState,
 } from '@states/app';
-import {
-  disconnectCongAccount,
-  setIsOnline,
-  setWorkOffline,
-} from '@services/states/app';
+import { disconnectCongAccount, setIsOnline } from '@services/states/app';
 import {
   adminRoleState,
   coordinatorRoleState,
@@ -53,19 +49,6 @@ const useGlobal = () => {
       disconnectCongAccount();
     }
   }, [isNavigatorOnline, workOffline]);
-
-  // an automatic resume time, if one was chosen
-  useEffect(() => {
-    if (!workOffline?.until) return;
-
-    const wait = new Date(workOffline.until).getTime() - Date.now();
-    const timer = setTimeout(
-      () => setWorkOffline(undefined),
-      Math.max(wait, 0)
-    );
-
-    return () => clearTimeout(timer);
-  }, [workOffline]);
 
   useEffect(() => {
     if (isLight) {
