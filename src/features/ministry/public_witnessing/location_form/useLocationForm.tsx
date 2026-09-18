@@ -92,7 +92,11 @@ const useLocationForm = ({ location, onClose }: LocationFormProps) => {
       return;
     }
 
-    const template = shiftsByDay[selectedDay ?? WEEKDAYS[0]] ?? [];
+    // with every day collapsed, copy the first scheduled day, not Monday
+    const templateDay =
+      selectedDay ??
+      (approvedDays.length > 0 ? Math.min(...approvedDays) : WEEKDAYS[0]);
+    const template = shiftsByDay[templateDay] ?? [];
 
     setApprovedDays([...WEEKDAYS]);
     setShiftsByDay(
