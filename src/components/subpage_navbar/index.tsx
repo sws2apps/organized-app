@@ -1,7 +1,7 @@
-import { Box, useTheme } from '@mui/material';
+import { Box } from '@mui/material';
 import { useAtomValue } from 'jotai';
 import { navBarOptionsState } from '@states/app';
-import { IconArrowBack } from '@components/icons';
+import { IconNavigateLeft } from '@components/icons';
 import IconButton from '@components/icon_button';
 import Typography from '@components/typography';
 import { SubpageNavbarProps } from './index.types';
@@ -14,8 +14,6 @@ const SubpageNavbar = ({
   backLabel,
   trailing,
 }: SubpageNavbarProps) => {
-  const theme = useTheme();
-
   const navBarOptions = useAtomValue(navBarOptionsState);
   const subtitle = secondaryTitle ?? navBarOptions.title;
 
@@ -47,17 +45,10 @@ const SubpageNavbar = ({
           marginLeft: '-10px',
           '&:hover': {
             backgroundColor: 'var(--accent-200)',
-            '& svg': {
-              transform:
-                theme.direction === 'rtl'
-                  ? 'translateX(-4px) scaleX(-1)'
-                  : 'translateX(4px)',
-            },
           },
-          '& svg': { transition: 'transform 0.2s ease-in-out' },
         }}
       >
-        <IconArrowBack color="var(--black)" />
+        <IconNavigateLeft color="var(--black)" />
       </IconButton>
 
       <Box

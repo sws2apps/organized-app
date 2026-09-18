@@ -568,5 +568,6 @@
   "tr_congregationAlreadySynced": "La congregación ya está conectada y sincronizada.",
   "tr_error_app_data_no_valid_data_found": "No se encontraron datos válidos o no se seleccionó ningún orador.",
   "tr_infirmPioneer": "Precursor enfermo",
-  "tr_infirmPioneerNoGoal": "Como precursor enfermo, puedes servir tanto como puedas sin una meta anual de horas."
+  "tr_infirmPioneerNoGoal": "Como precursor enfermo, puedes servir tanto como puedas sin una meta anual de horas.",
+  "tr_importCsvParseError": "No se pudo leer el archivo. Por favor, revisa la estructura de las columnas e inténtalo de nuevo."
 }
