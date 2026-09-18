@@ -3,6 +3,7 @@ import { keyframes } from '@emotion/react';
 import { DurationProps } from './index.types';
 import useDuration from './useDuration';
 import Typography from '@components/typography';
+import RollingDigit from './rolling_digit';
 
 const blink = keyframes`
    0% { opacity: 1; }
@@ -10,9 +11,28 @@ const blink = keyframes`
   100% { opacity: 1; }
 `;
 
+/**
+ * Digits keyed by their place from the right, so the ones digit keeps its
+ * slot when the group changes length (59 minutes → 1 hour).
+ */
+const renderDigits = (value: string, animate: boolean) =>
+  value
+    .split('')
+    .map((char, index, all) => (
+      <RollingDigit
+        key={`place-${all.length - index}`}
+        char={char}
+        animate={animate}
+      />
+    ));
+
 const Duration = (props: DurationProps) => {
   const { first, isHour, second, defaultColor, hoverColor, activeColor } =
     useDuration(props);
+
+  // digits only roll while the clock is running; pausing, stopping and
+  // adding time by hand change them in place
+  const animate = Boolean(props.started);
 
   return (
     <Box
@@ -40,6 +60,7 @@ const Duration = (props: DurationProps) => {
         },
         cursor: 'pointer',
         userSelect: 'none',
+        fontVariantNumeric: 'tabular-nums',
         animation: props.paused && `${blink} 1s steps(1, end) infinite`,
       }}
     >
@@ -48,7 +69,7 @@ const Duration = (props: DurationProps) => {
         className="h3"
         sx={{ width: '29px', textAlign: 'right' }}
       >
-        {first}
+        {renderDigits(first, animate)}
       </Typography>
       <Typography
         onClick={props.onClick}
@@ -63,7 +84,7 @@ const Duration = (props: DurationProps) => {
         :
       </Typography>
       <Typography className="h3" sx={{ width: '29px', textAlign: 'left' }}>
-        {second}
+        {renderDigits(second, animate)}
       </Typography>
     </Box>
   );
