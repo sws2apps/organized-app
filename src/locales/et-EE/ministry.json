@@ -137,5 +137,9 @@
   "tr_bibleStudiesMonthlyLess": "Sa ei saa esitada rohkem piibliuurimisi, kui sul on oma kõigi päevade arvestuses kokku",
   "tr_hoursDecreaseError": "Tunde ei saa muuta",
   "tr_hoursDecreaseErrorDesc": "Sa ei saa esitada rohkem tunde, kui sul on oma kõigi päevade arvestuses kokku",
-  "tr_SCEL": "Kogudusevanemate kool"
+  "tr_SCEL": "Kogudusevanemate kool",
+  "tr_timerNothingToSave": "Nothing to save",
+  "tr_timerNothingToSaveDesc": "The session was shorter than a minute, so no time was added to the report.",
+  "tr_timerNoOpenMonth": "No month to add the time to",
+  "tr_timerNoOpenMonthDesc": "Every month since this session started is already confirmed. The session stays paused."
 }
