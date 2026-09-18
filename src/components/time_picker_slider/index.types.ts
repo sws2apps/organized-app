@@ -4,9 +4,7 @@ export type TimePickerSliderProps = {
 };
 
 export type TimeUnitProps = {
-  value: string;
-  prevValue: string;
-  nextValue: string;
-  onIncrement: () => void;
-  onDecrement: () => void;
+  defaultValue: number;
+  max: number;
+  onChange: (value: number) => void;
 };
