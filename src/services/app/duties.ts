@@ -6,8 +6,9 @@ import {
   DutiesSectionType,
   SchedWeekType,
 } from '@definition/schedules';
-import { schedulesState } from '@states/schedules';
+import { assignmentsHistoryState, schedulesState } from '@states/schedules';
 import { dbSchedBulkUpdate, dbSchedUpdate } from '@services/dexie/schedules';
+import { schedulesBuildHistoryList } from '@services/app/schedules';
 import { formatDate, getWeekDate } from '@utils/date';
 
 export type DutiesMeetingValue = 'midweek' | 'weekend';
@@ -260,5 +261,19 @@ export const dutiesReleasePositions = async (
     if (released) changed.push(updated);
   }
 
-  if (changed.length > 0) await dbSchedBulkUpdate(changed);
+  if (changed.length === 0) return;
+
+  await dbSchedBulkUpdate(changed);
+
+  // keep the editor and the history in step without waiting for the live query
+  const updatedWeeks = new Map(changed.map((week) => [week.weekOf, week]));
+
+  store.set(
+    schedulesState,
+    store
+      .get(schedulesState)
+      .map((schedule) => updatedWeeks.get(schedule.weekOf) ?? schedule)
+  );
+
+  store.set(assignmentsHistoryState, schedulesBuildHistoryList());
 };
