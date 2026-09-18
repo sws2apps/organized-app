@@ -10,6 +10,9 @@ import {
 } from 'react';
 import { useNavigate } from 'react-router';
 import { useAtom, useAtomValue } from 'jotai';
+import { useQueryClient } from '@tanstack/react-query';
+import { store } from '@states/index';
+import { currentAuthUser } from '@services/firebase/auth';
 import usePwaInstall from '@hooks/usePwaInstall';
 import {
   IconInstallDesktop,
@@ -17,7 +20,6 @@ import {
   IconInstallTablet,
 } from '@icons/index';
 import {
-  disconnectCongAccount,
   setIsAboutOpen,
   setIsAppLoad,
   setIsContactOpen,
@@ -27,7 +29,9 @@ import {
 } from '@services/states/app';
 import { useBreakpoints } from '@hooks/index';
 import {
+  accountAttentionState,
   congAccountConnectedState,
+  connectionStatusState,
   isAppLoadState,
   navBarAnchorElState,
   navBarOptionsState,
@@ -37,7 +41,6 @@ import {
   congNameState,
   fullnameState,
 } from '@states/settings';
-import { userSignOut } from '@services/firebase/auth';
 
 import NavBarButton from '@components/nav_bar_button';
 import { NavBarButtonProps } from '@components/nav_bar_button/index.types';
@@ -119,8 +122,31 @@ const useNavbar = () => {
     navBarOptions.quickSettings!();
   };
 
-  const handleReconnectAccount = () => {
+  const queryClient = useQueryClient();
+
+  const connectionStatus = useAtomValue(connectionStatusState);
+  const accountAttention = useAtomValue(accountAttentionState);
+
+  let reconnectLabel = 'tr_reconnectNow';
+  if (connectionStatus === 'attention') {
+    reconnectLabel =
+      accountAttention === 'two-step' ? 'tr_confirmTwoStep' : 'tr_loginAgain';
+  }
+
+  const handleReconnectAccount = async () => {
     handleCloseMore();
+
+    // usually only the connection was lost: retry quietly before the log-in screen
+    const needsLogin = store.get(accountAttentionState) !== '';
+
+    if (!needsLogin && accountType === 'vip' && currentAuthUser()) {
+      await queryClient.refetchQueries({ queryKey: ['whoami-vip'] });
+
+      for (let i = 0; i < 20; i++) {
+        if (store.get(congAccountConnectedState)) return;
+        await new Promise((resolve) => setTimeout(resolve, 250));
+      }
+    }
 
     setOfflineOverride(true);
     setIsSetup(true);
@@ -160,15 +186,6 @@ const useNavbar = () => {
     const prompted = hasPrompt ? await installPwa() : false;
 
     if (!prompted) setInstallDialogOpen(true);
-  };
-
-  const handleDisconnectAccount = async () => {
-    handleCloseMore();
-
-    await userSignOut();
-    disconnectCongAccount();
-
-    globalThis.location.reload();
   };
 
   const markLastNavBarButton = useCallback((children: ReactNode): ReactNode => {
@@ -254,9 +271,9 @@ const useNavbar = () => {
     handleGoDashboard,
     isAppLoad,
     handleReconnectAccount,
+    reconnectLabel,
     handleOpenRealApp,
     accountType,
-    handleDisconnectAccount,
     navBarOptions,
     handleBack,
     desktopUp,

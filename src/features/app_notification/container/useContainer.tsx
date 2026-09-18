@@ -7,6 +7,7 @@ import {
   encryptedMasterKeyState,
   featureFlagsState,
   isAppDataSyncingState,
+  isOnlineState,
   speakersKeyState,
   userIDState,
 } from '@states/app';
@@ -60,6 +61,7 @@ const useContainer = () => {
   const setApplications = useSetAtom(applicationsState);
 
   const congAccountConnected = useAtomValue(congAccountConnectedState);
+  const isOnline = useAtomValue(isOnlineState);
   const pendingRequests = useAtomValue(congregationsPendingState);
   const congregationRemotes = useAtomValue(congregationsRemoteListState);
   const congregationsNotDisapproved = useAtomValue(
@@ -77,7 +79,8 @@ const useContainer = () => {
       accountType === 'vip' &&
       !isAppSyncing &&
       isElder &&
-      congAccountConnected,
+      congAccountConnected &&
+      isOnline,
     queryKey: ['congregation_updates'],
     queryFn: apiUserGetUpdates,
     refetchInterval: 60 * 1000,
@@ -85,6 +88,7 @@ const useContainer = () => {
   });
 
   const { data: appNotifications } = useQuery({
+    enabled: isOnline,
     queryKey: ['app_notifications'],
     queryFn: apiFetchNotifications,
     refetchInterval: 60 * 1000,
