@@ -45,6 +45,6 @@ export const Default: Story = {
   },
 };
 
-export const IndicatorMode: Story = {
-  args: { ...Default.args, indicatorMode: true },
+export const Plain: Story = {
+  args: { ...Default.args, appearance: 'plain' },
 };
