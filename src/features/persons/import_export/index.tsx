@@ -49,7 +49,7 @@ const ImportExport = (props: ImportExportType) => {
   };
 
   return (
-    <Dialog onClose={props.onClose} open={props.open} sx={{ padding: '24px' }}>
+    <Dialog onClose={props.onClose} open={props.open}>
       {state === 'import/export' && (
         <Stack
           spacing="16px"
