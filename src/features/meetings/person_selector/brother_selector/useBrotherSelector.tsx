@@ -38,6 +38,7 @@ import {
   schedulesDutyPersonQualified,
   schedulesGetData,
   schedulesGetMeetingDate,
+  schedulesPersonHasConsecutiveAssignment,
   schedulesPersonHasMeetingConflict,
   schedulesSaveAssignment,
 } from '@services/app/schedules';
@@ -521,6 +522,18 @@ const useBrotherSelector = ({
     });
   }, [value, assignmentsHistory, week, assignment, dataView, type]);
 
+  const isConsecutiveAssignment = useMemo(() => {
+    if (!value) return false;
+
+    return schedulesPersonHasConsecutiveAssignment({
+      history: assignmentsHistory,
+      week,
+      type,
+      person_uid: value.person_uid,
+      dataView,
+    });
+  }, [value, assignmentsHistory, week, type, dataView]);
+
   const meetingDate = useMemo(() => {
     let meeting: 'midweek' | 'weekend';
 
@@ -567,12 +580,8 @@ const useBrotherSelector = ({
     }
 
     // check week assignments
-    const weekAssignments = personHistory.filter(
-      (record) => record.weekOf === week
-    );
-
-    if (weekAssignments.length > 1) {
-      return t('tr_personAlreadyAssignmentWeek');
+    if (isConsecutiveAssignment) {
+      return t('tr_personAssignedPreviousWeek');
     }
 
     // check monthly assignments
@@ -608,6 +617,7 @@ const useBrotherSelector = ({
     isDutiesField,
     weekConflicts,
     isMeetingConflict,
+    isConsecutiveAssignment,
   ]);
 
   const helperSeverity: 'error' | 'warning' = useMemo(() => {

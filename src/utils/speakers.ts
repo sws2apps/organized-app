@@ -175,7 +175,11 @@ const parseSongs = (
     const song = raw.trim();
     const num = Number.parseInt(song, 10);
 
-    if (!DIGITS_ONLY_REGEX.test(song) || num <= 0) {
+    if (
+      !DIGITS_ONLY_REGEX.test(song) ||
+      !Number.isSafeInteger(num) ||
+      num <= 0
+    ) {
       throw new TalksListParseError(input, position);
     }
 
@@ -259,7 +263,7 @@ export const parseSpeakerTalks = (value: string): IncomingTalkType[] => {
     }
 
     const talkNum = Number.parseInt(match[1], 10);
-    if (Number.isNaN(talkNum) || talkNum <= 0) {
+    if (!Number.isSafeInteger(talkNum) || talkNum <= 0) {
       throw new TalksListParseError(input, pos);
     }
 
