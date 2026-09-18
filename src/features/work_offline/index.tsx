@@ -18,6 +18,7 @@ const startWorkOffline = () => {
   displaySnackNotification({
     header: getTranslation({ key: 'tr_offlineMode' }),
     message: getTranslation({ key: 'tr_workOfflineStarted' }),
+    severity: 'warning',
     icon: <IconNoConnection color="var(--always-white)" />,
   });
 };
@@ -85,6 +86,7 @@ export const WorkOfflineReminder = () => {
     displaySnackNotification({
       header: t('tr_offlineMode'),
       message: t('tr_workOfflineReminder'),
+      severity: 'warning',
       icon: <IconNoConnection color="var(--always-white)" />,
     });
   }, [workOffline, t]);

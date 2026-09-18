@@ -53,8 +53,9 @@ const AccountHeaderIcon = ({
     attention: redBadge,
     'no-network': redBadge,
     'server-unreachable': redBadge,
+    // stronger and higher than the others: the icon must read on any photo
     paused:
-      'linear-gradient(180deg, rgba(221, 140, 44, 0) 0%, var(--orange-main) 100%)',
+      'linear-gradient(180deg, rgba(221, 140, 44, 0) 0%, rgba(221, 140, 44, 0.9) 30%, var(--orange-main) 55%)',
     connecting:
       'linear-gradient(180deg, rgba(90, 96, 120, 0) 0%, var(--accent-main) 100%)',
   };
@@ -121,7 +122,7 @@ const AccountHeaderIcon = ({
           <Box
             sx={{
               width: '32px',
-              height: '75%',
+              height: badge === 'paused' ? '90%' : '75%',
               position: 'absolute',
               bottom: '0',
               left: 'calc(50% - 16px)',
