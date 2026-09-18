@@ -245,6 +245,9 @@ const useUserAutoLogin = () => {
       try {
         setAutoLoginStatus('auto login process started');
 
+        // cached answers must not reconnect the account in offline mode
+        if (!isOnline) return;
+
         if (isPendingVip) return;
 
         if (!dataVip) return;
@@ -437,6 +440,7 @@ const useUserAutoLogin = () => {
     queryClient,
     featureFlags,
     accountType,
+    isOnline,
     isPendingVip,
     dataVip,
     // a successful check that returns the same answer as before must still
@@ -456,6 +460,8 @@ const useUserAutoLogin = () => {
   useEffect(() => {
     const handleLoginData = async () => {
       try {
+        if (!isOnline) return;
+
         if (isPendingPocket) return;
 
         if (!dataPocket) return;
@@ -543,6 +549,7 @@ const useUserAutoLogin = () => {
   }, [
     t,
     accountType,
+    isOnline,
     isPendingPocket,
     dataPocket,
     dataPocketUpdatedAt,

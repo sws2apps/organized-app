@@ -25,7 +25,6 @@ import {
   IconInstallTablet,
 } from '@icons/index';
 import {
-  disconnectCongAccount,
   setIsAboutOpen,
   setIsAppLoad,
   setIsContactOpen,
@@ -45,7 +44,6 @@ import {
   congNameState,
   fullnameState,
 } from '@states/settings';
-import { userSignOut } from '@services/firebase/auth';
 
 import NavBarButton from '@components/nav_bar_button';
 import { NavBarButtonProps } from '@components/nav_bar_button/index.types';
@@ -197,24 +195,6 @@ const useNavbar = () => {
     if (!prompted) setInstallDialogOpen(true);
   };
 
-  const [logoutConfirmOpen, setLogoutConfirmOpen] = useState(false);
-
-  const handleDisconnectAccount = () => {
-    handleCloseMore();
-    setLogoutConfirmOpen(true);
-  };
-
-  const handleCloseLogoutConfirm = () => setLogoutConfirmOpen(false);
-
-  const handleConfirmLogout = async () => {
-    setLogoutConfirmOpen(false);
-
-    await userSignOut();
-    disconnectCongAccount();
-
-    globalThis.location.reload();
-  };
-
   const markLastNavBarButton = useCallback((children: ReactNode): ReactNode => {
     const flat = Children.toArray(children);
 
@@ -301,10 +281,6 @@ const useNavbar = () => {
     reconnectLabel,
     handleOpenRealApp,
     accountType,
-    handleDisconnectAccount,
-    logoutConfirmOpen,
-    handleCloseLogoutConfirm,
-    handleConfirmLogout,
     navBarOptions,
     handleBack,
     desktopUp,

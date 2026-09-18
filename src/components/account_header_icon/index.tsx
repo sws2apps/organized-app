@@ -4,7 +4,7 @@ import {
   IconCloudSync,
   IconExpand,
   IconInfo,
-  IconPause,
+  IconNoConnection,
 } from '@icons/index';
 import { useAccountHeaderIcon } from './useAccountHeaderIcon';
 import { isTest } from '@constants/index';
@@ -37,20 +37,19 @@ const AccountHeaderIcon = ({
   const statusLabel: Record<string, string> = {
     connected: t('tr_statusConnected'),
     connecting: t('tr_statusConnecting'),
-    paused: t('tr_workingOffline'),
+    paused: t('tr_offlineMode'),
     'no-network': t('tr_statusNoNetwork'),
     'server-unreachable': t('tr_cantReachServer'),
     attention: t('tr_statusAttention'),
   };
 
-  // only a state the user has to act on is red
+  // red: something the user has to act on, or offline mode they chose
   const badge = isTest || status === 'connected' ? null : status;
-  const isRed = badge === 'attention';
+  const isRed = badge === 'attention' || badge === 'paused';
 
   const badgeBackground: Record<string, string> = {
     attention: 'linear-gradient(180deg, rgba(202, 38, 38, 0) 0%, #CA2626 100%)',
-    paused:
-      'linear-gradient(180deg, rgba(90, 96, 120, 0) 0%, var(--grey-400) 100%)',
+    paused: 'linear-gradient(180deg, rgba(202, 38, 38, 0) 0%, #CA2626 100%)',
     'no-network':
       'linear-gradient(180deg, rgba(90, 96, 120, 0) 0%, var(--grey-400) 100%)',
     'server-unreachable':
@@ -61,7 +60,7 @@ const AccountHeaderIcon = ({
 
   const BadgeIcon =
     badge === 'paused'
-      ? IconPause
+      ? IconNoConnection
       : badge === 'no-network' || badge === 'server-unreachable'
         ? IconCloudOff
         : badge === 'connecting'
@@ -78,12 +77,10 @@ const AccountHeaderIcon = ({
         flexDirection: 'row',
         gap: '4px',
         borderRadius: 'var(--radius-max)',
-        border: `1px ${badge === 'paused' ? 'dashed' : 'solid'} ${
+        border: `1px solid ${
           isRed
             ? 'var(--red-main)'
-            : badge === 'paused' ||
-                badge === 'no-network' ||
-                badge === 'server-unreachable'
+            : badge === 'no-network' || badge === 'server-unreachable'
               ? 'var(--grey-400)'
               : 'var(--accent-200)'
         }`,
@@ -101,9 +98,7 @@ const AccountHeaderIcon = ({
           backgroundColor: 'var(--accent-200)',
           borderColor: isRed
             ? 'var(--red-main)'
-            : badge === 'paused' ||
-                badge === 'no-network' ||
-                badge === 'server-unreachable'
+            : badge === 'no-network' || badge === 'server-unreachable'
               ? 'var(--grey-400)'
               : 'var(--accent-300)',
         },

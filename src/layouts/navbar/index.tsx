@@ -3,7 +3,6 @@ import {
   AppBar,
   Box,
   Container,
-  Divider,
   ListItemIcon,
   ListItemText,
   Menu,
@@ -19,21 +18,22 @@ import {
   IconLogo,
   IconMail,
   IconArrowLink,
-  IconLogout,
   IconNavigateLeft,
   IconSettings,
 } from '@icons/index';
-import { useAppTranslation, useFirebaseAuth } from '@hooks/index';
+import { useAppTranslation } from '@hooks/index';
 import { APP_ENVIRONMENT, isTest } from '@constants/index';
 import { NavBarType } from './index.types';
 import useNavbar from './useNavbar';
 import AccountHeaderIcon from '@components/account_header_icon';
-import { WorkOfflineChip, WorkOfflineMenuItem } from '@features/work_offline';
+import {
+  WorkOfflineMenuItem,
+  WorkOfflineReminder,
+} from '@features/work_offline';
 import { accountAttentionState, workOfflineState } from '@states/app';
 import { useAtomValue } from 'jotai';
 import AppNotification from '@features/app_notification';
 import InstallDialog from '@features/app_install/install_dialog';
-import LogoutConfirm from '@features/logout_confirm';
 import Button from '@components/button';
 import DemoBanner from '@features/demo/banner';
 import LanguageSwitcher from '@features/language_switcher';
@@ -67,8 +67,6 @@ const NavBar = ({ isSupported }: NavBarType) => {
 
   const [settingsAnimating, setSettingsAnimating] = useState(false);
 
-  const { isAuthenticated } = useFirebaseAuth();
-
   const {
     anchorEl,
     handleCloseMore,
@@ -90,10 +88,6 @@ const NavBar = ({ isSupported }: NavBarType) => {
     handleBack,
     accountType,
     tablet688Up,
-    handleDisconnectAccount,
-    logoutConfirmOpen,
-    handleCloseLogoutConfirm,
-    handleConfirmLogout,
     congName,
     fullname,
     navBarOptions,
@@ -235,7 +229,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
                           marginLeft: !tabletUp ? '4px' : '0px',
                         }}
                       >
-                        {!isTest && <WorkOfflineChip />}
+                        {!isTest && <WorkOfflineReminder />}
                         <AccountHeaderIcon
                           handleOpenMore={handleOpenMoreMenu}
                           isMoreOpen={openMore}
@@ -502,41 +496,6 @@ const NavBar = ({ isSupported }: NavBarType) => {
                               </ListItemText>
                             </MenuItem>
                           )}
-
-                        {/* logging out is not a sync switch: keep it apart */}
-                        {isAuthenticated && (
-                          <Divider sx={{ margin: '4px 0' }} />
-                        )}
-
-                        {isAuthenticated && (
-                          <MenuItem
-                            disableRipple
-                            sx={menuStyle}
-                            onClick={handleDisconnectAccount}
-                          >
-                            <ListItemIcon
-                              sx={{
-                                '&.MuiListItemIcon-root': {
-                                  width: '24px',
-                                  minWidth: '24px !important',
-                                },
-                              }}
-                            >
-                              <IconLogout color="var(--black)" />
-                            </ListItemIcon>
-                            <ListItemText>
-                              <Typography className="body-regular">
-                                {t('tr_logoutKeepData')}
-                              </Typography>
-                              <Typography
-                                className="label-small-regular"
-                                color="var(--grey-350)"
-                              >
-                                {t('tr_logoutKeepDataDesc')}
-                              </Typography>
-                            </ListItemText>
-                          </MenuItem>
-                        )}
                       </Menu>
                     </>
                   )}
@@ -653,12 +612,6 @@ const NavBar = ({ isSupported }: NavBarType) => {
       {navBarOptions.buttons && !tablet688Up && (
         <BottomMenu buttons={markLastNavBarButton(navBarOptions.buttons)} />
       )}
-      <LogoutConfirm
-        open={logoutConfirmOpen}
-        onClose={handleCloseLogoutConfirm}
-        onConfirm={handleConfirmLogout}
-      />
-
       <InstallDialog
         open={installDialogOpen}
         onClose={handleCloseInstallDialog}
