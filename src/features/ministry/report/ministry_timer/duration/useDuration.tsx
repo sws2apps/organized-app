@@ -6,28 +6,28 @@ const useDuration = ({ time }: DurationProps) => {
   const { isGroup } = useCurrentUser();
 
   const { first, second, isHour } = useMemo(() => {
-    const seconds = time % 60;
+    const total = Math.max(0, time);
 
-    const minutesTotal = (time - seconds) / 60;
+    const seconds = total % 60;
+
+    const minutesTotal = (total - seconds) / 60;
     const minutes = minutesTotal % 60;
 
-    const hoursTotal = time - seconds - minutes * 60;
-    const hours = hoursTotal / 3600;
-
-    if (hours === 0) {
-      return {
-        first: String(minutes).padStart(2, '0'),
-        second: String(seconds).padStart(2, '0'),
-      };
-    }
+    const hours = (minutesTotal - minutes) / 60;
 
     if (hours > 0) {
       return {
-        first: hours,
+        first: String(hours),
         second: String(minutes).padStart(2, '0'),
         isHour: true,
       };
     }
+
+    return {
+      first: String(minutes).padStart(2, '0'),
+      second: String(seconds).padStart(2, '0'),
+      isHour: false,
+    };
   }, [time]);
 
   const defaultColor = useMemo(() => {

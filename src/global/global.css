@@ -1,6 +1,6 @@
 /**
 * Do not edit directly
-* Generated on 9/3/2024, 9:50:20 PM
+* Generated on 9/17/2026, 2:51:14 PM
 */
 
 :root {
@@ -36,8 +36,8 @@
   --group-3-base: 83, 96, 208;
   --group-4: #ea8135ff;
   --group-4-base: 234, 129, 53;
-  --group-5: #a8b93eff;
-  --group-5-base: 168, 185, 62;
+  --group-5: #7c9200ff;
+  --group-5-base: 124, 146, 0;
   --group-6: #944cb5ff;
   --group-6-base: 148, 76, 181;
   --group-7: #25a9a9ff;
@@ -978,10 +978,6 @@
     box-shadow: 0px 2px 8px 0px #0e1227a3;
   }
 }
-
-
-
-
 
 /* colors for teal-light theme */
 [data-theme='teal-light'] {

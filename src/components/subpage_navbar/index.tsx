@@ -38,14 +38,13 @@ const SubpageNavbar = ({
       }}
     >
       <IconButton
+        className="back-arrow-button"
         aria-label={backLabel}
         onClick={onBack}
         sx={{
           flexShrink: 0,
           marginLeft: '-10px',
-          '&:hover': {
-            backgroundColor: 'var(--accent-200)',
-          },
+          '&:hover': { backgroundColor: 'var(--accent-200)' },
         }}
       >
         <IconNavigateLeft color="var(--black)" />
