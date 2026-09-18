@@ -9,6 +9,7 @@ import {
 import {
   appLangState,
   congAccountConnectedState,
+  dbHydratedState,
   isAppLoadState,
   isPocketSignUpState,
   isSetupState,
@@ -66,7 +67,22 @@ import { dbUpcomingEventsCleanup } from '@services/dexie/upcoming_events';
 import appDb from '@db/appDb';
 import { dbSpeakersCongregationsSetName } from '@services/dexie/speakers_congregations';
 
-export const loadApp = () => {
+const waitForDbHydrated = () => {
+  if (store.get(dbHydratedState)) return Promise.resolve();
+
+  return new Promise<void>((resolve) => {
+    const unsubscribe = store.sub(dbHydratedState, () => {
+      if (!store.get(dbHydratedState)) return;
+
+      unsubscribe();
+      resolve();
+    });
+  });
+};
+
+export const loadApp = async () => {
+  await waitForDbHydrated();
+
   const appLang = store.get(appLangState);
 
   handleAppChangeLanguage(appLang);
@@ -257,14 +273,11 @@ export const getListLanguages = async () => {
 const handleLoadApp = async () => {
   await runUpdater();
 
-  loadApp();
+  await loadApp();
 
   store.set(isSetupState, false);
-
-  setTimeout(async () => {
-    store.set(offlineOverrideState, false);
-    store.set(isAppLoadState, false);
-  }, 2000);
+  store.set(offlineOverrideState, false);
+  store.set(isAppLoadState, false);
 };
 
 const handleUpdateSettings = async (data: UserLoginResponseType) => {

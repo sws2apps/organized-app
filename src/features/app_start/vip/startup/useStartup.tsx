@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import {
@@ -31,13 +31,10 @@ import { APP_ROLES, VIP_ROLES } from '@constants/index';
 import { handleDeleteDatabase, loadApp, runUpdater } from '@services/app';
 import { apiValidateMe } from '@services/api/user';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
-import { userSignOut } from '@services/firebase/auth';
-import useFirebaseAuth from '@hooks/useFirebaseAuth';
+import { userSignOut, waitForAuthReady } from '@services/firebase/auth';
 
 const useStartup = () => {
   const [searchParams] = useSearchParams();
-
-  const { isAuthenticated } = useFirebaseAuth();
 
   const [isUserSignIn, setIsUserSignIn] = useAtom(isUserSignInState);
 
@@ -61,6 +58,10 @@ const useStartup = () => {
 
   const [isStart, setIsStart] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+
+  // the check makes a server round trip; it must not start a second time
+  // while the first is still in flight
+  const checkStarted = useRef(false);
 
   const isEmailLink = searchParams.get('code') !== null;
 
@@ -106,11 +107,17 @@ const useStartup = () => {
       if (allowOpen) {
         setIsSetup(false);
         await runUpdater();
-        loadApp();
+        await loadApp();
         setIsAppLoad(false);
 
         return;
       }
+
+      // the server check needs the Firebase session, which is restored from
+      // storage asynchronously; without this wait the request carries no token
+      // and the user is signed out
+      const authUser = await waitForAuthReady();
+      const isAuthenticated = Boolean(authUser);
 
       const { status, result } = await apiValidateMe();
 
@@ -198,7 +205,6 @@ const useStartup = () => {
     congID,
     setCongCreate,
     setCurrentStep,
-    isAuthenticated,
     setIsUserSignIn,
   ]);
 
@@ -220,7 +226,10 @@ const useStartup = () => {
       setIsUserSignIn(true);
     }
 
-    if (cookiesConsent && isStart) runStartupCheck();
+    if (cookiesConsent && isStart && !checkStarted.current) {
+      checkStarted.current = true;
+      runStartupCheck();
+    }
   }, [setIsUserSignIn, cookiesConsent, isStart, runStartupCheck]);
 
   return {

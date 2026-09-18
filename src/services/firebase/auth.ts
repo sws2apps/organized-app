@@ -18,6 +18,23 @@ export const userSignOut = async () => {
   }
 };
 
+/**
+ * Resolves once Firebase has restored (or ruled out) the signed-in user from
+ * storage. Until then currentUser is null even for a signed-in user, and any
+ * API call made in that window goes out without a token. The timeout guards
+ * against the rare case where the SDK never settles.
+ */
+export const waitForAuthReady = async (timeoutMs = 10000) => {
+  const auth = getAuth();
+
+  await Promise.race([
+    auth.authStateReady(),
+    new Promise((resolve) => setTimeout(resolve, timeoutMs)),
+  ]);
+
+  return auth.currentUser;
+};
+
 export const currentAuthUser = () => {
   const auth = getAuth();
   const user = auth?.currentUser;
