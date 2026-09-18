@@ -1,84 +1,116 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useReducer,
+  useRef,
+  useState,
+} from 'react';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
-import { addMonths, formatDate } from '@utils/date';
 import {
   reportUserSelectedMonthState,
-  userFieldServiceDailyReportsState,
   userMinistryTimerState,
 } from '@states/user_field_service_reports';
-import { handleSaveDailyFieldServiceReport } from '@services/app/user_field_service_reports';
+import {
+  fieldServiceTimeFromSeconds,
+  handleAddFieldServiceTime,
+  ministryTimerCorrectClock,
+  ministryTimerElapsed,
+  ministryTimerReportDate,
+  ministryTimerSessionDate,
+  userFieldServiceMonthConfirmed,
+} from '@services/app/user_field_service_reports';
 import { userLocalUIDState } from '@states/settings';
-import { UserFieldServiceDailyReportType } from '@definition/user_field_service_reports';
-import { userFieldServiceDailyReportSchema } from '@services/dexie/schema';
-import useMinistryMonthlyRecord from '@features/ministry/hooks/useMinistryMonthlyRecord';
+import { congFieldServiceReportsState } from '@states/field_service_reports';
+import { personsActiveState } from '@states/persons';
+import usePerson from '@features/persons/hooks/usePerson';
+import useAppTranslation from '@hooks/useAppTranslation';
+import { displaySnackNotification } from '@services/states/app';
+import { getMessageByCode } from '@services/i18n/translation';
 
 const useMinistryTimer = () => {
-  const timerRef = useRef<NodeJS.Timeout>(null);
+  const { t } = useAppTranslation();
 
   const [timer, setTimer] = useAtom(userMinistryTimerState);
 
   const setSelectedMonth = useSetAtom(reportUserSelectedMonthState);
 
-  const reports = useAtomValue(userFieldServiceDailyReportsState);
   const userUID = useAtomValue(userLocalUIDState);
+  const congReports = useAtomValue(congFieldServiceReportsState);
+  const persons = useAtomValue(personsActiveState);
 
-  const today = useMemo(() => {
-    return formatDate(new Date(), 'yyyy/MM/dd');
-  }, []);
+  const { personIsPublisher } = usePerson();
 
-  const month = useMemo(() => {
-    return formatDate(new Date(), 'yyyy/MM');
-  }, []);
+  const [, refreshTimer] = useReducer((value: number) => value + 1, 0);
 
-  const { read_only } = useMinistryMonthlyRecord({
-    month,
-    person_uid: userUID,
-    publisher: true,
-  });
+  // the last moment the running session was seen, to notice a clock moved back
+  const lastSeen = useRef(Date.now());
 
-  const report_date = useMemo(() => {
-    if (!read_only) {
-      return today;
-    }
+  // a stop being written holds the timer, so nothing can start a session that
+  // the finished save would then reset
+  const stopping = useRef(false);
+  const [saving, setSaving] = useState(false);
 
-    return formatDate(addMonths(today, 1), 'yyyy/MM/01');
-  }, [read_only, today]);
-
-  const currentReport = useMemo(() => {
-    return reports.find((record) => record.report_date === report_date);
-  }, [reports, report_date]);
-
-  // restore state from db if timer state left as started
-  const initialTime = useMemo(() => {
-    if (timer.state === 'started') {
-      const now = Date.now();
-      const elapsedTime = timer.value;
-
-      const additionalTime = Math.floor((now - timer.start) / 1000);
-      return elapsedTime + additionalTime;
-    }
-
-    if (timer.state === 'paused') {
-      return timer.value;
-    }
-
-    return 0;
-  }, [timer]);
-
-  const timerState = useMemo(() => {
-    return timer.state;
-  }, [timer.state]);
-
-  const [time, setTime] = useState(initialTime);
   const [editorOpen, setEditorOpen] = useState(false);
+  const [editorDate, setEditorDate] = useState('');
   const [sliderOpen, setSliderOpen] = useState(false);
-  const [hours, setHours] = useState(0);
-  const [minutes, setMinutes] = useState(0);
+
+  const timerState = timer.state;
+
+  const time = ministryTimerElapsed(timer, Date.now());
+
+  const sessionDate = ministryTimerSessionDate(timer, Date.now());
+
+  const isMonthLocked = useCallback(
+    (month: string) => {
+      const person = persons.find((record) => record.person_uid === userUID);
+
+      if (!person || !personIsPublisher(person, month)) return true;
+
+      return userFieldServiceMonthConfirmed(congReports, userUID, month);
+    },
+    [persons, userUID, personIsPublisher, congReports]
+  );
+
+  const report_date = useMemo(
+    () => ministryTimerReportDate(sessionDate, isMonthLocked),
+    [sessionDate, isMonthLocked]
+  );
+
+  /**
+   * The running session as of now, with a clock moved back since it was last
+   * seen already corrected, so that pausing or stopping never measures less
+   * than was shown.
+   */
+  const getCurrentTimer = () => {
+    const now = Date.now();
+
+    const current = ministryTimerCorrectClock(timer, lastSeen.current, now);
+
+    lastSeen.current = now;
+
+    return { current, elapsed: ministryTimerElapsed(current, now) };
+  };
+
+  const resetTimer = useCallback(() => {
+    setTimer((prev) => {
+      const newValue = structuredClone(prev);
+      newValue.start = 0;
+      newValue.date = 0;
+      newValue.state = 'not_started';
+      newValue.value = 0;
+
+      return newValue;
+    });
+  }, [setTimer]);
 
   const handleStart = () => {
+    lastSeen.current = Date.now();
+
     setTimer((prev) => {
       const newValue = structuredClone(prev);
       newValue.start = Date.now();
+      newValue.date = prev.date || Date.now();
       newValue.state = 'started';
 
       return newValue;
@@ -86,65 +118,90 @@ const useMinistryTimer = () => {
   };
 
   const handlePause = () => {
-    setTimer((prev) => {
-      const newValue = structuredClone(prev);
-      newValue.state = 'paused';
-      newValue.value = time;
+    const { current, elapsed } = getCurrentTimer();
 
-      return newValue;
-    });
+    const newValue = structuredClone(current);
+    newValue.state = 'paused';
+    newValue.value = elapsed;
+
+    setTimer(newValue);
   };
 
   const handleAddTime = () => {
-    setSelectedMonth(report_date.slice(0, 7));
+    const date = report_date ?? sessionDate;
+
+    setSelectedMonth(date.slice(0, 7));
+    setEditorDate(date);
     setEditorOpen(true);
   };
 
   const handleStop = async () => {
-    setTimer((prev) => {
-      const newValue = structuredClone(prev);
-      newValue.start = 0;
-      newValue.state = 'not_started';
-      newValue.value = 0;
+    if (stopping.current) return;
 
-      return newValue;
-    });
+    const { current, elapsed } = getCurrentTimer();
 
-    if (hours > 0 || minutes > 0) {
-      let draftReport: UserFieldServiceDailyReportType;
+    const { hours, minutes } = fieldServiceTimeFromSeconds(elapsed);
 
-      if (!currentReport) {
-        draftReport = structuredClone(userFieldServiceDailyReportSchema);
-        draftReport.report_date = report_date;
-      }
+    if (hours === 0 && minutes === 0) {
+      resetTimer();
 
-      if (currentReport) {
-        draftReport = structuredClone(currentReport);
-      }
+      displaySnackNotification({
+        header: t('tr_timerNothingToSave'),
+        message: t('tr_timerNothingToSaveDesc'),
+        severity: 'error',
+      });
 
-      const current = draftReport.report_data.hours.field_service;
-      const [prevHours, prevMinutes] = current.split(':').map(Number);
+      return;
+    }
 
-      let newHours = prevHours + hours;
-      let newMinutes = (prevMinutes || 0) + minutes;
+    if (!report_date) {
+      handlePause();
 
-      if (newMinutes >= 60) {
-        newHours++;
-        newMinutes = newMinutes - 60;
-      }
+      displaySnackNotification({
+        header: t('tr_timerNoOpenMonth'),
+        message: t('tr_timerNoOpenMonthDesc'),
+        severity: 'error',
+      });
 
-      draftReport.report_data.hours.field_service = `${newHours}:${String(newMinutes).padStart(2, '0')}`;
-      draftReport.report_data._deleted = false;
-      draftReport.report_data.updatedAt = new Date().toISOString();
+      return;
+    }
 
-      await handleSaveDailyFieldServiceReport(draftReport);
+    stopping.current = true;
+    setSaving(true);
 
-      setSelectedMonth(draftReport.report_date.slice(0, 7));
+    // the measured time is held while it is written, so that a save that fails
+    // leaves a session to stop again instead of an erased one
+    const pausedTimer = structuredClone(current);
+    pausedTimer.state = 'paused';
+    pausedTimer.value = elapsed;
+
+    setTimer(pausedTimer);
+
+    try {
+      const report = await handleAddFieldServiceTime(report_date, elapsed);
+
+      resetTimer();
+
+      setSelectedMonth(report.report_date.slice(0, 7));
+      setEditorDate(report.report_date);
       setEditorOpen(true);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+
+      displaySnackNotification({
+        header: getMessageByCode('error_app_generic-title'),
+        message: getMessageByCode(message),
+        severity: 'error',
+      });
+    } finally {
+      stopping.current = false;
+      setSaving(false);
     }
   };
 
   const handleLeftButtonAction = async () => {
+    if (stopping.current) return;
+
     if (timerState === 'started' || timerState === 'paused') {
       await handleStop();
     }
@@ -155,6 +212,8 @@ const useMinistryTimer = () => {
   };
 
   const handleRightButtonAction = () => {
+    if (stopping.current) return;
+
     if (timerState === 'not_started' || timerState === 'paused') {
       handleStart();
     }
@@ -167,17 +226,22 @@ const useMinistryTimer = () => {
   const handleCloseEditor = () => setEditorOpen(false);
 
   const handleOpenSlider = () => {
+    if (stopping.current) return;
+
     setSliderOpen(true);
   };
 
   const handleCloseSlider = () => setSliderOpen(false);
 
   const handleTimeAdded = (value: number) => {
-    setTime(value);
+    if (stopping.current) return;
+
+    lastSeen.current = Date.now();
 
     setTimer((prev) => {
       const newValue = structuredClone(prev);
       newValue.start = Date.now();
+      newValue.date = prev.date || Date.now();
       newValue.state = 'started';
       newValue.value = value;
 
@@ -185,82 +249,60 @@ const useMinistryTimer = () => {
     });
   };
 
-  useEffect(() => {
-    setTime(initialTime);
-  }, [initialTime]);
+  // corrects a clock moved back and repaints the running session
+  const syncClock = useCallback(() => {
+    const now = Date.now();
+    const seen = lastSeen.current;
 
-  // restore state from db on tab active
+    setTimer((prev) => ministryTimerCorrectClock(prev, seen, now));
+
+    lastSeen.current = now;
+
+    refreshTimer();
+  }, [setTimer]);
+
+  // repaint the elapsed time while a session is running
+  useEffect(() => {
+    if (timerState !== 'started') return;
+
+    lastSeen.current = Date.now();
+
+    const interval = setInterval(syncClock, 1000);
+
+    return () => clearInterval(interval);
+  }, [timerState, syncClock]);
+
+  // repaint as soon as the app is brought back to the foreground
   useEffect(() => {
     const handleVisibilityChange = () => {
       if (document.visibilityState === 'visible') {
-        if (timer.state === 'started') {
-          const now = Date.now();
-          const elapsedTime = timer.value;
-
-          const additionalTime = Math.floor((now - timer.start) / 1000);
-          setTime(elapsedTime + additionalTime);
-        } else if (timer.state === 'paused') {
-          setTime(timer.value);
-        }
+        syncClock();
       }
     };
 
     document.addEventListener('visibilitychange', handleVisibilityChange);
+    window.addEventListener('pageshow', syncClock);
 
     return () => {
       document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener('pageshow', syncClock);
     };
-  }, [timer]);
-
-  // launch timer
-  useEffect(() => {
-    if (timerState === 'started') {
-      timerRef.current = setInterval(() => {
-        setTime((prev) => prev + 1);
-      }, 1000);
-    } else {
-      if (timerRef.current) clearInterval(timerRef.current);
-    }
-
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
-    };
-  }, [timerState, time]);
-
-  useEffect(() => {
-    if (time > 0) {
-      // Convert seconds to hours, minutes, and seconds
-      const seconds = time % 60;
-
-      const minutesTotal = (time - seconds) / 60;
-      const minutes = minutesTotal % 60;
-
-      const hoursTotal = time - seconds - minutes * 60;
-      const hours = hoursTotal / 3600;
-
-      setMinutes(minutes);
-      setHours(hours);
-    }
-
-    if (time === 0) {
-      setMinutes(0);
-      setHours(0);
-    }
-  }, [time]);
+  }, [syncClock]);
 
   return {
     handleRightButtonAction,
     timerState,
     handleLeftButtonAction,
-    today,
+    saving,
+    today: sessionDate,
     editorOpen,
+    editorDate,
     handleCloseEditor,
     sliderOpen,
     handleOpenSlider,
     handleCloseSlider,
     handleTimeAdded,
     time,
-    report_date,
   };
 };
 
