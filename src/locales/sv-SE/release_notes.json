@@ -15,5 +15,23 @@
     "improvements": {
       "tr_note_01": "Lade till en förinställning för tillgodoräknade timmar för skolan för församlingsäldste"
     }
+  },
+  "2026-09-01T00:00": {
+    "images": {
+      "img_01": {
+        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-click-counter.svg",
+        "tr_title": "Tryck för att räkna på mobila enheter",
+        "tr_desc": "Tryck på ett närvarofält och välj sedan Räknare för att öppna en helskärmsräknare. Snabbt, enkelt och intuitivt."
+      }
+    },
+    "improvements": {
+      "tr_note_01": "Installera appen på din dator eller telefon från profilmenyn",
+      "tr_note_02": "Konfigurera elevkvalifikationer flexibelt för huvudsal eller extrasal",
+      "tr_note_03": "Teckenspråksförsamlingar kan registrera närvaron vid möten för döva separat",
+      "tr_note_04": "Autofyll en vecka i taget i månadsvyn för veckomötet på dator",
+      "tr_note_05": "Tilldela valfri familjemedlem som medhjälpare",
+      "tr_note_06": "Markera ålderspionjärer så att de befrias från det årliga timmålet",
+      "tr_note_07": "Välj orientering och teckenstorlek för PDF-exporten av tjänstegruppen"
+    }
   }
 }
