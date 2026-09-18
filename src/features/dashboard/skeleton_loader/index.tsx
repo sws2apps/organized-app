@@ -1,41 +1,29 @@
 import { Box, Skeleton } from '@mui/material';
-import MinistryCardSkeletonLoader from './components/ministry_skeleton_loader';
-import MeetingCardSkeletonLoader from './components/meeting_skeleton_loader';
-import PersonsCardSkeletonLoader from './components/persons_skeleton_loader';
-import MeetingMaterialsCardSkeletonLoader from './components/meetings_materials_skeleton_loader';
-import ReportCardSkeletonLoader from './components/reports_skeleton_loader';
-import CongregationCardSkeletonLoader from './components/congregation_skeleton_loader';
+import DashboardCardSkeleton from './card_skeleton';
+
+// the dashboard's cards in order, with their usual number of menu rows:
+// ministry, meetings, activities, persons, meeting materials, reports and
+// congregation
+const CARD_ROWS = [3, 4, 1, 3, 3, 4, 3];
+
+const lineSx = {
+  background: 'var(--accent-200)',
+  borderRadius: 'var(--radius-max)',
+};
 
 const DashboardSkeletonLoader = () => {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '12px',
-          maxWidth: '392px',
-          height: '52px',
-        }}
-      >
+      {/* the greeting and the assignments line, 52px tall like the real text */}
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+        <Skeleton variant="rounded" width={220} height={24} sx={lineSx} />
         <Skeleton
-          variant="rectangular"
-          sx={{
-            background: 'var(--accent-200)',
-            borderRadius: '30px',
-            width: '160px',
-            height: '20px',
-          }}
-        />
-        <Skeleton
-          variant="rectangular"
-          sx={{
-            background: 'var(--accent-200)',
-            borderRadius: '22.5px',
-            height: '16px',
-          }}
+          variant="rounded"
+          height={18}
+          sx={{ ...lineSx, maxWidth: '360px' }}
         />
       </Box>
+
       <Box
         sx={{
           display: 'grid',
@@ -43,12 +31,9 @@ const DashboardSkeletonLoader = () => {
           gridGap: '24px',
         }}
       >
-        <MinistryCardSkeletonLoader />
-        <MeetingCardSkeletonLoader />
-        <PersonsCardSkeletonLoader />
-        <MeetingMaterialsCardSkeletonLoader />
-        <ReportCardSkeletonLoader />
-        <CongregationCardSkeletonLoader />
+        {CARD_ROWS.map((rows, index) => (
+          <DashboardCardSkeleton key={index} rows={rows} />
+        ))}
       </Box>
     </Box>
   );
