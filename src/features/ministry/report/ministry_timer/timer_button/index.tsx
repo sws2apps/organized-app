@@ -7,10 +7,12 @@ const TimerButton = ({
   text = '',
   icon = null,
   onClick,
+  disabled = false,
 }: {
   text: string;
   icon: ReactElement;
   onClick?: VoidFunction;
+  disabled?: boolean;
 }) => {
   const { isGroup } = useCurrentUser();
 
@@ -48,6 +50,7 @@ const TimerButton = ({
         transition: 'none',
       }}
       onClick={onClick}
+      disabled={disabled}
     >
       {icon}
       <Typography

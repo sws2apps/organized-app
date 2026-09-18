@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import { useAtomValue } from 'jotai';
 import { navBarOptionsState } from '@states/app';
-import { IconArrowBack } from '@components/icons';
+import { IconNavigateLeft } from '@components/icons';
 import IconButton from '@components/icon_button';
 import Typography from '@components/typography';
 import { SubpageNavbarProps } from './index.types';
@@ -47,7 +47,7 @@ const SubpageNavbar = ({
           '&:hover': { backgroundColor: 'var(--accent-200)' },
         }}
       >
-        <IconArrowBack color="var(--black)" />
+        <IconNavigateLeft color="var(--black)" />
       </IconButton>
 
       <Box

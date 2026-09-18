@@ -568,5 +568,6 @@
   "tr_congregationAlreadySynced": "Občina je že povezana in sinhronizirana.",
   "tr_error_app_data_no_valid_data_found": "Ni najdenih veljavnih podatkov ali pa ni izbran noben govornik.",
   "tr_infirmPioneer": "Oslabeli pionir",
-  "tr_infirmPioneerNoGoal": "Kot oslabeli pionir lahko služiš toliko, kot zmoreš. Ni ti treba dosegati letne kvote ur."
+  "tr_infirmPioneerNoGoal": "Kot oslabeli pionir lahko služiš toliko, kot zmoreš. Ni ti treba dosegati letne kvote ur.",
+  "tr_importCsvParseError": "Datoteke ni bilo mogoče prebrati. Preveri strukturo stolpcev in poskusi znova."
 }
