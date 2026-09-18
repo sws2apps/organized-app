@@ -83,12 +83,9 @@ const GroupInfo = (props: GroupInfoProps) => {
     <Dialog
       onClose={handleClose}
       open={props.open}
-      sx={{ padding: '24px', gap: '16px' }}
+      sx={{ gap: '16px' }}
+      title={props.group.group_data.name || t('tr_details')}
     >
-      <Typography className="h2">
-        {props.group.group_data.name || t('tr_details')}
-      </Typography>
-
       <DialogSectionsContainer>
         <DialogSection>
           <Typography className="h4">{t('tr_details')}</Typography>

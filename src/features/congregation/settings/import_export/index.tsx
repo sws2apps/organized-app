@@ -57,7 +57,7 @@ const ImportExport = (props: ImportExportType) => {
   }
 
   return (
-    <Dialog onClose={props.onClose} open={props.open} sx={{ padding: '24px' }}>
+    <Dialog onClose={props.onClose} open={props.open}>
       {content}
     </Dialog>
   );

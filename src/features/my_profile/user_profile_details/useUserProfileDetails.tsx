@@ -19,8 +19,12 @@ const useUserProfileDetails = () => {
 
   const [firstNameTmp, setFirstNameTmp] = useState(firstName);
   const [lastNameTmp, setLastNameTmp] = useState(lastName);
+  const [isOpenSelector, setIsOpenSelector] = useState(false);
 
-  const handleChangeFirstName = async (value) => {
+  const handleOpenSelector = () => setIsOpenSelector(true);
+  const handleCloseSelector = () => setIsOpenSelector(false);
+
+  const handleChangeFirstName = async (value: string) => {
     setFirstNameTmp(value);
 
     await dbAppSettingsUpdate({
@@ -28,7 +32,7 @@ const useUserProfileDetails = () => {
     });
   };
 
-  const handleChangeLastName = async (value) => {
+  const handleChangeLastName = async (value: string) => {
     setLastNameTmp(value);
 
     await dbAppSettingsUpdate({
@@ -44,6 +48,9 @@ const useUserProfileDetails = () => {
     handleChangeLastName,
     userEmail,
     isConnected,
+    isOpenSelector,
+    handleOpenSelector,
+    handleCloseSelector,
   };
 };
 
