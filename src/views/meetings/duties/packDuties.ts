@@ -113,6 +113,25 @@ const rowHeight = (
         0
       );
 
+  // mirrors DutiesCardRow: a section note is printed above the first brother
+  // serving it, one font size smaller and as its own item in the column
+  const notes = row.event
+    ? []
+    : row.persons.filter(
+        (person, index) =>
+          person.note &&
+          (index === 0 || person.note !== row.persons[index - 1].note)
+      );
+
+  const notesHeight = notes.reduce(
+    (total, person) =>
+      total +
+      textLines(person.note ?? '', fontSize - 2, textWidth) *
+        lineHeight(fontSize - 2) +
+      PERSON_GAP,
+    0
+  );
+
   const gaps = Math.max(0, row.persons.length - 1) * PERSON_GAP;
 
   const groupTransitions = row.persons.reduce((total, person, index) => {
@@ -126,6 +145,7 @@ const rowHeight = (
   return (
     ROW_PADDING +
     Math.max(1, lines) * lineHeight(fontSize) +
+    notesHeight +
     gaps +
     groupTransitions * groupGap +
     DIVIDER

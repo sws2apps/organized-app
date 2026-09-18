@@ -76,6 +76,7 @@ const styles = StyleSheet.create({
   },
   personNote: {
     fontWeight: 400,
+    lineHeight: 1.1,
     color: '#606060',
   },
 });
