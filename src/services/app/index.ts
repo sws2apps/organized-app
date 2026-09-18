@@ -28,6 +28,7 @@ import {
 } from '@services/dexie/app';
 import { schedulesBuildHistoryList } from './schedules';
 import { setAssignmentsHistory } from '@services/states/schedules';
+import { withCongSettingsDefaults } from '@services/states/settings';
 import {
   dbSchedAuxClassUpdate,
   dbSchedUpdateOutgoingTalksFields,
@@ -58,7 +59,6 @@ import { dbSourcesUpdateEventsName } from '@services/dexie/sources';
 import {
   congAccessCodeState,
   congNameState,
-  congNumberState,
   settingsState,
   userLocalUIDState,
 } from '@states/settings';
@@ -306,61 +306,75 @@ const handleLoadApp = async () => {
 const handleUpdateSettings = async (data: UserLoginResponseType) => {
   const { app_settings } = data;
 
+  if (!app_settings?.cong_settings) {
+    throw new Error('error_app_generic-title');
+  }
+
   const settings = store.get(settingsState);
+  const localCongSettings = withCongSettingsDefaults(settings?.cong_settings);
 
-  const midweekMeeting = structuredClone(
-    settings.cong_settings.midweek_meeting
-  );
+  const midweekMeeting = structuredClone(localCongSettings.midweek_meeting);
 
-  for (const midweekRemote of app_settings.cong_settings.midweek_meeting) {
-    const midweekLocal = midweekMeeting.find(
-      (record) => record.type === midweekRemote.type
-    );
+  for (const remote of app_settings.cong_settings.midweek_meeting ?? []) {
+    const local = midweekMeeting.find((record) => record.type === remote.type);
 
-    if (midweekLocal) {
-      midweekLocal.time = midweekRemote.time;
-      midweekLocal.weekday = midweekRemote.weekday;
+    if (local) {
+      local.time = remote.time;
+      local.weekday = remote.weekday;
     } else {
-      midweekMeeting.push({
-        ...settingSchema.cong_settings.midweek_meeting.at(0),
-        time: midweekRemote.time,
-        type: midweekRemote.type,
-        weekday: midweekRemote.weekday,
-      });
+      const newMeeting = structuredClone(
+        settingSchema.cong_settings.midweek_meeting[0]
+      );
+      newMeeting.type = remote.type;
+      newMeeting.time = remote.time;
+      newMeeting.weekday = remote.weekday;
+      midweekMeeting.push(newMeeting);
     }
   }
 
-  const weekendMeeting = structuredClone(
-    settings.cong_settings.weekend_meeting
-  );
+  const weekendMeeting = structuredClone(localCongSettings.weekend_meeting);
 
-  for (const weekendRemote of app_settings.cong_settings.weekend_meeting) {
-    const weekendLocal = weekendMeeting.find(
-      (record) => record.type === weekendRemote.type
-    );
+  for (const remote of app_settings.cong_settings.weekend_meeting ?? []) {
+    const local = weekendMeeting.find((record) => record.type === remote.type);
 
-    if (weekendLocal) {
-      weekendLocal.time = weekendRemote.time;
-      weekendLocal.weekday = weekendRemote.weekday;
+    if (local) {
+      local.time = remote.time;
+      local.weekday = remote.weekday;
     } else {
-      weekendMeeting.push({
-        ...settingSchema.cong_settings.weekend_meeting.at(0),
-        time: weekendRemote.time,
-        type: weekendRemote.type,
-        weekday: weekendRemote.weekday,
-      });
+      const newMeeting = structuredClone(
+        settingSchema.cong_settings.weekend_meeting[0]
+      );
+      newMeeting.type = remote.type;
+      newMeeting.time = remote.time;
+      newMeeting.weekday = remote.weekday;
+      weekendMeeting.push(newMeeting);
     }
   }
 
   await dbAppSettingsUpdate({
     'user_settings.account_type': 'pocket',
-    'user_settings.user_local_uid': app_settings.user_settings.user_local_uid,
+    // The API may omit user_local_uid during validation. Keep the stored
+    // value in that case; overwriting it with '' would send this valid
+    // account back to invitation signup after every restart.
+    ...(app_settings.user_settings.user_local_uid != null
+      ? {
+          'user_settings.user_local_uid':
+            app_settings.user_settings.user_local_uid,
+        }
+      : {}),
     'user_settings.user_members_delegate':
-      app_settings.user_settings.user_members_delegate,
+      app_settings.user_settings.user_members_delegate ?? [],
     'cong_settings.country_code': app_settings.cong_settings.country_code,
     'cong_settings.cong_name': app_settings.cong_settings.cong_name,
-    'cong_settings.cong_number': app_settings.cong_settings.cong_number,
-    'user_settings.cong_role': app_settings.user_settings.cong_role,
+    // The Pocket API normally omits cong_number. Only persist a value the
+    // server actually sent, so a previously stored number is never wiped
+    // when the local settings state has not hydrated yet on startup.
+    ...(app_settings.cong_settings.cong_number != null
+      ? {
+          'cong_settings.cong_number': app_settings.cong_settings.cong_number,
+        }
+      : {}),
+    'user_settings.cong_role': app_settings.user_settings.cong_role ?? [],
     'cong_settings.cong_location': app_settings.cong_settings.cong_location,
     'cong_settings.cong_circuit': app_settings.cong_settings.cong_circuit,
     'cong_settings.midweek_meeting': midweekMeeting,
@@ -392,17 +406,21 @@ const validatePocket = async () => {
 export const pocketStartup = async () => {
   const userLocalUID = store.get(userLocalUIDState);
   const congName = store.get(congNameState);
-  const congNumber = store.get(congNumberState);
   const accessCode = store.get(congAccessCodeState);
 
   try {
-    if (userLocalUID.length === 0) {
+    // Treat incomplete legacy/corrupt settings as a fresh pocket login. This
+    // keeps startup recoverable even if an older API response stored a missing
+    // optional field as undefined.
+    if (!userLocalUID?.length) {
       store.set(isPocketSignUpState, true);
       return;
     }
 
-    const allowOpen =
-      congName.length > 0 && congNumber.length > 0 && accessCode.length > 0;
+    // cong_number is not part of the Pocket API response and is not required
+    // to authenticate or open a Pocket account. Requiring it traps valid Pocket
+    // users in startup when their congregation has no number configured.
+    const allowOpen = !!congName?.length && !!accessCode?.length;
 
     if (allowOpen) {
       await handleLoadApp();
@@ -418,7 +436,9 @@ export const pocketStartup = async () => {
   } catch (error) {
     console.error(error);
 
-    throw new Error(error?.message);
+    const message =
+      error instanceof Error ? error.message : 'error_app_generic-title';
+    throw new Error(message);
   }
 };
 

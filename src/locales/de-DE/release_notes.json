@@ -1,21 +1,4 @@
 {
-  "2026-07-01T00:00": {
-    "images": {
-      "img_01": {
-        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-color-schemes.svg",
-        "tr_title": "Neue Farbschemas",
-        "tr_desc": "Weitere Möglichkeiten, Organized personalisiert zu machen! Entdecke neue Farben in den Profileinstellungen, vom minimalen Monochrom bis zum gesättigte Pink."
-      },
-      "img_02": {
-        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-homescreen-shortcuts.svg",
-        "tr_title": "Startbildschirm-Verknüpfungen",
-        "tr_desc": "Springe direkt zu den wichtigsten Funktionen, sowohl auf Desktop- als auch auf mobilen Geräten."
-      }
-    },
-    "improvements": {
-      "tr_note_01": "Stundengutschrift-Vorlage für die Schule der Ältesten hinzugefügt"
-    }
-  },
   "2026-09-01T00:00": {
     "images": {
       "img_01": {
@@ -32,6 +15,15 @@
       "tr_note_05": "Assign any family member as assistant",
       "tr_note_06": "Mark infirm pioneers to release them from the yearly hour goal",
       "tr_note_07": "Pick orientation and font size for the field service group PDF export"
+    }
+  },
+  "2026-10-01T00:00": {
+    "images": {
+      "img_01": {
+        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-profile-pictures.svg",
+        "tr_title": "New look for your profile",
+        "tr_desc": "Pick a new profile picture: Bible stories, friendly faces, abstract art or bright gradients."
+      }
     }
   }
 }

@@ -519,6 +519,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
                   }}
                 >
                   <IconButton
+                    className="back-arrow-button"
                     aria-label={t('tr_back')}
                     onClick={handleBack}
                     sx={{

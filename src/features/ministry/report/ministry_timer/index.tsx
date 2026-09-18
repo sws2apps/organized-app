@@ -9,16 +9,17 @@ import RightButton from './right_button';
 const MinistryTimer = () => {
   const {
     timerState,
+    saving,
     handleRightButtonAction,
     handleLeftButtonAction,
     editorOpen,
+    editorDate,
     handleCloseEditor,
     sliderOpen,
     handleCloseSlider,
     handleOpenSlider,
     handleTimeAdded,
     time,
-    report_date,
   } = useMinistryTimer();
 
   return (
@@ -36,7 +37,7 @@ const MinistryTimer = () => {
         <ReportFormDialog
           open={editorOpen}
           onClose={handleCloseEditor}
-          date={report_date}
+          date={editorDate}
         />
       )}
 
@@ -49,14 +50,22 @@ const MinistryTimer = () => {
         />
       )}
 
-      <LeftButton state={timerState} onClick={handleLeftButtonAction} />
+      <LeftButton
+        state={timerState}
+        onClick={handleLeftButtonAction}
+        disabled={saving}
+      />
       <Duration
         time={time}
         paused={timerState === 'paused'}
         started={timerState === 'started'}
         onClick={handleOpenSlider}
       />
-      <RightButton state={timerState} onClick={handleRightButtonAction} />
+      <RightButton
+        state={timerState}
+        onClick={handleRightButtonAction}
+        disabled={saving}
+      />
     </Box>
   );
 };

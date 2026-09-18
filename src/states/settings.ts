@@ -374,9 +374,11 @@ export const midweekMeetingClassCountState = atom((get) => {
   const settings = get(settingsState);
   const dataView = get(userDataViewState);
 
-  return settings.cong_settings.midweek_meeting.find(
-    (record) => record.type === dataView
-  ).class_count.value;
+  return (
+    settings.cong_settings.midweek_meeting.find(
+      (record) => record.type === dataView
+    )?.class_count.value ?? 1
+  );
 });
 
 export const midweekMeetingWeekdayState = atom((get) => {
@@ -482,9 +484,11 @@ export const weekendMeetingOpeningPrayerAutoAssignState = atom((get) => {
   const settings = get(settingsState);
   const dataView = get(userDataViewState);
 
-  return settings.cong_settings.weekend_meeting.find(
-    (record) => record.type === dataView
-  ).opening_prayer_auto_assigned.value;
+  return (
+    settings.cong_settings.weekend_meeting.find(
+      (record) => record.type === dataView
+    )?.opening_prayer_auto_assigned.value ?? false
+  );
 });
 
 export const weekendMeetingWeekdayState = atom((get) => {
@@ -502,9 +506,11 @@ export const weekendMeetingSubstituteSpeakerState = atom((get) => {
   const settings = get(settingsState);
   const dataView = get(userDataViewState);
 
-  return settings.cong_settings.weekend_meeting.find(
-    (record) => record.type === dataView
-  ).substitute_speaker_enabled.value;
+  return (
+    settings.cong_settings.weekend_meeting.find(
+      (record) => record.type === dataView
+    )?.substitute_speaker_enabled.value ?? false
+  );
 });
 
 export const weekendMeetingWTSubstituteDisplayedState = atom((get) => {
