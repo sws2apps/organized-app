@@ -7,6 +7,7 @@ import {
   dbSchedulesAutoFill,
   dbSettingsAssignMainWTStudyConductor,
   importDummyPersons,
+  dbAppLogsFillDummy,
 } from '@utils/dev';
 import { dbAppDelete, dbAppOpen } from '@services/dexie/app';
 import { dbAppSettingsBuildTest } from '@services/dexie/settings';
@@ -50,6 +51,7 @@ const useStart = () => {
       await dbMeetingAttendanceFill();
       await dbBranchS1ReportsFill();
       await dbPersonsAssignFamilyHeads();
+      await dbAppLogsFillDummy();
 
       if (isNavigatorOnline) {
         const { data, status } = await apiFetchSources();
