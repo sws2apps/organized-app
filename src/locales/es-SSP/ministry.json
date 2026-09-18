@@ -137,5 +137,9 @@
   "tr_bibleStudiesMonthlyLess": "No puedes establecer menos cursos bíblicos que el total que tienes de tus registros diarios",
   "tr_hoursDecreaseError": "No se pueden cambiar las horas",
   "tr_hoursDecreaseErrorDesc": "No puedes establecer menos horas que el total que tienes de tus registros diarios",
-  "tr_SCEL": "Escuela para ancianos de congregación"
+  "tr_SCEL": "Escuela para ancianos de congregación",
+  "tr_timerNothingToSave": "Nada que guardar",
+  "tr_timerNothingToSaveDesc": "La sesión duró menos de un minuto, así que no se añadió tiempo al informe.",
+  "tr_timerNoOpenMonth": "No hay ningún mes al que añadir el tiempo",
+  "tr_timerNoOpenMonthDesc": "Todos los meses transcurridos desde que empezó esta sesión ya están confirmados. La sesión se mantiene en pausa."
 }
