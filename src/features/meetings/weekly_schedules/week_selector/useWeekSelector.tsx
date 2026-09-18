@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { useLocation } from 'react-router';
 import { addMonths, formatDate, getWeekDate, isMondayDate } from '@utils/date';
@@ -19,6 +19,10 @@ const useWeekSelector = ({ onChange, value }: WeekSelectorProps) => {
   const location = useLocation();
   const targetWeek = (location.state as WeeklySchedulesLocationState | null)
     ?.week;
+
+  // the navigation whose target week was already applied, so a later manual
+  // week change is not undone while the same router state is still around
+  const appliedNavigation = useRef<string | null>(null);
 
   const sources = useAtomValue(sourcesState);
   const lang = useAtomValue(JWLangState);
@@ -78,21 +82,29 @@ const useWeekSelector = ({ onChange, value }: WeekSelectorProps) => {
   };
 
   useEffect(() => {
-    if (value === false) {
-      // a week passed by the page that opened the schedules wins over today
-      const targetIndex = weeksList.findIndex(
-        (record) => record.weekOf === targetWeek
-      );
+    const targetIndex = weeksList.findIndex(
+      (record) => record.weekOf === targetWeek
+    );
+
+    // a week passed by the page that opened the schedules wins over today,
+    // also when the schedules were already open on another week
+    const isNewTarget =
+      targetIndex !== -1 && appliedNavigation.current !== location.key;
+
+    if (value === false || isNewTarget) {
+      if (targetIndex !== -1) appliedNavigation.current = location.key;
+
       const startIndex = targetIndex !== -1 ? targetIndex : currentWeekIndex;
       const safeIndex = startIndex === -1 ? 0 : startIndex;
       setCurrentTab(safeIndex);
       onChange?.(safeIndex);
+      return;
     }
 
     if (typeof value === 'number') {
       setCurrentTab(value);
     }
-  }, [value, currentWeekIndex, onChange, weeksList, targetWeek]);
+  }, [value, currentWeekIndex, onChange, weeksList, targetWeek, location.key]);
 
   return { weeksTab, currentTab, handleWeekChange };
 };

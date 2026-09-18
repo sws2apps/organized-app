@@ -12,6 +12,7 @@ import { formatDate, getWeekDate } from '@utils/date';
 import { getAssignmentCategory } from '../categories';
 import { AssignmentHistoryType } from '@definition/schedules';
 import { useAppTranslation } from '@hooks/index';
+import { LANGUAGE_LIST } from '@constants/index';
 
 const useAssignmentItem = ({ history }: { history: AssignmentHistoryType }) => {
   const { t } = useAppTranslation();
@@ -21,6 +22,14 @@ const useAssignmentItem = ({ history }: { history: AssignmentHistoryType }) => {
   const userUID = useAtomValue(userLocalUIDState);
   const sources = useAtomValue(sourcesState);
   const lang = useAtomValue(JWLangState);
+
+  // casing of the source material follows its own language; only the
+  // language subtag is kept, as some app locales are not valid BCP 47 tags
+  const langLocale = useMemo(() => {
+    return LANGUAGE_LIST.find(
+      (record) => record.code.toUpperCase() === lang
+    )?.locale.split('-')[0];
+  }, [lang]);
 
   const personGetName = useCallback(
     (value: string) => {
@@ -70,14 +79,25 @@ const useAssignmentItem = ({ history }: { history: AssignmentHistoryType }) => {
       const reading = sources.find((record) => record.weekOf === weekOf)
         ?.midweek_meeting?.weekly_bible_reading?.[lang];
 
-      if (reading) return [normalizeAllCaps(reading)];
+      if (reading) return [normalizeAllCaps(reading, langLocale)];
     }
 
     // every other part without details names its meeting
     return [
       key.startsWith('MM_') ? t('tr_midweekMeeting') : t('tr_weekendMeeting'),
     ];
-  }, [ayf, src, desc, key, history.weekOf, sources, lang, t, personGetName]);
+  }, [
+    ayf,
+    src,
+    desc,
+    key,
+    history.weekOf,
+    sources,
+    lang,
+    langLocale,
+    t,
+    personGetName,
+  ]);
 
   return { category, title, details, delegate };
 };

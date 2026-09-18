@@ -27,14 +27,6 @@ const useWeeklySchedules = () => {
     );
   }, [locationState]);
 
-  const value = useMemo(() => {
-    if (!scheduleType) return 0;
-
-    if (scheduleType === 'midweek') return 0;
-    if (scheduleType === 'weekend') return 1;
-    if (scheduleType === 'outgoing') return 2;
-  }, [scheduleType]);
-
   const { isAppointed } = useCurrentUser();
 
   const settings = useAtomValue(settingsState);
@@ -49,6 +41,15 @@ const useWeeklySchedules = () => {
 
     return weekend.outgoing_talks_schedule_public.value;
   }, [isAppointed, settings, dataView]);
+
+  const value = useMemo(() => {
+    if (scheduleType === 'weekend') return 1;
+
+    // the outgoing tab is not listed for everyone, so fall back to weekend
+    if (scheduleType === 'outgoing') return outgoingVisible ? 2 : 1;
+
+    return 0;
+  }, [scheduleType, outgoingVisible]);
 
   const tabs = useMemo(() => {
     const result = [

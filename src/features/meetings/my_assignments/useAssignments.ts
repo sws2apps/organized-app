@@ -77,7 +77,7 @@ const groupAssignments = (
 
 const WEEKLY_SCHEDULES_KEY = 'organized_weekly_schedules';
 
-// twelve months ahead
+// about eleven months ahead
 const RANGE_WEEKS = 48;
 
 const useMyAssignments = () => {

@@ -39,7 +39,7 @@ const AssignmentsList = ({
   resetKey,
   onOpen,
 }: AssignmentsListProps) => {
-  const { ref, pin } = useMonthPin(resetKey);
+  const { ref, pin } = useMonthPin(resetKey, months);
 
   const down = pin.direction === 'down';
 
