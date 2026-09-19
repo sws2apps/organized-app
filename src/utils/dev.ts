@@ -21,7 +21,9 @@ import {
 } from '@services/app/persons';
 import { CongFieldServiceReportType } from '@definition/cong_field_service_reports';
 import {
+  addDays,
   addMonths,
+  addWeeks,
   createArrayFromMonths,
   currentReportMonth,
   formatDate,
@@ -32,6 +34,12 @@ import {
   SchemaBranchFieldServiceReport,
   congFieldServiceReportSchema,
   meetingAttendanceSchema,
+  scheduleSchema,
+  sourceSchema,
+  userFieldServiceDailyReportSchema,
+  speakersCongregationSchema,
+  userFieldServiceMonthlyReportSchema,
+  vistingSpeakerSchema,
 } from '@services/dexie/schema';
 import {
   MeetingAttendanceType,
@@ -50,6 +58,15 @@ import { assignmentsHistoryState, schedulesState } from '@states/schedules';
 import { Week } from '@definition/week_type';
 import { schedulesBuildHistoryList } from '@services/app/schedules';
 import { dbSchedBulkUpdate } from '@services/dexie/schedules';
+import {
+  UpcomingEventCategory,
+  UpcomingEventDuration,
+  UpcomingEventType,
+} from '@definition/upcoming_events';
+import { dbUpcomingEventsBulkSave } from '@services/dexie/upcoming_events';
+import { UserFieldServiceReportType } from '@definition/user_field_service_reports';
+import { dbUserFieldServiceReportsBulkSave } from '@services/dexie/user_field_service_reports';
+import { dbUserBibleStudySave } from '@services/dexie/user_bible_studies';
 
 const getRandomDate = (
   start_date = new Date(1970, 0, 1),
@@ -1272,7 +1289,7 @@ export const dbBranchS1ReportsFill = async () => {
       ),
     };
 
-    branchReport.report_data.submitted = true;
+    branchReport.report_data.submitted = month !== endMonth;
     branchReport.report_data.updatedAt = new Date().toISOString();
 
     reportsToSave.push(branchReport);
@@ -1540,4 +1557,612 @@ const dbSchedulesFillOutgoingTalks = async (start: string, end: string) => {
   week2.weekend_meeting.outgoing_talks.push(outgoing2);
 
   await appDb.sched.bulkPut([week1, week2]);
+};
+
+const atTime = (date: Date, hours: number, minutes = 0) => {
+  const result = new Date(date);
+  result.setHours(hours, minutes, 0, 0);
+
+  return result;
+};
+
+const shuffle = <T>(items: T[]) => {
+  const result = [...items];
+
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [result[i], result[j]] = [result[j], result[i]];
+  }
+
+  return result;
+};
+
+export const dbPersonsExtrasFill = async () => {
+  const persons = await appDb.persons.toArray();
+  const updatedAt = new Date().toISOString();
+  const today = new Date();
+
+  const active = shuffle(
+    persons.filter((record) => !record.person_data.archived.value)
+  );
+
+  const timeAway = [
+    { from: -3, to: 9, comments: 'Visiting family abroad' },
+    { from: 12, to: 26, comments: 'Summer vacation' },
+    { from: 30, to: 33, comments: 'Business trip' },
+    { from: -45, to: -32, comments: 'Recovering after surgery' },
+  ];
+
+  timeAway.forEach((away, index) => {
+    active[index].person_data.timeAway.push({
+      id: crypto.randomUUID(),
+      _deleted: false,
+      updatedAt,
+      start_date: formatDate(addDays(today, away.from), 'yyyy/MM/dd'),
+      end_date: formatDate(addDays(today, away.to), 'yyyy/MM/dd'),
+      comments: away.comments,
+    });
+  });
+
+  const relatives = ['Maria', 'John', 'Elena', 'David', 'Sophie', 'Michael'];
+
+  relatives.forEach((name, index) => {
+    const person = active[timeAway.length + index];
+
+    person.person_data.emergency_contacts.push({
+      id: crypto.randomUUID(),
+      _deleted: false,
+      updatedAt,
+      name: `${name} ${person.person_data.person_lastname.value}`,
+      contact: `+1 206 555 01${String(index * 7 + 12).padStart(2, '0')}`,
+    });
+  });
+
+  await appDb.persons.bulkPut(persons);
+};
+
+export const dbUpcomingEventsFill = async () => {
+  const updatedAt = new Date().toISOString();
+  const thisWeek = getWeekDate();
+
+  const createEvent = (
+    category: UpcomingEventCategory,
+    start: Date,
+    end: Date,
+    options: { description?: string; custom?: string } = {}
+  ): UpcomingEventType => {
+    const sameDay = start.toDateString() === end.toDateString();
+
+    return {
+      event_uid: crypto.randomUUID(),
+      event_data: {
+        _deleted: false,
+        updatedAt,
+        start: start.toISOString(),
+        end: end.toISOString(),
+        type: 'main',
+        category,
+        duration: sameDay
+          ? UpcomingEventDuration.SingleDay
+          : UpcomingEventDuration.MultipleDays,
+        description: options.description ?? '',
+        custom: options.custom ?? '',
+      },
+    };
+  };
+
+  const coWeek = addWeeks(thisWeek, 5);
+  const witnessingDay = addDays(thisWeek, 5);
+  const cleaningDay = addDays(addWeeks(thisWeek, 1), 5);
+  const assemblyDay = addDays(addWeeks(thisWeek, 3), 6);
+  const campaignWeek = addWeeks(thisWeek, 7);
+  const conventionDay = addDays(addWeeks(thisWeek, 10), 4);
+
+  const events = [
+    createEvent(
+      UpcomingEventCategory.PublicWitnessing,
+      atTime(witnessingDay, 9),
+      atTime(witnessingDay, 12),
+      { description: 'Training for the new cart locations downtown' }
+    ),
+    createEvent(
+      UpcomingEventCategory.Custom,
+      atTime(cleaningDay, 8, 30),
+      atTime(cleaningDay, 11),
+      {
+        custom: 'Kingdom Hall deep cleaning',
+        description: 'Groups 1 and 2, bring gloves',
+      }
+    ),
+    createEvent(
+      UpcomingEventCategory.AssemblyWeek,
+      atTime(assemblyDay, 9, 40),
+      atTime(assemblyDay, 15, 50),
+      { description: 'Parking opens at 8:00, bring your own lunch' }
+    ),
+    createEvent(
+      UpcomingEventCategory.CircuitOverseerWeek,
+      atTime(addDays(coWeek, 1), 19),
+      atTime(addDays(coWeek, 6), 12),
+      { description: 'Visit of the circuit overseer A. Olivier' }
+    ),
+    createEvent(
+      UpcomingEventCategory.SpecialCampaignWeek,
+      atTime(campaignWeek, 9),
+      atTime(addDays(campaignWeek, 6), 18),
+      { description: 'Invitations to the regional convention' }
+    ),
+    createEvent(
+      UpcomingEventCategory.ConventionWeek,
+      atTime(conventionDay, 9, 20),
+      atTime(addDays(conventionDay, 2), 16),
+      { description: 'Regional convention, Tacoma Dome' }
+    ),
+  ];
+
+  await dbUpcomingEventsBulkSave(events);
+
+  const settings = await appDb.app_settings.get(1);
+  const weekOf = formatDate(coWeek, 'yyyy/MM/dd');
+
+  await dbAppSettingsUpdate({
+    'cong_settings.circuit_overseer.visits': [
+      ...settings.cong_settings.circuit_overseer.visits,
+      { _deleted: false, id: crypto.randomUUID(), weekOf, updatedAt },
+    ],
+  });
+
+  const schedule = await appDb.sched.get(weekOf);
+
+  if (!schedule) return;
+
+  for (const weekType of [
+    ...schedule.midweek_meeting.week_type,
+    ...schedule.weekend_meeting.week_type,
+  ]) {
+    weekType.value = Week.CO_VISIT;
+    weekType.updatedAt = updatedAt;
+  }
+
+  await appDb.sched.put(schedule);
+};
+
+export const dbUserMinistryFill = async () => {
+  const settings = await appDb.app_settings.get(1);
+  const persons = await appDb.persons.toArray();
+  const userUid = settings.user_settings.user_local_uid;
+  const updatedAt = new Date().toISOString();
+  const today = new Date();
+
+  const students = shuffle(
+    persons.filter((record) => record.person_uid !== userUid)
+  )
+    .slice(0, 3)
+    .map((record) => ({
+      person_uid: crypto.randomUUID(),
+      person_data: {
+        _deleted: false,
+        updatedAt,
+        person_name: `${record.person_data.person_firstname.value} ${record.person_data.person_lastname.value.at(0)}.`,
+      },
+    }));
+
+  for (const student of students) {
+    await dbUserBibleStudySave(student);
+  }
+
+  const studentNames = students.map((record) => record.person_data.person_name);
+
+  const reports: UserFieldServiceReportType[] = [];
+
+  for (let offset = 1; offset >= 0; offset--) {
+    const month = new Date(today.getFullYear(), today.getMonth() - offset, 1);
+    const monthly = structuredClone(userFieldServiceMonthlyReportSchema);
+
+    let minutes = 0;
+
+    for (
+      let day = month;
+      day <= today && day.getMonth() === month.getMonth();
+      day = addDays(day, 1)
+    ) {
+      const weekday = day.getDay();
+
+      if (weekday !== 3 && weekday !== 6 && weekday !== 0) continue;
+
+      const daily = structuredClone(userFieldServiceDailyReportSchema);
+      const studies = weekday === 3 ? studentNames.slice(0, 2) : [];
+      const dayMinutes = getRandomNumber(4, 12) * 15;
+
+      minutes += dayMinutes;
+
+      daily.report_date = formatDate(day, 'yyyy/MM/dd');
+      daily.report_data.updatedAt = updatedAt;
+      daily.report_data.hours.field_service = `${Math.floor(dayMinutes / 60)}:${String(dayMinutes % 60).padStart(2, '0')}`;
+      daily.report_data.bible_studies = {
+        value: studies.length,
+        records: studies,
+      };
+
+      reports.push(daily);
+    }
+
+    monthly.report_date = formatDate(month, 'yyyy/MM');
+    monthly.report_data.updatedAt = updatedAt;
+    monthly.report_data.shared_ministry = true;
+    monthly.report_data.hours.field_service.daily = `${Math.floor(minutes / 60)}:${String(minutes % 60).padStart(2, '0')}`;
+    monthly.report_data.bible_studies.daily = 2;
+    monthly.report_data.bible_studies.records = studentNames.slice(0, 2);
+    monthly.report_data.status = offset === 1 ? 'submitted' : 'pending';
+
+    reports.push(monthly);
+  }
+
+  for (let offset = 2; offset <= 7; offset++) {
+    const month = new Date(today.getFullYear(), today.getMonth() - offset, 1);
+    const report = structuredClone(userFieldServiceMonthlyReportSchema);
+
+    report.report_date = formatDate(month, 'yyyy/MM');
+    report.report_data.updatedAt = updatedAt;
+    report.report_data.shared_ministry = true;
+    report.report_data.hours.field_service.monthly = `${getRandomNumber(8, 22)}:00`;
+    report.report_data.bible_studies.monthly = getRandomNumber(1, 3);
+    report.report_data.status = 'confirmed';
+
+    reports.push(report);
+  }
+
+  await dbUserFieldServiceReportsBulkSave(reports);
+};
+
+export const dbPublicTalksHistoryFill = async () => {
+  const talks = store
+    .get(publicTalksState)
+    .filter((record) => !record.talk_title.E.includes('Do not use'));
+
+  if (talks.length === 0) return;
+
+  const persons = await appDb.persons.toArray();
+  const visitors = await appDb.visiting_speakers.toArray();
+  const congregations = await appDb.speakers_congregations.toArray();
+  const settings = await appDb.app_settings.get(1);
+  const updatedAt = new Date().toISOString();
+
+  const localSpeakers = persons.filter((record) =>
+    record.person_data.assignments
+      .at(0)
+      ?.values.includes(AssignmentCode.WM_Speaker)
+  );
+
+  const visitingSpeakers = visitors.filter(
+    (record) =>
+      !record.speaker_data.local.value && record.speaker_data.talks.length > 0
+  );
+
+  const otherCongregations = congregations.filter(
+    (record) =>
+      record.cong_data.cong_name.value !== settings.cong_settings.cong_name
+  );
+
+  if (localSpeakers.length === 0) return;
+
+  const talkPool = shuffle(
+    [...talks].sort((a, b) => a.talk_number - b.talk_number).slice(0, 36)
+  );
+  const sources = [];
+  const schedules = [];
+
+  let talkIndex = 0;
+
+  for (let week = 1; week <= 52; week++) {
+    const weekOf = formatDate(addWeeks(getWeekDate(), -week), 'yyyy/MM/dd');
+
+    const source =
+      (await appDb.sources.get(weekOf)) ??
+      Object.assign(structuredClone(sourceSchema), { weekOf });
+
+    const schedule =
+      (await appDb.sched.get(weekOf)) ??
+      Object.assign(structuredClone(scheduleSchema), { weekOf });
+
+    const visitor =
+      week % 3 === 0 && visitingSpeakers.length > 0
+        ? visitingSpeakers[week % visitingSpeakers.length]
+        : undefined;
+
+    const visiting = Boolean(visitor);
+
+    const speakerUid =
+      visitor?.person_uid ??
+      localSpeakers[week % localSpeakers.length].person_uid;
+
+    const talkNumber = visitor
+      ? getRandomArrayItem(visitor.speaker_data.talks).talk_number
+      : talkPool[talkIndex++ % talkPool.length].talk_number;
+
+    const publicTalk = source.weekend_meeting.public_talk.find(
+      (record) => record.type === 'main'
+    );
+
+    publicTalk.value = talkNumber;
+    publicTalk.updatedAt = updatedAt;
+
+    const talkType = schedule.weekend_meeting.public_talk_type.find(
+      (record) => record.type === 'main'
+    );
+
+    talkType.value = visiting ? 'visitingSpeaker' : 'localSpeaker';
+    talkType.updatedAt = updatedAt;
+
+    const part = schedule.weekend_meeting.speaker.part_1.find(
+      (record) => record.type === 'main'
+    );
+
+    part.value = speakerUid;
+    part.updatedAt = updatedAt;
+
+    const outgoingSpeaker = localSpeakers[(week + 1) % localSpeakers.length];
+
+    if (week % 4 === 0 && otherCongregations.length > 0) {
+      const congregation = otherCongregations[week % otherCongregations.length];
+
+      schedule.weekend_meeting.outgoing_talks.push({
+        _deleted: false,
+        updatedAt,
+        id: crypto.randomUUID(),
+        synced: false,
+        opening_song: '',
+        public_talk: talkPool[talkIndex++ % talkPool.length].talk_number,
+        value: outgoingSpeaker.person_uid,
+        type: 'main',
+        congregation: {
+          name: congregation.cong_data.cong_name.value,
+          number: congregation.cong_data.cong_number.value,
+          country: '',
+          address: congregation.cong_data.cong_location?.address?.value || '',
+          weekday: congregation.cong_data.weekend_meeting?.weekday?.value ?? 6,
+          time: congregation.cong_data.weekend_meeting?.time?.value || '10:00',
+        },
+      });
+    }
+
+    sources.push(source);
+    schedules.push(schedule);
+  }
+
+  await dbSourcesBulkPut(sources);
+  await appDb.sched.bulkPut(schedules);
+
+  store.set(sourcesState, await appDb.sources.toArray());
+  store.set(schedulesState, await appDb.sched.toArray());
+  store.set(assignmentsHistoryState, schedulesBuildHistoryList());
+};
+
+export const dbReportsLateFill = async () => {
+  const reportMonth = currentReportMonth();
+  const previousMonth = formatDate(
+    addMonths(`${reportMonth}/01`, -1),
+    'yyyy/MM'
+  );
+  const updatedAt = new Date().toISOString();
+
+  const reports = await appDb.cong_field_service_reports.toArray();
+
+  const monthReports = shuffle(
+    reports.filter((record) => record.report_data.report_date === reportMonth)
+  );
+
+  const received = monthReports.slice(0, 6);
+
+  for (const report of received) {
+    report.report_data.status = 'received';
+    report.report_data.updatedAt = updatedAt;
+  }
+
+  const reported = new Set(
+    monthReports.map((record) => record.report_data.person_uid)
+  );
+
+  const publishers = await getPublishersActive(reportMonth);
+
+  const late = publishers
+    .filter((person) => !reported.has(person.person_uid))
+    .slice(0, 2)
+    .map((person) => person.person_uid);
+
+  const lateReports = reports.filter(
+    (record) =>
+      record.report_data.report_date === previousMonth &&
+      late.includes(record.report_data.person_uid)
+  );
+
+  await appDb.cong_field_service_reports.bulkPut(received);
+  await appDb.cong_field_service_reports.bulkDelete(
+    lateReports.map((record) => record.report_id)
+  );
+};
+
+const CATALOG_CONGREGATIONS = [
+  {
+    name: 'Ballard - Seattle WA',
+    number: '11402',
+    circuit: 'WA- 5',
+    address: '2515 NW 65th St Seattle WA  98117-6039',
+    lat: 47.676,
+    lng: -122.389,
+    midweek: { weekday: 1, time: '19:00' },
+    weekend: { weekday: 6, time: '10:00' },
+    coordinator: 'Richard Hayes',
+    talkCoordinator: 'Owen Mitchell',
+    speakers: [
+      { first: 'Owen', last: 'Mitchell', elder: true },
+      { first: 'Peter', last: 'Lindqvist', elder: true },
+      { first: 'Caleb', last: 'Turner', elder: false },
+    ],
+  },
+  {
+    name: 'Renton Highlands - Renton WA',
+    number: '11587',
+    circuit: 'WA- 8-B',
+    address: '1100 Union Ave NE Renton WA  98059-4604',
+    lat: 47.494,
+    lng: -122.179,
+    midweek: { weekday: 3, time: '19:30' },
+    weekend: { weekday: 5, time: '17:00' },
+    coordinator: 'Marcus Reed',
+    talkCoordinator: 'Victor Nguyen',
+    speakers: [
+      { first: 'Victor', last: 'Nguyen', elder: true },
+      {
+        first: 'Samuel',
+        last: 'Okafor',
+        elder: true,
+        note: 'Only available on the first Sunday of the month',
+      },
+    ],
+  },
+  {
+    name: 'Beacon Hill Spanish - Seattle WA',
+    number: '11711',
+    circuit: 'WA- 20-S',
+    address: '3025 S Hanford St Seattle WA  98144-6937',
+    lat: 47.576,
+    lng: -122.294,
+    midweek: { weekday: 2, time: '19:00' },
+    weekend: { weekday: 6, time: '13:00' },
+    coordinator: 'Javier Morales',
+    talkCoordinator: 'Andrés Castillo',
+    speakers: [
+      { first: 'Andrés', last: 'Castillo', elder: true },
+      { first: 'Miguel', last: 'Herrera', elder: true },
+      { first: 'Luis', last: 'Ortega', elder: false },
+      {
+        first: 'Diego',
+        last: 'Ramírez',
+        elder: true,
+        note: 'Gives talks in English and Spanish',
+      },
+    ],
+  },
+  {
+    name: 'Kent Russian - Kent WA',
+    number: '11846',
+    circuit: 'WA- 31-R',
+    address: '25404 104th Ave SE Kent WA  98030-7508',
+    lat: 47.371,
+    lng: -122.201,
+    midweek: { weekday: 3, time: '19:00' },
+    weekend: { weekday: 6, time: '11:30' },
+    coordinator: 'Andrei Volkov',
+    talkCoordinator: 'Mikhail Sokolov',
+    speakers: [
+      { first: 'Mikhail', last: 'Sokolov', elder: true },
+      { first: 'Pavel', last: 'Kuznetsov', elder: false },
+    ],
+  },
+  {
+    name: 'Everett Portuguese - Everett WA',
+    number: '11923',
+    circuit: 'WA- 27-P',
+    address: '6320 Evergreen Way Everett WA  98203-4531',
+    lat: 47.945,
+    lng: -122.221,
+    midweek: { weekday: 1, time: '19:30' },
+    weekend: { weekday: 6, time: '09:30' },
+    coordinator: 'Tiago Almeida',
+    talkCoordinator: 'Rafael Costa',
+    speakers: [
+      { first: 'Rafael', last: 'Costa', elder: true },
+      { first: 'Bruno', last: 'Santos', elder: true },
+      { first: 'Lucas', last: 'Pereira', elder: false },
+    ],
+  },
+];
+
+export const dbSpeakersCatalogFill = async () => {
+  const updatedAt = new Date().toISOString();
+  const field = <T>(value: T) => ({ value, updatedAt });
+
+  const talkNumbers = Array.from({ length: 194 }, (_, index) => index + 1);
+  const songNumbers = Array.from({ length: 160 }, (_, index) => index + 1);
+
+  const congregations = [];
+  const speakers = [];
+
+  for (const [index, data] of CATALOG_CONGREGATIONS.entries()) {
+    const congregation = structuredClone(speakersCongregationSchema);
+    const email = (name: string) =>
+      `${name.toLowerCase().replace(/[^a-z]+/g, '.')}@fakemail.com`;
+    const phone = (offset: number) =>
+      `+1 206 555 0${String(140 + index * 4 + offset).padStart(3, '0')}`;
+
+    congregation.id = crypto.randomUUID();
+    congregation._deleted.updatedAt = updatedAt;
+    congregation.cong_data.cong_name = field(data.name);
+    congregation.cong_data.cong_number = field(data.number);
+    congregation.cong_data.cong_circuit = field(data.circuit);
+    congregation.cong_data.cong_location = {
+      address: field(data.address),
+      lat: data.lat,
+      lng: data.lng,
+    };
+    congregation.cong_data.midweek_meeting = {
+      weekday: field(data.midweek.weekday),
+      time: field(data.midweek.time),
+    };
+    congregation.cong_data.weekend_meeting = {
+      weekday: field(data.weekend.weekday),
+      time: field(data.weekend.time),
+    };
+    congregation.cong_data.coordinator = {
+      name: field(data.coordinator),
+      email: field(email(data.coordinator)),
+      phone: field(phone(0)),
+    };
+    congregation.cong_data.public_talk_coordinator = {
+      name: field(data.talkCoordinator),
+      email: field(email(data.talkCoordinator)),
+      phone: field(phone(1)),
+    };
+    congregation.cong_data.request_status = 'approved';
+
+    congregations.push(congregation);
+
+    for (const [speakerIndex, speakerData] of data.speakers.entries()) {
+      const speaker = structuredClone(vistingSpeakerSchema);
+      const name = `${speakerData.first} ${speakerData.last}`;
+
+      speaker.person_uid = crypto.randomUUID();
+      speaker._deleted = field(false);
+      speaker.speaker_data = {
+        ...speaker.speaker_data,
+        cong_id: congregation.id,
+        person_firstname: field(speakerData.first),
+        person_lastname: field(speakerData.last),
+        person_display_name: field(
+          generateDisplayName(speakerData.last, speakerData.first)
+        ),
+        person_notes: field(speakerData.note ?? ''),
+        person_email: field(email(name)),
+        person_phone: field(phone(2 + speakerIndex)),
+        elder: field(speakerData.elder),
+        ministerial_servant: field(!speakerData.elder),
+        local: field(false),
+        talks: shuffle(talkNumbers)
+          .slice(0, getRandomNumber(3, 8))
+          .sort((a, b) => a - b)
+          .map((talk_number) => ({
+            _deleted: false,
+            updatedAt,
+            talk_number,
+            talk_songs: shuffle(songNumbers).slice(0, getRandomNumber(1, 2)),
+          })),
+      };
+
+      speakers.push(speaker);
+    }
+  }
+
+  await appDb.speakers_congregations.bulkAdd(congregations);
+  await appDb.visiting_speakers.bulkAdd(speakers);
 };

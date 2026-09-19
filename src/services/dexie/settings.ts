@@ -1,5 +1,7 @@
 import { UpdateSpec } from 'dexie';
 import {
+  AVATAR_ICON_NAMES,
+  AVATAR_IMAGE_NAMES,
   FirstDayWeekOption,
   PublishersSortOption,
   SettingsType,
@@ -141,6 +143,17 @@ export const dbAppSettingsBuildTest = async () => {
     value: person.person_data.person_lastname.value,
     updatedAt: new Date().toISOString(),
   };
+  const avatarGender = person.person_data.male.value ? 'Female' : 'Male';
+
+  baseSettings.user_settings.user_avatar_type = {
+    value: getRandomArrayItem(
+      [...AVATAR_IMAGE_NAMES, ...AVATAR_ICON_NAMES].filter(
+        (name) => !name.startsWith(avatarGender)
+      )
+    ),
+    updatedAt: new Date().toISOString(),
+  };
+
   baseSettings.user_settings.cong_role = [
     'admin',
     'elder',

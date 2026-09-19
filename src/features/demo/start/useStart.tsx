@@ -3,9 +3,15 @@ import {
   dbBranchS1ReportsFill,
   dbFieldGroupAutoAssign,
   dbMeetingAttendanceFill,
+  dbPersonsExtrasFill,
+  dbPublicTalksHistoryFill,
   dbReportsFillRandom,
+  dbReportsLateFill,
   dbSchedulesAutoFill,
   dbSettingsAssignMainWTStudyConductor,
+  dbSpeakersCatalogFill,
+  dbUpcomingEventsFill,
+  dbUserMinistryFill,
   importDummyPersons,
 } from '@utils/dev';
 import { dbAppDelete, dbAppOpen } from '@services/dexie/app';
@@ -44,20 +50,31 @@ const useStart = () => {
       await dbAppSettingsBuildTest();
       await dbSpeakersCongregationsDummy();
       await dbVisitingSpeakersDummy();
+      await dbSpeakersCatalogFill();
       await dbSettingsAssignMainWTStudyConductor();
       await dbFieldGroupAutoAssign();
       await dbReportsFillRandom();
+      await dbReportsLateFill();
       await dbMeetingAttendanceFill();
       await dbBranchS1ReportsFill();
       await dbPersonsAssignFamilyHeads();
+      await dbPersonsExtrasFill();
+      await dbUserMinistryFill();
+
+      let hasSources = false;
 
       if (isNavigatorOnline) {
         const { data, status } = await apiFetchSources();
-        if (status === 200 && data?.length) {
-          await sourcesImportJW(data);
-          await dbSchedulesAutoFill();
-        }
+        hasSources = status === 200 && data?.length > 0;
+
+        if (hasSources) await sourcesImportJW(data);
       }
+
+      await dbUpcomingEventsFill();
+
+      if (hasSources) await dbSchedulesAutoFill();
+
+      await dbPublicTalksHistoryFill();
 
       await runUpdater();
 
