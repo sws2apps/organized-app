@@ -1,7 +1,8 @@
-import { ChangeEvent, useEffect, useMemo, useRef, useState } from 'react';
+import { ChangeEvent, useMemo, useRef, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { Week } from '@definition/week_type';
 import {
+  DEFAULT_MEETING_WEEKDAYS,
   WEEK_TYPE_LANGUAGE_GROUPS,
   WEEK_TYPE_NO_MEETING,
 } from '@constants/index';
@@ -11,27 +12,23 @@ import {
   useIsTouchDevice,
 } from '@hooks/index';
 import { ClickerSaveValues, ClickerTab } from '../clicker_mode/index.types';
-import {
-  addWeeks,
-  firstWeekMonth,
-  formatDate,
-  getWeekDate,
-  weeksInMonth,
-} from '@utils/date';
+import { addDays, formatDate, getWeekDate, weeksInMonth } from '@utils/date';
 import { WeekBoxField, WeekBoxProps, WeekBoxValues } from './index.types';
-import { meetingAttendanceState } from '@states/meeting_attendance';
 import {
-  AttendanceValues,
-  WeeklyAttendance,
-} from '@definition/meeting_attendance';
+  attendanceEditableViewsState,
+  meetingAttendanceState,
+} from '@states/meeting_attendance';
+import { WeeklyAttendance } from '@definition/meeting_attendance';
 import {
   attendanceRecordSettingsState,
   userDataViewState,
+  settingsState,
+  COMidweekMeetingDayState,
 } from '@states/settings';
-import { meetingAttendancePresentSave } from '@services/app/meeting_attendance';
 import { monthShortNamesState } from '@states/app';
 import { schedulesState } from '@states/schedules';
 import { schedulesGetMeetingDate } from '@services/app/schedules';
+import useAttendanceDrafts from '@features/reports/meeting_attendance/monthly_record/week_box/useAttendanceDrafts';
 
 const EMPTY_VALUES: WeekBoxValues = {
   present: '',
@@ -59,8 +56,13 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
   const recordSettings = useAtomValue(attendanceRecordSettingsState);
   const months = useAtomValue(monthShortNamesState);
   const schedules = useAtomValue(schedulesState);
+  const settings = useAtomValue(settingsState);
+  useAtomValue(COMidweekMeetingDayState);
 
   const currentView = view || dataView;
+  const editableViews = useAtomValue(attendanceEditableViewsState);
+  const canEdit =
+    editableViews === undefined || editableViews.includes(currentView);
 
   const recordSetting = recordSettings(currentView);
 
@@ -72,10 +74,8 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
   const [clickerOpen, setClickerOpen] = useState(false);
 
   const schedule = useMemo(() => {
-    const weeks = schedules.filter((record) => record.weekOf.includes(month));
-    const week = weeks.at(index - 1);
-
-    return week;
+    const week = weeksInMonth(month)[index - 1];
+    return schedules.find((record) => record.weekOf === week);
   }, [schedules, month, index]);
 
   const weekRecord = useMemo(() => {
@@ -101,16 +101,14 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
     };
   }, [weekRecord]);
 
-  const [values, setValues] = useState(initialValues);
+  const recordKey = `${month}-${index}-${type}-${currentView}`;
 
   // a count kept from before its setting was turned off still adds to the
   // meeting, so its field stays visible for this week, cleared or not
-  const weekKey = `${currentView}-${month}-${index}-${type}`;
+  const shown = useRef({ key: recordKey, online: false, deaf: false });
 
-  const shown = useRef({ key: weekKey, online: false, deaf: false });
-
-  if (shown.current.key !== weekKey) {
-    shown.current = { key: weekKey, online: false, deaf: false };
+  if (shown.current.key !== recordKey) {
+    shown.current = { key: recordKey, online: false, deaf: false };
   }
 
   shown.current.online ||=
@@ -179,20 +177,21 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
     );
   }, [type, schedule, currentView]);
 
-  const box_label = useMemo(() => {
-    const [year, monthValue] = month.split('/').map(Number);
-
-    const firstWeek = firstWeekMonth(year, monthValue);
-
-    const week = formatDate(firstWeek, 'yyyy/MM/dd');
+  const box_label = (() => {
+    const week = weeksList[index - 1];
 
     const meetingDateInit = schedulesGetMeetingDate({
       week,
       meeting: type,
-      dataView: view,
+      dataView: currentView,
     });
-
-    const meetingDate = addWeeks(meetingDateInit.date, index - 1);
+    const weekday =
+      settings.cong_settings[`${type}_meeting`].find(
+        (record) => record.type === currentView
+      )?.weekday.value ?? DEFAULT_MEETING_WEEKDAYS[type];
+    const meetingDate = meetingDateInit.date
+      ? new Date(meetingDateInit.date)
+      : addDays(new Date(week), weekday);
 
     const monthIndex = meetingDate.getMonth();
     const date = meetingDate.getDate();
@@ -203,7 +202,7 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
     });
 
     return dateLabel;
-  }, [month, type, index, t, months, view]);
+  })();
 
   const detailed = recordOnline || recordDeaf;
 
@@ -238,6 +237,13 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
     return result;
   }, [recordDeaf, recordOnline, box_label, t]);
 
+  const { values, setValue, saveValues, flushField } = useAttendanceDrafts({
+    initialValues,
+    recordKey,
+    disabled: noMeeting || !canEdit,
+    params: { month, index, type, dataView: currentView },
+  });
+
   const total = useMemo(() => {
     return Object.values(values).reduce(
       (acc, value) => acc + (Number(value) || 0),
@@ -245,57 +251,13 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
     );
   }, [values]);
 
-  const savedValues = useRef(initialValues);
-
-  // saving one field echoes back the whole record, so only fields that changed in
-  // the database are refreshed, otherwise a slow echo overwrites a newer input
-  useEffect(() => {
-    const previous = savedValues.current;
-    savedValues.current = initialValues;
-
-    setValues((current) => {
-      const fieldNames = Object.keys(current) as (keyof WeekBoxValues)[];
-
-      return fieldNames.reduce(
-        (acc, field) => ({
-          ...acc,
-          [field]:
-            initialValues[field] === previous[field]
-              ? current[field]
-              : initialValues[field],
-        }),
-        {} as WeekBoxValues
-      );
-    });
-  }, [initialValues]);
-
-  const saveAttendance = (newValues: WeekBoxValues) => {
-    const counts: AttendanceValues = { present: newValues.present };
-
-    if (recordDeaf) {
-      counts.present_deaf = newValues.presentDeaf;
-    }
-
-    if (recordOnline) {
-      counts.online = newValues.online;
-    }
-
-    if (recordOnline && recordDeaf) {
-      counts.online_deaf = newValues.onlineDeaf;
-    }
-
-    meetingAttendancePresentSave({
-      values: counts,
-      index,
-      month,
-      type,
-      dataView: currentView,
-    });
-  };
-
   const handleValueChange =
     (field: keyof WeekBoxValues) => (e: ChangeEvent<HTMLInputElement>) => {
-      if (e.target.value.match(/\D/)) {
+      if (
+        e.target.validity.badInput ||
+        e.target.value.match(/\D/) ||
+        !Number.isSafeInteger(Number(e.target.value))
+      ) {
         e.preventDefault();
         return;
       }
@@ -303,13 +265,10 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
       const tmpValue = e.target.value;
       const value = tmpValue === '' ? '' : String(+tmpValue);
 
-      const newValues = { ...values, [field]: value };
-
-      setValues(newValues);
-      saveAttendance(newValues);
+      setValue(field, value);
     };
 
-  const clickerEnabled = (laptopDown || isTouchDevice) && !noMeeting;
+  const clickerEnabled = (laptopDown || isTouchDevice) && !noMeeting && canEdit;
 
   const clickerTitle = useMemo(() => {
     const meetingLabel =
@@ -361,12 +320,7 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
       changes[clickerFields.online] = String(counts.online);
     }
 
-    if (Object.keys(changes).length === 0) return;
-
-    const newValues = { ...values, ...changes };
-
-    setValues(newValues);
-    saveAttendance(newValues);
+    saveValues(changes);
   };
 
   return {
@@ -377,9 +331,11 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
     fields,
     values,
     handleValueChange,
+    flushField,
     total,
     box_label,
     noMeeting,
+    canEdit,
     clickerEnabled,
     clickerOpen,
     clickerTitle,
