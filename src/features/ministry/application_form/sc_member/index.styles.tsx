@@ -1,10 +1,8 @@
-import { FC } from 'react';
-import { styled } from '@mui/system';
-import { Box, BoxProps } from '@mui/material';
-import { ButtonPropsType } from '@components/button/index.types';
+import { styled } from '@mui/material/styles';
+import { Box } from '@mui/material';
 import Button from '@components/button';
 
-export const LabelContainer: FC<BoxProps> = styled(Box)(({ theme }) => ({
+export const LabelContainer = styled(Box)(({ theme }) => ({
   borderRadius: 'var(--radius-s)',
   padding: '8px 32px',
   display: 'flex',
@@ -18,7 +16,7 @@ export const LabelContainer: FC<BoxProps> = styled(Box)(({ theme }) => ({
   userSelect: 'none',
 }));
 
-export const ActionButton: FC<ButtonPropsType> = styled(Button)({
+export const ActionButton = styled(Button)({
   minHeight: '40px',
   height: '40px',
   flex: 1,

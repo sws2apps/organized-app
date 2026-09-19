@@ -30,9 +30,7 @@ const ServiceTalk = (props: ServiceTalkProps) => {
       alwaysExpanded
     >
       <Stack spacing="8px" divider={<Divider color="var(--grey-200)" />}>
-        <DoubleFieldContainer
-          sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
-        >
+        <DoubleFieldContainer laptopUp={laptopUp}>
           <PrimaryFieldContainer>
             <Stack
               spacing="4px"
@@ -72,6 +70,7 @@ const ServiceTalk = (props: ServiceTalkProps) => {
             </Stack>
           </PrimaryFieldContainer>
           <SecondaryFieldContainer
+            laptopUp={laptopUp}
             sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
           >
             <PersonComponent
@@ -82,9 +81,7 @@ const ServiceTalk = (props: ServiceTalkProps) => {
           </SecondaryFieldContainer>
         </DoubleFieldContainer>
 
-        <DoubleFieldContainer
-          sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
-        >
+        <DoubleFieldContainer laptopUp={laptopUp}>
           <PrimaryFieldContainer>
             {props.timings?.pgm_end && (
               <PartTiming time={props.timings.pgm_end} />
@@ -98,6 +95,7 @@ const ServiceTalk = (props: ServiceTalkProps) => {
             />
           </PrimaryFieldContainer>
           <SecondaryFieldContainer
+            laptopUp={laptopUp}
             sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
           >
             <PersonComponent
