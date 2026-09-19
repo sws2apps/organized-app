@@ -36,7 +36,9 @@ const LivingPart = (props: LivingPartProps) => {
       alwaysExpanded
     >
       <Stack spacing="8px" divider={<Divider color="var(--grey-200)" />}>
-        <DoubleFieldContainer laptopUp={laptopUp}>
+        <DoubleFieldContainer
+          sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
+        >
           <PrimaryFieldContainer>
             {props.timings?.lc_middle_song && (
               <PartTiming time={props.timings.lc_middle_song} />
@@ -50,7 +52,6 @@ const LivingPart = (props: LivingPartProps) => {
             />
           </PrimaryFieldContainer>
           <SecondaryFieldContainer
-            laptopUp={laptopUp}
             sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
           />
         </DoubleFieldContainer>
@@ -66,7 +67,9 @@ const LivingPart = (props: LivingPartProps) => {
         ))}
 
         {showCBS && (
-          <DoubleFieldContainer laptopUp={laptopUp}>
+          <DoubleFieldContainer
+            sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
+          >
             <PrimaryFieldContainer>
               {props.timings?.cbs && <PartTiming time={props.timings.cbs} />}
 
@@ -77,10 +80,9 @@ const LivingPart = (props: LivingPartProps) => {
                 dataView={props.dataView}
               />
             </PrimaryFieldContainer>
-<SecondaryFieldContainer
-            laptopUp={laptopUp}
-            sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
-          >
+            <SecondaryFieldContainer
+              sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
+            >
               <Stack>
                 <PersonComponent
                   label={`${t('tr_conductor')}:`}
@@ -100,7 +102,9 @@ const LivingPart = (props: LivingPartProps) => {
         )}
 
         {MIDWEEK_FULL.includes(weekType) && (
-          <DoubleFieldContainer laptopUp={laptopUp}>
+          <DoubleFieldContainer
+            sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
+          >
             <PrimaryFieldContainer>
               {props.timings?.concluding_comments && (
                 <PartTiming time={props.timings.concluding_comments} />
@@ -119,10 +123,9 @@ const LivingPart = (props: LivingPartProps) => {
                 </Typography>
               </Box>
             </PrimaryFieldContainer>
-<SecondaryFieldContainer
-            laptopUp={laptopUp}
-            sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
-          >
+            <SecondaryFieldContainer
+              sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
+            >
               <PersonComponent
                 label={`${t('tr_chairman')}:`}
                 week={props.week}
@@ -134,7 +137,9 @@ const LivingPart = (props: LivingPartProps) => {
         )}
 
         {weekType === Week.CO_VISIT && (
-          <DoubleFieldContainer laptopUp={laptopUp}>
+          <DoubleFieldContainer
+            sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
+          >
             <PrimaryFieldContainer>
               {props.timings?.co_talk && (
                 <PartTiming time={props.timings.co_talk} />
@@ -145,10 +150,9 @@ const LivingPart = (props: LivingPartProps) => {
                 meeting="midweek"
               />
             </PrimaryFieldContainer>
-<SecondaryFieldContainer
-            laptopUp={laptopUp}
-            sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
-          >
+            <SecondaryFieldContainer
+              sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
+            >
               <PersonComponent
                 label={`${t('tr_brother')}:`}
                 week={props.week}
@@ -160,7 +164,9 @@ const LivingPart = (props: LivingPartProps) => {
         )}
 
         {MIDWEEK_FULL.includes(weekType) && (
-          <DoubleFieldContainer laptopUp={laptopUp}>
+          <DoubleFieldContainer
+            sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
+          >
             <PrimaryFieldContainer>
               {props.timings?.pgm_end && (
                 <PartTiming time={props.timings.pgm_end} />
@@ -172,10 +178,9 @@ const LivingPart = (props: LivingPartProps) => {
                 dataView={props.dataView}
               />
             </PrimaryFieldContainer>
-<SecondaryFieldContainer
-            laptopUp={laptopUp}
-            sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
-          >
+            <SecondaryFieldContainer
+              sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
+            >
               <PersonComponent
                 label={`${t('tr_prayer')}:`}
                 week={props.week}

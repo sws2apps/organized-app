@@ -6,7 +6,7 @@ export const ClickerLayout = styled(Box)({
   display: 'flex',
   flexDirection: 'column',
   backgroundColor: 'var(--accent-100)',
-});
+}) as unknown as typeof Box;
 
 export const ClickerBody = styled(Box)({
   flex: 1,
@@ -18,4 +18,4 @@ export const ClickerBody = styled(Box)({
   maxWidth: '480px',
   width: '100%',
   margin: '0 auto',
-});
+}) as unknown as typeof Box;

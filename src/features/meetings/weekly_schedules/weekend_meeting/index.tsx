@@ -36,7 +36,7 @@ const WeekendMeeting = (props: WeekendMeetingProps) => {
 
   return (
     <Stack spacing="8px">
-      <DoubleFieldContainer laptopUp={laptopUp}>
+      <DoubleFieldContainer sx={{ flexDirection: laptopUp ? 'row' : 'column' }}>
         <PrimaryFieldContainer
           sx={{
             display: 'flex',
@@ -56,10 +56,9 @@ const WeekendMeeting = (props: WeekendMeetingProps) => {
         </PrimaryFieldContainer>
 
         {!noMeetingInfo.value && (
-<SecondaryFieldContainer
-              laptopUp={laptopUp}
-              sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
-            >
+          <SecondaryFieldContainer
+            sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
+          >
             {showChairman && (
               <PersonComponent
                 label={`${t('tr_chairman')}:`}
@@ -79,7 +78,7 @@ const WeekendMeeting = (props: WeekendMeetingProps) => {
           {showChairman && (
             <>
               <DoubleFieldContainer
-                laptopUp={laptopUp}
+                sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
               >
                 <PrimaryFieldContainer>
                   {partTimings?.pgm_start && (
@@ -94,7 +93,6 @@ const WeekendMeeting = (props: WeekendMeetingProps) => {
                   />
                 </PrimaryFieldContainer>
                 <SecondaryFieldContainer
-                  laptopUp={laptopUp}
                   sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
                 >
                   {!openingPrayerAuto && (

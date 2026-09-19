@@ -1,4 +1,4 @@
-import { styled } from '@mui/material/styles';
+import { styled } from '@mui/system';
 import { Box } from '@mui/material';
 
 export const UserCard = styled(Box)({
@@ -16,4 +16,4 @@ export const UserCard = styled(Box)({
     border: '1px solid var(--accent-350)',
     boxShadow: 'var(--hover-shadow)',
   },
-});
+}) as unknown as typeof Box;

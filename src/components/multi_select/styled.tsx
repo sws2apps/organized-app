@@ -1,6 +1,12 @@
 import React from 'react';
-import { styled } from '@mui/material/styles';
-import { BaseSelectProps, FormControl, MenuItem, OutlinedSelectProps, Select } from '@mui/material';
+import { styled } from '@mui/system';
+import {
+  BaseSelectProps,
+  FormControl,
+  MenuItem,
+  OutlinedSelectProps,
+  Select,
+} from '@mui/material';
 
 type StyledMultiSelectBaseProps = {
   height: number;

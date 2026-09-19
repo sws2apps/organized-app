@@ -1,12 +1,11 @@
-import { styled } from '@mui/material/styles';
-import { Box } from '@mui/material';
+import { Box, styled } from '@mui/material';
 
 export const StyledMonthlyViewRow = styled(Box)({
   flexDirection: 'row',
   alignItems: 'stretch',
   display: 'flex',
   gap: '16px',
-});
+}) as unknown as typeof Box;
 
 export const StyledMonthlyViewColumn = styled(Box)({
   display: 'flex',
@@ -14,9 +13,9 @@ export const StyledMonthlyViewColumn = styled(Box)({
   gap: '12px',
   justifyContent: 'space-between',
   height: '100%',
-});
+}) as unknown as typeof Box;
 
 export const StyledMonthlyViewTitleBox = styled(Box)({
   display: 'flex',
   alignItems: 'center',
-});
+}) as unknown as typeof Box;

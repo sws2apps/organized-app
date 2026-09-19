@@ -1,5 +1,4 @@
-import { styled } from '@mui/material/styles';
-import { Box } from '@mui/material';
+import { Box, styled } from '@mui/material';
 
 export const DetailsContainer = styled(Box)({
   flex: 1,
@@ -11,10 +10,10 @@ export const DetailsContainer = styled(Box)({
   flexDirection: 'column',
   gap: '24px',
   backgroundColor: 'var(--white)',
-});
+}) as unknown as typeof Box;
 
 export const SwitchContainer = styled(Box)({
   display: 'flex',
   gap: '16px',
   flexDirection: 'column',
-});
+}) as unknown as typeof Box;

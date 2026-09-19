@@ -1,5 +1,9 @@
-import { styled } from '@mui/material/styles';
-import { Table as MUITable, TableHead as MUITableHead, TableBody as MUITableBody } from '@mui/material';
+import {
+  Table as MUITable,
+  TableHead as MUITableHead,
+  TableBody as MUITableBody,
+  styled,
+} from '@mui/material';
 
 export const Table = styled(MUITable)({
   '& .MuiTableCell-root': {
@@ -27,7 +31,7 @@ export const Table = styled(MUITable)({
     backgroundColor: 'var(--white)',
     alignContent: 'stretch',
   },
-});
+}) as unknown as typeof MUITable;
 
 export const TableHead = styled(MUITableHead)({
   '& .MuiTableCell-root': {
@@ -48,7 +52,7 @@ export const TableHead = styled(MUITableHead)({
     minWidth: '120px',
     backgroundColor: 'var(--white)',
   },
-});
+}) as unknown as typeof MUITableHead;
 
 export const TableBody = styled(MUITableBody)({
   '& .MuiTableRow-root > .MuiTableCell-root': {
@@ -57,4 +61,4 @@ export const TableBody = styled(MUITableBody)({
   '& .MuiTableRow-root:last-child > .MuiTableCell-root': {
     borderBottom: 'none',
   },
-});
+}) as unknown as typeof MUITableBody;

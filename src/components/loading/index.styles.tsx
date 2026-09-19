@@ -1,5 +1,5 @@
-import { styled } from '@mui/material/styles';
 import { Box } from '@mui/material';
+import { styled } from '@mui/system';
 
 export const Container = styled(Box)({
   backgroundColor: 'var(--white)',

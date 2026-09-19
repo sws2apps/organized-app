@@ -1,7 +1,8 @@
-import { styled } from '@mui/material/styles';
-import { Box } from '@mui/material';
+import { FC } from 'react';
+import { styled } from '@mui/system';
+import { Box, BoxProps } from '@mui/material';
 
-export const GroupContainer = styled(Box)({
+export const GroupContainer: FC<BoxProps> = styled(Box)({
   padding: '8px',
   gap: '8px',
   display: 'flex',

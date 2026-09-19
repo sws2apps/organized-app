@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import styled, { css, keyframes } from 'styled-components';
+import { keyframes } from '@emotion/react';
 import { DurationProps } from './index.types';
 import useDuration from './useDuration';
 import Typography from '@components/typography';
@@ -10,60 +10,38 @@ const blink = keyframes`
   100% { opacity: 1; }
 `;
 
-const DurationBox = styled(Box)<{
-  $blink?: boolean;
-  $defaultColor?: string;
-  $hoverColor?: string;
-  $activeColor?: string;
-}>`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 64px;
-  cursor: pointer;
-  user-select: none;
-  ${({ $blink }) => $blink && css`animation: ${blink} 1s steps(1, end) infinite;`}
-
-  & p {
-    color: ${({ $defaultColor }) => $defaultColor};
-  }
-
-  &:hover {
-    & p {
-      color: ${({ $hoverColor }) => $hoverColor};
-    }
-
-    @media (hover: none) {
-      & p {
-        color: ${({ $defaultColor }) => $defaultColor};
-      }
-    }
-  }
-
-  &:active {
-    & p {
-      color: ${({ $activeColor }) => $activeColor};
-    }
-  }
-`;
-
-const Colon = styled(Typography)<{ $blink?: boolean }>`
-  width: 6px;
-  text-align: center;
-  ${({ $blink }) => $blink && css`animation: ${blink} 1s steps(1, end) infinite;`}
-`;
-
 const Duration = (props: DurationProps) => {
   const { first, isHour, second, defaultColor, hoverColor, activeColor } =
     useDuration(props);
 
   return (
-    <DurationBox
+    <Box
       onClick={props.onClick}
-      $blink={props.paused}
-      $defaultColor={defaultColor}
-      $hoverColor={hoverColor}
-      $activeColor={activeColor}
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '64px',
+        '& p': {
+          color: defaultColor,
+        },
+        '&:hover': {
+          '& p': {
+            color: hoverColor,
+            '@media (hover: none)': {
+              color: defaultColor,
+            },
+          },
+        },
+        '&:active': {
+          '& p': {
+            color: activeColor,
+          },
+        },
+        cursor: 'pointer',
+        userSelect: 'none',
+        animation: props.paused && `${blink} 1s steps(1, end) infinite`,
+      }}
     >
       <Typography
         onClick={props.onClick}
@@ -72,13 +50,22 @@ const Duration = (props: DurationProps) => {
       >
         {first}
       </Typography>
-      <Colon className="h3" $blink={props.started && isHour}>
+      <Typography
+        onClick={props.onClick}
+        className="h3"
+        sx={{
+          width: '6px',
+          textAlign: 'center',
+          animation:
+            props.started && isHour && `${blink} 1s steps(1, end) infinite`,
+        }}
+      >
         :
-      </Colon>
+      </Typography>
       <Typography className="h3" sx={{ width: '29px', textAlign: 'left' }}>
         {second}
       </Typography>
-    </DurationBox>
+    </Box>
   );
 };
 

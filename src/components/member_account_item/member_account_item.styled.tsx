@@ -1,5 +1,4 @@
-import { styled } from '@mui/material/styles';
-import { Box } from '@mui/material';
+import { Box, styled } from '@mui/material';
 
 /**
  * Styled wrapper for the member account item box.

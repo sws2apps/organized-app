@@ -1,4 +1,4 @@
-import { styled } from '@mui/material/styles';
+import { styled } from '@mui/system';
 import { Box } from '@mui/material';
 
 export const StyledProgressBarSmallBox = styled(Box)({

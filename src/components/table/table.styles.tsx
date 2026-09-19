@@ -1,5 +1,12 @@
-import { styled } from '@mui/material/styles';
-import { Table, TableCell, TableCellProps, TableProps, TableRow, TableRowProps } from '@mui/material';
+import { styled } from '@mui/system';
+import {
+  Table,
+  TableCell,
+  TableCellProps,
+  TableProps,
+  TableRow,
+  TableRowProps,
+} from '@mui/material';
 
 export const StyledRow = styled((props: TableRowProps) => (
   <TableRow hover tabIndex={-1} {...props} />

@@ -1,4 +1,4 @@
-import { styled } from '@mui/material/styles';
+import { styled } from '@mui/system';
 import { Box } from '@mui/material';
 
 export const CardContainer = styled(Box)({
@@ -9,4 +9,4 @@ export const CardContainer = styled(Box)({
   display: 'flex',
   flexDirection: 'column',
   gap: '16px',
-});
+}) as unknown as typeof Box;

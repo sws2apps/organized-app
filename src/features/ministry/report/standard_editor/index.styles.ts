@@ -1,4 +1,4 @@
-import { styled } from '@mui/material/styles';
+import { styled } from '@mui/system';
 import TextField from '@components/textfield';
 
 export const TextFieldStandard = styled(TextField)({
@@ -22,4 +22,4 @@ export const TextFieldStandard = styled(TextField)({
   '.MuiInputAdornment-root': {
     marginLeft: '0px !important',
   },
-});
+}) as unknown as typeof TextField;
