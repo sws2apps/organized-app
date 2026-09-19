@@ -88,6 +88,7 @@ export const StyleDatePickerPopper: SxProps<Theme> = {
   },
   '.Mui-selected': {
     backgroundColor: 'var(--accent-main) !important',
+    color: '#ffffff !important',
   },
   '.Mui-disabled': {
     color: 'var(--grey-200) !important',

@@ -35,8 +35,10 @@ const Select = ({ helperText, ...props }: SelectPropsType) => {
         fullWidth
         inputProps={{
           ...props.inputProps,
-          MenuProps: {
-            PaperProps: {
+        }}
+        MenuProps={{
+          slotProps: {
+            paper: {
               sx: (theme: Theme) => ({
                 background: 'var(--white)',
                 backgroundColor: 'var(--white)',

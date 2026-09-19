@@ -105,10 +105,13 @@ const Autocomplete = <T,>(props: AutocompletePropsType<T>) => {
         ...props.sx,
       }}
       slotProps={{
+        ...props.slotProps,
         listbox: {
+          ...props.slotProps?.listbox,
           component: CustomListBoxComponent,
         },
         paper: {
+          ...props.slotProps?.paper,
           optionsHeader,
         },
       }}
