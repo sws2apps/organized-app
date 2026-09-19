@@ -41,7 +41,7 @@ const MidweekMeeting = (props: MidweekMeetingProps) => {
 
   return (
     <Stack spacing="8px">
-      <DoubleFieldContainer sx={{ flexDirection: laptopUp ? 'row' : 'column' }}>
+      <DoubleFieldContainer laptopUp={laptopUp}>
         <PrimaryFieldContainer
           sx={{
             display: 'flex',
@@ -62,6 +62,7 @@ const MidweekMeeting = (props: MidweekMeetingProps) => {
 
         {!noMeetingInfo.value && (
           <SecondaryFieldContainer
+            laptopUp={laptopUp}
             sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
           >
             <PersonComponent
@@ -77,12 +78,11 @@ const MidweekMeeting = (props: MidweekMeetingProps) => {
       {!noMeetingInfo.value &&
         MIDWEEK_FULL.includes(weekType) &&
         showAuxCounselor && (
-          <DoubleFieldContainer
-            sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
-          >
+          <DoubleFieldContainer laptopUp={laptopUp}>
             <PrimaryFieldContainer />
 
             <SecondaryFieldContainer
+              laptopUp={laptopUp}
               sx={{
                 maxWidth: laptopUp ? '360px' : '100%',
                 gap: 'unset',
@@ -105,9 +105,7 @@ const MidweekMeeting = (props: MidweekMeetingProps) => {
       {!noMeetingInfo.value && (
         <>
           {MIDWEEK_FULL.includes(weekType) && (
-            <DoubleFieldContainer
-              sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
-            >
+            <DoubleFieldContainer laptopUp={laptopUp}>
               <PrimaryFieldContainer>
                 {partTimings?.pgm_start && (
                   <PartTiming time={partTimings.pgm_start} />
@@ -121,6 +119,7 @@ const MidweekMeeting = (props: MidweekMeetingProps) => {
                 />
               </PrimaryFieldContainer>
               <SecondaryFieldContainer
+                laptopUp={laptopUp}
                 sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
               >
                 <PersonComponent
@@ -138,9 +137,7 @@ const MidweekMeeting = (props: MidweekMeetingProps) => {
           )}
 
           {MIDWEEK_FULL.includes(weekType) && (
-            <DoubleFieldContainer
-              sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
-            >
+            <DoubleFieldContainer laptopUp={laptopUp}>
               <PrimaryFieldContainer>
                 {partTimings?.opening_comments && (
                   <PartTiming time={partTimings.opening_comments} />
@@ -160,6 +157,7 @@ const MidweekMeeting = (props: MidweekMeetingProps) => {
                 </Box>
               </PrimaryFieldContainer>
               <SecondaryFieldContainer
+                laptopUp={laptopUp}
                 sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
               />
             </DoubleFieldContainer>

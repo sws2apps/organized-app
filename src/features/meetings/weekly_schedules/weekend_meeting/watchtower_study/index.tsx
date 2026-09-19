@@ -33,9 +33,7 @@ const WatchtowerStudy = (props: WatchtowerStudyProps) => {
     >
       <Stack spacing="8px" divider={<Divider color="var(--grey-200)" />}>
         {showSong && (
-          <DoubleFieldContainer
-            sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
-          >
+          <DoubleFieldContainer laptopUp={laptopUp}>
             <PrimaryFieldContainer>
               {props.timings?.middle_song && (
                 <PartTiming time={props.timings.middle_song} />
@@ -49,14 +47,13 @@ const WatchtowerStudy = (props: WatchtowerStudyProps) => {
               />
             </PrimaryFieldContainer>
             <SecondaryFieldContainer
+              laptopUp={laptopUp}
               sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
             />
           </DoubleFieldContainer>
         )}
 
-        <DoubleFieldContainer
-          sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
-        >
+        <DoubleFieldContainer laptopUp={laptopUp}>
           <PrimaryFieldContainer>
             <Stack
               spacing="4px"
@@ -99,6 +96,7 @@ const WatchtowerStudy = (props: WatchtowerStudyProps) => {
             </Stack>
           </PrimaryFieldContainer>
           <SecondaryFieldContainer
+            laptopUp={laptopUp}
             sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
           >
             <Stack spacing="4px">
@@ -122,9 +120,7 @@ const WatchtowerStudy = (props: WatchtowerStudyProps) => {
         </DoubleFieldContainer>
 
         {showSong && weekType === Week.NORMAL && (
-          <DoubleFieldContainer
-            sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
-          >
+          <DoubleFieldContainer laptopUp={laptopUp}>
             <PrimaryFieldContainer>
               {props.timings?.pgm_end && (
                 <PartTiming time={props.timings.pgm_end} />
@@ -138,6 +134,7 @@ const WatchtowerStudy = (props: WatchtowerStudyProps) => {
               />
             </PrimaryFieldContainer>
             <SecondaryFieldContainer
+              laptopUp={laptopUp}
               sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
             >
               <PersonComponent

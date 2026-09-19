@@ -23,7 +23,7 @@ const PartRow = (props: PartRowProps) => {
     usePartRow(props);
 
   return (
-    <DoubleFieldContainer sx={{ flexDirection: laptopUp ? 'row' : 'column' }}>
+    <DoubleFieldContainer laptopUp={laptopUp}>
       <PrimaryFieldContainer>
         {props.timings?.[props.type.toString()] && (
           <PartTiming time={props.timings[props.type.toString()]} />
@@ -36,7 +36,7 @@ const PartRow = (props: PartRowProps) => {
           dataView={props.dataView}
         />
       </PrimaryFieldContainer>
-      <SecondaryFieldContainer sx={{ maxWidth: laptopUp ? '360px' : '100%' }}>
+      <SecondaryFieldContainer laptopUp={laptopUp} sx={{ maxWidth: laptopUp ? '360px' : '100%' }}>
         <Stack spacing="8px" divider={<Divider color="var(--grey-200)" />}>
           <Stack spacing="4px">
             {showAuxClass && ayfType !== AssignmentCode.MM_Discussion && (

@@ -29,7 +29,7 @@ const PublicTalk = (props: PublicTalkProps) => {
       icon={<IconTalk color="var(--always-white)" />}
       alwaysExpanded
     >
-      <DoubleFieldContainer sx={{ flexDirection: laptopUp ? 'row' : 'column' }}>
+      <DoubleFieldContainer laptopUp={laptopUp}>
         <PrimaryFieldContainer>
           <Stack
             spacing="4px"
@@ -79,7 +79,7 @@ const PublicTalk = (props: PublicTalkProps) => {
             )}
           </Stack>
         </PrimaryFieldContainer>
-        <SecondaryFieldContainer sx={{ maxWidth: laptopUp ? '360px' : '100%' }}>
+        <SecondaryFieldContainer laptopUp={laptopUp} sx={{ maxWidth: laptopUp ? '360px' : '100%' }}>
           {props.week_type !== Week.CO_VISIT && (
             <Stack>
               <PersonComponent
