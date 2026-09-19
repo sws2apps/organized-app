@@ -61,7 +61,7 @@ const Tooltip: FC<CustomTooltipProps> = ({
             padding: '4px 8px 4px 8px',
             maxWidth: '360px',
             color: 'var(--white)',
-            fontSize: '12px',
+            fontSize: '0.75rem',
             fontStyle: 'normal !important',
             border: 'none',
           },

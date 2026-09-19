@@ -16,9 +16,9 @@ export const StyledContentBox = styled(Box)({
 
 export const StyledTypography = styled(Typography)({
   color: 'var(--always-white)',
-  fontSize: '14px',
+  fontSize: '0.875rem',
   fontWeight: '520',
-  lineHeight: '20px',
+  lineHeight: 1.43,
   marginTop: '4px',
   marginBottom: '4px',
 }) as unknown as typeof Typography;

@@ -5,7 +5,7 @@ export const StyledProgressBarBox = styled(Box)({});
 
 export const StyledProgressBar = styled(Box)({
   position: 'relative',
-  height: '24px',
+  minHeight: '24px',
   display: 'flex',
   alignItems: 'center',
   borderRadius: 'var(--radius-s)',
@@ -13,7 +13,7 @@ export const StyledProgressBar = styled(Box)({
 });
 
 export const StyledProgressBarFill = styled(Box)({
-  height: '100%',
+  alignSelf: 'stretch',
   borderRadius: 'var(--radius-s)',
   background: 'var(--accent-main)',
   color: 'var(--always-white)',
@@ -21,13 +21,13 @@ export const StyledProgressBarFill = styled(Box)({
   minWidth: '0',
   justifyContent: 'center',
   transition: 'width 0.4s ease, padding 0.4s ease',
-  overflow: 'hidden',     
-  whiteSpace: "nowrap",
+  overflow: 'hidden',
+  whiteSpace: 'nowrap',
 });
 
 export const StyledProgressBarToFill = styled(Box)({
   padding: '0 4px',
-  height: '100%',
+  alignSelf: 'stretch',
   flexGrow: 1,
   minWidth: 'fit-content',
   borderRadius: 'var(--radius-s)',

@@ -2,7 +2,16 @@ import { Locale } from 'date-fns';
 import { FullnameOption } from './settings';
 import { ReactNode } from 'react';
 
-export type ColorSchemeType = 'blue' | 'green' | 'purple' | 'orange' | 'teal' | 'rose' | 'slate';
+export type ColorSchemeType =
+  | 'blue'
+  | 'green'
+  | 'purple'
+  | 'orange'
+  | 'teal'
+  | 'rose'
+  | 'slate';
+
+export type AppFontSizeType = 'small' | 'normal' | 'large';
 
 export type SnackBarSeverityType = 'success' | 'error' | 'message-with-button';
 

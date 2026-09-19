@@ -1,5 +1,6 @@
 import { Box } from '@mui/material';
 import ColorSchemeSwitcher from '@features/color_scheme_selector';
+import FontSizeSelector from '@features/font_size_selector';
 import MenuItem from '@components/menuitem';
 import Select from '@components/select';
 import Switch from '@components/switch';
@@ -93,7 +94,9 @@ const AppSettings = () => {
                 flexDirection: laptopUp ? 'row' : 'column',
               }}
             >
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+              <Box
+                sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}
+              >
                 <Typography>{t('tr_autoThemeChange')}</Typography>
                 <Typography
                   className="label-small-regular"
@@ -161,6 +164,8 @@ const AppSettings = () => {
 
           <ColorSchemeSwitcher />
         </Box>
+
+        <FontSizeSelector />
       </SettingWithBorderContainer>
     </ProfileItemContainer>
   );
