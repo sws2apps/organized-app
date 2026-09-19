@@ -6,19 +6,20 @@ import InfoNote from '@components/info_note';
 import Typography from '@components/typography';
 import UpcomingEvent from '../upcoming_event';
 
-// eased, so the list fades out evenly instead of behind a dark band
+// starts fading right under the year and trails off far below it, so the list
+// slides out of view instead of passing behind a band
 const YEAR_SCRIM = `linear-gradient(
   180deg,
   rgba(var(--accent-100-base), 1) 0%,
-  rgba(var(--accent-100-base), 0.98) 10%,
-  rgba(var(--accent-100-base), 0.92) 20%,
-  rgba(var(--accent-100-base), 0.82) 30%,
-  rgba(var(--accent-100-base), 0.68) 40%,
+  rgba(var(--accent-100-base), 0.96) 14%,
+  rgba(var(--accent-100-base), 0.85) 26%,
+  rgba(var(--accent-100-base), 0.68) 38%,
   rgba(var(--accent-100-base), 0.5) 50%,
-  rgba(var(--accent-100-base), 0.32) 60%,
-  rgba(var(--accent-100-base), 0.18) 70%,
-  rgba(var(--accent-100-base), 0.08) 80%,
-  rgba(var(--accent-100-base), 0.02) 90%,
+  rgba(var(--accent-100-base), 0.34) 61%,
+  rgba(var(--accent-100-base), 0.21) 71%,
+  rgba(var(--accent-100-base), 0.11) 80%,
+  rgba(var(--accent-100-base), 0.05) 88%,
+  rgba(var(--accent-100-base), 0.015) 95%,
   rgba(var(--accent-100-base), 0) 100%
 )`;
 
@@ -51,13 +52,13 @@ const UpcomingEventsList = (props: UpcomingEventsListProps) => {
                 top: '62px',
                 zIndex: 2,
                 padding: '8px 0',
-                backgroundColor: 'var(--accent-100)',
-                '&::after': {
+                '&::before': {
                   content: '""',
                   position: 'absolute',
                   insetInline: 0,
-                  top: '100%',
-                  height: '24px',
+                  top: 0,
+                  bottom: '-64px',
+                  zIndex: -1,
                   background: YEAR_SCRIM,
                   pointerEvents: 'none',
                 },
