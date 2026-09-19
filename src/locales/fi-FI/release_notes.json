@@ -21,8 +21,8 @@
     "images": {
       "img_01": {
         "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-profile-pictures.svg",
-        "tr_title": "New look for your profile",
-        "tr_desc": "Pick a new profile picture: Bible stories, friendly faces, abstract art or bright gradients."
+        "tr_title": "Uusi ilme profiilillesi",
+        "tr_desc": "Valitse uusi profiilikuva: Raamatun kertomuksia, ystävällisiä kasvoja, abstrakteja taiteita tai kirkkaita gradientteja."
       }
     }
   }
