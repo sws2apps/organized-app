@@ -14,6 +14,12 @@ interface CustomIconButtonProps extends IconButtonProps {
 const IconButton: FC<CustomIconButtonProps> = (props) => {
   const { children, disableHover, sx, ...rest } = props;
 
+  // Until the sx merge below, a caller's sx replaced these styles, so every
+  // button styled by its caller rendered with MUI's round shape and the
+  // rounded square only showed on unstyled ones. That is the design, so the
+  // shape still follows it while the rest of the defaults now always apply.
+  const shapeRadius = 'sx' in props ? '50%' : 'var(--radius-l)';
+
   const getBackgroundColor = () => {
     switch (props.color) {
       case 'error':
@@ -32,7 +38,7 @@ const IconButton: FC<CustomIconButtonProps> = (props) => {
       sx={[
         {
           padding: '8px',
-          borderRadius: 'var(--radius-l)',
+          borderRadius: shapeRadius,
 
           ...(disableHover
             ? {
@@ -48,7 +54,7 @@ const IconButton: FC<CustomIconButtonProps> = (props) => {
                   backgroundColor: getBackgroundColor(),
                 },
                 '.MuiTouchRipple-ripple .MuiTouchRipple-child': {
-                  borderRadius: 'var(--radius-l)',
+                  borderRadius: shapeRadius,
                   backgroundColor: getBackgroundColor(),
                 },
               }),

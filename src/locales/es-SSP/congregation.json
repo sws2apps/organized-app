@@ -569,5 +569,5 @@
   "tr_error_app_data_no_valid_data_found": "No se encontraron datos válidos o no se seleccionó ningún orador.",
   "tr_infirmPioneer": "Precursor enfermo",
   "tr_infirmPioneerNoGoal": "Como precursor enfermo, puedes servir tanto como puedas sin una meta anual de horas.",
-  "tr_importCsvParseError": "The file could not be read. Please check the column structure and try again."
+  "tr_importCsvParseError": "No se pudo leer el archivo. Por favor, revisa la estructura de las columnas e inténtalo de nuevo."
 }
