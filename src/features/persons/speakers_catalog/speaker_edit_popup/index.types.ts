@@ -13,6 +13,7 @@ export type SpeakerEditPopupType = {
 export type SpeakerDraftType = {
   person_uid: string;
   firstname: string;
+  middlename: string;
   lastname: string;
   displayName: string;
   privilege: 'elder' | 'ms' | '';

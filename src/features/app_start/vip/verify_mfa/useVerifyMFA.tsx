@@ -58,6 +58,9 @@ const useVerifyMFA = () => {
         'user_settings.account_type': 'vip',
         'user_settings.lastname': app_settings.user_settings.lastname,
         'user_settings.firstname': app_settings.user_settings.firstname,
+        ...(app_settings.user_settings.middlename && {
+          'user_settings.middlename': app_settings.user_settings.middlename,
+        }),
       });
     }
 

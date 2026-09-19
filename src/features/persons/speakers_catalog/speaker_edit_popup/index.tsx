@@ -41,6 +41,7 @@ const SpeakerEditPopup = (props: SpeakerEditPopupType) => {
     personsAvailable,
     talkRows,
     handleFirstnameChange,
+    handleMiddlenameChange,
     handleLastnameChange,
     handleDisplayNameChange,
     handlePrivilegeChange,
@@ -64,9 +65,15 @@ const SpeakerEditPopup = (props: SpeakerEditPopupType) => {
       ? buildPersonFullname(
           localName.person_data.person_lastname.value,
           localName.person_data.person_firstname.value,
-          fullnameOption
+          fullnameOption,
+          localName.person_data.person_middlename?.value
         )
-      : buildPersonFullname(draft.lastname, draft.firstname, fullnameOption);
+      : buildPersonFullname(
+          draft.lastname,
+          draft.firstname,
+          fullnameOption,
+          draft.middlename
+        );
 
   if (confirmDiscardOpen) {
     return (
@@ -149,6 +156,7 @@ const SpeakerEditPopup = (props: SpeakerEditPopupType) => {
             fullnameOption={fullnameOption}
             persons={personsAvailable}
             onFirstnameChange={handleFirstnameChange}
+            onMiddlenameChange={handleMiddlenameChange}
             onLastnameChange={handleLastnameChange}
             onDisplayNameChange={handleDisplayNameChange}
             onPrivilegeChange={handlePrivilegeChange}
@@ -199,6 +207,7 @@ const SpeakerEditPopup = (props: SpeakerEditPopupType) => {
                       fullnameOption={fullnameOption}
                       persons={personsAvailable}
                       onFirstnameChange={handleFirstnameChange}
+                      onMiddlenameChange={handleMiddlenameChange}
                       onLastnameChange={handleLastnameChange}
                       onDisplayNameChange={handleDisplayNameChange}
                       onPrivilegeChange={handlePrivilegeChange}

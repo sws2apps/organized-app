@@ -37,6 +37,7 @@ const buildDraft = (
     return {
       person_uid: '',
       firstname: '',
+      middlename: '',
       lastname: '',
       displayName: '',
       privilege: '',
@@ -49,6 +50,7 @@ const buildDraft = (
   return {
     person_uid: speaker.person_uid,
     firstname: speaker.speaker_data.person_firstname.value,
+    middlename: speaker.speaker_data.person_middlename?.value ?? '',
     lastname: speaker.speaker_data.person_lastname.value,
     displayName: speaker.speaker_data.person_display_name.value,
     privilege: speaker.speaker_data.elder.value
@@ -185,6 +187,9 @@ const useSpeakerEditPopup = ({
       return { ...prev, firstname: value, displayName };
     });
   };
+
+  const handleMiddlenameChange = (value: string) =>
+    setDraft((prev) => ({ ...prev, middlename: value }));
 
   const handleLastnameChange = (value: string) => {
     setDraft((prev) => {
@@ -369,6 +374,13 @@ const useSpeakerEditPopup = ({
         };
       }
 
+      if (changed('middlename')) {
+        changes['speaker_data.person_middlename'] = {
+          value: draft.middlename,
+          updatedAt,
+        };
+      }
+
       if (changed('lastname')) {
         changes['speaker_data.person_lastname'] = {
           value: draft.lastname,
@@ -473,6 +485,7 @@ const useSpeakerEditPopup = ({
     personsAvailable,
     talkRows,
     handleFirstnameChange,
+    handleMiddlenameChange,
     handleLastnameChange,
     handleDisplayNameChange,
     handlePrivilegeChange,
