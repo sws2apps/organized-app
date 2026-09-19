@@ -6,6 +6,7 @@ import { personCurrentDetailsState } from '@states/persons';
 import { setPersonCurrentDetails } from '@services/states/persons';
 import { AssignmentCode } from '@definition/assignment';
 import {
+  dutiesSistersState,
   midweekMeetingAuxClassQualificationsState,
   midweekMeetingClassCountState,
   userDataViewState,
@@ -19,6 +20,7 @@ const useAssignments = () => {
 
   const person = useAtomValue(personCurrentDetailsState);
   const dataView = useAtomValue(userDataViewState);
+  const sistersDuties = useAtomValue(dutiesSistersState);
   const languageGroups = useAtomValue(languageGroupsState);
   const classCount = useAtomValue(midweekMeetingClassCountState);
   const auxClassQualifications = useAtomValue(
@@ -209,6 +211,50 @@ const useAssignments = () => {
           },
         ],
       },
+      {
+        header: t('tr_duties'),
+        id: 'duties',
+        color: 'duties' as AssignmentCheckListColors,
+        items: [
+          {
+            code: AssignmentCode.DUTIES_Audio,
+            name: t('tr_dutiesAudio'),
+          },
+          {
+            code: AssignmentCode.DUTIES_Video,
+            name: t('tr_dutiesVideo'),
+          },
+          {
+            code: AssignmentCode.DUTIES_Microphone,
+            name: t('tr_dutiesMicrophone'),
+          },
+          {
+            code: AssignmentCode.DUTIES_Stage,
+            name: t('tr_dutiesStage'),
+          },
+          {
+            code: AssignmentCode.DUTIES_EntranceAttendant,
+            name: t('tr_dutiesEntranceAttendant'),
+          },
+          {
+            code: AssignmentCode.DUTIES_AuditoriumAttendant,
+            name: t('tr_dutiesAuditoriumAttendant'),
+          },
+          {
+            code: AssignmentCode.DUTIES_Hospitality,
+            name: t('tr_dutiesHospitality'),
+          },
+          {
+            code: AssignmentCode.DUTIES_VideoconferenceHost,
+            name: t('tr_dutiesVideoconferenceHost'),
+          },
+          {
+            // one qualification covers every custom duty defined in settings
+            code: AssignmentCode.DUTIES_Custom,
+            name: t('tr_dutiesCustom'),
+          },
+        ],
+      },
     ];
   }, [t]);
 
@@ -259,7 +305,8 @@ const useAssignments = () => {
         if (!male) {
           if (
             item.code === AssignmentCode.MM_Discussion ||
-            item.code === AssignmentCode.MM_Talk
+            item.code === AssignmentCode.MM_Talk ||
+            (id === 'duties' && !sistersDuties)
           ) {
             continue;
           }
