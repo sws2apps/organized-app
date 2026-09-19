@@ -6,6 +6,22 @@ import InfoNote from '@components/info_note';
 import Typography from '@components/typography';
 import UpcomingEvent from '../upcoming_event';
 
+// eased, so the list fades out evenly instead of behind a dark band
+const YEAR_SCRIM = `linear-gradient(
+  180deg,
+  rgba(var(--accent-100-base), 1) 0%,
+  rgba(var(--accent-100-base), 0.98) 10%,
+  rgba(var(--accent-100-base), 0.92) 20%,
+  rgba(var(--accent-100-base), 0.82) 30%,
+  rgba(var(--accent-100-base), 0.68) 40%,
+  rgba(var(--accent-100-base), 0.5) 50%,
+  rgba(var(--accent-100-base), 0.32) 60%,
+  rgba(var(--accent-100-base), 0.18) 70%,
+  rgba(var(--accent-100-base), 0.08) 80%,
+  rgba(var(--accent-100-base), 0.02) 90%,
+  rgba(var(--accent-100-base), 0) 100%
+)`;
+
 const UpcomingEventsList = (props: UpcomingEventsListProps) => {
   const { t } = useAppTranslation();
 
@@ -36,15 +52,14 @@ const UpcomingEventsList = (props: UpcomingEventsListProps) => {
                 zIndex: 2,
                 padding: '8px 0',
                 backgroundColor: 'var(--accent-100)',
-                // the list keeps scrolling under the year, never behind a hard edge
                 '&::after': {
                   content: '""',
                   position: 'absolute',
                   insetInline: 0,
                   top: '100%',
-                  height: '16px',
-                  background:
-                    'linear-gradient(180deg, var(--accent-100) 0%, rgba(var(--accent-100-base), 0) 100%)',
+                  height: '24px',
+                  background: YEAR_SCRIM,
+                  pointerEvents: 'none',
                 },
               }}
             >
