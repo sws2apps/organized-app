@@ -117,19 +117,30 @@ const ExportSpeakers = (props: ExportType) => {
     return (
       <Stack spacing="16px" sx={{ width: '100%' }}>
         <Typography className="h2">{t('tr_chooseFields')}</Typography>
-        <Typography color="var(--grey-400)">
+        <Typography
+          sx={{
+            color: 'var(--grey-400)',
+          }}
+        >
           {t('tr_chooseFieldsDesc')}
         </Typography>
 
         <Stack
           spacing="16px"
-          padding="16px"
-          borderRadius="var(--radius-m)"
-          bgcolor="var(--accent-150)"
+          sx={{
+            padding: '16px',
+            borderRadius: 'var(--radius-m)',
+            bgcolor: 'var(--accent-150)',
+          }}
         >
           <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <IconBackupOrganized color="var(--accent-dark)" />
-            <Typography className="h4" color="var(--accent-dark)">
+            <Typography
+              className="h4"
+              sx={{
+                color: 'var(--accent-dark)',
+              }}
+            >
               {selectedFormat === 'xlsx' ? fileNameXlsx : fileNameCsv}
             </Typography>
           </Box>
@@ -145,7 +156,9 @@ const ExportSpeakers = (props: ExportType) => {
               label={
                 <Typography
                   className="body-small-semibold"
-                  color="var(--accent-dark)"
+                  sx={{
+                    color: 'var(--accent-dark)',
+                  }}
                 >
                   {t('tr_selectAll')}
                 </Typography>
@@ -179,7 +192,9 @@ const ExportSpeakers = (props: ExportType) => {
                         label={
                           <Typography
                             className="body-small-semibold"
-                            color="var(--accent-dark)"
+                            sx={{
+                              color: 'var(--accent-dark)',
+                            }}
                           >
                             {t(groupData.groupLabel)}
                           </Typography>
@@ -198,8 +213,10 @@ const ExportSpeakers = (props: ExportType) => {
                             label={
                               <Typography
                                 className="body-small-regular"
-                                color="var(--accent-dark)"
-                                sx={{ fontSize: '0.875rem' }}
+                                sx={{
+                                  color: 'var(--accent-dark)',
+                                  fontSize: '0.875rem',
+                                }}
                               >
                                 {t(field.label)}
                               </Typography>
@@ -241,7 +258,12 @@ const ExportSpeakers = (props: ExportType) => {
   // --- VIEW 2: Initial view (The two clickable boxes) ---
   return (
     <Stack spacing="16px">
-      <Typography className="body-regular" color="var(--grey-400)">
+      <Typography
+        className="body-regular"
+        sx={{
+          color: 'var(--grey-400)',
+        }}
+      >
         {t('tr_exportSpeakersDesc')}
       </Typography>
 
@@ -250,9 +272,6 @@ const ExportSpeakers = (props: ExportType) => {
         tabIndex={isProcessing ? -1 : 0}
         aria-disabled={isProcessing}
         spacing="16px"
-        padding="16px"
-        borderRadius="var(--radius-m)"
-        bgcolor="var(--accent-150)"
         onClick={() => handleFormatClick('xlsx')}
         onKeyDown={(e) => {
           if (isProcessing) return;
@@ -262,9 +281,13 @@ const ExportSpeakers = (props: ExportType) => {
           }
         }}
         sx={{
+          padding: '16px',
+          borderRadius: 'var(--radius-m)',
+          bgcolor: 'var(--accent-150)',
           cursor: isProcessing ? 'default' : 'pointer',
           opacity: isProcessing ? 0.6 : 1,
           transition: 'background-color 0.2s ease',
+
           '&:hover': {
             bgcolor: isProcessing ? 'var(--accent-150)' : 'var(--accent-200)',
           },
@@ -272,7 +295,12 @@ const ExportSpeakers = (props: ExportType) => {
       >
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <IconBackupOrganized color="var(--accent-dark)" />
-          <Typography className="h4" color="var(--accent-dark)">
+          <Typography
+            className="h4"
+            sx={{
+              color: 'var(--accent-dark)',
+            }}
+          >
             {fileNameXlsx}
           </Typography>
         </Box>
@@ -283,9 +311,6 @@ const ExportSpeakers = (props: ExportType) => {
         tabIndex={isProcessing ? -1 : 0}
         aria-disabled={isProcessing}
         spacing="16px"
-        padding="16px"
-        borderRadius="var(--radius-m)"
-        bgcolor="var(--accent-150)"
         onClick={() => handleFormatClick('csv')}
         onKeyDown={(e) => {
           if (isProcessing) return;
@@ -295,9 +320,13 @@ const ExportSpeakers = (props: ExportType) => {
           }
         }}
         sx={{
+          padding: '16px',
+          borderRadius: 'var(--radius-m)',
+          bgcolor: 'var(--accent-150)',
           cursor: isProcessing ? 'default' : 'pointer',
           opacity: isProcessing ? 0.6 : 1,
           transition: 'background-color 0.2s ease',
+
           '&:hover': {
             bgcolor: isProcessing ? 'var(--accent-150)' : 'var(--accent-200)',
           },
@@ -305,7 +334,12 @@ const ExportSpeakers = (props: ExportType) => {
       >
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <IconBackupOrganized color="var(--accent-dark)" />
-          <Typography className="h4" color="var(--accent-dark)">
+          <Typography
+            className="h4"
+            sx={{
+              color: 'var(--accent-dark)',
+            }}
+          >
             {fileNameCsv}
           </Typography>
         </Box>

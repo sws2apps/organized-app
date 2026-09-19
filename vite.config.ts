@@ -10,6 +10,10 @@ export default defineConfig({
   plugins: [react(), comlink(), eslint(), loadVersion(), svgx()],
   resolve: {
     alias: [
+      {
+        find: '@mui/styled-engine',
+        replacement: resolve(__dirname, 'node_modules/@mui/styled-engine-sc'),
+      },
       { find: '@assets', replacement: resolve(__dirname, 'src/assets') },
       {
         find: '@components',

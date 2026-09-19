@@ -23,7 +23,12 @@ const OAuthEmail = () => {
         className="h4"
         helperText={
           oauth && (
-            <Typography className="label-small-regular" color="var(--grey-350)">
+            <Typography
+              className="label-small-regular"
+              sx={{
+                color: 'var(--grey-350)',
+              }}
+            >
               {t('tr_loginOAuthHint', { oauth })}
             </Typography>
           )

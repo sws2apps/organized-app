@@ -71,7 +71,12 @@ const CongregationMasterKey = () => {
           }}
         >
           <IconError color="var(--red-main)" />
-          <Typography className="body-small-regular" color="var(--red-main)">
+          <Typography
+            className="body-small-regular"
+            sx={{
+              color: 'var(--red-main)',
+            }}
+          >
             {t('tr_encryptionCodeNotice')}
           </Typography>
         </Box>

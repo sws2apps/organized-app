@@ -43,7 +43,11 @@ const SongSelector = (props: SongSelectorProps) => {
           </IconButton>
         </Box>
 
-        <Typography color="var(--grey-400)">
+        <Typography
+          sx={{
+            color: 'var(--grey-400)',
+          }}
+        >
           {t('tr_selectSongDesc')}
         </Typography>
 

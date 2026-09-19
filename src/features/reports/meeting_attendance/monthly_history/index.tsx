@@ -16,7 +16,13 @@ const MonthlyHistory = () => {
       <Stack spacing="16px">
         <Stack spacing="8px">
           <Typography className="h2">{t('tr_monthlyHistory')}</Typography>
-          <Typography color="var(--grey-400)">{t('tr_recordS88')}</Typography>
+          <Typography
+            sx={{
+              color: 'var(--grey-400)',
+            }}
+          >
+            {t('tr_recordS88')}
+          </Typography>
         </Stack>
 
         <YearSelector value={value} onChange={handleTabChange} />

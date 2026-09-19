@@ -60,7 +60,12 @@ function ScrollableTabs({
   return (
     <Box sx={{ width: '100%', minHeight: tabs.length > 0 && '45px' }}>
       {tabs.length === 0 && (
-        <Typography className="body-small-semibold" color="var(--red-main)">
+        <Typography
+          className="body-small-semibold"
+          sx={{
+            color: 'var(--red-main)',
+          }}
+        >
           TAB_DATA_EMPTY
         </Typography>
       )}
@@ -86,8 +91,8 @@ function ScrollableTabs({
               },
             }}
             slots={{
-              EndScrollButtonIcon: ArrowForwardIosIcon,
-              StartScrollButtonIcon: ArrowBackIosIcon,
+              endScrollButtonIcon: ArrowForwardIosIcon,
+              startScrollButtonIcon: ArrowBackIosIcon,
             }}
             aria-label="scrollable-auto-tabs"
             sx={{
@@ -108,7 +113,7 @@ function ScrollableTabs({
               },
               alignItems: 'center',
               minHeight: TAB_HEIGHT,
-              [`& .${tabsClasses.flexContainer}`]: {
+              [`& .${tabsClasses.list}`]: {
                 gap: '4px',
               },
               ...sx,

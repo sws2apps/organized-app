@@ -9,7 +9,14 @@ const YearContainer = ({ data, onChange }: YearContainerProps) => {
   const { checked, indeterminate } = useYearContainer(data.months);
 
   return (
-    <Stack spacing="8px" alignItems="flex-start" minWidth="230px" flex={1}>
+    <Stack
+      spacing="8px"
+      sx={{
+        alignItems: 'flex-start',
+        minWidth: '230px',
+        flex: 1,
+      }}
+    >
       <Box
         sx={{
           padding: '8px',
@@ -31,8 +38,10 @@ const YearContainer = ({ data, onChange }: YearContainerProps) => {
       <Stack
         divider={<Divider color="var(--accent-200)" />}
         spacing="4px"
-        width="100%"
-        padding="0px 4px 0px 16px"
+        sx={{
+          width: '100%',
+          padding: '0px 4px 0px 16px',
+        }}
       >
         {data.months.map((record) => (
           <MonthItem key={record.month} data={record} onChange={onChange} />

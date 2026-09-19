@@ -1,6 +1,6 @@
+import { styled } from '@mui/material/styles';
 import { Box, BoxProps } from '@mui/material';
 import React, { KeyboardEvent } from 'react';
-import { styled } from '@mui/system';
 
 const StyledNavigationArrowButtonBase = styled(Box)({
   display: 'flex',
@@ -15,7 +15,7 @@ const StyledNavigationArrowButtonBase = styled(Box)({
   '&:active': {
     backgroundColor: 'var(--accent-200)',
   },
-}) as unknown as typeof Box;
+});
 
 type NavigationArrowButtonProps = Omit<BoxProps, 'onClick'> &
   React.AriaAttributes & {

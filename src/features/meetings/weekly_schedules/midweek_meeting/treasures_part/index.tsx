@@ -36,9 +36,7 @@ const TreasuresPart = (props: TreasuresPartProps) => {
       <Stack spacing="8px" divider={<Divider color="var(--grey-200)" />}>
         {MIDWEEK_WITH_TREASURES_TALKS.includes(weekType) && (
           <>
-            <DoubleFieldContainer
-              sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
-            >
+            <DoubleFieldContainer laptopUp={laptopUp}>
               <PrimaryFieldContainer>
                 {props.timings?.tgw_talk && (
                   <PartTiming time={props.timings.tgw_talk} />
@@ -51,6 +49,7 @@ const TreasuresPart = (props: TreasuresPartProps) => {
                 />
               </PrimaryFieldContainer>
               <SecondaryFieldContainer
+                laptopUp={laptopUp}
                 sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
               >
                 <PersonComponent
@@ -64,9 +63,7 @@ const TreasuresPart = (props: TreasuresPartProps) => {
 
             <Divider color="var(--grey-200)" />
 
-            <DoubleFieldContainer
-              sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
-            >
+            <DoubleFieldContainer laptopUp={laptopUp}>
               <PrimaryFieldContainer>
                 {props.timings?.tgw_gems && (
                   <PartTiming time={props.timings.tgw_gems} />
@@ -79,6 +76,7 @@ const TreasuresPart = (props: TreasuresPartProps) => {
                 />
               </PrimaryFieldContainer>
               <SecondaryFieldContainer
+                laptopUp={laptopUp}
                 sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
               >
                 <PersonComponent
@@ -93,9 +91,7 @@ const TreasuresPart = (props: TreasuresPartProps) => {
         )}
 
         {MIDWEEK_WITH_STUDENTS.includes(weekType) && (
-          <DoubleFieldContainer
-            sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
-          >
+          <DoubleFieldContainer laptopUp={laptopUp}>
             <PrimaryFieldContainer>
               {props.timings?.tgw_bible_reading && (
                 <PartTiming time={props.timings.tgw_bible_reading} />
@@ -109,6 +105,7 @@ const TreasuresPart = (props: TreasuresPartProps) => {
               />
             </PrimaryFieldContainer>
             <SecondaryFieldContainer
+              laptopUp={laptopUp}
               sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
             >
               <Stack
@@ -119,7 +116,9 @@ const TreasuresPart = (props: TreasuresPartProps) => {
                   {showAuxClass && (
                     <Typography
                       className="body-small-semibold"
-                      color="var(--grey-350)"
+                      sx={{
+                        color: 'var(--grey-350)',
+                      }}
                     >
                       {t('tr_mainHall')}
                     </Typography>
@@ -136,7 +135,9 @@ const TreasuresPart = (props: TreasuresPartProps) => {
                   <Stack spacing="4px">
                     <Typography
                       className="body-small-semibold"
-                      color="var(--grey-350)"
+                      sx={{
+                        color: 'var(--grey-350)',
+                      }}
                     >
                       {t('tr_auxClassroom')}
                     </Typography>

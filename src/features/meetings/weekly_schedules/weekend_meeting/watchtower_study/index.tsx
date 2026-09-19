@@ -33,9 +33,7 @@ const WatchtowerStudy = (props: WatchtowerStudyProps) => {
     >
       <Stack spacing="8px" divider={<Divider color="var(--grey-200)" />}>
         {showSong && (
-          <DoubleFieldContainer
-            sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
-          >
+          <DoubleFieldContainer laptopUp={laptopUp}>
             <PrimaryFieldContainer>
               {props.timings?.middle_song && (
                 <PartTiming time={props.timings.middle_song} />
@@ -49,22 +47,37 @@ const WatchtowerStudy = (props: WatchtowerStudyProps) => {
               />
             </PrimaryFieldContainer>
             <SecondaryFieldContainer
+              laptopUp={laptopUp}
               sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
             />
           </DoubleFieldContainer>
         )}
 
-        <DoubleFieldContainer
-          sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
-        >
+        <DoubleFieldContainer laptopUp={laptopUp}>
           <PrimaryFieldContainer>
-            <Stack spacing="4px" padding="2px 0px">
-              <Stack spacing="8px" direction="row" alignItems="center">
+            <Stack
+              spacing="4px"
+              sx={{
+                padding: '2px 0px',
+              }}
+            >
+              <Stack
+                spacing="8px"
+                direction="row"
+                sx={{
+                  alignItems: 'center',
+                }}
+              >
                 {props.timings?.w_study && (
                   <PartTiming time={props.timings.w_study} />
                 )}
 
-                <Typography className="h4" color="var(--watchtower-study)">
+                <Typography
+                  className="h4"
+                  sx={{
+                    color: 'var(--watchtower-study)',
+                  }}
+                >
                   {t('tr_watchtowerStudy')}
                 </Typography>
               </Stack>
@@ -72,8 +85,10 @@ const WatchtowerStudy = (props: WatchtowerStudyProps) => {
               {articleTitle && (
                 <Typography
                   className="body-small-regular"
-                  color="var(--grey-400)"
-                  sx={{ marginLeft: '4px !important' }}
+                  sx={{
+                    color: 'var(--grey-400)',
+                    marginLeft: '4px !important',
+                  }}
                 >
                   {articleTitle}
                 </Typography>
@@ -81,6 +96,7 @@ const WatchtowerStudy = (props: WatchtowerStudyProps) => {
             </Stack>
           </PrimaryFieldContainer>
           <SecondaryFieldContainer
+            laptopUp={laptopUp}
             sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
           >
             <Stack spacing="4px">
@@ -104,9 +120,7 @@ const WatchtowerStudy = (props: WatchtowerStudyProps) => {
         </DoubleFieldContainer>
 
         {showSong && weekType === Week.NORMAL && (
-          <DoubleFieldContainer
-            sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
-          >
+          <DoubleFieldContainer laptopUp={laptopUp}>
             <PrimaryFieldContainer>
               {props.timings?.pgm_end && (
                 <PartTiming time={props.timings.pgm_end} />
@@ -120,6 +134,7 @@ const WatchtowerStudy = (props: WatchtowerStudyProps) => {
               />
             </PrimaryFieldContainer>
             <SecondaryFieldContainer
+              laptopUp={laptopUp}
               sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
             >
               <PersonComponent

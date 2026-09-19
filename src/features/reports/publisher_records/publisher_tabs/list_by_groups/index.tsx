@@ -12,7 +12,9 @@ const ListByGroups = (props: ListByGroupsProps) => {
   return (
     <Stack
       divider={<Divider color="var(--accent-200)" />}
-      margin="0px 0px -24px 0px"
+      sx={{
+        margin: '0px 0px -24px 0px',
+      }}
     >
       {groups.map((group) => (
         <Accordion
@@ -22,7 +24,12 @@ const ListByGroups = (props: ListByGroupsProps) => {
           expanded={expanded === group.group_id}
           onChange={handleExpandedChange}
         >
-          <Stack spacing="8px" marginBottom="16px">
+          <Stack
+            spacing="8px"
+            sx={{
+              marginBottom: '16px',
+            }}
+          >
             {group.group_members.map((person) => (
               <PersonItem
                 key={person.person_uid}

@@ -30,17 +30,31 @@ const ServiceTalk = (props: ServiceTalkProps) => {
       alwaysExpanded
     >
       <Stack spacing="8px" divider={<Divider color="var(--grey-200)" />}>
-        <DoubleFieldContainer
-          sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
-        >
+        <DoubleFieldContainer laptopUp={laptopUp}>
           <PrimaryFieldContainer>
-            <Stack spacing="4px" padding="2px 0px">
-              <Stack spacing="8px" direction="row" alignItems="center">
+            <Stack
+              spacing="4px"
+              sx={{
+                padding: '2px 0px',
+              }}
+            >
+              <Stack
+                spacing="8px"
+                direction="row"
+                sx={{
+                  alignItems: 'center',
+                }}
+              >
                 {props.timings?.service_talk && (
                   <PartTiming time={props.timings.service_talk} />
                 )}
 
-                <Typography className="h4" color="var(--weekend-meeting)">
+                <Typography
+                  className="h4"
+                  sx={{
+                    color: 'var(--weekend-meeting)',
+                  }}
+                >
                   {t('tr_serviceTalk')}
                 </Typography>
               </Stack>
@@ -56,6 +70,7 @@ const ServiceTalk = (props: ServiceTalkProps) => {
             </Stack>
           </PrimaryFieldContainer>
           <SecondaryFieldContainer
+            laptopUp={laptopUp}
             sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
           >
             <PersonComponent
@@ -66,9 +81,7 @@ const ServiceTalk = (props: ServiceTalkProps) => {
           </SecondaryFieldContainer>
         </DoubleFieldContainer>
 
-        <DoubleFieldContainer
-          sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
-        >
+        <DoubleFieldContainer laptopUp={laptopUp}>
           <PrimaryFieldContainer>
             {props.timings?.pgm_end && (
               <PartTiming time={props.timings.pgm_end} />
@@ -82,6 +95,7 @@ const ServiceTalk = (props: ServiceTalkProps) => {
             />
           </PrimaryFieldContainer>
           <SecondaryFieldContainer
+            laptopUp={laptopUp}
             sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
           >
             <PersonComponent

@@ -29,21 +29,43 @@ const PublicTalk = (props: PublicTalkProps) => {
       icon={<IconTalk color="var(--always-white)" />}
       alwaysExpanded
     >
-      <DoubleFieldContainer sx={{ flexDirection: laptopUp ? 'row' : 'column' }}>
+      <DoubleFieldContainer laptopUp={laptopUp}>
         <PrimaryFieldContainer>
-          <Stack spacing="4px" padding="2px 0px">
-            <Stack spacing="8px" direction="row" alignItems="center">
+          <Stack
+            spacing="4px"
+            sx={{
+              padding: '2px 0px',
+            }}
+          >
+            <Stack
+              spacing="8px"
+              direction="row"
+              sx={{
+                alignItems: 'center',
+              }}
+            >
               {props.timings?.public_talk && (
                 <PartTiming time={props.timings.public_talk} />
               )}
 
-              <Typography className="h4" color="var(--weekend-meeting)">
+              <Typography
+                className="h4"
+                sx={{
+                  color: 'var(--weekend-meeting)',
+                }}
+              >
                 {t('tr_publicTalk')}
               </Typography>
             </Stack>
 
             {talkTitle && (
-              <Stack spacing="8px" direction="row" alignItems="center">
+              <Stack
+                spacing="8px"
+                direction="row"
+                sx={{
+                  alignItems: 'center',
+                }}
+              >
                 <Typography
                   className="h4"
                   sx={{ marginLeft: '4px !important' }}
@@ -57,7 +79,7 @@ const PublicTalk = (props: PublicTalkProps) => {
             )}
           </Stack>
         </PrimaryFieldContainer>
-        <SecondaryFieldContainer sx={{ maxWidth: laptopUp ? '360px' : '100%' }}>
+        <SecondaryFieldContainer laptopUp={laptopUp} sx={{ maxWidth: laptopUp ? '360px' : '100%' }}>
           {props.week_type !== Week.CO_VISIT && (
             <Stack>
               <PersonComponent

@@ -1,4 +1,4 @@
-import { lazy, useEffect, useState } from 'react';
+import { lazy, useEffect } from 'react';
 import { createHashRouter, RouterProvider } from 'react-router';
 import { useAtom, useAtomValue } from 'jotai';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -14,8 +14,7 @@ import {
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { CacheProvider } from '@emotion/react';
-import createCache from '@emotion/cache';
+import { StyleSheetManager } from 'styled-components';
 import rtlPlugin from '@mui/stylis-plugin-rtl';
 import FeatureFlagsWrapper from '@wrapper/feature_flags';
 import RouteProtected from '@components/route_protected';
@@ -69,16 +68,6 @@ const UpcomingEvents = lazy(() => import('@pages/activities/upcoming_events'));
 
 const queryClient = new QueryClient();
 
-const ltrCache = createCache({
-  key: 'css',
-  prepend: true,
-});
-
-const rtlCache = createCache({
-  key: 'muirtl',
-  stylisPlugins: [rtlPlugin],
-});
-
 const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
   const {
     isAdmin,
@@ -104,7 +93,10 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
   const appLang = useAtomValue(appLangState);
   const firstDayOfTheWeekOption = useAtomValue(firstDayWeekState);
 
-  const [cache, setCache] = useState(ltrCache);
+  const isRtl =
+    LANGUAGE_LIST.find(
+      (record) => record.threeLettersCode === appLang
+    )?.direction === 'rtl';
 
   const router = createHashRouter([
     {
@@ -323,14 +315,6 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
     });
   }, [appLang, firstDayOfTheWeekOption, setAdapterLocale]);
 
-  useEffect(() => {
-    const direction = LANGUAGE_LIST.find(
-      (record) => record.threeLettersCode === appLang
-    )?.direction;
-
-    setCache(direction === 'rtl' ? rtlCache : ltrCache);
-  }, [appLang]);
-
   return (
     <ThemeProvider theme={theme}>
       <LocalizationProvider
@@ -338,13 +322,13 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
         adapterLocale={adapterLocale}
       >
         <CssBaseline />
-        <CacheProvider value={cache}>
+        <StyleSheetManager stylisPlugins={isRtl ? [rtlPlugin] : undefined}>
           <QueryClientProvider client={queryClient}>
             <FeatureFlagsWrapper>
               <RouterProvider router={router} />
             </FeatureFlagsWrapper>
           </QueryClientProvider>
-        </CacheProvider>
+        </StyleSheetManager>
       </LocalizationProvider>
     </ThemeProvider>
   );

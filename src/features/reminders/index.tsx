@@ -51,7 +51,12 @@ const AppReminders = () => {
             }}
           >
             <IconReminder color="var(--always-white)" />
-            <Typography className="h4" color="var(--always-white)">
+            <Typography
+              className="h4"
+              sx={{
+                color: 'var(--always-white)',
+              }}
+            >
               {t('tr_reminders')}
             </Typography>
           </Box>

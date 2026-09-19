@@ -52,5 +52,5 @@ export type AutocompletePropsType<T> = Omit<
 };
 
 export type CustomPaperType = PaperProps & {
-  optionsHeader: ReactNode;
+  optionsHeader?: ReactNode;
 };
