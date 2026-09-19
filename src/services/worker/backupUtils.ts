@@ -1850,6 +1850,8 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
       lastname: user_settings.lastname,
       user_avatar_type: user_settings.user_avatar_type,
       data_view: user_settings.data_view,
+      app_language: user_settings.app_language,
+      color_scheme: user_settings.color_scheme,
     };
 
     const myPerson = persons.find(
