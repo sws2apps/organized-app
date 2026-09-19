@@ -4,6 +4,7 @@ import {
   dbFieldGroupAutoAssign,
   dbMeetingAttendanceFill,
   dbPersonsExtrasFill,
+  dbPersonsInactiveFill,
   dbPublicTalksHistoryFill,
   dbReportsFillRandom,
   dbReportsLateFill,
@@ -53,6 +54,7 @@ const useStart = () => {
       await dbSpeakersCatalogFill();
       await dbSettingsAssignMainWTStudyConductor();
       await dbFieldGroupAutoAssign();
+      await dbPersonsInactiveFill();
       await dbReportsFillRandom();
       await dbReportsLateFill();
       await dbMeetingAttendanceFill();

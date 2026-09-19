@@ -68,6 +68,8 @@ import { UserFieldServiceReportType } from '@definition/user_field_service_repor
 import { dbUserFieldServiceReportsBulkSave } from '@services/dexie/user_field_service_reports';
 import { dbUserBibleStudySave } from '@services/dexie/user_bible_studies';
 
+const ATTENDANCE_YEARS = 5;
+
 const getRandomDate = (
   start_date = new Date(1970, 0, 1),
   end_date = new Date(2010, 11, 31)
@@ -1088,18 +1090,26 @@ export const dbMeetingAttendanceFill = async () => {
 
   const views = ['main', languageGroup];
 
+  const today = formatDate(new Date(), 'yyyy/MM/dd');
   const year = new Date().getFullYear();
-  const startMonth = `${year - 1}/09`;
-  const endMonth = currentReportMonth();
+  const startMonth = `${year - ATTENDANCE_YEARS}/09`;
 
-  const monthRange = createArrayFromMonths(startMonth, endMonth);
+  const monthRange = createArrayFromMonths(
+    startMonth,
+    formatDate(new Date(), 'yyyy/MM')
+  );
 
   const attendances: MeetingAttendanceType[] = [];
 
-  for (const month of monthRange) {
+  for (const [monthIndex, month] of monthRange.entries()) {
+    // the congregation grows slowly over the years
+    const growth = Math.round(monthIndex / 4);
+
     const attendance = structuredClone(meetingAttendanceSchema);
     attendance.month_date = month;
-    const weeks = weeksInMonth(month);
+
+    // the running month only has the weeks that already happened
+    const weeks = weeksInMonth(month).filter((week) => week <= today);
 
     for (let i = 1; i <= weeks.length; i++) {
       const weeklyAttendance = attendance[`week_${i}`] as WeeklyAttendance;
@@ -1123,11 +1133,16 @@ export const dbMeetingAttendanceFill = async () => {
         }
 
         if (view === 'main') {
-          midweek.present = getRandomNumber(95, 110);
+          midweek.present = getRandomNumber(88, 103) + growth;
+          midweek.online = getRandomNumber(6, 16);
+          midweek.present_deaf = getRandomNumber(2, 6);
+          midweek.online_deaf = getRandomNumber(0, 3);
         } else {
-          midweek.present = getRandomNumber(25, 45);
+          midweek.present = getRandomNumber(22, 38) + growth;
+          midweek.online = getRandomNumber(2, 7);
         }
 
+        midweek.deaf_separate = view === 'main';
         midweek.updatedAt = new Date().toISOString();
 
         let weekend = weeklyAttendance.weekend.find(
@@ -1148,11 +1163,16 @@ export const dbMeetingAttendanceFill = async () => {
         }
 
         if (view === 'main') {
-          weekend.present = getRandomNumber(105, 130);
+          weekend.present = getRandomNumber(98, 122) + growth;
+          weekend.online = getRandomNumber(8, 20);
+          weekend.present_deaf = getRandomNumber(3, 8);
+          weekend.online_deaf = getRandomNumber(0, 4);
         } else {
-          weekend.present = getRandomNumber(35, 55);
+          weekend.present = getRandomNumber(32, 48) + growth;
+          weekend.online = getRandomNumber(3, 9);
         }
 
+        weekend.deaf_separate = view === 'main';
         weekend.updatedAt = new Date().toISOString();
       }
     }
@@ -2172,4 +2192,46 @@ export const dbSpeakersCatalogFill = async () => {
 
   await appDb.speakers_congregations.bulkAdd(congregations);
   await appDb.visiting_speakers.bulkAdd(speakers);
+};
+
+export const dbPersonsInactiveFill = async () => {
+  const persons = await appDb.persons.toArray();
+  const settings = await appDb.app_settings.get(1);
+  const updatedAt = new Date().toISOString();
+  const today = new Date();
+
+  const publishers = shuffle(
+    persons.filter(
+      (record) =>
+        record.person_uid !== settings.user_settings.user_local_uid &&
+        !record.person_data.archived.value &&
+        record.person_data.publisher_baptized.active.value &&
+        record.person_data.enrollments.length === 0
+    )
+  );
+
+  // publishers without assignments first, they are the least missed elsewhere
+  const candidates = publishers
+    .sort(
+      (a, b) =>
+        (a.person_data.assignments.at(0)?.values.length ?? 0) -
+        (b.person_data.assignments.at(0)?.values.length ?? 0)
+    )
+    .slice(0, 4);
+
+  candidates.forEach((person, index) => {
+    const status = person.person_data.publisher_baptized;
+    const stoppedAt = addMonths(today, -(index * 2 + 3));
+
+    status.active = { value: false, updatedAt };
+
+    for (const record of status.history) {
+      if (record.end_date) continue;
+
+      record.end_date = formatDate(stoppedAt, 'yyyy/MM/dd');
+      record.updatedAt = updatedAt;
+    }
+  });
+
+  await appDb.persons.bulkPut(candidates);
 };

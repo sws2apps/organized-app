@@ -165,6 +165,22 @@ export const dbAppSettingsBuildTest = async () => {
     value: true,
     updatedAt: new Date().toISOString(),
   };
+  baseSettings.cong_settings.attendance_online_record = [
+    {
+      type: 'main',
+      value: true,
+      updatedAt: new Date().toISOString(),
+      _deleted: false,
+    },
+  ];
+  baseSettings.cong_settings.attendance_deaf_record = [
+    {
+      type: 'main',
+      value: true,
+      updatedAt: new Date().toISOString(),
+      _deleted: false,
+    },
+  ];
   baseSettings.cong_settings.country_code = 'USA';
   baseSettings.cong_settings.cong_name = 'Central English - Seattle WA';
   baseSettings.cong_settings.cong_number = {
