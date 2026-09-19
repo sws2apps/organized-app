@@ -1657,6 +1657,7 @@ export const dbUpcomingEventsFill = async () => {
   const assemblyDay = addDays(addWeeks(thisWeek, 3), 6);
   const campaignWeek = addWeeks(thisWeek, 7);
   const conventionDay = addDays(addWeeks(thisWeek, 10), 4);
+  const memorialDay = new Date(thisWeek.getFullYear() + 1, 2, 22);
 
   const events = [
     createEvent(
@@ -1691,6 +1692,12 @@ export const dbUpcomingEventsFill = async () => {
       atTime(campaignWeek, 9),
       atTime(addDays(campaignWeek, 6), 18),
       { description: 'Invitations to the regional convention' }
+    ),
+    createEvent(
+      UpcomingEventCategory.MemorialWeek,
+      atTime(memorialDay, 19, 30),
+      atTime(memorialDay, 21),
+      { description: 'Invite your bible students, family and neighbours' }
     ),
     createEvent(
       UpcomingEventCategory.ConventionWeek,
