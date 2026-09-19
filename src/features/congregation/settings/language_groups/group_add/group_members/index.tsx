@@ -15,9 +15,14 @@ const GroupMembers = (props: GroupMembersProps) => {
 
   return (
     <Stack spacing="24px" width="100%">
-      <Typography color="var(--grey-400)">
-        {t('tr_addNewLangGroupMembersDesc')}
-      </Typography>
+      <Stack spacing="8px">
+        <Typography color="var(--grey-400)">
+          {t('tr_addNewLangGroupMembersDesc')}
+        </Typography>
+        <Typography color="var(--grey-400)">
+          {t('tr_addNewLangGroupMembersHint')}
+        </Typography>
+      </Stack>
 
       <LanguageGroupMembers
         readOnly={isProcessing}
