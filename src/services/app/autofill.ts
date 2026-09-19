@@ -61,6 +61,7 @@ import {
   isPersonBlockedOnDate,
   personAssignmentHasClassroom,
   personIsElder,
+  personSkipsAutofill,
 } from './persons';
 import {
   schedulesAutofillSaveAssignment,
@@ -1282,6 +1283,10 @@ const filterCandidates = (
     }
   }
 
+  // a person kept out of the autofill is only assigned on purpose: a fixed or
+  // linked assignment above still applies, but the open pool leaves them out
+  const pool = persons.filter((p) => !personSkipsAutofill(p));
+
   const isStudentTask =
     task.assignmentKey.includes('_Student_') &&
     STUDENT_ASSIGNMENT.includes(task.code);
@@ -1296,7 +1301,7 @@ const filterCandidates = (
       requiresAssistant: false,
     };
 
-    availableAssistants = persons.filter((potentialAssistant) => {
+    availableAssistants = pool.filter((potentialAssistant) => {
       const assistantAllowedUIDs = eligibilityMapView?.get(
         AssignmentCode.MM_AssistantOnly
       );
@@ -1310,7 +1315,7 @@ const filterCandidates = (
     });
   }
   // -----------------------------------------------------------------------------
-  return persons.filter((p) => {
+  return pool.filter((p) => {
     const valid = isCandidateValid(
       p,
       task,
