@@ -38,7 +38,7 @@ const UnassignedPublishers = () => {
         }}
       >
         <Typography className="h3" color="var(--accent-400)">
-          {t('tr_publishersWithoutGroup')}
+          {t('tr_withoutGroup')}
         </Typography>
 
         <Box

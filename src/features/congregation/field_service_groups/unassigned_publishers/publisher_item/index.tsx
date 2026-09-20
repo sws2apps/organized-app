@@ -3,7 +3,6 @@ import { IconAddPerson } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import { PublisherItemProps } from './index.types';
 import usePublisherItem from './usePublisherItem';
-import IconButton from '@components/icon_button';
 import MenuItem from '@components/menuitem';
 import Typography from '@components/typography';
 
@@ -21,6 +20,7 @@ const PublisherItem = (props: PublisherItemProps) => {
 
   return (
     <Box
+      onClick={handleOpenMenu}
       sx={{
         display: 'flex',
         alignItems: 'center',
@@ -28,17 +28,14 @@ const PublisherItem = (props: PublisherItemProps) => {
         gap: '8px',
         padding: '4px 8px',
         borderRadius: 'var(--radius-s)',
+        cursor: 'pointer',
+        backgroundColor: open ? 'var(--accent-200)' : 'transparent',
         '&:hover': { backgroundColor: 'var(--accent-200)' },
       }}
     >
       <Typography>{props.publisher.name}</Typography>
 
-      <IconButton
-        onClick={handleOpenMenu}
-        sx={{ padding: 0, '&:hover': { backgroundColor: 'var(--accent-200)' } }}
-      >
-        <IconAddPerson color="var(--accent-main)" />
-      </IconButton>
+      <IconAddPerson color="var(--accent-350)" />
 
       <Menu
         anchorEl={anchorEl}

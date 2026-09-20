@@ -15,7 +15,7 @@ const usePublisherItem = ({ publisher }: PublisherItemProps) => {
     return groups.filter((record) => !record.group_data.language_group);
   }, [groups]);
 
-  const handleOpenMenu = (event: MouseEvent<HTMLButtonElement>) => {
+  const handleOpenMenu = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
