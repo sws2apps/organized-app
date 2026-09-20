@@ -6,6 +6,8 @@ import useUnassignedPublishers from './useUnassignedPublishers';
 import PublisherItem from './publisher_item';
 import Typography from '@components/typography';
 
+const DASHED_BORDER = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Crect width='100%25' height='100%25' rx='16' ry='16' fill='none' stroke='%23000' stroke-width='2' stroke-dasharray='10 8'/%3E%3C/svg%3E")`;
+
 const UnassignedPublishers = () => {
   const { t } = useAppTranslation();
 
@@ -18,6 +20,7 @@ const UnassignedPublishers = () => {
   return (
     <Box
       sx={{
+        position: 'relative',
         padding: '8px',
         gap: '8px',
         display: 'flex',
@@ -25,6 +28,19 @@ const UnassignedPublishers = () => {
         backgroundColor: 'var(--accent-150)',
         borderRadius: 'var(--radius-xl)',
         border: '1px dashed var(--accent-300)',
+        // a drawn border keeps the 1px of the other cards with longer dashes
+        '@supports (mask-image: url())': {
+          border: 'none',
+          '&::before': {
+            content: '""',
+            position: 'absolute',
+            inset: 0,
+            pointerEvents: 'none',
+            backgroundColor: 'var(--accent-300)',
+            maskImage: DASHED_BORDER,
+            WebkitMaskImage: DASHED_BORDER,
+          },
+        },
       }}
     >
       <Box
@@ -63,10 +79,7 @@ const UnassignedPublishers = () => {
         </Box>
       </Box>
 
-      <Stack
-        spacing="4px"
-        divider={<Divider dashed color="var(--accent-300)" />}
-      >
+      <Stack spacing="4px" divider={<Divider color="var(--accent-200)" />}>
         {publishers.map((publisher) => (
           <PublisherItem key={publisher.person_uid} publisher={publisher} />
         ))}
