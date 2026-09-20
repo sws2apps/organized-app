@@ -5,11 +5,11 @@ import Divider from '@components/divider';
 import ScheduleItem from '../schedule_item';
 import Typography from '@components/typography';
 
-const WeekContainer = ({ talkSchedules }: WeekContainerProps) => {
+const WeekContainer = ({ talkSchedules, ref }: WeekContainerProps) => {
   const { dateFormatted } = useWeekContainer(talkSchedules.date);
 
   return (
-    <Stack spacing="8px">
+    <Stack ref={ref} spacing="8px">
       <Typography
         className="h2-caps"
         color="var(--always-white)"
