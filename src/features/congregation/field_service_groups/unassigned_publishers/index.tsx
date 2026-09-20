@@ -38,19 +38,19 @@ const UnassignedPublishers = () => {
           pointerEvents: 'none',
         }}
       >
-        {/* drawn, so the dashes stay 1px and round the corners evenly */}
+        {/* drawn, because a CSS dashed border cannot set the dash length */}
         <Box
           component="rect"
           sx={{
-            x: '0.5px',
-            y: '0.5px',
-            width: 'calc(100% - 1px)',
-            height: 'calc(100% - 1px)',
+            x: 'calc(var(--dashed-border-width) / 2)',
+            y: 'calc(var(--dashed-border-width) / 2)',
+            width: 'calc(100% - var(--dashed-border-width))',
+            height: 'calc(100% - var(--dashed-border-width))',
             rx: 'var(--radius-xl)',
             fill: 'none',
             stroke: 'var(--accent-300)',
-            strokeWidth: '1px',
-            strokeDasharray: '10 7',
+            strokeWidth: 'var(--dashed-border-width)',
+            strokeDasharray: 'var(--dashed-border-pattern)',
           }}
         />
       </Box>
