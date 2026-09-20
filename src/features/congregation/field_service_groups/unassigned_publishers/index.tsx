@@ -1,5 +1,6 @@
-import { Box } from '@mui/material';
+import { Box, Stack } from '@mui/material';
 import { IconVisitors } from '@components/icons';
+import Divider from '@components/divider';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import useUnassignedPublishers from './useUnassignedPublishers';
 import PublisherItem from './publisher_item';
@@ -23,7 +24,7 @@ const UnassignedPublishers = () => {
         flexDirection: 'column',
         backgroundColor: 'var(--accent-150)',
         borderRadius: 'var(--radius-xl)',
-        border: '1px dashed var(--accent-350)',
+        border: '1px dashed var(--accent-300)',
       }}
     >
       <Box
@@ -62,11 +63,14 @@ const UnassignedPublishers = () => {
         </Box>
       </Box>
 
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+      <Stack
+        spacing="4px"
+        divider={<Divider dashed color="var(--accent-300)" />}
+      >
         {publishers.map((publisher) => (
           <PublisherItem key={publisher.person_uid} publisher={publisher} />
         ))}
-      </Box>
+      </Stack>
     </Box>
   );
 };

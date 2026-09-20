@@ -14,35 +14,45 @@ const PublisherItem = (props: PublisherItemProps) => {
     open,
     groups_list,
     handleOpenMenu,
+    handleKeyDown,
     handleCloseMenu,
     handleAssign,
   } = usePublisherItem(props);
 
   return (
-    <Box
-      onClick={handleOpenMenu}
-      sx={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        gap: '8px',
-        padding: '4px 8px',
-        borderRadius: 'var(--radius-s)',
-        cursor: 'pointer',
-        backgroundColor: open ? 'var(--accent-200)' : 'transparent',
-        '&:hover': { backgroundColor: 'var(--accent-200)' },
-      }}
-    >
-      <Typography>{props.publisher.name}</Typography>
+    <>
+      <Box
+        role="button"
+        tabIndex={0}
+        aria-haspopup="menu"
+        aria-expanded={open}
+        onClick={handleOpenMenu}
+        onKeyDown={handleKeyDown}
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          padding: '4px 8px',
+          borderRadius: 'var(--radius-s)',
+          cursor: 'pointer',
+          backgroundColor: open ? 'var(--accent-200)' : 'transparent',
+          '&:hover': { backgroundColor: 'var(--accent-200)' },
+          '&:focus-visible': { outline: '2px solid var(--accent-main)' },
+        }}
+      >
+        <IconAddPerson color="var(--accent-350)" />
 
-      <IconAddPerson color="var(--accent-350)" />
+        <Typography>{props.publisher.name}</Typography>
+      </Box>
 
       <Menu
         anchorEl={anchorEl}
         open={open}
         onClose={handleCloseMenu}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'left' }}
         sx={{
-          marginTop: '8px',
+          marginTop: '4px',
           '& li': { borderBottom: '1px solid var(--accent-200)' },
           '& li:last-child': { borderBottom: 'none' },
         }}
@@ -69,7 +79,7 @@ const PublisherItem = (props: PublisherItemProps) => {
           </MenuItem>
         ))}
       </Menu>
-    </Box>
+    </>
   );
 };
 

@@ -1,4 +1,4 @@
-import { MouseEvent, useMemo, useState } from 'react';
+import { KeyboardEvent, MouseEvent, useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { PublisherItemProps } from './index.types';
 import { fieldWithLanguageGroupsState } from '@states/field_service_groups';
@@ -16,6 +16,13 @@ const usePublisherItem = ({ publisher }: PublisherItemProps) => {
   }, [groups]);
 
   const handleOpenMenu = (event: MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleKeyDown = (event: KeyboardEvent<HTMLElement>) => {
+    if (event.key !== 'Enter' && event.key !== ' ') return;
+
+    event.preventDefault();
     setAnchorEl(event.currentTarget);
   };
 
@@ -51,6 +58,7 @@ const usePublisherItem = ({ publisher }: PublisherItemProps) => {
     open,
     groups_list,
     handleOpenMenu,
+    handleKeyDown,
     handleCloseMenu,
     handleAssign,
   };
