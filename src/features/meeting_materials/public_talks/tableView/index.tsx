@@ -61,7 +61,9 @@ const TalksTableView = (props: TalksTableViewType) => {
             <TableCell>
               <Typography
                 className={'body-small-regular'}
-                color={'var(--grey-350)'}
+                sx={{
+                  color: 'var(--grey-350)',
+                }}
               >
                 {t('tr_shortNumberLabel')}
               </Typography>
@@ -69,7 +71,9 @@ const TalksTableView = (props: TalksTableViewType) => {
             <TableCell>
               <Typography
                 className={'body-small-regular'}
-                color={'var(--grey-350)'}
+                sx={{
+                  color: 'var(--grey-350)',
+                }}
               >
                 {t('tr_title')}
               </Typography>
@@ -86,9 +90,10 @@ const TalksTableView = (props: TalksTableViewType) => {
               >
                 <Typography
                   className={'h4'}
-                  color={'var(--grey-350)'}
                   sx={{
+                    color: 'var(--grey-350)',
                     padding: '4px',
+
                     ':hover': {
                       backgroundColor: 'var(--accent-150)',
                       borderRadius: 'var(--radius-s)',

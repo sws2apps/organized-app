@@ -148,7 +148,12 @@ const NavBar = ({ isSupported }: NavBarType) => {
                       gap: '2px',
                     }}
                   >
-                    <Typography className="h3" color="var(--black)">
+                    <Typography
+                      className="h3"
+                      sx={{
+                        color: 'var(--black)',
+                      }}
+                    >
                       Organized
                     </Typography>
                     {APP_ENVIRONMENT && (
@@ -197,6 +202,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
 
                   {tabletUp && (isAppLoad || isTest) && (
                     <LanguageSwitcher
+                      standalone
                       menuStyle={{
                         ...baseMenuStyle,
                         padding: '8px 12px 8px 12px',
@@ -281,7 +287,9 @@ const NavBar = ({ isSupported }: NavBarType) => {
                             {congName && (
                               <Typography
                                 className="label-small-regular"
-                                color="var(--grey-350)"
+                                sx={{
+                                  color: 'var(--grey-350)',
+                                }}
                               >
                                 {congName}
                               </Typography>
@@ -539,8 +547,8 @@ const NavBar = ({ isSupported }: NavBarType) => {
                   >
                     <Typography
                       className="h3"
-                      color="var(--black)"
                       sx={{
+                        color: 'var(--black)',
                         whiteSpace: 'nowrap',
                         textOverflow: 'ellipsis',
                         overflow: 'hidden',
@@ -550,8 +558,8 @@ const NavBar = ({ isSupported }: NavBarType) => {
                     </Typography>
                     <Typography
                       className="label-small-regular"
-                      color="var(--accent-400)"
                       sx={{
+                        color: 'var(--accent-400)',
                         whiteSpace: 'nowrap',
                         textOverflow: 'ellipsis',
                         overflow: 'hidden',

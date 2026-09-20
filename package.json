@@ -29,12 +29,15 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@mui/icons-material": "^7.3.8",
-    "@mui/lab": "^7.0.0-beta.17",
-    "@mui/material": "^7.0.2",
-    "@mui/stylis-plugin-rtl": "^7.3.8",
-    "@mui/x-date-pickers": "^8.27.2",
-    "@mui/x-tree-view": "^8.27.2",
+    "@mui/icons-material": "^9.4.0",
+    "@mui/lab": "^9.0.0-beta.9",
+    "@mui/material": "^9.4.0",
+    "@mui/styled-engine-sc": "^9.4.0",
+    "@mui/stylis-plugin-rtl": "^9.4.0",
+    "@mui/system": "^9.4.0",
+    "@mui/utils": "^9.4.0",
+    "@mui/x-date-pickers": "^9.14.0",
+    "@mui/x-tree-view": "^9.14.0",
     "@react-pdf/renderer": "^4.3.2",
     "@sentry/react": "^10.74.0",
     "@sws2apps/react-sw-helper": "^1.31.0",
@@ -128,11 +131,11 @@
     "*.{js,jsx,ts,tsx,css,md,json,html}": "prettier --write"
   },
   "allowScripts": {
-    "@firebase/util@1.15.0": true,
+    "@firebase/util@1.15.3": true,
     "esbuild@0.18.20": true,
     "esbuild@0.27.1": true,
     "cypress@15.17.0": true,
-    "protobufjs@7.5.8": true,
+    "protobufjs@7.6.5": true,
     "unrs-resolver@1.7.11": true
   }
 }

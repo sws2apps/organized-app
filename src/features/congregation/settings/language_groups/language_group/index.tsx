@@ -23,7 +23,12 @@ const LanguageGroup = (props: LanguageGroupProps) => {
     >
       <Stack spacing="4px">
         <Typography className="h3">{group_name}</Typography>
-        <Typography className="label-small-regular" color="var(--grey-350)">
+        <Typography
+          className="label-small-regular"
+          sx={{
+            color: 'var(--grey-350)',
+          }}
+        >
           {t('tr_personsAmount', { amount: count })}
           {language.length > 0 && ` (${language})`}
         </Typography>

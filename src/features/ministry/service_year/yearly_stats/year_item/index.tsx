@@ -16,12 +16,14 @@ const YearlItem = ({ year }: YearlyItemProps) => {
 
   return (
     <Stack
-      marginTop="-16px !important"
-      marginBottom="-40px !important"
-      borderTop="1px solid var(--accent-200)"
-      padding="16px 0"
       spacing="8px"
       divider={<Divider color="var(--accent-200)" />}
+      sx={{
+        marginTop: '-16px !important',
+        marginBottom: '-40px !important',
+        borderTop: '1px solid var(--accent-200)',
+        padding: '16px 0',
+      }}
     >
       {(hours.total > 0 || hoursEnabled) && <HoursStats year={year} />}
 
@@ -33,4 +35,3 @@ const YearlItem = ({ year }: YearlyItemProps) => {
 };
 
 export default YearlItem;
-

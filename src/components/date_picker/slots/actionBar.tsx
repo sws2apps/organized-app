@@ -12,9 +12,11 @@ const ActionBar = ({ onClose }: ActionBarProps) => {
   return (
     <Stack
       direction={'row'}
-      justifyContent={'space-between'}
-      p={'12px'}
-      gap={'12px'}
+      sx={{
+        justifyContent: 'space-between',
+        p: '12px',
+        gap: '12px',
+      }}
     >
       <Button variant="secondary" onClick={onClose}>
         {t('tr_close')}

@@ -72,7 +72,9 @@ const S140TemplateItem = ({
         <Typography
           align="center"
           className="body-small-regular"
-          color="var(--grey-400)"
+          sx={{
+            color: 'var(--grey-400)',
+          }}
         >
           {item.desc}
         </Typography>

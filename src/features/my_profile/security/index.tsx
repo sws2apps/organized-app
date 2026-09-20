@@ -57,7 +57,9 @@ const Security = () => {
                 <Typography>{t('tr_2FA')}</Typography>
                 <Typography
                   className="label-small-regular"
-                  color="var(--grey-350)"
+                  sx={{
+                    color: 'var(--grey-350)',
+                  }}
                 >
                   {t('tr_2FADesc')}
                 </Typography>

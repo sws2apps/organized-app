@@ -7,8 +7,8 @@ export const GroupHeader = styled(Typography)({
   padding: '8px 10px',
   backgroundColor: 'var(--white)',
   color: 'var(--accent-dark)',
-}) as unknown as typeof Typography;
+});
 
 export const GroupItems = styled('ul')({
   padding: 0,
-}) as unknown as 'ul';
+});

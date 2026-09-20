@@ -42,7 +42,12 @@ const VisibilityToggle = () => {
         />
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
           <Typography>{t('tr_discoverableSetting')}</Typography>
-          <Typography className="label-small-regular" color="var(--grey-350)">
+          <Typography
+            className="label-small-regular"
+            sx={{
+              color: 'var(--grey-350)',
+            }}
+          >
             {t('tr_discoverableSettingDesc')}
           </Typography>
         </Box>
