@@ -48,6 +48,7 @@ const Button: FC<ButtonPropsType> = (props) => {
   const hasPressScale =
     isGradient ||
     variant === 'secondary' ||
+    variant === 'small' ||
     variant === 'tertiary' ||
     variant === 'semi-white';
 
@@ -278,12 +279,6 @@ const Button: FC<ButtonPropsType> = (props) => {
             : getBackgroundColorHover(),
           boxShadow: isGradient ? darkenOverlay : 'none',
           border: getBorder(),
-          borderRadius:
-            variant === 'group'
-              ? 'none'
-              : variant === 'small' || variant === 'semi-white'
-                ? 'var(--radius-m)'
-                : 'var(--radius-l)',
           '@media (hover: none)': {
             backgroundColor: getBackgroundColor(),
             ...(isGradient && { boxShadow: noOverlay }),
@@ -301,14 +296,6 @@ const Button: FC<ButtonPropsType> = (props) => {
           ...(hasPressScale && { transform: 'scale(0.985)' }),
           boxShadow: isGradient ? noOverlay : 'none',
           border: getBorder(),
-          borderRadius:
-            variant === 'group'
-              ? 'none'
-              : variant === 'small'
-                ? 'var(--radius-s)'
-                : variant === 'semi-white'
-                  ? 'var(--radius-m)'
-                  : 'var(--radius-l)',
           opacity: !isGradient && (variant === 'small' || color) ? 0.8 : 1,
         },
         '&:disabled': {
