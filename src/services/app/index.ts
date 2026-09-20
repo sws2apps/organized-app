@@ -117,6 +117,7 @@ export const handleDeleteDatabase = async () => {
     'organized_whatsnew',
     'theme',
     'app_font',
+    'font_size',
     'ui_lang',
   ];
 

@@ -15,8 +15,8 @@ export const StyleDatePickerDay = {
     height: 'auto',
     width: '40px',
     margin: '0 4px',
-    fontSize: '16px',
-    lineHeight: '20px',
+    fontSize: '1rem',
+    lineHeight: 1.25,
     color: 'var(--grey-400)',
     ':not(.Mui-selected)': {
       borderColor: 'var(--accent-main)',
@@ -98,8 +98,8 @@ export const StyleDatePickerPopper: SxProps<Theme> = {
   },
   '.MuiDayCalendar-weekDayLabel': {
     width: '40px',
-    fontSize: '16px',
-    lineHeight: '20px',
+    fontSize: '1rem',
+    lineHeight: 1.25,
     margin: '0 4px',
     color: 'var(--grey-400)',
   },
@@ -136,8 +136,8 @@ export const StyleDatePickerPopper: SxProps<Theme> = {
     minHeight: '56px',
   },
   '.MuiPickersCalendarHeader-label': {
-    fontSize: '14px',
-    lineHeight: '18px',
+    fontSize: '0.875rem',
+    lineHeight: 1.29,
   },
   '.MuiPickersYear-root': {
     height: '52px',

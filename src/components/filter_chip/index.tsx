@@ -48,7 +48,7 @@ const CustomFilterChip = ({
         '&::after': {
           content: 'attr(data-text)',
           fontWeight: 520,
-          fontSize: '14px',
+          fontSize: '0.875rem',
           letterSpacing: '0px',
           fontFeatureSettings: '"cv05"',
           height: 0,
@@ -59,7 +59,7 @@ const CustomFilterChip = ({
           display: 'block',
           '@media (max-width: 767px)': {
             fontWeight: 450,
-            fontSize: '13px',
+            fontSize: '0.8125rem',
             letterSpacing: '0.065px',
           },
         },

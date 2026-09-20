@@ -26,7 +26,7 @@ import {
   bg,
   he,
 } from 'date-fns/locale';
-import { AppRoleType, LanguageItem } from '@definition/app';
+import { AppFontSizeType, AppRoleType, LanguageItem } from '@definition/app';
 import { AssignmentCode } from '@definition/assignment';
 import { FullnameOption } from '@definition/settings';
 import { Week } from '@definition/week_type';
@@ -449,6 +449,8 @@ export const POCKET_ROLES: AppRoleType[] = [
   'publisher',
   'view_schedules',
 ];
+
+export const APP_FONT_SIZES: AppFontSizeType[] = ['small', 'normal', 'large'];
 
 export const APP_ENVIRONMENT = import.meta.env.VITE_APP_MODE;
 
