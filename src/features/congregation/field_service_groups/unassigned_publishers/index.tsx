@@ -1,9 +1,8 @@
 import { Box } from '@mui/material';
-import { ReactSortable } from 'react-sortablejs';
-import { IconDragHandle, IconMyGroup } from '@components/icons';
+import { IconVisitors } from '@components/icons';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
-import { MEMBERS_SORTABLE_GROUP } from '../constants';
 import useUnassignedPublishers from './useUnassignedPublishers';
+import PublisherItem from './publisher_item';
 import Typography from '@components/typography';
 
 const UnassignedPublishers = () => {
@@ -42,42 +41,32 @@ const UnassignedPublishers = () => {
           {t('tr_publishersWithoutGroup')}
         </Typography>
 
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-          <IconMyGroup color="var(--accent-400)" width={16} height={16} />
+        <Box
+          sx={{
+            display: 'flex',
+            gap: '4px',
+            padding: '2px 8px',
+            borderRadius: 'var(--radius-s)',
+            alignItems: 'center',
+            backgroundColor: 'var(--accent-350)',
+          }}
+        >
+          <IconVisitors color="var(--always-white)" width={16} height={16} />
 
-          <Typography className="body-small-semibold" color="var(--accent-400)">
+          <Typography
+            className="body-small-semibold"
+            color="var(--always-white)"
+          >
             {publishers.length}
           </Typography>
         </Box>
       </Box>
 
-      <ReactSortable
-        list={publishers}
-        setList={() => {}}
-        group={{ name: MEMBERS_SORTABLE_GROUP, pull: true, put: false }}
-        sort={false}
-        animation={150}
-        style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}
-      >
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
         {publishers.map((publisher) => (
-          <Box
-            key={publisher.person_uid}
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              padding: '4px 8px',
-              borderRadius: 'var(--radius-s)',
-              cursor: 'grab',
-              '&:hover': { backgroundColor: 'var(--accent-200)' },
-            }}
-          >
-            <IconDragHandle color="var(--accent-350)" width={20} height={20} />
-
-            <Typography>{publisher.name}</Typography>
-          </Box>
+          <PublisherItem key={publisher.person_uid} publisher={publisher} />
         ))}
-      </ReactSortable>
+      </Box>
     </Box>
   );
 };

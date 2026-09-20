@@ -24,7 +24,6 @@ const useUnassignedPublishers = () => {
           !assigned.includes(person.person_uid)
       )
       .map((person) => ({
-        id: person.person_uid,
         person_uid: person.person_uid,
         name: buildPersonFullname(
           person.person_data.person_lastname.value,
