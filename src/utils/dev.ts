@@ -1764,6 +1764,11 @@ export const dbUpcomingEventsFill = async () => {
   }
 
   await appDb.sched.put(schedule);
+
+  // the autofill runs later from this state, and would write the week back
+  // without its circuit overseer type if the state still held the old copy
+  store.set(schedulesState, await appDb.sched.toArray());
+  store.set(assignmentsHistoryState, schedulesBuildHistoryList());
 };
 
 export const dbUserMinistryFill = async () => {
