@@ -17,7 +17,8 @@ const useSpeakerDetails = (speaker: VisitingSpeakerType) => {
   const personName = buildPersonFullname(
     speaker.speaker_data.person_lastname.value,
     speaker.speaker_data.person_firstname.value,
-    fullnameOption
+    fullnameOption,
+    speaker.speaker_data.person_middlename?.value
   );
 
   const congId = congregations.find(

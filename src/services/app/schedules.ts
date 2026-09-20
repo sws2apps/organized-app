@@ -1,11 +1,10 @@
 import { UpdateSpec } from 'dexie';
 import { store } from '@states/index';
 import {
-  CODisplayNameState,
   COFullnameState,
-  COScheduleNameState,
+  COPrintScheduleNameState,
   displayNameMeetingsEnableState,
-  fullnameOptionState,
+  printFullnameOptionState,
   midweekMeetingAuxCounselorDefaultEnabledState,
   midweekMeetingAuxCounselorDefaultState,
   midweekMeetingClassCountState,
@@ -819,12 +818,13 @@ export const schedulesWeekGetAssigned = ({
       }
 
       if (!useDisplayName) {
-        const fullnameOption = store.get(fullnameOptionState);
+        const fullnameOption = store.get(printFullnameOptionState);
 
         result = buildPersonFullname(
           person.person_data.person_lastname.value,
           person.person_data.person_firstname.value,
-          fullnameOption
+          fullnameOption,
+          person.person_data.person_middlename?.value
         );
       }
     }
@@ -845,7 +845,7 @@ export const schedulesGetSpeakerDetails = (
     speakers: store.get(incomingSpeakersState),
     congregations: store.get(speakersCongregationsState),
     displayNameEnabled: store.get(displayNameMeetingsEnableState),
-    fullnameOption: store.get(fullnameOptionState),
+    fullnameOption: store.get(printFullnameOptionState),
   });
 };
 
@@ -1783,7 +1783,7 @@ export const schedulesWeekNoMeeting = (week: Week) => {
 };
 
 export const schedulesS89Data = (schedule: SchedWeekType, dataView: string) => {
-  const fullnameOption = store.get(fullnameOptionState);
+  const fullnameOption = store.get(printFullnameOptionState);
 
   const result: S89DataType[] = [];
 
@@ -1847,7 +1847,8 @@ export const schedulesS89Data = (schedule: SchedWeekType, dataView: string) => {
       obj.student_name = buildPersonFullname(
         person.person_data.person_lastname.value,
         person.person_data.person_firstname.value,
-        fullnameOption
+        fullnameOption,
+        person.person_data.person_middlename?.value
       );
 
       if (assignment.includes('AYFPart')) {
@@ -1865,7 +1866,8 @@ export const schedulesS89Data = (schedule: SchedWeekType, dataView: string) => {
           obj.assistant_name = buildPersonFullname(
             assistantPerson.person_data.person_lastname.value,
             assistantPerson.person_data.person_firstname.value,
-            fullnameOption
+            fullnameOption,
+            assistantPerson.person_data.person_middlename?.value
           );
         }
       }
@@ -2439,11 +2441,8 @@ export const schedulesMidweekData = (
   }
 
   if (week_type === Week.CO_VISIT) {
-    const COFullname = store.get(COFullnameState);
-    const CODisplayName = store.get(CODisplayNameState);
-
     result.lc_co_talk = source.midweek_meeting.co_talk_title.src;
-    result.co_name = useDisplayName ? CODisplayName : COFullname;
+    result.co_name = store.get(COPrintScheduleNameState);
   }
 
   const concluding_song = sourcesSongConclude({
@@ -2725,7 +2724,7 @@ export const schedulesWeekendData = (
     });
 
     if (result.co_name?.length === 0) {
-      result.co_name = store.get(COScheduleNameState);
+      result.co_name = store.get(COPrintScheduleNameState);
     }
 
     result.public_talk_title = source.weekend_meeting.co_talk_title.public.src;
@@ -2763,7 +2762,7 @@ export const scheduleOutgoingSpeakers = (
   schedule: SchedWeekType
 ): OutgoingSpeakersScheduleType => {
   const talks = store.get(publicTalksState);
-  const fullnameOption = store.get(fullnameOptionState);
+  const fullnameOption = store.get(printFullnameOptionState);
   const displayNameEnabled = store.get(displayNameMeetingsEnableState);
   const persons = store.get(personsByViewState);
   const songs = store.get(songsLocaleState);
