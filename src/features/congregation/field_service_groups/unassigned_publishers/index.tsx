@@ -6,8 +6,6 @@ import useUnassignedPublishers from './useUnassignedPublishers';
 import PublisherItem from './publisher_item';
 import Typography from '@components/typography';
 
-const DASHED_BORDER = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Crect width='100%25' height='100%25' rx='16' ry='16' fill='none' stroke='%23000' stroke-width='2' stroke-dasharray='10 8'/%3E%3C/svg%3E")`;
-
 const UnassignedPublishers = () => {
   const { t } = useAppTranslation();
 
@@ -27,22 +25,36 @@ const UnassignedPublishers = () => {
         flexDirection: 'column',
         backgroundColor: 'var(--accent-150)',
         borderRadius: 'var(--radius-xl)',
-        border: '1px dashed var(--accent-300)',
-        // a drawn border keeps the 1px of the other cards with longer dashes
-        '@supports (mask-image: url())': {
-          border: 'none',
-          '&::before': {
-            content: '""',
-            position: 'absolute',
-            inset: 0,
-            pointerEvents: 'none',
-            backgroundColor: 'var(--accent-300)',
-            maskImage: DASHED_BORDER,
-            WebkitMaskImage: DASHED_BORDER,
-          },
-        },
       }}
     >
+      <Box
+        component="svg"
+        aria-hidden
+        sx={{
+          position: 'absolute',
+          inset: 0,
+          width: '100%',
+          height: '100%',
+          pointerEvents: 'none',
+        }}
+      >
+        {/* drawn, so the dashes stay 1px and round the corners evenly */}
+        <Box
+          component="rect"
+          sx={{
+            x: '0.5px',
+            y: '0.5px',
+            width: 'calc(100% - 1px)',
+            height: 'calc(100% - 1px)',
+            rx: 'var(--radius-xl)',
+            fill: 'none',
+            stroke: 'var(--accent-300)',
+            strokeWidth: '1px',
+            strokeDasharray: '10 7',
+          }}
+        />
+      </Box>
+
       <Box
         sx={{
           padding: '8px 16px',

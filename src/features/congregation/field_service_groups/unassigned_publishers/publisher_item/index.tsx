@@ -26,6 +26,7 @@ const PublisherItem = (props: PublisherItemProps) => {
         tabIndex={0}
         aria-haspopup="menu"
         aria-expanded={open}
+        onMouseDown={(event) => event.preventDefault()}
         onClick={handleOpenMenu}
         onKeyDown={handleKeyDown}
         sx={{
