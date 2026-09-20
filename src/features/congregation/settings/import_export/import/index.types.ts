@@ -1,4 +1,4 @@
 export type ImportType = {
-  onClose: VoidFunction;
+  onClose?: VoidFunction;
   onNext: VoidFunction;
 };

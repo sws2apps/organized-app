@@ -1,10 +1,5 @@
 import { ListItem } from '@mui/material';
-import {
-  IconGroups,
-  IconManageAccess,
-  IconSettings,
-  IconSynced,
-} from '@icons/index';
+import { IconGroups, IconSettings, IconSynced } from '@icons/index';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import useCongregation from './useCongregation';
 import DashboardCard from '@features/dashboard/card';
@@ -16,13 +11,8 @@ const CongregationCard = () => {
   const { isPublisher, isAdmin, isElder, isGroup, isLanguageGroupOverseer } =
     useCurrentUser();
 
-  const {
-    secondaryText,
-    handleManualSync,
-    isConnected,
-    isUserAdmin,
-    requests_count,
-  } = useCongregation();
+  const { secondaryText, handleManualSync, isConnected, requests_count } =
+    useCongregation();
 
   return (
     <DashboardCard
@@ -38,23 +28,13 @@ const CongregationCard = () => {
         </ListItem>
       )}
 
-      {isConnected && isUserAdmin && (
-        <ListItem disablePadding>
-          <DashboardMenu
-            icon={<IconManageAccess color="var(--black)" />}
-            primaryText={t('tr_manageAccess')}
-            badgeText={requests_count}
-            path="/manage-access"
-          />
-        </ListItem>
-      )}
-
       {!isGroup && (isAdmin || isElder) && (
         <ListItem disablePadding>
           <DashboardMenu
             path="/congregation-settings"
             icon={<IconSettings color="var(--black)" />}
             primaryText={t('tr_congregationSettings')}
+            badgeText={requests_count}
           />
         </ListItem>
       )}

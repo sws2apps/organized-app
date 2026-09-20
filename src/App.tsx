@@ -1,5 +1,5 @@
 import { lazy, useEffect, useState } from 'react';
-import { createHashRouter, RouterProvider } from 'react-router';
+import { Navigate, createHashRouter, RouterProvider } from 'react-router';
 import { useAtom, useAtomValue } from 'jotai';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ErrorBoundary } from '@components/index';
@@ -22,6 +22,7 @@ import RouteProtected from '@components/route_protected';
 import { determineAppLocale } from '@services/app';
 import { firstDayWeekState } from '@states/settings';
 import { LANGUAGE_LIST } from './constants';
+import { congregationSettingsTabPath } from '@features/congregation/settings/settings_sidebar/index.types';
 
 // lazy loading
 const Dashboard = lazy(() => import('@pages/dashboard'));
@@ -52,9 +53,6 @@ const FieldServiceGroups = lazy(
 const PublisherRecord = lazy(() => import('@pages/reports/publisher_records'));
 const PublisherRecordDetails = lazy(
   () => import('@pages/reports/publisher_records_details')
-);
-const UsersAll = lazy(
-  () => import('@pages/congregation/manage_access/all_users')
 );
 const UserDetails = lazy(
   () => import('@pages/congregation/manage_access/user_details')
@@ -187,6 +185,21 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
                   path: '/congregation-settings',
                   element: <CongregationSettings />,
                 },
+                {
+                  path: '/congregation-settings/:tab',
+                  element: <CongregationSettings />,
+                },
+                // the accounts moved into the congregation settings; the
+                // settings page decides whether that tab may be opened
+                {
+                  path: '/manage-access',
+                  element: (
+                    <Navigate
+                      to={congregationSettingsTabPath('user-accounts')}
+                      replace
+                    />
+                  ),
+                },
                 { path: '/publisher-records', element: <PublisherRecord /> },
                 {
                   path: '/publisher-records/:id',
@@ -272,6 +285,10 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
                   path: '/group-settings',
                   element: <CongregationSettings />,
                 },
+                {
+                  path: '/group-settings/:tab',
+                  element: <CongregationSettings />,
+                },
               ],
             },
 
@@ -293,7 +310,6 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
                 {
                   element: <RouteProtected allowed={isConnected} />,
                   children: [
-                    { path: '/manage-access', element: <UsersAll /> },
                     {
                       path: '/manage-access/:id',
                       element: <UserDetails />,

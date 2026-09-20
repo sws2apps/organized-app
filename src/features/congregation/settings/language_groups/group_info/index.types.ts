@@ -4,4 +4,5 @@ export type GroupInfoProps = {
   open: boolean;
   onClose: VoidFunction;
   group: FieldServiceGroupType;
+  inline?: boolean;
 };
