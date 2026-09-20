@@ -41,7 +41,7 @@ const UserProfileDetails = () => {
             display: 'flex',
             gap: '16px',
             justifyContent: 'flex-start',
-            alignItems: tabletDown ? 'flex-start' : 'center',
+            alignItems: 'center',
             flexDirection: 'row',
           }}
         >
@@ -49,28 +49,32 @@ const UserProfileDetails = () => {
             size={tabletDown ? 44 : 48}
             onOpen={handleOpenSelector}
           />
-          <Box
-            sx={{
-              display: 'flex',
-              gap: '16px',
-              flex: 1,
-              flexDirection: tabletDown ? 'column' : 'row',
-            }}
-          >
+          <Box sx={{ display: 'flex', gap: '16px', flex: 1 }}>
             <TextField
               label={t('tr_firstname')}
               height={48}
               value={firstNameTmp}
               onChange={(e) => handleChangeFirstName(e.target.value)}
             />
-            <TextField
-              label={t('tr_lastname')}
-              height={48}
-              value={lastNameTmp}
-              onChange={(e) => handleChangeLastName(e.target.value)}
-            />
+            {!tabletDown && (
+              <TextField
+                label={t('tr_lastname')}
+                height={48}
+                value={lastNameTmp}
+                onChange={(e) => handleChangeLastName(e.target.value)}
+              />
+            )}
           </Box>
         </Box>
+
+        {tabletDown && (
+          <TextField
+            label={t('tr_lastname')}
+            height={48}
+            value={lastNameTmp}
+            onChange={(e) => handleChangeLastName(e.target.value)}
+          />
+        )}
         {isConnected && accountType === 'vip' && (
           <TextField
             label={t('tr_emailAddress')}

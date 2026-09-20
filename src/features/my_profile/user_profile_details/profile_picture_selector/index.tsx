@@ -116,14 +116,16 @@ const ProfilePictureSelector = ({ open, onClose }: Props) => {
                         margin: 0,
                         padding: 0,
                         borderRadius: 'var(--radius-max)',
-                        outline: isSelected
-                          ? '2px solid var(--accent-main)'
-                          : '2px solid transparent',
-                        outlineOffset: '4px',
+                        // a ring drawn as a shadow follows the round avatar,
+                        // where an outline would square it off
+                        boxShadow: isSelected
+                          ? '0 0 0 2px var(--white), 0 0 0 4px var(--accent-main)'
+                          : '0 0 0 2px transparent, 0 0 0 4px transparent',
                         transition:
-                          'outline-color var(--motion-fast) var(--ease-standard), transform var(--motion-fast) var(--ease-standard)',
+                          'box-shadow var(--motion-fast) var(--ease-standard), transform var(--motion-fast) var(--ease-standard)',
                         '&:hover': {
-                          outlineColor: 'var(--accent-main)',
+                          boxShadow:
+                            '0 0 0 2px var(--white), 0 0 0 4px var(--accent-main)',
                           transform: 'scale(1.04)',
                         },
                         '&:active': { transform: 'scale(0.98)' },
@@ -132,8 +134,9 @@ const ProfilePictureSelector = ({ open, onClose }: Props) => {
                           '&:hover, &:active': { transform: 'none' },
                         },
                         '&:focus-visible': {
-                          outline: '2px solid var(--accent-main)',
-                          outlineOffset: '4px',
+                          outline: 'none',
+                          boxShadow:
+                            '0 0 0 2px var(--white), 0 0 0 4px var(--accent-main)',
                         },
                       }}
                     >
