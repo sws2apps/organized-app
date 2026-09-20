@@ -1,4 +1,4 @@
-import { Box, Popper } from '@mui/material';
+import { Box } from '@mui/material';
 import { IconClose, IconTalk } from '@components/icons';
 import { PublicTalkOptionType, PublicTalkSelectorType } from './index.types';
 import { useAppTranslation } from '@hooks/index';

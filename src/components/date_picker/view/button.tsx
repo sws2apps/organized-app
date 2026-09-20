@@ -15,10 +15,10 @@ const ButtonField = (props: DatePickerFieldProps) => {
   const { forwardedProps } = useSplitFieldProps(props, 'date');
 
   const {
-    enableAccessibleFieldDOMStructure,
-    clearable,
-    onClear,
-    customInput,
+    enableAccessibleFieldDOMStructure: _enableAccessibleFieldDOMStructure,
+    clearable: _clearable,
+    onClear: _onClear,
+    customInput: _customInput,
     ...buttonProps
   } = forwardedProps as typeof forwardedProps & {
     enableAccessibleFieldDOMStructure?: boolean;
