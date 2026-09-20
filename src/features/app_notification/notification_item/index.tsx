@@ -62,7 +62,8 @@ const NotificationItem = ({
             <TabLabelWithBadge
               className="h3"
               label={notification.title}
-              badgeColor="var(--accent-main)"
+              badgeColor="var(--accent-dark)"
+              color="var(--black)"
               count={(notification as UnverifiedReportNotificationType).count}
             />
           )}
