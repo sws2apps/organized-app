@@ -28,7 +28,11 @@ const UserSessions = () => {
         >
           <Typography className="h2">{t('tr_sessions')}</Typography>
 
-          <Typography color="var(--grey-400)">
+          <Typography
+            sx={{
+              color: 'var(--grey-400)',
+            }}
+          >
             {t('tr_terminateSessionAdminDesc')}
           </Typography>
         </Box>

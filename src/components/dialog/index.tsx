@@ -126,7 +126,13 @@ const Dialog = ({
         </Typography>
 
         {description && (
-          <Typography color="var(--grey-400)">{description}</Typography>
+          <Typography
+            sx={{
+              color: 'var(--grey-400)',
+            }}
+          >
+            {description}
+          </Typography>
         )}
       </Stack>
     );
@@ -183,20 +189,19 @@ const Dialog = ({
           margin: { mobile: '16px', tablet: '24px', desktop: '32px' },
         },
       }}
-      PaperProps={
-        PaperProps || {
+      slotProps={{
+        backdrop: {
+          style: {
+            backgroundColor: 'var(--accent-dark-overlay)',
+          },
+        },
+
+        paper: PaperProps || {
           className: 'pop-up-shadow',
           style: {
             maxWidth: '560px',
             borderRadius: 'var(--radius-xl)',
             backgroundColor: 'var(--white)',
-          },
-        }
-      }
-      slotProps={{
-        backdrop: {
-          style: {
-            backgroundColor: 'var(--accent-dark-overlay)',
           },
         },
       }}

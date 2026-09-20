@@ -108,8 +108,10 @@ const InfoMessage = (props: InfoMessagePropsType) => {
               {messageHeader.length > 0 && (
                 <Typography
                   className="h4"
-                  color="var(--always-white)"
-                  sx={{ marginBottom: '2px' }}
+                  sx={{
+                    color: 'var(--always-white)',
+                    marginBottom: '2px',
+                  }}
                 >
                   {messageHeader}
                 </Typography>

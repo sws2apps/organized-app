@@ -19,7 +19,12 @@ const UserSessions = () => {
     <ProfileItemContainer>
       <Box sx={{ display: 'flex', gap: '8px', flexDirection: 'column' }}>
         <Typography className="h2">{t('tr_sessions')}</Typography>
-        <Typography className="body-regular" color="var(--grey-400)">
+        <Typography
+          className="body-regular"
+          sx={{
+            color: 'var(--grey-400)',
+          }}
+        >
           {t('tr_sessionsDesc')}
         </Typography>
       </Box>
@@ -27,7 +32,13 @@ const UserSessions = () => {
       {isLoading && <WaitingLoader size={72} variant="standard" />}
 
       {errorMsg.length > 0 && (
-        <Typography color="var(--red-main)">{errorMsg}</Typography>
+        <Typography
+          sx={{
+            color: 'var(--red-main)',
+          }}
+        >
+          {errorMsg}
+        </Typography>
       )}
 
       {!isLoading && sessions.length > 0 && (

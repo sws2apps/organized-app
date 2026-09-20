@@ -79,7 +79,9 @@ const UserProfileDetails = () => {
             helperText={
               <Typography
                 className="label-small-regular"
-                color="var(--grey-350)"
+                sx={{
+                  color: 'var(--grey-350)',
+                }}
               >
                 {t('tr_emailAddressDesc')}
               </Typography>

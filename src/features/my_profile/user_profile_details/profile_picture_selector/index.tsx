@@ -39,7 +39,9 @@ const ProfilePictureSelector = ({ open, onClose }: Props) => {
             <Typography
               role="alert"
               className="body-small-regular"
-              color="var(--red-main)"
+              sx={{
+                color: 'var(--red-main)',
+              }}
             >
               {t('error_app_generic-title')}
             </Typography>

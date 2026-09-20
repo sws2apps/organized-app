@@ -19,8 +19,8 @@ const SourceLanguageSelector = (props: SelectPropsType) => {
             <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
               <Typography
                 className="label-small-medium"
-                color="var(--accent-dark)"
                 sx={{
+                  color: 'var(--accent-dark)',
                   backgroundColor: 'var(--accent-200)',
                   padding: '2px 3px',
                   borderRadius: 'var(--radius-s)',
@@ -28,7 +28,12 @@ const SourceLanguageSelector = (props: SelectPropsType) => {
               >
                 {language.code.toUpperCase()}
               </Typography>
-              <Typography className="body-regular" color="var(--black)">
+              <Typography
+                className="body-regular"
+                sx={{
+                  color: 'var(--black)',
+                }}
+              >
                 {language.name}
               </Typography>
             </Box>

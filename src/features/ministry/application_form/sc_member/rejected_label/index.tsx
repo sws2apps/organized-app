@@ -9,7 +9,12 @@ const RejectedLabel = () => {
   return (
     <LabelContainer sx={{ backgroundColor: 'var(--red-main)' }}>
       <IconCancelCicle color="var(--always-white)" />
-      <Typography className="button-caps" color="var(--always-white)">
+      <Typography
+        className="button-caps"
+        sx={{
+          color: 'var(--always-white)',
+        }}
+      >
         {t('tr_rejected')}
       </Typography>
     </LabelContainer>

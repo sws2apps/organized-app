@@ -1,4 +1,4 @@
-import { styled } from '@mui/system';
+import { styled } from '@mui/material/styles';
 import { Box } from '@mui/material';
 
 export const StyledProgressBarBox = styled(Box)({});
@@ -21,8 +21,8 @@ export const StyledProgressBarFill = styled(Box)({
   minWidth: '0',
   justifyContent: 'center',
   transition: 'width 0.4s ease, padding 0.4s ease',
-  overflow: 'hidden',     
-  whiteSpace: "nowrap",
+  overflow: 'hidden',
+  whiteSpace: 'nowrap',
 });
 
 export const StyledProgressBarToFill = styled(Box)({

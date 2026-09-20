@@ -81,10 +81,12 @@ const Drawer: FC<DrawerProps & CustomDrawerProps> = ({
       >
         <Stack
           direction={'row'}
-          justifyContent={'space-between'}
-          alignItems={'center'}
-          mb={'12px'}
-          ml={'12px'}
+          sx={{
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            mb: '12px',
+            ml: '12px',
+          }}
         >
           <Typography className="h1">{title}</Typography>
           <Stack direction={'row'} spacing={0.5}>

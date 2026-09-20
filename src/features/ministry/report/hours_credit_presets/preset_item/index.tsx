@@ -21,7 +21,12 @@ const PresetItem = (props: PresetItemProps) => {
       {preset.icon}
       <Stack>
         <Typography>{preset.name}</Typography>
-        <Typography className="body-small-regular" color="var(--grey-400)">
+        <Typography
+          className="body-small-regular"
+          sx={{
+            color: 'var(--grey-400)',
+          }}
+        >
           {t('tr_hoursList', { Hours: preset.value })}
         </Typography>
       </Stack>

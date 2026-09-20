@@ -37,11 +37,20 @@ const SpeakersCatalog = (props: SpeakersCatalogType) => {
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
             <Typography className="h2">{t('tr_speakersCatalog')}</Typography>
-            <Typography className="h4" color="var(--grey-400)">
+            <Typography
+              className="h4"
+              sx={{
+                color: 'var(--grey-400)',
+              }}
+            >
               {t('tr_speakersWithCount', { speakersCount: count })}
             </Typography>
           </Box>
-          <Typography color="var(--grey-400)">
+          <Typography
+            sx={{
+              color: 'var(--grey-400)',
+            }}
+          >
             {props.type === 'visitingSpeaker'
               ? t('tr_speakersCatalogVisitingDesc')
               : t('tr_speakersCatalogLocalDesc')}
@@ -66,7 +75,9 @@ const SpeakersCatalog = (props: SpeakersCatalogType) => {
               <TableCell>
                 <Typography
                   className={'body-small-regular'}
-                  color={'var(--grey-350)'}
+                  sx={{
+                    color: 'var(--grey-350)',
+                  }}
                 >
                   {t('tr_shortNumberLabel')}
                 </Typography>
@@ -74,7 +85,9 @@ const SpeakersCatalog = (props: SpeakersCatalogType) => {
               <TableCell>
                 <Typography
                   className={'body-small-regular'}
-                  color={'var(--grey-350)'}
+                  sx={{
+                    color: 'var(--grey-350)',
+                  }}
                 >
                   {t('tr_title')}
                 </Typography>
@@ -82,7 +95,9 @@ const SpeakersCatalog = (props: SpeakersCatalogType) => {
               <TableCell>
                 <Typography
                   className={'body-small-regular'}
-                  color={'var(--grey-350)'}
+                  sx={{
+                    color: 'var(--grey-350)',
+                  }}
                 >
                   {t('tr_speaker')}
                 </Typography>

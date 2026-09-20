@@ -63,7 +63,12 @@ const UpcomingEventsList = (props: UpcomingEventsListProps) => {
                   transform: isStuck ? 'translateY(6px)' : 'translateY(0px)',
                 }}
               >
-                <Typography className="h4" color="var(--accent-400)">
+                <Typography
+                  className="h4"
+                  sx={{
+                    color: 'var(--accent-400)',
+                  }}
+                >
                   {year}
                 </Typography>
               </Box>

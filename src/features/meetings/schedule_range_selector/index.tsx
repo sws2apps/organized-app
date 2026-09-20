@@ -40,7 +40,12 @@ const ScheduleRangeSelector = ({
         <MenuSubHeader>{t('tr_pastDates')}</MenuSubHeader>
         {startPastMonths.map((option) => (
           <MenuItem key={option.value} value={option.value}>
-            <Typography className="body-regular" color="var(--black)">
+            <Typography
+              className="body-regular"
+              sx={{
+                color: 'var(--black)',
+              }}
+            >
               {option.label}
             </Typography>
           </MenuItem>
@@ -49,7 +54,12 @@ const ScheduleRangeSelector = ({
         <MenuSubHeader>{t('tr_upcomingDates')}</MenuSubHeader>
         {startUpcomingMonths.map((option) => (
           <MenuItem key={option.value} value={option.value}>
-            <Typography className="body-regular" color="var(--black)">
+            <Typography
+              className="body-regular"
+              sx={{
+                color: 'var(--black)',
+              }}
+            >
               {option.label}
             </Typography>
           </MenuItem>
@@ -70,7 +80,12 @@ const ScheduleRangeSelector = ({
           <MenuSubHeader>{t('tr_pastDates')}</MenuSubHeader>
           {endPastMonths.map((option) => (
             <MenuItem key={option.value} value={option.value}>
-              <Typography className="body-regular" color="var(--black)">
+              <Typography
+                className="body-regular"
+                sx={{
+                  color: 'var(--black)',
+                }}
+              >
                 {option.label}
               </Typography>
             </MenuItem>
@@ -79,7 +94,12 @@ const ScheduleRangeSelector = ({
           <MenuSubHeader>{t('tr_upcomingDates')}</MenuSubHeader>
           {endUpcomingMonths.map((option) => (
             <MenuItem key={option.value} value={option.value}>
-              <Typography className="body-regular" color="var(--black)">
+              <Typography
+                className="body-regular"
+                sx={{
+                  color: 'var(--black)',
+                }}
+              >
                 {option.label}
               </Typography>
             </MenuItem>
