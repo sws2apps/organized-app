@@ -829,6 +829,17 @@ export const dbFieldGroupAutoAssign = async () => {
     });
   }
 
+  // a few publishers stay without a group
+  const reserved = shuffle(
+    publishers.filter(
+      (person) =>
+        !overseers.includes(person.person_uid) &&
+        !assistants.includes(person.person_uid)
+    )
+  )
+    .slice(0, 5)
+    .map((person) => person.person_uid);
+
   //  assign group members
   let i = 1;
   for (const group of groups) {
@@ -846,11 +857,12 @@ export const dbFieldGroupAutoAssign = async () => {
     const length =
       i < 5
         ? getRandomNumber(16, 20)
-        : publishers.length - assigned_members.length + 2;
+        : publishers.length - reserved.length - assigned_members.length + 2;
 
     do {
       const remaining_pubs = publishers.filter(
         (person) =>
+          !reserved.includes(person.person_uid) &&
           !assigned_members.some(
             (member) => member.person_uid === person.person_uid
           )
