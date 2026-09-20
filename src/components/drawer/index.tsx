@@ -41,6 +41,7 @@ const Drawer: FC<DrawerProps & CustomDrawerProps> = ({
   headActions,
   onClose,
   children,
+  sx,
   ...props
 }) => {
   const { laptopUp } = useBreakpoints();
@@ -53,7 +54,14 @@ const Drawer: FC<DrawerProps & CustomDrawerProps> = ({
     <MUIDrawer
       {...props}
       onClose={handleClose}
+      sx={[
+        { zIndex: (theme) => theme.zIndex.modal },
+        ...(Array.isArray(sx) ? sx : [sx]),
+      ]}
       slotProps={{
+        backdrop: {
+          style: { backgroundColor: 'var(--accent-dark-overlay)' },
+        },
         paper: {
           sx: {
             backgroundColor: 'unset',
