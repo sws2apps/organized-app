@@ -33,6 +33,7 @@ import {
   schedulesState,
 } from '@states/schedules';
 import { AssignmentCode, AssignmentFieldType } from '@definition/assignment';
+import { SettingsType } from '@definition/settings';
 import {
   ApplyMinistryType,
   LivingAsChristiansType,
@@ -52,6 +53,8 @@ import {
 import {
   AssignmentCongregation,
   AssignmentHistoryType,
+  DutiesMeetingPartType,
+  DutiesSectionType,
   MidweekMeetingDataType,
   OutgoingSpeakersScheduleType,
   S89DataType,
@@ -100,9 +103,13 @@ import { incomingSpeakersState } from '@states/visiting_speakers';
 import { speakersCongregationsState } from '@states/speakers_congregations';
 import { publicTalksState } from '@states/public_talks';
 import { PublicTalkType } from '@definition/public_talks';
-import { dbAppSettingsGet } from '@services/dexie/settings';
+import {
+  dbAppSettingsGet,
+  dbAppSettingsUpdate,
+} from '@services/dexie/settings';
 import {
   fieldGroupsState,
+  fieldServiceGroupsState,
   languageGroupsState,
 } from '@states/field_service_groups';
 import { monthNamesState, monthShortNamesState } from '@states/app';
@@ -111,11 +118,11 @@ import {
   getTranslation,
 } from '@services/i18n/translation';
 import { songsLocaleState } from '@states/songs';
-import { SettingsType } from '@definition/settings';
+import { ScheduleMeetingType } from '@definition/app';
 
 export const schedulesWeekAssignmentsInfo = (
   week: string,
-  meeting: 'midweek' | 'weekend'
+  meeting: ScheduleMeetingType
 ) => {
   let total = 0;
   let assigned = 0;
@@ -132,7 +139,415 @@ export const schedulesWeekAssignmentsInfo = (
     assigned = data.assigned;
   }
 
+  if (meeting === 'duties') {
+    const midweek = schedulesDutiesMeetingInfo(week, 'midweek');
+    const weekend = schedulesDutiesMeetingInfo(week, 'weekend');
+    total = midweek.total + weekend.total;
+    assigned = midweek.assigned + weekend.assigned;
+  }
+
   return { total, assigned };
+};
+
+export type MeetingDutiesConfigType =
+  SettingsType['cong_settings']['meeting_duties'][number];
+
+export type DutyFieldDefinitionType = {
+  assignment: AssignmentFieldType;
+  type: AssignmentCode;
+  schedule_id?: string;
+};
+
+export const schedulesDutiesConfig = () => {
+  const dataView = store.get(userDataViewState);
+  const settings = store.get(settingsState);
+
+  return settings.cong_settings.meeting_duties?.find(
+    (record) => record.type === dataView && !record._deleted.value
+  );
+};
+
+export const schedulesDutiesExportSettingsSave = async (settings: {
+  orientation: 'portrait' | 'landscape';
+  fontSize: number;
+}) => {
+  const updatedAt = new Date().toISOString();
+
+  await dbAppSettingsUpdate({
+    'user_settings.meeting_duties_export': {
+      orientation: { value: settings.orientation, updatedAt },
+      font_size: { value: settings.fontSize, updatedAt },
+    },
+  });
+};
+
+// the combined A/V duty is done by one brother, so he covers both jobs and
+// needs both qualifications; every other duty maps to its own code
+export const schedulesDutyRequiredCodes = (
+  type?: AssignmentCode
+): AssignmentCode[] => {
+  if (type === AssignmentCode.DUTIES_AudioVideo) {
+    return [AssignmentCode.DUTIES_Audio, AssignmentCode.DUTIES_Video];
+  }
+
+  return type === undefined ? [] : [type];
+};
+
+export const schedulesIsDutyCode = (code?: AssignmentCode) =>
+  code !== undefined && Boolean(AssignmentCode[code]?.startsWith('DUTIES_'));
+
+/**
+ * Whether a person may take a duty at all. Duties are for brothers, unless the
+ * congregation includes sisters because there aren't enough brothers. A
+ * qualification kept from before sisters were excluded again does not count.
+ */
+export const schedulesDutyAllowedForPerson = (
+  person: PersonType,
+  type: AssignmentCode | undefined,
+  sistersDuties: boolean
+) => {
+  if (!schedulesIsDutyCode(type) || person.person_data.male.value) return true;
+
+  return sistersDuties;
+};
+
+export const schedulesDutyPersonQualified = (
+  type: AssignmentCode | undefined,
+  assignments: AssignmentCode[]
+) => {
+  const required = schedulesDutyRequiredCodes(type);
+
+  if (required.length === 0) return false;
+
+  return required.every((code) => assignments.includes(code));
+};
+
+// single source of truth for duty fields — drives counts and autofill
+export const schedulesDutiesFieldList = (
+  meeting: 'midweek' | 'weekend',
+  config: MeetingDutiesConfigType,
+  sections: DutiesSectionType[] = []
+): DutyFieldDefinitionType[] => {
+  const prefix = meeting === 'midweek' ? 'MM' : 'WM';
+
+  const fields: DutyFieldDefinitionType[] = [];
+
+  const positioned = (
+    duty:
+      | 'Audio'
+      | 'Video'
+      | 'AudioVideo'
+      | 'Microphone'
+      | 'Stage'
+      | 'EntranceAttendant'
+      | 'AuditoriumAttendant'
+      | 'Hospitality'
+      | 'VideoconferenceHost',
+    type: AssignmentCode,
+    amount: number
+  ) => {
+    for (let index = 1; index <= Math.min(amount, 4); index++) {
+      fields.push({
+        assignment: `${prefix}_DUTIES_${duty}_${index}` as AssignmentFieldType,
+        type,
+      });
+    }
+  };
+
+  const dynamic = (
+    items: MeetingDutiesConfigType['custom'] | DutiesSectionType[] | undefined,
+    type: AssignmentCode
+  ) => {
+    const active = items?.filter((record) => !record._deleted) ?? [];
+
+    for (const item of active) {
+      for (let index = 1; index <= Math.min(item.amount, 4); index++) {
+        fields.push({
+          assignment: `${prefix}_DUTIES_Dynamic` as AssignmentFieldType,
+          type,
+          schedule_id: `${item.id}_${index}`,
+        });
+      }
+    }
+  };
+
+  // av_combined: one brother does both duties, so a single field replaces them
+  if (config.av_combined?.value) {
+    positioned(
+      'AudioVideo',
+      AssignmentCode.DUTIES_AudioVideo,
+      config.audio_amount.value
+    );
+  } else {
+    positioned('Audio', AssignmentCode.DUTIES_Audio, config.audio_amount.value);
+
+    positioned('Video', AssignmentCode.DUTIES_Video, config.video_amount.value);
+  }
+
+  if (config.mic_sections.value) {
+    dynamic(sections, AssignmentCode.DUTIES_Microphone);
+  } else {
+    positioned(
+      'Microphone',
+      AssignmentCode.DUTIES_Microphone,
+      config.mic_amount.value
+    );
+  }
+
+  positioned('Stage', AssignmentCode.DUTIES_Stage, config.stage_amount.value);
+
+  positioned(
+    'EntranceAttendant',
+    AssignmentCode.DUTIES_EntranceAttendant,
+    config.entrance_attendant_amount.value
+  );
+
+  positioned(
+    'AuditoriumAttendant',
+    AssignmentCode.DUTIES_AuditoriumAttendant,
+    config.auditorium_attendant_amount?.value ?? 1
+  );
+
+  positioned(
+    'Hospitality',
+    AssignmentCode.DUTIES_Hospitality,
+    config.hospitality_amount.value
+  );
+
+  positioned(
+    'VideoconferenceHost',
+    AssignmentCode.DUTIES_VideoconferenceHost,
+    config.videoconference_host_amount?.value ?? 0
+  );
+
+  dynamic(config.custom, AssignmentCode.DUTIES_Custom);
+
+  return fields;
+};
+
+export const schedulesDutiesGetFieldValue = (
+  schedule: SchedWeekType,
+  field: DutyFieldDefinitionType,
+  dataView: string
+) => {
+  const data = schedulesGetData(
+    schedule,
+    ASSIGNMENT_PATH[field.assignment]
+  ) as AssignmentCongregation[];
+
+  if (!Array.isArray(data)) return '';
+
+  const assigned = field.schedule_id
+    ? data.find(
+        (record) => record.id === field.schedule_id && record.type === dataView
+      )
+    : data.find((record) => record.type === dataView);
+
+  return assigned?.value ?? '';
+};
+
+/**
+ * The parts of one meeting of one week, as the source material describes them.
+ * A microphone section covers some of these, so the brothers know which part
+ * they serve and autofill has a real basis to work from.
+ */
+export const schedulesDutiesMeetingParts = (
+  week: string,
+  meeting: 'midweek' | 'weekend'
+): DutiesMeetingPartType[] => {
+  const source = sourcesFind(week);
+
+  if (!source) return [];
+
+  const lang = store.get(JWLangState);
+  const dataView = store.get(userDataViewState);
+
+  const parts: DutiesMeetingPartType[] = [];
+
+  const add = (key: string, fallback: string, title?: string) => {
+    parts.push({ key, label: title?.trim() || fallback });
+  };
+
+  if (meeting === 'midweek') {
+    const midweek = source.midweek_meeting;
+
+    add(
+      'tgw_talk',
+      getTranslation({ key: 'tr_treasuresPart' }),
+      midweek.tgw_talk?.src?.[lang]
+    );
+
+    add('tgw_gems', getTranslation({ key: 'tr_tgwGems' }));
+
+    add('tgw_bible_reading', getTranslation({ key: 'tr_bibleReading' }));
+
+    const ayfCount = midweek.ayf_count?.[lang] ?? 0;
+
+    for (let index = 1; index <= ayfCount; index++) {
+      const part = midweek[
+        `ayf_part${index}` as SourceAssignmentType
+      ] as ApplyMinistryType;
+
+      add(
+        `ayf_part${index}`,
+        getTranslation({ key: 'tr_lcPartNum', params: { partNumber: index } }),
+        part?.title?.[lang]
+      );
+    }
+
+    const lcCount = sourcesCountLC(source, dataView, lang);
+
+    for (let index = 1; index <= lcCount; index++) {
+      const part = midweek[
+        `lc_part${index}` as SourceAssignmentType
+      ] as LivingAsChristiansType;
+
+      add(
+        `lc_part${index}`,
+        getTranslation({ key: 'tr_lcPartNum', params: { partNumber: index } }),
+        part ? sourcesLCGetTitle(part, dataView, lang) : undefined
+      );
+    }
+
+    add(
+      'lc_cbs',
+      getTranslation({ key: 'tr_cbs' }),
+      midweek.lc_cbs?.title?.default?.[lang]
+    );
+
+    return parts;
+  }
+
+  add('public_talk', getTranslation({ key: 'tr_publicTalk' }));
+
+  // the study keeps its own name: the article title changes every week and
+  // says nothing about where a brother stands
+  add('w_study', getTranslation({ key: 'tr_watchtowerStudy' }));
+
+  return parts;
+};
+
+/**
+ * The section name followed by the parts it covers, for the schedule and for
+ * the assignment the brother sees.
+ */
+export const schedulesDutiesSectionTitle = (
+  section: DutiesSectionType,
+  week: string,
+  meeting: 'midweek' | 'weekend'
+) => {
+  if (section.parts.length === 0) return section.name;
+
+  const parts = schedulesDutiesMeetingParts(week, meeting);
+
+  const labels = section.parts
+    .map((key) => parts.find((part) => part.key === key)?.label)
+    .filter(Boolean);
+
+  const partsLabel = labels.join(', ');
+
+  // a section named after its only part says it once
+  if (labels.length === 0 || partsLabel === section.name) {
+    return section.name;
+  }
+
+  return `${section.name}: ${partsLabel}`;
+};
+
+/**
+ * Sections of one meeting of one week, oldest first, deleted ones removed.
+ */
+export const schedulesDutiesSections = (
+  week: string,
+  meeting: 'midweek' | 'weekend'
+): DutiesSectionType[] => {
+  const schedules = store.get(schedulesState);
+
+  const schedule = schedules.find((record) => record.weekOf === week);
+
+  return (
+    schedule?.duties?.[meeting].sections?.filter(
+      (record) => !record._deleted
+    ) ?? []
+  );
+};
+
+/**
+ * Whether a meeting of the week has duties to fill: it needs its source
+ * material, a week type that holds the meeting, and, for a language group
+ * view, a group that holds that meeting at all. The editor, its counters and
+ * autofill all go through this, so they never disagree.
+ */
+export const schedulesDutiesMeetingHeld = (
+  schedule: SchedWeekType,
+  meeting: 'midweek' | 'weekend'
+) => {
+  const dataView = store.get(userDataViewState);
+  const lang = store.get(JWLangState);
+
+  const source = store
+    .get(sourcesState)
+    .find((record) => record.weekOf === schedule.weekOf);
+
+  const hasSource =
+    meeting === 'midweek'
+      ? source?.midweek_meeting.week_date_locale[lang]
+      : source?.weekend_meeting.w_study[lang];
+
+  if (!hasSource) return false;
+
+  const group = store
+    .get(fieldServiceGroupsState)
+    .find(
+      (record) =>
+        record.group_id === dataView &&
+        record.group_data.language_group &&
+        !record.group_data._deleted
+    );
+
+  const groupHoldsMeeting =
+    (meeting === 'midweek'
+      ? group?.group_data.midweek_meeting
+      : group?.group_data.weekend_meeting) ?? true;
+
+  if (!groupHoldsMeeting) return false;
+
+  const weekType =
+    schedule[`${meeting}_meeting`].week_type.find(
+      (record) => record.type === dataView
+    )?.value ?? Week.NORMAL;
+
+  return !WEEK_TYPE_NO_MEETING.includes(weekType);
+};
+
+export const schedulesDutiesMeetingInfo = (
+  week: string,
+  meeting: 'midweek' | 'weekend'
+) => {
+  const schedules = store.get(schedulesState);
+  const dataView = store.get(userDataViewState);
+
+  const schedule = schedules.find((record) => record.weekOf === week);
+  const config = schedulesDutiesConfig();
+
+  if (!schedule?.duties || !config) return { total: 0, assigned: 0 };
+
+  if (!schedulesDutiesMeetingHeld(schedule, meeting)) {
+    return { total: 0, assigned: 0 };
+  }
+
+  const fields = schedulesDutiesFieldList(
+    meeting,
+    config,
+    schedulesDutiesSections(week, meeting)
+  );
+
+  const assigned = fields.filter(
+    (field) =>
+      schedulesDutiesGetFieldValue(schedule, field, dataView).length > 0
+  ).length;
+
+  return { total: fields.length, assigned };
 };
 
 export const schedulesMidweekInfo = (week: string) => {
@@ -886,6 +1301,7 @@ export const schedulesGetHistoryDetails = ({
   history.assignment.dataView = assigned.type;
   history.assignment.person = assigned.value;
   history.assignment.key = assignment;
+  history.assignment.schedule_id = schedule_id;
 
   if (assignment.endsWith('_A')) {
     history.assignment.classroom = '1';
@@ -1127,6 +1543,87 @@ export const schedulesGetHistoryDetails = ({
     }
   }
 
+  if (assignment.includes('_DUTIES_')) {
+    const staticDuties: [string, AssignmentCode, string][] = [
+      [
+        '_DUTIES_AudioVideo_',
+        AssignmentCode.DUTIES_AudioVideo,
+        'tr_audioVideo',
+      ],
+      ['_DUTIES_Audio_', AssignmentCode.DUTIES_Audio, 'tr_dutiesAudio'],
+      ['_DUTIES_Video_', AssignmentCode.DUTIES_Video, 'tr_dutiesVideo'],
+      [
+        '_DUTIES_Microphone_',
+        AssignmentCode.DUTIES_Microphone,
+        'tr_dutiesMicrophone',
+      ],
+      ['_DUTIES_Stage_', AssignmentCode.DUTIES_Stage, 'tr_dutiesStage'],
+      [
+        '_DUTIES_EntranceAttendant_',
+        AssignmentCode.DUTIES_EntranceAttendant,
+        'tr_dutiesEntranceAttendant',
+      ],
+      [
+        '_DUTIES_AuditoriumAttendant_',
+        AssignmentCode.DUTIES_AuditoriumAttendant,
+        'tr_dutiesAuditoriumAttendant',
+      ],
+      [
+        '_DUTIES_Hospitality_',
+        AssignmentCode.DUTIES_Hospitality,
+        'tr_dutiesHospitality',
+      ],
+      [
+        '_DUTIES_VideoconferenceHost_',
+        AssignmentCode.DUTIES_VideoconferenceHost,
+        'tr_dutiesVideoconferenceHost',
+      ],
+    ];
+
+    const staticDuty = staticDuties.find(([match]) =>
+      assignment.includes(match)
+    );
+
+    if (staticDuty) {
+      history.assignment.code = staticDuty[1];
+      history.assignment.title = getTranslation({ key: staticDuty[2] });
+    }
+
+    if (assignment.includes('_DUTIES_Dynamic') && schedule_id) {
+      // dynamic ids are `${sectionOrCustomId}_${position}`
+      const sourceId = schedule_id.substring(0, schedule_id.lastIndexOf('_'));
+
+      const settings = store.get(settingsState);
+      const config = settings.cong_settings.meeting_duties?.find(
+        (record) => record.type === assigned.type
+      );
+
+      const meeting = assignment.startsWith('WM') ? 'weekend' : 'midweek';
+
+      const section = schedule.duties?.[meeting].sections?.find(
+        (record) => record.id === sourceId
+      );
+
+      if (section) {
+        history.assignment.code = AssignmentCode.DUTIES_Microphone;
+
+        // the parts tell the brother where he is expected to help
+        history.assignment.title = schedulesDutiesSectionTitle(
+          section,
+          schedule.weekOf,
+          meeting
+        );
+      }
+
+      const custom = config?.custom?.find((record) => record.id === sourceId);
+
+      if (custom) {
+        history.assignment.code = AssignmentCode.DUTIES_Custom;
+        history.assignment.title = custom.name;
+      }
+    }
+  }
+
   return history;
 };
 
@@ -1138,6 +1635,57 @@ export const schedulesBuildHistoryList = () => {
   const languages = store.get(sourceLanguagesState);
   const shortDateFormat = store.get(shortDateFormatState);
   const talks = store.get(publicTalksState);
+  const settings = store.get(settingsState);
+
+  // duty values hidden by the current config must not feed history/conflicts
+  const dutiesFieldsCache = new Map<string, Set<string>>();
+
+  // sections belong to a week, so the active fields are cached per week too
+  const isActiveDutyField = (
+    key: AssignmentFieldType,
+    assigned: AssignmentCongregation,
+    week: string
+  ) => {
+    if (!key.includes('_DUTIES_')) return true;
+
+    const cacheKey = `${assigned.type}_${week}`;
+
+    let fieldSet = dutiesFieldsCache.get(cacheKey);
+
+    if (!fieldSet) {
+      fieldSet = new Set();
+
+      const config = settings.cong_settings.meeting_duties?.find(
+        (record) => record.type === assigned.type && !record._deleted.value
+      );
+
+      if (config) {
+        for (const meeting of ['midweek', 'weekend'] as const) {
+          const fields = schedulesDutiesFieldList(
+            meeting,
+            config,
+            schedulesDutiesSections(week, meeting)
+          );
+
+          for (const field of fields) {
+            fieldSet.add(
+              field.schedule_id
+                ? `${field.assignment}:${field.schedule_id}`
+                : field.assignment
+            );
+          }
+        }
+      }
+
+      dutiesFieldsCache.set(cacheKey, fieldSet);
+    }
+
+    const lookup = key.includes('_DUTIES_Dynamic')
+      ? `${key}:${assigned.id}`
+      : key;
+
+    return fieldSet.has(lookup);
+  };
 
   for (const schedule of schedules) {
     const source = sources.find((record) => record.weekOf === schedule.weekOf);
@@ -1154,6 +1702,14 @@ export const schedulesBuildHistoryList = () => {
         if (assigned._deleted) continue;
 
         if (assigned.value === '') continue;
+
+        const isActive = isActiveDutyField(
+          key as AssignmentFieldType,
+          assigned,
+          schedule.weekOf
+        );
+
+        if (!isActive) continue;
 
         const lang =
           languages
@@ -1241,7 +1797,21 @@ export const schedulesUpdateHistory = (
       }
     }
 
-    if (schedule_id) {
+    if (schedule_id && item.includes('_DUTIES_Dynamic')) {
+      const dataSchedule = structuredClone(
+        schedulesGetData(schedule, ASSIGNMENT_PATH[item])
+      ) as AssignmentCongregation[];
+
+      if (Array.isArray(dataSchedule)) {
+        const record = dataSchedule.find(
+          (record) => record.id === schedule_id && record.type === dataView
+        );
+
+        if (record) assigned = record;
+      }
+    }
+
+    if (schedule_id && !item.includes('_DUTIES_Dynamic')) {
       const talkSchedule = schedule.weekend_meeting.outgoing_talks.find(
         (record) => record.id === schedule_id
       );
@@ -1295,85 +1865,146 @@ export const schedulesUpdateHistory = (
   setAssignmentsHistory(historyStale);
 };
 
+type AssignmentValue = PersonType | VisitingSpeakerType | string;
+
+const saveStandardAssignment = async (
+  schedule: SchedWeekType,
+  assignment: AssignmentFieldType,
+  value: AssignmentValue,
+  dataView: string
+) => {
+  const toSave = value
+    ? typeof value === 'string'
+      ? value
+      : value.person_uid
+    : '';
+  const solo = typeof value === 'string';
+
+  const path = ASSIGNMENT_PATH[assignment];
+  const fieldUpdate = structuredClone(schedulesGetData(schedule, path));
+
+  if (Array.isArray(fieldUpdate)) {
+    const assigned = fieldUpdate.find((record) => record.type === dataView);
+
+    if (assigned) {
+      assigned.value = toSave;
+      assigned.updatedAt = new Date().toISOString();
+      assigned.solo = solo;
+    } else {
+      fieldUpdate.push({
+        name: '',
+        type: dataView,
+        updatedAt: new Date().toISOString(),
+        value: toSave,
+        solo,
+      });
+    }
+  } else {
+    fieldUpdate.value = toSave;
+    fieldUpdate.updatedAt = new Date().toISOString();
+    fieldUpdate.solo = solo;
+  }
+
+  await dbSchedUpdate(schedule.weekOf, {
+    [path]: fieldUpdate,
+  } as unknown as UpdateSpec<SchedWeekType>);
+};
+
+const saveDynamicDuty = async (
+  schedule: SchedWeekType,
+  assignment: AssignmentFieldType,
+  value: AssignmentValue,
+  schedule_id: string,
+  dataView: string
+) => {
+  const path = ASSIGNMENT_PATH[assignment];
+
+  const entries = structuredClone(
+    (schedulesGetData(schedule, path) ?? []) as AssignmentCongregation[]
+  );
+
+  const toSave = typeof value === 'string' ? value : (value?.person_uid ?? '');
+
+  const entry = entries.find(
+    (record) => record.id === schedule_id && record.type === dataView
+  );
+
+  if (entry) {
+    entry.value = toSave;
+    entry.updatedAt = new Date().toISOString();
+  } else {
+    entries.push({
+      id: schedule_id,
+      type: dataView,
+      name: '',
+      value: toSave,
+      updatedAt: new Date().toISOString(),
+    });
+  }
+
+  await dbSchedUpdate(schedule.weekOf, {
+    [path]: entries,
+  } as unknown as UpdateSpec<SchedWeekType>);
+};
+
+const saveOutgoingTalk = async (
+  schedule: SchedWeekType,
+  value: AssignmentValue,
+  schedule_id: string,
+  dataView: string
+) => {
+  const schedules = store.get(schedulesState);
+  const newSchedule = schedules.find(
+    (record) => record.weekOf === schedule.weekOf
+  );
+
+  if (!newSchedule) return;
+
+  const outgoingTalks = structuredClone(
+    newSchedule.weekend_meeting.outgoing_talks
+  );
+
+  const outgoingSchedule = outgoingTalks.find(
+    (record) => record.id === schedule_id
+  );
+
+  if (!outgoingSchedule) return;
+
+  const speaker = value as PersonType;
+
+  outgoingSchedule.updatedAt = new Date().toISOString();
+  outgoingSchedule.value = speaker === null ? '' : speaker.person_uid;
+  outgoingSchedule.type = dataView;
+
+  await dbSchedUpdate(schedule.weekOf, {
+    'weekend_meeting.outgoing_talks': outgoingTalks,
+  });
+};
+
 export const schedulesSaveAssignment = async (
   schedule: SchedWeekType,
   assignment: AssignmentFieldType,
-  value: PersonType | VisitingSpeakerType | string,
+  value: AssignmentValue,
   schedule_id?: string
 ) => {
   const dataView = store.get(userDataViewState);
 
   if (!schedule_id) {
-    const toSave = value
-      ? typeof value === 'string'
-        ? value
-        : value.person_uid
-      : '';
-
-    const path = ASSIGNMENT_PATH[assignment];
-    const fieldUpdate = structuredClone(schedulesGetData(schedule, path));
-
-    if (Array.isArray(fieldUpdate)) {
-      const assigned = fieldUpdate.find((record) => record.type === dataView);
-
-      if (assigned) {
-        assigned.value = toSave;
-        assigned.updatedAt = new Date().toISOString();
-        assigned.solo = typeof value === 'string';
-      } else {
-        fieldUpdate.push({
-          name: '',
-          type: dataView,
-          updatedAt: new Date().toISOString(),
-          value: toSave,
-          solo: typeof value === 'string',
-        });
-      }
-    } else {
-      fieldUpdate.value = toSave;
-      fieldUpdate.updatedAt = new Date().toISOString();
-      fieldUpdate.solo = typeof value === 'string';
-    }
-
-    const dataDb = {
-      [path]: fieldUpdate,
-    } as unknown as UpdateSpec<SchedWeekType>;
-
-    await dbSchedUpdate(schedule.weekOf, dataDb);
-  }
-
-  if (schedule_id) {
-    const schedules = store.get(schedulesState);
-    const newSchedule = schedules.find(
-      (record) => record.weekOf === schedule.weekOf
-    );
-    if (!newSchedule) return;
-
-    const outgoingTalks = structuredClone(
-      newSchedule.weekend_meeting.outgoing_talks
-    );
-
-    const outgoingSchedule = outgoingTalks.find(
-      (record) => record.id === schedule_id
-    );
-    if (!outgoingSchedule) return;
-
-    const speaker = value as PersonType;
-
-    outgoingSchedule.updatedAt = new Date().toISOString();
-    outgoingSchedule.value = speaker === null ? '' : speaker.person_uid;
-    outgoingSchedule.type = dataView;
-
-    await dbSchedUpdate(schedule.weekOf, {
-      'weekend_meeting.outgoing_talks': outgoingTalks,
-    });
+    await saveStandardAssignment(schedule, assignment, value, dataView);
+  } else if (assignment.includes('_DUTIES_Dynamic')) {
+    await saveDynamicDuty(schedule, assignment, value, schedule_id, dataView);
+  } else {
+    await saveOutgoingTalk(schedule, value, schedule_id, dataView);
   }
 
   // update history
   schedulesUpdateHistory(schedule.weekOf, assignment, schedule_id);
 };
 
+// duties run their own week-conflict check with duty/part severities,
+// so they neither raise nor receive the same-meeting conflict
 const isConflictExemptAssignment = (assignment: AssignmentFieldType) =>
+  assignment.includes('_DUTIES_') ||
   assignment.endsWith('OpeningPrayer') ||
   assignment.endsWith('ClosingPrayer') ||
   assignment.endsWith('CircuitOverseer') ||
@@ -1483,6 +2114,49 @@ export const schedulesRemoveAssignment = (
   }
 
   return fieldUpdate;
+};
+
+export const scheduleDeleteDutiesAssignments = async (
+  schedule: SchedWeekType
+) => {
+  if (!schedule.duties) return;
+
+  const dataView = store.get(userDataViewState);
+
+  const staticFields = Object.keys(ASSIGNMENT_PATH).filter(
+    (key) => key.includes('_DUTIES_') && !key.includes('_DUTIES_Dynamic')
+  ) as AssignmentFieldType[];
+
+  const dataDb = staticFields.reduce<Record<string, unknown>>(
+    (acc, assignment) => {
+      acc[ASSIGNMENT_PATH[assignment]] = schedulesRemoveAssignment(
+        schedule,
+        assignment
+      );
+
+      return acc;
+    },
+    {}
+  );
+
+  // dynamic entries hold one record per data view AND position
+  for (const meeting of ['midweek', 'weekend'] as const) {
+    const entries = structuredClone(schedule.duties[meeting].dynamic ?? []);
+
+    for (const record of entries) {
+      if (record.type === dataView && record.value.length > 0) {
+        record.value = '';
+        record.updatedAt = new Date().toISOString();
+      }
+    }
+
+    dataDb[`duties.${meeting}.dynamic`] = entries;
+  }
+
+  await dbSchedUpdate(
+    schedule.weekOf,
+    dataDb as unknown as UpdateSpec<SchedWeekType>
+  );
 };
 
 export const scheduleDeleteMidweekWeekAssignments = async (
@@ -1678,11 +2352,13 @@ export const schedulesAutofillUpdateHistory = ({
   assignment,
   assigned,
   history,
+  schedule_id,
 }: {
   schedule: SchedWeekType;
   assignment: AssignmentFieldType;
   assigned: AssignmentCongregation;
   history: AssignmentHistoryType[];
+  schedule_id?: string;
 }) => {
   const dataView = store.get(userDataViewState);
   // remove record from history
@@ -1690,7 +2366,8 @@ export const schedulesAutofillUpdateHistory = ({
     (record) =>
       record.weekOf === schedule.weekOf &&
       record.assignment.key === assignment &&
-      record.assignment.dataView === dataView
+      record.assignment.dataView === assigned.type &&
+      (!schedule_id || record.assignment.schedule_id === schedule_id)
   );
 
   if (previousIndex !== -1 && assigned.value === '') {
@@ -1713,6 +2390,7 @@ export const schedulesAutofillUpdateHistory = ({
       dataView,
       shortDateFormat,
       talks,
+      schedule_id: schedule_id ?? assigned.id,
     });
 
     if (previousIndex === -1) {
@@ -1728,11 +2406,13 @@ export const schedulesAutofillSaveAssignment = ({
   schedule,
   value,
   history,
+  schedule_id,
 }: {
   schedule: SchedWeekType;
   assignment: AssignmentFieldType;
   value: PersonType;
   history: AssignmentHistoryType[];
+  schedule_id?: string;
 }) => {
   const dataView = store.get(userDataViewState);
 
@@ -1743,7 +2423,11 @@ export const schedulesAutofillSaveAssignment = ({
   let assigned: AssignmentCongregation;
 
   if (Array.isArray(fieldUpdate)) {
-    assigned = fieldUpdate.find((record) => record.type === dataView);
+    assigned = schedule_id
+      ? fieldUpdate.find(
+          (record) => record.id === schedule_id && record.type === dataView
+        )
+      : fieldUpdate.find((record) => record.type === dataView);
 
     if (assigned) {
       assigned.value = toSave;
@@ -1754,6 +2438,7 @@ export const schedulesAutofillSaveAssignment = ({
         updatedAt: new Date().toISOString(),
         value: toSave,
         name: '',
+        ...(schedule_id && { id: schedule_id }),
       };
 
       fieldUpdate.push(assigned);
@@ -1770,6 +2455,7 @@ export const schedulesAutofillSaveAssignment = ({
     assignment,
     assigned,
     history,
+    schedule_id,
   });
 };
 
@@ -2957,7 +3643,7 @@ export const schedulesGetMeetingDate = ({
   dataView,
 }: {
   week: string;
-  meeting: 'midweek' | 'weekend';
+  meeting: ScheduleMeetingType;
   forPrint?: boolean;
   key?: string;
   short?: boolean;
@@ -2980,18 +3666,23 @@ export const schedulesGetMeetingDate = ({
   const schedule = schedules.find((record) => record.weekOf === week);
   const source = sources.find((record) => record.weekOf === week);
 
-  if (!schedule) return { locale, date };
+  if (!schedule || !source) return { locale, date };
 
   if (meeting === 'midweek' && forPrint && !useExact) {
-    locale = source?.midweek_meeting.week_date_locale[lang] ?? '';
+    locale = source.midweek_meeting.week_date_locale[lang] ?? '';
   }
 
-  const meetingDate = schedulesResolveMeetingDate({
-    settings,
-    schedule,
-    meeting,
-    dataView,
-  });
+  // the duties are not a meeting of their own: they are held on the day after
+  // the week starts, since they follow whichever meetings that week has
+  const meetingDate =
+    meeting === 'duties'
+      ? addDays(week, 1)
+      : schedulesResolveMeetingDate({
+          settings,
+          schedule,
+          meeting,
+          dataView,
+        });
 
   const vardate = meetingDate.getDate();
   const month = meetingDate.getMonth();
