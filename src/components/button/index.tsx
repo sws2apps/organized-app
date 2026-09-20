@@ -48,6 +48,7 @@ const Button: FC<ButtonPropsType> = (props) => {
   const hasPressScale =
     isGradient ||
     variant === 'secondary' ||
+    variant === 'small' ||
     variant === 'tertiary' ||
     variant === 'semi-white';
 
