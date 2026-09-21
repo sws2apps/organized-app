@@ -16,22 +16,23 @@ const CopyField = (props: CopyFieldProps) => {
   const { t } = useAppTranslation();
 
   const handleCopy = useCallback(async () => {
+    const valueTOCopy = `${props.label}: ${props.value}`;
     try {
-      await copyToClipboard(props.value);
+      await copyToClipboard(valueTOCopy);
 
       displaySnackNotification({
         header: t('tr_textCopied'),
-        message: props.value,
+        message: valueTOCopy,
         severity: 'success',
       });
     } catch {
       displaySnackNotification({
         header: t('tr_copyFailed'),
-        message: props.value,
+        message: valueTOCopy,
         severity: 'error',
       });
     }
-  }, [props.value, t]);
+  }, [props.label, props.value, t]);
 
   return (
     <Box
