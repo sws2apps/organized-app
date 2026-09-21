@@ -10,9 +10,8 @@ import {
 import { useState } from 'react';
 import { Badge, Button, InfoNote, Typography } from '@components/index';
 import TableHead from '@components/table/TableHead';
-import IconButton from '@components/icon_button';
-import Tooltip from '@components/tooltip';
 import { IconAdd, IconDelete, IconEdit } from '@icons/index';
+import RowAction from '../components/row_action';
 import AssignmentEditor from './assignment_editor';
 import useTableSort from '../useTableSort';
 import { assignmentFromDates } from '../helpers';
@@ -174,46 +173,34 @@ const TerritoryAssignments = ({
                         spacing="2px"
                         sx={{ justifyContent: 'flex-end' }}
                       >
-                        <Tooltip title="Edit">
-                          <IconButton
-                            onClick={() => setEditing(assignment)}
-                            sx={{
-                              padding: '6px',
-                              margin: 0,
-                              borderRadius: 'var(--radius-max)',
-                            }}
-                          >
-                            <IconEdit
-                              color="var(--accent-main)"
-                              width={18}
-                              height={18}
-                            />
-                          </IconButton>
-                        </Tooltip>
+                        <RowAction
+                          title="Edit"
+                          onClick={() => setEditing(assignment)}
+                        >
+                          <IconEdit
+                            color="var(--accent-main)"
+                            width={18}
+                            height={18}
+                          />
+                        </RowAction>
 
-                        <Tooltip title="Delete">
-                          <IconButton
-                            color="error"
-                            onClick={() =>
-                              onChange(
-                                territory.assignments.filter(
-                                  (item) => item.id !== assignment.id
-                                )
+                        <RowAction
+                          title="Delete"
+                          color="error"
+                          onClick={() =>
+                            onChange(
+                              territory.assignments.filter(
+                                (item) => item.id !== assignment.id
                               )
-                            }
-                            sx={{
-                              padding: '6px',
-                              margin: 0,
-                              borderRadius: 'var(--radius-max)',
-                            }}
-                          >
-                            <IconDelete
-                              color="var(--red-main)"
-                              width={18}
-                              height={18}
-                            />
-                          </IconButton>
-                        </Tooltip>
+                            )
+                          }
+                        >
+                          <IconDelete
+                            color="var(--red-main)"
+                            width={18}
+                            height={18}
+                          />
+                        </RowAction>
                       </Stack>
                     </TableCell>
                   )}

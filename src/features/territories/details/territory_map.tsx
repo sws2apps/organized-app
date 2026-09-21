@@ -124,6 +124,8 @@ const BoundaryPreview = ({ territory }: { territory: Territory }) => {
           'text-halo-width': 1.5,
         },
       });
+
+      instance.triggerRepaint();
     });
 
     map.current = instance;

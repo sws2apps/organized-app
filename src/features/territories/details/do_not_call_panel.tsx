@@ -1,4 +1,4 @@
-import { ReactNode, useState } from 'react';
+import { useState } from 'react';
 import {
   Box,
   Stack,
@@ -10,9 +10,8 @@ import {
 } from '@mui/material';
 import { Button, InfoNote, TextField, Typography } from '@components/index';
 import TableHead from '@components/table/TableHead';
-import IconButton from '@components/icon_button';
-import Tooltip from '@components/tooltip';
 import { IconAdd, IconDelete, IconEdit } from '@icons/index';
+import RowAction from '../components/row_action';
 import { useBreakpoints } from '@hooks/index';
 import { DoNotCall, Territory } from '@definition/territory';
 
@@ -22,28 +21,6 @@ const today = () =>
     month: '2-digit',
     year: 'numeric',
   });
-
-const RowAction = ({
-  title,
-  color,
-  onClick,
-  children,
-}: {
-  title: string;
-  color?: 'error';
-  onClick: VoidFunction;
-  children: ReactNode;
-}) => (
-  <Tooltip title={title}>
-    <IconButton
-      color={color}
-      onClick={onClick}
-      sx={{ padding: '6px', margin: 0, borderRadius: 'var(--radius-max)' }}
-    >
-      {children}
-    </IconButton>
-  </Tooltip>
-);
 
 const DoNotCallPanel = ({
   territory,
