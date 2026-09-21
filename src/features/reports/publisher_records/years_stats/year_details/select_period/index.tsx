@@ -24,7 +24,12 @@ const SelectPeriod = (props: SelectPeriodProps) => {
           padding: '16px 16px 8px 16px',
         }}
       >
-        <Typography className="body-small-semibold" color="var(--accent-dark)">
+        <Typography
+          className="body-small-semibold"
+          sx={{
+            color: 'var(--accent-dark)',
+          }}
+        >
           {t('tr_months')}
         </Typography>
       </Box>

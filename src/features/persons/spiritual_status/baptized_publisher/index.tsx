@@ -67,7 +67,12 @@ const BaptizedPublisher = ({
           }}
         >
           <Box sx={{ display: 'flex', gap: '8px', flexDirection: 'column' }}>
-            <Typography className="body-small-semibold" color="var(--grey-350)">
+            <Typography
+              className="body-small-semibold"
+              sx={{
+                color: 'var(--grey-350)',
+              }}
+            >
               {t('tr_hope')}
             </Typography>
             <RadioGroup

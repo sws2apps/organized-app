@@ -21,7 +21,13 @@ const AppLoading = ({ text, sx, type = 'circular' }: AppLoadingType) => {
         <IconLoading color="var(--accent-main)" width={72} height={72} />
       )}
 
-      <Typography align="center" className="h4" color="var(--accent-main)">
+      <Typography
+        align="center"
+        className="h4"
+        sx={{
+          color: 'var(--accent-main)',
+        }}
+      >
         {loadingText}
       </Typography>
     </Container>

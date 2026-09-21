@@ -14,6 +14,11 @@ import { MeetingType } from '@definition/app';
 import { dbMeetingAttendanceSave } from '@services/dexie/meeting_attendance';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode, getTranslation } from '@services/i18n/translation';
+import {
+  attendanceHasDeafCount,
+  attendanceRecordTotal,
+  attendanceSplitDeaf,
+} from '@utils/meeting_attendance';
 
 // Cloned record + data-view row (created if missing); clone keeps writes off the atom.
 const getWritableAttendance = ({
@@ -81,11 +86,15 @@ const handleUpdateRecord = ({
     dataView,
   });
 
+  attendanceSplitDeaf(current);
+
   const entries = Object.entries(values) as [AttendanceRecordField, string][];
 
   for (const [field, count] of entries) {
     current[field] = count.length === 0 ? undefined : +count;
   }
+
+  if (attendanceHasDeafCount(current)) current.deaf_separate = true;
 
   current.updatedAt = new Date().toISOString();
 
@@ -128,27 +137,6 @@ const handlePresentSaveDb = async ({
 
 export const meetingAttendancePresentSave = debounce(handlePresentSaveDb, 10);
 
-// Both counts in one atomic write; the debounced save would drop a value.
-export const meetingAttendanceCountsSave = async ({
-  index,
-  month,
-  type,
-  counts,
-  dataView,
-}: {
-  index: number;
-  month: string;
-  type: MeetingType;
-  counts: { record: 'present' | 'online'; count: string }[];
-  dataView: string;
-}) => {
-  const values = Object.fromEntries(
-    counts.map(({ record, count }) => [record, count])
-  ) as AttendanceValues;
-
-  await handlePresentSaveDb({ index, month, type, values, dataView });
-};
-
 const sumField = (
   records: AttendanceCongregation[],
   field: AttendanceRecordField
@@ -173,14 +161,16 @@ export const meetingAttendanceGetStats = (
       ? weekData[meeting].filter((record) => record.type === category)
       : weekData[meeting];
 
-    const weekTotal =
-      sumField(records, 'present') + sumField(records, 'online');
+    const weekTotal = records.reduce(
+      (acc, record) => acc + attendanceRecordTotal(record),
+      0
+    );
 
     if (weekTotal === 0) continue;
 
     count++;
     total += weekTotal;
-    online += sumField(records, 'online');
+    online += sumField(records, 'online') + sumField(records, 'online_deaf');
     deaf +=
       sumField(records, 'present_deaf') + sumField(records, 'online_deaf');
   }

@@ -1,4 +1,4 @@
-import { Typography as MUITypography } from '@mui/material';
+import { Typography as MUITypography, SxProps } from '@mui/material';
 import { TypographyTypeProps } from './index.types';
 
 /**
@@ -12,8 +12,10 @@ const Typography = (props: TypographyTypeProps) => {
   const color = props.color || 'var(--black)';
   const className = props.className || 'body-regular';
 
+  const sx = (props.sx ? [{ color }, props.sx] : [{ color }]) as SxProps;
+
   return (
-    <MUITypography {...props} className={className} color={color}>
+    <MUITypography {...props} className={className} sx={sx}>
       {props.children}
     </MUITypography>
   );

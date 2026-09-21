@@ -49,7 +49,7 @@ const ImportExport = (props: ImportExportType) => {
   };
 
   return (
-    <Dialog onClose={props.onClose} open={props.open} sx={{ padding: '24px' }}>
+    <Dialog onClose={props.onClose} open={props.open}>
       {state === 'import/export' && (
         <Stack
           spacing="16px"
@@ -64,7 +64,11 @@ const ImportExport = (props: ImportExportType) => {
             {t('tr_importExportPersonsTitle')}
           </Typography>
 
-          <Typography color="var(--grey-400)">
+          <Typography
+            sx={{
+              color: 'var(--grey-400)',
+            }}
+          >
             {value === 0 ? (
               t('tr_exportPersonsDesc')
             ) : (

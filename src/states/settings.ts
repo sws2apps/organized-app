@@ -13,6 +13,7 @@ import {
   FirstDayWeekOption,
   FullnameOption,
   PublishersSortOption,
+  SettingsType,
   SourceFrequency,
 } from '@definition/settings';
 import { LANGUAGE_LIST } from '@constants/index';
@@ -258,30 +259,45 @@ export const sourcesJWAutoImportFrequencyState = atom((get) => {
   );
 });
 
-export const attendanceOnlineRecordState = atom((get) => {
-  const settings = get(settingsState);
-  const dataView = get(userDataViewState);
+type RecordSetting = SettingsType['cong_settings']['attendance_deaf_record'];
 
-  if (!Array.isArray(settings.cong_settings.attendance_online_record)) {
-    return settings.cong_settings.attendance_online_record['value'];
-  }
+// both settings are stored per data view, so a language group records its
+// attendance the way it chose, whichever view shows its rows
+const recordSettingForView = (
+  records: RecordSetting | RecordSetting[number] | undefined,
+  view: string
+) => {
+  if (!records) return false;
+
+  if (!Array.isArray(records)) return records.value;
 
   return (
-    settings.cong_settings.attendance_online_record.find(
-      (record) => record.type === dataView
-    )?.value ?? false
+    records.find((record) => record.type === view && !record._deleted)?.value ??
+    false
   );
+};
+
+export const attendanceRecordSettingsState = atom((get) => {
+  const settings = get(settingsState);
+
+  return (view: string) => ({
+    online: recordSettingForView(
+      settings.cong_settings.attendance_online_record,
+      view
+    ),
+    deaf: recordSettingForView(
+      settings.cong_settings.attendance_deaf_record,
+      view
+    ),
+  });
+});
+
+export const attendanceOnlineRecordState = atom((get) => {
+  return get(attendanceRecordSettingsState)(get(userDataViewState)).online;
 });
 
 export const attendanceDeafRecordState = atom((get) => {
-  const settings = get(settingsState);
-  const dataView = get(userDataViewState);
-
-  return (
-    settings?.cong_settings?.attendance_deaf_record?.find(
-      (record) => record.type === dataView
-    )?.value ?? false
-  );
+  return get(attendanceRecordSettingsState)(get(userDataViewState)).deaf;
 });
 
 export const congAddressState = atom((get) => {
@@ -351,9 +367,11 @@ export const midweekMeetingClassCountState = atom((get) => {
   const settings = get(settingsState);
   const dataView = get(userDataViewState);
 
-  return settings.cong_settings.midweek_meeting.find(
-    (record) => record.type === dataView
-  ).class_count.value;
+  return (
+    settings.cong_settings.midweek_meeting.find(
+      (record) => record.type === dataView
+    )?.class_count.value ?? 1
+  );
 });
 
 export const midweekMeetingWeekdayState = atom((get) => {
@@ -459,9 +477,11 @@ export const weekendMeetingOpeningPrayerAutoAssignState = atom((get) => {
   const settings = get(settingsState);
   const dataView = get(userDataViewState);
 
-  return settings.cong_settings.weekend_meeting.find(
-    (record) => record.type === dataView
-  ).opening_prayer_auto_assigned.value;
+  return (
+    settings.cong_settings.weekend_meeting.find(
+      (record) => record.type === dataView
+    )?.opening_prayer_auto_assigned.value ?? false
+  );
 });
 
 export const weekendMeetingWeekdayState = atom((get) => {
@@ -479,9 +499,11 @@ export const weekendMeetingSubstituteSpeakerState = atom((get) => {
   const settings = get(settingsState);
   const dataView = get(userDataViewState);
 
-  return settings.cong_settings.weekend_meeting.find(
-    (record) => record.type === dataView
-  ).substitute_speaker_enabled.value;
+  return (
+    settings.cong_settings.weekend_meeting.find(
+      (record) => record.type === dataView
+    )?.substitute_speaker_enabled.value ?? false
+  );
 });
 
 export const weekendMeetingWTSubstituteDisplayedState = atom((get) => {

@@ -23,7 +23,12 @@ const YearlyReport = (props: YearlyReportProps) => {
             <Typography className="h2">
               {t('tr_S10ReportWithYear', { year: props.year })}
             </Typography>
-            <Typography className="h4" color="var(--grey-400)">
+            <Typography
+              className="h4"
+              sx={{
+                color: 'var(--grey-400)',
+              }}
+            >
               {congregation}
             </Typography>
           </Stack>
@@ -32,12 +37,14 @@ const YearlyReport = (props: YearlyReportProps) => {
             <Stack
               key={section.section}
               spacing="4px"
-              borderRadius="var(--radius-l)"
+              sx={{
+                borderRadius: 'var(--radius-l)',
+              }}
             >
               <Typography
                 className="h4"
-                color="var(--accent-dark)"
                 sx={{
+                  color: 'var(--accent-dark)',
                   borderRadius: 'var(--radius-s)',
                   padding: '4px 8px',
                   backgroundColor: 'var(--accent-150)',

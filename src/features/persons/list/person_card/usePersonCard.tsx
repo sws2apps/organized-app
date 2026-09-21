@@ -46,7 +46,7 @@ const usePersonCard = (person: PersonType) => {
     const isMidweek = person.person_data.midweek_meeting_student.active.value;
     const disqualified = person.person_data.disqualified.value;
     const isInactivePublisher = personIsInactive(person);
-    const isFamilyHead = person.person_data?.family_members?.head ?? false
+    const isFamilyHead = person.person_data?.family_members?.head ?? false;
 
     const badges: { name: string; color: BadgeColor }[] = [];
 
@@ -60,7 +60,7 @@ const usePersonCard = (person: PersonType) => {
 
     if (!disqualified && !isInactivePublisher) {
       if (isElder) {
-        badges.push({ name: t('tr_elder'), color: 'green' });
+        badges.push({ name: t('tr_elder'), color: 'accent' });
       }
 
       if (isMS) {
@@ -109,7 +109,7 @@ const usePersonCard = (person: PersonType) => {
     }
 
     if (isFamilyHead) {
-      badges.push({ name: t('tr_familyHead'), color: 'accent' })
+      badges.push({ name: t('tr_familyHead'), color: 'accent' });
     }
 
     return badges.sort((a, b) => a.name.localeCompare(b.name));

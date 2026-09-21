@@ -1,4 +1,3 @@
-import { Box } from '@mui/material';
 import { IconEncryptionKey } from '@components/icons';
 import IconLoading from '@components/icon_loading';
 import { useAppTranslation } from '@hooks/index';
@@ -8,7 +7,6 @@ import Button from '@components/button';
 import Dialog from '@components/dialog';
 import DialogActions from '@components/dialog_actions';
 import TextField from '@components/textfield';
-import Typography from '@components/typography';
 
 const AccessCodeChange = ({ open, onClose }: AccessCodeChangeType) => {
   const { t } = useAppTranslation();
@@ -25,15 +23,12 @@ const AccessCodeChange = ({ open, onClose }: AccessCodeChangeType) => {
   } = useAccessCodeChange(onClose);
 
   return (
-    <Dialog onClose={onClose} open={open} sx={{ padding: '24px' }}>
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-        <Typography className="h3">{t('tr_changeAccessCode')}</Typography>
-
-        <Typography color="var(--grey-400)">
-          {t('tr_changeAccessCodeDesc')}
-        </Typography>
-      </Box>
-
+    <Dialog
+      onClose={onClose}
+      open={open}
+      title={t('tr_changeAccessCode')}
+      description={t('tr_changeAccessCodeDesc')}
+    >
       <TextField
         type="password"
         label={currentAccessCode.length > 0 ? t('tr_accessCodeCurrent') : ''}

@@ -80,13 +80,18 @@ const IncomingCongregationHeader = ({
             </Tooltip>
           )}
 
-          <Typography className="h4" color="var(--grey-400)">
+          <Typography
+            className="h4"
+            sx={{
+              color: 'var(--grey-400)',
+            }}
+          >
             {cong_name}
           </Typography>
           <Typography
             className="body-small-semibold"
-            color="var(--grey-400)"
             sx={{
+              color: 'var(--grey-400)',
               borderRadius: 'var(--radius-s)',
               padding: '2px 8px',
               backgroundColor: 'var(--grey-150)',

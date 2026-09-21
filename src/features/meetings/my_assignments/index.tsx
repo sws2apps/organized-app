@@ -85,7 +85,12 @@ const MyAssignments = () => {
           <NoAssigmentsImg viewBox="0 0 128 128" />
           <Stack spacing="8px">
             <Typography className="h2">{t('tr_noAssignmentsYet')}</Typography>
-            <Typography color="var(--grey-400)" sx={{ maxWidth: '350px' }}>
+            <Typography
+              sx={{
+                color: 'var(--grey-400)',
+                maxWidth: '350px',
+              }}
+            >
               {t('tr_noAssignmentsYetDesc')}
             </Typography>
           </Stack>

@@ -1,4 +1,3 @@
-import { Box } from '@mui/material';
 import IconLoading from '@components/icon_loading';
 import { useAppTranslation } from '@hooks/index';
 import { ScheduleDeleteType } from './index.types';
@@ -6,7 +5,6 @@ import useAssignmentsDelete from './useScheduleDelete';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
 import DialogActions from '@components/dialog_actions';
-import Typography from '@components/typography';
 
 const ScheduleDelete = (props: ScheduleDeleteType) => {
   const { t } = useAppTranslation();
@@ -14,14 +12,12 @@ const ScheduleDelete = (props: ScheduleDeleteType) => {
   const { isProcessing, handleDeleteSchedule } = useAssignmentsDelete(props);
 
   return (
-    <Dialog onClose={props.onClose} open={props.open} sx={{ padding: '24px' }}>
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-        <Typography className="h2">{t('tr_outgoingTalkDelete')}</Typography>
-        <Typography color="var(--grey-400)">
-          {t('tr_outgoingTalkDeleteDesc')}
-        </Typography>
-      </Box>
-
+    <Dialog
+      onClose={props.onClose}
+      open={props.open}
+      title={t('tr_outgoingTalkDelete')}
+      description={t('tr_outgoingTalkDeleteDesc')}
+    >
       <DialogActions>
         <Button variant="secondary" onClick={props.onClose}>
           {t('tr_cancel')}

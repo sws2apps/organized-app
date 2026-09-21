@@ -43,7 +43,12 @@ const CommitteeMember = (props: CommitteeMemberProps) => {
       >
         <Stack spacing="4px">
           <Typography className="h4">{props.name}</Typography>
-          <Typography className="body-small-regular" color="var(--grey-350)">
+          <Typography
+            className="body-small-regular"
+            sx={{
+              color: 'var(--grey-350)',
+            }}
+          >
             {label}
           </Typography>
         </Stack>

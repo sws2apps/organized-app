@@ -54,7 +54,12 @@ const TabLabel = ({ label, badge, selected }: TabLabelProps) => {
             backgroundColor: 'var(--accent-150)',
           }}
         >
-          <Typography className="body-small-semibold" color="inherit">
+          <Typography
+            className="body-small-semibold"
+            sx={{
+              color: 'inherit',
+            }}
+          >
             {badge}
           </Typography>
         </Box>

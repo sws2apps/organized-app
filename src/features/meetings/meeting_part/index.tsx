@@ -49,7 +49,12 @@ const MeetingPart = (props: MeetingPartType) => {
             {source}
           </Typography>
           {secondary && (
-            <Typography className="body-small-regular" color="var(--grey-400)">
+            <Typography
+              className="body-small-regular"
+              sx={{
+                color: 'var(--grey-400)',
+              }}
+            >
               {secondary}
             </Typography>
           )}

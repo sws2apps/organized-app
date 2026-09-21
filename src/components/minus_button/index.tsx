@@ -1,6 +1,15 @@
 import { IconButton } from '@mui/material';
+import usePressFeedback from '@hooks/usePressFeedback';
 import { IconRemove } from '@icons/index';
 import { MinusButtonProps } from './index.types';
+
+const activeSx = {
+  backgroundColor: 'var(--accent-150)',
+  border: '1px solid var(--accent-dark)',
+  '& svg, & svg g, & svg g path': {
+    fill: 'var(--accent-dark)',
+  },
+};
 
 /**
  * Custom minus button component.
@@ -8,10 +17,13 @@ import { MinusButtonProps } from './index.types';
  * @returns JSX element for the CustomMinusButton component.
  */
 const MinusButton = ({ onClick, sx }: MinusButtonProps) => {
+  const { pressed, pressHandlers, pressSx } = usePressFeedback();
+
   return (
     <IconButton
       disableRipple
       onClick={onClick}
+      {...pressHandlers}
       sx={{
         border: '1px solid var(--accent-350)',
         borderRadius: 'var(--radius-m)',
@@ -29,16 +41,12 @@ const MinusButton = ({ onClick, sx }: MinusButtonProps) => {
           outline: 'var(--accent-main) auto 1px',
         },
 
-        '&:active': {
-          backgroundColor: 'var(--accent-150)',
-          border: '1px solid var(--accent-dark)',
-          '& svg, & svg g, & svg g path': {
-            fill: 'var(--accent-dark)',
-          },
-        },
+        '&:active': activeSx,
         '& svg, & svg g, & svg g path': {
           fill: 'var(--accent-350)',
         },
+        ...(pressed && activeSx),
+        ...pressSx,
         ...sx,
       }}
     >

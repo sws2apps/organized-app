@@ -40,10 +40,18 @@ const CustomPublicWitnessingPlaceCard = ({
           width: '100%',
         }}
         direction={'row'}
-        justifyContent={'space-between'}
-        alignItems={'center'}
+        sx={{
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
       >
-        <Stack direction={'row'} spacing={1} alignItems={'center'}>
+        <Stack
+          direction={'row'}
+          spacing={1}
+          sx={{
+            alignItems: 'center',
+          }}
+        >
           <IconNormalPin color={'var(--black)'} />
           <Typography className={'h2'}>{label}</Typography>
         </Stack>

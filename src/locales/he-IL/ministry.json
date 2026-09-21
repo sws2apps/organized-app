@@ -107,7 +107,7 @@
   "tr_S10ReportNotGenerated": "הדוח של השנה הזו טרם נוצר. צור אותו כדי לראות את כל הפרטים ואז שלח.",
   "tr_quickAssignAP": "חלוץ עוזר הוקצה",
   "tr_quickAssignAPDesc": "מבשר זה מוקצה כחלוץ עוזר החודש. תוכל לשנות זאת ברשימת ההרשמות של המבשר בדף האנשים.",
-  "tr_reactivatePublisher": "Reactivate publisher",
+  "tr_reactivatePublisher": "הפעל מחדש המבשר",
   "tr_S21CardTitle": "ייצא רשומות מבשר מרובות (S-21)",
   "tr_S21CardTitleDesc": "בחר 'כל המבשרים' כדי לייצא ולמיין את כל הרשומות עבור מבשרים, משרתים בשירות מלא וחלוצים עוזרים, או 'מבשרים ספציפיים' כדי לייצא רשומות רק עבור מבשרים נבחרים.",
   "tr_allPublisherRecords": "כל המבשרים",
@@ -137,5 +137,9 @@
   "tr_bibleStudiesMonthlyLess": "אינך יכול לקבוע את מספר שיעורי המקרא לפחות ממה שיש לך ברשומות היומיות שלך",
   "tr_hoursDecreaseError": "לא ניתן לשנות שעות",
   "tr_hoursDecreaseErrorDesc": "אינך יכול לקבוע את מספר השעות לפחות ממה שיש לך ברשומות היומיות שלך",
-  "tr_SCEL": "בית־הספר לזקני־קהילה"
+  "tr_SCEL": "בית־הספר לזקני־קהילה",
+  "tr_timerNothingToSave": "Nothing to save",
+  "tr_timerNothingToSaveDesc": "The session was shorter than a minute, so no time was added to the report.",
+  "tr_timerNoOpenMonth": "No month to add the time to",
+  "tr_timerNoOpenMonthDesc": "Every month since this session started is already confirmed. The session stays paused."
 }

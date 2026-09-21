@@ -12,10 +12,10 @@ const WeekContainer = ({ talkSchedules }: WeekContainerProps) => {
     <Stack spacing="8px">
       <Typography
         className="h2-caps"
-        color="var(--always-white)"
         align="center"
-        flex={1}
         sx={{
+          color: 'var(--always-white)',
+          flex: 1,
           padding: '4px 16px',
           borderRadius: 'var(--radius-s)',
           backgroundColor: 'var(--weekend-meeting)',

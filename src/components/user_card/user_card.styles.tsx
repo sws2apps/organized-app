@@ -1,5 +1,5 @@
+import { styled } from '@mui/material/styles';
 import { Box, Card, CardContent, IconButton } from '@mui/material';
-import { styled } from '@mui/system';
 
 export const StyledCardBox = styled(Box)({
   width: '100%',
@@ -47,7 +47,9 @@ export const StyledIconWrapper = styled(IconButton, {
   })
 );
 
-export const StyledBoxSpaceBetween = styled(Box)<{
+export const StyledBoxSpaceBetween = styled(Box, {
+  shouldForwardProp: (prop) => !['flexDirection'].includes(String(prop)),
+})<{
   flexDirection: 'row' | 'column';
 }>(({ flexDirection }) => ({
   display: 'flex',

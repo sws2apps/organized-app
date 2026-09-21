@@ -568,5 +568,6 @@
   "tr_congregationAlreadySynced": "Congregation is already connected and synced.",
   "tr_error_app_data_no_valid_data_found": "No valid data found or no speaker selected.",
   "tr_infirmPioneer": "Taata poro vaivai",
-  "tr_infirmPioneerNoGoal": "Ei pionie vaivai, e nehenehe ta oe e tavini ma te au i to oe puai ma ore e titauhia ia naeahia te hoê numera hora matahiti."
+  "tr_infirmPioneerNoGoal": "Ei pionie vaivai, e nehenehe ta oe e tavini ma te au i to oe puai ma ore e titauhia ia naeahia te hoê numera hora matahiti.",
+  "tr_importCsvParseError": "The file could not be read. Please check the column structure and try again."
 }

@@ -29,7 +29,12 @@ const CongregationOfflineAdd = ({
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-      <Typography color="var(--grey-400)" sx={{ marginBottom: '16px' }}>
+      <Typography
+        sx={{
+          color: 'var(--grey-400)',
+          marginBottom: '16px',
+        }}
+      >
         {t('tr_addManualCongregationDesc')}
       </Typography>
 

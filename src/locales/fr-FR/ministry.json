@@ -137,5 +137,9 @@
   "tr_bibleStudiesMonthlyLess": "Vous ne pouvez pas définir les études bibliques à un niveau inférieur au total que vous avez obtenu à partir de vos archives quotidiennes",
   "tr_hoursDecreaseError": "Impossible de modifier les heures",
   "tr_hoursDecreaseErrorDesc": "Vous ne pouvez pas définir les heures inférieures au total dont vous disposez à partir de vos enregistrements quotidiens",
-  "tr_SCEL": "École pour les anciens"
+  "tr_SCEL": "École pour les anciens",
+  "tr_timerNothingToSave": "Nothing to save",
+  "tr_timerNothingToSaveDesc": "The session was shorter than a minute, so no time was added to the report.",
+  "tr_timerNoOpenMonth": "No month to add the time to",
+  "tr_timerNoOpenMonthDesc": "Every month since this session started is already confirmed. The session stays paused."
 }

@@ -64,18 +64,33 @@ const TimeUnit = ({
 
       <div ref={scrollContainerRef} style={CaseContainerStyle}>
         <Box sx={DefaultCaseFilter}>
-          <Typography className="h3" color="var(--grey-200)">
+          <Typography
+            className="h3"
+            sx={{
+              color: 'var(--grey-200)',
+            }}
+          >
             {prevValue}
           </Typography>
         </Box>
         <Box sx={ActiveCaseFilter}>
-          <Typography className="h3" color="var(--accent-main)">
+          <Typography
+            className="h3"
+            sx={{
+              color: 'var(--accent-main)',
+            }}
+          >
             {value}
           </Typography>
         </Box>
 
         <Box sx={DefaultCaseFilter}>
-          <Typography className="h3" color="var(--grey-200)">
+          <Typography
+            className="h3"
+            sx={{
+              color: 'var(--grey-200)',
+            }}
+          >
             {nextValue}
           </Typography>
         </Box>

@@ -42,19 +42,31 @@ const SpeakersList = ({
       {congregation.cong_data.cong_id.length === 0 &&
         !isEditMode &&
         incomingSpeakers.length === 0 && (
-          <Typography color="var(--grey-350)">
+          <Typography
+            sx={{
+              color: 'var(--grey-350)',
+            }}
+          >
             {t('tr_incomingCongregationNoSpeakers')}
           </Typography>
         )}
 
       {congregation.cong_data.request_status === 'pending' && (
-        <Typography color="var(--grey-350)">
+        <Typography
+          sx={{
+            color: 'var(--grey-350)',
+          }}
+        >
           {t('tr_incomingCongregationOnlinePending')}
         </Typography>
       )}
 
       {congregation.cong_data.request_status === 'disapproved' && (
-        <Typography color="var(--grey-350)">
+        <Typography
+          sx={{
+            color: 'var(--grey-350)',
+          }}
+        >
           {t('tr_incomingCongregationOnlineDisapproved')}
         </Typography>
       )}
@@ -62,7 +74,11 @@ const SpeakersList = ({
       {congregation.cong_data.request_status === 'approved' &&
         congregation.cong_data.cong_id.length > 0 &&
         incomingSpeakers.length === 0 && (
-          <Typography color="var(--grey-350)">
+          <Typography
+            sx={{
+              color: 'var(--grey-350)',
+            }}
+          >
             {t('tr_incomingCongregationOnlineNoSpeakers')}
           </Typography>
         )}
@@ -80,14 +96,19 @@ const SpeakersList = ({
             >
               <Typography
                 className="body-small-regular"
-                color="var(--grey-350)"
-                sx={{ minWidth: '220px', width: '220px' }}
+                sx={{
+                  color: 'var(--grey-350)',
+                  minWidth: '220px',
+                  width: '220px',
+                }}
               >
                 {t('tr_name')}
               </Typography>
               <Typography
                 className="body-small-regular"
-                color="var(--grey-350)"
+                sx={{
+                  color: 'var(--grey-350)',
+                }}
               >
                 {t('tr_publicTalks')}
               </Typography>

@@ -41,11 +41,8 @@ const InputTextField = forwardRef(function DatePickerInputField(
           paddingLeft: '0px',
           paddingRight: '0px',
           flex: '1 0 0',
-          color:
-            props.value || props.inputProps['value']
-              ? 'var(--black)'
-              : 'var(--accent-400)',
-          cursor: props.disabled && 'not-allowed',
+          color: !props.areAllSectionsEmpty ? 'var(--black)' : 'var(--accent-400)',
+          cursor: props.disabled ? 'not-allowed' : 'auto',
         },
         '.MuiInputAdornment-root': {
           margin: 0,

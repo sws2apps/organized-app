@@ -80,6 +80,7 @@ import { Week } from '@definition/week_type';
 import { dbSchedUpdate } from '@services/dexie/schedules';
 import {
   addDays,
+  addWeeks,
   formatDate,
   formatDateShortMonthWithYear,
   generateDateFromTime,
@@ -1420,6 +1421,43 @@ export const schedulesPersonHasMeetingConflict = ({
   });
 };
 
+export const schedulesPersonHasConsecutiveAssignment = ({
+  history,
+  week,
+  type,
+  person_uid,
+  dataView,
+}: {
+  history: AssignmentHistoryType[];
+  week: string;
+  type: AssignmentCode | undefined;
+  person_uid: string;
+  dataView: string;
+}) => {
+  if (!person_uid || week.length === 0 || type === undefined) return false;
+
+  // The first symposium speaker selects with WM_SpeakerSymposium but history
+  // stores WM_Speaker. Normalize so repeats of that role still warn.
+  // Chairman and aux counselor already have distinct history codes upstream
+  // (MM_Chairman vs MM_AuxiliaryCounselor), so they stay distinct without
+  // extra handling. Matching stays classroom-blind per contract.
+  let code = type;
+
+  if (type === AssignmentCode.WM_SpeakerSymposium) {
+    code = AssignmentCode.WM_Speaker;
+  }
+
+  const previousWeek = formatDate(addWeeks(week, -1), 'yyyy/MM/dd');
+
+  return history.some((record) => {
+    return (
+      record.weekOf === previousWeek &&
+      record.assignment.person === person_uid &&
+      record.assignment.dataView === dataView &&
+      record.assignment.code === code
+    );
+  });
+};
 
 export const schedulesRemoveAssignment = (
   schedule: SchedWeekType,

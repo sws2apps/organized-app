@@ -1,4 +1,5 @@
-import { Box, List, styled } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { Box, List } from '@mui/material';
 
 export const StyledRemindersCard = styled(Box)({
   padding: '16px',
@@ -9,7 +10,7 @@ export const StyledRemindersCard = styled(Box)({
   position: 'fixed',
   bottom: '15px',
   right: '15px',
-}) as unknown as typeof Box;
+});
 
 export const StyledRemindersTitle = styled(Box)({
   display: 'flex',
@@ -17,7 +18,7 @@ export const StyledRemindersTitle = styled(Box)({
   justifyContent: 'space-between',
   gap: '8px',
   marginBottom: '18px',
-}) as unknown as typeof Box;
+});
 
 export const StyledRemindersList = styled(List)({
   padding: '0px',
@@ -31,8 +32,8 @@ export const StyledRemindersList = styled(List)({
     marginBottom: '8px',
     marginTop: '8px',
   },
-}) as unknown as typeof List;
+});
 
 export const StyledRemindersFooter = styled(Box)({
   marginTop: '16px',
-}) as unknown as typeof Box;
+});

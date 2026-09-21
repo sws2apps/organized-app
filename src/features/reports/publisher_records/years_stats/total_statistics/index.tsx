@@ -27,7 +27,13 @@ const AccordionLabel = ({ label, value }: { label: string; value: number }) => {
           gap: '8px',
         }}
       >
-        <Typography color="var(--grey-400)">{label}</Typography>
+        <Typography
+          sx={{
+            color: 'var(--grey-400)',
+          }}
+        >
+          {label}
+        </Typography>
         <IconExpand
           width={20}
           height={20}
@@ -40,7 +46,12 @@ const AccordionLabel = ({ label, value }: { label: string; value: number }) => {
           }}
         />
       </Box>
-      <Typography className="h4" color="var(--grey-400)">
+      <Typography
+        className="h4"
+        sx={{
+          color: 'var(--grey-400)',
+        }}
+      >
         {value}
       </Typography>
     </Box>
@@ -57,7 +68,12 @@ const TotalStatistics = (props: TotalStatisticsProps) => {
     <Stack spacing="8px">
       <SectionTitle>{t('tr_totalStats')}</SectionTitle>
 
-      <Stack padding="4px 8px" divider={<Divider color="var(--accent-200)" />}>
+      <Stack
+        divider={<Divider color="var(--accent-200)" />}
+        sx={{
+          padding: '4px 8px',
+        }}
+      >
         {statistics.map((stats) => (
           <Accordion
             key={stats.id}

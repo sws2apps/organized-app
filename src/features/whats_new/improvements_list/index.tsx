@@ -10,7 +10,12 @@ const ImprovementsList = ({ list, showHeader }: ImprovementsListProps) => {
   return (
     <Stack spacing="4px">
       {showHeader && (
-        <Typography className="body-small-semibold" color="var(--black)">
+        <Typography
+          className="body-small-semibold"
+          sx={{
+            color: 'var(--black)',
+          }}
+        >
           {t('tr_improvements')}
         </Typography>
       )}

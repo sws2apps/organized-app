@@ -62,6 +62,28 @@ const TextField = (props: TextFieldTypeProps) => {
     labelColor = 'var(--green-main)';
   }
 
+  const htmlInputValue =
+    typeof props.slotProps?.htmlInput === 'object' &&
+    props.slotProps.htmlInput !== null
+      ? (props.slotProps.htmlInput as Record<string, unknown>).value
+      : undefined;
+
+  const inputValue =
+    typeof props.slotProps?.input === 'object' && props.slotProps.input !== null
+      ? (props.slotProps.input as Record<string, unknown>).value
+      : undefined;
+
+  const legacyInputPropsValue =
+    'inputProps' in props &&
+    typeof (props as Record<string, unknown>).inputProps === 'object' &&
+    (props as Record<string, unknown>).inputProps !== null
+      ? ((props as Record<string, unknown>).inputProps as Record<string, unknown>)
+          .value
+      : undefined;
+
+  const hasValue =
+    props.value || legacyInputPropsValue || htmlInputValue || inputValue;
+
   return (
     <MUITextField
       {...defaultProps}
@@ -89,10 +111,7 @@ const TextField = (props: TextFieldTypeProps) => {
           paddingLeft: '0px',
           paddingRight: '0px',
           flex: '1 0 0',
-          color:
-            props.value || props.inputProps?.value
-              ? 'var(--black)'
-              : 'var(--accent-400)',
+          color: hasValue ? 'var(--black)' : 'var(--accent-400)',
           cursor: props.disabled && 'not-allowed',
         },
         '.MuiInput-root:before': {

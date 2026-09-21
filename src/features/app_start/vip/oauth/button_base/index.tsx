@@ -42,7 +42,12 @@ const OAuthButtonBase = (props: OAuthButtonBaseProps) => {
     >
       <Box sx={{ width: '22px', flexShrink: 0 }} />
       {logo}
-      <Typography className="h4" color="var(--black)">
+      <Typography
+        className="h4"
+        sx={{
+          color: 'var(--black)',
+        }}
+      >
         {text}
       </Typography>
       <Box

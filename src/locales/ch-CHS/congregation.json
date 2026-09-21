@@ -568,5 +568,6 @@
   "tr_congregationAlreadySynced": "Congregation is already connected and synced.",
   "tr_error_app_data_no_valid_data_found": "No valid data found or no speaker selected.",
   "tr_infirmPioneer": "体弱先驱",
-  "tr_infirmPioneerNoGoal": "作为体弱先驱，你可以按照自己的能力参与传道，不需要达到每年的小时定额。"
+  "tr_infirmPioneerNoGoal": "作为体弱先驱，你可以按照自己的能力参与传道，不需要达到每年的小时定额。",
+  "tr_importCsvParseError": "The file could not be read. Please check the column structure and try again."
 }

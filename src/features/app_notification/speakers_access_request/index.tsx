@@ -17,9 +17,9 @@ const SpeakerAccessRequest = ({ request }: SpeakerAccessRequestType) => {
 
   return (
     <Stack
-      justifyContent="space-between"
-      alignItems={tabletDown ? 'flex-start' : 'center'}
       sx={{
+        justifyContent: 'space-between',
+        alignItems: tabletDown ? 'flex-start' : 'center',
         backgroundColor: 'var(--accent-150)',
         border: '1px solid var(--accent-300)',
         padding: '8px',
@@ -30,7 +30,12 @@ const SpeakerAccessRequest = ({ request }: SpeakerAccessRequestType) => {
       <Typography className="h4">
         ({request.country_code}) {request.cong_name}
       </Typography>
-      <Stack direction="row" alignItems="center">
+      <Stack
+        direction="row"
+        sx={{
+          alignItems: 'center',
+        }}
+      >
         <Button
           onClick={handleRejectRequest}
           sx={{ height: 'min-content' }}

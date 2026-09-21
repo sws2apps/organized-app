@@ -47,7 +47,9 @@ const LateReport = () => {
         <Typography
           align="right"
           className="label-small-medium"
-          color="var(--grey-400)"
+          sx={{
+            color: 'var(--grey-400)',
+          }}
         >
           {late_sent}
         </Typography>

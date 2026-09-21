@@ -1,4 +1,4 @@
-import { styled } from '@mui/system';
+import { styled } from '@mui/material/styles';
 import { Box } from '@mui/material';
 
 export const EditorContainer = styled(Box)({
@@ -7,4 +7,4 @@ export const EditorContainer = styled(Box)({
   backgroundColor: 'var(--white)',
   border: '1px solid var(--accent-300)',
   flexGrow: 1,
-}) as unknown as typeof Box;
+});

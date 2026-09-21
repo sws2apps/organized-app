@@ -12,7 +12,13 @@ const MeetingContainer = ({ meeting, month }: MeetingContainerProps) => {
   const { labels } = useMeetingContainer();
 
   return (
-    <Stack spacing="8px" borderRadius="var(--radius-l)" flex={1}>
+    <Stack
+      spacing="8px"
+      sx={{
+        borderRadius: 'var(--radius-l)',
+        flex: 1,
+      }}
+    >
       <Typography className="h3">
         {meeting === 'midweek'
           ? t('tr_midweekMeeting')
