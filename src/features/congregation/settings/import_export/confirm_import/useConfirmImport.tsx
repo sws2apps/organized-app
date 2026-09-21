@@ -1,3 +1,4 @@
+import { importBackupData } from '@services/app/backup';
 import { useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
@@ -28,20 +29,8 @@ import { UserBibleStudyType } from '@definition/user_bible_studies';
 import { BranchCongAnalysisType } from '@definition/branch_cong_analysis';
 import { BranchFieldServiceReportType } from '@definition/branch_field_service_reports';
 import { SourceWeekType } from '@definition/sources';
-import { dbResetExportState } from '@services/dexie/metadata';
 import { SettingsType } from '@definition/settings';
-import { dbBranchCongAnalysisClear } from '@services/dexie/branch_cong_analysis';
-import { dbBranchFieldReportClear } from '@services/dexie/branch_field_service_reports';
-import { dbFieldServiceReportsClear } from '@services/dexie/cong_field_service_reports';
-import { dbFieldServiceGroupClear } from '@services/dexie/field_service_groups';
-import { dbMeetingAttendanceClear } from '@services/dexie/meeting_attendance';
-import { dbPersonsClear } from '@services/dexie/persons';
-import { dbSpeakersCongregationsClear } from '@services/dexie/speakers_congregations';
-import { dbUserBibleStudyClear } from '@services/dexie/user_bible_studies';
-import { dbUserFieldServiceReportsClear } from '@services/dexie/user_field_service_reports';
-import { dbVisitingSpeakersClear } from '@services/dexie/visiting_speakers';
 import { UpcomingEventType } from '@definition/upcoming_events';
-import { dbUpcomingEventsClear } from '@services/dexie/upcoming_events';
 import { isTest } from '@constants/index';
 import useCongReportsImport from './useCongReportsImport';
 import useMinistryReportsImport from './useMinistryReportsImport';
@@ -53,7 +42,6 @@ import useMeetingImport from './useMeetingImport';
 import useAppSettingsImport from './useAppSettingsImport';
 import useImportHourglass from './useImportHourglass';
 import useUpcomingEventsImport from './useUpcomingEventsImport';
-import appDb from '@db/appDb';
 
 const useConfirmImport = ({ onClose }: ConfirmImportProps) => {
   const { t } = useAppTranslation();
@@ -635,94 +623,13 @@ const useConfirmImport = ({ onClose }: ConfirmImportProps) => {
         }
       }
 
-      if (data.branch_cong_analysis) {
-        await dbBranchCongAnalysisClear();
-        await appDb.branch_cong_analysis.bulkPut(data.branch_cong_analysis);
-      }
-
-      if (data.branch_field_service_reports) {
-        await dbBranchFieldReportClear();
-        await appDb.branch_field_service_reports.bulkPut(
-          data.branch_field_service_reports
-        );
-      }
-
-      if (data.cong_field_service_reports) {
-        await dbFieldServiceReportsClear();
-        await appDb.cong_field_service_reports.bulkPut(
-          data.cong_field_service_reports
-        );
-      }
-
-      if (data.field_service_groups) {
-        await dbFieldServiceGroupClear();
-        await appDb.field_service_groups.bulkPut(data.field_service_groups);
-      }
-
-      if (data.meeting_attendance) {
-        await dbMeetingAttendanceClear();
-        await appDb.meeting_attendance.bulkPut(data.meeting_attendance);
-      }
-
-      if (data.persons) {
-        await dbPersonsClear();
-        await appDb.persons.bulkPut(data.persons);
-      }
-
-      if (data.sched) {
-        await appDb.sched.bulkPut(data.sched);
-      }
-
-      if (data.sources) {
-        await appDb.sources.bulkPut(data.sources);
-      }
-
-      if (data.speakers_congregations) {
-        await dbSpeakersCongregationsClear();
-        await appDb.speakers_congregations.bulkPut(data.speakers_congregations);
-      }
-
-      if (data.user_bible_studies) {
-        await dbUserBibleStudyClear();
-        await appDb.user_bible_studies.bulkPut(data.user_bible_studies);
-      }
-
-      if (data.user_field_service_reports) {
-        await dbUserFieldServiceReportsClear();
-        await appDb.user_field_service_reports.bulkPut(
-          data.user_field_service_reports
-        );
-      }
-
-      if (data.visiting_speakers) {
-        await dbVisitingSpeakersClear();
-        await appDb.visiting_speakers.bulkPut(data.visiting_speakers);
-      }
-
-      if (data.cong_settings) {
-        await appDb.app_settings.update(1, {
-          cong_settings: data.cong_settings,
-        });
-      }
-
-      if (data.user_settings) {
-        await appDb.app_settings.update(1, {
-          user_settings: data.user_settings,
-        });
-      }
-
-      if (data.upcoming_events) {
-        await dbUpcomingEventsClear();
-        await appDb.upcoming_events.bulkPut(data.upcoming_events);
-      }
+      await importBackupData(data);
 
       displaySnackNotification({
         severity: 'success',
         header: t('tr_importDataCompleted'),
         message: t('tr_importDataCompletedDesc'),
       });
-
-      await dbResetExportState();
 
       if (
         backupFileType === 'Hourglass' &&

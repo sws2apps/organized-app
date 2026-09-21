@@ -25,6 +25,16 @@ import { LANGUAGE_LIST } from './constants';
 
 // lazy loading
 const Dashboard = lazy(() => import('@pages/dashboard'));
+const Territories = lazy(() => import('@pages/territories/hub'));
+const TerritoryDetails = lazy(() => import('@pages/territories/details'));
+const TerritoryStatistics = lazy(
+  () => import('@pages/territories/statistics')
+);
+const TerritoryHistory = lazy(() => import('@pages/territories/history'));
+const TerritoryMapPage = lazy(() => import('@pages/territories/map'));
+const TerritoryDoNotCalls = lazy(
+  () => import('@pages/territories/do_not_calls')
+);
 const MyProfile = lazy(() => import('@pages/my_profile'));
 const PersonsAll = lazy(() => import('@pages/persons/all_persons'));
 const PersonDetails = lazy(() => import('@pages/persons/person_details'));
@@ -116,6 +126,22 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
             // public routes
             { index: true, element: <Dashboard /> },
             { path: '/user-profile', element: <MyProfile /> },
+            { path: '/territories', element: <Territories /> },
+            {
+              path: '/territories/statistics',
+              element: <TerritoryStatistics />,
+            },
+            { path: '/territories/history', element: <TerritoryHistory /> },
+            { path: '/territories/map', element: <TerritoryMapPage /> },
+            {
+              path: '/territories/history/:id',
+              element: <TerritoryHistory />,
+            },
+            {
+              path: '/territories/do-not-calls',
+              element: <TerritoryDoNotCalls />,
+            },
+            { path: '/territories/:id', element: <TerritoryDetails /> },
             { path: '/weekly-schedules', element: <WeeklySchedules /> },
             {
               path: '/activities/upcoming-events',
