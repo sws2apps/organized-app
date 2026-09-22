@@ -102,9 +102,13 @@ export const preachingPartnerMatchesFilters = (
     .map((filter) => FILTER_TYPES[filter])
     .filter((type) => type !== undefined);
 
-  if (types.length > 0 && !types.includes(request.request_data.type)) {
-    return false;
-  }
+  // a flexible request is open to any kind of ministry, so every type finds it
+  const typeMatches =
+    types.length === 0 ||
+    request.request_data.type === PreachingPartnerMinistryType.Flexible ||
+    types.includes(request.request_data.type);
+
+  if (!typeMatches) return false;
 
   const genders = filters.filter(
     (filter) => filter === 'male' || filter === 'female'

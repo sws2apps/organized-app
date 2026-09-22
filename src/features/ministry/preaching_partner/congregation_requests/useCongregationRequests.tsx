@@ -5,6 +5,7 @@ import {
   PreachingPartnerRequestType,
 } from '@definition/preaching_partner';
 import {
+  congregationPreachingPartnerCountState,
   congregationPreachingPartnerGroupsState,
   preachingPartnerFiltersState,
 } from '@states/preaching_partner';
@@ -14,6 +15,9 @@ const useCongregationRequests = () => {
   const { t } = useAppTranslation();
 
   const groups = useAtomValue(congregationPreachingPartnerGroupsState);
+
+  // tells an empty congregation apart from filters that hide everything
+  const openCount = useAtomValue(congregationPreachingPartnerCountState);
 
   const [filters, setFilters] = useAtom(preachingPartnerFiltersState);
 
@@ -43,6 +47,8 @@ const useCongregationRequests = () => {
     });
   };
 
+  const handleClearFilters = () => setFilters(['all']);
+
   const handleJoin = (request: PreachingPartnerRequestType) => {
     setJoinRequest(request);
   };
@@ -51,10 +57,12 @@ const useCongregationRequests = () => {
 
   return {
     groups,
+    openCount,
     filters,
     filterOptions,
     joinRequest,
     handleToggleFilter,
+    handleClearFilters,
     handleJoin,
     handleCloseJoin,
   };

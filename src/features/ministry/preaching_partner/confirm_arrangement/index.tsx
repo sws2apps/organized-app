@@ -4,6 +4,7 @@ import { useAppTranslation } from '@hooks/index';
 import useConfirmArrangement from './useConfirmArrangement';
 import Badge from '@components/badge';
 import Button from '@components/button';
+import Checkbox from '@components/checkbox';
 import Dialog from '@components/dialog';
 import DialogActions from '@components/dialog_actions';
 import IconLoading from '@components/icon_loading';
@@ -19,6 +20,9 @@ const ConfirmArrangement = (props: PreachingPartnerConfirmProps) => {
     typeLabel,
     scheduleLabel,
     publisherName,
+    ownRequestsSameDay,
+    removeOwnRequests,
+    setRemoveOwnRequests,
     handleConfirm,
   } = useConfirmArrangement(props);
 
@@ -54,6 +58,14 @@ const ConfirmArrangement = (props: PreachingPartnerConfirmProps) => {
           {t('tr_arrangementWith', { publisherName })}
         </Typography>
       </Box>
+
+      {ownRequestsSameDay.length > 0 && (
+        <Checkbox
+          label={t('tr_withdrawMyRequestsSameDay')}
+          checked={removeOwnRequests}
+          onChange={(_, checked) => setRemoveOwnRequests(checked)}
+        />
+      )}
 
       <DialogActions>
         <Button variant="secondary" onClick={props.onClose}>

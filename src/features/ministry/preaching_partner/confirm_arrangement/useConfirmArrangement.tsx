@@ -6,12 +6,16 @@ import {
   preachingPartnerTypeLabel,
 } from '@services/app/preaching_partner';
 import { buildPersonFullname } from '@utils/common';
-import { dbPreachingPartnerRequestUpdate } from '@services/dexie/preaching_partner';
+import {
+  dbPreachingPartnerRequestDelete,
+  dbPreachingPartnerRequestUpdate,
+} from '@services/dexie/preaching_partner';
 import { displaySnackNotification } from '@services/states/app';
 import { formatLongDateWithShortVars } from '@utils/date';
 import { fullnameOptionState, userLocalUIDState } from '@states/settings';
 import { getMessageByCode, getTranslation } from '@services/i18n/translation';
 import { personsActiveState } from '@states/persons';
+import { myPreachingPartnerRequestsState } from '@states/preaching_partner';
 
 const useConfirmArrangement = ({
   open,
@@ -20,9 +24,19 @@ const useConfirmArrangement = ({
   const persons = useAtomValue(personsActiveState);
   const fullnameOption = useAtomValue(fullnameOptionState);
   const userUID = useAtomValue(userLocalUIDState);
+  const myRequests = useAtomValue(myPreachingPartnerRequestsState);
 
   const [isProcessing, setIsProcessing] = useState(false);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+  const [removeOwnRequests, setRemoveOwnRequests] = useState(true);
+
+  // once I have a partner for the day, my own open request for it is stale
+  const ownRequestsSameDay = myRequests.filter(
+    (record) =>
+      record.request_data.person_uid === userUID &&
+      !record.request_data.partner_uid &&
+      record.request_data.date === request.request_data.date
+  );
 
   const typeLabel = preachingPartnerTypeLabel(request.request_data.type);
 
@@ -54,6 +68,12 @@ const useConfirmArrangement = ({
         partner_uid: userUID,
         arranged_at: new Date().toISOString(),
       });
+
+      if (removeOwnRequests) {
+        for (const own of ownRequestsSameDay) {
+          await dbPreachingPartnerRequestDelete(own.request_uid);
+        }
+      }
 
       setIsProcessing(false);
 
@@ -88,6 +108,9 @@ const useConfirmArrangement = ({
     typeLabel,
     scheduleLabel,
     publisherName,
+    ownRequestsSameDay,
+    removeOwnRequests,
+    setRemoveOwnRequests,
     handleConfirm,
   };
 };

@@ -26,6 +26,7 @@ const PreachingPartnerRow = (props: PreachingPartnerRowProps) => {
     publisherName,
     partnerName,
     action,
+    actionAriaLabel,
   } = useRequestRow(props);
 
   const variant = isMine ? 'accent' : 'orange';
@@ -131,6 +132,7 @@ const PreachingPartnerRow = (props: PreachingPartnerRowProps) => {
         disableAutoStretch
         startIcon={<ActionIcon />}
         onClick={action.onClick}
+        ariaLabel={actionAriaLabel}
         sx={{ flexShrink: 0 }}
       >
         {action.label}

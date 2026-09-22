@@ -177,5 +177,7 @@
   "tr_partnerRequestDeleted": "Request deleted",
   "tr_partnerRequestDeletedDesc": "Other publishers no longer see it.",
   "tr_endTimeBeforeStart": "The end time must be after the start time",
-  "tr_deletePartnerRequestDesc": "Other publishers will no longer see this request. This cannot be undone."
+  "tr_deletePartnerRequestDesc": "Other publishers will no longer see this request. This cannot be undone.",
+  "tr_noPartnerRequestsMatch": "No requests match these filters. <a title=''>Show all requests</a>",
+  "tr_withdrawMyRequestsSameDay": "Also remove my open requests for this day"
 }

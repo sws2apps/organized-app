@@ -7,6 +7,7 @@ import ConfirmArrangement from '../confirm_arrangement';
 import Divider from '@components/divider';
 import FilterChip from '@components/filter_chip';
 import InfoNote from '@components/info_note';
+import Markup from '@components/text_markup';
 import PreachingPartnerGroup from '../request_group';
 import PreachingPartnerRow from '../request_row';
 import Typography from '@components/typography';
@@ -18,10 +19,12 @@ const CongregationRequests = () => {
 
   const {
     groups,
+    openCount,
     filters,
     filterOptions,
     joinRequest,
     handleToggleFilter,
+    handleClearFilters,
     handleJoin,
     handleCloseJoin,
   } = useCongregationRequests();
@@ -60,8 +63,19 @@ const CongregationRequests = () => {
           </Box>
         </Box>
 
-        {groups.length === 0 && (
+        {groups.length === 0 && openCount === 0 && (
           <InfoNote message={t('tr_noCongregationPartnerRequests')} />
+        )}
+
+        {groups.length === 0 && openCount > 0 && (
+          <InfoNote>
+            <Markup
+              content={t('tr_noPartnerRequestsMatch')}
+              className="body-small-regular"
+              color="var(--accent-400)"
+              anchorClick={handleClearFilters}
+            />
+          </InfoNote>
         )}
 
         {groups.map((group, index) => (

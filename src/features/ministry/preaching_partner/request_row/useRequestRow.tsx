@@ -6,6 +6,7 @@ import {
   preachingPartnerTypeLabel,
 } from '@services/app/preaching_partner';
 import { buildPersonFullname } from '@utils/common';
+import { formatLongDateWithShortVars } from '@utils/date';
 import { fullnameOptionState, userLocalUIDState } from '@states/settings';
 import { personsActiveState } from '@states/persons';
 import { useAppTranslation } from '@hooks/index';
@@ -74,6 +75,11 @@ const useRequestRow = ({
     };
   }, [isArranged, isMine, request, onCancel, onEdit, onJoin, t]);
 
+  // every row's button reads the same, so it names what it acts on
+  const actionAriaLabel = `${action.label}: ${publisherName}, ${formatLongDateWithShortVars(
+    request.request_data.date
+  )}, ${timeLabel}`;
+
   return {
     isMine,
     isArranged,
@@ -82,6 +88,7 @@ const useRequestRow = ({
     publisherName,
     partnerName,
     action,
+    actionAriaLabel,
   };
 };
 
