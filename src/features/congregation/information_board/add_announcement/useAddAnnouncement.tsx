@@ -7,6 +7,7 @@ import { userDataViewState } from '@states/settings';
 import {
   infoBoardAddAnnouncementState,
   infoBoardAnnouncementsState,
+  infoBoardSelectedCategory,
   informationBoardState,
 } from '@states/information_board';
 import { dbInformationBoardSave } from '@services/dexie/information_board';
@@ -16,6 +17,7 @@ const useAddAnnouncement = () => {
   const { t } = useAppTranslation();
   const dataView = useAtomValue(userDataViewState);
   const informationBoard = useAtomValue(informationBoardState);
+  const selectedCategory = useAtomValue(infoBoardSelectedCategory);
   const announements = useAtomValue(infoBoardAnnouncementsState);
   const [addAnnouncement, setAddAnnouncement] = useAtom(
     infoBoardAddAnnouncementState
@@ -39,7 +41,7 @@ const useAddAnnouncement = () => {
       id: crypto.randomUUID(),
       type: dataView,
       title: '',
-      category: undefined,
+      category: selectedCategory || undefined,
       text: '',
       short_description: '',
       _deleted: false,

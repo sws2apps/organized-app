@@ -75,7 +75,8 @@ const useCategorySelector = () => {
 
   const [isCategoriesCollapsed, setIsCategoriesCollapsed] = useState(
     convertStringToBoolean(
-      localStorage.getItem('information_board_is_categories_collapsed')
+      localStorage.getItem('information_board_is_categories_collapsed') ??
+        'false'
     )
   );
 
