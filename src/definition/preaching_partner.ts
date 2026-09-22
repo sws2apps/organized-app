@@ -25,7 +25,13 @@ export type PreachingPartnerRequestType = {
   };
 };
 
-export type PreachingPartnerTab = 'mine' | 'congregation';
+// doubles as the subpage path segment
+export type PreachingPartnerTab = 'my-requests' | 'congregation-requests';
+
+export const PREACHING_PARTNER_TABS: PreachingPartnerTab[] = [
+  'my-requests',
+  'congregation-requests',
+];
 
 export type PreachingPartnerFilterType =
   | 'all'

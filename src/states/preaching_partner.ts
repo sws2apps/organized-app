@@ -6,7 +6,6 @@ import { atom } from 'jotai';
 import {
   PreachingPartnerFilterType,
   PreachingPartnerRequestType,
-  PreachingPartnerTab,
 } from '@definition/preaching_partner';
 import {
   preachingPartnerGroupByDate,
@@ -20,8 +19,6 @@ import { userLocalUIDState } from './settings';
 export const preachingPartnerRequestsDbState = atom<
   PreachingPartnerRequestType[]
 >([]);
-
-export const preachingPartnerTabState = atom<PreachingPartnerTab>('mine');
 
 export const preachingPartnerFiltersState = atom<PreachingPartnerFilterType[]>([
   'all',

@@ -135,6 +135,10 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
                   path: '/find-a-preaching-partner',
                   element: <PreachingPartner />,
                 },
+                {
+                  path: '/find-a-preaching-partner/:tab',
+                  element: <PreachingPartner />,
+                },
 
                 // only if connected
                 {

@@ -69,7 +69,7 @@ const useNotificationItem = (notification: NotificationRecordType) => {
     }
 
     if (notification.id.startsWith('partner-request-joined-')) {
-      navigate('/find-a-preaching-partner');
+      navigate('/find-a-preaching-partner/my-requests');
     }
   };
 

@@ -1,10 +1,8 @@
 import { useState } from 'react';
-import { useAtomValue, useSetAtom } from 'jotai';
+import { useNavigate } from 'react-router';
+import { useAtomValue } from 'jotai';
 import { PreachingPartnerRequestType } from '@definition/preaching_partner';
-import {
-  myPreachingPartnerGroupsState,
-  preachingPartnerTabState,
-} from '@states/preaching_partner';
+import { myPreachingPartnerGroupsState } from '@states/preaching_partner';
 import { dbPreachingPartnerArrangementClear } from '@services/dexie/preaching_partner';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode, getTranslation } from '@services/i18n/translation';
@@ -12,7 +10,7 @@ import { getMessageByCode, getTranslation } from '@services/i18n/translation';
 const useMyRequests = () => {
   const groups = useAtomValue(myPreachingPartnerGroupsState);
 
-  const setTab = useSetAtom(preachingPartnerTabState);
+  const navigate = useNavigate();
 
   const [editRequest, setEditRequest] = useState<PreachingPartnerRequestType>();
   const [cancelRequest, setCancelRequest] =
@@ -56,7 +54,11 @@ const useMyRequests = () => {
     }
   };
 
-  const handleSeeCongregation = () => setTab('congregation');
+  // swaps the tab in place, as picking it from the menu would
+  const handleSeeCongregation = () =>
+    navigate('/find-a-preaching-partner/congregation-requests', {
+      replace: true,
+    });
 
   return {
     groups,

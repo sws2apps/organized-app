@@ -1,6 +1,8 @@
 import { PreachingPartnerTab } from '@definition/preaching_partner';
 
 export type PreachingPartnerNavProps = {
-  value: PreachingPartnerTab;
+  // absent on the phone list, where no tab is open yet
+  value?: PreachingPartnerTab;
   onChange: (value: PreachingPartnerTab) => void;
+  enableKeyboardNavigation?: boolean;
 };
