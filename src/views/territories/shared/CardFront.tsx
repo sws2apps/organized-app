@@ -2,6 +2,55 @@ import { Image, Text, View } from '@react-pdf/renderer';
 import { TerritoryPrintData } from '../index.types';
 import styles, { CARD, COLORS } from '../index.styles';
 
+const COLUMNS = 4;
+
+const PhoneGrid = ({
+  numbers,
+  width,
+}: {
+  numbers: string[];
+  width: number;
+}) => {
+  const cell = (width - (COLUMNS - 1) * 4) / COLUMNS;
+
+  return (
+    <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 4 }}>
+      {numbers.map((number, index) => (
+        <View
+          key={`${index}-${number}`}
+          style={{
+            width: cell,
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: 3,
+            paddingTop: 5,
+            paddingBottom: 5,
+            paddingLeft: 4,
+            paddingRight: 4,
+            borderBottom: `1px solid ${COLORS.line}`,
+          }}
+        >
+          <View
+            style={{
+              minWidth: 15,
+              height: 15,
+              borderRadius: 999,
+              backgroundColor: COLORS.numberChip,
+              alignItems: 'center',
+              justifyContent: 'center',
+              paddingLeft: 3,
+              paddingRight: 3,
+            }}
+          >
+            <Text style={styles.number}>{index + 1}</Text>
+          </View>
+          <Text style={styles.phone}>{number}</Text>
+        </View>
+      ))}
+    </View>
+  );
+};
+
 const CardFront = ({
   territory,
   width,
@@ -49,14 +98,18 @@ const CardFront = ({
           marginTop: CARD.mapTop - CARD.headerTop - 24,
         }}
       >
-        {showMap && territory.mapImage && (
+        {territory.type === 'phone' && (
+          <PhoneGrid numbers={territory.phoneNumbers ?? []} width={inner} />
+        )}
+
+        {territory.type !== 'phone' && showMap && territory.mapImage && (
           <Image
             src={territory.mapImage}
             style={{ width: inner, height: mapHeight, objectFit: 'cover' }}
           />
         )}
 
-        {(!showMap || !territory.mapImage) && (
+        {territory.type !== 'phone' && (!showMap || !territory.mapImage) && (
           <View
             style={{
               width: inner,
@@ -72,22 +125,24 @@ const CardFront = ({
           </View>
         )}
 
-        <View
-          style={{
-            position: 'absolute',
-            right: 0,
-            bottom: 0,
-            backgroundColor: COLORS.paper,
-            paddingTop: 4,
-            paddingBottom: 4,
-            paddingLeft: 6,
-            paddingRight: 6,
-          }}
-        >
-          <Text style={styles.households}>
-            Households: {territory.households}
-          </Text>
-        </View>
+        {territory.type !== 'phone' && (
+          <View
+            style={{
+              position: 'absolute',
+              right: 0,
+              bottom: 0,
+              backgroundColor: COLORS.paper,
+              paddingTop: 4,
+              paddingBottom: 4,
+              paddingLeft: 6,
+              paddingRight: 6,
+            }}
+          >
+            <Text style={styles.households}>
+              Households: {territory.households}
+            </Text>
+          </View>
+        )}
       </View>
 
       <Text style={[styles.fine, { marginTop: 5, width: inner }]}>

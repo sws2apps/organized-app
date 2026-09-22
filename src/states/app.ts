@@ -78,6 +78,12 @@ export const appThemeState = atom((get) => {
           },
         },
       },
+      MuiFormControlLabel: {
+        styleOverrides: {
+          // MUI's -11px label offset assumes 9px control padding; ours is 4px
+          root: { marginLeft: '-4px' },
+        },
+      },
       MuiMenuItem: { styleOverrides: { root: focusedRowStyles } },
       MuiListItemButton: { styleOverrides: { root: focusedRowStyles } },
       MuiIconButton: {

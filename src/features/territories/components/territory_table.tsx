@@ -1,33 +1,38 @@
-import { MouseEvent, useMemo } from 'react';
+import { ReactNode, useMemo, useState } from 'react';
+import { Box, Menu, Stack } from '@mui/material';
+import MenuItem from '@components/menuitem';
+import { dropdownPaper } from '@components/select/index.styles';
+import IconButton from '@components/icon_button';
 import {
-  Box,
-  Stack,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableRow,
-} from '@mui/material';
-import { Checkbox, InfoNote, Typography } from '@components/index';
-import TableHead from '@components/table/TableHead';
-import { Column } from '@components/table/index.types';
-import { useBreakpoints } from '@hooks/index';
+  Checkbox,
+  CustomDivider,
+  InfoNote,
+  Typography,
+} from '@components/index';
+import {
+  IconCircle,
+  IconClock,
+  IconHome,
+  IconPerson,
+  IconSortDown,
+  IconSortUp,
+} from '@icons/index';
 import { useAtomValue } from 'jotai';
+import Tooltip from '@components/tooltip';
+import { useBreakpoints } from '@hooks/index';
 import { shortDateFormatState } from '@states/settings';
-import { dateFromDays, daysLabel } from '../helpers';
-import useTableSort from '../useTableSort';
-import { Territory, TYPE_LABEL } from '@definition/territory';
+import { displayDate, parseDate } from '../helpers';
+import { Territory, TerritoryStatus } from '@definition/territory';
 import AssignButton from './assign_button';
+import { clickableRow, rowStates } from './table_styles';
 import TruncatedText from './truncated_text';
 import {
   CardLostBadge,
   CategoryBadges,
   RequestBadge,
-  StatusBadge,
-  TypeIcon,
 } from './territory_badges';
 
-export type TerritoryTableProps = {
+type TerritoryTableProps = {
   territories: Territory[];
   checked: Set<string>;
   onCheck: (id: string) => void;
@@ -39,43 +44,145 @@ export type TerritoryTableProps = {
   onReturn: (id: string) => void;
   showHouseholds?: boolean;
   emptyMessage?: string;
+  title?: string;
+  selectionBar?: ReactNode;
+  layoutSwitch?: ReactNode;
 };
 
-const rowStates = (selected: boolean) => ({
-  cursor: 'pointer',
-  transition: 'background-color 0.15s ease',
-  backgroundColor: selected ? 'var(--accent-150)' : 'transparent',
-  '&:hover': {
-    backgroundColor: selected ? 'var(--accent-200)' : 'var(--accent-100)',
-  },
-  '&:active': {
-    backgroundColor: selected ? 'var(--accent-300)' : 'var(--accent-200)',
-  },
-});
+type SortKey = 'number' | 'locality' | 'status' | 'date';
 
-const STATUS_WEIGHT: Record<string, number> = {
+const SORTS: Record<SortKey, { label: string; directions: [string, string] }> =
+  {
+    number: { label: 'Number', directions: ['1 → 9', '9 → 1'] },
+    locality: { label: 'Locality', directions: ['A → Z', 'Z → A'] },
+    status: {
+      label: 'Status',
+      directions: ['Overdue first', 'Available first'],
+    },
+    date: {
+      label: 'Time out',
+      directions: ['Longest first', 'Shortest first'],
+    },
+  };
+
+const STATUS_WEIGHT: Record<TerritoryStatus, number> = {
   overdue: 0,
   in_work: 1,
   available: 2,
-  lost: 3,
 };
 
-const sortValue = (territory: Territory, key: string) => {
-  switch (key) {
-    case 'name':
-      return territory.name;
-    case 'covered':
-      return territory.daysSinceCovered;
-    case 'assigned':
-      return territory.daysOut ?? -1;
-    case 'publisher':
-      return territory.holder ?? '';
-    case 'status':
-      return STATUS_WEIGHT[territory.status];
-    default:
-      return territory.number;
+const time = (value?: string) => parseDate(value)?.getTime() ?? 0;
+
+const openAssignment = (territory: Territory) =>
+  territory.assignments
+    .filter((assignment) => !assignment.returnedOn)
+    .sort((a, b) => time(b.assignedOn) - time(a.assignedOn))
+    .at(0);
+
+const lastReturn = (territory: Territory) =>
+  territory.assignments
+    .map((assignment) => assignment.returnedOn)
+    .filter((value): value is string => !!value)
+    .sort((a, b) => time(b) - time(a))
+    .at(0);
+
+const compare = (key: SortKey) => (a: Territory, b: Territory) => {
+  const byNumber = a.number.localeCompare(b.number, undefined, {
+    numeric: true,
+  });
+
+  if (key === 'locality') {
+    return a.city.localeCompare(b.city) || byNumber;
   }
+
+  if (key === 'status') {
+    return STATUS_WEIGHT[a.status] - STATUS_WEIGHT[b.status] || byNumber;
+  }
+
+  if (key === 'date') {
+    return (b.daysOut ?? -1) - (a.daysOut ?? -1) || byNumber;
+  }
+
+  return byNumber;
 };
+
+const StatusLine = ({ territory }: { territory: Territory }) => {
+  const shortDateFormat = useAtomValue(shortDateFormatState);
+
+  const date = (value?: string) => displayDate(value, shortDateFormat);
+
+  if (territory.status === 'available') {
+    const returned = lastReturn(territory);
+
+    return (
+      <Stack direction="row" spacing="4px" sx={{ alignItems: 'center' }}>
+        <IconCircle
+          color="var(--green-main)"
+          width={16}
+          height={16}
+          sx={{ '& path': { stroke: 'var(--green-main)', strokeWidth: 1.2 } }}
+        />
+        <Typography
+          className="label-small-regular"
+          color="var(--grey-400)"
+          noWrap
+        >
+          {returned ? date(returned) : 'Never covered'}
+        </Typography>
+      </Stack>
+    );
+  }
+
+  const overdue = territory.status === 'overdue';
+  const assigned = openAssignment(territory)?.assignedOn;
+
+  return (
+    <Stack
+      direction="row"
+      spacing="4px"
+      sx={{ alignItems: 'center', minWidth: 0 }}
+    >
+      {overdue ? (
+        <IconClock color="var(--red-main)" width={16} height={16} />
+      ) : (
+        <IconPerson color="var(--grey-400)" width={16} height={16} />
+      )}
+      <TruncatedText
+        className="label-small-regular"
+        color={overdue ? 'var(--red-main)' : 'var(--grey-400)'}
+        text={[territory.holder, assigned && date(assigned)]
+          .filter(Boolean)
+          .join(' · ')}
+      />
+    </Stack>
+  );
+};
+
+const badges = (territory: Territory) => (
+  <>
+    <RequestBadge territory={territory} />
+    <CardLostBadge territory={territory} />
+    <CategoryBadges territory={territory} max={1} />
+  </>
+);
+
+const Households = ({ count }: { count: number }) => (
+  <Stack
+    direction="row"
+    spacing="2px"
+    // a transform, because the column's spacing resets margins
+    sx={{ alignItems: 'center', transform: 'translateX(-3px)' }}
+  >
+    <IconHome color="var(--grey-350)" width={16} height={16} />
+    <Typography
+      className="label-small-regular"
+      color="var(--grey-350)"
+      sx={{ fontVariantNumeric: 'tabular-nums' }}
+    >
+      {count}
+    </Typography>
+  </Stack>
+);
 
 const TerritoryTable = ({
   territories,
@@ -89,361 +196,235 @@ const TerritoryTable = ({
   onReturn,
   showHouseholds = true,
   emptyMessage = 'No territories match the filters.',
+  title,
+  selectionBar,
+  layoutSwitch,
 }: TerritoryTableProps) => {
-  const { tablet688Up, laptopUp, desktopUp } = useBreakpoints();
+  const { tablet688Up, laptopUp } = useBreakpoints();
 
-  const shortDateFormat = useAtomValue(shortDateFormatState);
-
-  const {
-    order,
-    orderBy,
-    handleRequestSort: sortBy,
-  } = useTableSort('number', ['covered', 'assigned', 'households']);
-
-  const columns = useMemo(() => {
-    const result: Column[] = [
-      { id: 'number', label: 'No.', sx: { width: '64px' } },
-      { id: 'name', label: 'Name', sx: { minWidth: '220px' } },
-    ];
-
-    if (desktopUp) {
-      result.push({
-        id: 'covered',
-        label: 'Last covered',
-        sx: { width: '106px' },
-      });
-    }
-
-    if (laptopUp) {
-      result.push({
-        id: 'assigned',
-        label: 'Assigned',
-        sx: { width: '110px' },
-      });
-    }
-
-    if (desktopUp) {
-      result.push({
-        id: 'publisher',
-        label: 'Publisher',
-        sx: { width: '150px' },
-      });
-    }
-
-    result.push({ id: 'status', label: 'Status', sx: { width: '108px' } });
-    result.push({
-      id: 'action',
-      label: 'Action',
-      type: 'action',
-      sx: { width: '108px' },
-    });
-
-    return result;
-  }, [laptopUp, desktopUp]);
+  const [sortBy, setSortBy] = useState<SortKey>('number');
+  const [reversed, setReversed] = useState(false);
 
   const sorted = useMemo(() => {
-    const factor = order === 'asc' ? 1 : -1;
+    const list = [...territories].sort(compare(sortBy));
+    return reversed ? list.reverse() : list;
+  }, [territories, sortBy, reversed]);
 
-    return [...territories].sort((a, b) => {
-      const left = sortValue(a, orderBy);
-      const right = sortValue(b, orderBy);
+  const [sortMenu, setSortMenu] = useState<HTMLElement | null>(null);
 
-      if (typeof left === 'string' && typeof right === 'string') {
-        return left.localeCompare(right, undefined, { numeric: true }) * factor;
-      }
+  const arrow = reversed ? (
+    <IconSortUp color="var(--black)" width={20} height={20} />
+  ) : (
+    <IconSortDown color="var(--black)" width={20} height={20} />
+  );
 
-      return ((left as number) - (right as number)) * factor;
-    });
-  }, [territories, order, orderBy]);
+  const pickSort = (key: SortKey) => {
+    if (key === sortBy) {
+      setReversed(!reversed);
+    } else {
+      setSortBy(key);
+      setReversed(false);
+    }
 
-  const visible = sorted;
-
-  const handleRequestSort = (event: MouseEvent<unknown>, property: string) => {
-    if (property === 'action') return;
-
-    sortBy(event, property);
+    setSortMenu(null);
   };
 
-  const allChecked =
-    visible.length > 0 &&
-    visible.every((territory) => checked.has(territory.id));
+  const sortButton = (
+    <>
+      <Tooltip
+        title={`${SORTS[sortBy].label} · ${SORTS[sortBy].directions[reversed ? 1 : 0]}`}
+      >
+        <IconButton
+          aria-label="Sort"
+          onClick={(event) => setSortMenu(event.currentTarget)}
+          sx={{ padding: '6px', margin: 0, borderRadius: 'var(--radius-m)' }}
+        >
+          {arrow}
+        </IconButton>
+      </Tooltip>
 
-  const someChecked = visible.some((territory) => checked.has(territory.id));
+      <Menu
+        anchorEl={sortMenu}
+        open={!!sortMenu}
+        onClose={() => setSortMenu(null)}
+        disableScrollLock
+        slotProps={{
+          paper: { sx: dropdownPaper, className: 'small-card-shadow' },
+        }}
+      >
+        {(Object.keys(SORTS) as SortKey[]).map((key) => (
+          <MenuItem
+            key={key}
+            selected={key === sortBy}
+            onClick={() => pickSort(key)}
+            sx={{
+              '&.Mui-selected svg path': { fill: 'var(--accent-main)' },
+              '&:hover svg path': { fill: 'var(--accent-dark)' },
+            }}
+          >
+            <Stack
+              direction="row"
+              sx={{ alignItems: 'center', gap: '12px', width: '100%' }}
+            >
+              <Typography className="body-regular" sx={{ flexGrow: 1 }}>
+                {SORTS[key].label}
+              </Typography>
+              {key === sortBy && arrow}
+            </Stack>
+          </MenuItem>
+        ))}
+      </Menu>
+    </>
+  );
+
+  const allChecked =
+    sorted.length > 0 && sorted.every((territory) => checked.has(territory.id));
+
+  const someChecked = sorted.some((territory) => checked.has(territory.id));
+
+  const heading = title && (
+    <Typography className="h3" noWrap>
+      {title}
+    </Typography>
+  );
 
   if (territories.length === 0) {
-    return <InfoNote message={emptyMessage} />;
-  }
-
-  if (!tablet688Up) {
     return (
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          {visible.map((territory, index) => (
-            <Stack
-              key={territory.id}
-              direction="row"
-              spacing="12px"
-              onClick={() => onOpen(territory.id)}
-              sx={{
-                alignItems: 'center',
-                padding: '12px 4px',
-                borderTop: index === 0 ? 'none' : '1px solid var(--accent-200)',
-                ...rowStates(checked.has(territory.id)),
-              }}
-            >
-              <Checkbox
-                stopPropagation
-                sx={{ padding: 0, margin: 0 }}
-                checked={checked.has(territory.id)}
-                onChange={() => onCheck(territory.id)}
-              />
-
-              <Stack spacing="4px" sx={{ flexGrow: 1, minWidth: 0 }}>
-                <TruncatedText
-                  className="body-small-semibold"
-                  text={`${territory.number} · ${territory.name}`}
-                />
-                <TruncatedText
-                  className="label-small-regular"
-                  color="var(--grey-350)"
-                  icon={<TypeIcon type={territory.type} />}
-                  text={`${territory.city}${showHouseholds ? ` · ${territory.households} households` : ''} · last covered ${daysLabel(territory.daysSinceCovered)} ago`}
-                  tooltip={`${TYPE_LABEL[territory.type]} · ${territory.city}`}
-                />
-                <Stack
-                  direction="row"
-                  spacing="4px"
-                  sx={{ alignItems: 'center' }}
-                >
-                  <Box sx={{ width: 'fit-content' }}>
-                    <StatusBadge status={territory.status} />
-                  </Box>
-                  <RequestBadge territory={territory} />
-                  <CardLostBadge territory={territory} />
-                  <CategoryBadges territory={territory} max={1} />
-                </Stack>
-              </Stack>
-
-              <Box sx={{ flexShrink: 0 }}>
-                <AssignButton
-                  territory={territory}
-                  onOpenAssign={onOpenAssign}
-                  onAssign={onAssign}
-                  onDecline={onDecline}
-                  onReturn={onReturn}
-                />
-              </Box>
-            </Stack>
-          ))}
-        </Box>
-
-        <Stack direction="row" spacing="12px" sx={{ alignItems: 'center' }}>
-          <Checkbox
-            sx={{ padding: 0, margin: 0 }}
-            checked={allChecked}
-            indeterminate={someChecked && !allChecked}
-            onChange={() => onCheckMany(visible.map((t) => t.id))}
-            label="Select all"
-            className="body-small-regular"
-          />
-        </Stack>
-      </Box>
+      <Stack spacing="16px" sx={{ paddingTop: '16px' }}>
+        {heading}
+        <InfoNote message={emptyMessage} />
+      </Stack>
     );
   }
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-      <TableContainer sx={{ overflowX: 'auto', maxHeight: '70vh' }}>
-        <Table
-          size="small"
-          sx={{
-            tableLayout: 'fixed',
-            minWidth: { mobile: '100%', desktop: '880px' },
-            '& .MuiTableCell-root': {
-              padding: '10px 8px',
-              borderColor: 'var(--accent-200)',
-            },
-            '& .MuiTableHead-root .MuiTableCell-root': {
-              backgroundColor: 'var(--white)',
-              position: 'sticky',
-              // a hair above the container hides the row edge that would
-              // otherwise show through while scrolling
-              top: '-1px',
-              zIndex: 2,
-              borderBottom: 'none',
-              boxShadow: 'inset 0 -1px 0 var(--accent-200)',
-            },
-            '& .MuiTableBody-root .MuiTableRow-root:last-of-type .MuiTableCell-root':
-              {
-                borderBottom: 'none',
-              },
-          }}
+    <Stack spacing="4px">
+      <Stack
+        direction="row"
+        sx={{
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          flexWrap: 'wrap',
+          gap: '12px',
+          padding: '12px 8px 8px',
+        }}
+      >
+        <Checkbox
+          sx={{ padding: 0, margin: 0 }}
+          checked={allChecked}
+          indeterminate={someChecked && !allChecked}
+          onChange={() => onCheckMany(sorted.map((t) => t.id))}
+        />
+
+        <Stack
+          direction="row"
+          sx={{ alignItems: 'center', gap: '4px', flexGrow: 1, minWidth: 0 }}
         >
-          <TableHead
-            order={order}
-            orderBy={orderBy}
-            onRequestSort={handleRequestSort}
-            columns={[
-              {
-                id: 'select',
-                label: (
-                  <Checkbox
-                    stopPropagation
-                    sx={{ padding: 0, margin: 0 }}
-                    checked={allChecked}
-                    indeterminate={someChecked && !allChecked}
-                    onChange={() => onCheckMany(visible.map((t) => t.id))}
-                  />
-                ),
-                sx: { width: '44px' },
-              },
-              ...columns,
-            ]}
-          />
+          {heading}
+          {sortButton}
+        </Stack>
 
-          <TableBody>
-            {visible.map((territory) => (
-              <TableRow
-                key={territory.id}
-                onClick={() => onOpen(territory.id)}
-                sx={rowStates(checked.has(territory.id))}
+        {someChecked && selectionBar}
+
+        {layoutSwitch}
+      </Stack>
+
+      <Stack
+        spacing="4px"
+        divider={<CustomDivider color="var(--accent-200)" />}
+      >
+        {sorted.map((territory) => (
+          <Stack
+            key={territory.id}
+            direction="row"
+            spacing="12px"
+            {...clickableRow(() => onOpen(territory.id))}
+            sx={{
+              alignItems: 'center',
+              padding: '10px 8px',
+              borderRadius: 'var(--radius-m)',
+              ...rowStates(checked.has(territory.id)),
+            }}
+          >
+            <Checkbox
+              stopPropagation
+              sx={{ padding: 0, margin: 0 }}
+              checked={checked.has(territory.id)}
+              onChange={() => onCheck(territory.id)}
+            />
+
+            {tablet688Up && (
+              <Stack spacing="2px" sx={{ width: '48px', flexShrink: 0 }}>
+                <Typography
+                  className="body-small-semibold"
+                  color="var(--black)"
+                  sx={{ fontVariantNumeric: 'tabular-nums' }}
+                >
+                  {territory.number}
+                </Typography>
+                {showHouseholds && <Households count={territory.households} />}
+              </Stack>
+            )}
+
+            <Stack spacing="4px" sx={{ flexGrow: 1, minWidth: 0 }}>
+              <TruncatedText
+                className="body-small-semibold"
+                text={[
+                  !tablet688Up && territory.number,
+                  [territory.city, territory.name].filter(Boolean).join(' • '),
+                ]
+                  .filter(Boolean)
+                  .join('  ')}
+              />
+
+              <Stack
+                direction="row"
+                sx={{
+                  alignItems: 'center',
+                  gap: '4px 12px',
+                  flexWrap: 'wrap',
+                  minWidth: 0,
+                }}
               >
-                <TableCell>
-                  <Checkbox
-                    stopPropagation
-                    sx={{ padding: 0, margin: 0 }}
-                    checked={checked.has(territory.id)}
-                    onChange={() => onCheck(territory.id)}
-                  />
-                </TableCell>
+                <StatusLine territory={territory} />
 
-                <TableCell>
-                  <Typography
-                    className="body-small-semibold"
-                    color="var(--black)"
-                  >
-                    {territory.number}
-                  </Typography>
-                </TableCell>
-
-                <TableCell>
-                  <Stack spacing="4px" sx={{ minWidth: 0 }}>
-                    <TruncatedText
-                      className="body-small-regular"
-                      text={territory.name}
-                    />
-
-                    <Stack
-                      direction="row"
-                      spacing="8px"
-                      sx={{
-                        alignItems: 'center',
-                        minWidth: 0,
-                        overflow: 'hidden',
-                      }}
-                    >
-                      <TruncatedText
-                        className="label-small-regular"
-                        color="var(--grey-350)"
-                        icon={<TypeIcon type={territory.type} />}
-                        text={`${territory.city}${showHouseholds ? ` · ${territory.households} households` : ''}`}
-                        tooltip={`${TYPE_LABEL[territory.type]} · ${territory.city}`}
-                      />
-                      <RequestBadge territory={territory} />
-                      <CardLostBadge territory={territory} />
-                      <CategoryBadges territory={territory} max={1} />
-                    </Stack>
-                  </Stack>
-                </TableCell>
-
-                {desktopUp && (
-                  <TableCell>
-                    <Typography
-                      className="label-small-regular"
-                      color={
-                        territory.daysSinceCovered > 365
-                          ? 'var(--red-main)'
-                          : 'var(--grey-400)'
-                      }
-                      noWrap
-                    >
-                      {daysLabel(territory.daysSinceCovered)}
-                    </Typography>
-                  </TableCell>
+                {showHouseholds && !tablet688Up && (
+                  <Households count={territory.households} />
                 )}
 
-                {laptopUp && (
-                  <TableCell>
-                    <Stack spacing="2px" sx={{ minWidth: 0 }}>
-                      <Typography
-                        className="label-small-regular"
-                        color="var(--grey-400)"
-                        noWrap
-                      >
-                        {dateFromDays(territory.daysOut, shortDateFormat)}
-                      </Typography>
+                {!laptopUp && badges(territory)}
+              </Stack>
+            </Stack>
 
-                      {territory.daysOut !== undefined && (
-                        <Typography
-                          className="label-small-regular"
-                          color="var(--grey-350)"
-                          noWrap
-                        >
-                          {daysLabel(territory.daysOut)}
-                        </Typography>
-                      )}
-                    </Stack>
-                  </TableCell>
-                )}
+            {laptopUp && (
+              <Stack
+                direction="row"
+                sx={{
+                  width: '220px',
+                  flexShrink: 0,
+                  flexWrap: 'wrap',
+                  alignItems: 'center',
+                  gap: '4px',
+                }}
+              >
+                {badges(territory)}
+              </Stack>
+            )}
 
-                {desktopUp && (
-                  <TableCell>
-                    {territory.holder ? (
-                      <TruncatedText
-                        className="label-small-regular"
-                        color="var(--grey-400)"
-                        text={territory.holder}
-                      />
-                    ) : (
-                      <Typography
-                        className="label-small-regular"
-                        color="var(--grey-400)"
-                      >
-                        –
-                      </Typography>
-                    )}
-                  </TableCell>
-                )}
-
-                <TableCell>
-                  <Box sx={{ width: 'fit-content' }}>
-                    <StatusBadge status={territory.status} />
-                  </Box>
-                </TableCell>
-
-                <TableCell align="center">
-                  <Box
-                    sx={{
-                      width: 'fit-content',
-                      marginLeft: 'auto',
-                      marginRight: 'auto',
-                    }}
-                  >
-                    <AssignButton
-                      territory={territory}
-                      onOpenAssign={onOpenAssign}
-                      onAssign={onAssign}
-                      onDecline={onDecline}
-                      onReturn={onReturn}
-                    />
-                  </Box>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </Box>
+            <Box sx={{ flexShrink: 0 }}>
+              <AssignButton
+                territory={territory}
+                onOpenAssign={onOpenAssign}
+                onAssign={onAssign}
+                onDecline={onDecline}
+                onReturn={onReturn}
+                compact={!tablet688Up}
+              />
+            </Box>
+          </Stack>
+        ))}
+      </Stack>
+    </Stack>
   );
 };
 

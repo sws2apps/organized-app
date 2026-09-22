@@ -1,20 +1,13 @@
-import { useState } from 'react';
-import { Box, Collapse, Stack } from '@mui/material';
+import { Box, Stack } from '@mui/material';
+import { useAtomValue } from 'jotai';
 import { CustomDivider, InfoNote, Typography } from '@components/index';
-import IconButton from '@components/icon_button';
-import { IconCollapse } from '@icons/index';
-import { CURRENT_PUBLISHER } from '../helpers';
+import { CURRENT_PUBLISHER, displayDate, parseDate } from '../helpers';
 import TruncatedText from './truncated_text';
 import { Territory } from '@definition/territory';
+import { shortDateFormatState } from '@states/settings';
 
-const MyHistory = ({
-  territories,
-  limit = 12,
-}: {
-  territories: Territory[];
-  limit?: number;
-}) => {
-  const [expanded, setExpanded] = useState(false);
+const MyHistory = ({ territories }: { territories: Territory[] }) => {
+  const format = useAtomValue(shortDateFormatState);
 
   const rows = territories
     .flatMap((territory) =>
@@ -25,88 +18,65 @@ const MyHistory = ({
         )
         .map((assignment) => ({ territory, assignment }))
     )
-    .sort((a, b) => b.assignment.endMonth - a.assignment.endMonth)
-    .slice(0, limit);
+    .sort(
+      (a, b) =>
+        (parseDate(b.assignment.returnedOn)?.getTime() ?? 0) -
+        (parseDate(a.assignment.returnedOn)?.getTime() ?? 0)
+    )
+    .slice(0, 12);
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-      <CustomDivider color="var(--accent-200)" />
-
-      <Stack
-        direction="row"
-        sx={{
-          alignItems: 'center',
-          gap: '8px',
-          padding: '4px 8px 0',
-          cursor: 'pointer',
-        }}
-        onClick={() => setExpanded(!expanded)}
-      >
+      <Stack direction="row" sx={{ alignItems: 'center', gap: '8px' }}>
         <Typography className="body-small-semibold" color="var(--black)">
           My previous territories
         </Typography>
         <Typography className="label-small-regular" color="var(--grey-350)">
           {rows.length}
         </Typography>
-
-        <Box sx={{ flexGrow: 1 }} />
-
-        <IconButton sx={{ padding: 0 }}>
-          <IconCollapse
-            color="var(--black)"
-            sx={{
-              transform: expanded ? 'rotate(0deg)' : 'rotate(180deg)',
-              transition: 'transform 0.3s',
-            }}
-          />
-        </IconButton>
       </Stack>
 
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
-        {rows.length === 0 && (
-          <InfoNote message="No territories returned yet." />
-        )}
+      {rows.length === 0 && <InfoNote message="No territories returned yet." />}
 
-        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          {rows.map(({ territory, assignment }, index) => (
-            <Stack
-              key={assignment.id}
-              direction="row"
-              spacing="12px"
-              sx={{
-                alignItems: 'center',
-                padding: '8px',
-                borderTop: index === 0 ? 'none' : '1px solid var(--accent-200)',
-              }}
+      <Stack
+        spacing="4px"
+        divider={<CustomDivider color="var(--accent-200)" />}
+      >
+        {rows.map(({ territory, assignment }) => (
+          <Stack
+            key={assignment.id}
+            direction="row"
+            spacing="12px"
+            sx={{ alignItems: 'center', padding: '8px' }}
+          >
+            <Typography
+              className="body-small-semibold"
+              color="var(--black)"
+              sx={{ width: '48px', flexShrink: 0 }}
             >
-              <Typography
-                className="label-small-semibold"
-                color="var(--grey-400)"
-                sx={{ width: '44px', flexShrink: 0 }}
-              >
-                {territory.number}
-              </Typography>
+              {territory.number}
+            </Typography>
 
-              <Box sx={{ flexGrow: 1, minWidth: 0 }}>
-                <TruncatedText
-                  className="label-small-regular"
-                  color="var(--grey-400)"
-                  text={territory.name}
-                />
-              </Box>
-
-              <Typography
+            <Box sx={{ flexGrow: 1, minWidth: 0 }}>
+              <TruncatedText
                 className="label-small-regular"
-                color="var(--grey-350)"
-                sx={{ flexShrink: 0 }}
-                noWrap
-              >
-                {assignment.assignedOn} – {assignment.returnedOn}
-              </Typography>
-            </Stack>
-          ))}
-        </Box>
-      </Collapse>
+                color="var(--black)"
+                text={territory.name}
+              />
+            </Box>
+
+            <Typography
+              className="label-small-regular"
+              color="var(--grey-350)"
+              sx={{ flexShrink: 0 }}
+              noWrap
+            >
+              {displayDate(assignment.assignedOn, format)} –{' '}
+              {displayDate(assignment.returnedOn, format)}
+            </Typography>
+          </Stack>
+        ))}
+      </Stack>
     </Box>
   );
 };

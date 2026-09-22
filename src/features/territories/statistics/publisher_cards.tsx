@@ -1,9 +1,11 @@
 import { Box, Stack } from '@mui/material';
+import { useAtomValue } from 'jotai';
 import { Typography } from '@components/index';
 import Tooltip from '@components/tooltip';
 import { publisherCoverage, publishersPerMonth, serviceYear } from '../helpers';
 import { ChartCard, ColumnChart } from '../components/charts';
-import { MONTHS, Territory } from '@definition/territory';
+import { Territory } from '@definition/territory';
+import { territoryMonthsState } from '@states/territories';
 
 export const PublisherSplit = ({
   territories,
@@ -85,6 +87,8 @@ export const PublisherTrend = ({
 }: {
   territories: Territory[];
 }) => {
+  const months = useAtomValue(territoryMonthsState);
+
   const year = serviceYear() - 1;
 
   const values = publishersPerMonth(territories, year);
@@ -95,7 +99,7 @@ export const PublisherTrend = ({
       hint={`Each month of the ${year} service year`}
       span={8}
     >
-      <ColumnChart values={values} labels={MONTHS} />
+      <ColumnChart values={values} labels={months} />
     </ChartCard>
   );
 };

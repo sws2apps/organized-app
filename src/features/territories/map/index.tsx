@@ -1,73 +1,93 @@
-import { useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 import { Box, Stack } from '@mui/material';
-import { Button, CustomDivider, InfoNote, Typography } from '@components/index';
-import { useBreakpoints } from '@hooks/index';
+import { CustomDivider, Typography } from '@components/index';
 import {
-  IconAddPin,
+  IconAdd,
   IconClose,
-  IconDashedLine,
-  IconDelete,
-  IconDrawLine,
-  IconDrawShape,
+  IconEdit,
+  IconVisibility,
   IconFullscreen,
   IconFullscreenExit,
-  IconAdd,
-  IconGlobe,
+  IconMapOverview,
+  IconMyLocation,
   IconPanelOpen,
   IconRemove,
-  IconMapOverview,
-  IconMoveAround,
-  IconMyLocation,
-  IconRedo,
-  IconSave,
-  IconSolidLine,
-  IconTypeText,
-  IconUndo,
 } from '@icons/index';
+import TabSwitcher from '@components/tab_switcher';
+import EditToolbar, { IdleToolbar } from './edit_toolbar';
 import LabelDialog from './label_dialog';
 import MapFilters from './map_filters';
 import MapIsland, { MapAction } from './map_island';
 import TerritoryPicker from './territory_picker';
-import useTerritoriesMap, { MapTool } from './useTerritoriesMap';
+import { TerritoriesMapState } from './useTerritoriesMap';
 import 'maplibre-gl/dist/maplibre-gl.css';
 
-const TOOLS: { id: MapTool; title: string; Icon: typeof IconMoveAround }[] = [
-  { id: 'move', title: 'Move and edit', Icon: IconMoveAround },
-  { id: 'shape', title: 'Draw the borders', Icon: IconDrawShape },
-  { id: 'line', title: 'Draw a line', Icon: IconDrawLine },
-  { id: 'pin', title: 'Add a pin', Icon: IconAddPin },
-  { id: 'text', title: 'Add text', Icon: IconTypeText },
-];
+const PANEL_WIDTH = 320;
 
-const TerritoriesMap = () => {
-  const { laptopUp } = useBreakpoints();
+const HINT_KEY = 'territories.map.pointsHint';
 
+const BOTTOM_GAP = 16;
+
+const LAYOUT_GAP = 32;
+
+const TerritoriesMap = ({ map }: { map: TerritoriesMapState }) => {
   const [panelOpen, setPanelOpen] = useState(true);
 
-  const map = useTerritoriesMap();
+  const [hintDismissed, setHintDismissed] = useState(() => {
+    try {
+      return localStorage.getItem(HINT_KEY) === '1';
+    } catch {
+      return false;
+    }
+  });
 
-  const showPanel = panelOpen && !map.fullscreen;
+  const dismissHint = () => {
+    setHintDismissed(true);
 
-  const mapHeight = map.fullscreen
-    ? '100%'
-    : laptopUp
-      ? 'max(460px, calc(100dvh - 130px))'
-      : '420px';
+    try {
+      localStorage.setItem(HINT_KEY, '1');
+    } catch {
+      // private mode: the hint simply comes back next time
+    }
+  };
 
-  if (!laptopUp) {
-    return (
-      <InfoNote message="The territory map is edited on a desktop screen. Open this page on a computer to draw or change the borders." />
-    );
-  }
+  const [top, setTop] = useState(130);
 
-  const surface = (
+  useLayoutEffect(() => {
+    const element = map.wrapper.current;
+    if (!element) return;
+
+    // offsets ignore the page's slide-in transform, which a bounding box would measure mid-animation
+    const measure = () => {
+      let offset = 0;
+      let node: HTMLElement | null = element;
+
+      while (node) {
+        offset += node.offsetTop;
+        node = node.offsetParent as HTMLElement | null;
+      }
+
+      setTop(offset);
+    };
+
+    measure();
+    window.addEventListener('resize', measure);
+
+    return () => window.removeEventListener('resize', measure);
+  }, [map.wrapper]);
+
+  const { editor } = map;
+
+  const showPanel = panelOpen;
+
+  const inset = showPanel ? `${PANEL_WIDTH + 24}px` : '12px';
+
+  return (
     <Box
       sx={{
-        display: 'grid',
-        gap: '16px',
         height: map.fullscreen ? '100%' : 'auto',
-        gridTemplateColumns:
-          laptopUp && showPanel ? '344px minmax(0, 1fr)' : '1fr',
+        // takes back the 32px the page layout keeps under every page
+        marginBottom: map.fullscreen ? 0 : `${BOTTOM_GAP - LAYOUT_GAP}px`,
         ...(map.fullscreen && {
           position: 'fixed',
           top: 0,
@@ -75,52 +95,29 @@ const TerritoriesMap = () => {
           right: 0,
           bottom: 0,
           zIndex: 1300,
-          gridTemplateRows: 'minmax(0, 1fr)',
           padding: '12px',
           backgroundColor: 'var(--white)',
         }),
       }}
     >
-      {showPanel && (
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          <MapFilters
-            search={map.search}
-            onSearch={map.setSearch}
-            provider={map.provider}
-            onProviderChange={map.setProvider}
-            heatmap={map.heatmap}
-            onHeatmapChange={map.setHeatmap}
-            view={map.view}
-            onViewChange={map.setView}
-            showNumbers={map.showNumbers}
-            onShowNumbersChange={map.setShowNumbers}
-            showHouseholds={map.showHouseholds}
-            onShowHouseholdsChange={map.setShowHouseholds}
-            hidePoi={map.hidePoi}
-            onHidePoiChange={map.setHidePoi}
-            onCollapse={() => setPanelOpen(false)}
-          />
-
-          <TerritoryPicker
-            territories={map.territories}
-            selectedId={map.selectedId}
-            onSelect={map.setSelectedId}
-            height={laptopUp ? 'calc(100dvh - 620px)' : '200px'}
-          />
-        </Box>
-      )}
-
       <Box
         ref={map.wrapper}
         sx={{
           position: 'relative',
-          height: mapHeight,
+          height: map.fullscreen
+            ? '100%'
+            : `max(560px, calc(100dvh - ${top + BOTTOM_GAP}px))`,
           backgroundColor: 'var(--white)',
-          '&:fullscreen': { height: '100%', borderRadius: 0 },
           borderRadius: 'var(--radius-l)',
           border: '1px solid var(--accent-200)',
           overflow: 'hidden',
+          // a WebGL canvas ignores overflow clipping in Safari; clip-path doesn't
+          clipPath: 'inset(0 round var(--radius-l))',
           '& .maplibregl-map': { height: '100%', width: '100%' },
+          '& .maplibregl-ctrl-bottom-left': {
+            left: inset,
+            transition: 'left 0.2s ease',
+          },
           '& .maplibregl-ctrl-attrib': {
             fontSize: '10px',
             borderRadius: 'var(--radius-s)',
@@ -129,31 +126,117 @@ const TerritoriesMap = () => {
       >
         <Box ref={map.container} sx={{ height: '100%', width: '100%' }} />
 
-        <MapIsland corner="top-left">
-          {!showPanel && !map.fullscreen && (
-            <MapAction
-              title="Show the panel"
-              onClick={() => setPanelOpen(true)}
-            >
-              <IconPanelOpen color="var(--accent-main)" />
-            </MapAction>
+        {showPanel && (
+          <Box
+            sx={{
+              position: 'absolute',
+              top: '12px',
+              left: '12px',
+              bottom: editor.scope === 'congregation' ? 'auto' : '12px',
+              maxHeight: 'calc(100% - 24px)',
+              width: `${PANEL_WIDTH}px`,
+              zIndex: 3,
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '8px',
+              overflowY: 'auto',
+              pointerEvents: 'none',
+              '& > *': {
+                pointerEvents: 'auto',
+                boxShadow: 'var(--hover-shadow)',
+              },
+            }}
+          >
+            <MapFilters
+              search={map.search}
+              onSearch={map.setSearch}
+              colorView={map.colorView}
+              onColorViewChange={map.setColorView}
+              heatmapYear={map.heatmapYear}
+              onHeatmapYearChange={map.setHeatmapYear}
+              onCollapse={() => setPanelOpen(false)}
+            />
+
+            {editor.scope !== 'congregation' && (
+              <Box sx={{ flex: '1 0 200px', minHeight: '200px' }}>
+                <TerritoryPicker
+                  territories={map.territories}
+                  selectedId={map.selectedId}
+                  onSelect={map.setSelectedId}
+                  height="100%"
+                  editing={map.editMode}
+                />
+              </Box>
+            )}
+          </Box>
+        )}
+
+        <Stack
+          direction="row"
+          sx={{
+            position: 'absolute',
+            top: '12px',
+            left: inset,
+            right: '12px',
+            zIndex: 2,
+            transition: 'left 0.2s ease',
+            gap: '8px',
+            alignItems: 'flex-start',
+            pointerEvents: 'none',
+            '& > *': { pointerEvents: 'auto' },
+          }}
+        >
+          {!showPanel && (
+            <MapIsland corner="static">
+              <MapAction
+                title="Show the panel"
+                onClick={() => setPanelOpen(true)}
+              >
+                <IconPanelOpen color="var(--accent-main)" />
+              </MapAction>
+            </MapIsland>
           )}
 
-          <MapAction
-            title="Edit the congregation border"
-            active={map.editing && map.scope === 'congregation'}
-            onClick={() => map.startEditing('congregation')}
-          >
-            <IconGlobe color="var(--accent-main)" />
-          </MapAction>
-        </MapIsland>
+          <TabSwitcher
+            ariaLabel="Map mode"
+            value={map.editMode ? 'edit' : 'view'}
+            onChange={map.setMode}
+            options={[
+              { value: 'view', label: 'View', icon: <IconVisibility /> },
+              { value: 'edit', label: 'Edit', icon: <IconEdit /> },
+            ]}
+            sx={{
+              flexShrink: 0,
+              width: '220px',
+              backgroundColor: 'var(--white)',
+              boxShadow: 'var(--hover-shadow)',
+              '& [role="tab"]': { minHeight: '36px' },
+            }}
+          />
 
-        {/* the map's own controls sit in the bottom right corner */}
+          {editor.editing && (
+            <EditToolbar
+              editor={editor}
+              onCongregation={() =>
+                map.switchScope(
+                  editor.scope === 'congregation' ? 'territory' : 'congregation'
+                )
+              }
+            />
+          )}
+
+          {map.editMode && !editor.editing && (
+            <IdleToolbar
+              onCongregation={() => map.switchScope('congregation')}
+            />
+          )}
+        </Stack>
+
         <Box
           sx={{
             position: 'absolute',
             right: '12px',
-            bottom: '48px',
+            bottom: '12px',
             zIndex: 2,
             display: 'flex',
             flexDirection: 'column',
@@ -161,37 +244,34 @@ const TerritoriesMap = () => {
             gap: '8px',
           }}
         >
-          <Stack
-            sx={{
-              alignItems: 'center',
-              borderRadius: 'var(--radius-l)',
-              backgroundColor: 'var(--white)',
-              border: '1px solid var(--accent-200)',
-              boxShadow: '0px 2px 8px 0px rgba(28, 28, 28, 0.12)',
-            }}
-          >
-            <MapAction title="Zoom in" onClick={map.zoomIn}>
+          <MapIsland corner="static" vertical>
+            <MapAction title="Zoom in" placement="left" onClick={map.zoomIn}>
               <IconAdd color="var(--accent-main)" />
             </MapAction>
 
             <CustomDivider color="var(--accent-200)" sx={{ width: '24px' }} />
 
-            <MapAction title="Zoom out" onClick={map.zoomOut}>
+            <MapAction title="Zoom out" placement="left" onClick={map.zoomOut}>
               <IconRemove color="var(--accent-main)" />
             </MapAction>
-          </Stack>
+          </MapIsland>
 
           <MapIsland corner="static">
-            <MapAction title="My location" onClick={map.locate}>
+            <MapAction title="My location" placement="top" onClick={map.locate}>
               <IconMyLocation color="var(--accent-main)" />
             </MapAction>
 
-            <MapAction title="Show all territories" onClick={map.fitAll}>
+            <MapAction
+              title="Show all territories"
+              placement="top"
+              onClick={map.fitAll}
+            >
               <IconMapOverview color="var(--accent-main)" />
             </MapAction>
 
             <MapAction
               title={map.fullscreen ? 'Exit full screen' : 'Full screen'}
+              placement="top"
               onClick={map.toggleFullscreen}
             >
               {map.fullscreen ? (
@@ -203,176 +283,43 @@ const TerritoriesMap = () => {
           </MapIsland>
         </Box>
 
-        {/* the drawing tools only exist while an area is being edited */}
-        {map.editing && (
-          <MapIsland corner="left" vertical>
-            {TOOLS.filter(
-              ({ id }) =>
-                map.scope === 'territory' || id === 'move' || id === 'shape'
-            ).map(({ id, title, Icon }) => (
-              <MapAction
-                key={id}
-                title={title}
-                active={map.activeTool === id}
-                onClick={() => map.pickTool(id)}
-              >
-                <Icon
-                  color={
-                    map.activeTool === id
-                      ? 'var(--accent-dark)'
-                      : 'var(--accent-main)'
-                  }
-                />
-              </MapAction>
-            ))}
-
-            {map.activeTool === 'line' && map.scope === 'territory' && (
-              <>
-                <CustomDivider
-                  color="var(--accent-200)"
-                  sx={{ width: '100%' }}
-                />
-
-                <MapAction
-                  title="Solid line"
-                  active={map.activeLineStyle === 'solid'}
-                  onClick={() => map.pickLineStyle('solid')}
-                >
-                  <IconSolidLine color="var(--accent-main)" />
-                </MapAction>
-
-                <MapAction
-                  title="Dashed line"
-                  active={map.activeLineStyle === 'dashed'}
-                  onClick={() => map.pickLineStyle('dashed')}
-                >
-                  <IconDashedLine color="var(--accent-main)" />
-                </MapAction>
-              </>
-            )}
-          </MapIsland>
-        )}
-
-        {map.selected && !map.editing && (
-          <MapIsland corner="bottom-left">
-            <Typography
-              className="body-small-semibold"
-              color="var(--black)"
-              sx={{ padding: '0 8px' }}
-              noWrap
-            >
-              {map.selected.number} · {map.selected.name}
-            </Typography>
-
-            <CustomDivider
-              orientation="vertical"
-              flexItem
-              color="var(--accent-200)"
-              sx={{ margin: '4px 0' }}
-            />
-
-            <Button
-              variant="small"
-              disableAutoStretch
-              startIcon={<IconDrawShape color="var(--accent-main)" />}
-              onClick={(() => map.startEditing('territory')) as never}
-              sx={{ minHeight: '28px', padding: '2px 8px', minWidth: 'unset' }}
-            >
-              {map.selected.boundary?.length ? 'Edit map' : 'Draw borders'}
-            </Button>
-          </MapIsland>
-        )}
-
-        {map.editing && (
-          <MapIsland corner="bottom-left">
-            <Typography
-              className="body-small-semibold"
-              color="var(--black)"
-              sx={{ padding: '0 8px' }}
-              noWrap
-            >
-              {map.scope === 'congregation'
-                ? 'Congregation border'
-                : map.selected?.number}
-            </Typography>
-
-            <CustomDivider
-              orientation="vertical"
-              flexItem
-              color="var(--accent-200)"
-              sx={{ margin: '4px 0' }}
-            />
-
-            <MapAction title="Undo" onClick={map.undo}>
-              <IconUndo color="var(--accent-main)" />
-            </MapAction>
-
-            <MapAction title="Redo" onClick={map.redo}>
-              <IconRedo color="var(--accent-main)" />
-            </MapAction>
-
-            <MapAction title="Start over" onClick={map.clearDrawing}>
-              <IconDelete color="var(--red-main)" />
-            </MapAction>
-
-            <CustomDivider
-              orientation="vertical"
-              flexItem
-              color="var(--accent-200)"
-              sx={{ margin: '4px 0' }}
-            />
-
-            <Button
-              variant="small"
-              disableAutoStretch
-              startIcon={<IconClose color="var(--accent-main)" />}
-              onClick={map.cancelEditing as never}
-              sx={{ minHeight: '28px', padding: '2px 8px', minWidth: 'unset' }}
-            >
-              Cancel
-            </Button>
-
-            <Button
-              variant="main"
-              disableAutoStretch
-              disabled={!map.draft.boundary?.length}
-              startIcon={<IconSave color="var(--always-white)" />}
-              onClick={map.saveBoundary as never}
-              sx={{ minHeight: '28px', padding: '2px 12px', minWidth: 'unset' }}
-            >
-              Save
-            </Button>
-          </MapIsland>
-        )}
-
-        {!map.selected && (
-          <Stack
+        {editor.editing && editor.tool === 'points' && !hintDismissed && (
+          <Box
             sx={{
               position: 'absolute',
-              top: '12px',
+              bottom: '12px',
               left: '50%',
               transform: 'translateX(-50%)',
               zIndex: 2,
-              padding: '6px 12px',
-              borderRadius: 'var(--radius-l)',
-              backgroundColor: 'var(--white)',
-              border: '1px solid var(--accent-200)',
+              maxWidth: 'min(520px, calc(100% - 200px))',
             }}
           >
-            <Typography className="body-small-regular" color="var(--grey-400)">
-              Pick a territory to draw or edit its borders.
-            </Typography>
-          </Stack>
+            <MapIsland corner="static">
+              <Typography
+                className="label-small-regular"
+                color="var(--grey-400)"
+                sx={{ padding: '0 8px' }}
+              >
+                Drag a point to move it, drag a midpoint to add one, or pick a
+                point and press Delete to remove it.
+              </Typography>
+
+              <MapAction title="Got it" onClick={dismissHint}>
+                <IconClose color="var(--accent-main)" />
+              </MapAction>
+            </MapIsland>
+          </Box>
         )}
       </Box>
 
-      {map.labelling !== undefined && (
-        <LabelDialog onSave={map.saveLabel} onClose={() => map.saveLabel('')} />
+      {editor.labelling !== undefined && (
+        <LabelDialog
+          onSave={editor.saveLabel}
+          onClose={() => editor.saveLabel('')}
+        />
       )}
     </Box>
   );
-
-  return surface;
 };
 
 export default TerritoriesMap;

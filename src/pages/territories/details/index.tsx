@@ -21,7 +21,6 @@ const TerritoryDetailsPage = () => {
   const {
     territory,
     isNew,
-    isDuplicate,
     handleChange,
     canSave,
     handleSave,
@@ -96,7 +95,6 @@ const TerritoryDetailsPage = () => {
 
       <TerritoryDetailsContainer
         territory={territory}
-        numberError={isDuplicate}
         onChange={handleChange}
       />
     </Box>

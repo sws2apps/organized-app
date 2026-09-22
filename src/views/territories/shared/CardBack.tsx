@@ -102,10 +102,16 @@ const CardBack = ({
 
       <View style={{ flexDirection: 'row', gap: 15 }}>
         <View style={{ gap: 5, flexGrow: 1, flexBasis: 0 }}>
-          <View style={[styles.chip, { backgroundColor: COLORS.chip }]}>
-            <Text style={[styles.chipText, { color: COLORS.text }]}>Notes</Text>
-          </View>
-          {!!notes && <Text style={styles.notes}>{notes}</Text>}
+          {!!notes && (
+            <>
+              <View style={[styles.chip, { backgroundColor: COLORS.chip }]}>
+                <Text style={[styles.chipText, { color: COLORS.text }]}>
+                  Notes
+                </Text>
+              </View>
+              <Text style={styles.notes}>{notes}</Text>
+            </>
+          )}
         </View>
 
         <View style={{ gap: 8, width: 140 }}>

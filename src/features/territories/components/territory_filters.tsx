@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { Box, Stack } from '@mui/material';
-import { Badge, FilterChip, Typography } from '@components/index';
+import { Badge, Button, FilterChip, Typography } from '@components/index';
 import { useAtomValue } from 'jotai';
 import { territoryCategoriesState } from '@states/territories';
 import {
@@ -10,7 +10,7 @@ import {
   TerritoryType,
   TYPE_LABEL,
 } from '@definition/territory';
-import { COVERAGE_PERIODS, EMPTY_FILTERS } from '../helpers';
+import { appliedFilters, COVERAGE_PERIODS, EMPTY_FILTERS } from '../helpers';
 
 const Group = ({ label, children }: { label: string; children: ReactNode }) => (
   <Box sx={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
@@ -26,9 +26,11 @@ const Group = ({ label, children }: { label: string; children: ReactNode }) => (
 const TerritoryFilters = ({
   filters,
   onChange,
+  showTitle = true,
 }: {
   filters: Filters;
   onChange: (next: Filters) => void;
+  showTitle?: boolean;
 }) => {
   const categories = useAtomValue(territoryCategoriesState);
 
@@ -42,12 +44,7 @@ const TerritoryFilters = ({
     onChange({ ...filters, coverage: same ? undefined : { covered, period } });
   };
 
-  const applied =
-    filters.status.length +
-    filters.type.length +
-    filters.categories.length +
-    (filters.coverage ? 1 : 0) +
-    (filters.cardLostOnly ? 1 : 0);
+  const applied = appliedFilters(filters);
 
   const toggle = <T extends string>(key: keyof Filters, value: T) => {
     const current = filters[key] as T[];
@@ -62,36 +59,40 @@ const TerritoryFilters = ({
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-      <Stack direction="row" spacing="12px" sx={{ alignItems: 'center' }}>
-        <Typography className="body-small-semibold" color="var(--black)">
-          Filters
-        </Typography>
-        {applied > 0 && (
-          <>
-            <Box sx={{ width: 'fit-content' }}>
+      {(showTitle || applied > 0) && (
+        <Stack direction="row" spacing="12px" sx={{ alignItems: 'center' }}>
+          {showTitle && (
+            <Typography className="body-small-semibold" color="var(--black)">
+              Filters
+            </Typography>
+          )}
+          {applied > 0 && (
+            <>
               <Badge
                 size="small"
                 filled={false}
                 color="accent"
                 text={`Applied: ${applied}`}
+                sx={{ width: 'fit-content' }}
               />
-            </Box>
-            <Box
-              onClick={() =>
-                onChange({ ...EMPTY_FILTERS, search: filters.search })
-              }
-              sx={{ cursor: 'pointer' }}
-            >
-              <Typography
-                className="label-small-medium"
-                color="var(--accent-main)"
+              <Button
+                variant="small"
+                disableAutoStretch
+                onClick={() =>
+                  onChange({ ...EMPTY_FILTERS, search: filters.search })
+                }
+                sx={{
+                  minHeight: '28px',
+                  padding: '2px 8px',
+                  minWidth: 'unset',
+                }}
               >
                 Clear all
-              </Typography>
-            </Box>
-          </>
-        )}
-      </Stack>
+              </Button>
+            </>
+          )}
+        </Stack>
+      )}
 
       <Group label="Assignment">
         {(Object.keys(STATUS_LABEL) as TerritoryStatus[]).map((status) => (

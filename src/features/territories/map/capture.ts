@@ -1,13 +1,11 @@
 import * as maplibregl from 'maplibre-gl';
 import { Territory } from '@definition/territory';
 import { MAP_PROVIDER } from './constants';
-import {
-  boundaryBounds,
-  lineCollection,
-  markerCollection,
-  statusColor,
-} from './helpers';
+import { boundaryBounds } from './helpers';
+import { addTerritoryLayers } from './layers';
+import { paintMarkers } from './markers';
 
+// the same 1.74 ratio the card gives the picture, so it fills the frame
 const WIDTH = 1040;
 const HEIGHT = 600;
 
@@ -33,6 +31,7 @@ export const captureTerritoryMap = (territory: Territory) =>
 
     const map = new maplibregl.Map({
       container,
+      // the card is printed on white paper, so always the light basemap
       style: MAP_PROVIDER.light,
       bounds: [west, south, east, north],
       fitBoundsOptions: { padding: 48 },
@@ -41,7 +40,13 @@ export const captureTerritoryMap = (territory: Territory) =>
       canvasContextAttributes: { preserveDrawingBuffer: true },
     });
 
+    let done = false;
+
     const cleanup = (result?: string) => {
+      if (done) return;
+      done = true;
+
+      window.clearTimeout(timeout);
       map.remove();
       container.remove();
       resolve(result);
@@ -49,100 +54,27 @@ export const captureTerritoryMap = (territory: Territory) =>
 
     const timeout = window.setTimeout(() => cleanup(undefined), 12000);
 
+    let styled = false;
+
     map.on('style.load', () => {
-      const color = statusColor(territory);
-
-      map.addSource('area', {
-        type: 'geojson',
-        data: {
-          type: 'Feature',
-          properties: {},
-          geometry: { type: 'Polygon', coordinates: [boundary] },
-        },
-      });
-
-      map.addLayer({
-        id: 'area-fill',
-        type: 'fill',
-        source: 'area',
-        paint: { 'fill-color': color, 'fill-opacity': 0.18 },
-      });
-
-      map.addLayer({
-        id: 'area-line',
-        type: 'line',
-        source: 'area',
-        paint: { 'line-color': color, 'line-width': 3 },
-      });
-
-      map.addSource('notes', {
-        type: 'geojson',
-        data: lineCollection([territory]),
-      });
-
-      map.addLayer({
-        id: 'notes-solid',
-        type: 'line',
-        source: 'notes',
-        filter: ['==', ['get', 'style'], 'solid'],
-        paint: { 'line-color': '#1c1c1c', 'line-width': 3 },
-      });
-
-      map.addLayer({
-        id: 'notes-dashed',
-        type: 'line',
-        source: 'notes',
-        filter: ['==', ['get', 'style'], 'dashed'],
-        paint: {
-          'line-color': '#1c1c1c',
-          'line-width': 3,
-          'line-dasharray': [2, 2],
-        },
-      });
-
-      map.addSource('markers', {
-        type: 'geojson',
-        data: markerCollection([territory]),
-      });
-
-      map.addLayer({
-        id: 'markers-pin',
-        type: 'circle',
-        source: 'markers',
-        filter: ['==', ['get', 'kind'], 'pin'],
-        paint: {
-          'circle-radius': 7,
-          'circle-color': '#E53935',
-          'circle-stroke-width': 2,
-          'circle-stroke-color': '#FFFFFF',
-        },
-      });
-
-      map.addLayer({
-        id: 'markers-text',
-        type: 'symbol',
-        source: 'markers',
-        filter: ['==', ['get', 'kind'], 'text'],
-        layout: {
-          'text-field': ['get', 'text'],
-          'text-size': 15,
-          'text-allow-overlap': true,
-        },
-        paint: {
-          'text-color': '#1c1c1c',
-          'text-halo-color': '#FFFFFF',
-          'text-halo-width': 2,
-        },
-      });
+      styled = true;
+      addTerritoryLayers(map, territory, 0);
     });
 
-    map.on('idle', () => {
-      window.clearTimeout(timeout);
-      cleanup(map.getCanvas().toDataURL('image/png'));
+    map.once('idle', () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = map.getCanvas().width;
+      canvas.height = map.getCanvas().height;
+      canvas.getContext('2d')?.drawImage(map.getCanvas(), 0, 0);
+
+      // the card shrinks the picture to about half, so the chips are drawn larger
+      paintMarkers(canvas, map, territory.mapMarkers ?? [], 2);
+
+      cleanup(canvas.toDataURL('image/png'));
     });
 
+    // a missing tile still leaves a usable picture; only a basemap that never loads fails
     map.on('error', () => {
-      window.clearTimeout(timeout);
-      cleanup(undefined);
+      if (!styled) cleanup(undefined);
     });
   });

@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
+import { useBreakpoints } from '@hooks/index';
 import { Box, Stack } from '@mui/material';
-import { Typography } from '@components/index';
+import { Button, CustomDivider, Typography } from '@components/index';
 import { ChartCard } from '../components/charts';
 import { CoveredBadge, StatusBadge } from '../components/territory_badges';
 import TruncatedText from '../components/truncated_text';
@@ -10,11 +11,17 @@ import { Territory } from '@definition/territory';
 const AttentionCard = ({ territories }: { territories: Territory[] }) => {
   const navigate = useNavigate();
 
+  const { laptopUp } = useBreakpoints();
+
   const [limit, setLimit] = useState(10);
 
   const rows = [...territories]
     .sort((a, b) => b.daysSinceCovered - a.daysSinceCovered)
-    .slice(0, limit);
+    .slice(0, limit)
+    .map((territory, index) => ({ territory, rank: index + 1 }));
+
+  const half = Math.ceil(rows.length / 2);
+  const columns = laptopUp ? [rows.slice(0, half), rows.slice(half)] : [rows];
 
   const overYear = territories.filter(
     (territory) => territory.daysSinceCovered > 365
@@ -29,79 +36,92 @@ const AttentionCard = ({ territories }: { territories: Territory[] }) => {
       <Box
         sx={{
           display: 'grid',
-          gridTemplateColumns: {
-            mobile: 'minmax(0, 1fr)',
-            laptop: 'repeat(2, minmax(0, 1fr))',
-          },
-          columnGap: '24px',
+          gridTemplateColumns: laptopUp
+            ? 'minmax(0, 1fr) auto minmax(0, 1fr)'
+            : 'minmax(0, 1fr)',
+          columnGap: '16px',
+          rowGap: '4px',
+          alignItems: 'stretch',
         }}
       >
-        {rows.map((territory, index) => (
+        {columns.map((column, columnIndex) => [
+          columnIndex > 0 && (
+            <CustomDivider
+              key={`divider-${columnIndex}`}
+              orientation="vertical"
+              flexItem
+              color="var(--accent-200)"
+            />
+          ),
           <Stack
-            key={territory.id}
-            direction="row"
-            spacing="12px"
-            onClick={() => navigate(`/territories/${territory.id}`)}
-            sx={{
-              alignItems: 'center',
-              cursor: 'pointer',
-              padding: '10px 8px',
-              borderRadius: 'var(--radius-m)',
-              borderTop: index < 2 ? 'none' : '1px solid var(--accent-200)',
-              transition: 'background-color 0.15s ease',
-              '&:hover': { backgroundColor: 'var(--accent-100)' },
-            }}
+            key={columnIndex}
+            spacing="4px"
+            divider={<CustomDivider color="var(--accent-200)" />}
           >
-            <Typography
-              className="label-small-regular"
-              color="var(--grey-350)"
-              sx={{ width: '20px', flexShrink: 0 }}
-            >
-              {index + 1}
-            </Typography>
+            {column.map(({ territory, rank }) => (
+              <Stack
+                key={territory.id}
+                direction="row"
+                spacing="12px"
+                onClick={() => navigate(`/territories/${territory.id}`)}
+                sx={{
+                  alignItems: 'center',
+                  cursor: 'pointer',
+                  padding: '10px 8px',
+                  borderRadius: 'var(--radius-m)',
+                  transition: 'background-color 0.15s ease',
+                  '&:hover': { backgroundColor: 'var(--accent-100)' },
+                }}
+              >
+                <Typography
+                  className="label-small-regular"
+                  color="var(--grey-350)"
+                  sx={{ width: '20px', flexShrink: 0 }}
+                >
+                  {rank}
+                </Typography>
 
-            <Typography
-              className="body-small-semibold"
-              color="var(--black)"
-              sx={{ width: '48px', flexShrink: 0 }}
-            >
-              {territory.number}
-            </Typography>
+                <Typography
+                  className="body-small-semibold"
+                  color="var(--black)"
+                  sx={{ width: '48px', flexShrink: 0 }}
+                >
+                  {territory.number}
+                </Typography>
 
-            <Box sx={{ flexGrow: 1, minWidth: 0 }}>
-              <TruncatedText
-                className="body-small-regular"
-                color="var(--black)"
-                text={territory.name}
-              />
-              <TruncatedText
-                className="label-small-regular"
-                color="var(--grey-350)"
-                text={`${territory.city} · ${territory.households} households`}
-              />
-            </Box>
+                <Box sx={{ flexGrow: 1, minWidth: 0 }}>
+                  <TruncatedText
+                    className="body-small-regular"
+                    color="var(--black)"
+                    text={territory.name}
+                  />
+                  <TruncatedText
+                    className="label-small-regular"
+                    color="var(--grey-350)"
+                    text={`${territory.city} · ${territory.households} households`}
+                  />
+                </Box>
 
-            <Box sx={{ width: 'fit-content', flexShrink: 0 }}>
-              <StatusBadge status={territory.status} />
-            </Box>
+                <Box sx={{ width: 'fit-content', flexShrink: 0 }}>
+                  <StatusBadge status={territory.status} />
+                </Box>
 
-            <CoveredBadge days={territory.daysSinceCovered} />
-          </Stack>
-        ))}
+                <CoveredBadge days={territory.daysSinceCovered} />
+              </Stack>
+            ))}
+          </Stack>,
+        ])}
       </Box>
 
       {territories.length > limit && (
-        <Box
+        <Button
+          variant="small"
+          disableAutoStretch
           onClick={() => setLimit(limit + 10)}
-          sx={{ cursor: 'pointer', width: 'fit-content' }}
+          sx={{ alignSelf: 'flex-start' }}
         >
-          <Typography
-            className="body-small-semibold"
-            color="var(--accent-main)"
-          >
-            Show more
-          </Typography>
-        </Box>
+          Show more
+        </Button>
       )}
     </ChartCard>
   );

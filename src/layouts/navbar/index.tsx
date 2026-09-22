@@ -36,6 +36,7 @@ import ThemeSwitcher from '@features/theme_switcher';
 import Typography from '@components/typography';
 import IconButton from '@components/icon_button';
 import BottomMenu from '@layouts/bottom_menu';
+import usePageWidth from '@layouts/usePageWidth';
 
 const baseMenuStyle = {
   padding: '8px 12px 8px 12px',
@@ -58,6 +59,8 @@ const menuStyle = {
 };
 
 const NavBar = ({ isSupported }: NavBarType) => {
+  const pageWidth = usePageWidth();
+
   const { t } = useAppTranslation();
 
   const [settingsAnimating, setSettingsAnimating] = useState(false);
@@ -119,7 +122,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
           <Container
             maxWidth={false}
             sx={{
-              maxWidth: '1440px',
+              maxWidth: pageWidth,
               padding:
                 navBarOptions.title !== null
                   ? { mobile: '4px 16px', tablet: '6px 32px' }
@@ -542,7 +545,10 @@ const NavBar = ({ isSupported }: NavBarType) => {
                     sx={{
                       display: 'flex',
                       flexDirection: 'column',
-                      marginLeft: '-8px',
+                      minWidth: 0,
+                      alignItems: tablet688Up ? 'flex-start' : 'center',
+                      textAlign: tablet688Up ? 'left' : 'center',
+                      marginLeft: tablet688Up ? '-8px' : 0,
                     }}
                   >
                     <Typography

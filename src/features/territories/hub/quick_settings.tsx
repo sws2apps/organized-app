@@ -1,8 +1,9 @@
 import { Box, MenuItem, Stack } from '@mui/material';
-import { Select, Switch, Typography } from '@components/index';
+import { Select, Typography } from '@components/index';
+import SwitchWithLabel from '@components/switch_with_label';
 import QuickSettings from '@features/quick_settings';
 
-export type TerritoriesQuickSettingsProps = {
+type TerritoriesQuickSettingsProps = {
   open: boolean;
   onClose: VoidFunction;
   showHouseholds: boolean;
@@ -21,36 +22,23 @@ const TerritoriesQuickSettings = ({
 }: TerritoriesQuickSettingsProps) => (
   <QuickSettings title="Territories" open={open} onClose={onClose}>
     <Stack spacing="16px" sx={{ width: '100%' }}>
-      <Stack
-        direction="row"
-        spacing="16px"
-        sx={{ alignItems: 'center', justifyContent: 'space-between' }}
-      >
-        <Stack spacing="2px">
-          <Typography className="body-regular" color="var(--black)">
-            Show households count
-          </Typography>
-          <Typography className="label-small-regular" color="var(--grey-400)">
-            Display the number of households next to every territory
-          </Typography>
-        </Stack>
-
-        <Switch
-          checked={showHouseholds}
-          onChange={(_, value) => onShowHouseholdsChange(value)}
-        />
-      </Stack>
+      <SwitchWithLabel
+        label="Show households count"
+        helper="Display the number of households next to every territory"
+        checked={showHouseholds}
+        onChange={onShowHouseholdsChange}
+      />
 
       <Stack
         direction="row"
         spacing="16px"
         sx={{ alignItems: 'center', justifyContent: 'space-between' }}
       >
-        <Stack spacing="2px">
+        <Stack spacing="4px">
           <Typography className="body-regular" color="var(--black)">
             Overdue after
           </Typography>
-          <Typography className="label-small-regular" color="var(--grey-400)">
+          <Typography className="label-small-regular" color="var(--grey-350)">
             Months a publisher may hold a territory before it counts as overdue
           </Typography>
         </Stack>

@@ -1,12 +1,7 @@
 import { Box, Stack } from '@mui/material';
 import Tooltip from '@components/tooltip';
 import { Badge } from '@components/index';
-import {
-  IconAtHome,
-  IconCall,
-  IconRaiseHand,
-  IconShoppingCart,
-} from '@icons/index';
+import { IconRaiseHand } from '@icons/index';
 import { daysLabel } from '../helpers';
 import { useAtomValue } from 'jotai';
 import { territoryCategoriesState } from '@states/territories';
@@ -15,15 +10,7 @@ import {
   STATUS_LABEL,
   Territory,
   TerritoryStatus,
-  TerritoryType,
-  TYPE_LABEL,
 } from '@definition/territory';
-
-const TYPE_ICON: Record<TerritoryType, typeof IconAtHome> = {
-  door_to_door: IconAtHome,
-  business: IconShoppingCart,
-  phone: IconCall,
-};
 
 export const StatusBadge = ({ status }: { status: TerritoryStatus }) => (
   <Badge
@@ -31,19 +18,19 @@ export const StatusBadge = ({ status }: { status: TerritoryStatus }) => (
     color={STATUS_COLOR[status]}
     text={STATUS_LABEL[status]}
     filled={false}
+    sx={{ width: 'fit-content', flexShrink: 0 }}
   />
 );
 
 export const CoveredBadge = ({ days }: { days: number }) => {
   return (
-    <Box sx={{ width: 'fit-content', flexShrink: 0 }}>
-      <Badge
-        size="small"
-        filled={false}
-        color={days > 365 ? 'red' : days > 182 ? 'orange' : 'grey'}
-        text={daysLabel(days)}
-      />
-    </Box>
+    <Badge
+      size="small"
+      filled={false}
+      color={days > 365 ? 'red' : days > 182 ? 'orange' : 'grey'}
+      text={daysLabel(days)}
+      sx={{ width: 'fit-content', flexShrink: 0 }}
+    />
   );
 };
 
@@ -51,15 +38,14 @@ export const RequestBadge = ({ territory }: { territory: Territory }) => {
   if (!territory.requestedBy) return null;
 
   return (
-    <Box sx={{ width: 'fit-content', flexShrink: 0 }}>
-      <Badge
-        size="small"
-        color="orange"
-        filled={false}
-        text="Requested"
-        icon={<IconRaiseHand color="var(--orange-dark)" />}
-      />
-    </Box>
+    <Badge
+      size="small"
+      color="orange"
+      filled={false}
+      text="Requested"
+      icon={<IconRaiseHand color="var(--orange-dark)" />}
+      sx={{ width: 'fit-content', flexShrink: 0 }}
+    />
   );
 };
 
@@ -67,9 +53,13 @@ export const CardLostBadge = ({ territory }: { territory: Territory }) => {
   if (!territory.cardLost) return null;
 
   return (
-    <Box sx={{ width: 'fit-content', flexShrink: 0 }}>
-      <Badge size="small" color="red" filled={false} text="Reprint" />
-    </Box>
+    <Badge
+      size="small"
+      color="red"
+      filled={false}
+      text="Reprint"
+      sx={{ width: 'fit-content', flexShrink: 0 }}
+    />
   );
 };
 
@@ -92,11 +82,7 @@ export const CategoryBadges = ({
   const rest = known.length - shown.length;
 
   return (
-    <Stack
-      direction="row"
-      spacing="4px"
-      sx={{ flexShrink: 0, '& > *': { width: 'fit-content' } }}
-    >
+    <Stack direction="row" spacing="4px" sx={{ flexShrink: 0 }}>
       {shown.map((category) => (
         <Badge
           key={category.id}
@@ -104,6 +90,7 @@ export const CategoryBadges = ({
           color={category.color}
           text={category.name}
           filled={false}
+          sx={{ width: 'fit-content' }}
         />
       ))}
       {rest > 0 && (
@@ -113,24 +100,12 @@ export const CategoryBadges = ({
             .map((category) => category.name)
             .join(', ')}
         >
+          {/* the tooltip needs a DOM child to anchor to */}
           <Box sx={{ width: 'fit-content' }}>
             <Badge size="small" color="grey" text={`+${rest}`} filled={false} />
           </Box>
         </Tooltip>
       )}
     </Stack>
-  );
-};
-
-export const TypeIcon = ({ type }: { type: TerritoryType }) => {
-  const Icon = TYPE_ICON[type];
-
-  return (
-    <Box
-      aria-label={TYPE_LABEL[type]}
-      sx={{ display: 'flex', flexShrink: 0, alignItems: 'center' }}
-    >
-      <Icon color="var(--grey-350)" width={16} height={16} />
-    </Box>
   );
 };

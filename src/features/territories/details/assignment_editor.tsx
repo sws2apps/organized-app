@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Box, MenuItem, Stack } from '@mui/material';
-import { Button, Select, Typography } from '@components/index';
+import { Button, InfoNote, Select, Typography } from '@components/index';
 import DatePicker from '@components/date_picker';
 import Dialog from '@components/dialog';
 import DialogActions from '@components/dialog_actions';
@@ -8,18 +8,26 @@ import MenuSubHeader from '@components/menu_sub_header';
 import { useBreakpoints } from '@hooks/index';
 import { GROUPS, PUBLISHERS_ONLY } from '../mockData';
 import { assignmentFromDates, parseDate } from '../helpers';
+import EditorHeader from './editor_header';
 import { TerritoryAssignment } from '@definition/territory';
+
+const startOfDay = (date: Date) =>
+  new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
 
 const AssignmentEditor = ({
   assignment,
   isNew = false,
+  otherOpen = false,
   onClose,
   onSave,
+  onDelete,
 }: {
   assignment: TerritoryAssignment;
   isNew?: boolean;
+  otherOpen?: boolean;
   onClose: VoidFunction;
   onSave: (next: TerritoryAssignment) => void;
+  onDelete?: VoidFunction;
 }) => {
   const { tablet600Up } = useBreakpoints();
 
@@ -31,17 +39,32 @@ const AssignmentEditor = ({
     parseDate(assignment.returnedOn)
   );
 
-  return (
-    <Dialog onClose={onClose} open sx={{ padding: '24px' }}>
-      <Stack spacing="4px" sx={{ width: '100%' }}>
-        <Typography className="h3">
-          {isNew ? 'Add assignment' : 'Edit assignment'}
-        </Typography>
-        <Typography className="body-small-regular" color="var(--grey-400)">
-          Who worked the territory, and when it was taken and returned.
-        </Typography>
-      </Stack>
+  const returnedTooEarly =
+    !!assignedOn &&
+    !!returnedOn &&
+    startOfDay(returnedOn) < startOfDay(assignedOn);
 
+  const secondOpen = otherOpen && !returnedOn;
+
+  return (
+    <Dialog
+      onClose={onClose}
+      open
+      header={
+        <EditorHeader
+          title={isNew ? 'Add assignment' : 'Edit assignment'}
+          description="Who worked the territory, and when it was taken and returned."
+          onDelete={
+            onDelete && !isNew
+              ? () => {
+                  onDelete();
+                  onClose();
+                }
+              : undefined
+          }
+        />
+      }
+    >
       <Select
         label="Publisher"
         value={publisher}
@@ -79,10 +102,19 @@ const AssignmentEditor = ({
           <DatePicker
             label="Returned on"
             value={returnedOn}
+            minDate={assignedOn}
+            error={returnedTooEarly}
+            helperText={
+              returnedTooEarly ? 'Cannot be before the assigned date' : ''
+            }
             onChange={(value) => setReturnedOn(value)}
           />
         </Box>
       </Stack>
+
+      {secondOpen && (
+        <InfoNote message="The territory is already out with someone. Add a returned date, or return the open assignment first." />
+      )}
 
       <DialogActions>
         <Button variant="secondary" onClick={onClose}>
@@ -90,7 +122,7 @@ const AssignmentEditor = ({
         </Button>
         <Button
           variant="main"
-          disabled={!publisher}
+          disabled={!publisher || returnedTooEarly || secondOpen}
           onClick={() => {
             onSave(
               assignmentFromDates(

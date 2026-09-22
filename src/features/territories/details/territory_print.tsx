@@ -21,14 +21,12 @@ const TerritoryPrint = ({
   const print = useTerritoryPrint(territory);
 
   return (
-    <Dialog onClose={onClose} open sx={{ padding: '24px' }}>
-      <Stack spacing="4px" sx={{ width: '100%' }}>
-        <Typography className="h3">Print {territory.number}</Typography>
-        <Typography className="body-small-regular" color="var(--grey-400)">
-          Pick the form, check the preview, then print or save it as PDF.
-        </Typography>
-      </Stack>
-
+    <Dialog
+      onClose={onClose}
+      open
+      title={`Print ${territory.number}`}
+      description="Pick the form, check the preview, then print or save it as PDF."
+    >
       <Stack direction="row" spacing="12px" sx={{ width: '100%' }}>
         {TEMPLATES.map((item) => (
           <Box

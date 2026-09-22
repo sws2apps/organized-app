@@ -17,6 +17,8 @@ export const COLORS = {
   chip: '#F0F0F0',
   dncText: '#CA2626',
   dncChip: '#F7D8D8',
+  numberChip: '#F2F5FF',
+  numberText: '#3B4CA3',
 };
 
 const styles = StyleSheet.create({
@@ -52,6 +54,8 @@ const styles = StyleSheet.create({
   notes: { fontSize: 10, fontWeight: 400, color: COLORS.text },
   qrText: { fontSize: 9, fontWeight: 400, color: COLORS.muted },
   printedOn: { fontSize: 9, fontWeight: 500, color: COLORS.note },
+  number: { fontSize: 8, fontWeight: 600, color: COLORS.numberText },
+  phone: { fontSize: 10, fontWeight: 500, color: COLORS.text },
 });
 
 export default styles;

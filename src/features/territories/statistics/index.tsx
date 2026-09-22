@@ -1,8 +1,11 @@
 import { Box, Stack } from '@mui/material';
 import { useNavigate } from 'react-router';
-import { Badge, Button, Typography } from '@components/index';
+import { Button, Typography } from '@components/index';
 import { useAtomValue } from 'jotai';
-import { territoriesState } from '@states/territories';
+import {
+  territoriesWithStatusState,
+  territoryMonthsState,
+} from '@states/territories';
 import {
   averageDuration,
   completionCounts,
@@ -10,12 +13,11 @@ import {
   durationBuckets,
   trimEmptyBands,
   gapBuckets,
+  serviceYear,
   inProgressPerMonth,
   medianDuration,
-  reviewNeededCount,
   totalDoNotCalls,
 } from '../helpers';
-import { MONTHS } from '@definition/territory';
 import { ChartCard, ColumnChart, Gauge, StatRow } from '../components/charts';
 import PublisherLoad from '../components/publisher_load';
 import AttentionCard from './attention_card';
@@ -26,9 +28,12 @@ import CoverageCycleCard from './coverage_cycle_card';
 const TerritoriesStatistics = () => {
   const navigate = useNavigate();
 
-  const territories = useAtomValue(territoriesState);
+  const territories = useAtomValue(territoriesWithStatusState);
+  const months = useAtomValue(territoryMonthsState);
 
-  const rate = coverageRate(territories);
+  const current = serviceYear();
+
+  const rate = coverageRate(territories, current);
   const buckets = trimEmptyBands(durationBuckets(territories));
   const maxBucket = Math.max(...buckets.map((bucket) => bucket.value), 1);
 
@@ -51,7 +56,7 @@ const TerritoriesStatistics = () => {
       >
         <Gauge value={rate} label="Covered" />
 
-        <Stack spacing="14px">
+        <Stack spacing="12px">
           {completionCounts(territories).map((entry) => (
             <StatRow
               key={entry.label}
@@ -83,10 +88,10 @@ const TerritoriesStatistics = () => {
 
       <ChartCard
         title="Territories in work"
-        hint="How many were being worked in each month"
+        hint={`How many were being worked in each month of the ${current} service year`}
         span={4}
       >
-        <ColumnChart values={inProgressPerMonth(territories)} labels={MONTHS} />
+        <ColumnChart values={inProgressPerMonth(territories)} labels={months} />
       </ChartCard>
 
       <CoverageCycleCard buckets={gapBuckets(territories)} />
@@ -95,7 +100,7 @@ const TerritoriesStatistics = () => {
         <PublisherLoad territories={territories} limit={9} />
       </ChartCard>
 
-      <ChartCard title="Do not calls" span={4}>
+      <ChartCard title="Do-not-call addresses" span={4}>
         <Stack
           direction="row"
           spacing="12px"
@@ -105,21 +110,17 @@ const TerritoriesStatistics = () => {
             <Typography className="big-numbers" color="var(--black)">
               {totalDoNotCalls(territories)}
             </Typography>
-            <Box sx={{ width: 'fit-content' }}>
-              <Badge
-                size="small"
-                filled={false}
-                color="orange"
-                text={`Review needed: ${reviewNeededCount(territories)}`}
-              />
-            </Box>
           </Stack>
 
           <Button
             variant="small"
             disableAutoStretch
-            onClick={(() => navigate('/territories/do-not-calls')) as never}
-            sx={{ minHeight: '28px', padding: '2px 8px', minWidth: 'unset' }}
+            minHeight={32}
+            onClick={() =>
+              navigate('/territories/do-not-calls', {
+                state: { parent: 'Territory coverage statistics' },
+              })
+            }
           >
             See all
           </Button>
@@ -142,7 +143,10 @@ const TerritoriesStatistics = () => {
             ))}
         </Stack>
       </ChartCard>
-      <CoverageGrid territories={territories} years={[2026, 2025, 2024]} />
+      <CoverageGrid
+        territories={territories}
+        years={[current, current - 1, current - 2]}
+      />
 
       <PublisherSplit territories={territories} />
 

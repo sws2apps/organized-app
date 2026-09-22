@@ -1,5 +1,7 @@
 import { Page, View } from '@react-pdf/renderer';
 import { Document } from '@views/components';
+
+const CUT = '0.5px dashed #BDBDBD';
 import { TerritoryTemplateProps } from '../index.types';
 import CardBack from '../shared/CardBack';
 import CardFront from '../shared/CardFront';
@@ -20,7 +22,15 @@ const TemplateTerritoryS12 = ({
   <Document title="S-12" lang={lang}>
     {territories.map((territory) => (
       <Page key={territory.id} size="A4" style={{ backgroundColor: '#FFFFFF' }}>
-        <View wrap={false} style={{ marginTop: TOP, marginLeft: LEFT }}>
+        <View
+          wrap={false}
+          style={{
+            marginTop: TOP,
+            marginLeft: LEFT,
+            width: WIDTH,
+            border: CUT,
+          }}
+        >
           <CardFront
             territory={territory}
             width={WIDTH}

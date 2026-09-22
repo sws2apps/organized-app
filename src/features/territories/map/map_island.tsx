@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import { Stack } from '@mui/material';
 import IconButton from '@components/icon_button';
+import { TooltipProps } from '@mui/material';
 import Tooltip from '@components/tooltip';
 
 type Corner =
@@ -40,7 +41,7 @@ const MapIsland = ({
       borderRadius: 'var(--radius-l)',
       backgroundColor: 'var(--white)',
       border: '1px solid var(--accent-200)',
-      boxShadow: '0px 2px 8px 0px rgba(28, 28, 28, 0.12)',
+      boxShadow: 'var(--hover-shadow)',
       ...PLACE[corner],
     }}
   >
@@ -50,23 +51,23 @@ const MapIsland = ({
 
 export const MapAction = ({
   title,
-  active = false,
+  placement,
   onClick,
   children,
 }: {
   title: string;
-  active?: boolean;
+  placement?: TooltipProps['placement'];
   onClick: VoidFunction;
   children: ReactNode;
 }) => (
-  <Tooltip title={title}>
+  <Tooltip title={title} placement={placement}>
     <IconButton
       onClick={onClick}
       sx={{
         padding: '6px',
         margin: 0,
         borderRadius: 'var(--radius-m)',
-        backgroundColor: active ? 'var(--accent-150)' : 'transparent',
+        backgroundColor: 'transparent',
         '&:hover': { backgroundColor: 'var(--accent-150)' },
       }}
     >

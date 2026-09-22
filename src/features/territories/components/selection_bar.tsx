@@ -66,7 +66,7 @@ const SelectionBar = ({
             variant="small"
             disableAutoStretch
             startIcon={<IconMoveForward color="var(--accent-main)" />}
-            onClick={onAssignMany as never}
+            onClick={onAssignMany}
             sx={{
               minHeight: '28px',
               padding: '2px 8px',
@@ -88,7 +88,7 @@ const SelectionBar = ({
             disableAutoStretch
             color="red"
             startIcon={<IconMoveBack color="var(--red-main)" />}
-            onClick={onReturnMany as never}
+            onClick={onReturnMany}
             sx={{
               minHeight: '28px',
               padding: '2px 8px',

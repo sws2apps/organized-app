@@ -30,22 +30,36 @@ export const COVERAGE_PERIODS = () => {
   ];
 };
 
+const DAY = 86400000;
+
+export const serviceYearBounds = (year: number) => ({
+  start: new Date(year - 1, 8, 1),
+  end: new Date(year, 7, 31, 23, 59, 59),
+});
+
 const periodWindow = (period: string) => {
-  if (period === 'last6') return { from: 0, to: 182 };
-  if (period === 'last12') return { from: 0, to: 365 };
+  const now = new Date();
+
+  if (period === 'last6') {
+    return { start: new Date(now.getTime() - 182 * DAY), end: now };
+  }
+
+  if (period === 'last12') {
+    return { start: new Date(now.getTime() - 365 * DAY), end: now };
+  }
 
   const year = Number(period.replace('sy', ''));
   if (!year) return undefined;
 
-  const start = new Date(year - 1, 8, 1).getTime();
-  const end = new Date(year, 7, 31).getTime();
-  const day = 86400000;
-
-  return {
-    from: Math.max(0, Math.round((Date.now() - end) / day)),
-    to: Math.round((Date.now() - start) / day),
-  };
+  return serviceYearBounds(year);
 };
+
+const returnedWithin = (territory: Territory, start: Date, end: Date) =>
+  territory.assignments.some((assignment) => {
+    const returned = parseDate(assignment.returnedOn);
+
+    return !!returned && returned >= start && returned <= end;
+  });
 
 const matchesCoverage = (
   territory: Territory,
@@ -56,9 +70,7 @@ const matchesCoverage = (
   const window = periodWindow(coverage.period);
   if (!window) return true;
 
-  const covered =
-    territory.daysSinceCovered >= window.from &&
-    territory.daysSinceCovered <= window.to;
+  const covered = returnedWithin(territory, window.start, window.end);
 
   return coverage.covered ? covered : !covered;
 };
@@ -75,12 +87,6 @@ export const daysLabel = (days?: number) => {
   const rest = months % 12;
 
   return rest === 0 ? `${years} y` : `${years} y ${rest} mo`;
-};
-
-export const dateFromDays = (days: number | undefined, format: string) => {
-  if (days === undefined) return '–';
-
-  return formatDate(new Date(Date.now() - days * 86400000), format);
 };
 
 // overdue is not stored: it follows from how long the territory has been out
@@ -149,18 +155,18 @@ export const forTab = (territories: Territory[], tab: TerritoryTab) => {
     return territories.filter((territory) => territory.requestedBy);
   }
 
+  if (tab === 'requested') {
+    return territories.filter(
+      (territory) => territory.requestedBy === CURRENT_PUBLISHER
+    );
+  }
+
   if (tab === 'recommended') return recommendedTerritories(territories);
 
   if (tab === 'mine') {
     return territories.filter(
       (territory) => territory.holder === CURRENT_PUBLISHER
     );
-  }
-
-  if (tab === 'overdue') {
-    return territories
-      .filter((territory) => territory.status === 'overdue')
-      .sort((a, b) => (b.daysOut ?? 0) - (a.daysOut ?? 0));
   }
 
   return territories;
@@ -184,11 +190,16 @@ export const publisherLoad = (territories: Territory[]) => {
 export const suggestedPublisher = (territories: Territory[]) =>
   publisherLoad(territories).at(-1)?.publisher ?? PUBLISHERS[0];
 
-export const coverageRate = (territories: Territory[]) => {
+export const coverageRate = (
+  territories: Territory[],
+  year = serviceYear()
+) => {
   if (!territories.length) return 0;
 
-  const covered = territories.filter(
-    (territory) => territory.daysSinceCovered < 365
+  const { start, end } = serviceYearBounds(year);
+
+  const covered = territories.filter((territory) =>
+    returnedWithin(territory, start, end)
   ).length;
 
   return Math.round((covered / territories.length) * 100);
@@ -205,17 +216,20 @@ const DURATION_BANDS = [
   { label: '17-24 mo', max: Infinity },
 ];
 
+const allDurations = (territories: Territory[]) =>
+  territories.flatMap((territory) =>
+    territory.assignments
+      .filter((assignment) => assignment.returnedOn)
+      .map((assignment) => assignment.months)
+  );
+
 export const durationBuckets = (territories: Territory[]) => {
   const counts = DURATION_BANDS.map(() => 0);
 
-  for (const territory of territories) {
-    for (const assignment of territory.assignments) {
-      const index = DURATION_BANDS.findIndex(
-        (band) => assignment.months <= band.max
-      );
+  for (const months of allDurations(territories)) {
+    const index = DURATION_BANDS.findIndex((band) => months <= band.max);
 
-      counts[index] += 1;
-    }
+    counts[index] += 1;
   }
 
   return DURATION_BANDS.map((band, index) => ({
@@ -223,11 +237,6 @@ export const durationBuckets = (territories: Territory[]) => {
     value: counts[index],
   }));
 };
-
-const allDurations = (territories: Territory[]) =>
-  territories.flatMap((territory) =>
-    territory.assignments.map((assignment) => assignment.months)
-  );
 
 export const medianDuration = (territories: Territory[]) => {
   const months = allDurations(territories).sort((a, b) => a - b);
@@ -251,23 +260,48 @@ export const averageDuration = (territories: Territory[]) => {
   );
 };
 
-export const inProgressPerMonth = (territories: Territory[]) =>
-  Array.from(
-    { length: 12 },
-    (_, month) =>
-      territories.filter((territory) =>
-        territory.assignments.some(
-          (assignment) =>
-            assignment.startMonth <= month && assignment.endMonth >= month
-        )
-      ).length
-  );
+// month 0 is September of the year before the service year
+const serviceMonthBounds = (year: number, month: number) => ({
+  start: new Date(year - 1, 8 + month, 1),
+  end: new Date(year - 1, 9 + month, 0, 23, 59, 59),
+});
+
+const heldWithin = (
+  assignment: TerritoryAssignment,
+  start: Date,
+  end: Date
+) => {
+  const assigned = parseDate(assignment.assignedOn);
+  if (!assigned || assigned > end) return false;
+
+  const returned = parseDate(assignment.returnedOn) ?? new Date();
+
+  return returned >= start;
+};
+
+export const inProgressPerMonth = (
+  territories: Territory[],
+  year = serviceYear()
+) =>
+  Array.from({ length: 12 }, (_, month) => {
+    const { start, end } = serviceMonthBounds(year, month);
+
+    return territories.filter((territory) =>
+      territory.assignments.some((assignment) =>
+        heldWithin(assignment, start, end)
+      )
+    ).length;
+  });
 
 export const completionCounts = (territories: Territory[]) => {
   const counts = [0, 0, 0, 0];
 
   for (const territory of territories) {
-    counts[Math.min(territory.assignments.length, 3)] += 1;
+    const returned = territory.assignments.filter(
+      (assignment) => assignment.returnedOn
+    ).length;
+
+    counts[Math.min(returned, 3)] += 1;
   }
 
   return [
@@ -287,12 +321,21 @@ export const gapBuckets = (territories: Territory[]) => {
   const counts = [0, 0, 0, 0, 0];
 
   for (const territory of territories) {
-    const sorted = [...territory.assignments].sort(
-      (a, b) => a.startMonth - b.startMonth
-    );
+    const sorted = territory.assignments
+      .map((assignment) => ({
+        assigned: parseDate(assignment.assignedOn),
+        returned: parseDate(assignment.returnedOn),
+      }))
+      .filter((entry) => entry.assigned)
+      .sort((a, b) => a.assigned!.getTime() - b.assigned!.getTime());
 
     for (let index = 1; index < sorted.length; index += 1) {
-      const gap = sorted[index].startMonth - sorted[index - 1].endMonth - 1;
+      const previous = sorted[index - 1].returned;
+      if (!previous) continue;
+
+      const days =
+        (sorted[index].assigned!.getTime() - previous.getTime()) / DAY;
+      const gap = Math.max(0, Math.floor(days / 30.44));
       const bucket = Math.min(Math.floor(gap / 3), 4);
       counts[bucket] += 1;
     }
@@ -311,7 +354,7 @@ export const parseDate = (value?: string) => {
   return new Date(year, month - 1, day);
 };
 
-const toStoredDate = (date: Date) =>
+export const toStoredDate = (date: Date) =>
   date.toLocaleDateString('de-DE', {
     day: '2-digit',
     month: '2-digit',
@@ -375,18 +418,19 @@ export const publisherCoverage = (territories: Territory[]) => {
 };
 
 // how many publishers held something in each month of a service year
-export const publishersPerMonth = (territories: Territory[], year: number) =>
+export const publishersPerMonth = (
+  territories: Territory[],
+  year = serviceYear()
+) =>
   Array.from({ length: 12 }, (_, month) => {
+    const { start, end } = serviceMonthBounds(year, month);
     const holders = new Set<string>();
 
     for (const territory of territories) {
       for (const assignment of territory.assignments) {
-        if (assignment.serviceYear !== year) continue;
-        if (assignment.startMonth > month || assignment.endMonth < month) {
-          continue;
+        if (heldWithin(assignment, start, end)) {
+          holders.add(assignment.publisher);
         }
-
-        holders.add(assignment.publisher);
       }
     }
 
@@ -396,11 +440,6 @@ export const publishersPerMonth = (territories: Territory[], year: number) =>
 export const totalDoNotCalls = (territories: Territory[]) =>
   territories.reduce((acc, territory) => acc + territory.doNotCalls.length, 0);
 
-export const reviewNeededCount = (territories: Territory[]) =>
-  territories
-    .flatMap((territory) => territory.doNotCalls)
-    .filter((entry) => entry.reviewNeeded).length;
-
 export const trimEmptyBands = <T extends { value: number }>(bands: T[]) => {
   const last = bands.reduce(
     (index, band, current) => (band.value > 0 ? current : index),
@@ -409,3 +448,66 @@ export const trimEmptyBands = <T extends { value: number }>(bands: T[]) => {
 
   return last === -1 ? bands : bands.slice(0, last + 1);
 };
+
+export const appliedFilters = (filters: TerritoryFilters) =>
+  filters.status.length +
+  filters.type.length +
+  filters.categories.length +
+  (filters.coverage ? 1 : 0) +
+  (filters.cardLostOnly ? 1 : 0);
+
+// holder and status follow the open assignment, so a hand edit never leaves a stale holder
+export const withAssignments = (
+  territory: Territory,
+  assignments: TerritoryAssignment[]
+): Territory => {
+  const time = (value?: string) => parseDate(value)?.getTime() ?? 0;
+  const daysAgo = (value: number) =>
+    Math.max(0, Math.round((Date.now() - value) / DAY));
+
+  const lastReturned = Math.max(
+    0,
+    ...assignments.map((item) => time(item.returnedOn))
+  );
+
+  const daysSinceCovered = lastReturned
+    ? daysAgo(lastReturned)
+    : territory.daysSinceCovered;
+
+  const open = assignments
+    .filter((item) => !item.returnedOn)
+    .sort((a, b) => time(b.assignedOn) - time(a.assignedOn))
+    .at(0);
+
+  if (!open) {
+    return {
+      ...territory,
+      assignments,
+      daysSinceCovered,
+      status: 'available',
+      holder: undefined,
+      daysOut: undefined,
+    };
+  }
+
+  return {
+    ...territory,
+    assignments,
+    daysSinceCovered,
+    status: territory.status === 'available' ? 'in_work' : territory.status,
+    holder: open.publisher,
+    daysOut: daysAgo(time(open.assignedOn) || Date.now()),
+  };
+};
+
+// stored dates are dd.mm.yyyy; on screen they follow the congregation format
+export const displayDate = (value: string | undefined, format: string) => {
+  const date = parseDate(value);
+
+  return date ? formatDate(date, format) : '';
+};
+
+export const upsertById = <T extends { id: string }>(list: T[], next: T) =>
+  list.some((item) => item.id === next.id)
+    ? list.map((item) => (item.id === next.id ? next : item))
+    : [...list, next];

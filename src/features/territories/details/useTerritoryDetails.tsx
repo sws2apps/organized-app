@@ -31,7 +31,7 @@ const useTerritoryDetails = () => {
 
   const stored = territories.find((item) => item.id === id);
 
-  const [draft, setDraft] = useState(blankTerritory());
+  const [draft, setDraft] = useState(() => blankTerritory());
   const [deleteOpen, setDeleteOpen] = useState(false);
 
   const territory = isNew ? draft : stored;
@@ -83,7 +83,6 @@ const useTerritoryDetails = () => {
   return {
     territory,
     isNew,
-    isDuplicate,
     handleChange,
     canSave,
     handleSave,

@@ -11,6 +11,7 @@ type AssignButtonProps = {
   onAssign: (id: string, publisher: string) => void;
   onDecline: (id: string) => void;
   onReturn: (id: string) => void;
+  compact?: boolean;
 };
 
 const AssignButton = ({
@@ -19,6 +20,7 @@ const AssignButton = ({
   onAssign,
   onDecline,
   onReturn,
+  compact = false,
 }: AssignButtonProps) => {
   const [reviewOpen, setReviewOpen] = useState(false);
 
@@ -43,6 +45,8 @@ const AssignButton = ({
     onOpenAssign(territory.id);
   };
 
+  const label = isAssigned ? 'Return' : isRequested ? 'Review' : 'Assign';
+
   return (
     <>
       {reviewOpen && (
@@ -60,7 +64,7 @@ const AssignButton = ({
         variant="small"
         disableAutoStretch
         color={isAssigned ? 'red' : isRequested ? 'orange' : undefined}
-        onClick={handleClick as never}
+        onClick={handleClick}
         startIcon={
           isAssigned ? (
             <IconMoveBack color="var(--red-main)" />
@@ -70,9 +74,15 @@ const AssignButton = ({
             <IconMoveForward color="var(--accent-main)" />
           )
         }
-        sx={{ minHeight: '28px', padding: '2px 8px', minWidth: 'unset' }}
+        aria-label={compact ? label : undefined}
+        sx={{
+          minHeight: '28px',
+          padding: compact ? '4px' : '2px 8px',
+          minWidth: 'unset',
+          '& .MuiButton-startIcon': compact ? { margin: 0 } : {},
+        }}
       >
-        {isAssigned ? 'Return' : isRequested ? 'Review' : 'Assign'}
+        {!compact && label}
       </Button>
     </>
   );

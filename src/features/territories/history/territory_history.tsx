@@ -1,10 +1,10 @@
-import { Box, Stack } from '@mui/material';
-import { Badge, Typography } from '@components/index';
+import { Stack } from '@mui/material';
+import { Typography } from '@components/index';
 import Card from '@components/card';
 import { daysLabel } from '../helpers';
 import TerritoryAssignments from '../details/territory_assignments';
-import { StatusBadge } from '../components/territory_badges';
-import { Territory, TYPE_LABEL } from '@definition/territory';
+import TerritorySummary from '../components/territory_summary';
+import { Territory } from '@definition/territory';
 
 const TerritoryHistory = ({ territory }: { territory: Territory }) => (
   <Card>
@@ -17,25 +17,10 @@ const TerritoryHistory = ({ territory }: { territory: Territory }) => (
       </Typography>
     </Stack>
 
-    <Stack
-      direction="row"
-      sx={{ alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}
-    >
-      <Box sx={{ width: 'fit-content' }}>
-        <StatusBadge status={territory.status} />
-      </Box>
-      <Box sx={{ width: 'fit-content' }}>
-        <Badge
-          size="small"
-          filled={false}
-          color="grey"
-          text={TYPE_LABEL[territory.type]}
-        />
-      </Box>
-      <Typography className="label-small-regular" color="var(--grey-350)">
-        Last covered {daysLabel(territory.daysSinceCovered)} ago
-      </Typography>
-    </Stack>
+    <TerritorySummary
+      territory={territory}
+      meta={`Last covered ${daysLabel(territory.daysSinceCovered)} ago`}
+    />
 
     <TerritoryAssignments territory={territory} />
   </Card>

@@ -12,6 +12,11 @@ import {
   CONGREGATION_BOUNDARY,
   TERRITORIES,
 } from '@features/territories/mockData';
+import {
+  withAssignments,
+  withDerivedStatus,
+} from '@features/territories/helpers';
+import { monthShortNamesState } from './app';
 
 export const territoriesState = atom<Territory[]>(TERRITORIES);
 
@@ -27,3 +32,18 @@ export const territoriesShowHouseholdsState = atom(true);
 
 // months a publisher may hold a territory before it counts as overdue
 export const territoryOverdueMonthsState = atom(4);
+
+export const territoriesWithStatusState = atom((get) =>
+  withDerivedStatus(
+    get(territoriesState).map((territory) =>
+      withAssignments(territory, territory.assignments)
+    ),
+    get(territoryOverdueMonthsState)
+  )
+);
+
+export const territoryMonthsState = atom((get) => {
+  const months = get(monthShortNamesState);
+
+  return [...months.slice(8), ...months.slice(0, 8)];
+});

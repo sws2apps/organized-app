@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import { Box, Stack } from '@mui/material';
 import { useAtom, useSetAtom } from 'jotai';
-import { Button, TextField, Typography } from '@components/index';
+import { Button, TextField } from '@components/index';
 import Dialog from '@components/dialog';
 import DialogActions from '@components/dialog_actions';
-import IconButton from '@components/icon_button';
 import Tooltip from '@components/tooltip';
 import { IconAdd, IconCheck, IconDelete } from '@icons/index';
 import { displaySnackNotification } from '@services/states/app';
@@ -18,6 +17,7 @@ import {
   TerritoryCategoryOption,
 } from '@definition/territory';
 import { BadgeColor } from '@definition/app';
+import RowAction from '../components/row_action';
 
 // grey has no -main token, so the swatch borrows the darkest readable shade
 const swatchColor = (color: BadgeColor) =>
@@ -125,23 +125,37 @@ const CategoryEditor = ({
   };
 
   return (
-    <Dialog onClose={onClose} open sx={{ padding: '24px' }}>
-      <Stack spacing="4px" sx={{ width: '100%' }}>
-        <Typography className="h3">Categories</Typography>
-        <Typography className="body-small-regular" color="var(--grey-400)">
-          Up to {MAX_CATEGORIES} categories, each with its own color.
-        </Typography>
-      </Stack>
-
-      <Stack spacing="8px" sx={{ width: '100%' }}>
+    <Dialog
+      onClose={onClose}
+      open
+      title="Categories"
+      description={`Up to ${MAX_CATEGORIES} categories, each with its own color.`}
+    >
+      <Stack
+        spacing={{ mobile: '16px', tablet600: '8px' }}
+        sx={{ width: '100%' }}
+      >
         {draft.map((category) => (
-          <Stack
+          <Box
             key={category.id}
-            direction="row"
-            spacing="12px"
-            sx={{ alignItems: 'center', width: '100%' }}
+            sx={{
+              display: 'grid',
+              alignItems: 'center',
+              columnGap: '12px',
+              rowGap: '8px',
+              width: '100%',
+              gridTemplateColumns: {
+                mobile: 'minmax(0, 1fr) auto',
+                tablet600: 'minmax(0, 1fr) auto auto',
+              },
+              gridTemplateAreas: {
+                mobile: '"name delete" "colors colors"',
+                tablet600: '"name colors delete"',
+              },
+            }}
           >
             <TextField
+              sx={{ gridArea: 'name' }}
               placeholder="Category name"
               value={category.name}
               autoFocus={category.name.length === 0}
@@ -150,22 +164,25 @@ const CategoryEditor = ({
               }
             />
 
-            <ColorPicker
-              color={category.color}
-              onChange={(color) => patch(category.id, { color })}
-            />
+            <Box sx={{ gridArea: 'colors' }}>
+              <ColorPicker
+                color={category.color}
+                onChange={(color) => patch(category.id, { color })}
+              />
+            </Box>
 
-            <Tooltip title="Delete">
-              <IconButton
+            <Box sx={{ gridArea: 'delete' }}>
+              <RowAction
+                title="Delete"
                 color="error"
                 onClick={() =>
                   setDraft(draft.filter((item) => item.id !== category.id))
                 }
               >
-                <IconDelete color="var(--red-main)" />
-              </IconButton>
-            </Tooltip>
-          </Stack>
+                <IconDelete color="var(--red-main)" width={18} height={18} />
+              </RowAction>
+            </Box>
+          </Box>
         ))}
       </Stack>
 
@@ -173,7 +190,7 @@ const CategoryEditor = ({
         variant="small"
         disableAutoStretch
         startIcon={<IconAdd color="var(--accent-main)" />}
-        onClick={handleAdd as never}
+        onClick={handleAdd}
         sx={{ minHeight: '32px', minWidth: 'unset' }}
       >
         Add

@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
-import { Typography } from '@components/index';
 import { daysLabel } from '../helpers';
+import StatTile from '../components/stat_tile';
 import { Territory } from '@definition/territory';
 
 const TerritoryStats = ({ territory }: { territory: Territory }) => {
@@ -28,7 +28,7 @@ const TerritoryStats = ({ territory }: { territory: Territory }) => {
     },
     territory.doNotCalls.length > 0 && {
       id: 'dnc',
-      label: 'Do not calls',
+      label: 'Do not call',
       value: String(territory.doNotCalls.length),
     },
   ].filter(Boolean) as { id: string; label: string; value: string }[];
@@ -36,7 +36,7 @@ const TerritoryStats = ({ territory }: { territory: Territory }) => {
   if (stats.length < 3) {
     stats.push({
       id: 'dnc',
-      label: 'Do not calls',
+      label: 'Do not call',
       value: String(territory.doNotCalls.length),
     });
   }
@@ -45,28 +45,18 @@ const TerritoryStats = ({ territory }: { territory: Territory }) => {
     <Box
       sx={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
         gap: '8px',
+        gridTemplateColumns: {
+          mobile: 'repeat(2, minmax(0, 1fr))',
+          tablet688: `repeat(${stats.length}, minmax(0, 1fr))`,
+        },
+        '& > :last-of-type:nth-of-type(odd)': {
+          gridColumn: { mobile: 'span 2', tablet688: 'auto' },
+        },
       }}
     >
       {stats.map((stat) => (
-        <Box
-          key={stat.id}
-          sx={{
-            padding: '12px',
-            backgroundColor: 'var(--accent-150)',
-            borderRadius: 'var(--radius-l)',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '2px',
-            minWidth: 0,
-          }}
-        >
-          <Typography className="label-small-regular" color="var(--accent-400)">
-            {stat.label}
-          </Typography>
-          <Typography className="body-small-semibold">{stat.value}</Typography>
-        </Box>
+        <StatTile key={stat.id} label={stat.label} value={stat.value} />
       ))}
     </Box>
   );

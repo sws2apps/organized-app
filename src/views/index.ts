@@ -8,3 +8,4 @@ export { default as TemplateUpcomingEvents } from './activities/upcoming_events'
 export { default as TemplateOutgoingSpeakersSchedule } from './meetings/weekend/outgoing_speakers_schedule';
 export { default as TemplateTerritoryS12 } from './territories/S12';
 export { default as TemplateTerritoryCard } from './territories/card';
+export { default as TemplateS13 } from './territories/S13';

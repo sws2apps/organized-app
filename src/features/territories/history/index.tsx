@@ -54,7 +54,6 @@ const TerritoriesHistory = () => {
       <Card>
         <AssignmentHistory
           territories={territories}
-          limit={200}
           selectedId={selectedId}
           onSelect={handleSelect}
         />

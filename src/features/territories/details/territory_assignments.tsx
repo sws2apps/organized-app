@@ -1,32 +1,19 @@
-import {
-  Box,
-  Stack,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableRow,
-} from '@mui/material';
 import { useState } from 'react';
-import { Badge, Button, InfoNote, Typography } from '@components/index';
-import TableHead from '@components/table/TableHead';
-import { IconAdd, IconDelete, IconEdit } from '@icons/index';
-import RowAction from '../components/row_action';
-import AssignmentEditor from './assignment_editor';
-import useTableSort from '../useTableSort';
-import { assignmentFromDates } from '../helpers';
+import { useAtomValue } from 'jotai';
+import { shortDateFormatState } from '@states/settings';
+import { Box, Stack } from '@mui/material';
+import { Button } from '@components/index';
+import { IconAdd, IconEdit } from '@icons/index';
 import { Territory, TerritoryAssignment } from '@definition/territory';
+import RecordList from '../components/record_list';
+import RowAction from '../components/row_action';
+import { StatusBadge } from '../components/territory_badges';
+import { assignmentFromDates, displayDate, parseDate } from '../helpers';
+import AssignmentEditor from './assignment_editor';
 
-const sortValue = (assignment: TerritoryAssignment, key: string) => {
-  switch (key) {
-    case 'publisher':
-      return assignment.publisher;
-    case 'returned':
-      return assignment.endMonth;
-    default:
-      return assignment.startMonth;
-  }
-};
+const newestFirst = (a: TerritoryAssignment, b: TerritoryAssignment) =>
+  (parseDate(b.assignedOn)?.getTime() ?? 0) -
+  (parseDate(a.assignedOn)?.getTime() ?? 0);
 
 const blankAssignment = (): TerritoryAssignment =>
   assignmentFromDates(
@@ -51,165 +38,36 @@ const TerritoryAssignments = ({
   territory: Territory;
   onChange?: (assignments: TerritoryAssignment[]) => void;
 }) => {
-  const [editing, setEditing] = useState<TerritoryAssignment | undefined>();
+  const format = useAtomValue(shortDateFormatState);
+
+  const [editing, setEditing] = useState<TerritoryAssignment>();
   const [adding, setAdding] = useState(false);
 
-  const { order, orderBy, handleRequestSort } = useTableSort(
-    'assigned',
-    ['assigned', 'returned'],
-    'desc'
-  );
-
-  const rows = [...territory.assignments].sort((a, b) => {
-    const left = sortValue(a, orderBy);
-    const right = sortValue(b, orderBy);
-
-    const compared =
-      typeof left === 'string' && typeof right === 'string'
-        ? left.localeCompare(right)
-        : Number(left) - Number(right);
-
-    return order === 'asc' ? compared : -compared;
-  });
+  const assignments = territory.assignments;
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-      {/* the details page already labels this through its tab */}
-      {rows.length > 0 && !onChange && (
-        <Stack direction="row" spacing="12px" sx={{ alignItems: 'center' }}>
-          <Typography className="body-small-semibold" color="var(--black)">
-            Assignment history
-          </Typography>
-          <Box sx={{ width: 'fit-content' }}>
-            <Badge
-              size="small"
-              filled={false}
-              color="accent"
-              text={String(territory.assignments.length)}
-            />
-          </Box>
-        </Stack>
-      )}
-
-      {rows.length === 0 && (
-        <InfoNote message="No assignments recorded for this territory." />
-      )}
-
-      {rows.length > 0 && (
-        <TableContainer sx={{ overflowX: 'auto' }}>
-          <Table
-            size="small"
-            sx={{
-              tableLayout: 'fixed',
-              minWidth: onChange ? '420px' : '300px',
-              '& .MuiTableCell-root': {
-                padding: '10px 8px',
-                borderColor: 'var(--accent-200)',
-              },
-              '& .MuiTableHead-root .MuiTableCell-root': {
-                backgroundColor: 'transparent',
-              },
-              '& .MuiTableBody-root .MuiTableRow-root:last-of-type .MuiTableCell-root':
-                {
-                  borderBottom: 'none',
-                },
-            }}
-          >
-            <TableHead
-              order={order}
-              orderBy={orderBy}
-              onRequestSort={handleRequestSort}
-              columns={[
-                { id: 'publisher', label: 'Publisher' },
-                { id: 'assigned', label: 'Assigned', sx: { width: '120px' } },
-                { id: 'returned', label: 'Returned', sx: { width: '120px' } },
-                ...(onChange
-                  ? [{ id: 'actions', label: '', sx: { width: '92px' } }]
-                  : []),
-              ]}
-            />
-
-            <TableBody>
-              {rows.map((assignment) => (
-                <TableRow
-                  key={assignment.id}
-                  sx={{
-                    transition: 'background-color 0.15s ease',
-                    '&:hover': { backgroundColor: 'var(--accent-100)' },
-                  }}
-                >
-                  <TableCell>
-                    <Typography
-                      className="body-regular"
-                      color="var(--black)"
-                      noWrap
-                    >
-                      {assignment.publisher}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      className="body-small-regular"
-                      color="var(--grey-400)"
-                      noWrap
-                    >
-                      {assignment.assignedOn}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      className="body-small-regular"
-                      color="var(--grey-400)"
-                      noWrap
-                    >
-                      {assignment.returnedOn ?? '–'}
-                    </Typography>
-                  </TableCell>
-
-                  {onChange && (
-                    <TableCell>
-                      <Stack
-                        direction="row"
-                        spacing="2px"
-                        sx={{ justifyContent: 'flex-end' }}
-                      >
-                        <RowAction
-                          title="Edit"
-                          onClick={() => setEditing(assignment)}
-                        >
-                          <IconEdit
-                            color="var(--accent-main)"
-                            width={18}
-                            height={18}
-                          />
-                        </RowAction>
-
-                        <RowAction
-                          title="Delete"
-                          color="error"
-                          onClick={() =>
-                            onChange(
-                              territory.assignments.filter(
-                                (item) => item.id !== assignment.id
-                              )
-                            )
-                          }
-                        >
-                          <IconDelete
-                            color="var(--red-main)"
-                            width={18}
-                            height={18}
-                          />
-                        </RowAction>
-                      </Stack>
-                    </TableCell>
-                  )}
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      )}
+      <RecordList
+        emptyMessage="No assignments recorded for this territory."
+        items={[...assignments].sort(newestFirst).map((assignment) => ({
+          id: assignment.id,
+          onClick: onChange && (() => setEditing(assignment)),
+          title: assignment.publisher,
+          subtitle: assignment.returnedOn
+            ? `${displayDate(assignment.assignedOn, format)} – ${displayDate(assignment.returnedOn, format)}`
+            : `Since ${displayDate(assignment.assignedOn, format)}`,
+          badge: !assignment.returnedOn && (
+            <Box sx={{ flexShrink: 0 }}>
+              <StatusBadge status="in_work" />
+            </Box>
+          ),
+          actions: onChange && (
+            <RowAction title="Edit" onClick={() => setEditing(assignment)}>
+              <IconEdit color="var(--accent-main)" width={18} height={18} />
+            </RowAction>
+          ),
+        }))}
+      />
 
       {onChange && (
         <Stack direction="row" sx={{ justifyContent: 'flex-end' }}>
@@ -217,12 +75,10 @@ const TerritoryAssignments = ({
             variant="small"
             disableAutoStretch
             startIcon={<IconAdd color="var(--accent-main)" />}
-            onClick={
-              (() => {
-                setEditing(blankAssignment());
-                setAdding(true);
-              }) as never
-            }
+            onClick={() => {
+              setEditing(blankAssignment());
+              setAdding(true);
+            }}
             sx={{ minHeight: '32px', minWidth: 'unset' }}
           >
             Add
@@ -234,17 +90,21 @@ const TerritoryAssignments = ({
         <AssignmentEditor
           assignment={editing}
           isNew={adding}
+          otherOpen={assignments.some(
+            (item) => item.id !== editing.id && !item.returnedOn
+          )}
           onClose={() => {
             setEditing(undefined);
             setAdding(false);
           }}
+          onDelete={() =>
+            onChange(assignments.filter((item) => item.id !== editing.id))
+          }
           onSave={(next) =>
             onChange(
               adding
-                ? [...territory.assignments, next]
-                : territory.assignments.map((item) =>
-                    item.id === next.id ? next : item
-                  )
+                ? [...assignments, next]
+                : assignments.map((item) => (item.id === next.id ? next : item))
             )
           }
         />

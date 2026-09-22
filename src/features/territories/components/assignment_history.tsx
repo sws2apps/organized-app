@@ -1,195 +1,198 @@
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableRow,
-} from '@mui/material';
-import { InfoNote, Typography } from '@components/index';
-import TableHead from '@components/table/TableHead';
-import useTableSort from '../useTableSort';
+import { useState } from 'react';
+import { Box, Stack } from '@mui/material';
+import { useAtomValue } from 'jotai';
+import { Button, CustomDivider, InfoNote, Typography } from '@components/index';
+import { IconCheck, IconPerson } from '@icons/index';
+import { useBreakpoints } from '@hooks/index';
+import { monthNamesState } from '@states/app';
+import { shortDateFormatState } from '@states/settings';
+import { displayDate, parseDate } from '../helpers';
+import { clickableRow, rowStates } from './table_styles';
 import TruncatedText from './truncated_text';
 import { Territory } from '@definition/territory';
 
+type Row = {
+  territory: Territory;
+  assignment: Territory['assignments'][number];
+};
+
+const PAGE = 40;
+
 const AssignmentHistory = ({
   territories,
-  limit = 40,
   selectedId,
   onSelect,
 }: {
   territories: Territory[];
-  limit?: number;
   selectedId?: string;
   onSelect?: (id: string) => void;
 }) => {
-  const { order, orderBy, handleRequestSort } = useTableSort(
-    'assigned',
-    ['assigned', 'returned'],
-    'desc'
-  );
+  const { tablet688Up } = useBreakpoints();
 
-  const rowStates = {
-    transition: 'background-color 0.15s ease',
-    '&:hover': { backgroundColor: 'var(--accent-100)' },
-    '&:active': { backgroundColor: 'var(--accent-200)' },
-  };
+  const shortDateFormat = useAtomValue(shortDateFormatState);
+  const monthNames = useAtomValue(monthNamesState);
 
-  const sortValue = ({
-    territory,
-    assignment,
-  }: {
-    territory: Territory;
-    assignment: Territory['assignments'][number];
-  }) => {
-    switch (orderBy) {
-      case 'number':
-        return territory.number;
-      case 'name':
-        return territory.name;
-      case 'publisher':
-        return assignment.publisher;
-      case 'returned':
-        return assignment.endMonth;
-      default:
-        return assignment.startMonth;
-    }
-  };
+  const [limit, setLimit] = useState(PAGE);
 
-  const rows = territories
+  const all: Row[] = territories
     .flatMap((territory) =>
       territory.assignments.map((assignment) => ({ territory, assignment }))
     )
-    .sort((a, b) => {
-      const left = sortValue(a);
-      const right = sortValue(b);
+    .sort(
+      (a, b) =>
+        (parseDate(b.assignment.assignedOn)?.getTime() ?? 0) -
+        (parseDate(a.assignment.assignedOn)?.getTime() ?? 0)
+    );
 
-      const compared =
-        typeof left === 'string' && typeof right === 'string'
-          ? left.localeCompare(right)
-          : Number(left) - Number(right);
-
-      return order === 'asc' ? compared : -compared;
-    })
-    .slice(0, limit);
-
-  if (rows.length === 0) {
+  if (all.length === 0) {
     return <InfoNote message="No assignments recorded yet." />;
   }
 
-  const columns = [
-    { id: 'number', label: 'No.', sx: { width: '76px' } },
-    { id: 'name', label: 'Territory', sx: { minWidth: '180px' } },
-    { id: 'publisher', label: 'Publisher', sx: { minWidth: '160px' } },
-    { id: 'assigned', label: 'Assigned', sx: { width: '120px' } },
-    { id: 'returned', label: 'Returned', sx: { width: '120px' } },
-  ];
+  const groups = all
+    .slice(0, limit)
+    .reduce<{ label: string; rows: Row[] }[]>((result, row) => {
+      const date = parseDate(row.assignment.assignedOn);
+      const label = date
+        ? `${monthNames[date.getMonth()]} ${date.getFullYear()}`
+        : '–';
+
+      const last = result.at(-1);
+
+      if (last?.label === label) last.rows.push(row);
+      else result.push({ label, rows: [row] });
+
+      return result;
+    }, []);
+
+  const date = (value?: string) => displayDate(value, shortDateFormat);
 
   return (
-    <TableContainer
-      sx={{
-        overflowX: 'auto',
-        // fill the page down to the bottom edge, with room for the mobile bar
-        maxHeight: {
-          mobile: 'calc(100dvh - 190px)',
-          tablet688: 'calc(100dvh - 130px)',
-        },
-      }}
-    >
-      <Table
-        size="small"
-        sx={{
-          tableLayout: 'fixed',
-          minWidth: '660px',
-          '& .MuiTableCell-root': {
-            padding: '10px 8px',
-            borderColor: 'var(--accent-200)',
-          },
-          '& .MuiTableHead-root .MuiTableCell-root': {
-            backgroundColor: 'var(--white)',
-            position: 'sticky',
-            // a hair above the container hides the row edge that would
-            // otherwise show through while scrolling
-            top: '-1px',
-            zIndex: 2,
-            borderBottom: 'none',
-            boxShadow: 'inset 0 -1px 0 var(--accent-200)',
-          },
-          '& .MuiTableBody-root .MuiTableRow-root:last-of-type .MuiTableCell-root':
-            {
-              borderBottom: 'none',
-            },
-        }}
-      >
-        <TableHead
-          order={order}
-          orderBy={orderBy}
-          onRequestSort={handleRequestSort}
-          columns={columns}
-        />
+    <Stack spacing="24px">
+      {groups.map((group) => (
+        <Stack key={group.label} spacing="4px">
+          <Typography
+            className="body-small-semibold"
+            color="var(--grey-400)"
+            sx={{ padding: '0 8px 4px' }}
+          >
+            {group.label}
+          </Typography>
 
-        <TableBody>
-          {rows.map(({ territory, assignment }) => (
-            <TableRow
-              key={assignment.id}
-              onClick={() => onSelect?.(territory.id)}
-              sx={{
-                ...rowStates,
-                cursor: onSelect ? 'pointer' : 'default',
-                backgroundColor:
-                  selectedId === territory.id
-                    ? 'var(--accent-150)'
-                    : 'transparent',
-              }}
-            >
-              <TableCell>
-                <Typography
-                  className="body-small-semibold"
-                  color="var(--black)"
+          <Stack
+            spacing="4px"
+            divider={<CustomDivider color="var(--accent-200)" />}
+          >
+            {group.rows.map(({ territory, assignment }) => {
+              const open = !assignment.returnedOn;
+
+              return (
+                <Stack
+                  key={assignment.id}
+                  direction="row"
+                  spacing="12px"
+                  {...(onSelect
+                    ? clickableRow(() => onSelect(territory.id))
+                    : {})}
+                  sx={{
+                    alignItems: 'center',
+                    padding: '10px 8px',
+                    borderRadius: 'var(--radius-m)',
+                    ...rowStates(territory.id === selectedId, !!onSelect),
+                  }}
                 >
-                  {territory.number}
-                </Typography>
-              </TableCell>
+                  {tablet688Up && (
+                    <Typography
+                      className="body-small-semibold"
+                      color="var(--black)"
+                      sx={{ width: '48px', flexShrink: 0 }}
+                    >
+                      {territory.number}
+                    </Typography>
+                  )}
 
-              <TableCell>
-                <TruncatedText
-                  className="body-regular"
-                  color="var(--black)"
-                  text={territory.name}
-                />
-              </TableCell>
+                  <Stack spacing="4px" sx={{ flexGrow: 1, minWidth: 0 }}>
+                    <TruncatedText
+                      className="body-small-semibold"
+                      text={[
+                        !tablet688Up && territory.number,
+                        [territory.city, territory.name]
+                          .filter(Boolean)
+                          .join(' • '),
+                      ]
+                        .filter(Boolean)
+                        .join('  ')}
+                    />
 
-              <TableCell>
-                <TruncatedText
-                  className="body-regular"
-                  color="var(--black)"
-                  text={assignment.publisher}
-                />
-              </TableCell>
+                    <Stack
+                      direction="row"
+                      spacing="4px"
+                      sx={{ alignItems: 'center', minWidth: 0 }}
+                    >
+                      <IconPerson
+                        color="var(--grey-400)"
+                        width={16}
+                        height={16}
+                      />
+                      <TruncatedText
+                        className="label-small-regular"
+                        color="var(--grey-400)"
+                        text={assignment.publisher}
+                      />
+                    </Stack>
+                  </Stack>
 
-              <TableCell>
-                <Typography
-                  className="body-small-regular"
-                  color="var(--grey-400)"
-                  noWrap
-                >
-                  {assignment.assignedOn}
-                </Typography>
-              </TableCell>
+                  <Stack
+                    spacing="4px"
+                    sx={{ alignItems: 'flex-end', flexShrink: 0 }}
+                  >
+                    <Typography
+                      className="label-small-regular"
+                      color="var(--grey-400)"
+                      noWrap
+                    >
+                      {date(assignment.assignedOn)}
+                    </Typography>
 
-              <TableCell>
-                <Typography
-                  className="body-small-regular"
-                  color="var(--grey-400)"
-                  noWrap
-                >
-                  {assignment.returnedOn ?? '–'}
-                </Typography>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+                    <Stack
+                      direction="row"
+                      spacing="4px"
+                      sx={{ alignItems: 'center' }}
+                    >
+                      {!open && (
+                        <IconCheck
+                          color="var(--green-main)"
+                          width={14}
+                          height={14}
+                        />
+                      )}
+                      <Typography
+                        className="label-small-regular"
+                        color={open ? 'var(--orange-main)' : 'var(--grey-350)'}
+                        noWrap
+                      >
+                        {open ? 'Still out' : date(assignment.returnedOn)}
+                      </Typography>
+                    </Stack>
+                  </Stack>
+                </Stack>
+              );
+            })}
+          </Stack>
+        </Stack>
+      ))}
+
+      {all.length > limit && (
+        <Box>
+          <Button
+            variant="small"
+            disableAutoStretch
+            onClick={() => setLimit(limit + PAGE)}
+          >
+            Show more
+          </Button>
+        </Box>
+      )}
+    </Stack>
   );
 };
 

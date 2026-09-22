@@ -1,9 +1,11 @@
 import { Box, Stack } from '@mui/material';
+import { useAtomValue } from 'jotai';
 import { Typography } from '@components/index';
 import Tooltip from '@components/tooltip';
 import { coverageGrid } from '../helpers';
 import { ChartCard } from '../components/charts';
-import { MONTHS, Territory } from '@definition/territory';
+import { Territory } from '@definition/territory';
+import { territoryMonthsState } from '@states/territories';
 
 const CoverageGrid = ({
   territories,
@@ -12,6 +14,8 @@ const CoverageGrid = ({
   territories: Territory[];
   years: number[];
 }) => {
+  const months = useAtomValue(territoryMonthsState);
+
   const rows = coverageGrid(territories, years);
 
   const max = Math.max(...rows.flatMap((row) => row.months), 1);
@@ -33,7 +37,7 @@ const CoverageGrid = ({
             }}
           >
             <Box />
-            {MONTHS.map((month) => (
+            {months.map((month) => (
               <Typography
                 key={month}
                 className="label-small-regular"
@@ -63,7 +67,7 @@ const CoverageGrid = ({
                 {row.months.map((value, month) => (
                   <Tooltip
                     key={month}
-                    title={`${value} covered in ${MONTHS[month]} ${row.year}`}
+                    title={`${value} covered in ${months[month]} ${row.year}`}
                   >
                     <Box
                       sx={{

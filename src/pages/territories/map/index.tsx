@@ -1,16 +1,67 @@
+import { useState } from 'react';
 import { Box } from '@mui/material';
-import { useNavigate } from 'react-router';
-import { IconListView } from '@icons/index';
+import { IconSave } from '@icons/index';
 import { useBreakpoints } from '@hooks/index';
+import { InfoNote } from '@components/index';
 import NavBarButton from '@components/nav_bar_button';
 import NavBarButtonGroup from '@components/nav_bar_button_group';
 import PageTitle from '@components/page_title';
 import TerritoriesMap from '@features/territories/map';
+import useTerritoriesMap from '@features/territories/map/useTerritoriesMap';
+import MapQuickSettings from '@features/territories/map/quick_settings';
+
+// the map is created once on mount, so it only mounts where it can be shown
+const MapScreen = () => {
+  const map = useTerritoriesMap();
+
+  const { editor } = map;
+
+  const [settingsOpen, setSettingsOpen] = useState(false);
+
+  const title = !editor.editing
+    ? 'Territory coverage map'
+    : editor.scope === 'congregation'
+      ? 'Edit congregation border'
+      : `Edit borders – ${map.selected?.number ?? ''}`;
+
+  return (
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+      <PageTitle
+        title={title}
+        onBack={editor.editing ? map.cancelEditing : undefined}
+        quickSettings={() => setSettingsOpen(true)}
+        buttons={
+          editor.editing && (
+            <NavBarButtonGroup>
+              <NavBarButton
+                text="Save map"
+                icon={<IconSave />}
+                main
+                disabled={!editor.draft.boundary?.length}
+                onClick={map.save}
+              />
+            </NavBarButtonGroup>
+          )
+        }
+      />
+
+      {settingsOpen && (
+        <MapQuickSettings
+          map={map}
+          open={settingsOpen}
+          onClose={() => setSettingsOpen(false)}
+        />
+      )}
+
+      <TerritoriesMap map={map} />
+    </Box>
+  );
+};
 
 const TerritoryMapPage = () => {
-  const navigate = useNavigate();
+  const { tablet688Up, laptopUp } = useBreakpoints();
 
-  const { tablet688Up } = useBreakpoints();
+  if (laptopUp) return <MapScreen />;
 
   return (
     <Box
@@ -21,20 +72,9 @@ const TerritoryMapPage = () => {
         paddingBottom: tablet688Up ? '0px' : '60px',
       }}
     >
-      <PageTitle
-        title="Territory coverage map"
-        buttons={
-          <NavBarButtonGroup>
-            <NavBarButton
-              text="Territories"
-              icon={<IconListView />}
-              onClick={() => navigate('/territories')}
-            />
-          </NavBarButtonGroup>
-        }
-      />
+      <PageTitle title="Territory coverage map" />
 
-      <TerritoriesMap />
+      <InfoNote message="The territory map is edited on a desktop screen. Open this page on a computer to draw or change the borders." />
     </Box>
   );
 };

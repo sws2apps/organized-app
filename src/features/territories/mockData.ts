@@ -8,7 +8,7 @@ import {
   TerritoryType,
 } from '@definition/territory';
 
-export const GROUPS = ['Group 3 – Appeldorn', 'Group 5 – Kalkar'];
+export const GROUPS = ['Group 3 – Kreuzberg', 'Group 5 – Neukölln'];
 
 export const PUBLISHERS_ONLY = [
   'Mike Wallenter',
@@ -23,37 +23,43 @@ export const PUBLISHERS_ONLY = [
 export const PUBLISHERS = [...GROUPS, ...PUBLISHERS_ONLY];
 
 const STREETS = [
-  'Marktstraße',
-  'Gartenstraße',
-  'Issumerstraße',
-  'Geldernstraße',
-  'Dickstraße',
-  'Sonsbeckerstraße',
-  'Pater-Delp-Straße',
-  'Allerton Bridge',
-  'Azalea Side',
-  'Bankfield Walk',
-  'Middlefield Grove',
-  'Brussell Street',
-  'Willowbrook Terrace',
-  'Cedarwood Boulevard',
-  'Moonbeam Circle',
-  'Forest Glen Lane',
+  'Oranienstraße',
+  'Bergmannstraße',
+  'Graefestraße',
+  'Wiener Straße',
+  'Sonnenallee',
+  'Weserstraße',
+  'Hermannstraße',
+  'Karl-Marx-Straße',
+  'Boxhagener Straße',
+  'Simon-Dach-Straße',
+  'Kastanienallee',
+  'Schönhauser Allee',
+  'Torstraße',
+  'Invalidenstraße',
+  'Goltzstraße',
+  'Akazienstraße',
 ];
 
-const CITIES = ['Appeldorn', 'Kalkar', 'Kleve', 'Goch', 'Emmerich'];
-
-const PREFIXES = ['M', 'N', 'O', 'W'];
+const CITIES = [
+  'Kreuzberg',
+  'Neukölln',
+  'Friedrichshain',
+  'Prenzlauer Berg',
+  'Mitte',
+  'Schöneberg',
+];
 
 const CATEGORIES: TerritoryCategory[] = ['dangerous', 'dogs', 'gated'];
 
 const DNC_NAMES = ['Mrs. Kramer', 'Mr. Vogel', 'Family Brinkmann', ''];
 
-export const MAP_CENTER: [number, number] = [6.2925, 51.7385];
+export const MAP_CENTER: [number, number] = [13.4105, 52.5005];
 
 const BLOCK_WIDTH = 0.009;
 const BLOCK_HEIGHT = 0.0055;
-const COLUMNS = 8;
+const COLUMNS = 12;
+const ROWS = 11;
 
 const buildBoundary = (
   index: number,
@@ -65,7 +71,7 @@ const buildBoundary = (
   const row = Math.floor(index / COLUMNS);
 
   const left = MAP_CENTER[0] + (column - COLUMNS / 2) * BLOCK_WIDTH;
-  const bottom = MAP_CENTER[1] + (row - 3) * BLOCK_HEIGHT;
+  const bottom = MAP_CENTER[1] + (row - ROWS / 2) * BLOCK_HEIGHT;
 
   const jitter = () => (random() - 0.5) * 0.0012;
 
@@ -81,16 +87,29 @@ const buildBoundary = (
 
 const COVERAGE_MONTHS = [1, 3, 5, 8, 10, 13, 15, 20, 26];
 
+const DAY_MS = 86400000;
+
+const HISTORY_START = new Date(2024, 8, 1).getTime();
+
+const IDLE = [16, 57, 92, 120];
+
+const storedDate = (date: Date) =>
+  date.toLocaleDateString('de-DE', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+  });
+
 // the area the congregation was assigned; it changes once every few years, so
 // it is stored on its own instead of being derived from the territories
 export const CONGREGATION_BOUNDARY: TerritoryBoundary = [
-  [MAP_CENTER[0] - 0.052, MAP_CENTER[1] - 0.026],
-  [MAP_CENTER[0] + 0.012, MAP_CENTER[1] - 0.031],
-  [MAP_CENTER[0] + 0.055, MAP_CENTER[1] - 0.008],
-  [MAP_CENTER[0] + 0.048, MAP_CENTER[1] + 0.022],
-  [MAP_CENTER[0] - 0.014, MAP_CENTER[1] + 0.029],
-  [MAP_CENTER[0] - 0.05, MAP_CENTER[1] + 0.012],
-  [MAP_CENTER[0] - 0.052, MAP_CENTER[1] - 0.026],
+  [MAP_CENTER[0] - 0.066, MAP_CENTER[1] - 0.034],
+  [MAP_CENTER[0] + 0.008, MAP_CENTER[1] - 0.041],
+  [MAP_CENTER[0] + 0.068, MAP_CENTER[1] - 0.02],
+  [MAP_CENTER[0] + 0.064, MAP_CENTER[1] + 0.034],
+  [MAP_CENTER[0] - 0.01, MAP_CENTER[1] + 0.041],
+  [MAP_CENTER[0] - 0.064, MAP_CENTER[1] + 0.022],
+  [MAP_CENTER[0] - 0.066, MAP_CENTER[1] - 0.034],
 ];
 
 const rng = (seed: number) => {
@@ -106,30 +125,23 @@ const formatDate = (random: () => number, year: number) =>
     1 + Math.floor(random() * 12)
   ).padStart(2, '0')}.${year}`;
 
-const monthDate = (
-  random: () => number,
-  serviceYear: number,
-  month: number
-) => {
-  const calendarMonth = ((month + 8) % 12) + 1;
-  const calendarYear = month < 4 ? serviceYear - 1 : serviceYear;
-
-  return `${String(1 + Math.floor(random() * 28)).padStart(2, '0')}.${String(
-    calendarMonth
-  ).padStart(2, '0')}.${calendarYear}`;
-};
-
 const buildTerritory = (index: number, random: () => number): Territory => {
-  const prefix = PREFIXES[index % PREFIXES.length];
-  const number = `${prefix}${Math.floor(index / PREFIXES.length) + 1}`;
+  const number = String(index + 1);
 
   const typeRoll = random();
   const type: TerritoryType =
     typeRoll > 0.88 ? 'phone' : typeRoll > 0.7 ? 'business' : 'door_to_door';
 
+  const idle = IDLE.includes(index);
+
   const statusRoll = random();
-  const status: TerritoryStatus =
-    statusRoll > 0.78 ? 'overdue' : statusRoll > 0.44 ? 'in_work' : 'available';
+  const status: TerritoryStatus = idle
+    ? 'available'
+    : statusRoll > 0.78
+      ? 'overdue'
+      : statusRoll > 0.44
+        ? 'in_work'
+        : 'available';
 
   const cardLost = random() > 0.93;
 
@@ -144,31 +156,90 @@ const buildTerritory = (index: number, random: () => number): Territory => {
       : 5 + Math.floor(random() * 140)
     : undefined;
 
-  const daysSinceCovered = Math.round(
-    COVERAGE_MONTHS[index % COVERAGE_MONTHS.length] * 30.4 + random() * 20 - 10
-  );
+  const daysSinceCovered = idle
+    ? 820 + index
+    : Math.round(
+        COVERAGE_MONTHS[index % COVERAGE_MONTHS.length] * 30.4 +
+          random() * 20 -
+          10
+      );
 
-  // a territory is worked over several months, across past service years
-  const assignments: TerritoryAssignment[] = [];
+  let assignments: TerritoryAssignment[] = [];
 
-  for (const serviceYear of [2024, 2025, 2026]) {
-    if (random() > 0.72) continue;
+  if (!idle) {
+    const pace = random();
+    const [minMonths, maxMonths, minGap, maxGap] =
+      pace > 0.7 ? [1, 2, 0, 1] : pace > 0.25 ? [2, 4, 1, 4] : [3, 6, 6, 12];
 
-    const startMonth = Math.floor(random() * 8);
-    const months = 2 + Math.floor(random() * 5);
-    const endMonth = Math.min(11, startMonth + months - 1);
+    const now = Date.now();
+    let cursor = HISTORY_START + random() * 60 * DAY_MS;
+
+    while (true) {
+      const duration =
+        (minMonths + random() * (maxMonths - minMonths)) * 30.4 * DAY_MS;
+      const returned = cursor + duration;
+
+      if (returned >= now - 7 * DAY_MS) break;
+
+      const start = new Date(cursor);
+      const end = new Date(returned);
+
+      assignments.push({
+        id: `as-${index}-${assignments.length}`,
+        publisher: PUBLISHERS[Math.floor(random() * PUBLISHERS.length)],
+        assignedOn: storedDate(start),
+        returnedOn: storedDate(end),
+        serviceYear:
+          end.getMonth() >= 8 ? end.getFullYear() + 1 : end.getFullYear(),
+        months: Math.max(1, Math.round(duration / (30.4 * DAY_MS))),
+        startMonth: (start.getMonth() + 4) % 12,
+        endMonth: (end.getMonth() + 4) % 12,
+      });
+
+      cursor =
+        returned +
+        (minGap + random() * (maxGap - minGap)) * 30.4 * DAY_MS +
+        3 * DAY_MS;
+    }
+  }
+
+  if (holder && daysOut !== undefined) {
+    const started = new Date(Date.now() - daysOut * 86400000);
+
+    assignments = assignments.filter((assignment) => {
+      const [day, month, year] = assignment.returnedOn!.split('.').map(Number);
+
+      return new Date(year, month - 1, day) < started;
+    });
 
     assignments.push({
-      id: `as-${index}-${serviceYear}`,
-      publisher: PUBLISHERS[Math.floor(random() * PUBLISHERS.length)],
-      assignedOn: monthDate(random, serviceYear, startMonth),
-      returnedOn: monthDate(random, serviceYear, endMonth),
-      serviceYear,
-      months: endMonth - startMonth + 1,
-      startMonth,
-      endMonth,
+      id: `a-${index}-open`,
+      publisher: holder,
+      assignedOn: started.toLocaleDateString('de-DE', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+      }),
+      serviceYear:
+        started.getMonth() >= 8
+          ? started.getFullYear() + 1
+          : started.getFullYear(),
+      months: Math.max(1, Math.round(daysOut / 30)),
+      startMonth: (started.getMonth() + 4) % 12,
+      endMonth: (new Date().getMonth() + 4) % 12,
     });
   }
+
+  const phoneNumbers =
+    type === 'phone'
+      ? Array.from(
+          { length: 8 + Math.floor(random() * 20) },
+          () =>
+            `(${200 + Math.floor(random() * 700)}) 555-${String(
+              Math.floor(random() * 10000)
+            ).padStart(4, '0')}`
+        )
+      : undefined;
 
   const categories = CATEGORIES.filter(() => random() > 0.85);
 
@@ -185,7 +256,6 @@ const buildTerritory = (index: number, random: () => number): Territory => {
         name: DNC_NAMES[Math.floor(random() * DNC_NAMES.length)] || undefined,
         date: formatDate(random, year),
         addedBy: PUBLISHERS[Math.floor(random() * PUBLISHERS.length)],
-        reviewNeeded: year < 2024,
       };
     }
   );
@@ -209,6 +279,7 @@ const buildTerritory = (index: number, random: () => number): Territory => {
     doNotCalls,
     assignments,
     boundary: buildBoundary(index, random),
+    phoneNumbers,
     requestedBy:
       status === 'available' && random() > 0.88
         ? PUBLISHERS[Math.floor(random() * PUBLISHERS.length)]
@@ -220,9 +291,14 @@ const buildTerritory = (index: number, random: () => number): Territory => {
 const buildTerritories = (count: number): Territory[] => {
   const random = rng(20260920);
 
-  return Array.from({ length: count }, (_, index) =>
+  const territories = Array.from({ length: count }, (_, index) =>
     buildTerritory(index, random)
   );
+
+  const request = territories.find((territory) => territory.requestedBy);
+  if (request) request.requestedBy = 'Mike Wallenter';
+
+  return territories;
 };
 
-export const TERRITORIES = buildTerritories(48);
+export const TERRITORIES = buildTerritories(132);

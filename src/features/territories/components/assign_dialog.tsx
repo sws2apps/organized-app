@@ -10,7 +10,7 @@ import { GROUPS, PUBLISHERS_ONLY } from '../mockData';
 import { suggestedPublisher } from '../helpers';
 import { Territory } from '@definition/territory';
 
-export type AssignDialogProps = {
+type AssignDialogProps = {
   title: string;
   subtitle?: string;
   requestedBy?: string;
@@ -35,16 +35,7 @@ const AssignDialog = ({
   const [assignedOn, setAssignedOn] = useState<Date | null>(new Date());
 
   return (
-    <Dialog onClose={onClose} open sx={{ padding: '24px' }}>
-      <Stack spacing="4px" sx={{ width: '100%' }}>
-        <Typography className="h3">{title}</Typography>
-        {subtitle && (
-          <Typography className="body-small-regular" color="var(--grey-400)">
-            {subtitle}
-          </Typography>
-        )}
-      </Stack>
-
+    <Dialog onClose={onClose} open title={title} description={subtitle}>
       <Stack
         direction={tablet600Up ? 'row' : 'column'}
         spacing="16px"

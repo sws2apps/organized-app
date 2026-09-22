@@ -20,18 +20,42 @@ export type DoNotCall = {
   name?: string;
   date: string;
   addedBy: string;
-  reviewNeeded: boolean;
 };
 
 // a closed ring of [longitude, latitude] pairs, in GeoJSON order
 export type TerritoryBoundary = [number, number][];
 
 // what a territory carries on the congregation map besides its borders
+export type MapColor = 'red' | 'blue' | 'green' | 'orange' | 'purple' | 'black';
+
+export type PinType =
+  | 'normal'
+  | 'parking'
+  | 'restaurant'
+  | 'transport'
+  | 'shop'
+  | 'nature'
+  | 'gas'
+  | 'sight'
+  | 'building'
+  | 'school'
+  | 'cart';
+
 export type TerritoryMapMarker = {
   id: string;
   kind: 'pin' | 'text';
   position: [number, number];
   text?: string;
+  pinType?: PinType;
+  color?: MapColor;
+};
+
+export type TerritoryMapShape = {
+  id: string;
+  path: TerritoryBoundary;
+  border: MapColor | 'transparent';
+  fill: MapColor | 'transparent';
+  label?: string;
 };
 
 export type TerritoryMapLine = {
@@ -42,6 +66,7 @@ export type TerritoryMapLine = {
 
 export type TerritoryMapDraft = {
   boundary?: TerritoryBoundary;
+  shapes: TerritoryMapShape[];
   lines: TerritoryMapLine[];
   markers: TerritoryMapMarker[];
 };
@@ -77,8 +102,13 @@ export type Territory = {
   // the area drawn on the congregation map, when it has been mapped
   boundary?: TerritoryBoundary;
   // streets, walking routes and notes drawn inside that area
+  mapShapes?: TerritoryMapShape[];
   mapLines?: TerritoryMapLine[];
   mapMarkers?: TerritoryMapMarker[];
+  // kept on the device only, never synced
+  mapSource?: 'custom' | 'image';
+  mapPicture?: string;
+  phoneNumbers?: string[];
   requestedBy?: string;
   reviewNeeded?: boolean;
 };
@@ -98,7 +128,7 @@ export type TerritoryTab =
   | 'recommended'
   | 'all'
   | 'mine'
-  | 'overdue';
+  | 'requested';
 
 export const STATUS_LABEL: Record<TerritoryStatus, string> = {
   available: 'Available',
@@ -108,8 +138,8 @@ export const STATUS_LABEL: Record<TerritoryStatus, string> = {
 
 export const STATUS_COLOR: Record<TerritoryStatus, BadgeColor> = {
   available: 'green',
-  in_work: 'accent',
-  overdue: 'orange',
+  in_work: 'orange',
+  overdue: 'red',
 };
 
 export const TYPE_LABEL: Record<TerritoryType, string> = {
@@ -133,20 +163,4 @@ export const CATEGORY_COLORS: BadgeColor[] = [
   'orange',
   'red',
   'grey',
-];
-
-// the service year runs September to August
-export const MONTHS = [
-  'Sep',
-  'Oct',
-  'Nov',
-  'Dec',
-  'Jan',
-  'Feb',
-  'Mar',
-  'Apr',
-  'May',
-  'Jun',
-  'Jul',
-  'Aug',
 ];

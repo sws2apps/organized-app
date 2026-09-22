@@ -1,5 +1,5 @@
 import { Box, Stack } from '@mui/material';
-import { Badge, InfoNote, Typography } from '@components/index';
+import { Badge, CustomDivider, InfoNote, Typography } from '@components/index';
 import { publisherLoad } from '../helpers';
 import { Territory } from '@definition/territory';
 import TruncatedText from './truncated_text';
@@ -18,22 +18,18 @@ const PublisherLoad = ({
   }
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+    <Stack spacing="4px" divider={<CustomDivider color="var(--accent-200)" />}>
       {load.slice(0, limit).map((entry, index) => (
         <Stack
           key={entry.publisher}
           direction="row"
           spacing="12px"
-          sx={{
-            alignItems: 'center',
-            padding: '10px 0',
-            borderTop: index === 0 ? 'none' : '1px solid var(--accent-200)',
-          }}
+          sx={{ alignItems: 'center', padding: '10px 8px' }}
         >
           <Typography
-            className="label-small-medium"
+            className="label-small-regular"
             color="var(--grey-350)"
-            sx={{ width: '18px', flexShrink: 0 }}
+            sx={{ width: '20px', flexShrink: 0 }}
           >
             {index + 1}
           </Typography>
@@ -56,7 +52,7 @@ const PublisherLoad = ({
           </Box>
         </Stack>
       ))}
-    </Box>
+    </Stack>
   );
 };
 

@@ -1,31 +1,19 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router';
-import { useAtom, useAtomValue } from 'jotai';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import * as maplibregl from 'maplibre-gl';
-import {
-  TerraDraw,
-  TerraDrawLineStringMode,
-  TerraDrawPointMode,
-  TerraDrawPolygonMode,
-  TerraDrawSelectMode,
-} from 'terra-draw';
-import { TerraDrawMapLibreGLAdapter } from 'terra-draw-maplibre-gl-adapter';
 import { IconCheckCircle } from '@icons/index';
 import { displaySnackNotification } from '@services/states/app';
+import { getCSSPropertyValue } from '@utils/common';
 import { isDarkThemeState } from '@states/app';
 import {
   congregationBoundaryState,
   territoriesState,
+  territoriesWithStatusState,
 } from '@states/territories';
+import { TerritoryBoundary } from '@definition/territory';
 import {
-  Territory,
-  TerritoryBoundary,
-  TerritoryMapDraft,
-} from '@definition/territory';
-import {
-  MapProviderKey,
-  MapView,
-  styleUrl,
+  MAP_PROVIDERS,
   CONGREGATION_FILL_LAYER,
   CONGREGATION_LINE_LAYER,
   CONGREGATION_SOURCE,
@@ -33,42 +21,40 @@ import {
   DEFAULT_ZOOM,
   FILL_LAYER,
   LABEL_LAYER,
-  LINES_SOURCE,
-  LINE_DASHED_LAYER,
+  LABELS_SOURCE,
   LINE_LAYER,
-  LINE_SOLID_LAYER,
-  MARKERS_SOURCE,
-  MARKER_PIN_LAYER,
-  MARKER_TEXT_LAYER,
+  MapProviderKey,
   SOURCE_ID,
+  styleUrl,
 } from './constants';
+import { ColorView, colorScheme, HEATMAP_YEARS } from './views';
 import {
+  addAttribution,
+  addHouseIcon,
+  labelText,
+  resolveColor,
+  allMarkers,
   boundaryBounds,
   boundaryCollection,
-  cssVar,
-  lineCollection,
-  markerCollection,
-  toBoundary,
+  labelCollection,
 } from './helpers';
+import { addDrawingLayers, setDrawingData } from './layers';
+import { MarkerRegistry, syncMarkers } from './markers';
+import useFullscreen from './useFullscreen';
+import useMapEditor, { EditScope } from './useMapEditor';
 
-export type MapTool = 'move' | 'shape' | 'line' | 'pin' | 'text';
-
-export type EditScope = 'territory' | 'congregation';
-
-const EMPTY_DRAFT: TerritoryMapDraft = { lines: [], markers: [] };
-
-const MODE_FOR: Record<MapTool, string> = {
-  move: 'select',
-  shape: 'polygon',
-  line: 'linestring',
-  pin: 'point',
-  text: 'point',
-};
+const ZOOM_STEP = 0.5;
 
 const useTerritoriesMap = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const [territories, setTerritories] = useAtom(territoriesState);
+  const setTerritories = useSetAtom(territoriesState);
+  const withStatus = useAtomValue(territoriesWithStatusState);
+
+  const territories = useMemo(
+    () => withStatus.filter((territory) => territory.type !== 'phone'),
+    [withStatus]
+  );
   const [congregationBoundary, setCongregationBoundary] = useAtom(
     congregationBoundaryState
   );
@@ -77,33 +63,48 @@ const useTerritoriesMap = () => {
   const wrapper = useRef<HTMLDivElement>(null);
   const container = useRef<HTMLDivElement>(null);
   const map = useRef<maplibregl.Map>(null);
-  const draw = useRef<TerraDraw>(null);
-  const tool = useRef<MapTool>('move');
-  const lineStyle = useRef<'solid' | 'dashed'>('solid');
+  const markers = useRef<MarkerRegistry>(new Map());
+  const style = useRef('');
 
   const [ready, setReady] = useState(false);
+  const [styleVersion, setStyleVersion] = useState(0);
   const [search, setSearch] = useState('');
-  const [heatmap, setHeatmap] = useState(false);
+  const [colorView, setColorView] = useState<ColorView>('status');
+
+  const [heatmapYear, setHeatmapYear] = useState(HEATMAP_YEARS()[0]);
+
+  const scheme = useMemo(
+    () => colorScheme(colorView, heatmapYear),
+    [colorView, heatmapYear]
+  );
   const [provider, setProvider] = useState<MapProviderKey>('carto');
-  const [view, setView] = useState<MapView>('map');
   const [showNumbers, setShowNumbers] = useState(true);
   const [showHouseholds, setShowHouseholds] = useState(false);
-  const [hidePoi, setHidePoi] = useState(true);
-  const [fullscreen, setFullscreen] = useState(false);
-  const [editing, setEditing] = useState(false);
-  const [scope, setScope] = useState<EditScope>('territory');
-  const [activeTool, setActiveTool] = useState<MapTool>('move');
-  const [activeLineStyle, setActiveLineStyle] = useState<'solid' | 'dashed'>(
-    'solid'
-  );
-  const [draft, setDraft] = useState<TerritoryMapDraft>(EMPTY_DRAFT);
-  const [labelling, setLabelling] = useState<string | number | undefined>();
+
+  const { fullscreen, toggleFullscreen } = useFullscreen(wrapper, map);
 
   const selectedId = searchParams.get('territory') ?? undefined;
-
   const selected = territories.find((item) => item.id === selectedId);
 
   const mapped = territories.filter((item) => item.boundary?.length).length;
+
+  const flyToBoundary = useCallback((boundary: TerritoryBoundary) => {
+    const [west, south, east, north] = boundaryBounds(boundary);
+
+    map.current?.fitBounds([west, south, east, north], {
+      padding: 80,
+      maxZoom: 16,
+    });
+  }, []);
+
+  const handleEditStart = useCallback(
+    (boundary?: TerritoryBoundary) => {
+      if (boundary?.length) flyToBoundary(boundary);
+    },
+    [flyToBoundary]
+  );
+
+  const editor = useMapEditor({ map, onStart: handleEditStart });
 
   const visible = useMemo(() => {
     const term = search.trim().toLowerCase();
@@ -119,13 +120,18 @@ const useTerritoriesMap = () => {
   }, [territories, search]);
 
   const data = useMemo(() => {
-    const hiddenId = editing ? selectedId : undefined;
+    const hiddenId = editor.editing ? selectedId : undefined;
+
+    const colors = new Map(
+      scheme.buckets.map((entry) => [entry.key, resolveColor(entry.color)])
+    );
     const rest = territories.filter((item) => item.id !== hiddenId);
 
     const border: GeoJSON.FeatureCollection = {
       type: 'FeatureCollection',
       features:
-        congregationBoundary?.length && !(editing && scope === 'congregation')
+        congregationBoundary?.length &&
+        !(editor.editing && editor.scope === 'congregation')
           ? [
               {
                 type: 'Feature',
@@ -142,25 +148,26 @@ const useTerritoriesMap = () => {
     return {
       border,
       areas: boundaryCollection(territories, {
-        heatmap,
+        colorOf: (territory) => colors.get(scheme.keyOf(territory)) ?? '',
+        detailOf: scheme.detailOf,
         selectedId,
         hiddenId,
-        showNumbers,
-        showHouseholds,
       }),
-      lines: lineCollection(rest),
-      markers: markerCollection(rest),
+      rest,
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     territories,
     congregationBoundary,
-    editing,
-    scope,
+    editor.editing,
+    editor.scope,
     selectedId,
-    heatmap,
-    showNumbers,
-    showHouseholds,
+    scheme,
+    isDark,
   ]);
+
+  const labelOptions = useRef({ showNumbers, showHouseholds, provider });
+  labelOptions.current = { showNumbers, showHouseholds, provider };
 
   const dataRef = useRef(data);
   dataRef.current = data;
@@ -172,28 +179,33 @@ const useTerritoriesMap = () => {
     [setSearchParams]
   );
 
+  // layers live on the style, so they are re-applied whenever the style is swapped
   const applyLayers = useCallback(() => {
     const instance = map.current;
     if (!instance || instance.getSource(SOURCE_ID)) return;
 
     const current = dataRef.current;
 
+    addHouseIcon(instance, getCSSPropertyValue('--black')).catch(console.error);
+
     instance.addSource(CONGREGATION_SOURCE, {
       type: 'geojson',
       data: current.border,
     });
     instance.addSource(SOURCE_ID, { type: 'geojson', data: current.areas });
-    instance.addSource(LINES_SOURCE, { type: 'geojson', data: current.lines });
-    instance.addSource(MARKERS_SOURCE, {
+    instance.addSource(LABELS_SOURCE, {
       type: 'geojson',
-      data: current.markers,
+      data: labelCollection(current.areas),
     });
 
     instance.addLayer({
       id: CONGREGATION_FILL_LAYER,
       type: 'fill',
       source: CONGREGATION_SOURCE,
-      paint: { 'fill-color': cssVar('--accent-main'), 'fill-opacity': 0.06 },
+      paint: {
+        'fill-color': getCSSPropertyValue('--accent-main'),
+        'fill-opacity': 0.06,
+      },
     });
 
     instance.addLayer({
@@ -201,7 +213,7 @@ const useTerritoriesMap = () => {
       type: 'line',
       source: CONGREGATION_SOURCE,
       paint: {
-        'line-color': cssVar('--accent-dark'),
+        'line-color': getCSSPropertyValue('--accent-dark'),
         'line-width': 2,
         'line-dasharray': [4, 3],
       },
@@ -227,69 +239,28 @@ const useTerritoriesMap = () => {
       },
     });
 
-    instance.addLayer({
-      id: LINE_SOLID_LAYER,
-      type: 'line',
-      source: LINES_SOURCE,
-      filter: ['==', ['get', 'style'], 'solid'],
-      paint: { 'line-color': cssVar('--accent-dark'), 'line-width': 3 },
-    });
-
-    instance.addLayer({
-      id: LINE_DASHED_LAYER,
-      type: 'line',
-      source: LINES_SOURCE,
-      filter: ['==', ['get', 'style'], 'dashed'],
-      paint: {
-        'line-color': cssVar('--accent-dark'),
-        'line-width': 3,
-        'line-dasharray': [2, 2],
-      },
-    });
-
-    instance.addLayer({
-      id: MARKER_PIN_LAYER,
-      type: 'circle',
-      source: MARKERS_SOURCE,
-      filter: ['==', ['get', 'kind'], 'pin'],
-      paint: {
-        'circle-radius': 6,
-        'circle-color': cssVar('--red-main'),
-        'circle-stroke-width': 2,
-        'circle-stroke-color': cssVar('--white'),
-      },
-    });
-
-    instance.addLayer({
-      id: MARKER_TEXT_LAYER,
-      type: 'symbol',
-      source: MARKERS_SOURCE,
-      filter: ['==', ['get', 'kind'], 'text'],
-      layout: {
-        'text-field': ['get', 'text'],
-        'text-size': 13,
-        'text-allow-overlap': true,
-      },
-      paint: {
-        'text-color': cssVar('--black'),
-        'text-halo-color': cssVar('--white'),
-        'text-halo-width': 1.5,
-      },
-    });
+    addDrawingLayers(instance, current.rest);
 
     instance.addLayer({
       id: LABEL_LAYER,
       type: 'symbol',
-      source: SOURCE_ID,
+      source: LABELS_SOURCE,
       layout: {
-        'text-field': ['get', 'label'],
+        'text-field': labelText(
+          labelOptions.current,
+          MAP_PROVIDERS[labelOptions.current.provider].fonts
+        ),
+        'text-font': [
+          ...MAP_PROVIDERS[labelOptions.current.provider].fonts.regular,
+        ],
         'text-size': 12,
+        'text-line-height': 1.3,
         'text-allow-overlap': false,
       },
       paint: {
-        'text-color': cssVar('--black'),
-        'text-halo-color': cssVar('--white'),
-        'text-halo-width': 1.5,
+        'text-color': getCSSPropertyValue('--black'),
+        'text-halo-color': getCSSPropertyValue('--white'),
+        'text-halo-width': 2,
       },
     });
   }, []);
@@ -297,13 +268,20 @@ const useTerritoriesMap = () => {
   useEffect(() => {
     if (!container.current || map.current) return;
 
+    style.current = styleUrl(provider, isDark);
+
     const instance = new maplibregl.Map({
       container: container.current,
-      style: styleUrl(provider, isDark, view),
+      style: style.current,
       center: DEFAULT_CENTER,
       zoom: DEFAULT_ZOOM,
-      attributionControl: { compact: true },
+      attributionControl: false,
     });
+
+    addAttribution(instance);
+
+    instance.scrollZoom.setWheelZoomRate(1 / 900);
+    instance.scrollZoom.setZoomRate(1 / 200);
 
     map.current = instance;
 
@@ -312,10 +290,11 @@ const useTerritoriesMap = () => {
     instance.on('style.load', () => {
       applyLayers();
       setReady(true);
+      setStyleVersion((version) => version + 1);
     });
 
     instance.on('click', FILL_LAYER, (event: maplibregl.MapLayerMouseEvent) => {
-      if (draw.current) return;
+      if (editor.active.current) return;
 
       const id = event.features?.[0]?.properties?.id;
       if (typeof id === 'string') setSelectedId(id);
@@ -329,20 +308,26 @@ const useTerritoriesMap = () => {
       instance.getCanvas().style.cursor = '';
     });
 
+    const registry = markers.current;
+
     return () => {
+      syncMarkers(instance, [], registry);
       instance.remove();
       map.current = null;
       setReady(false);
     };
-    // the map is created once; the theme effect keeps its style in sync
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // swapping the style drops every other layer, terra draw's too, so only on a real basemap change
   useEffect(() => {
-    if (!map.current || !ready) return;
+    const next = styleUrl(provider, isDark);
 
-    map.current.setStyle(styleUrl(provider, isDark, view));
-  }, [isDark, provider, view, ready]);
+    if (!map.current || !ready || next === style.current) return;
+
+    style.current = next;
+    map.current.setStyle(next);
+  }, [isDark, provider, ready]);
 
   useEffect(() => {
     const instance = map.current;
@@ -353,35 +338,38 @@ const useTerritoriesMap = () => {
 
     source(CONGREGATION_SOURCE)?.setData(data.border);
     source(SOURCE_ID)?.setData(data.areas);
-    source(LINES_SOURCE)?.setData(data.lines);
-    source(MARKERS_SOURCE)?.setData(data.markers);
+    source(LABELS_SOURCE)?.setData(labelCollection(data.areas));
+    setDrawingData(instance, data.rest);
+    syncMarkers(instance, allMarkers(data.rest), markers.current);
 
+    // without this the first frame can stay empty until something else moves
     instance.triggerRepaint();
-  }, [data, ready, isDark, provider, view]);
+  }, [data, ready]);
 
   useEffect(() => {
     const instance = map.current;
-    if (!instance || !ready) return;
+    if (!instance || !styleVersion) return;
 
-    for (const layer of instance.getStyle().layers ?? []) {
-      if (!/poi|place_label|shop|restaurant/i.test(layer.id)) continue;
+    for (const layer of instance.getStyle()?.layers ?? []) {
+      if (!/^poi/i.test(layer.id)) continue;
 
-      instance.setLayoutProperty(
-        layer.id,
-        'visibility',
-        hidePoi ? 'none' : 'visible'
-      );
+      instance.setLayoutProperty(layer.id, 'visibility', 'none');
     }
-  }, [hidePoi, ready, isDark, provider, view]);
+  }, [styleVersion]);
 
-  const flyToBoundary = useCallback((boundary: TerritoryBoundary) => {
-    const [west, south, east, north] = boundaryBounds(boundary);
+  useEffect(() => {
+    const instance = map.current;
+    if (!instance || !styleVersion || !instance.getLayer(LABEL_LAYER)) return;
 
-    map.current?.fitBounds([west, south, east, north], {
-      padding: 80,
-      maxZoom: 16,
-    });
-  }, []);
+    instance.setLayoutProperty(
+      LABEL_LAYER,
+      'text-field',
+      labelText({ showNumbers, showHouseholds }, MAP_PROVIDERS[provider].fonts)
+    );
+    instance.setLayoutProperty(LABEL_LAYER, 'text-font', [
+      ...MAP_PROVIDERS[provider].fonts.regular,
+    ]);
+  }, [showNumbers, showHouseholds, provider, styleVersion]);
 
   useEffect(() => {
     if (!ready || !selected?.boundary?.length) return;
@@ -389,240 +377,39 @@ const useTerritoriesMap = () => {
     flyToBoundary(selected.boundary);
   }, [selectedId, ready, selected?.boundary, flyToBoundary]);
 
-  const stopDrawing = useCallback(() => {
-    draw.current?.stop();
-    draw.current = null;
-  }, []);
-
-  const readDraft = useCallback(() => {
-    const terra = draw.current;
-    if (!terra) return;
-
-    const next: TerritoryMapDraft = { lines: [], markers: [] };
-
-    for (const feature of terra.getSnapshot()) {
-      const properties = (feature.properties ?? {}) as Record<string, unknown>;
-
-      // terra draw renders its own handles as points; they are not data
-      if (properties.selectionPoint || properties.midPoint) continue;
-
-      if (feature.geometry.type === 'Polygon') {
-        next.boundary = toBoundary(feature.geometry.coordinates[0]);
-      }
-
-      if (feature.geometry.type === 'LineString') {
-        next.lines.push({
-          id: String(feature.id),
-          path: feature.geometry.coordinates.map(
-            ([lng, lat]) => [lng, lat] as [number, number]
-          ),
-          style: properties.lineStyle === 'dashed' ? 'dashed' : 'solid',
-        });
-      }
-
-      if (feature.geometry.type === 'Point') {
-        const [lng, lat] = feature.geometry.coordinates;
-
-        next.markers.push({
-          id: String(feature.id),
-          kind: properties.kind === 'text' ? 'text' : 'pin',
-          position: [lng, lat],
-          text: typeof properties.label === 'string' ? properties.label : '',
-        });
-      }
-    }
-
-    setDraft(next);
-  }, []);
+  const [editMode, setEditMode] = useState(false);
+  const editingId = useRef<string>(undefined);
 
   const startEditing = useCallback(
-    (nextScope: EditScope = 'territory') => {
-      const instance = map.current;
-      if (!instance) return;
+    (scope: EditScope = 'territory') => {
+      if (scope === 'territory' && !selected) return;
 
-      const congregation = nextScope === 'congregation';
-      const target = congregation ? undefined : selected;
-
-      if (!congregation && !target) return;
-
-      const existing = congregation ? congregationBoundary : target?.boundary;
-
-      stopDrawing();
-
-      const accent = cssVar('--accent-main') as `#${string}`;
-      const accentDark = cssVar('--accent-dark') as `#${string}`;
-      const red = cssVar('--red-main') as `#${string}`;
-
-      const terra = new TerraDraw({
-        adapter: new TerraDrawMapLibreGLAdapter({ map: instance }),
-        modes: [
-          new TerraDrawPolygonMode({
-            styles: {
-              fillColor: accent,
-              outlineColor: accentDark,
-              fillOpacity: 0.3,
-              outlineWidth: 2,
-            },
-          }),
-          new TerraDrawLineStringMode({
-            styles: { lineStringColor: accentDark, lineStringWidth: 3 },
-          }),
-          new TerraDrawPointMode({
-            styles: { pointColor: red, pointWidth: 6, pointOutlineWidth: 2 },
-          }),
-          new TerraDrawSelectMode({
-            flags: {
-              polygon: {
-                feature: {
-                  draggable: true,
-                  coordinates: {
-                    midpoints: true,
-                    draggable: true,
-                    deletable: true,
-                  },
-                },
-              },
-              linestring: {
-                feature: {
-                  draggable: true,
-                  coordinates: {
-                    midpoints: true,
-                    draggable: true,
-                    deletable: true,
-                  },
-                },
-              },
-              point: { feature: { draggable: true } },
-            },
-          }),
-        ],
-      });
-
-      terra.start();
-
-      terra.on('change', readDraft);
-
-      terra.on('finish', (id) => {
-        const current = tool.current;
-
-        if (current === 'line') {
-          terra.updateFeatureProperties(id, { lineStyle: lineStyle.current });
-        }
-
-        if (current === 'pin') {
-          terra.updateFeatureProperties(id, { kind: 'pin' });
-        }
-
-        if (current === 'text') {
-          terra.updateFeatureProperties(id, { kind: 'text', label: '' });
-          setLabelling(id);
-        }
-
-        readDraft();
-      });
-
-      const loaded: Parameters<typeof terra.addFeatures>[0] = [];
-
-      if (existing?.length) {
-        loaded.push({
-          type: 'Feature',
-          id: terra.getFeatureId(),
-          properties: { mode: 'polygon' },
-          geometry: { type: 'Polygon', coordinates: [existing] },
-        });
-      }
-
-      if (!congregation && target) {
-        for (const line of target.mapLines ?? []) {
-          loaded.push({
-            type: 'Feature',
-            id: terra.getFeatureId(),
-            properties: { mode: 'linestring', lineStyle: line.style },
-            geometry: { type: 'LineString', coordinates: line.path },
-          });
-        }
-
-        for (const marker of target.mapMarkers ?? []) {
-          loaded.push({
-            type: 'Feature',
-            id: terra.getFeatureId(),
-            properties: {
-              mode: 'point',
-              kind: marker.kind,
-              label: marker.text ?? '',
-            },
-            geometry: { type: 'Point', coordinates: marker.position },
-          });
-        }
-      }
-
-      const startTool: MapTool = existing?.length ? 'move' : 'shape';
-
-      tool.current = startTool;
-      setActiveTool(startTool);
-
-      // a mode has to be running before the store accepts features: a freshly
-      // started instance is static and rejects everything
-      terra.setMode(MODE_FOR[startTool]);
-
-      if (loaded.length > 0) terra.addFeatures(loaded);
-
-      draw.current = terra;
-
-      setDraft({
-        boundary: existing,
-        lines: congregation ? [] : (target?.mapLines ?? []),
-        markers: congregation ? [] : (target?.mapMarkers ?? []),
-      });
-      setScope(nextScope);
-      setEditing(true);
-
-      if (existing?.length) flyToBoundary(existing);
+      editingId.current = scope === 'territory' ? selected?.id : undefined;
+      setEditMode(true);
+      editor.start(scope, selected, congregationBoundary);
     },
-    [selected, congregationBoundary, stopDrawing, readDraft, flyToBoundary]
+    [editor, selected, congregationBoundary]
   );
 
-  const pickTool = useCallback((next: MapTool) => {
-    tool.current = next;
-    setActiveTool(next);
-    draw.current?.setMode(MODE_FOR[next]);
-  }, []);
+  const editRequested = searchParams.get('edit') === '1';
 
-  const pickLineStyle = useCallback((next: 'solid' | 'dashed') => {
-    lineStyle.current = next;
-    setActiveLineStyle(next);
-  }, []);
+  useEffect(() => {
+    if (!ready || !editRequested || !selected || editor.editing) return;
 
-  const saveLabel = useCallback(
-    (text: string) => {
-      if (labelling === undefined) return;
+    setSearchParams({ territory: selected.id }, { replace: true });
+    startEditing('territory');
+  }, [
+    ready,
+    editRequested,
+    selected,
+    editor.editing,
+    setSearchParams,
+    startEditing,
+  ]);
 
-      if (text.trim().length === 0) {
-        draw.current?.removeFeatures([labelling]);
-      } else {
-        draw.current?.updateFeatureProperties(labelling, {
-          kind: 'text',
-          label: text.trim(),
-        });
-      }
+  const save = useCallback(() => {
+    const { draft, scope } = editor;
 
-      setLabelling(undefined);
-      readDraft();
-    },
-    [labelling, readDraft]
-  );
-
-  const cancelEditing = useCallback(() => {
-    stopDrawing();
-    setDraft(EMPTY_DRAFT);
-    setEditing(false);
-    setScope('territory');
-    setLabelling(undefined);
-    tool.current = 'move';
-    setActiveTool('move');
-  }, [stopDrawing]);
-
-  const saveBoundary = useCallback(() => {
     if (!draft.boundary?.length) return;
 
     if (scope === 'congregation') {
@@ -634,58 +421,76 @@ const useTerritoriesMap = () => {
         severity: 'success',
         icon: <IconCheckCircle color="var(--white)" />,
       });
+    } else if (selected) {
+      setTerritories((prev) =>
+        prev.map((item) =>
+          item.id === selected.id
+            ? {
+                ...item,
+                boundary: draft.boundary,
+                mapShapes: draft.shapes,
+                mapLines: draft.lines,
+                mapMarkers: draft.markers,
+              }
+            : item
+        )
+      );
 
-      cancelEditing();
-      return;
+      displaySnackNotification({
+        header: 'Map saved',
+        message: `Territory ${selected.number} now has an area on the map.`,
+        severity: 'success',
+        icon: <IconCheckCircle color="var(--white)" />,
+      });
     }
 
-    if (!selected) return;
+    editor.finish();
+  }, [editor, selected, setTerritories, setCongregationBoundary]);
 
-    setTerritories((prev) =>
-      prev.map((item) =>
-        item.id === selected.id
-          ? {
-              ...item,
-              boundary: draft.boundary,
-              mapLines: draft.lines,
-              mapMarkers: draft.markers,
-            }
-          : item
-      )
-    );
+  const leaveEditing = useCallback(() => {
+    if (!editor.editing) return;
 
-    displaySnackNotification({
-      header: 'Map saved',
-      message: `Territory ${selected.number} now has an area on the map.`,
-      severity: 'success',
-      icon: <IconCheckCircle color="var(--white)" />,
-    });
+    if (editor.draft.boundary?.length) save();
+    else editor.finish();
 
-    cancelEditing();
-  }, [
-    scope,
-    selected,
-    draft,
-    setTerritories,
-    setCongregationBoundary,
-    cancelEditing,
-  ]);
+    editingId.current = undefined;
+  }, [editor, save]);
 
-  const clearDrawing = useCallback(() => {
-    draw.current?.clear();
-    setDraft(EMPTY_DRAFT);
-    pickTool('shape');
-  }, [pickTool]);
+  const setMode = useCallback(
+    (next: 'view' | 'edit') => {
+      if (next === 'view') {
+        leaveEditing();
+        setEditMode(false);
+        return;
+      }
 
-  const undo = useCallback(() => {
-    draw.current?.undo();
-    readDraft();
-  }, [readDraft]);
+      setEditMode(true);
+      if (selected) startEditing('territory');
+    },
+    [leaveEditing, selected, startEditing]
+  );
 
-  const redo = useCallback(() => {
-    draw.current?.redo();
-    readDraft();
-  }, [readDraft]);
+  useEffect(() => {
+    if (!editMode || !selected || editor.scope === 'congregation') return;
+    if (editor.editing && editingId.current === selected.id) return;
+
+    leaveEditing();
+    startEditing('territory');
+    // only a new selection should move the drawing
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editMode, selected?.id]);
+
+  const switchScope = useCallback(
+    (scope: EditScope) => {
+      if (editor.editing && scope === editor.scope) return;
+
+      leaveEditing();
+
+      if (scope === 'territory' && !selected) return;
+      startEditing(scope);
+    },
+    [editor.editing, editor.scope, leaveEditing, selected, startEditing]
+  );
 
   const locate = useCallback(() => {
     if (!navigator.geolocation) return;
@@ -713,148 +518,49 @@ const useTerritoriesMap = () => {
 
     const all = [...drawn, ...(congregationBoundary ?? [])];
 
-    if (all.length === 0) return;
-
-    flyToBoundary(all);
+    if (all.length > 0) flyToBoundary(all);
   }, [territories, congregationBoundary, flyToBoundary]);
-
-  const toggleFullscreen = useCallback(() => {
-    if (document.fullscreenElement) {
-      document.exitFullscreen().catch(() => undefined);
-      setFullscreen(false);
-      return;
-    }
-
-    if (fullscreen) {
-      setFullscreen(false);
-      return;
-    }
-
-    // an embedded web view can refuse the API by throwing or by rejecting; the
-    // overlay below covers both
-    try {
-      wrapper.current?.requestFullscreen().catch(() => undefined);
-    } catch {
-      setFullscreen(true);
-    }
-
-    setFullscreen(true);
-  }, [fullscreen]);
-
-  useEffect(() => {
-    const handle = () => {
-      setFullscreen(document.fullscreenElement === wrapper.current);
-      window.setTimeout(() => map.current?.resize(), 150);
-    };
-
-    document.addEventListener('fullscreenchange', handle);
-
-    return () => document.removeEventListener('fullscreenchange', handle);
-  }, []);
-
-  // a transformed ancestor becomes the containing block for anything fixed,
-  // which would trap the full screen map inside the page. The transform is
-  // switched off for as long as the map covers the screen
-  useEffect(() => {
-    if (!fullscreen) return;
-
-    const patched: { element: HTMLElement; transform: string }[] = [];
-
-    let node = wrapper.current?.parentElement;
-
-    while (node && node !== document.body) {
-      const { transform, filter, perspective } = getComputedStyle(node);
-
-      // the page enter animation fills forever, and an element with a filling
-      // transform animation keeps being a containing block even once its value
-      // is none, so the finished animation is dropped as well
-      for (const animation of node.getAnimations()) {
-        if (animation.playState === 'finished') animation.cancel();
-      }
-
-      if (transform !== 'none' || filter !== 'none' || perspective !== 'none') {
-        patched.push({ element: node, transform: node.style.transform });
-
-        // the page transition animates the transform, and an animation beats a
-        // plain inline style, so the override has to be important
-        node.style.setProperty('transform', 'none', 'important');
-        node.style.setProperty('filter', 'none', 'important');
-        node.style.setProperty('perspective', 'none', 'important');
-      }
-
-      node = node.parentElement;
-    }
-
-    return () => {
-      for (const { element, transform } of patched) {
-        element.style.removeProperty('transform');
-        element.style.removeProperty('filter');
-        element.style.removeProperty('perspective');
-
-        if (transform) element.style.transform = transform;
-      }
-    };
-  }, [fullscreen]);
-
-  useEffect(() => {
-    const element = wrapper.current;
-    if (!element) return;
-
-    const observer = new ResizeObserver(() => map.current?.resize());
-
-    observer.observe(element);
-
-    return () => observer.disconnect();
-  }, [fullscreen]);
-
-  useEffect(() => stopDrawing, [stopDrawing]);
 
   return {
     wrapper,
     container,
-    ready,
-    territories: visible as Territory[],
+    territories: visible,
     mapped,
     selected,
     selectedId,
     setSelectedId,
     search,
     setSearch,
-    heatmap,
-    setHeatmap,
+    colorView,
+    setColorView,
+    heatmapYear,
+    setHeatmapYear,
     provider,
     setProvider,
-    view,
-    setView,
     showNumbers,
     setShowNumbers,
     showHouseholds,
     setShowHouseholds,
-    hidePoi,
-    setHidePoi,
-    zoomIn: () => map.current?.zoomIn(),
-    zoomOut: () => map.current?.zoomOut(),
     fullscreen,
     toggleFullscreen,
-    editing,
-    scope,
-    congregationBoundary,
-    startEditing,
-    cancelEditing,
-    saveBoundary,
-    clearDrawing,
-    draft,
-    activeTool,
-    pickTool,
-    activeLineStyle,
-    pickLineStyle,
-    labelling,
-    saveLabel,
-    undo,
-    redo,
+    zoomIn: () => map.current?.zoomTo(map.current.getZoom() + ZOOM_STEP),
+    zoomOut: () => map.current?.zoomTo(map.current.getZoom() - ZOOM_STEP),
     locate,
     fitAll,
+    editor,
+    startEditing,
+    switchScope,
+    editMode,
+    setMode,
+    cancelEditing: () => {
+      editor.finish();
+      editingId.current = undefined;
+      setEditMode(false);
+    },
+    save,
   };
 };
+
+export type TerritoriesMapState = ReturnType<typeof useTerritoriesMap>;
 
 export default useTerritoriesMap;

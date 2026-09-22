@@ -23,9 +23,10 @@ export const ChartCard = ({
         desktop: `span ${span}`,
       },
       minWidth: 0,
+      display: 'flex',
     }}
   >
-    <Card sx={{ gap: '16px' }}>
+    <Card sx={{ gap: '16px', flexGrow: 1 }}>
       <Box>
         <Typography className="h4" color="var(--black)">
           {title}
@@ -74,13 +75,11 @@ export const StatRow = ({
   value,
   max,
   color,
-  suffix,
 }: {
   label: string;
   value: number;
   max: number;
   color?: string;
-  suffix?: string;
 }) => (
   <Stack spacing="6px">
     <Stack
@@ -92,7 +91,6 @@ export const StatRow = ({
       </Typography>
       <Typography className="body-small-semibold" color="var(--black)">
         {value}
-        {suffix ?? ''}
       </Typography>
     </Stack>
     <MeterBar value={value} max={max} color={color} />
@@ -166,12 +164,11 @@ export const Gauge = ({ value, label }: { value: number; label: string }) => {
 export const ColumnChart = ({
   values,
   labels,
-  height = 150,
 }: {
   values: number[];
   labels: string[];
-  height?: number;
 }) => {
+  const height = 150;
   const max = Math.max(...values, 1);
 
   return (

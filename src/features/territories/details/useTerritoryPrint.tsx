@@ -2,8 +2,13 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { pdf } from '@react-pdf/renderer';
 import { saveAs } from 'file-saver';
-import { congNameState, JWLangLocaleState } from '@states/settings';
+import {
+  congNameState,
+  JWLangLocaleState,
+  shortDateFormatState,
+} from '@states/settings';
 import { displaySnackNotification } from '@services/states/app';
+import { formatDate } from '@utils/date';
 import { TemplateTerritoryCard, TemplateTerritoryS12 } from '@views/index';
 import { TerritoryPrintData } from '@views/territories/index.types';
 import { Territory } from '@definition/territory';
@@ -14,10 +19,12 @@ export type PrintTemplate = 's12' | 'a5';
 const useTerritoryPrint = (territory: Territory) => {
   const congregation = useAtomValue(congNameState);
   const locale = useAtomValue(JWLangLocaleState);
+  const dateFormat = useAtomValue(shortDateFormatState);
 
   const [template, setTemplate] = useState<PrintTemplate>('s12');
   const [showMap, setShowMap] = useState(true);
   const [notes, setNotes] = useState('');
+  const [printedNotes, setPrintedNotes] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string>();
 
@@ -28,11 +35,21 @@ const useTerritoryPrint = (territory: Territory) => {
   // every preview awaits the same capture instead of starting another one
   const mapImage = useRef<Promise<string | undefined>>(null);
 
+  // every keystroke would rebuild the whole PDF, so the notes settle first
+  useEffect(() => {
+    const timer = setTimeout(() => setPrintedNotes(notes), 400);
+
+    return () => clearTimeout(timer);
+  }, [notes]);
+
   const build = useCallback(async () => {
     const needsMap = showMap;
 
     if (needsMap && !mapImage.current) {
-      mapImage.current = captureTerritoryMap(territory);
+      mapImage.current =
+        territory.mapSource === 'image' && territory.mapPicture
+          ? Promise.resolve(territory.mapPicture)
+          : captureTerritoryMap(territory);
     }
 
     const picture =
@@ -42,15 +59,11 @@ const useTerritoryPrint = (territory: Territory) => {
       {
         ...territory,
         mapImage: picture,
-        notes: notes.trim() || undefined,
+        notes: printedNotes.trim() || undefined,
       },
     ];
 
-    const printedOn = new Date().toLocaleDateString('de-DE', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-    });
+    const printedOn = formatDate(new Date(), dateFormat);
 
     const document =
       template === 's12' ? (
@@ -72,7 +85,15 @@ const useTerritoryPrint = (territory: Territory) => {
       );
 
     return pdf(document).toBlob();
-  }, [template, showMap, notes, territory, congregation, locale]);
+  }, [
+    template,
+    showMap,
+    printedNotes,
+    territory,
+    congregation,
+    locale,
+    dateFormat,
+  ]);
 
   useEffect(() => {
     let cancelled = false;

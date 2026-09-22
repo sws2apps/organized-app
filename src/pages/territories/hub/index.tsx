@@ -1,57 +1,65 @@
+import { useState } from 'react';
 import { Box } from '@mui/material';
 import {
   IconAdd,
   IconAssign,
   IconAssignmetHistory,
-  IconInformationBoard,
-  IconListView,
-  IconMapView,
-  IconStatsYear,
+  IconCancelCicle,
+  IconImportExport,
 } from '@icons/index';
-import { useBreakpoints, useCurrentUser } from '@hooks/index';
+import { useBreakpoints } from '@hooks/index';
 import { useNavigate } from 'react-router';
 import NavBarButton from '@components/nav_bar_button';
 import NavBarButtonGroup from '@components/nav_bar_button_group';
 import PageTitle from '@components/page_title';
 import TerritoriesHub from '@features/territories/hub';
+import TerritoryImport from '@features/territories/import';
 import TerritoriesQuickSettings from '@features/territories/hub/quick_settings';
 import useTerritoriesHub from '@features/territories/hub/useTerritoriesHub';
 
 const Territories = () => {
   const navigate = useNavigate();
 
-  const { tablet688Up, laptopUp } = useBreakpoints();
-  const { isElder, isServiceCommittee } = useCurrentUser();
-
+  const { tablet688Up, desktopUp } = useBreakpoints();
   const hub = useTerritoriesHub();
 
-  const isTerritoryEditor = isElder || isServiceCommittee;
+  const { isTerritoryEditor } = hub;
+
+  const isFilterSubpage = !desktopUp && hub.filtersOpen;
+
+  const [importOpen, setImportOpen] = useState(false);
+
+  const title = {
+    recommended: isTerritoryEditor ? 'All territories' : 'Get territory',
+    all: isTerritoryEditor ? 'All territories' : 'Get territory',
+    mine: 'My territories',
+    requested: 'My territories',
+    requests: 'Requests',
+  }[hub.tabId];
 
   const buttons = (
     <NavBarButtonGroup>
       <NavBarButton
-        text={hub.isBoard ? 'List' : 'Board'}
-        icon={hub.isBoard ? <IconListView /> : <IconInformationBoard />}
-        onClick={() => hub.setIsBoard(!hub.isBoard)}
+        text="Do not calls"
+        icon={<IconCancelCicle />}
+        onClick={() =>
+          navigate('/territories/do-not-calls', { state: { parent: title } })
+        }
       />
-      {/* drawing borders needs a pointer and room, so it stays on desktop */}
-      {laptopUp && (
-        <NavBarButton
-          text="Map"
-          icon={<IconMapView />}
-          onClick={() => navigate('/territories/map')}
-        />
-      )}
       <NavBarButton
         text="History"
         icon={<IconAssignmetHistory />}
-        onClick={() => navigate('/territories/history')}
+        onClick={() =>
+          navigate('/territories/history', { state: { parent: title } })
+        }
       />
-      <NavBarButton
-        text="Statistics"
-        icon={<IconStatsYear />}
-        onClick={() => navigate('/territories/statistics')}
-      />
+      {isTerritoryEditor && (
+        <NavBarButton
+          text="Import"
+          icon={<IconImportExport />}
+          onClick={() => setImportOpen(true)}
+        />
+      )}
       {isTerritoryEditor ? (
         <NavBarButton
           text="Add"
@@ -60,7 +68,12 @@ const Territories = () => {
           onClick={() => navigate('/territories/new')}
         />
       ) : (
-        <NavBarButton text="Get" icon={<IconAssign />} textImportant />
+        <NavBarButton
+          text="Get"
+          icon={<IconAssign />}
+          textImportant
+          onClick={() => navigate('/territories?tab=recommended')}
+        />
       )}
     </NavBarButtonGroup>
   );
@@ -85,9 +98,22 @@ const Territories = () => {
         />
       )}
 
+      {importOpen && (
+        <TerritoryImport open onClose={() => setImportOpen(false)} />
+      )}
+
       <PageTitle
-        title="Territories"
-        buttons={buttons}
+        title={isFilterSubpage ? 'Filters' : title}
+        secondaryTitle={isFilterSubpage ? title : undefined}
+        onBack={
+          isFilterSubpage
+            ? () => {
+                hub.setFiltersOpen(false);
+                window.scroll({ top: 0 });
+              }
+            : undefined
+        }
+        buttons={!isFilterSubpage && buttons}
         quickSettings={() => hub.setQuickSettingsOpen(true)}
       />
 
