@@ -29,6 +29,8 @@ const Button: FC<ButtonPropsType> = (props) => {
 
   const isGradient = variant === 'main';
 
+  const defaultMinHeight = variant === 'small' ? 32 : 40;
+
   const gradientTop = color
     ? `color-mix(in oklch, var(--${color}-main), white 15%)`
     : 'var(--accent-gradient-top)';
@@ -252,11 +254,7 @@ const Button: FC<ButtonPropsType> = (props) => {
       target={props.target}
       sx={{
         cursor: 'pointer',
-        minHeight: props.minHeight
-          ? `${props.minHeight}px`
-          : variant === 'small'
-            ? '32px'
-            : '40px',
+        minHeight: `${props.minHeight || defaultMinHeight}px`,
         fontFeatureSettings: '"cv05"',
         padding: variant === 'small' ? '4px 8px' : '8px 16px',
         backgroundColor: getBackgroundColor(),
