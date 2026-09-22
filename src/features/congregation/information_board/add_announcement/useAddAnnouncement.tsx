@@ -49,7 +49,7 @@ const useAddAnnouncement = () => {
         updatedAt: new Date().toISOString(),
         value: false,
       },
-      notify_everybody: true,
+      notify_everybody: false,
     };
   });
 

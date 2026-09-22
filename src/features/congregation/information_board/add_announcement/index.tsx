@@ -54,8 +54,8 @@ const AddAnnouncement = () => {
         />
         <SwitchWithLabel
           checked={draft?.notify_everybody}
-          label={t('tr_notifyEverybody')}
-          helper={t('tr_notifyEverybodyDesc')}
+          label={t('tr_urgentNotification')}
+          helper={t('tr_urgentNotificationDesc')}
           onChange={handleSwitchNotifyEverybody}
         />
       </Stack>
