@@ -2,6 +2,7 @@ import { ListItem } from '@mui/material';
 import {
   IconMinistryReport,
   IconPioneerForm,
+  IconRaiseHand,
   IconStatsYear,
 } from '@icons/index';
 import { useAppTranslation } from '@hooks/index';
@@ -38,6 +39,14 @@ const MinistryCard = () => {
           primaryText={t('tr_serviceYear')}
           badgeText={isPioneer && hours_balance}
           path="/service-year"
+        />
+      </ListItem>
+
+      <ListItem disablePadding>
+        <DashboardMenu
+          icon={<IconRaiseHand color="var(--black)" />}
+          primaryText={t('tr_findPreachingPartner')}
+          path="/find-a-preaching-partner"
         />
       </ListItem>
 

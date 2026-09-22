@@ -23,6 +23,7 @@ import { dbAssignmentUpdate } from '@services/dexie/assignment';
 import { TIMER_KEY } from '@constants/index';
 import useInternetChecker from '@hooks/useInternetChecker';
 import { dbPersonsAssignFamilyHeads } from '@services/dexie/persons';
+import { dbPreachingPartnerRequestsDummy } from '@services/dexie/preaching_partner';
 
 const useStart = () => {
   const { isNavigatorOnline } = useInternetChecker();
@@ -50,6 +51,7 @@ const useStart = () => {
       await dbMeetingAttendanceFill();
       await dbBranchS1ReportsFill();
       await dbPersonsAssignFamilyHeads();
+      await dbPreachingPartnerRequestsDummy();
 
       if (isNavigatorOnline) {
         const { data, status } = await apiFetchSources();

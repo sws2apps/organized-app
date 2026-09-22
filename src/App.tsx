@@ -44,6 +44,9 @@ const ServiceYear = lazy(() => import('@pages/ministry/service_year'));
 const AuxiliaryPioneerApplication = lazy(
   () => import('@pages/ministry/auxiliary_pioneer')
 );
+const PreachingPartner = lazy(
+  () => import('@pages/ministry/preaching_partner')
+);
 const SpeakersCatalog = lazy(() => import('@pages/persons/speakers_catalog'));
 const WeekendMeeting = lazy(() => import('@pages/meetings/weekend'));
 const FieldServiceGroups = lazy(
@@ -128,6 +131,10 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
               children: [
                 { path: '/ministry-report', element: <MinistryReport /> },
                 { path: '/service-year', element: <ServiceYear /> },
+                {
+                  path: '/find-a-preaching-partner',
+                  element: <PreachingPartner />,
+                },
 
                 // only if connected
                 {
