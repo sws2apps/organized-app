@@ -1,5 +1,6 @@
 import { formatDate } from '@utils/date';
-import { PUBLISHERS } from './mockData';
+import { getTranslation } from '@services/i18n/translation';
+import { GROUPS, PUBLISHERS } from './mockData';
 import {
   Territory,
   TerritoryAssignment,
@@ -14,6 +15,14 @@ export const EMPTY_FILTERS: TerritoryFilters = {
   categories: [],
   cardLostOnly: false,
 };
+
+// clears every filter but keeps what was typed in the search
+export const clearedFilters = (
+  filters: TerritoryFilters
+): TerritoryFilters => ({
+  ...EMPTY_FILTERS,
+  search: filters.search,
+});
 
 // the service year runs from September to August
 export const serviceYear = (date = new Date()) =>
@@ -150,7 +159,41 @@ const recommendedTerritories = (territories: Territory[]) =>
 
 export const CURRENT_PUBLISHER = 'Mike Wallenter';
 
-export const forTab = (territories: Territory[], tab: TerritoryTab) => {
+// one wording for every empty list in the territories area, so a new list
+// never needs its own sentence; read at render time to follow the app language
+export const emptyListMessage = () =>
+  getTranslation({ key: 'tr_noRecordsYet' });
+export const NO_MATCHES = 'Nothing matches your search or filters.';
+
+// how a field service group shows up as a territory holder; groups are known
+// by their number ("Group 5"), and a name when they have one
+export const groupHolderName = (group: {
+  name: string;
+  sort_index: number;
+}) => {
+  const numbered = `Group ${group.sort_index + 1}`;
+
+  return (
+    GROUPS.find((label) => label.startsWith(`${numbered} `)) ||
+    group.name ||
+    numbered
+  );
+};
+
+export const forTab = (
+  territories: Territory[],
+  tab: TerritoryTab,
+  // publishers browse only what can be handed out, not every territory
+  isEditor = true,
+  // the group whose territories its overseer and assistant look after
+  groupHolder?: string
+) => {
+  if (tab === 'group') {
+    return groupHolder
+      ? territories.filter((territory) => territory.holder === groupHolder)
+      : [];
+  }
+
   if (tab === 'requests') {
     return territories.filter((territory) => territory.requestedBy);
   }
@@ -162,6 +205,10 @@ export const forTab = (territories: Territory[], tab: TerritoryTab) => {
   }
 
   if (tab === 'recommended') return recommendedTerritories(territories);
+
+  if (tab === 'all' && !isEditor) {
+    return territories.filter((territory) => territory.status === 'available');
+  }
 
   if (tab === 'mine') {
     return territories.filter(
@@ -412,9 +459,19 @@ export const coverageGrid = (territories: Territory[], years: number[]) =>
 export const publisherCoverage = (territories: Territory[]) => {
   const load = publisherLoad(territories);
 
-  const withTerritory = load.filter((entry) => entry.count > 0).length;
+  // anyone named on any assignment, returned or not, has had a territory
+  const everHeld = new Set(
+    territories.flatMap((territory) =>
+      territory.assignments.map((assignment) => assignment.publisher)
+    )
+  );
 
-  return { withTerritory, without: load.length - withTerritory };
+  const idle = load.filter((entry) => entry.count === 0);
+
+  const withTerritory = load.length - idle.length;
+  const never = idle.filter((entry) => !everHeld.has(entry.publisher)).length;
+
+  return { withTerritory, without: idle.length - never, never };
 };
 
 // how many publishers held something in each month of a service year

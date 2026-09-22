@@ -12,7 +12,9 @@ import {
   TerraDrawLineStringMode,
   TerraDrawPointMode,
   TerraDrawPolygonMode,
+  TerraDrawModeUndoRedo,
   TerraDrawSelectMode,
+  TerraDrawSessionUndoRedo,
 } from 'terra-draw';
 import type { GeoJSONStoreFeatures, HexColor } from 'terra-draw';
 import { TerraDrawMapLibreGLAdapter } from 'terra-draw-maplibre-gl-adapter';
@@ -26,7 +28,16 @@ import {
 import { MAP_COLORS } from './constants';
 import { roundPosition, toBoundary } from './helpers';
 
-export type MapTool = 'move' | 'points' | 'shape' | 'line' | 'pin' | 'text';
+export type MapTool =
+  | 'border'
+  | 'move'
+  | 'points'
+  | 'shape'
+  | 'line'
+  | 'pin'
+  | 'text';
+
+export type MapItemKind = 'boundary' | 'shape' | 'line' | 'pin' | 'text';
 
 export type EditScope = 'territory' | 'congregation';
 
@@ -42,6 +53,7 @@ const EMPTY_DRAFT: TerritoryMapDraft = {
 };
 
 const MODE_FOR: Record<MapTool, string> = {
+  border: 'polygon',
   move: 'select',
   points: 'points',
   shape: 'polygon',
@@ -143,7 +155,7 @@ const readSnapshot = (features: GeoJSONStoreFeatures[]) => {
           fill: (properties.fill as ShapeStyle['fill']) ?? 'transparent',
           label: (properties.label as string) || undefined,
         });
-      } else if (properties.role === 'boundary' || !next.boundary) {
+      } else if (properties.role === 'boundary') {
         next.boundary = path;
       }
     }
@@ -173,6 +185,20 @@ const readSnapshot = (features: GeoJSONStoreFeatures[]) => {
   return next;
 };
 
+const kindOf = (feature?: GeoJSONStoreFeatures): MapItemKind | undefined => {
+  if (!feature) return undefined;
+
+  const properties = (feature.properties ?? {}) as Properties;
+
+  if (feature.geometry.type === 'Polygon') {
+    return properties.role === 'shape' ? 'shape' : 'boundary';
+  }
+
+  if (feature.geometry.type === 'LineString') return 'line';
+
+  return properties.kind === 'text' ? 'text' : 'pin';
+};
+
 const useMapEditor = ({
   map,
   onStart,
@@ -181,6 +207,23 @@ const useMapEditor = ({
   onStart: (boundary?: TerritoryBoundary) => void;
 }) => {
   const draw = useRef<TerraDraw>(null);
+
+  const history = useRef<TerraDrawSessionUndoRedo>(null);
+
+  // history sizes whose top step we made ourselves right after the user's
+  // (styling a finished drawing, naming a note), so undo takes them together
+  const autoSteps = useRef(new Set<number>());
+
+  const historySize = useCallback(() => history.current?.undoSize() ?? 0, []);
+
+  const markAuto = useCallback(
+    (before: number) => {
+      for (let size = before + 1; size <= historySize(); size++) {
+        autoSteps.current.add(size);
+      }
+    },
+    [historySize]
+  );
 
   // terra draw calls back outside React, so the current choices live in refs
   const options = useRef({
@@ -200,6 +243,10 @@ const useMapEditor = ({
   const [labelling, setLabelling] = useState<string | number>();
   const [selected, setSelected] = useState<string | number>();
   const [selectedStyle, setSelectedStyle] = useState<ShapeStyle>();
+  const [selectedKind, setSelectedKind] = useState<MapItemKind>();
+
+  // what the drawing looked like when editing started, to tell if anything changed
+  const [baseline, setBaseline] = useState('');
 
   const vertex = useRef<Vertex>(undefined);
   const vertexMarker = useRef<maplibregl.Marker>(null);
@@ -229,8 +276,16 @@ const useMapEditor = ({
 
       stop();
 
+      history.current = new TerraDrawSessionUndoRedo();
+      autoSteps.current.clear();
+
       const terra = new TerraDraw({
         adapter: new TerraDrawMapLibreGLAdapter({ map: instance }),
+        // without these, undo and redo have no history to step through
+        undoRedo: {
+          modeLevel: new TerraDrawModeUndoRedo(),
+          sessionLevel: history.current,
+        },
         modes: [
           new TerraDrawPolygonMode({
             styles: {
@@ -281,6 +336,7 @@ const useMapEditor = ({
         if (vertex.current && vertex.current.id !== id) clearVertex();
 
         setSelected(id);
+        setSelectedKind(kindOf(feature));
         setSelectedStyle(
           feature && isShape(feature)
             ? {
@@ -294,37 +350,39 @@ const useMapEditor = ({
       // clicking a point deselects and reselects the same drawing, so keep the picked point
       terra.on('deselect', () => {
         setSelected(undefined);
+        setSelectedKind(undefined);
         setSelectedStyle(undefined);
       });
 
       terra.on('finish', (id) => {
         const { tool: current, shape: style, pinType: type } = options.current;
 
-        if (current === 'shape') {
-          const isBoundary = !terra
+        const before = historySize();
+
+        if (current === 'border') {
+          // a territory has one border, so a new one replaces the old
+          const previous = terra
             .getSnapshot()
-            .some(
+            .filter(
               (feature) =>
-                feature.id !== id &&
-                feature.geometry.type === 'Polygon' &&
-                feature.properties?.role === 'boundary'
-            );
+                feature.id !== id && feature.properties?.role === 'boundary'
+            )
+            .map((feature) => feature.id!);
 
-          if (congregation && !isBoundary) {
-            terra.removeFeatures([id]);
-            readDraft();
-            return;
-          }
+          if (previous.length > 0) terra.removeFeatures(previous);
 
-          terra.updateFeatureProperties(
-            id,
-            isBoundary
-              ? { role: 'boundary' }
-              : { role: 'shape', border: style.border, fill: style.fill }
-          );
+          terra.updateFeatureProperties(id, { role: 'boundary' });
         }
 
-        if (current === 'shape' || current === 'line') {
+        if (current === 'shape') {
+          terra.updateFeatureProperties(id, {
+            role: 'shape',
+            border: style.border,
+            fill: style.fill,
+          });
+        }
+
+        if (current === 'border' || current === 'shape' || current === 'line') {
           options.current.tool = 'points';
           setTool('points');
 
@@ -349,6 +407,7 @@ const useMapEditor = ({
           setLabelling(id);
         }
 
+        markAuto(before);
         readDraft();
       });
 
@@ -416,7 +475,7 @@ const useMapEditor = ({
         }
       }
 
-      const startTool: MapTool = existing?.length ? 'points' : 'shape';
+      const startTool: MapTool = existing?.length ? 'points' : 'border';
 
       options.current.tool = startTool;
       setTool(startTool);
@@ -426,22 +485,24 @@ const useMapEditor = ({
 
       if (loaded.length > 0) terra.addFeatures(loaded);
 
+      // what was already saved is the starting point, not a step to undo
+      terra.clearUndoRedoHistory();
+      autoSteps.current.clear();
+
       if (existing?.length) terra.selectFeature(loaded[0].id!, 'points');
 
       draw.current = terra;
 
-      setDraft({
-        boundary: existing,
-        shapes: congregation ? [] : (target?.mapShapes ?? []),
-        lines: congregation ? [] : (target?.mapLines ?? []),
-        markers: congregation ? [] : (target?.mapMarkers ?? []),
-      });
+      const initial = readSnapshot(terra.getSnapshot());
+
+      setDraft(initial);
+      setBaseline(JSON.stringify(initial));
       setScope(nextScope);
       setEditing(true);
 
       onStart(existing);
     },
-    [map, stop, readDraft, onStart, clearVertex]
+    [map, stop, readDraft, onStart, clearVertex, historySize, markAuto]
   );
 
   const pickTool = useCallback(
@@ -449,6 +510,7 @@ const useMapEditor = ({
       options.current.tool = next;
       setTool(next);
       setSelected(undefined);
+      setSelectedKind(undefined);
       setSelectedStyle(undefined);
       clearVertex();
       draw.current?.setMode(MODE_FOR[next]);
@@ -498,6 +560,8 @@ const useMapEditor = ({
     (text: string) => {
       if (labelling === undefined) return;
 
+      const before = historySize();
+
       if (text.trim().length === 0) {
         draw.current?.removeFeatures([labelling]);
       } else {
@@ -508,17 +572,70 @@ const useMapEditor = ({
         });
       }
 
+      markAuto(before);
       setLabelling(undefined);
       readDraft();
     },
-    [labelling, readDraft]
+    [labelling, readDraft, historySize, markAuto]
   );
+
+  const deleteSelected = useCallback(() => {
+    const terra = draw.current;
+    if (!terra || selected === undefined) return;
+
+    const removedBorder = selectedKind === 'boundary';
+
+    clearVertex();
+    terra.deselectFeature(selected);
+    terra.removeFeatures([selected]);
+    readDraft();
+
+    pickTool(removedBorder ? 'border' : options.current.tool);
+  }, [selected, selectedKind, clearVertex, readDraft, pickTool]);
+
+  const redrawBorder = useCallback(() => {
+    const terra = draw.current;
+    if (!terra) return;
+
+    const borders = terra
+      .getSnapshot()
+      .filter((feature) => feature.properties?.role === 'boundary')
+      .map((feature) => feature.id!);
+
+    clearVertex();
+    for (const id of borders) {
+      if (terra.getSnapshotFeature(id)?.properties?.selected) {
+        terra.deselectFeature(id);
+      }
+    }
+    if (borders.length > 0) terra.removeFeatures(borders);
+
+    readDraft();
+    pickTool('border');
+  }, [clearVertex, readDraft, pickTool]);
+
+  const adjustBorder = useCallback(() => {
+    const terra = draw.current;
+    if (!terra) return;
+
+    pickTool('points');
+
+    const border = terra
+      .getSnapshot()
+      .find((feature) => feature.properties?.role === 'boundary');
+
+    if (border) {
+      setTimeout(() => terra.selectFeature(border.id!, 'points'));
+    }
+  }, [pickTool]);
 
   const finish = useCallback(() => {
     stop();
     clearVertex();
     setSelected(undefined);
+    setSelectedKind(undefined);
     setSelectedStyle(undefined);
+    setBaseline('');
     setDraft(EMPTY_DRAFT);
     setEditing(false);
     setScope('territory');
@@ -528,14 +645,57 @@ const useMapEditor = ({
   }, [stop, clearVertex]);
 
   const undo = useCallback(() => {
-    draw.current?.undo();
+    const terra = draw.current;
+    if (!terra) return;
+
+    let size = historySize();
+    terra.undo();
+
+    // keep going while the step just taken back was one we added ourselves
+    while (autoSteps.current.has(size) && historySize() < size) {
+      size = historySize();
+      terra.undo();
+    }
+
     readDraft();
-  }, [readDraft]);
+  }, [readDraft, historySize]);
 
   const redo = useCallback(() => {
-    draw.current?.redo();
+    const terra = draw.current;
+    if (!terra) return;
+
+    terra.redo();
+
+    while (autoSteps.current.has(historySize() + 1) && terra.canRedo()) {
+      terra.redo();
+    }
+
     readDraft();
-  }, [readDraft]);
+  }, [readDraft, historySize]);
+
+  useEffect(() => {
+    if (!editing) return;
+
+    const onKey = (event: KeyboardEvent) => {
+      if (!(event.metaKey || event.ctrlKey)) return;
+
+      const target = event.target as HTMLElement;
+      if (target.closest('input, textarea, [contenteditable="true"]')) return;
+
+      const key = event.key.toLowerCase();
+
+      if (key === 'z' && !event.shiftKey) {
+        event.preventDefault();
+        undo();
+      } else if (key === 'y' || (key === 'z' && event.shiftKey)) {
+        event.preventDefault();
+        redo();
+      }
+    };
+
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [editing, undo, redo]);
 
   const ringOf = (feature?: GeoJSONStoreFeatures) => {
     if (feature?.geometry.type === 'Polygon') {
@@ -655,10 +815,18 @@ const useMapEditor = ({
 
   useEffect(() => stop, [stop]);
 
+  const dirty = editing && JSON.stringify(draft) !== baseline;
+
   return useMemo(
     () => ({
       active: draw,
       editing,
+      dirty,
+      selected,
+      selectedKind,
+      deleteSelected,
+      redrawBorder,
+      adjustBorder,
       scope,
       tool,
       shape,
@@ -679,6 +847,12 @@ const useMapEditor = ({
     }),
     [
       editing,
+      dirty,
+      selected,
+      selectedKind,
+      deleteSelected,
+      redrawBorder,
+      adjustBorder,
       scope,
       tool,
       shape,

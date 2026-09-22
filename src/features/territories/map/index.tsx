@@ -1,9 +1,12 @@
 import { useLayoutEffect, useState } from 'react';
 import { Box, Stack } from '@mui/material';
-import { CustomDivider, Typography } from '@components/index';
+import { Button, CustomDivider } from '@components/index';
+import Dialog from '@components/dialog';
+import DialogActions from '@components/dialog_actions';
+import TabSwitcher from '@components/tab_switcher';
+import { useNavigate } from 'react-router';
 import {
   IconAdd,
-  IconClose,
   IconEdit,
   IconVisibility,
   IconFullscreen,
@@ -13,8 +16,8 @@ import {
   IconPanelOpen,
   IconRemove,
 } from '@icons/index';
-import TabSwitcher from '@components/tab_switcher';
-import EditToolbar, { IdleToolbar } from './edit_toolbar';
+import EditToolbar, { IdleToolbar, MapHint, ViewToolbar } from './edit_toolbar';
+import EditPanel from './edit_panel';
 import LabelDialog from './label_dialog';
 import MapFilters from './map_filters';
 import MapIsland, { MapAction } from './map_island';
@@ -24,32 +27,62 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 
 const PANEL_WIDTH = 320;
 
-const HINT_KEY = 'territories.map.pointsHint';
-
 const BOTTOM_GAP = 16;
+
+// maplibre's info icon, redrawn as a mask so it takes the accent color
+const INFO_ICON =
+  'url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 20 20%22%3E%3Cpath fill-rule=%22evenodd%22 d=%22M4 10a6 6 0 1 0 12 0 6 6 0 1 0-12 0m5-3a1 1 0 1 0 2 0 1 1 0 1 0-2 0m0 3a1 1 0 1 1 2 0v3a1 1 0 1 1-2 0%22/%3E%3C/svg%3E")';
+
+// the attribution sits in the map's bottom-left corner like the other map
+// buttons, and opens to the right so it never runs off the map
+const ATTRIBUTION_STYLES = {
+  '& .maplibregl-ctrl-bottom-left': { left: '12px', bottom: '12px' },
+  '& .maplibregl-ctrl-bottom-left .maplibregl-ctrl-attrib.maplibregl-compact': {
+    margin: 0,
+    minHeight: '36px',
+    padding: '0 0 0 36px',
+    boxSizing: 'border-box',
+    display: 'flex',
+    alignItems: 'center',
+    borderRadius: 'var(--radius-max)',
+    border: '1px solid var(--accent-200)',
+    boxShadow: 'var(--hover-shadow)',
+    backgroundColor: 'var(--white)',
+    color: 'var(--grey-400)',
+    fontSize: '11px',
+  },
+  '& .maplibregl-ctrl-bottom-left .maplibregl-ctrl-attrib.maplibregl-compact-show':
+    { padding: '0 14px 0 36px' },
+  '& .maplibregl-ctrl-attrib a': { color: 'var(--grey-400)' },
+  '& .maplibregl-ctrl-attrib-button': {
+    top: 0,
+    left: 0,
+    right: 'auto',
+    width: '34px',
+    height: '34px',
+    borderRadius: 'var(--radius-max)',
+    backgroundImage: 'none',
+    backgroundColor: 'transparent',
+    '&::before': {
+      content: '""',
+      position: 'absolute',
+      inset: 0,
+      backgroundColor: 'var(--accent-main)',
+      mask: `${INFO_ICON} center / 20px no-repeat`,
+    },
+    '&:hover': { backgroundColor: 'var(--accent-150)' },
+  },
+  '& .maplibregl-compact-show .maplibregl-ctrl-attrib-button': {
+    backgroundColor: 'transparent',
+  },
+};
 
 const LAYOUT_GAP = 32;
 
 const TerritoriesMap = ({ map }: { map: TerritoriesMapState }) => {
+  const navigate = useNavigate();
+
   const [panelOpen, setPanelOpen] = useState(true);
-
-  const [hintDismissed, setHintDismissed] = useState(() => {
-    try {
-      return localStorage.getItem(HINT_KEY) === '1';
-    } catch {
-      return false;
-    }
-  });
-
-  const dismissHint = () => {
-    setHintDismissed(true);
-
-    try {
-      localStorage.setItem(HINT_KEY, '1');
-    } catch {
-      // private mode: the hint simply comes back next time
-    }
-  };
 
   const [top, setTop] = useState(130);
 
@@ -78,7 +111,8 @@ const TerritoriesMap = ({ map }: { map: TerritoriesMapState }) => {
 
   const { editor } = map;
 
-  const showPanel = panelOpen;
+  // the editing steps are the only guide while drawing, so they cannot be hidden
+  const showPanel = panelOpen || editor.editing;
 
   const inset = showPanel ? `${PANEL_WIDTH + 24}px` : '12px';
 
@@ -114,14 +148,7 @@ const TerritoriesMap = ({ map }: { map: TerritoriesMapState }) => {
           // a WebGL canvas ignores overflow clipping in Safari; clip-path doesn't
           clipPath: 'inset(0 round var(--radius-l))',
           '& .maplibregl-map': { height: '100%', width: '100%' },
-          '& .maplibregl-ctrl-bottom-left': {
-            left: inset,
-            transition: 'left 0.2s ease',
-          },
-          '& .maplibregl-ctrl-attrib': {
-            fontSize: '10px',
-            borderRadius: 'var(--radius-s)',
-          },
+          ...ATTRIBUTION_STYLES,
         }}
       >
         <Box ref={map.container} sx={{ height: '100%', width: '100%' }} />
@@ -132,8 +159,9 @@ const TerritoriesMap = ({ map }: { map: TerritoriesMapState }) => {
               position: 'absolute',
               top: '12px',
               left: '12px',
-              bottom: editor.scope === 'congregation' ? 'auto' : '12px',
-              maxHeight: 'calc(100% - 24px)',
+              // leaves the corner below free for the attribution button
+              bottom: '56px',
+              maxHeight: 'calc(100% - 68px)',
               width: `${PANEL_WIDTH}px`,
               zIndex: 3,
               display: 'flex',
@@ -147,26 +175,32 @@ const TerritoriesMap = ({ map }: { map: TerritoriesMapState }) => {
               },
             }}
           >
-            <MapFilters
-              search={map.search}
-              onSearch={map.setSearch}
-              colorView={map.colorView}
-              onColorViewChange={map.setColorView}
-              heatmapYear={map.heatmapYear}
-              onHeatmapYearChange={map.setHeatmapYear}
-              onCollapse={() => setPanelOpen(false)}
-            />
+            {editor.editing && (
+              <EditPanel editor={editor} territory={map.selected} />
+            )}
 
-            {editor.scope !== 'congregation' && (
-              <Box sx={{ flex: '1 0 200px', minHeight: '200px' }}>
-                <TerritoryPicker
-                  territories={map.territories}
-                  selectedId={map.selectedId}
-                  onSelect={map.setSelectedId}
-                  height="100%"
-                  editing={map.editMode}
+            {!editor.editing && (
+              <>
+                <MapFilters
+                  search={map.search}
+                  onSearch={map.setSearch}
+                  colorView={map.colorView}
+                  onColorViewChange={map.setColorView}
+                  heatmapYear={map.heatmapYear}
+                  onHeatmapYearChange={map.setHeatmapYear}
+                  onCollapse={() => setPanelOpen(false)}
                 />
-              </Box>
+
+                <Box sx={{ flex: '1 0 200px', minHeight: '200px' }}>
+                  <TerritoryPicker
+                    territories={map.territories}
+                    selectedId={map.selectedId}
+                    onSelect={map.setSelectedId}
+                    height="100%"
+                    editing={map.editMode}
+                  />
+                </Box>
+              </>
             )}
           </Box>
         )}
@@ -214,23 +248,49 @@ const TerritoriesMap = ({ map }: { map: TerritoriesMapState }) => {
             }}
           />
 
-          {editor.editing && (
-            <EditToolbar
-              editor={editor}
-              onCongregation={() =>
-                map.switchScope(
-                  editor.scope === 'congregation' ? 'territory' : 'congregation'
-                )
-              }
-            />
-          )}
+          {editor.editing && <EditToolbar editor={editor} />}
 
           {map.editMode && !editor.editing && (
             <IdleToolbar
-              onCongregation={() => map.switchScope('congregation')}
+              onCongregation={() => map.startEditing('congregation')}
+            />
+          )}
+
+          {!map.editMode && map.selected && (
+            <ViewToolbar
+              selected={map.selected}
+              onEdit={() => map.startEditing('territory')}
+              onDetails={() =>
+                map.selected &&
+                navigate(`/territories/${map.selected.id}`, {
+                  state: { parent: 'Territory coverage map' },
+                })
+              }
             />
           )}
         </Stack>
+
+        {/* what to do next, until a territory is picked */}
+        {!editor.editing && !map.selected && (
+          <Box
+            sx={{
+              position: 'absolute',
+              bottom: '12px',
+              left: `calc(${inset} + (100% - ${inset}) / 2)`,
+              transform: 'translateX(-50%)',
+              zIndex: 2,
+              maxWidth: 'calc(100% - 400px)',
+            }}
+          >
+            <MapHint
+              text={
+                map.editMode
+                  ? 'Pick a territory to draw or change its map'
+                  : 'Pick a territory on the map or in the list'
+              }
+            />
+          </Box>
+        )}
 
         <Box
           sx={{
@@ -282,35 +342,23 @@ const TerritoriesMap = ({ map }: { map: TerritoriesMapState }) => {
             </MapAction>
           </MapIsland>
         </Box>
-
-        {editor.editing && editor.tool === 'points' && !hintDismissed && (
-          <Box
-            sx={{
-              position: 'absolute',
-              bottom: '12px',
-              left: '50%',
-              transform: 'translateX(-50%)',
-              zIndex: 2,
-              maxWidth: 'min(520px, calc(100% - 200px))',
-            }}
-          >
-            <MapIsland corner="static">
-              <Typography
-                className="label-small-regular"
-                color="var(--grey-400)"
-                sx={{ padding: '0 8px' }}
-              >
-                Drag a point to move it, drag a midpoint to add one, or pick a
-                point and press Delete to remove it.
-              </Typography>
-
-              <MapAction title="Got it" onClick={dismissHint}>
-                <IconClose color="var(--accent-main)" />
-              </MapAction>
-            </MapIsland>
-          </Box>
-        )}
       </Box>
+
+      <Dialog
+        open={map.pendingLeave}
+        onClose={map.keepEditing}
+        title="Discard your changes?"
+        description="What you drew since opening the editor will be lost."
+      >
+        <DialogActions>
+          <Button variant="secondary" onClick={map.keepEditing}>
+            Keep editing
+          </Button>
+          <Button variant="main" color="red" onClick={map.confirmLeave}>
+            Discard
+          </Button>
+        </DialogActions>
+      </Dialog>
 
       {editor.labelling !== undefined && (
         <LabelDialog

@@ -43,6 +43,7 @@ export { default as IconCheckmarkCircleAlt } from './IconCheckmarkCircleAlt';
 export { default as IconChevronLeft } from './IconChevronLeft';
 export { default as IconChevronRight } from './IconChevronRight';
 export { default as IconCircle } from './IconCircle';
+export { default as IconTripOrigin } from './IconTripOrigin';
 export { default as IconCircuitOverseer } from './IconCircuitOverseer';
 export { default as IconClean } from './IconClean';
 export { default as IconClearMultiple } from './IconClearMultiple';

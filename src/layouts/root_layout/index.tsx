@@ -8,6 +8,7 @@ import { isTest } from '@constants/index';
 import useConsoleWarning from '@hooks/useConsoleWarning';
 import useCurrentUser from '@hooks/useCurrentUser';
 import useGlobal from '@hooks/useGlobal';
+import { useNavigationTrail } from '@hooks/useUpNavigation';
 import useRootLayout from './useRootLayout';
 import About from '@features/about';
 import AppFeedback from '@features/app_feedback';
@@ -34,6 +35,9 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
   const { isSupported } = useGlobal();
 
   useConsoleWarning();
+
+  // lets back buttons tell where the previous history entry leads
+  useNavigationTrail();
 
   const { isPublisher } = useCurrentUser();
 

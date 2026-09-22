@@ -10,7 +10,7 @@ import {
   TerritoryType,
   TYPE_LABEL,
 } from '@definition/territory';
-import { appliedFilters, COVERAGE_PERIODS, EMPTY_FILTERS } from '../helpers';
+import { appliedFilters, clearedFilters, COVERAGE_PERIODS } from '../helpers';
 
 const Group = ({ label, children }: { label: string; children: ReactNode }) => (
   <Box sx={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
@@ -27,10 +27,13 @@ const TerritoryFilters = ({
   filters,
   onChange,
   showTitle = true,
+  showClear = true,
 }: {
   filters: Filters;
   onChange: (next: Filters) => void;
   showTitle?: boolean;
+  // off where the page puts its own clear button next to its main action
+  showClear?: boolean;
 }) => {
   const categories = useAtomValue(territoryCategoriesState);
 
@@ -59,40 +62,21 @@ const TerritoryFilters = ({
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-      {(showTitle || applied > 0) && (
-        <Stack direction="row" spacing="12px" sx={{ alignItems: 'center' }}>
-          {showTitle && (
-            <Typography className="body-small-semibold" color="var(--black)">
-              Filters
-            </Typography>
-          )}
-          {applied > 0 && (
-            <>
-              <Badge
-                size="small"
-                filled={false}
-                color="accent"
-                text={`Applied: ${applied}`}
-                sx={{ width: 'fit-content' }}
-              />
-              <Button
-                variant="small"
-                disableAutoStretch
-                onClick={() =>
-                  onChange({ ...EMPTY_FILTERS, search: filters.search })
-                }
-                sx={{
-                  minHeight: '28px',
-                  padding: '2px 8px',
-                  minWidth: 'unset',
-                }}
-              >
-                Clear all
-              </Button>
-            </>
-          )}
-        </Stack>
-      )}
+      {/* always shown, starting at 0, so picking a filter doesn't shift the list */}
+      <Stack direction="row" spacing="12px" sx={{ alignItems: 'center' }}>
+        {showTitle && (
+          <Typography className="body-small-semibold" color="var(--black)">
+            Filters
+          </Typography>
+        )}
+        <Badge
+          size="small"
+          filled={false}
+          color={applied > 0 ? 'accent' : 'grey'}
+          text={`Applied: ${applied}`}
+          sx={{ width: 'fit-content' }}
+        />
+      </Stack>
 
       <Group label="Assignment">
         {(Object.keys(STATUS_LABEL) as TerritoryStatus[]).map((status) => (
@@ -161,6 +145,16 @@ const TerritoryFilters = ({
           </Group>
         ))}
       </Box>
+
+      {showClear && (
+        <Button
+          variant="secondary"
+          disabled={applied === 0}
+          onClick={() => onChange(clearedFilters(filters))}
+        >
+          Clear all
+        </Button>
+      )}
     </Box>
   );
 };

@@ -160,6 +160,52 @@ export const addAttribution = (map: maplibregl.Map) =>
     'bottom-left'
   );
 
+export const LABEL_BACKGROUND = 'territory-label-background';
+
+// a stretchable rounded rectangle drawn behind each territory label; a text
+// halo traces every glyph and looks ragged on busy maps
+export const addLabelBackground = (
+  map: maplibregl.Map,
+  fill: string,
+  border: string
+) => {
+  const ratio = 2;
+  const size = 16 * ratio;
+  const radius = 4 * ratio;
+  const line = 1 * ratio;
+
+  const canvas = document.createElement('canvas');
+  canvas.width = size;
+  canvas.height = size;
+
+  const context = canvas.getContext('2d');
+  if (!context) return;
+
+  const inset = line / 2;
+
+  context.beginPath();
+  context.roundRect(inset, inset, size - line, size - line, radius);
+  context.fillStyle = fill;
+  context.fill();
+  context.lineWidth = line;
+  context.strokeStyle = border;
+  context.stroke();
+
+  if (map.hasImage(LABEL_BACKGROUND)) map.removeImage(LABEL_BACKGROUND);
+
+  // only the flat middle stretches, so the corners keep their radius
+  const middle: [number, number] = [radius + line, size - radius - line];
+
+  map.addImage(LABEL_BACKGROUND, context.getImageData(0, 0, size, size), {
+    pixelRatio: ratio,
+    stretchX: [middle],
+    stretchY: [middle],
+    // the text may use the whole box inside the outline, so the background
+    // hugs the number instead of adding the corners as extra padding
+    content: [line, line, size - line, size - line],
+  });
+};
+
 const HOUSE_ICON = 'territory-house';
 
 // maplibre only draws raster images inside labels, so the icon is rendered to one
@@ -192,38 +238,69 @@ export const addHouseIcon = async (map: maplibregl.Map, color: string) => {
   map.triggerRepaint();
 };
 
-export const labelText = (
-  options: { showNumbers: boolean; showHouseholds: boolean },
-  fonts: { regular: readonly string[]; bold: readonly string[] }
-): maplibregl.ExpressionSpecification | string => {
-  const parts: unknown[] = [];
+type LabelFonts = {
+  regular: readonly string[];
+  bold: readonly string[];
+  number: readonly string[];
+};
 
-  if (options.showNumbers) {
-    parts.push(['get', 'number'], {
-      'font-scale': 1.35,
-      'text-font': ['literal', fonts.bold],
-    });
-  }
+// the territory number, drawn inside its small white badge
+export const numberText = (fonts: LabelFonts) =>
+  [
+    'format',
+    ['get', 'number'],
+    { 'font-scale': 1.25, 'text-font': ['literal', fonts.number] },
+  ] as maplibregl.ExpressionSpecification;
 
-  parts.push(parts.length ? '\n' : '', {}, ['get', 'detail'], {
-    'font-scale': 0.85,
-    'text-font': ['literal', fonts.regular],
-  });
+// the caption under the badge: the Display mode's detail and, when shown,
+// the households
+export const captionText = (
+  options: { showHouseholds: boolean },
+  fonts: LabelFonts
+) => {
+  const parts: unknown[] = [
+    ['get', 'detail'],
+    { 'text-font': ['literal', fonts.regular] },
+  ];
 
   if (options.showHouseholds) {
-    parts.push('\n', {});
-
     parts.push(
+      '\n',
+      {},
       ['image', HOUSE_ICON],
       {},
       ' ',
       {},
       ['to-string', ['get', 'households']],
-      { 'font-scale': 0.95, 'text-font': ['literal', fonts.regular] }
+      { 'text-font': ['literal', fonts.regular] }
     );
   }
 
-  return parts.length
-    ? (['format', ...parts] as maplibregl.ExpressionSpecification)
-    : '';
+  return ['format', ...parts] as maplibregl.ExpressionSpecification;
 };
+
+// below this zoom only the numbers show; it matches the map's opening zoom,
+// so the chosen Display mode is always readable at the normal view
+export const LABEL_DETAIL_ZOOM = 13;
+
+// the caption sits just under the number badge, or in its place when the
+// numbers are switched off
+export const captionPlacement = (showNumbers: boolean) =>
+  showNumbers
+    ? { anchor: 'top' as const, offset: [0, 1.3] as [number, number] }
+    : { anchor: 'center' as const, offset: [0, 0] as [number, number] };
+
+// labels shrink as the map zooms out so they stay inside their territory
+export const LABEL_TEXT_SIZE: maplibregl.ExpressionSpecification = [
+  'interpolate',
+  ['linear'],
+  ['zoom'],
+  11,
+  8,
+  13,
+  10,
+  15,
+  12,
+  17,
+  13,
+];

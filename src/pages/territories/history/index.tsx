@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Box } from '@mui/material';
-import { useLocation, useNavigate } from 'react-router';
 import { useBreakpoints } from '@hooks/index';
 import { IconExport } from '@icons/index';
 import PageTitle from '@components/page_title';
@@ -9,11 +8,10 @@ import NavBarButtonGroup from '@components/nav_bar_button_group';
 import TerritoriesHistory from '@features/territories/history';
 import useExportS13 from '@features/territories/history/useExportS13';
 import ExportS13Dialog from '@features/territories/history/export_s13_dialog';
+import useParentPage from '@features/territories/useParentPage';
 
 const TerritoryHistoryPage = () => {
-  const navigate = useNavigate();
-
-  const parent = (useLocation().state as { parent?: string } | null)?.parent;
+  const { parent, goBack } = useParentPage();
   const { tablet688Up } = useBreakpoints();
 
   const { handleExport, isProcessing } = useExportS13();
@@ -32,7 +30,7 @@ const TerritoryHistoryPage = () => {
       <PageTitle
         title="Assignment history"
         secondaryTitle={parent}
-        onBack={() => (parent ? navigate(-1) : navigate('/territories'))}
+        onBack={goBack}
         buttons={
           <NavBarButtonGroup>
             <NavBarButton

@@ -7,6 +7,7 @@ import {
   Typography,
 } from '@components/index';
 import { Territory } from '@definition/territory';
+import { NO_MATCHES } from '../helpers';
 
 const TerritoryPicker = ({
   territories,
@@ -21,6 +22,7 @@ const TerritoryPicker = ({
   height: string;
   editing: boolean;
 }) => {
+  // editing is mostly drawing what is missing, so it opens on that list
   const [tab, setTab] = useState(editing ? 1 : 0);
 
   useEffect(() => setTab(editing ? 1 : 0), [editing]);
@@ -54,9 +56,10 @@ const TerritoryPicker = ({
       <Box sx={{ padding: '6px 8px 0', flexShrink: 0 }}>
         <ScrollableTabs
           appearance="plain"
+          layout="stretch"
           tabs={[
-            { label: 'Added', badge: added.length },
-            { label: 'Not added', badge: notAdded.length },
+            { label: 'On the map', badge: added.length },
+            { label: 'No borders', badge: notAdded.length },
           ]}
           value={tab}
           onChange={setTab}
@@ -72,16 +75,16 @@ const TerritoryPicker = ({
             sx={{ padding: '8px 8px 0' }}
             message={
               territories.length === 0
-                ? 'No territories match the search.'
+                ? NO_MATCHES
                 : tab === 0
-                  ? 'No territory is on the map yet.'
-                  : 'Every territory is on the map.'
+                  ? 'No territory is on the map yet. Pick one under “No borders” to draw it.'
+                  : 'Every territory has its borders drawn.'
             }
           />
         )}
 
         <Stack
-          spacing="4px"
+          spacing="2px"
           divider={<CustomDivider color="var(--accent-200)" />}
         >
           {shown.map((territory) => (
@@ -96,7 +99,7 @@ const TerritoryPicker = ({
               onKeyDown={(event) => handleKey(event, territory.id)}
               sx={{
                 alignItems: 'center',
-                padding: '10px 8px',
+                padding: '8px',
                 cursor: 'pointer',
                 borderRadius: 'var(--radius-m)',
                 backgroundColor:

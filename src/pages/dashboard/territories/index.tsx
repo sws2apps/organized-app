@@ -4,7 +4,7 @@ import {
   IconMap,
   IconMapOverview,
   IconMapView,
-  IconRequest,
+  IconRaiseHand,
   IconStatsYear,
 } from '@icons/index';
 import { useAtomValue } from 'jotai';
@@ -39,7 +39,7 @@ const TerritoriesCard = () => {
       {isTerritoryEditor && (
         <ListItem disablePadding>
           <DashboardMenu
-            icon={<IconRequest color="var(--black)" />}
+            icon={<IconRaiseHand color="var(--black)" />}
             primaryText="Requests"
             badgeText={String(requests)}
             path="/territories?tab=requests"

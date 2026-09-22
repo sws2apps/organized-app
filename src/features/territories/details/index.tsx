@@ -16,6 +16,8 @@ import TerritoryStats from './territory_stats';
 type TerritoryDetailsProps = {
   territory: Territory;
   onChange: (territory: Territory) => void;
+  // publishers see the territory to decide on a request, but don't edit it
+  readOnly?: boolean;
 };
 
 type Section = { label: string; badge?: number; Component: ReactNode };
@@ -31,16 +33,22 @@ const TabbedSections = ({ sections }: { sections: Section[] }) => (
   </Box>
 );
 
-const TerritoryDetails = ({ territory, onChange }: TerritoryDetailsProps) => {
+const TerritoryDetails = ({
+  territory,
+  onChange,
+  readOnly = false,
+}: TerritoryDetailsProps) => {
   const { desktopUp } = useBreakpoints();
 
   const summary = (
     <>
       <TerritorySummary
+        heading
         territory={territory}
         meta={
-          territory.holder &&
-          `${territory.holder} · out ${daysLabel(territory.daysOut)}`
+          !readOnly && territory.holder
+            ? `${territory.holder} · out ${daysLabel(territory.daysOut)}`
+            : undefined
         }
       />
 
@@ -60,7 +68,7 @@ const TerritoryDetails = ({ territory, onChange }: TerritoryDetailsProps) => {
       onChange={(next) => onChange({ ...territory, phoneNumbers: next })}
     />
   ) : (
-    <TerritoryMap territory={territory} onChange={onChange} />
+    <TerritoryMap territory={territory} />
   );
 
   const mapLabel = isPhone ? 'Phone numbers' : 'Territory map';
@@ -78,6 +86,38 @@ const TerritoryDetails = ({ territory, onChange }: TerritoryDetailsProps) => {
       onChange={(next) => onChange({ ...territory, doNotCalls: next })}
     />
   );
+
+  if (readOnly) {
+    return (
+      <Card>
+        {summary}
+
+        <TabbedSections
+          sections={[
+            ...(isPhone
+              ? []
+              : [
+                  {
+                    label: 'Map',
+                    Component: <TerritoryMap territory={territory} readOnly />,
+                  },
+                ]),
+            {
+              label: 'Do not call',
+              badge: territory.doNotCalls.length,
+              Component: (
+                <DoNotCallPanel
+                  territory={territory}
+                  onChange={() => {}}
+                  readOnly
+                />
+              ),
+            },
+          ]}
+        />
+      </Card>
+    );
+  }
 
   if (!desktopUp) {
     return (

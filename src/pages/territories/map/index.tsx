@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Box } from '@mui/material';
-import { IconSave } from '@icons/index';
-import { useBreakpoints } from '@hooks/index';
+import { IconClose, IconSave } from '@icons/index';
+import { useBreakpoints, useUpNavigation } from '@hooks/index';
 import { InfoNote } from '@components/index';
 import NavBarButton from '@components/nav_bar_button';
 import NavBarButtonGroup from '@components/nav_bar_button_group';
@@ -17,24 +17,33 @@ const MapScreen = () => {
   const { editor } = map;
 
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const cancel = () => map.requestLeave(map.cancelEditing);
+
+  const { goUp } = useUpNavigation();
 
   const title = !editor.editing
     ? 'Territory coverage map'
     : editor.scope === 'congregation'
-      ? 'Edit congregation border'
-      : `Edit borders – ${map.selected?.number ?? ''}`;
+      ? 'Congregation border'
+      : `Territory ${map.selected?.number ?? ''} map`;
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
       <PageTitle
         title={title}
-        onBack={editor.editing ? map.cancelEditing : undefined}
-        quickSettings={() => setSettingsOpen(true)}
+        secondaryTitle={editor.editing ? 'Territory coverage map' : undefined}
+        onBack={editor.editing ? cancel : () => goUp('/')}
+        quickSettings={editor.editing ? undefined : () => setSettingsOpen(true)}
         buttons={
           editor.editing && (
             <NavBarButtonGroup>
               <NavBarButton
-                text="Save map"
+                text="Cancel"
+                icon={<IconClose />}
+                onClick={cancel}
+              />
+              <NavBarButton
+                text="Save"
                 icon={<IconSave />}
                 main
                 disabled={!editor.draft.boundary?.length}
@@ -60,6 +69,7 @@ const MapScreen = () => {
 
 const TerritoryMapPage = () => {
   const { tablet688Up, laptopUp } = useBreakpoints();
+  const { goUp } = useUpNavigation();
 
   if (laptopUp) return <MapScreen />;
 
@@ -72,7 +82,7 @@ const TerritoryMapPage = () => {
         paddingBottom: tablet688Up ? '0px' : '60px',
       }}
     >
-      <PageTitle title="Territory coverage map" />
+      <PageTitle title="Territory coverage map" onBack={() => goUp('/')} />
 
       <InfoNote message="The territory map is edited on a desktop screen. Open this page on a computer to draw or change the borders." />
     </Box>

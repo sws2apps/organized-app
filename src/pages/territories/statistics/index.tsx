@@ -1,11 +1,11 @@
 import { Box } from '@mui/material';
-import { useNavigate } from 'react-router';
+import { useUpNavigation } from '@hooks/index';
 import { useBreakpoints } from '@hooks/index';
 import PageTitle from '@components/page_title';
 import TerritoriesStatistics from '@features/territories/statistics';
 
 const TerritoryStatisticsPage = () => {
-  const navigate = useNavigate();
+  const { goUp } = useUpNavigation();
   const { tablet688Up } = useBreakpoints();
 
   return (
@@ -19,7 +19,7 @@ const TerritoryStatisticsPage = () => {
     >
       <PageTitle
         title="Territory coverage statistics"
-        onBack={() => navigate('/territories')}
+        onBack={() => goUp('/')}
       />
 
       <TerritoriesStatistics />

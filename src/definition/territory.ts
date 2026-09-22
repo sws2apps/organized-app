@@ -7,10 +7,14 @@ export type TerritoryType = 'door_to_door' | 'business' | 'phone';
 // categories are defined by the congregation, so an id is any stored string
 export type TerritoryCategory = string;
 
+// a fixed set: the blue is the midweek meeting blue, not the theme accent,
+// so a category keeps its colour whatever colour scheme the app uses
+export type CategoryColor = 'blue' | 'green' | 'orange' | 'red' | 'grey';
+
 export type TerritoryCategoryOption = {
   id: TerritoryCategory;
   name: string;
-  color: BadgeColor;
+  color: CategoryColor;
 };
 
 export type DoNotCall = {
@@ -105,9 +109,6 @@ export type Territory = {
   mapShapes?: TerritoryMapShape[];
   mapLines?: TerritoryMapLine[];
   mapMarkers?: TerritoryMapMarker[];
-  // kept on the device only, never synced
-  mapSource?: 'custom' | 'image';
-  mapPicture?: string;
   phoneNumbers?: string[];
   requestedBy?: string;
   reviewNeeded?: boolean;
@@ -128,6 +129,7 @@ export type TerritoryTab =
   | 'recommended'
   | 'all'
   | 'mine'
+  | 'group'
   | 'requested';
 
 export const STATUS_LABEL: Record<TerritoryStatus, string> = {
@@ -149,18 +151,26 @@ export const TYPE_LABEL: Record<TerritoryType, string> = {
 };
 
 // the congregation keeps a short list of its own labels
-export const MAX_CATEGORIES = 3;
+export const MAX_CATEGORIES = 4;
 
 export const DEFAULT_CATEGORIES: TerritoryCategoryOption[] = [
   { id: 'dangerous', name: 'Dangerous', color: 'red' },
   { id: 'dogs', name: 'Dogs', color: 'orange' },
-  { id: 'gated', name: 'Gated access', color: 'accent' },
+  { id: 'gated', name: 'Gated access', color: 'blue' },
 ];
 
-export const CATEGORY_COLORS: BadgeColor[] = [
-  'accent',
+export const CATEGORY_COLORS: CategoryColor[] = [
+  'blue',
   'green',
   'orange',
   'red',
   'grey',
 ];
+
+export const CATEGORY_COLOR_LABEL: Record<CategoryColor, string> = {
+  blue: 'Blue',
+  green: 'Green',
+  orange: 'Orange',
+  red: 'Red',
+  grey: 'Grey',
+};

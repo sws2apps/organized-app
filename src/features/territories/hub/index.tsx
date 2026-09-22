@@ -15,7 +15,12 @@ import {
 } from '@icons/index';
 import TabSwitcher from '@components/tab_switcher';
 import { useBreakpoints } from '@hooks/index';
-import { appliedFilters } from '../helpers';
+import {
+  appliedFilters,
+  clearedFilters,
+  emptyListMessage,
+  NO_MATCHES,
+} from '../helpers';
 import { TerritoriesHubProps } from './index.types';
 import Card from '@components/card';
 import BoardView from '../components/board_view';
@@ -23,6 +28,8 @@ import AssignDialog from '../components/assign_dialog';
 import MyHistory from '../components/my_history';
 import ReturnDialog from '../components/return_dialog';
 import SelectionBar from '../components/selection_bar';
+import DialogActions from '@components/dialog_actions';
+import dashedBorder from '@utils/dashed_border';
 import TerritoryFilters from '../components/territory_filters';
 import TerritoryTable from '../components/territory_table';
 
@@ -58,6 +65,7 @@ const TerritoriesHub = ({ hub }: TerritoriesHubProps) => {
     assignableCount,
     handleDrop,
     isBrowsing,
+    isOwnTab: isMine,
     isTerritoryEditor,
     setIsBoard,
   } = hub;
@@ -68,26 +76,25 @@ const TerritoriesHub = ({ hub }: TerritoriesHubProps) => {
 
   const applied = appliedFilters(filters);
 
-  const filtersInline = desktopUp && !isBoard && filtersOpen;
+  const filtersInline = desktopUp && !isBoard && !isMine && filtersOpen;
 
   const closeFilters = () => {
     setFiltersOpen(false);
     window.scroll({ top: 0 });
   };
 
-  const emptyMessage = {
-    recommended: 'Nothing to hand out right now.',
-    all: 'No territories match the filters.',
-    mine: 'Nothing is assigned to you.',
-    requested: 'You have no pending requests.',
-    requests: 'No open requests.',
-  }[tabId];
+  // a search or filter explains an empty list; otherwise it's simply empty
+  const emptyMessage =
+    !isMine && (applied > 0 || filters.search.trim())
+      ? NO_MATCHES
+      : emptyListMessage();
 
   const canSwitchLayout = isTerritoryEditor && isBrowsing;
 
   const layoutSwitch = canSwitchLayout && (
     <TabSwitcher
       ariaLabel="Layout"
+      surface="light"
       value={isBoard ? 'board' : 'list'}
       onChange={(value) => setIsBoard(value === 'board')}
       options={[
@@ -124,6 +131,8 @@ const TerritoriesHub = ({ hub }: TerritoriesHubProps) => {
       onDecline={handleDecline}
       onReturn={setReturnId}
       showHouseholds={showHouseholds}
+      showRequested={tabId !== 'requests' && tabId !== 'requested'}
+      actions={isTerritoryEditor || !isBrowsing}
       emptyMessage={emptyMessage}
       title={`Territories: ${visible.length}`}
       selectionBar={
@@ -140,29 +149,31 @@ const TerritoriesHub = ({ hub }: TerritoriesHubProps) => {
     <Card>
       {!tablet688Up && layoutSwitch}
 
-      <Stack direction="row" sx={{ alignItems: 'center', gap: '16px' }}>
-        <Box sx={{ flexGrow: 1, minWidth: 0 }}>
-          <SearchBar
-            placeholder="Search territories"
-            value={filters.search}
-            onSearch={(value: string) =>
-              setFilters({ ...filters, search: value })
-            }
-          />
-        </Box>
+      {!isMine && (
+        <Stack direction="row" sx={{ alignItems: 'center', gap: '16px' }}>
+          <Box sx={{ flexGrow: 1, minWidth: 0 }}>
+            <SearchBar
+              placeholder="Search territories"
+              value={filters.search}
+              onSearch={(value: string) =>
+                setFilters({ ...filters, search: value })
+              }
+            />
+          </Box>
 
-        {!isBoard && (
-          <Button
-            variant="secondary"
-            disableAutoStretch
-            sx={{ flexShrink: 0, height: '48px', padding: '8px 16px' }}
-            onClick={() => setFiltersOpen(!filtersOpen)}
-            endIcon={filtersOpen ? <IconPanelOpen /> : <IconPanelClose />}
-          >
-            {applied ? `Filters (${applied})` : 'Filters'}
-          </Button>
-        )}
-      </Stack>
+          {!isBoard && (
+            <Button
+              variant="secondary"
+              disableAutoStretch
+              sx={{ flexShrink: 0 }}
+              onClick={() => setFiltersOpen(!filtersOpen)}
+              endIcon={filtersOpen ? <IconPanelOpen /> : <IconPanelClose />}
+            >
+              {applied ? `Filters (${applied})` : 'Filters'}
+            </Button>
+          )}
+        </Stack>
+      )}
 
       <Box>
         {(tabs.length > 0 || inlineSwitch) && (
@@ -274,13 +285,23 @@ const TerritoriesHub = ({ hub }: TerritoriesHubProps) => {
                     filters={filters}
                     onChange={setFilters}
                     showTitle={false}
+                    showClear={false}
                   />
 
-                  <Button variant="main" onClick={closeFilters}>
-                    {`Show ${visible.length} ${
-                      visible.length === 1 ? 'territory' : 'territories'
-                    }`}
-                  </Button>
+                  <DialogActions>
+                    <Button
+                      variant="secondary"
+                      disabled={applied === 0}
+                      onClick={() => setFilters(clearedFilters(filters))}
+                    >
+                      Clear all
+                    </Button>
+                    <Button variant="main" onClick={closeFilters}>
+                      {`Show ${visible.length} ${
+                        visible.length === 1 ? 'territory' : 'territories'
+                      }`}
+                    </Button>
+                  </DialogActions>
                 </Card>
               ),
             },
@@ -297,9 +318,16 @@ const TerritoriesHub = ({ hub }: TerritoriesHubProps) => {
           )}
 
           {tabId === 'mine' && (
-            <Card>
+            // a quiet info card, so the current territories keep the focus
+            <Box
+              sx={{
+                padding: '16px',
+                backgroundColor: 'var(--accent-150)',
+                ...dashedBorder({ radius: 12 }),
+              }}
+            >
               <MyHistory territories={territories} />
-            </Card>
+            </Box>
           )}
         </Box>
       )}

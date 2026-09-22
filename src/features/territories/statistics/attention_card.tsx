@@ -63,7 +63,11 @@ const AttentionCard = ({ territories }: { territories: Territory[] }) => {
                 key={territory.id}
                 direction="row"
                 spacing="12px"
-                onClick={() => navigate(`/territories/${territory.id}`)}
+                onClick={() =>
+                  navigate(`/territories/${territory.id}`, {
+                    state: { parent: 'Territory coverage statistics' },
+                  })
+                }
                 sx={{
                   alignItems: 'center',
                   cursor: 'pointer',

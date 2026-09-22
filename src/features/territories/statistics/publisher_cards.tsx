@@ -12,10 +12,31 @@ export const PublisherSplit = ({
 }: {
   territories: Territory[];
 }) => {
-  const { withTerritory, without } = publisherCoverage(territories);
+  const { withTerritory, without, never } = publisherCoverage(territories);
 
-  const total = withTerritory + without || 1;
+  const total = withTerritory + without + never || 1;
   const share = Math.round((withTerritory / total) * 100);
+
+  const rows = [
+    {
+      label: 'With a territory',
+      tooltip: 'with a territory',
+      value: withTerritory,
+      color: 'var(--accent-main)',
+    },
+    {
+      label: 'Without one now',
+      tooltip: 'without one now',
+      value: without,
+      color: 'var(--accent-300)',
+    },
+    {
+      label: 'Never had a territory',
+      tooltip: 'never had a territory',
+      value: never,
+      color: 'var(--orange-main)',
+    },
+  ];
 
   return (
     <ChartCard
@@ -24,35 +45,21 @@ export const PublisherSplit = ({
       span={4}
     >
       <Stack direction="row" spacing="4px" sx={{ height: '20px' }}>
-        <Tooltip title={`${withTerritory} with a territory`}>
-          <Box
-            sx={{
-              flexGrow: withTerritory || 0.02,
-              borderRadius: 'var(--radius-s)',
-              backgroundColor: 'var(--accent-main)',
-            }}
-          />
-        </Tooltip>
-        <Tooltip title={`${without} without a territory`}>
-          <Box
-            sx={{
-              flexGrow: without || 0.02,
-              borderRadius: 'var(--radius-s)',
-              backgroundColor: 'var(--accent-200)',
-            }}
-          />
-        </Tooltip>
+        {rows.map((row) => (
+          <Tooltip key={row.label} title={`${row.value} ${row.tooltip}`}>
+            <Box
+              sx={{
+                flexGrow: row.value || 0.02,
+                borderRadius: 'var(--radius-s)',
+                backgroundColor: row.color,
+              }}
+            />
+          </Tooltip>
+        ))}
       </Stack>
 
       <Stack spacing="8px">
-        {[
-          {
-            label: 'With a territory',
-            value: withTerritory,
-            dot: 'var(--accent-main)',
-          },
-          { label: 'Without', value: without, dot: 'var(--accent-200)' },
-        ].map((row) => (
+        {rows.map((row) => (
           <Stack
             key={row.label}
             direction="row"
@@ -64,7 +71,7 @@ export const PublisherSplit = ({
                 width: '10px',
                 height: '10px',
                 borderRadius: 'var(--radius-max)',
-                backgroundColor: row.dot,
+                backgroundColor: row.color,
               }}
             />
             <Typography className="body-small-regular" color="var(--black)">

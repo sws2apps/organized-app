@@ -44,7 +44,7 @@ const RECENCY: Bucket[] = [
   { key: 'h1', label: '3 to 6 months', color: '--orange-main' },
   { key: 'h2', label: '6 to 12 months', color: '--orange-dark' },
   { key: 'h3', label: 'Over a year', color: '--red-main' },
-  { key: 'never', label: 'Never covered', color: '--grey-350' },
+  { key: 'never', label: 'No records', color: '--grey-350' },
 ];
 
 const FREQUENCY: Bucket[] = [

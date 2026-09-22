@@ -6,6 +6,7 @@ import { Territory } from '@definition/territory';
 import RecordList from '../components/record_list';
 import RowAction from '../components/row_action';
 import PhoneNumberEditor from './phone_number_editor';
+import { emptyListMessage } from '../helpers';
 
 // the S-12 phone card holds 32 numbers, so the list stops there
 const MAX_PHONE_NUMBERS = 32;
@@ -31,7 +32,7 @@ const PhoneNumbersPanel = ({
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
       <RecordList
-        emptyMessage="No phone numbers in this territory yet."
+        emptyMessage={emptyListMessage()}
         items={numbers.map((number, index) => ({
           id: `${index}-${number}`,
           onClick: () => setEditing(index),

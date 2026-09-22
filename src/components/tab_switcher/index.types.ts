@@ -13,5 +13,14 @@ export type TabSwitcherProps<T extends string = string> = {
   value: T;
   onChange: (value: T) => void;
   ariaLabel?: string;
+  /**
+   * What the switch sits on:
+   * - `tinted` (default): light accent backgrounds, such as `--accent-150`
+   * - `light`: white and other light backgrounds, such as cards, where the
+   *   tinted colours would compete with the content
+   */
+  surface?: TabSwitcherSurface;
   sx?: SxProps<Theme>;
 };
+
+export type TabSwitcherSurface = 'tinted' | 'light';

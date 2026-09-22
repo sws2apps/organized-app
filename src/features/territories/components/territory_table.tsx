@@ -10,7 +10,7 @@ import {
   Typography,
 } from '@components/index';
 import {
-  IconCircle,
+  IconTripOrigin,
   IconClock,
   IconHome,
   IconPerson,
@@ -21,7 +21,7 @@ import { useAtomValue } from 'jotai';
 import Tooltip from '@components/tooltip';
 import { useBreakpoints } from '@hooks/index';
 import { shortDateFormatState } from '@states/settings';
-import { displayDate, parseDate } from '../helpers';
+import { displayDate, parseDate, emptyListMessage } from '../helpers';
 import { Territory, TerritoryStatus } from '@definition/territory';
 import AssignButton from './assign_button';
 import { clickableRow, rowStates } from './table_styles';
@@ -43,18 +43,33 @@ type TerritoryTableProps = {
   onDecline: (id: string) => void;
   onReturn: (id: string) => void;
   showHouseholds?: boolean;
+  // off on lists made only of requests, where the badge would repeat itself
+  showRequested?: boolean;
+  // off for publishers: no selection, no assigning; a row only opens
+  actions?: boolean;
   emptyMessage?: string;
   title?: string;
   selectionBar?: ReactNode;
   layoutSwitch?: ReactNode;
 };
 
-type SortKey = 'number' | 'locality' | 'status' | 'date';
+type SortKey =
+  | 'number'
+  | 'locality'
+  | 'person'
+  | 'households'
+  | 'status'
+  | 'date';
 
 const SORTS: Record<SortKey, { label: string; directions: [string, string] }> =
   {
     number: { label: 'Number', directions: ['1 → 9', '9 → 1'] },
     locality: { label: 'Locality', directions: ['A → Z', 'Z → A'] },
+    person: { label: 'Person', directions: ['A → Z', 'Z → A'] },
+    households: {
+      label: 'Households',
+      directions: ['Most first', 'Fewest first'],
+    },
     status: {
       label: 'Status',
       directions: ['Overdue first', 'Available first'],
@@ -86,25 +101,41 @@ const lastReturn = (territory: Territory) =>
     .sort((a, b) => time(b) - time(a))
     .at(0);
 
-const compare = (key: SortKey) => (a: Territory, b: Territory) => {
-  const byNumber = a.number.localeCompare(b.number, undefined, {
-    numeric: true,
-  });
+const compare =
+  (key: SortKey, reversed: boolean) => (a: Territory, b: Territory) => {
+    const byNumber = a.number.localeCompare(b.number, undefined, {
+      numeric: true,
+    });
 
-  if (key === 'locality') {
-    return a.city.localeCompare(b.city) || byNumber;
-  }
+    if (key === 'locality') {
+      return a.city.localeCompare(b.city) || byNumber;
+    }
 
-  if (key === 'status') {
-    return STATUS_WEIGHT[a.status] - STATUS_WEIGHT[b.status] || byNumber;
-  }
+    // grouped by who holds them; the free ones always come last, whichever way
+    if (key === 'person') {
+      if (!a.holder || !b.holder) {
+        return Number(!a.holder) - Number(!b.holder) || byNumber;
+      }
 
-  if (key === 'date') {
-    return (b.daysOut ?? -1) - (a.daysOut ?? -1) || byNumber;
-  }
+      const byHolder = a.holder.localeCompare(b.holder);
 
-  return byNumber;
-};
+      return (reversed ? -byHolder : byHolder) || byNumber;
+    }
+
+    if (key === 'households') {
+      return b.households - a.households || byNumber;
+    }
+
+    if (key === 'status') {
+      return STATUS_WEIGHT[a.status] - STATUS_WEIGHT[b.status] || byNumber;
+    }
+
+    if (key === 'date') {
+      return (b.daysOut ?? -1) - (a.daysOut ?? -1) || byNumber;
+    }
+
+    return byNumber;
+  };
 
 const StatusLine = ({ territory }: { territory: Territory }) => {
   const shortDateFormat = useAtomValue(shortDateFormatState);
@@ -116,18 +147,13 @@ const StatusLine = ({ territory }: { territory: Territory }) => {
 
     return (
       <Stack direction="row" spacing="4px" sx={{ alignItems: 'center' }}>
-        <IconCircle
-          color="var(--green-main)"
-          width={16}
-          height={16}
-          sx={{ '& path': { stroke: 'var(--green-main)', strokeWidth: 1.2 } }}
-        />
+        <IconTripOrigin color="var(--green-main)" width={16} height={16} />
         <Typography
           className="label-small-regular"
           color="var(--grey-400)"
           noWrap
         >
-          {returned ? date(returned) : 'Never covered'}
+          {returned ? date(returned) : 'No records'}
         </Typography>
       </Stack>
     );
@@ -158,26 +184,39 @@ const StatusLine = ({ territory }: { territory: Territory }) => {
   );
 };
 
-const badges = (territory: Territory) => (
+const badges = (territory: Territory, showRequested: boolean) => (
   <>
-    <RequestBadge territory={territory} />
+    {showRequested && <RequestBadge territory={territory} />}
     <CardLostBadge territory={territory} />
-    <CategoryBadges territory={territory} max={1} />
+    <CategoryBadges territory={territory} />
   </>
 );
 
-const Households = ({ count }: { count: number }) => (
+export const Households = ({
+  count,
+  // --grey-350 passes on white; tinted cards pass their own colour
+  color = 'var(--grey-350)',
+}: {
+  count: number;
+  color?: string;
+}) => (
   <Stack
     direction="row"
     spacing="2px"
-    // a transform, because the column's spacing resets margins
+    // the house glyph is inset 3px in its box; a transform pulls it level
+    // with the number, because the column's spacing resets margins
     sx={{ alignItems: 'center', transform: 'translateX(-3px)' }}
   >
-    <IconHome color="var(--grey-350)" width={16} height={16} />
+    <IconHome color={color} width={16} height={16} />
     <Typography
-      className="label-small-regular"
-      color="var(--grey-350)"
-      sx={{ fontVariantNumeric: 'tabular-nums' }}
+      className="label-small-medium"
+      color={color}
+      // the house is heavier at the bottom, so the digits sit 1px lower to look centred
+      sx={{
+        fontVariantNumeric: 'tabular-nums',
+        position: 'relative',
+        top: '1px',
+      }}
     >
       {count}
     </Typography>
@@ -195,7 +234,9 @@ const TerritoryTable = ({
   onDecline,
   onReturn,
   showHouseholds = true,
-  emptyMessage = 'No territories match the filters.',
+  showRequested = true,
+  actions = true,
+  emptyMessage = emptyListMessage(),
   title,
   selectionBar,
   layoutSwitch,
@@ -206,8 +247,10 @@ const TerritoryTable = ({
   const [reversed, setReversed] = useState(false);
 
   const sorted = useMemo(() => {
-    const list = [...territories].sort(compare(sortBy));
-    return reversed ? list.reverse() : list;
+    const list = [...territories].sort(compare(sortBy, reversed));
+
+    // the person sort flips only the names, so free territories stay last
+    return reversed && sortBy !== 'person' ? list.reverse() : list;
   }, [territories, sortBy, reversed]);
 
   const [sortMenu, setSortMenu] = useState<HTMLElement | null>(null);
@@ -309,12 +352,14 @@ const TerritoryTable = ({
           padding: '12px 8px 8px',
         }}
       >
-        <Checkbox
-          sx={{ padding: 0, margin: 0 }}
-          checked={allChecked}
-          indeterminate={someChecked && !allChecked}
-          onChange={() => onCheckMany(sorted.map((t) => t.id))}
-        />
+        {actions && (
+          <Checkbox
+            sx={{ padding: 0, margin: 0 }}
+            checked={allChecked}
+            indeterminate={someChecked && !allChecked}
+            onChange={() => onCheckMany(sorted.map((t) => t.id))}
+          />
+        )}
 
         <Stack
           direction="row"
@@ -324,13 +369,13 @@ const TerritoryTable = ({
           {sortButton}
         </Stack>
 
-        {someChecked && selectionBar}
+        {actions && someChecked && selectionBar}
 
         {layoutSwitch}
       </Stack>
 
       <Stack
-        spacing="4px"
+        spacing="2px"
         divider={<CustomDivider color="var(--accent-200)" />}
       >
         {sorted.map((territory) => (
@@ -341,20 +386,23 @@ const TerritoryTable = ({
             {...clickableRow(() => onOpen(territory.id))}
             sx={{
               alignItems: 'center',
-              padding: '10px 8px',
+              padding: '8px',
               borderRadius: 'var(--radius-m)',
               ...rowStates(checked.has(territory.id)),
             }}
           >
-            <Checkbox
-              stopPropagation
-              sx={{ padding: 0, margin: 0 }}
-              checked={checked.has(territory.id)}
-              onChange={() => onCheck(territory.id)}
-            />
+            {actions && (
+              <Checkbox
+                stopPropagation
+                sx={{ padding: 0, margin: 0 }}
+                checked={checked.has(territory.id)}
+                onChange={() => onCheck(territory.id)}
+              />
+            )}
 
             {tablet688Up && (
-              <Stack spacing="2px" sx={{ width: '48px', flexShrink: 0 }}>
+              // same line gap as the name column, so both lines sit level with it
+              <Stack spacing="4px" sx={{ width: '48px', flexShrink: 0 }}>
                 <Typography
                   className="body-small-semibold"
                   color="var(--black)"
@@ -392,7 +440,7 @@ const TerritoryTable = ({
                   <Households count={territory.households} />
                 )}
 
-                {!laptopUp && badges(territory)}
+                {!laptopUp && badges(territory, showRequested)}
               </Stack>
             </Stack>
 
@@ -402,25 +450,27 @@ const TerritoryTable = ({
                 sx={{
                   width: '220px',
                   flexShrink: 0,
-                  flexWrap: 'wrap',
                   alignItems: 'center',
                   gap: '4px',
+                  overflow: 'hidden',
                 }}
               >
-                {badges(territory)}
+                {badges(territory, showRequested)}
               </Stack>
             )}
 
-            <Box sx={{ flexShrink: 0 }}>
-              <AssignButton
-                territory={territory}
-                onOpenAssign={onOpenAssign}
-                onAssign={onAssign}
-                onDecline={onDecline}
-                onReturn={onReturn}
-                compact={!tablet688Up}
-              />
-            </Box>
+            {actions && (
+              <Box sx={{ flexShrink: 0 }}>
+                <AssignButton
+                  territory={territory}
+                  onOpenAssign={onOpenAssign}
+                  onAssign={onAssign}
+                  onDecline={onDecline}
+                  onReturn={onReturn}
+                  compact={!tablet688Up}
+                />
+              </Box>
+            )}
           </Stack>
         ))}
       </Stack>

@@ -28,7 +28,9 @@ const TerritoriesHistory = () => {
       return;
     }
 
-    navigate(`/territories/history/${territoryId}`);
+    navigate(`/territories/history/${territoryId}`, {
+      state: { parent: 'Assignment history' },
+    });
   };
 
   if (id && !laptopUp) {

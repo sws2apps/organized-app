@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useSearchParams } from 'react-router';
+import { useNavigate, useSearchParams } from 'react-router';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import * as maplibregl from 'maplibre-gl';
 import { IconCheckCircle } from '@icons/index';
@@ -20,6 +20,7 @@ import {
   DEFAULT_CENTER,
   DEFAULT_ZOOM,
   FILL_LAYER,
+  LABEL_CAPTION_LAYER,
   LABEL_LAYER,
   LABELS_SOURCE,
   LINE_LAYER,
@@ -31,7 +32,13 @@ import { ColorView, colorScheme, HEATMAP_YEARS } from './views';
 import {
   addAttribution,
   addHouseIcon,
-  labelText,
+  addLabelBackground,
+  LABEL_BACKGROUND,
+  captionPlacement,
+  captionText,
+  LABEL_DETAIL_ZOOM,
+  LABEL_TEXT_SIZE,
+  numberText,
   resolveColor,
   allMarkers,
   boundaryBounds,
@@ -47,6 +54,7 @@ const ZOOM_STEP = 0.5;
 
 const useTerritoriesMap = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
 
   const setTerritories = useSetAtom(territoriesState);
   const withStatus = useAtomValue(territoriesWithStatusState);
@@ -120,7 +128,8 @@ const useTerritoriesMap = () => {
   }, [territories, search]);
 
   const data = useMemo(() => {
-    const hiddenId = editor.editing ? selectedId : undefined;
+    const hiddenId =
+      editor.editing && editor.scope === 'territory' ? selectedId : undefined;
 
     const colors = new Map(
       scheme.buckets.map((entry) => [entry.key, resolveColor(entry.color)])
@@ -187,6 +196,11 @@ const useTerritoriesMap = () => {
     const current = dataRef.current;
 
     addHouseIcon(instance, getCSSPropertyValue('--black')).catch(console.error);
+    addLabelBackground(
+      instance,
+      getCSSPropertyValue('--white'),
+      getCSSPropertyValue('--accent-200')
+    );
 
     instance.addSource(CONGREGATION_SOURCE, {
       type: 'geojson',
@@ -241,26 +255,58 @@ const useTerritoriesMap = () => {
 
     addDrawingLayers(instance, current.rest);
 
+    const fonts = MAP_PROVIDERS[labelOptions.current.provider].fonts;
+    const caption = captionPlacement(labelOptions.current.showNumbers);
+
+    // the caption goes first, so the number badge draws on top of it
+    instance.addLayer({
+      id: LABEL_CAPTION_LAYER,
+      type: 'symbol',
+      source: LABELS_SOURCE,
+      minzoom: LABEL_DETAIL_ZOOM,
+      layout: {
+        'text-field': captionText(labelOptions.current, fonts),
+        'text-font': [...fonts.regular],
+        'text-size': LABEL_TEXT_SIZE,
+        'text-line-height': 1.2,
+        'text-anchor': caption.anchor,
+        'text-offset': caption.offset,
+        'text-allow-overlap': false,
+      },
+      paint: {
+        'text-color': getCSSPropertyValue('--black'),
+        // a thin, softened halo keeps small text readable over any tile
+        'text-halo-color': getCSSPropertyValue('--white'),
+        'text-halo-width': 1.5,
+        'text-halo-blur': 0.5,
+      },
+    });
+
     instance.addLayer({
       id: LABEL_LAYER,
       type: 'symbol',
       source: LABELS_SOURCE,
       layout: {
-        'text-field': labelText(
-          labelOptions.current,
-          MAP_PROVIDERS[labelOptions.current.provider].fonts
-        ),
-        'text-font': [
-          ...MAP_PROVIDERS[labelOptions.current.provider].fonts.regular,
-        ],
-        'text-size': 12,
-        'text-line-height': 1.3,
+        visibility: labelOptions.current.showNumbers ? 'visible' : 'none',
+        'text-field': numberText(fonts),
+        'text-font': [...fonts.number],
+        'text-size': LABEL_TEXT_SIZE,
+        'text-line-height': 1.15,
         'text-allow-overlap': false,
+        'icon-image': LABEL_BACKGROUND,
+        'icon-text-fit': 'both',
+        // the font keeps extra room above capitals and digits, so the box
+        // gives less at the top and more at the bottom to look centred
+        'icon-text-fit-padding': [-2, 4, 4, 4],
+        'icon-allow-overlap': false,
+        // numbers still avoid each other, but don't push away their own
+        // caption underneath
+        'text-ignore-placement': true,
+        'icon-ignore-placement': true,
       },
       paint: {
         'text-color': getCSSPropertyValue('--black'),
-        'text-halo-color': getCSSPropertyValue('--white'),
-        'text-halo-width': 2,
+        'icon-opacity': 0.92,
       },
     });
   }, []);
@@ -361,14 +407,35 @@ const useTerritoriesMap = () => {
     const instance = map.current;
     if (!instance || !styleVersion || !instance.getLayer(LABEL_LAYER)) return;
 
+    const fonts = MAP_PROVIDERS[provider].fonts;
+    const caption = captionPlacement(showNumbers);
+
     instance.setLayoutProperty(
       LABEL_LAYER,
-      'text-field',
-      labelText({ showNumbers, showHouseholds }, MAP_PROVIDERS[provider].fonts)
+      'visibility',
+      showNumbers ? 'visible' : 'none'
     );
-    instance.setLayoutProperty(LABEL_LAYER, 'text-font', [
-      ...MAP_PROVIDERS[provider].fonts.regular,
+    instance.setLayoutProperty(LABEL_LAYER, 'text-field', numberText(fonts));
+    instance.setLayoutProperty(LABEL_LAYER, 'text-font', [...fonts.number]);
+
+    instance.setLayoutProperty(
+      LABEL_CAPTION_LAYER,
+      'text-field',
+      captionText({ showHouseholds }, fonts)
+    );
+    instance.setLayoutProperty(LABEL_CAPTION_LAYER, 'text-font', [
+      ...fonts.regular,
     ]);
+    instance.setLayoutProperty(
+      LABEL_CAPTION_LAYER,
+      'text-anchor',
+      caption.anchor
+    );
+    instance.setLayoutProperty(
+      LABEL_CAPTION_LAYER,
+      'text-offset',
+      caption.offset
+    );
   }, [showNumbers, showHouseholds, provider, styleVersion]);
 
   useEffect(() => {
@@ -377,24 +444,40 @@ const useTerritoriesMap = () => {
     flyToBoundary(selected.boundary);
   }, [selectedId, ready, selected?.boundary, flyToBoundary]);
 
+  // set when editing was opened from a territory's page, so saving goes back there
+  const returnTo = useRef<string>(undefined);
+
+  // edit mode stays on between territories, so several can be drawn in a row
   const [editMode, setEditMode] = useState(false);
-  const editingId = useRef<string>(undefined);
+
+  // a step that would throw away unsaved drawing waits here for a confirmation
+  const [pendingLeave, setPendingLeave] = useState<VoidFunction>();
 
   const startEditing = useCallback(
     (scope: EditScope = 'territory') => {
       if (scope === 'territory' && !selected) return;
 
-      editingId.current = scope === 'territory' ? selected?.id : undefined;
       setEditMode(true);
       editor.start(scope, selected, congregationBoundary);
     },
     [editor, selected, congregationBoundary]
   );
 
+  // in edit mode, picking a territory opens it for drawing right away
+  useEffect(() => {
+    if (!editMode || editor.editing || !selected) return;
+
+    startEditing('territory');
+    // only a new pick should start a drawing
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editMode, selected?.id]);
+
   const editRequested = searchParams.get('edit') === '1';
 
   useEffect(() => {
     if (!ready || !editRequested || !selected || editor.editing) return;
+
+    returnTo.current = `/territories/${selected.id}`;
 
     setSearchParams({ territory: selected.id }, { replace: true });
     startEditing('territory');
@@ -406,6 +489,48 @@ const useTerritoriesMap = () => {
     setSearchParams,
     startEditing,
   ]);
+
+  const goBack = useCallback(() => {
+    const target = returnTo.current;
+    returnTo.current = undefined;
+
+    if (target) navigate(target);
+
+    return !!target;
+  }, [navigate]);
+
+  // leaves editing without saving, back to viewing the map
+  const cancelEditing = useCallback(() => {
+    editor.finish();
+    setEditMode(false);
+    goBack();
+  }, [editor, goBack]);
+
+  const requestLeave = useCallback(
+    (action: VoidFunction) => {
+      if (editor.dirty) setPendingLeave(() => action);
+      else action();
+    },
+    [editor.dirty]
+  );
+
+  const confirmLeave = useCallback(() => {
+    pendingLeave?.();
+    setPendingLeave(undefined);
+  }, [pendingLeave]);
+
+  const setMode = useCallback(
+    (next: 'view' | 'edit') => {
+      if (next === 'edit') {
+        setEditMode(true);
+        return;
+      }
+
+      if (editor.editing) requestLeave(cancelEditing);
+      else setEditMode(false);
+    },
+    [editor.editing, requestLeave, cancelEditing]
+  );
 
   const save = useCallback(() => {
     const { draft, scope } = editor;
@@ -438,59 +563,24 @@ const useTerritoriesMap = () => {
 
       displaySnackNotification({
         header: 'Map saved',
-        message: `Territory ${selected.number} now has an area on the map.`,
+        message: `The map of territory ${selected.number} was saved.`,
         severity: 'success',
         icon: <IconCheckCircle color="var(--white)" />,
       });
     }
 
     editor.finish();
-  }, [editor, selected, setTerritories, setCongregationBoundary]);
 
-  const leaveEditing = useCallback(() => {
-    if (!editor.editing) return;
-
-    if (editor.draft.boundary?.length) save();
-    else editor.finish();
-
-    editingId.current = undefined;
-  }, [editor, save]);
-
-  const setMode = useCallback(
-    (next: 'view' | 'edit') => {
-      if (next === 'view') {
-        leaveEditing();
-        setEditMode(false);
-        return;
-      }
-
-      setEditMode(true);
-      if (selected) startEditing('territory');
-    },
-    [leaveEditing, selected, startEditing]
-  );
-
-  useEffect(() => {
-    if (!editMode || !selected || editor.scope === 'congregation') return;
-    if (editor.editing && editingId.current === selected.id) return;
-
-    leaveEditing();
-    startEditing('territory');
-    // only a new selection should move the drawing
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [editMode, selected?.id]);
-
-  const switchScope = useCallback(
-    (scope: EditScope) => {
-      if (editor.editing && scope === editor.scope) return;
-
-      leaveEditing();
-
-      if (scope === 'territory' && !selected) return;
-      startEditing(scope);
-    },
-    [editor.editing, editor.scope, leaveEditing, selected, startEditing]
-  );
+    // stay in edit mode with nothing picked, ready for the next territory
+    if (!goBack()) setSelectedId(undefined);
+  }, [
+    editor,
+    selected,
+    setTerritories,
+    setCongregationBoundary,
+    goBack,
+    setSelectedId,
+  ]);
 
   const locate = useCallback(() => {
     if (!navigator.geolocation) return;
@@ -549,14 +639,13 @@ const useTerritoriesMap = () => {
     fitAll,
     editor,
     startEditing,
-    switchScope,
     editMode,
     setMode,
-    cancelEditing: () => {
-      editor.finish();
-      editingId.current = undefined;
-      setEditMode(false);
-    },
+    cancelEditing,
+    requestLeave,
+    pendingLeave: !!pendingLeave,
+    confirmLeave,
+    keepEditing: () => setPendingLeave(undefined),
     save,
   };
 };

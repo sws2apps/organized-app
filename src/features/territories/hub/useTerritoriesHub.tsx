@@ -1,7 +1,8 @@
-import { useEffect, useMemo, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router';
-import { useAtom } from 'jotai';
-import { useCurrentUser } from '@hooks/index';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useLocation, useNavigate, useSearchParams } from 'react-router';
+import { useAtom, useAtomValue } from 'jotai';
+import { userLocalUIDState } from '@states/settings';
+import { useBreakpoints, useCurrentUser, useSubpane } from '@hooks/index';
 import {
   territoriesShowHouseholdsState,
   territoriesState,
@@ -11,6 +12,7 @@ import {
   applyFilters,
   EMPTY_FILTERS,
   forTab,
+  groupHolderName,
   withDerivedStatus,
   assignmentFromDates,
   parseDate,
@@ -24,14 +26,17 @@ import {
 
 const TAB_GROUPS: TerritoryTab[][] = [
   ['recommended', 'all'],
-  ['mine', 'requested'],
+  ['mine', 'group', 'requested'],
   ['requests'],
 ];
+
+const OWN_TABS: TerritoryTab[] = ['mine', 'group', 'requested'];
 
 const TAB_LABELS: Record<TerritoryTab, string> = {
   recommended: 'Recommended',
   all: 'All territories',
   mine: 'Assigned',
+  group: 'My group',
   requested: 'Requested',
   requests: 'Requests',
 };
@@ -39,11 +44,12 @@ const TAB_LABELS: Record<TerritoryTab, string> = {
 const useTerritoriesHub = () => {
   const navigate = useNavigate();
 
-  const { isElder, isServiceCommittee } = useCurrentUser();
+  const { isElder, isServiceCommittee, my_group } = useCurrentUser();
 
   const isTerritoryEditor = isElder || isServiceCommittee;
 
   const [searchParams, setSearchParams] = useSearchParams();
+  const location = useLocation();
 
   const [territories, setTerritories] = useAtom(territoriesState);
   const [showHouseholds, setShowHouseholds] = useAtom(
@@ -66,18 +72,44 @@ const useTerritoriesHub = () => {
   const [returnId, setReturnId] = useState<string | undefined>();
   const [assignId, setAssignId] = useState<string | undefined>();
   const [assignManyOpen, setAssignManyOpen] = useState(false);
-  const [filtersOpen, setFiltersOpen] = useState(false);
+  const { desktopUp } = useBreakpoints();
+
+  // in the URL, so the device back gesture closes the filters on small screens
+  const filtersPane = useSubpane('filters');
+  // own territories have no filters, even with the flag left in the URL
+  const filtersOpen =
+    filtersPane.open &&
+    !OWN_TABS.includes(searchParams.get('tab') as TerritoryTab);
+  const setFiltersOpen = useCallback(
+    (next: boolean) => filtersPane.setOpen(next, !desktopUp),
+    [filtersPane, desktopUp]
+  );
 
   const fromUrl = searchParams.get('tab') as TerritoryTab;
 
   const requested =
     fromUrl === 'requests' && !isTerritoryEditor ? 'requested' : fromUrl;
 
-  const group =
-    TAB_GROUPS.find((item) => item.includes(requested)) ?? TAB_GROUPS[0];
+  // group overseers and assistants also look after their group's territories
+  const userUID = useAtomValue(userLocalUIDState);
+
+  const isGroupLead = !!my_group?.group_data.members.some(
+    (member) =>
+      member.person_uid === userUID && (member.isOverseer || member.isAssistant)
+  );
+
+  const groupHolder =
+    isGroupLead && my_group ? groupHolderName(my_group.group_data) : undefined;
+
+  const tabGroups = TAB_GROUPS.map((ids) =>
+    ids.filter((id) => id !== 'group' || groupHolder)
+  );
+
+  const groupIndex = tabGroups.findIndex((item) => item.includes(requested));
+  const group = tabGroups[Math.max(groupIndex, 0)];
   const tabId = group.includes(requested) ? requested : group[0];
 
-  const isBrowsing = group === TAB_GROUPS[0];
+  const isBrowsing = group === tabGroups[0];
   const tab = group.indexOf(tabId);
 
   useEffect(() => {
@@ -86,7 +118,8 @@ const useTerritoriesHub = () => {
 
   const setTab = (next: number) => {
     searchParams.set('tab', group[next]);
-    setSearchParams(searchParams, { replace: true });
+    // keeps the entry's state, which tells an open pane how to close
+    setSearchParams(searchParams, { replace: true, state: location.state });
   };
 
   const ownRequests = forTab(withStatus, 'requested').length;
@@ -94,17 +127,22 @@ const useTerritoriesHub = () => {
   const tabs =
     group.length > 1
       ? group.map((id) => ({
-          label: TAB_LABELS[id],
+          label:
+            id === 'all' && !isTerritoryEditor ? 'Available' : TAB_LABELS[id],
           ...(id === 'requested' && ownRequests > 0
             ? { badge: ownRequests }
             : {}),
         }))
       : [];
 
-  const visible = useMemo(
-    () => applyFilters(forTab(withStatus, tabId), filters),
-    [withStatus, tabId, filters]
-  );
+  const visible = useMemo(() => {
+    const list = forTab(withStatus, tabId, isTerritoryEditor, groupHolder);
+
+    // own territories have no filters, so none left over from other tabs apply
+    if (OWN_TABS.includes(tabId)) return list;
+
+    return applyFilters(list, filters);
+  }, [withStatus, tabId, filters, isTerritoryEditor, groupHolder]);
 
   const boardTerritories = useMemo(
     () => applyFilters(withStatus, filters),
@@ -258,12 +296,24 @@ const useTerritoriesHub = () => {
     clearChecked();
   };
 
-  const handleOpen = (id: string) => navigate(`/territories/${id}`);
+  const title = {
+    recommended: isTerritoryEditor ? 'All territories' : 'Get territory',
+    all: isTerritoryEditor ? 'All territories' : 'Get territory',
+    mine: 'My territories',
+    group: 'My territories',
+    requested: 'My territories',
+    requests: 'Requests',
+  }[tabId];
+
+  const handleOpen = (id: string) =>
+    navigate(`/territories/${id}`, { state: { parent: title } });
 
   return {
     tab,
     tabId,
     isBrowsing,
+    // a user's own territories: a short overview without search or filters
+    isOwnTab: OWN_TABS.includes(tabId),
     isTerritoryEditor,
     setTab,
     tabs,
@@ -285,6 +335,7 @@ const useTerritoriesHub = () => {
     handleDecline,
     handleReturn,
     handleOpen,
+    title,
     isBoard,
     setIsBoard,
     selecting,

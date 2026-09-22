@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate, useParams } from 'react-router';
+import { useLocation, useNavigate, useParams } from 'react-router';
 import { useAtom } from 'jotai';
 import { IconCheckCircle } from '@icons/index';
 import { displaySnackNotification } from '@services/states/app';
@@ -24,6 +24,7 @@ const blankTerritory = (): Territory => ({
 const useTerritoryDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [territories, setTerritories] = useAtom(territoriesState);
 
@@ -69,7 +70,11 @@ const useTerritoryDetails = () => {
       icon: <IconCheckCircle color="var(--white)" />,
     });
 
-    navigate(`/territories/${draft.id}`, { replace: true });
+    // the saved territory keeps the page it was added from as its parent
+    navigate(`/territories/${draft.id}`, {
+      replace: true,
+      state: location.state,
+    });
   };
 
   const handleDelete = () => {

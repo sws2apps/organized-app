@@ -46,10 +46,7 @@ const useTerritoryPrint = (territory: Territory) => {
     const needsMap = showMap;
 
     if (needsMap && !mapImage.current) {
-      mapImage.current =
-        territory.mapSource === 'image' && territory.mapPicture
-          ? Promise.resolve(territory.mapPicture)
-          : captureTerritoryMap(territory);
+      mapImage.current = captureTerritoryMap(territory);
     }
 
     const picture =

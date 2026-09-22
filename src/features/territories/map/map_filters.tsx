@@ -25,7 +25,7 @@ const MapFilters = ({
   onCollapse,
 }: MapFiltersProps) => (
   <Stack
-    spacing="24px"
+    spacing="16px"
     sx={{
       padding: '9px 16px 16px 16px',
       borderRadius: 'var(--radius-l)',
@@ -33,7 +33,10 @@ const MapFilters = ({
       border: '1px solid var(--accent-200)',
     }}
   >
-    <Stack direction="row" sx={{ alignItems: 'center', gap: '16px' }}>
+    <Stack
+      direction="row"
+      sx={{ alignItems: 'center', gap: '16px', marginBottom: '-4px' }}
+    >
       <Typography className="h4" color="var(--black)" sx={{ flexGrow: 1 }}>
         Territories
       </Typography>
@@ -53,7 +56,7 @@ const MapFilters = ({
 
     <Stack spacing="16px">
       <Select
-        label="Color by"
+        label="Display"
         value={colorView}
         onChange={(event) => onColorViewChange(event.target.value as ColorView)}
       >

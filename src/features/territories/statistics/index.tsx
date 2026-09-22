@@ -100,18 +100,10 @@ const TerritoriesStatistics = () => {
         <PublisherLoad territories={territories} limit={9} />
       </ChartCard>
 
-      <ChartCard title="Do-not-call addresses" span={4}>
-        <Stack
-          direction="row"
-          spacing="12px"
-          sx={{ alignItems: 'center', justifyContent: 'space-between' }}
-        >
-          <Stack direction="row" spacing="10px" sx={{ alignItems: 'baseline' }}>
-            <Typography className="big-numbers" color="var(--black)">
-              {totalDoNotCalls(territories)}
-            </Typography>
-          </Stack>
-
+      <ChartCard
+        title="Do-not-call addresses"
+        span={4}
+        action={
           <Button
             variant="small"
             disableAutoStretch
@@ -124,7 +116,11 @@ const TerritoriesStatistics = () => {
           >
             See all
           </Button>
-        </Stack>
+        }
+      >
+        <Typography className="big-numbers" color="var(--black)">
+          {totalDoNotCalls(territories)}
+        </Typography>
 
         <Stack spacing="12px">
           {[...territories]

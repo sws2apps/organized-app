@@ -1,6 +1,6 @@
 import { Box, Stack } from '@mui/material';
 import { Badge, CustomDivider, InfoNote, Typography } from '@components/index';
-import { publisherLoad } from '../helpers';
+import { publisherLoad, emptyListMessage } from '../helpers';
 import { Territory } from '@definition/territory';
 import TruncatedText from './truncated_text';
 
@@ -14,7 +14,7 @@ const PublisherLoad = ({
   const load = publisherLoad(territories).filter((entry) => entry.count > 0);
 
   if (load.length === 0) {
-    return <InfoNote message="Nothing is assigned." />;
+    return <InfoNote message={emptyListMessage()} />;
   }
 
   return (

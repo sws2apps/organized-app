@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Box, Stack } from '@mui/material';
+import { Box, ButtonBase, Popover, Stack } from '@mui/material';
 import { useAtom, useSetAtom } from 'jotai';
 import { Button, TextField } from '@components/index';
 import Dialog from '@components/dialog';
@@ -12,54 +12,110 @@ import {
   territoryCategoriesState,
 } from '@states/territories';
 import {
+  CATEGORY_COLOR_LABEL,
   CATEGORY_COLORS,
+  CategoryColor,
   MAX_CATEGORIES,
   TerritoryCategoryOption,
 } from '@definition/territory';
-import { BadgeColor } from '@definition/app';
+import { categorySwatch, toCategoryColor } from '../category_colors';
 import RowAction from '../components/row_action';
 
-// grey has no -main token, so the swatch borrows the darkest readable shade
-const swatchColor = (color: BadgeColor) =>
-  color === 'grey' ? 'var(--grey-350)' : `var(--${color}-main)`;
-
-const ColorPicker = ({
+// one dot per row that opens the palette, instead of a wall of circles
+const ColorDot = ({
   color,
   onChange,
 }: {
-  color: BadgeColor;
-  onChange: (next: BadgeColor) => void;
-}) => (
-  <Stack direction="row" sx={{ flexShrink: 0, gap: '8px' }}>
-    {CATEGORY_COLORS.map((option) => (
-      <Tooltip key={option} title={option}>
-        <Box
-          role="button"
-          aria-label={option}
-          onClick={() => onChange(option)}
-          sx={{
-            width: '28px',
-            height: '28px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            cursor: 'pointer',
-            borderRadius: 'var(--radius-max)',
-            backgroundColor: swatchColor(option),
-            outline: option === color ? '2px solid var(--accent-dark)' : 'none',
-            outlineOffset: '2px',
-            transition: 'transform 0.15s ease',
-            '&:hover': { transform: 'scale(1.08)' },
-          }}
-        >
-          {option === color && (
-            <IconCheck color="var(--always-white)" width={18} height={18} />
-          )}
-        </Box>
-      </Tooltip>
-    ))}
-  </Stack>
-);
+  color: CategoryColor;
+  onChange: (next: CategoryColor) => void;
+}) => {
+  const [anchor, setAnchor] = useState<HTMLElement | null>(null);
+
+  const swatch = (option: CategoryColor, size: number) => ({
+    width: `${size}px`,
+    height: `${size}px`,
+    flexShrink: 0,
+    borderRadius: 'var(--radius-max)',
+    backgroundColor: categorySwatch(option),
+  });
+
+  return (
+    <>
+      <ButtonBase
+        aria-label={`Color: ${CATEGORY_COLOR_LABEL[color]}`}
+        aria-haspopup="true"
+        onClick={(event) => setAnchor(event.currentTarget)}
+        sx={{
+          width: '40px',
+          height: '40px',
+          flexShrink: 0,
+          borderRadius: 'var(--radius-l)',
+          '&:hover': { backgroundColor: 'var(--accent-100)' },
+          '&:focus-visible': { outline: 'var(--accent-main) auto 1px' },
+        }}
+      >
+        <Box sx={swatch(color, 20)} />
+      </ButtonBase>
+
+      <Popover
+        open={!!anchor}
+        anchorEl={anchor}
+        onClose={() => setAnchor(null)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+        slotProps={{
+          paper: {
+            className: 'small-card-shadow',
+            sx: {
+              padding: '8px',
+              borderRadius: 'var(--radius-l)',
+              border: '1px solid var(--accent-200)',
+              backgroundColor: 'var(--white)',
+            },
+          },
+        }}
+      >
+        <Stack direction="row" sx={{ gap: '4px' }}>
+          {CATEGORY_COLORS.map((option) => (
+            <Tooltip key={option} title={CATEGORY_COLOR_LABEL[option]}>
+              <ButtonBase
+                aria-label={CATEGORY_COLOR_LABEL[option]}
+                aria-pressed={option === color}
+                onClick={() => {
+                  onChange(option);
+                  setAnchor(null);
+                }}
+                sx={{
+                  width: '36px',
+                  height: '36px',
+                  borderRadius: 'var(--radius-max)',
+                  '&:hover': { backgroundColor: 'var(--accent-100)' },
+                  '&:focus-visible': { outline: 'var(--accent-main) auto 1px' },
+                }}
+              >
+                <Box
+                  sx={{
+                    ...swatch(option, 24),
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  {option === color && (
+                    <IconCheck
+                      color="var(--always-white)"
+                      width={16}
+                      height={16}
+                    />
+                  )}
+                </Box>
+              </ButtonBase>
+            </Tooltip>
+          ))}
+        </Stack>
+      </Popover>
+    </>
+  );
+};
 
 const CategoryEditor = ({
   open,
@@ -96,7 +152,12 @@ const CategoryEditor = ({
       {
         id: `category-${Date.now()}`,
         name: '',
-        color: CATEGORY_COLORS[draft.length % CATEGORY_COLORS.length],
+        // the first colour nobody uses yet, so new categories stand apart
+        color:
+          CATEGORY_COLORS.find(
+            (option) =>
+              !draft.some((item) => toCategoryColor(item.color) === option)
+          ) ?? 'grey',
       },
     ]);
   };
@@ -131,31 +192,19 @@ const CategoryEditor = ({
       title="Categories"
       description={`Up to ${MAX_CATEGORIES} categories, each with its own color.`}
     >
-      <Stack
-        spacing={{ mobile: '16px', tablet600: '8px' }}
-        sx={{ width: '100%' }}
-      >
+      <Stack spacing="8px" sx={{ width: '100%' }}>
         {draft.map((category) => (
-          <Box
+          <Stack
             key={category.id}
-            sx={{
-              display: 'grid',
-              alignItems: 'center',
-              columnGap: '12px',
-              rowGap: '8px',
-              width: '100%',
-              gridTemplateColumns: {
-                mobile: 'minmax(0, 1fr) auto',
-                tablet600: 'minmax(0, 1fr) auto auto',
-              },
-              gridTemplateAreas: {
-                mobile: '"name delete" "colors colors"',
-                tablet600: '"name colors delete"',
-              },
-            }}
+            direction="row"
+            sx={{ alignItems: 'center', gap: '8px', width: '100%' }}
           >
+            <ColorDot
+              color={toCategoryColor(category.color)}
+              onChange={(color) => patch(category.id, { color })}
+            />
+
             <TextField
-              sx={{ gridArea: 'name' }}
               placeholder="Category name"
               value={category.name}
               autoFocus={category.name.length === 0}
@@ -164,37 +213,31 @@ const CategoryEditor = ({
               }
             />
 
-            <Box sx={{ gridArea: 'colors' }}>
-              <ColorPicker
-                color={category.color}
-                onChange={(color) => patch(category.id, { color })}
-              />
-            </Box>
-
-            <Box sx={{ gridArea: 'delete' }}>
-              <RowAction
-                title="Delete"
-                color="error"
-                onClick={() =>
-                  setDraft(draft.filter((item) => item.id !== category.id))
-                }
-              >
-                <IconDelete color="var(--red-main)" width={18} height={18} />
-              </RowAction>
-            </Box>
-          </Box>
+            <RowAction
+              title="Delete"
+              color="error"
+              onClick={() =>
+                setDraft(draft.filter((item) => item.id !== category.id))
+              }
+            >
+              <IconDelete color="var(--red-main)" width={18} height={18} />
+            </RowAction>
+          </Stack>
         ))}
       </Stack>
 
-      <Button
-        variant="small"
-        disableAutoStretch
-        startIcon={<IconAdd color="var(--accent-main)" />}
-        onClick={handleAdd}
-        sx={{ minHeight: '32px', minWidth: 'unset' }}
-      >
-        Add
-      </Button>
+      {/* at the limit the button simply goes away */}
+      {draft.length < MAX_CATEGORIES && (
+        <Button
+          variant="small"
+          disableAutoStretch
+          startIcon={<IconAdd color="var(--accent-main)" />}
+          onClick={handleAdd}
+          sx={{ minHeight: '32px', minWidth: 'unset' }}
+        >
+          Add
+        </Button>
+      )}
 
       <DialogActions>
         <Button variant="secondary" onClick={onClose}>

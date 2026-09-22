@@ -8,7 +8,12 @@ import { Territory, TerritoryAssignment } from '@definition/territory';
 import RecordList from '../components/record_list';
 import RowAction from '../components/row_action';
 import { StatusBadge } from '../components/territory_badges';
-import { assignmentFromDates, displayDate, parseDate } from '../helpers';
+import {
+  assignmentFromDates,
+  displayDate,
+  parseDate,
+  emptyListMessage,
+} from '../helpers';
 import AssignmentEditor from './assignment_editor';
 
 const newestFirst = (a: TerritoryAssignment, b: TerritoryAssignment) =>
@@ -48,7 +53,7 @@ const TerritoryAssignments = ({
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
       <RecordList
-        emptyMessage="No assignments recorded for this territory."
+        emptyMessage={emptyListMessage()}
         items={[...assignments].sort(newestFirst).map((assignment) => ({
           id: assignment.id,
           onClick: onChange && (() => setEditing(assignment)),

@@ -6,7 +6,7 @@ import { IconCheck, IconPerson } from '@icons/index';
 import { useBreakpoints } from '@hooks/index';
 import { monthNamesState } from '@states/app';
 import { shortDateFormatState } from '@states/settings';
-import { displayDate, parseDate } from '../helpers';
+import { displayDate, parseDate, emptyListMessage } from '../helpers';
 import { clickableRow, rowStates } from './table_styles';
 import TruncatedText from './truncated_text';
 import { Territory } from '@definition/territory';
@@ -45,7 +45,7 @@ const AssignmentHistory = ({
     );
 
   if (all.length === 0) {
-    return <InfoNote message="No assignments recorded yet." />;
+    return <InfoNote message={emptyListMessage()} />;
   }
 
   const groups = all
@@ -170,7 +170,7 @@ const AssignmentHistory = ({
                         color={open ? 'var(--orange-main)' : 'var(--grey-350)'}
                         noWrap
                       >
-                        {open ? 'Still out' : date(assignment.returnedOn)}
+                        {open ? 'In progress' : date(assignment.returnedOn)}
                       </Typography>
                     </Stack>
                   </Stack>

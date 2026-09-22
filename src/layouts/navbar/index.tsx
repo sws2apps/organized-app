@@ -613,7 +613,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
                   <Box
                     sx={{
                       display: 'flex',
-                      gap: '8px',
+                      gap: '4px',
                       padding: '4px',
                       flexDirection: 'row',
                       backgroundColor: 'var(--accent-150)',

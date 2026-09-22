@@ -160,7 +160,16 @@ const DetailsForm = ({
 
       <CustomDivider color="var(--accent-200)" />
 
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+      {/* the edit button and checkbox hit areas already add air, so the block
+          takes back part of the form's gap to the dividers */}
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '10px',
+          margin: '-10px 0',
+        }}
+      >
         <Stack
           direction="row"
           spacing="8px"

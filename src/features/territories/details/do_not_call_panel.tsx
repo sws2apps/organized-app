@@ -7,7 +7,12 @@ import { IconAdd, IconEdit } from '@icons/index';
 import { DoNotCall, Territory } from '@definition/territory';
 import RecordList from '../components/record_list';
 import RowAction from '../components/row_action';
-import { displayDate, parseDate, upsertById } from '../helpers';
+import {
+  displayDate,
+  parseDate,
+  upsertById,
+  emptyListMessage,
+} from '../helpers';
 import DoNotCallEditor from './do_not_call_editor';
 
 const newestFirst = (a: DoNotCall, b: DoNotCall) =>
@@ -16,9 +21,11 @@ const newestFirst = (a: DoNotCall, b: DoNotCall) =>
 const DoNotCallPanel = ({
   territory,
   onChange,
+  readOnly = false,
 }: {
   territory: Territory;
   onChange: (entries: DoNotCall[]) => void;
+  readOnly?: boolean;
 }) => {
   const format = useAtomValue(shortDateFormatState);
 
@@ -29,15 +36,15 @@ const DoNotCallPanel = ({
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
       <RecordList
-        emptyMessage="No do-not-call addresses in this territory yet."
+        emptyMessage={emptyListMessage()}
         items={[...entries].sort(newestFirst).map((entry) => ({
           id: entry.id,
-          onClick: () => setEditing(entry),
+          onClick: readOnly ? undefined : () => setEditing(entry),
           title: entry.address,
           subtitle: [entry.name, displayDate(entry.date, format)]
             .filter(Boolean)
             .join(' · '),
-          actions: (
+          actions: readOnly ? undefined : (
             <RowAction title="Edit" onClick={() => setEditing(entry)}>
               <IconEdit color="var(--accent-main)" width={18} height={18} />
             </RowAction>
@@ -45,17 +52,19 @@ const DoNotCallPanel = ({
         }))}
       />
 
-      <Stack direction="row" sx={{ justifyContent: 'flex-end' }}>
-        <Button
-          variant="small"
-          disableAutoStretch
-          startIcon={<IconAdd color="var(--accent-main)" />}
-          onClick={() => setEditing('new')}
-          sx={{ minHeight: '32px', minWidth: 'unset' }}
-        >
-          Add
-        </Button>
-      </Stack>
+      {!readOnly && (
+        <Stack direction="row" sx={{ justifyContent: 'flex-end' }}>
+          <Button
+            variant="small"
+            disableAutoStretch
+            startIcon={<IconAdd color="var(--accent-main)" />}
+            onClick={() => setEditing('new')}
+            sx={{ minHeight: '32px', minWidth: 'unset' }}
+          >
+            Add
+          </Button>
+        </Stack>
+      )}
 
       {editing && (
         <DoNotCallEditor

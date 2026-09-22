@@ -16,19 +16,32 @@ export const MAP_PROVIDERS = {
     light: 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json',
     dark: 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json',
     // a label can only use fonts the provider's glyph server has
-    fonts: { regular: ['Open Sans Regular'], bold: ['Open Sans Bold'] },
+    fonts: {
+      regular: ['Open Sans Regular'],
+      bold: ['Open Sans Bold'],
+      number: ['Open Sans Semibold'],
+    },
   },
   openfreemap: {
     name: 'OpenFreeMap',
     light: 'https://tiles.openfreemap.org/styles/positron',
     dark: 'https://tiles.openfreemap.org/styles/liberty',
-    fonts: { regular: ['Noto Sans Regular'], bold: ['Noto Sans Bold'] },
+    // no medium weight on this glyph server; bold reads too heavy for numbers
+    fonts: {
+      regular: ['Noto Sans Regular'],
+      bold: ['Noto Sans Bold'],
+      number: ['Noto Sans Regular'],
+    },
   },
   versatiles: {
     name: 'VersaTiles',
     light: 'https://tiles.versatiles.org/assets/styles/graybeard/style.json',
     dark: 'https://tiles.versatiles.org/assets/styles/eclipse/style.json',
-    fonts: { regular: ['noto_sans_regular'], bold: ['noto_sans_bold'] },
+    fonts: {
+      regular: ['noto_sans_regular'],
+      bold: ['noto_sans_bold'],
+      number: ['noto_sans_regular'],
+    },
   },
 } as const;
 
@@ -49,6 +62,7 @@ export const SOURCE_ID = 'territories';
 export const FILL_LAYER = 'territories-fill';
 export const LINE_LAYER = 'territories-line';
 export const LABEL_LAYER = 'territories-label';
+export const LABEL_CAPTION_LAYER = 'territories-label-caption';
 export const LABELS_SOURCE = 'territories-labels';
 
 export const CONGREGATION_SOURCE = 'congregation-boundary';

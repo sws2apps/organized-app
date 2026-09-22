@@ -2,12 +2,12 @@ import { useState } from 'react';
 import { Box } from '@mui/material';
 import {
   IconAdd,
-  IconAssign,
+  IconRaiseHand,
   IconAssignmetHistory,
   IconCancelCicle,
   IconImportExport,
 } from '@icons/index';
-import { useBreakpoints } from '@hooks/index';
+import { useBreakpoints, useUpNavigation } from '@hooks/index';
 import { useNavigate } from 'react-router';
 import NavBarButton from '@components/nav_bar_button';
 import NavBarButtonGroup from '@components/nav_bar_button_group';
@@ -21,6 +21,7 @@ const Territories = () => {
   const navigate = useNavigate();
 
   const { tablet688Up, desktopUp } = useBreakpoints();
+  const { goUp } = useUpNavigation();
   const hub = useTerritoriesHub();
 
   const { isTerritoryEditor } = hub;
@@ -29,18 +30,29 @@ const Territories = () => {
 
   const [importOpen, setImportOpen] = useState(false);
 
-  const title = {
-    recommended: isTerritoryEditor ? 'All territories' : 'Get territory',
-    all: isTerritoryEditor ? 'All territories' : 'Get territory',
-    mine: 'My territories',
-    requested: 'My territories',
-    requests: 'Requests',
-  }[hub.tabId];
+  const { title } = hub;
 
-  const buttons = (
+  // own territories have one job left: asking for another, from the list of
+  // territories that can be handed out
+  const isMine = hub.tabId === 'mine' || hub.tabId === 'requested';
+
+  const mineButtons = (
     <NavBarButtonGroup>
       <NavBarButton
-        text="Do not calls"
+        text="Request"
+        icon={<IconRaiseHand />}
+        textImportant
+        onClick={() => navigate('/territories?tab=recommended')}
+      />
+    </NavBarButtonGroup>
+  );
+
+  const buttons = isMine ? (
+    mineButtons
+  ) : (
+    <NavBarButtonGroup>
+      <NavBarButton
+        text="Do not call"
         icon={<IconCancelCicle />}
         onClick={() =>
           navigate('/territories/do-not-calls', { state: { parent: title } })
@@ -60,19 +72,14 @@ const Territories = () => {
           onClick={() => setImportOpen(true)}
         />
       )}
-      {isTerritoryEditor ? (
+      {isTerritoryEditor && (
         <NavBarButton
           text="Add"
           icon={<IconAdd />}
           textImportant
-          onClick={() => navigate('/territories/new')}
-        />
-      ) : (
-        <NavBarButton
-          text="Get"
-          icon={<IconAssign />}
-          textImportant
-          onClick={() => navigate('/territories?tab=recommended')}
+          onClick={() =>
+            navigate('/territories/new', { state: { parent: title } })
+          }
         />
       )}
     </NavBarButtonGroup>
@@ -111,7 +118,7 @@ const Territories = () => {
                 hub.setFiltersOpen(false);
                 window.scroll({ top: 0 });
               }
-            : undefined
+            : () => goUp('/')
         }
         buttons={!isFilterSubpage && buttons}
         quickSettings={() => hub.setQuickSettingsOpen(true)}

@@ -6,11 +6,14 @@ import Card from '@components/card';
 export const ChartCard = ({
   title,
   hint,
+  action,
   children,
   span = 4,
 }: {
   title: string;
   hint?: string;
+  // shown in the card's top right corner, such as a "See all" link
+  action?: ReactNode;
   children: ReactNode;
   span?: number;
 }) => (
@@ -27,14 +30,27 @@ export const ChartCard = ({
     }}
   >
     <Card sx={{ gap: '16px', flexGrow: 1 }}>
-      <Box>
-        <Typography className="h4" color="var(--black)">
-          {title}
-        </Typography>
-        {hint && (
-          <Typography className="label-small-regular" color="var(--grey-350)">
-            {hint}
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'flex-start',
+          justifyContent: 'space-between',
+          gap: '12px',
+        }}
+      >
+        <Box sx={{ minWidth: 0 }}>
+          <Typography className="h4" color="var(--black)">
+            {title}
           </Typography>
+          {hint && (
+            <Typography className="label-small-regular" color="var(--grey-350)">
+              {hint}
+            </Typography>
+          )}
+        </Box>
+        {action && (
+          // pulled up so the button's own padding doesn't push it below the title
+          <Box sx={{ flexShrink: 0, margin: '-6px -8px 0 0' }}>{action}</Box>
         )}
       </Box>
       {children}

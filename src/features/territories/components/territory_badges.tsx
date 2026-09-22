@@ -3,6 +3,7 @@ import Tooltip from '@components/tooltip';
 import { Badge } from '@components/index';
 import { IconRaiseHand } from '@icons/index';
 import { daysLabel } from '../helpers';
+import { categoryBadge } from '../category_colors';
 import { useAtomValue } from 'jotai';
 import { territoryCategoriesState } from '@states/territories';
 import {
@@ -11,6 +12,21 @@ import {
   Territory,
   TerritoryStatus,
 } from '@definition/territory';
+
+// in a tight row a badge shortens its text instead of dropping out of view;
+// long names give up their space first, so short ones stay readable
+const shrink = (text: string) => ({
+  flexShrink: text.length > 8 ? text.length : 0.1,
+  minWidth: '28px',
+  overflow: 'hidden',
+  '& > div': { minWidth: 0 },
+  '& p': {
+    display: 'block',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+  },
+});
 
 export const StatusBadge = ({ status }: { status: TerritoryStatus }) => (
   <Badge
@@ -44,7 +60,7 @@ export const RequestBadge = ({ territory }: { territory: Territory }) => {
       filled={false}
       text="Requested"
       icon={<IconRaiseHand color="var(--orange-dark)" />}
-      sx={{ width: 'fit-content', flexShrink: 0 }}
+      sx={{ width: 'fit-content', ...shrink('Requested') }}
     />
   );
 };
@@ -58,14 +74,14 @@ export const CardLostBadge = ({ territory }: { territory: Territory }) => {
       color="red"
       filled={false}
       text="Reprint"
-      sx={{ width: 'fit-content', flexShrink: 0 }}
+      sx={{ width: 'fit-content', ...shrink('Reprint') }}
     />
   );
 };
 
 export const CategoryBadges = ({
   territory,
-  max = 2,
+  max = Infinity,
 }: {
   territory: Territory;
   max?: number;
@@ -82,17 +98,29 @@ export const CategoryBadges = ({
   const rest = known.length - shown.length;
 
   return (
-    <Stack direction="row" spacing="4px" sx={{ flexShrink: 0 }}>
-      {shown.map((category) => (
-        <Badge
-          key={category.id}
-          size="small"
-          color={category.color}
-          text={category.name}
-          filled={false}
-          sx={{ width: 'fit-content' }}
-        />
-      ))}
+    <Stack
+      direction="row"
+      spacing="4px"
+      sx={{ flexShrink: 1, minWidth: 0, overflow: 'hidden' }}
+    >
+      {shown.map((category) => {
+        const badge = categoryBadge(category.color);
+
+        return (
+          <Badge
+            key={category.id}
+            size="small"
+            color={badge.color}
+            text={category.name}
+            filled={false}
+            sx={{
+              width: 'fit-content',
+              ...shrink(category.name),
+              ...badge.sx,
+            }}
+          />
+        );
+      })}
       {rest > 0 && (
         <Tooltip
           title={known

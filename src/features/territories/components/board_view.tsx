@@ -16,6 +16,7 @@ import {
   CoveredBadge,
 } from './territory_badges';
 import TruncatedText from './truncated_text';
+import { emptyListMessage } from '../helpers';
 
 type Column = 'available' | 'requested' | 'in_work' | 'overdue';
 
@@ -186,11 +187,7 @@ const BoardView = ({
                     className="label-small-regular"
                     color="var(--grey-350)"
                   >
-                    {canDrop
-                      ? 'Drop here'
-                      : status === 'requested'
-                        ? 'No open requests'
-                        : 'Nothing overdue'}
+                    {canDrop ? 'Drop here' : emptyListMessage()}
                   </Typography>
                 </Stack>
               )}
@@ -275,15 +272,15 @@ const BoardView = ({
                           direction="row"
                           sx={{
                             alignItems: 'center',
-                            flexWrap: 'wrap',
                             gap: '4px',
                             flexGrow: 1,
                             minWidth: 0,
+                            overflow: 'hidden',
                           }}
                         >
                           <CoveredBadge days={territory.daysSinceCovered} />
                           <CardLostBadge territory={territory} />
-                          <CategoryBadges territory={territory} max={1} />
+                          <CategoryBadges territory={territory} />
                         </Stack>
 
                         <Box sx={{ width: 'fit-content', flexShrink: 0 }}>

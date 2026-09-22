@@ -1,21 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
-import { Box, FormControlLabel, RadioGroup, Stack } from '@mui/material';
+import { Box, Stack } from '@mui/material';
 import { saveAs } from 'file-saver';
-import Radio from '@components/radio';
 import { displaySnackNotification } from '@services/states/app';
 import { useNavigate } from 'react-router';
 import { useAtomValue } from 'jotai';
 import * as maplibregl from 'maplibre-gl';
-import { Button, CustomDivider, Typography } from '@components/index';
+import { Button, Typography } from '@components/index';
 import { useBreakpoints } from '@hooks/index';
-import {
-  IconDrawShape,
-  IconEditMap,
-  IconImgAdd,
-  IconImgDelete,
-  IconShare,
-} from '@icons/index';
+import { IconDrawShape, IconEditMap, IconShare } from '@icons/index';
 import { isDarkThemeState } from '@states/app';
+import { territoriesState } from '@states/territories';
 import { Territory } from '@definition/territory';
 import { MAP_PROVIDER } from '../map/constants';
 import { addAttribution, boundaryBounds } from '../map/helpers';
@@ -69,47 +63,29 @@ const BoundaryPreview = ({ territory }: { territory: Territory }) => {
   return <Box ref={container} sx={{ height: '100%', width: '100%' }} />;
 };
 
-const readPicture = (file: File) =>
-  new Promise<string>((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result as string);
-    reader.onerror = () => reject(reader.error);
-    reader.readAsDataURL(file);
-  });
-
-const pictureBlob = async (source: string) => (await fetch(source)).blob();
-
 const TerritoryMap = ({
   territory,
-  onChange,
+  readOnly = false,
 }: {
   territory: Territory;
-  onChange: (territory: Territory) => void;
+  // publishers look at the map; drawing it is for those who manage territories
+  readOnly?: boolean;
 }) => {
   const navigate = useNavigate();
 
-  const { laptopUp } = useBreakpoints();
+  const { laptopUp: canDraw } = useBreakpoints();
+  const laptopUp = canDraw && !readOnly;
 
-  const input = useRef<HTMLInputElement>(null);
+  const territories = useAtomValue(territoriesState);
+
   const [sharing, setSharing] = useState(false);
 
-  const source = territory.mapSource ?? 'custom';
+  // a new territory only exists once it is saved, and the map edits saved ones
+  const isSaved = territories.some((item) => item.id === territory.id);
   const hasBoundary = !!territory.boundary?.length;
-  const picture = territory.mapPicture;
-
-  const shown = source === 'image' ? !!picture : hasBoundary;
 
   const openMap = () =>
     navigate(`/territories/map?territory=${territory.id}&edit=1`);
-
-  const handlePick = async (files: FileList | null) => {
-    const file = files?.[0];
-    if (!file) return;
-
-    const data = await readPicture(file);
-
-    onChange({ ...territory, mapSource: 'image', mapPicture: data });
-  };
 
   const handleShare = async () => {
     if (sharing) return;
@@ -117,8 +93,7 @@ const TerritoryMap = ({
     setSharing(true);
 
     try {
-      const image =
-        source === 'image' ? picture : await captureTerritoryMap(territory);
+      const image = await captureTerritoryMap(territory);
 
       if (!image) {
         displaySnackNotification({
@@ -130,7 +105,7 @@ const TerritoryMap = ({
       }
 
       const name = `Territory-${territory.number}.png`;
-      const blob = await pictureBlob(image);
+      const blob = await (await fetch(image)).blob();
       const file = new File([blob], name, { type: blob.type || 'image/png' });
 
       if (navigator.canShare?.({ files: [file] })) {
@@ -156,42 +131,16 @@ const TerritoryMap = ({
 
   const small = { minHeight: '28px', padding: '2px 8px', minWidth: 'unset' };
 
+  const emptyText = readOnly
+    ? `Territory ${territory.number} has no map yet.`
+    : !isSaved
+      ? 'Save the territory first, then draw its borders on the map.'
+      : laptopUp
+        ? `Territory ${territory.number} has no borders yet. Draw them on the congregation map.`
+        : `Territory ${territory.number} has no borders yet. Borders are drawn on a computer.`;
+
   return (
     <Stack spacing="16px">
-      <RadioGroup
-        row
-        value={source}
-        onChange={(event) =>
-          onChange({
-            ...territory,
-            mapSource: event.target.value as 'custom' | 'image',
-          })
-        }
-        sx={{ gap: '16px', marginLeft: '6px' }}
-      >
-        <FormControlLabel
-          value="custom"
-          label={<Typography className="body-regular">Custom map</Typography>}
-          control={<Radio />}
-        />
-        <FormControlLabel
-          value="image"
-          label={<Typography className="body-regular">Image</Typography>}
-          control={<Radio />}
-        />
-      </RadioGroup>
-
-      <input
-        ref={input}
-        type="file"
-        accept="image/*"
-        hidden
-        onChange={(event) => {
-          handlePick(event.target.files);
-          event.target.value = '';
-        }}
-      />
-
       <Box
         sx={{
           position: 'relative',
@@ -199,110 +148,59 @@ const TerritoryMap = ({
           overflow: 'hidden',
           borderRadius: 'var(--radius-l)',
           clipPath: 'inset(0 round var(--radius-l))',
-          border: shown
+          border: hasBoundary
             ? '1px solid var(--accent-200)'
             : '1px dashed var(--accent-300)',
-          backgroundColor: shown ? 'var(--white)' : 'var(--accent-150)',
+          backgroundColor: hasBoundary ? 'var(--white)' : 'var(--accent-150)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
         }}
       >
-        {source === 'custom' && hasBoundary && (
-          <BoundaryPreview territory={territory} />
-        )}
+        {hasBoundary && <BoundaryPreview territory={territory} />}
 
-        {source === 'image' && picture && (
-          <Box
-            component="img"
-            src={picture}
-            alt={`Territory ${territory.number}`}
-            sx={{ width: '100%', height: '100%', objectFit: 'contain' }}
-          />
-        )}
-
-        {!shown && (
-          <Stack spacing="8px" sx={{ alignItems: 'center' }}>
-            <Typography className="body-regular" color="var(--grey-400)">
-              {source === 'image'
-                ? `No picture for territory ${territory.number} yet`
-                : `Territory ${territory.number} has no borders yet`}
+        {!hasBoundary && (
+          <Stack
+            spacing="12px"
+            sx={{ alignItems: 'center', maxWidth: '320px', padding: '16px' }}
+          >
+            <Typography
+              className="body-regular"
+              color="var(--grey-400)"
+              align="center"
+            >
+              {emptyText}
             </Typography>
 
-            {source === 'image' ? (
+            {isSaved && laptopUp && (
               <Button
-                variant="small"
+                variant="main"
                 disableAutoStretch
-                startIcon={<IconImgAdd color="var(--accent-main)" />}
-                onClick={() => input.current?.click()}
-                sx={small}
+                startIcon={<IconDrawShape />}
+                onClick={openMap}
               >
-                Add image
+                Draw borders
               </Button>
-            ) : (
-              laptopUp && (
-                <Button
-                  variant="small"
-                  disableAutoStretch
-                  startIcon={<IconDrawShape color="var(--accent-main)" />}
-                  onClick={openMap}
-                  sx={small}
-                >
-                  Draw borders
-                </Button>
-              )
             )}
           </Stack>
         )}
 
-        {shown && (source === 'image' || laptopUp) && (
+        {hasBoundary && laptopUp && (
           <MapIsland corner="top-left">
-            {source === 'custom' ? (
-              <Button
-                variant="small"
-                disableAutoStretch
-                startIcon={<IconEditMap color="var(--accent-main)" />}
-                onClick={openMap}
-                sx={small}
-              >
-                Edit borders
-              </Button>
-            ) : (
-              <>
-                <Button
-                  variant="small"
-                  disableAutoStretch
-                  startIcon={<IconImgAdd color="var(--accent-main)" />}
-                  onClick={() => input.current?.click()}
-                  sx={small}
-                >
-                  Replace
-                </Button>
-                <CustomDivider
-                  orientation="vertical"
-                  flexItem
-                  color="var(--accent-200)"
-                  sx={{ margin: '4px 0' }}
-                />
-                <Button
-                  variant="small"
-                  color="red"
-                  disableAutoStretch
-                  startIcon={<IconImgDelete color="var(--red-main)" />}
-                  onClick={() =>
-                    onChange({ ...territory, mapPicture: undefined })
-                  }
-                  sx={small}
-                >
-                  Remove
-                </Button>
-              </>
-            )}
+            <Button
+              variant="small"
+              disableAutoStretch
+              startIcon={<IconEditMap color="var(--accent-main)" />}
+              onClick={openMap}
+              sx={small}
+            >
+              Edit map
+            </Button>
           </MapIsland>
         )}
       </Box>
 
-      {shown && (
+      {hasBoundary && (
         <Button
           variant="secondary"
           disabled={sharing}

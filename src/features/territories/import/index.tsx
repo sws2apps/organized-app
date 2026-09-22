@@ -121,8 +121,6 @@ const TerritoryImport = ({
           mapShapes: territory.mapShapes,
           mapLines: territory.mapLines,
           mapMarkers: territory.mapMarkers,
-          mapSource: territory.mapSource,
-          mapPicture: territory.mapPicture,
         };
       });
 

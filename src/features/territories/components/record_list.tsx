@@ -52,7 +52,11 @@ const RecordList = ({
         >
           <Box sx={{ flexGrow: 1, minWidth: 0 }}>
             <Stack direction="row" sx={{ alignItems: 'center', gap: '8px' }}>
-              <Typography className="body-regular" color="var(--black)" noWrap>
+              <Typography
+                className="body-small-semibold"
+                color="var(--black)"
+                noWrap
+              >
                 {item.title}
               </Typography>
               {item.badge}

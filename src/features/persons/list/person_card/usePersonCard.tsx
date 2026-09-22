@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { BadgeColor } from '@definition/app';
 import { PersonType } from '@definition/person';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useSubpane } from '@hooks/index';
 import { displaySnackNotification } from '@services/states/app';
 import { IconCheckCircle, IconError } from '@components/icons';
 import { dbPersonsDelete } from '@services/dexie/persons';
@@ -17,7 +17,7 @@ import {
   personIsMS,
   updateRecentPersons,
 } from '@services/app/persons';
-import { personsFilterOpenState, personsRecentState } from '@states/persons';
+import { personsRecentState } from '@states/persons';
 import { fullnameOptionState } from '@states/settings';
 import { getMessageByCode } from '@services/i18n/translation';
 
@@ -29,7 +29,7 @@ const usePersonCard = (person: PersonType) => {
   const setPersonsRecent = useSetAtom(personsRecentState);
 
   const fullnameOption = useAtomValue(fullnameOptionState);
-  const filterOpen = useAtomValue(personsFilterOpenState);
+  const filterOpen = useSubpane('filters').open;
 
   const [isDeleting, setIsDeleting] = useState(false);
 

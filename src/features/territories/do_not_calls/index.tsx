@@ -28,7 +28,13 @@ import { useBreakpoints } from '@hooks/index';
 import { shortDateFormatState } from '@states/settings';
 import { territoriesState } from '@states/territories';
 import { DoNotCall, Territory } from '@definition/territory';
-import { displayDate, parseDate, upsertById } from '../helpers';
+import {
+  displayDate,
+  parseDate,
+  upsertById,
+  emptyListMessage,
+  NO_MATCHES,
+} from '../helpers';
 import { clickableRow, rowStates } from '../components/table_styles';
 import RecordList from '../components/record_list';
 import RowAction from '../components/row_action';
@@ -210,7 +216,9 @@ const DoNotCalls = () => {
   );
 
   const openTerritory = (territory: Territory) =>
-    navigate(`/territories/${territory.id}`);
+    navigate(`/territories/${territory.id}`, {
+      state: { parent: 'Do-not-call addresses' },
+    });
 
   return (
     <Card>
@@ -302,13 +310,7 @@ const DoNotCalls = () => {
       </Stack>
 
       {groups.length === 0 && (
-        <InfoNote
-          message={
-            term
-              ? 'No addresses match the search.'
-              : 'No do-not-call addresses recorded yet.'
-          }
-        />
+        <InfoNote message={term ? NO_MATCHES : emptyListMessage()} />
       )}
 
       <Stack
