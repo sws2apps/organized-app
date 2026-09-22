@@ -19,7 +19,7 @@ import {
   TerritoryCategoryOption,
 } from '@definition/territory';
 import { categorySwatch, toCategoryColor } from '../category_colors';
-import RowAction from '../components/row_action';
+import IconButton from '@components/icon_button';
 
 // one dot per row that opens the palette, instead of a wall of circles
 const ColorDot = ({
@@ -213,30 +213,44 @@ const CategoryEditor = ({
               }
             />
 
-            <RowAction
-              title="Delete"
-              color="error"
-              onClick={() =>
-                setDraft(draft.filter((item) => item.id !== category.id))
-              }
-            >
-              <IconDelete color="var(--red-main)" width={18} height={18} />
-            </RowAction>
+            {/* the square delete from the circuit overseer visits, as tall as the field */}
+            <Tooltip title="Delete">
+              <IconButton
+                color="error"
+                aria-label="Delete"
+                onClick={() =>
+                  setDraft(draft.filter((item) => item.id !== category.id))
+                }
+                sx={{
+                  flexShrink: 0,
+                  borderRadius: 'var(--radius-m)',
+                  width: '48px',
+                  height: '48px',
+                }}
+              >
+                <IconDelete color="var(--red-main)" />
+              </IconButton>
+            </Tooltip>
           </Stack>
         ))}
       </Stack>
 
       {/* at the limit the button simply goes away */}
       {draft.length < MAX_CATEGORIES && (
-        <Button
-          variant="small"
-          disableAutoStretch
-          startIcon={<IconAdd color="var(--accent-main)" />}
-          onClick={handleAdd}
-          sx={{ minHeight: '32px', minWidth: 'unset' }}
+        <Stack
+          direction="row"
+          sx={{ justifyContent: 'flex-end', width: '100%' }}
         >
-          Add
-        </Button>
+          <Button
+            variant="small"
+            disableAutoStretch
+            startIcon={<IconAdd color="var(--accent-main)" />}
+            onClick={handleAdd}
+            sx={{ minHeight: '32px', minWidth: 'unset' }}
+          >
+            Add
+          </Button>
+        </Stack>
       )}
 
       <DialogActions>

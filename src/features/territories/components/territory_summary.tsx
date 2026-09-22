@@ -17,11 +17,9 @@ const TerritorySummary = ({
 }: {
   territory: Territory;
   meta?: string;
-  // the territory's number and name as the card's title, locality underneath
+  // a card title like its neighbours, locality underneath; the name sits in the page title
   heading?: boolean;
 }) => {
-  const title = [territory.number, territory.name].filter(Boolean).join(' · ');
-
   const description = [heading && territory.city, TYPE_LABEL[territory.type]]
     .filter(Boolean)
     .join(' · ');
@@ -52,16 +50,11 @@ const TerritorySummary = ({
     );
   }
 
-  // always there, so typing the first letter doesn't push the card down
   return (
     <Stack spacing="8px">
       <Stack spacing="4px">
-        <Typography
-          component="h2"
-          className="h3"
-          color={title ? 'var(--black)' : 'var(--grey-350)'}
-        >
-          {title || 'New territory'}
+        <Typography className="h4" color="var(--black)">
+          Overview
         </Typography>
 
         <Stack direction="row" sx={row}>

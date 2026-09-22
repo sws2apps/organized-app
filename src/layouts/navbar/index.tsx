@@ -534,6 +534,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
                     aria-label={t('tr_back')}
                     onClick={handleBack}
                     sx={{
+                      flexShrink: 0,
                       '&:hover': {
                         backgroundColor: 'var(--accent-200)',
                       },
@@ -558,6 +559,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
                         whiteSpace: 'nowrap',
                         textOverflow: 'ellipsis',
                         overflow: 'hidden',
+                        maxWidth: '100%',
                       }}
                     >
                       {navBarOptions.title}
@@ -569,6 +571,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
                         whiteSpace: 'nowrap',
                         textOverflow: 'ellipsis',
                         overflow: 'hidden',
+                        maxWidth: '100%',
                       }}
                     >
                       {navBarOptions.secondaryTitle}

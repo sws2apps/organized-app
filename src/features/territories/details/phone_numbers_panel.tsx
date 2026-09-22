@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Box, Stack } from '@mui/material';
 import { Badge, Button, InfoNote } from '@components/index';
 import { IconAdd, IconEdit } from '@icons/index';
@@ -6,11 +6,15 @@ import { Territory } from '@definition/territory';
 import RecordList from '../components/record_list';
 import RowAction from '../components/row_action';
 import PhoneNumberEditor from './phone_number_editor';
-import { useBreakpoints } from '@hooks/index';
 import { emptyListMessage, isDoNotCallNumber } from '../helpers';
 
 // the S-12 phone card holds 32 numbers, so the list stops there
 const MAX_PHONE_NUMBERS = 32;
+
+// the widest real row: "+43 (0) 664 12345678" with the do-not-call badge and edit icon
+const MIN_COLUMN = 290;
+const MAX_COLUMNS = 4;
+const GAP = 16;
 
 const PhoneNumbersPanel = ({
   territory,
@@ -21,16 +25,32 @@ const PhoneNumbersPanel = ({
   onChange: (numbers: string[]) => void;
   readOnly?: boolean;
 }) => {
-  const { tablet688Up } = useBreakpoints();
+  const grid = useRef<HTMLDivElement>(null);
 
   const [editing, setEditing] = useState<number | 'new'>();
+  const [count, setCount] = useState(1);
+
+  useEffect(() => {
+    const element = grid.current;
+    if (!element) return;
+
+    const observer = new ResizeObserver(([entry]) => {
+      const fits = Math.floor(
+        (entry.contentRect.width + GAP) / (MIN_COLUMN + GAP)
+      );
+      setCount(Math.min(MAX_COLUMNS, Math.max(1, fits)));
+    });
+
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
 
   const numbers = territory.phoneNumbers ?? [];
 
   const indexed = numbers.map((number, index) => ({ number, index }));
-  const half = tablet688Up ? Math.ceil(indexed.length / 2) : indexed.length;
-  const columns = [indexed.slice(0, half), indexed.slice(half)].filter(
-    (column) => column.length > 0
+  const perColumn = Math.ceil(indexed.length / count);
+  const columns = Array.from({ length: count }, (_, position) =>
+    indexed.slice(position * perColumn, (position + 1) * perColumn)
   );
 
   const handleSave = (value: string) =>
@@ -44,14 +64,13 @@ const PhoneNumbersPanel = ({
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
       {numbers.length === 0 && <InfoNote message={emptyListMessage()} />}
 
-      {/* two columns where there is room, read top to bottom like the card */}
+      {/* as many columns as the width allows, read top to bottom like the card */}
       <Box
+        ref={grid}
         sx={{
           display: 'grid',
-          gridTemplateColumns: tablet688Up
-            ? 'repeat(2, minmax(0, 1fr))'
-            : 'minmax(0, 1fr)',
-          gap: '0 16px',
+          gridTemplateColumns: `repeat(${count}, minmax(0, 1fr))`,
+          gap: `0 ${GAP}px`,
           alignItems: 'start',
         }}
       >

@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { Box, FormControlLabel, RadioGroup, Stack } from '@mui/material';
-import { Button, Checkbox, TextField, Typography } from '@components/index';
+import { Button, Checkbox, Typography } from '@components/index';
 import Radio from '@components/radio';
 import Dialog from '@components/dialog';
 import DialogActions from '@components/dialog_actions';
@@ -112,15 +112,6 @@ const TerritoryExport = ({
             ))}
           </RadioGroup>
         </OptionGroup>
-
-        {parts.back && (
-          <TextField
-            label="Notes"
-            placeholder="Printed in the notes box on the back"
-            value={exporter.notes}
-            onChange={(event) => exporter.setNotes(event.target.value)}
-          />
-        )}
       </Stack>
 
       <Box

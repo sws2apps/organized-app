@@ -41,8 +41,6 @@ const useTerritoryExport = (territory: Territory) => {
   const [format, setFormat] = useState<ExportFormat>('s12');
   const [parts, setParts] = useState<ExportParts>({ front: true, back: true });
   const [showQr, setShowQr] = useState(true);
-  const [notes, setNotes] = useState('');
-  const [settledNotes, setSettledNotes] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string>();
 
@@ -51,13 +49,6 @@ const useTerritoryExport = (territory: Territory) => {
   // the map picture is expensive to render, so the promise itself is kept:
   // every preview awaits the same capture instead of starting another one
   const mapImage = useRef<Promise<string | undefined>>(null);
-
-  // every keystroke would rebuild the whole PDF, so the notes settle first
-  useEffect(() => {
-    const timer = setTimeout(() => setSettledNotes(notes), 400);
-
-    return () => clearTimeout(timer);
-  }, [notes]);
 
   const build = useCallback(async () => {
     const needsMap = parts.front && !isPhone;
@@ -82,7 +73,6 @@ const useTerritoryExport = (territory: Territory) => {
         ...territory,
         mapImage: picture,
         qrImage,
-        notes: settledNotes.trim() || undefined,
       },
     ];
 
@@ -111,7 +101,6 @@ const useTerritoryExport = (territory: Territory) => {
     parts,
     isPhone,
     showQr,
-    settledNotes,
     territory,
     congregation,
     locale,
@@ -181,8 +170,6 @@ const useTerritoryExport = (territory: Territory) => {
     toggleSide,
     showQr,
     setShowQr,
-    notes,
-    setNotes,
     previewUrl,
     isProcessing,
     handleExport,

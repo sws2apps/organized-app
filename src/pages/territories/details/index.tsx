@@ -127,7 +127,13 @@ const TerritoryDetailsPage = () => {
       />
 
       <PageTitle
-        title={isNew ? 'New territory' : `Territory ${territory.number}`}
+        title={
+          isNew
+            ? 'New territory'
+            : [`Territory ${territory.number}`, territory.name]
+                .filter(Boolean)
+                .join(' · ')
+        }
         secondaryTitle={parent}
         onBack={goBack}
         buttons={
