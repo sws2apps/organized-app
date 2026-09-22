@@ -6,28 +6,23 @@ import CardFront from '../shared/CardFront';
 
 const CUT = '0.5px dashed #BDBDBD';
 
-// two halves of the sheet, cut along the middle; a couple of points are left
-// over so a wrapped line can never push the card onto a second page
-const SHEETS = {
-  A4: { width: 575, half: 400, rows: 11 },
-  LETTER: { width: 592, half: 384, rows: 10 },
-};
+const WIDTH = 575;
+// two halves of an A4 sheet, cut along the middle; a couple of points are
+// left over so a wrapped line can never push the card onto a second page
+const HALF = 400;
 
 const TemplateTerritoryCard = ({
   territories,
   lang,
   showMap = true,
   printedOn,
-  size = 'A4',
-}: TerritoryTemplateProps & { size?: keyof typeof SHEETS }) => {
-  const sheet = SHEETS[size];
-
+}: TerritoryTemplateProps) => {
   return (
     <Document title="Territory card" lang={lang}>
       {territories.map((territory) => (
         <Page
           key={territory.id}
-          size={size}
+          size="A4"
           style={{
             backgroundColor: '#FFFFFF',
             paddingLeft: 10,
@@ -37,16 +32,16 @@ const TemplateTerritoryCard = ({
           <View style={{ border: CUT }}>
             <CardFront
               territory={territory}
-              width={sheet.width}
-              height={sheet.half}
+              width={WIDTH}
+              height={HALF}
               showMap={showMap}
             />
 
             <CardBack
               territory={territory}
-              width={sheet.width}
-              height={sheet.half}
-              rowsPerColumn={sheet.rows}
+              width={WIDTH}
+              height={HALF}
+              rowsPerColumn={11}
               notes={territory.notes}
               printedOn={printedOn}
             />

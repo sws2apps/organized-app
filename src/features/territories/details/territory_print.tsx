@@ -6,14 +6,18 @@ import Dialog from '@components/dialog';
 import DialogActions from '@components/dialog_actions';
 import { IconPrint } from '@icons/index';
 import { Territory } from '@definition/territory';
+import PdfPreview from './pdf_preview';
 import useTerritoryPrint, { PrintTemplate } from './useTerritoryPrint';
 
-const TEMPLATES: { id: PrintTemplate; name: string }[] = [
+type Template = { id: PrintTemplate; name: string };
+
+const MAP_TEMPLATES: Template[] = [
   { id: 's12', name: 'S-12 card' },
   { id: 'a5', name: 'A5 horizontal' },
   { id: 'a5v', name: 'A5 vertical' },
-  { id: 'letter', name: 'US Letter' },
 ];
+
+const PHONE_TEMPLATES: Template[] = [{ id: 'phone', name: 'S-12 phone card' }];
 
 // the same label-over-options shape as the field service groups export
 const OptionGroup = ({
@@ -42,6 +46,8 @@ const TerritoryPrint = ({
 
   const isPhone = territory.type === 'phone';
 
+  const templates = isPhone ? PHONE_TEMPLATES : MAP_TEMPLATES;
+
   return (
     <Dialog
       onClose={onClose}
@@ -51,28 +57,26 @@ const TerritoryPrint = ({
     >
       <Stack spacing="24px" sx={{ width: '100%' }}>
         <OptionGroup label="Format">
-          <RadioGroup
-            value={print.template}
-            onChange={(event) =>
-              print.setTemplate(event.target.value as PrintTemplate)
-            }
-            sx={{ gap: '8px', marginLeft: '6px' }}
-          >
-            {TEMPLATES.map((item) => (
-              <FormControlLabel
-                key={item.id}
-                value={item.id}
-                control={<Radio />}
-                label={
-                  <Typography>
-                    {item.id === 's12' && isPhone
-                      ? 'S-12 phone card'
-                      : item.name}
-                  </Typography>
-                }
-              />
-            ))}
-          </RadioGroup>
+          {templates.length === 1 ? (
+            <Typography>{templates[0].name}</Typography>
+          ) : (
+            <RadioGroup
+              value={print.template}
+              onChange={(event) =>
+                print.setTemplate(event.target.value as PrintTemplate)
+              }
+              sx={{ gap: '8px', marginLeft: '6px' }}
+            >
+              {templates.map((item) => (
+                <FormControlLabel
+                  key={item.id}
+                  value={item.id}
+                  control={<Radio />}
+                  label={<Typography>{item.name}</Typography>}
+                />
+              ))}
+            </RadioGroup>
+          )}
         </OptionGroup>
 
         <OptionGroup label="Include">
@@ -112,12 +116,24 @@ const TerritoryPrint = ({
           backgroundColor: 'var(--grey-100)',
         }}
       >
+        <PdfPreview url={print.previewUrl} />
+
+        {/* printing still goes through the browser's own PDF handling */}
         {print.previewUrl && (
           <iframe
             ref={print.frame}
-            src={`${print.previewUrl}#toolbar=0&view=FitH`}
-            title="Territory card preview"
-            style={{ width: '100%', height: '100%', border: 'none' }}
+            src={print.previewUrl}
+            title="Territory card for printing"
+            aria-hidden
+            tabIndex={-1}
+            style={{
+              position: 'absolute',
+              width: 1,
+              height: 1,
+              opacity: 0,
+              pointerEvents: 'none',
+              border: 'none',
+            }}
           />
         )}
 

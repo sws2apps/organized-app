@@ -61,6 +61,7 @@
     "nanoid": "^5.1.16",
     "node-html-parser": "^7.1.0",
     "papaparse": "^5.5.3",
+    "pdfjs-dist": "^6.3.289",
     "qrcode": "^1.5.4",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",

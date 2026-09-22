@@ -14,9 +14,11 @@ const MAX_PHONE_NUMBERS = 32;
 const PhoneNumbersPanel = ({
   territory,
   onChange,
+  readOnly = false,
 }: {
   territory: Territory;
   onChange: (numbers: string[]) => void;
+  readOnly?: boolean;
 }) => {
   const [editing, setEditing] = useState<number | 'new'>();
 
@@ -35,10 +37,10 @@ const PhoneNumbersPanel = ({
         emptyMessage={emptyListMessage()}
         items={numbers.map((number, index) => ({
           id: `${index}-${number}`,
-          onClick: () => setEditing(index),
+          onClick: readOnly ? undefined : () => setEditing(index),
           title: number,
           subtitle: `No. ${index + 1}`,
-          actions: (
+          actions: readOnly ? undefined : (
             <RowAction title="Edit" onClick={() => setEditing(index)}>
               <IconEdit color="var(--accent-main)" width={18} height={18} />
             </RowAction>
@@ -46,7 +48,7 @@ const PhoneNumbersPanel = ({
         }))}
       />
 
-      {numbers.length < MAX_PHONE_NUMBERS && (
+      {!readOnly && numbers.length < MAX_PHONE_NUMBERS && (
         <Stack direction="row" sx={{ justifyContent: 'flex-end' }}>
           <Button
             variant="small"

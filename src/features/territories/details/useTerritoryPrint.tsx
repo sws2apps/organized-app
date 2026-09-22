@@ -19,14 +19,17 @@ import { TerritoryPrintData } from '@views/territories/index.types';
 import { Territory } from '@definition/territory';
 import { captureTerritoryMap } from '../map/capture';
 
-export type PrintTemplate = 's12' | 'a5' | 'a5v' | 'letter';
+export type PrintTemplate = 's12' | 'phone' | 'a5' | 'a5v';
 
 const useTerritoryPrint = (territory: Territory) => {
   const congregation = useAtomValue(congNameState);
   const locale = useAtomValue(JWLangLocaleState);
   const dateFormat = useAtomValue(shortDateFormatState);
 
-  const [template, setTemplate] = useState<PrintTemplate>('s12');
+  // a phone territory has no map, so it only ever prints as the phone card
+  const [template, setTemplate] = useState<PrintTemplate>(
+    territory.type === 'phone' ? 'phone' : 's12'
+  );
   const [showMap, setShowMap] = useState(true);
   const [showQr, setShowQr] = useState(true);
   const [notes, setNotes] = useState('');
@@ -84,15 +87,12 @@ const useTerritoryPrint = (territory: Territory) => {
     };
 
     const document =
-      template === 's12' ? (
+      template === 's12' || template === 'phone' ? (
         <TemplateTerritoryS12 {...props} />
       ) : template === 'a5v' ? (
         <TemplateTerritoryCardVertical {...props} />
       ) : (
-        <TemplateTerritoryCard
-          {...props}
-          size={template === 'letter' ? 'LETTER' : 'A4'}
-        />
+        <TemplateTerritoryCard {...props} />
       );
 
     return pdf(document).toBlob();
@@ -148,7 +148,9 @@ const useTerritoryPrint = (territory: Territory) => {
     const name =
       template === 's12'
         ? `S-12-${territory.number}.pdf`
-        : `Territory-card-${territory.number}-${template}.pdf`;
+        : template === 'phone'
+          ? `S-12-phone-${territory.number}.pdf`
+          : `Territory-card-${territory.number}-${template}.pdf`;
 
     saveAs(blob.current, name);
   };

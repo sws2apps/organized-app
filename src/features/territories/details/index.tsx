@@ -18,8 +18,8 @@ type TerritoryDetailsProps = {
   onChange: (territory: Territory) => void;
   // publishers see the territory to decide on a request, but don't edit it
   readOnly?: boolean;
-  // do-not-call addresses stay with admins and whoever holds the territory
-  showDoNotCalls?: boolean;
+  // do-not-call addresses and phone numbers stay with admins and the holder
+  showPrivate?: boolean;
 };
 
 type Section = { label: string; badge?: number; Component: ReactNode };
@@ -39,7 +39,7 @@ const TerritoryDetails = ({
   territory,
   onChange,
   readOnly = false,
-  showDoNotCalls = true,
+  showPrivate = true,
 }: TerritoryDetailsProps) => {
   const { desktopUp } = useBreakpoints();
 
@@ -55,7 +55,7 @@ const TerritoryDetails = ({
         }
       />
 
-      <TerritoryStats territory={territory} showDoNotCalls={showDoNotCalls} />
+      <TerritoryStats territory={territory} showDoNotCalls={showPrivate} />
     </>
   );
 
@@ -93,14 +93,28 @@ const TerritoryDetails = ({
   if (readOnly) {
     const sections = [
       ...(isPhone
-        ? []
+        ? showPrivate
+          ? [
+              {
+                label: 'Phone numbers',
+                badge: territory.phoneNumbers?.length ?? 0,
+                Component: (
+                  <PhoneNumbersPanel
+                    territory={territory}
+                    onChange={() => {}}
+                    readOnly
+                  />
+                ),
+              },
+            ]
+          : []
         : [
             {
               label: 'Map',
               Component: <TerritoryMap territory={territory} readOnly />,
             },
           ]),
-      ...(showDoNotCalls
+      ...(showPrivate
         ? [
             {
               label: 'Do not call',

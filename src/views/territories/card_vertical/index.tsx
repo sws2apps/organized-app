@@ -6,7 +6,6 @@ import DoNotCallTable, {
   DoNotCallChip,
   MoreEntries,
 } from '../shared/DoNotCallTable';
-import { PhoneGrid } from '../shared/CardFront';
 
 // an A4 sheet on its side, cut into two A5 halves: the map, and what goes with it
 const HALF = 421;
@@ -25,24 +24,14 @@ const MapSide = ({
 }) => (
   <View style={{ width: HALF, height: '100%' }}>
     <View style={{ position: 'relative', width: HALF, height: MAP_HEIGHT }}>
-      {territory.type === 'phone' && (
-        <View style={{ padding: 12 }}>
-          <PhoneGrid
-            numbers={territory.phoneNumbers ?? []}
-            width={HALF - 24}
-            columns={3}
-          />
-        </View>
-      )}
-
-      {territory.type !== 'phone' && showMap && territory.mapImage && (
+      {showMap && territory.mapImage && (
         <Image
           src={territory.mapImage}
           style={{ width: HALF, height: MAP_HEIGHT, objectFit: 'cover' }}
         />
       )}
 
-      {territory.type !== 'phone' && (!showMap || !territory.mapImage) && (
+      {(!showMap || !territory.mapImage) && (
         <View
           style={{
             width: HALF,
@@ -58,24 +47,22 @@ const MapSide = ({
         </View>
       )}
 
-      {territory.type !== 'phone' && (
-        <View
-          style={{
-            position: 'absolute',
-            right: 8,
-            bottom: 8,
-            backgroundColor: COLORS.paper,
-            paddingTop: 4,
-            paddingBottom: 4,
-            paddingLeft: 6,
-            paddingRight: 6,
-          }}
-        >
-          <Text style={styles.households}>
-            Households: {territory.households}
-          </Text>
-        </View>
-      )}
+      <View
+        style={{
+          position: 'absolute',
+          right: 8,
+          bottom: 8,
+          backgroundColor: COLORS.paper,
+          paddingTop: 4,
+          paddingBottom: 4,
+          paddingLeft: 6,
+          paddingRight: 6,
+        }}
+      >
+        <Text style={styles.households}>
+          Households: {territory.households}
+        </Text>
+      </View>
     </View>
 
     <View

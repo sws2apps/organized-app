@@ -2,16 +2,16 @@ import { Image, Text, View } from '@react-pdf/renderer';
 import { TerritoryPrintData } from '../index.types';
 import styles, { CARD, COLORS } from '../index.styles';
 
-export const PhoneGrid = ({
+const COLUMNS = 4;
+
+const PhoneGrid = ({
   numbers,
   width,
-  columns = 4,
 }: {
   numbers: string[];
   width: number;
-  columns?: number;
 }) => {
-  const cell = (width - (columns - 1) * 4) / columns;
+  const cell = (width - (COLUMNS - 1) * 4) / COLUMNS;
 
   return (
     <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 4 }}>
