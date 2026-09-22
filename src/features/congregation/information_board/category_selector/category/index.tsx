@@ -1,10 +1,39 @@
 import { Box, Stack } from '@mui/material';
 import { CategoryProps } from './index.types';
-import { cloneElement } from 'react';
+import { cloneElement, useEffect, useRef, useState } from 'react';
 import Typography from '@components/typography';
 import MiniChip from '@components/mini_chip';
 
 const Category = (props: CategoryProps) => {
+  const entriesContainerRef = useRef<HTMLDivElement>(null);
+  const entriesContentRef = useRef<HTMLDivElement>(null);
+
+  const [shouldLimitEntries, setShouldLimitEntries] = useState(false);
+
+  useEffect(() => {
+    const container = entriesContainerRef.current;
+    const content = entriesContentRef.current;
+
+    if (!container || !content) {
+      return;
+    }
+
+    const updateEntriesWidth = () => {
+      setShouldLimitEntries(content.scrollWidth > container.clientWidth);
+    };
+
+    updateEntriesWidth();
+
+    const observer = new ResizeObserver(updateEntriesWidth);
+
+    observer.observe(container);
+    observer.observe(content);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [props.entries]);
+
   return (
     <Stack
       direction="row"
@@ -88,8 +117,10 @@ const Category = (props: CategoryProps) => {
 
         {props.isCollapsed && !!props.entries.length && (
           <Box
+            ref={entriesContainerRef}
             sx={{
               position: 'relative',
+              minWidth: 0,
 
               '&::after': {
                 content: '""',
@@ -106,6 +137,7 @@ const Category = (props: CategoryProps) => {
             }}
           >
             <Stack
+              ref={entriesContentRef}
               direction="row"
               spacing="4px"
               sx={{
@@ -125,7 +157,9 @@ const Category = (props: CategoryProps) => {
                   key={entry}
                   sx={{
                     flex: '0 0 auto',
-                    maxWidth: 160,
+                    ...(shouldLimitEntries && {
+                      maxWidth: 160,
+                    }),
                   }}
                 >
                   <MiniChip
