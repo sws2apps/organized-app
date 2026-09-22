@@ -15,7 +15,7 @@ const TextOnlyTab = (props: AddAnnouncementDraftProps) => {
     useTextOnlyTab(props.changeDraft);
 
   return (
-    <Stack spacing={'16px'} marginBottom={'-24px'}>
+    <Stack spacing={'16px'} width={'100%'}>
       <Stack spacing={'16px'} direction="row">
         <TextField
           label={t('tr_title')}

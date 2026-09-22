@@ -4,7 +4,6 @@ import { useAppTranslation } from '@hooks/index';
 import { Stack } from '@mui/material';
 import Button from '@components/button';
 import Divider from '@components/divider';
-import Tabs from '@components/tabs';
 import SwitchWithLabel from '@components/switch_with_label';
 import useAddAnnouncement from './useAddAnnouncement';
 
@@ -36,7 +35,8 @@ const AddAnnouncement = () => {
           : t('tr_addAnnouncement')}
       </Typography>
 
-      <Tabs tabs={tabs} onChange={() => {}} value={0} />
+      {/* TODO: On new update add second tab for uploading files */}
+      {tabs[0].Component}
 
       <Stack width={'100%'}>
         <Divider color="var(--accent-200)" />
