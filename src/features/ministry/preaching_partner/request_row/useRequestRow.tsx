@@ -53,7 +53,7 @@ const useRequestRow = ({
   const action = useMemo(() => {
     if (isArranged) {
       return {
-        label: t('tr_cancelArrangement'),
+        label: t('tr_cancel'),
         variant: 'cancel' as const,
         onClick: () => onCancel?.(request),
       };

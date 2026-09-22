@@ -176,5 +176,6 @@
   "tr_deletePartnerRequest": "Delete the request",
   "tr_partnerRequestDeleted": "Request deleted",
   "tr_partnerRequestDeletedDesc": "Other publishers no longer see it.",
-  "tr_endTimeBeforeStart": "The end time must be after the start time"
+  "tr_endTimeBeforeStart": "The end time must be after the start time",
+  "tr_deletePartnerRequestDesc": "Other publishers will no longer see this request. This cannot be undone."
 }

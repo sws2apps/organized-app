@@ -63,7 +63,8 @@ const PreachingPartner = () => {
     display: 'flex',
     gap: '16px',
     flexDirection: 'column',
-    paddingBottom: !tablet688Up ? '60px' : '0px',
+    // the New request button floats over the bottom of a phone screen
+    paddingBottom: !tablet688Up ? '120px' : '0px',
   };
 
   if (laptopUp) {

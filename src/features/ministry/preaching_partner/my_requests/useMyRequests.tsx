@@ -5,7 +5,7 @@ import { PreachingPartnerRequestType } from '@definition/preaching_partner';
 import { myPreachingPartnerGroupsState } from '@states/preaching_partner';
 import { dbPreachingPartnerArrangementClear } from '@services/dexie/preaching_partner';
 import { displaySnackNotification } from '@services/states/app';
-import { getMessageByCode, getTranslation } from '@services/i18n/translation';
+import { getTranslation } from '@services/i18n/translation';
 
 const useMyRequests = () => {
   const groups = useAtomValue(myPreachingPartnerGroupsState);
@@ -15,7 +15,6 @@ const useMyRequests = () => {
   const [editRequest, setEditRequest] = useState<PreachingPartnerRequestType>();
   const [cancelRequest, setCancelRequest] =
     useState<PreachingPartnerRequestType>();
-  const [isCancelling, setIsCancelling] = useState(false);
 
   const handleEdit = (request: PreachingPartnerRequestType) =>
     setEditRequest(request);
@@ -28,30 +27,17 @@ const useMyRequests = () => {
   const handleCloseCancel = () => setCancelRequest(undefined);
 
   const handleConfirmCancel = async () => {
-    if (isCancelling || !cancelRequest) return;
+    if (!cancelRequest) return;
 
-    try {
-      setIsCancelling(true);
+    await dbPreachingPartnerArrangementClear(cancelRequest.request_uid);
 
-      await dbPreachingPartnerArrangementClear(cancelRequest.request_uid);
+    setCancelRequest(undefined);
 
-      setIsCancelling(false);
-      setCancelRequest(undefined);
-
-      displaySnackNotification({
-        header: getTranslation({ key: 'tr_arrangementCancelled' }),
-        message: getTranslation({ key: 'tr_arrangementCancelledDesc' }),
-        severity: 'success',
-      });
-    } catch (error) {
-      setIsCancelling(false);
-
-      displaySnackNotification({
-        header: getMessageByCode('error_app_generic-title'),
-        message: getMessageByCode(error.message),
-        severity: 'error',
-      });
-    }
+    displaySnackNotification({
+      header: getTranslation({ key: 'tr_arrangementCancelled' }),
+      message: getTranslation({ key: 'tr_arrangementCancelledDesc' }),
+      severity: 'success',
+    });
   };
 
   // swaps the tab in place, as picking it from the menu would
@@ -64,7 +50,6 @@ const useMyRequests = () => {
     groups,
     editRequest,
     cancelRequest,
-    isCancelling,
     handleEdit,
     handleCloseEditor,
     handleCancel,

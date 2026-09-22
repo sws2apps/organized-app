@@ -39,6 +39,7 @@ const useRequestEditor = ({
     preachingPartnerBuildRequest(userUID)
   );
   const [isProcessing, setIsProcessing] = useState(false);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
   const typeOptions = MINISTRY_TYPES.map((type) => ({
     value: type,
@@ -130,31 +131,23 @@ const useRequestEditor = ({
     }
   };
 
-  const handleDelete = async () => {
-    if (isProcessing || !request) return;
+  const handleOpenDelete = () => setIsDeleteOpen(true);
 
-    try {
-      setIsProcessing(true);
+  const handleCloseDelete = () => setIsDeleteOpen(false);
 
-      await dbPreachingPartnerRequestDelete(request.request_uid);
+  const handleConfirmDelete = async () => {
+    if (!request) return;
 
-      setIsProcessing(false);
-      onClose();
+    await dbPreachingPartnerRequestDelete(request.request_uid);
 
-      displaySnackNotification({
-        header: getTranslation({ key: 'tr_partnerRequestDeleted' }),
-        message: getTranslation({ key: 'tr_partnerRequestDeletedDesc' }),
-        severity: 'success',
-      });
-    } catch (error) {
-      setIsProcessing(false);
+    setIsDeleteOpen(false);
+    onClose();
 
-      displaySnackNotification({
-        header: getMessageByCode('error_app_generic-title'),
-        message: getMessageByCode(error.message),
-        severity: 'error',
-      });
-    }
+    displaySnackNotification({
+      header: getTranslation({ key: 'tr_partnerRequestDeleted' }),
+      message: getTranslation({ key: 'tr_partnerRequestDeletedDesc' }),
+      severity: 'success',
+    });
   };
 
   useEffect(() => {
@@ -174,7 +167,10 @@ const useRequestEditor = ({
     isValid,
     endBeforeStart,
     isProcessing,
-    handleDelete,
+    isDeleteOpen,
+    handleOpenDelete,
+    handleCloseDelete,
+    handleConfirmDelete,
     typeOptions,
     handleDateChange,
     handleFlexibleChange,

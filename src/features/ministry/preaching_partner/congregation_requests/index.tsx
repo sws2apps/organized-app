@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
 import { Box } from '@mui/material';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useCongregationRequests from './useCongregationRequests';
 import Card from '@components/card';
 import ConfirmArrangement from '../confirm_arrangement';
@@ -14,6 +14,8 @@ import Typography from '@components/typography';
 const CongregationRequests = () => {
   const { t } = useAppTranslation();
 
+  const { tablet688Up } = useBreakpoints();
+
   const {
     groups,
     filters,
@@ -26,18 +28,25 @@ const CongregationRequests = () => {
 
   return (
     <>
-      <Card sx={{ gap: '24px' }}>
+      <Card sx={{ gap: tablet688Up ? '24px' : '16px' }}>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
           <Typography className="body-small-semibold" color="var(--grey-350)">
             {t('tr_filters')}
           </Typography>
 
+          {/* a phone keeps the chips on one scrolling row instead of two */}
           <Box
+            role="group"
+            aria-label={t('tr_filters')}
             sx={{
               display: 'flex',
               alignItems: 'center',
-              flexWrap: 'wrap',
+              flexWrap: tablet688Up ? 'wrap' : 'nowrap',
               gap: '8px',
+              overflowX: tablet688Up ? 'visible' : 'auto',
+              scrollbarWidth: 'none',
+              '&::-webkit-scrollbar': { display: 'none' },
+              '& > *': { flexShrink: 0 },
             }}
           >
             {filterOptions.map((option) => (

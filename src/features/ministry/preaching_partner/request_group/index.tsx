@@ -1,8 +1,8 @@
 import { Box } from '@mui/material';
-import { Children } from 'react';
-import { IconDate } from '@components/icons';
+import { Children, Fragment } from 'react';
 import { PreachingPartnerGroupProps } from './index.types';
 import { formatLongDateWithShortVars } from '@utils/date';
+import { useBreakpoints } from '@hooks/index';
 import Divider from '@components/divider';
 import Typography from '@components/typography';
 
@@ -10,26 +10,31 @@ const PreachingPartnerGroup = ({
   date,
   children,
 }: PreachingPartnerGroupProps) => {
+  const { tablet688Up } = useBreakpoints();
+
   const rows = Children.toArray(children);
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-        <IconDate color="var(--black)" />
-        <Typography className="h3">
-          {formatLongDateWithShortVars(date)}
-        </Typography>
-      </Box>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: tablet688Up ? '12px' : '8px',
+      }}
+    >
+      <Typography className="h4">
+        {formatLongDateWithShortVars(date)}
+      </Typography>
 
-      {rows.map((row, index) => (
-        <Box
-          key={index}
-          sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}
-        >
-          {index > 0 && <Divider color="var(--accent-200)" />}
-          {row}
-        </Box>
-      ))}
+      {/* rows of one day sit close, so the day reads as a single block */}
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+        {rows.map((row, index) => (
+          <Fragment key={index}>
+            {index > 0 && <Divider color="var(--accent-200)" />}
+            {row}
+          </Fragment>
+        ))}
+      </Box>
     </Box>
   );
 };
