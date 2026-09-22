@@ -14,8 +14,8 @@ const HALF = 400;
 const TemplateTerritoryCard = ({
   territories,
   lang,
-  showMap = true,
   printedOn,
+  parts,
 }: TerritoryTemplateProps) => {
   return (
     <Document title="Territory card" lang={lang}>
@@ -30,21 +30,20 @@ const TemplateTerritoryCard = ({
           }}
         >
           <View style={{ border: CUT }}>
-            <CardFront
-              territory={territory}
-              width={WIDTH}
-              height={HALF}
-              showMap={showMap}
-            />
+            {parts.front && (
+              <CardFront territory={territory} width={WIDTH} height={HALF} />
+            )}
 
-            <CardBack
-              territory={territory}
-              width={WIDTH}
-              height={HALF}
-              rowsPerColumn={11}
-              notes={territory.notes}
-              printedOn={printedOn}
-            />
+            {parts.back && (
+              <CardBack
+                territory={territory}
+                width={WIDTH}
+                height={HALF}
+                rowsPerColumn={11}
+                notes={territory.notes}
+                printedOn={printedOn}
+              />
+            )}
           </View>
         </Page>
       ))}

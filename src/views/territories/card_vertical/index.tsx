@@ -15,23 +15,17 @@ const ROWS = 19;
 const titleOf = (territory: TerritoryPrintData) =>
   [territory.number, territory.city].filter(Boolean).join(' – ');
 
-const MapSide = ({
-  territory,
-  showMap,
-}: {
-  territory: TerritoryPrintData;
-  showMap: boolean;
-}) => (
+const MapSide = ({ territory }: { territory: TerritoryPrintData }) => (
   <View style={{ width: HALF, height: '100%' }}>
     <View style={{ position: 'relative', width: HALF, height: MAP_HEIGHT }}>
-      {showMap && territory.mapImage && (
+      {territory.mapImage && (
         <Image
           src={territory.mapImage}
           style={{ width: HALF, height: MAP_HEIGHT, objectFit: 'cover' }}
         />
       )}
 
-      {(!showMap || !territory.mapImage) && (
+      {!territory.mapImage && (
         <View
           style={{
             width: HALF,
@@ -152,8 +146,8 @@ const DetailsSide = ({
 const TemplateTerritoryCardVertical = ({
   territories,
   lang,
-  showMap = true,
   printedOn,
+  parts,
 }: TerritoryTemplateProps) => (
   <Document title="Territory card" lang={lang}>
     {territories.map((territory) => (
@@ -163,8 +157,14 @@ const TemplateTerritoryCardVertical = ({
         orientation="landscape"
         style={{ backgroundColor: '#FFFFFF', flexDirection: 'row' }}
       >
-        <MapSide territory={territory} showMap={showMap} />
-        <DetailsSide territory={territory} printedOn={printedOn} />
+        {parts.front ? (
+          <MapSide territory={territory} />
+        ) : (
+          <View style={{ width: HALF }} />
+        )}
+        {parts.back && (
+          <DetailsSide territory={territory} printedOn={printedOn} />
+        )}
       </Page>
     ))}
   </Document>

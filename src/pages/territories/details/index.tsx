@@ -19,13 +19,13 @@ import NavBarButton from '@components/nav_bar_button';
 import NavBarButtonGroup from '@components/nav_bar_button_group';
 import TerritoryDetailsContainer from '@features/territories/details';
 import TerritoryDelete from '@features/territories/details/territory_delete';
-import TerritoryPrint from '@features/territories/details/territory_print';
+import TerritoryExport from '@features/territories/details/territory_export';
 import useParentPage from '@features/territories/useParentPage';
 
 const TerritoryDetailsPage = () => {
   const { parent, goBack } = useParentPage();
 
-  const [printOpen, setPrintOpen] = useState(false);
+  const [exportOpen, setExportOpen] = useState(false);
   const { tablet688Up } = useBreakpoints();
 
   const { isElder, isServiceCommittee } = useCurrentUser();
@@ -112,10 +112,10 @@ const TerritoryDetailsPage = () => {
         paddingBottom: tablet688Up ? '0px' : '60px',
       }}
     >
-      {printOpen && (
-        <TerritoryPrint
+      {exportOpen && (
+        <TerritoryExport
           territory={territory}
-          onClose={() => setPrintOpen(false)}
+          onClose={() => setExportOpen(false)}
         />
       )}
 
@@ -155,9 +155,9 @@ const TerritoryDetailsPage = () => {
 
               {!isNew && (
                 <NavBarButton
-                  text="Print"
+                  text="Export"
                   icon={<IconPrint />}
-                  onClick={() => setPrintOpen(true)}
+                  onClick={() => setExportOpen(true)}
                 />
               )}
             </NavBarButtonGroup>

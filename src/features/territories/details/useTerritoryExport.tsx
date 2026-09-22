@@ -14,30 +14,38 @@ import {
   TemplateTerritoryCard,
   TemplateTerritoryCardVertical,
   TemplateTerritoryS12,
+  TemplateTerritoryS12Card,
 } from '@views/index';
 import { TerritoryPrintData } from '@views/territories/index.types';
 import { Territory } from '@definition/territory';
 import { captureTerritoryMap } from '../map/capture';
 
-export type PrintTemplate = 's12' | 'phone' | 'a5' | 'a5v';
+export type ExportFormat = 's12' | 's12a4' | 'a5h' | 'a5v';
 
-const useTerritoryPrint = (territory: Territory) => {
+export type ExportParts = { front: boolean; back: boolean };
+
+const FILE_SUFFIX: Record<ExportFormat, string> = {
+  s12: '',
+  s12a4: '-A4',
+  a5h: '-A5-horizontal',
+  a5v: '-A5-vertical',
+};
+
+const useTerritoryExport = (territory: Territory) => {
   const congregation = useAtomValue(congNameState);
   const locale = useAtomValue(JWLangLocaleState);
   const dateFormat = useAtomValue(shortDateFormatState);
 
-  // a phone territory has no map, so it only ever prints as the phone card
-  const [template, setTemplate] = useState<PrintTemplate>(
-    territory.type === 'phone' ? 'phone' : 's12'
-  );
-  const [showMap, setShowMap] = useState(true);
+  const isPhone = territory.type === 'phone';
+
+  const [format, setFormat] = useState<ExportFormat>('s12');
+  const [parts, setParts] = useState<ExportParts>({ front: true, back: true });
   const [showQr, setShowQr] = useState(true);
   const [notes, setNotes] = useState('');
-  const [printedNotes, setPrintedNotes] = useState('');
+  const [settledNotes, setSettledNotes] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string>();
 
-  const frame = useRef<HTMLIFrameElement>(null);
   const blob = useRef<Blob>(null);
 
   // the map picture is expensive to render, so the promise itself is kept:
@@ -46,13 +54,13 @@ const useTerritoryPrint = (territory: Territory) => {
 
   // every keystroke would rebuild the whole PDF, so the notes settle first
   useEffect(() => {
-    const timer = setTimeout(() => setPrintedNotes(notes), 400);
+    const timer = setTimeout(() => setSettledNotes(notes), 400);
 
     return () => clearTimeout(timer);
   }, [notes]);
 
   const build = useCallback(async () => {
-    const needsMap = showMap && territory.type !== 'phone';
+    const needsMap = parts.front && !isPhone;
 
     if (needsMap && !mapImage.current) {
       mapImage.current = captureTerritoryMap(territory);
@@ -74,7 +82,7 @@ const useTerritoryPrint = (territory: Territory) => {
         ...territory,
         mapImage: picture,
         qrImage,
-        notes: printedNotes.trim() || undefined,
+        notes: settledNotes.trim() || undefined,
       },
     ];
 
@@ -83,13 +91,15 @@ const useTerritoryPrint = (territory: Territory) => {
       territories: data,
       lang: locale,
       printedOn: formatDate(new Date(), dateFormat),
-      showMap,
+      parts,
     };
 
     const document =
-      template === 's12' || template === 'phone' ? (
+      format === 's12' ? (
+        <TemplateTerritoryS12Card {...props} />
+      ) : format === 's12a4' ? (
         <TemplateTerritoryS12 {...props} />
-      ) : template === 'a5v' ? (
+      ) : format === 'a5v' ? (
         <TemplateTerritoryCardVertical {...props} />
       ) : (
         <TemplateTerritoryCard {...props} />
@@ -97,10 +107,11 @@ const useTerritoryPrint = (territory: Territory) => {
 
     return pdf(document).toBlob();
   }, [
-    template,
-    showMap,
+    format,
+    parts,
+    isPhone,
     showQr,
-    printedNotes,
+    settledNotes,
     territory,
     congregation,
     locale,
@@ -142,36 +153,40 @@ const useTerritoryPrint = (territory: Territory) => {
     };
   }, [build]);
 
-  const handleDownload = () => {
+  const handleExport = () => {
     if (!blob.current) return;
 
-    const name =
-      template === 's12'
-        ? `S-12-${territory.number}.pdf`
-        : template === 'phone'
-          ? `S-12-phone-${territory.number}.pdf`
-          : `Territory-card-${territory.number}-${template}.pdf`;
+    const form =
+      format === 's12' || format === 's12a4'
+        ? `S-12${isPhone ? '-phone' : ''}`
+        : 'Territory-card';
+
+    const name = `${form}-${territory.number}${FILE_SUFFIX[format]}.pdf`;
 
     saveAs(blob.current, name);
   };
 
-  const handlePrint = () => frame.current?.contentWindow?.print();
+  // one side always stays in, so there is something to export
+  const toggleSide = (side: keyof ExportParts) =>
+    setParts((prev) => {
+      const next = { ...prev, [side]: !prev[side] };
+      return next.front || next.back ? next : prev;
+    });
 
   return {
-    template,
-    setTemplate,
-    showMap,
-    setShowMap,
+    isPhone,
+    format,
+    setFormat,
+    parts,
+    toggleSide,
     showQr,
     setShowQr,
     notes,
     setNotes,
     previewUrl,
     isProcessing,
-    frame,
-    handleDownload,
-    handlePrint,
+    handleExport,
   };
 };
 
-export default useTerritoryPrint;
+export default useTerritoryExport;

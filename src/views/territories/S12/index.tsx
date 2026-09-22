@@ -1,10 +1,10 @@
 import { Page, View } from '@react-pdf/renderer';
 import { Document } from '@views/components';
-
-const CUT = '0.5px dashed #BDBDBD';
 import { TerritoryTemplateProps } from '../index.types';
 import CardBack from '../shared/CardBack';
 import CardFront from '../shared/CardFront';
+
+const CUT = '0.5px dashed #BDBDBD';
 
 // the card is cut out of the sheet, so both halves sit where Figma places the
 // cut areas: 467 x 301 pt, centred, front above back
@@ -16,8 +16,8 @@ const TOP = 120;
 const TemplateTerritoryS12 = ({
   territories,
   lang,
-  showMap = true,
   printedOn,
+  parts,
 }: TerritoryTemplateProps) => (
   <Document title="S-12" lang={lang}>
     {territories.map((territory) => (
@@ -31,21 +31,20 @@ const TemplateTerritoryS12 = ({
             border: CUT,
           }}
         >
-          <CardFront
-            territory={territory}
-            width={WIDTH}
-            height={HEIGHT}
-            showMap={showMap}
-          />
+          {parts.front && (
+            <CardFront territory={territory} width={WIDTH} height={HEIGHT} />
+          )}
 
-          <CardBack
-            territory={territory}
-            width={WIDTH}
-            height={HEIGHT}
-            rowsPerColumn={7}
-            notes={territory.notes}
-            printedOn={printedOn}
-          />
+          {parts.back && (
+            <CardBack
+              territory={territory}
+              width={WIDTH}
+              height={HEIGHT}
+              rowsPerColumn={7}
+              notes={territory.notes}
+              printedOn={printedOn}
+            />
+          )}
         </View>
       </Page>
     ))}

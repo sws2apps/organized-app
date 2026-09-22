@@ -71,12 +71,10 @@ const CardFront = ({
   territory,
   width,
   height,
-  showMap = true,
 }: {
   territory: TerritoryPrintData;
   width: number;
   height: number;
-  showMap?: boolean;
 }) => {
   const inner = width - CARD.padding * 2;
   const mapHeight = height - CARD.mapTop - CARD.footerHeight;
@@ -122,14 +120,14 @@ const CardFront = ({
           />
         )}
 
-        {territory.type !== 'phone' && showMap && territory.mapImage && (
+        {territory.type !== 'phone' && territory.mapImage && (
           <Image
             src={territory.mapImage}
             style={{ width: inner, height: mapHeight, objectFit: 'cover' }}
           />
         )}
 
-        {territory.type !== 'phone' && (!showMap || !territory.mapImage) && (
+        {territory.type !== 'phone' && !territory.mapImage && (
           <View
             style={{
               width: inner,
