@@ -19,7 +19,7 @@ const EditExternalLinkButton = (props: EditExternalLinkButtonProps) => {
         {t('tr_customButton', { num: props.index })}
       </Typography>
 
-      <Stack direction="row" spacing="8px">
+      <Stack direction="row" spacing="8px" alignItems="flex-start">
         <TextField
           label={t('tr_buttonLabel')}
           value={props.label}

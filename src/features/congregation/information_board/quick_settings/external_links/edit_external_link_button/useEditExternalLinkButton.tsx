@@ -8,7 +8,7 @@ const useEditExternalLinkButton = (props: ExternalLinkType) => {
 
   const validateLabel = useCallback(() => {
     return labelIsCorrect(props.label)
-      ? setLinkError('')
+      ? setLabelError('')
       : setLabelError('tr_maximum25characters');
   }, [props.label]);
 

@@ -179,7 +179,7 @@
   "tr_buttonLabel": "Button label",
   "tr_link": "Link",
   "tr_maximum25characters": "Maximum 25 characters",
-  "tr_invalidLink": "Enter a valid URL starting with http:// or https://.",
+  "tr_invalidLink": "Enter a valid URL, such as organized-app.com.",
   "tr_pinned": "Pinned",
   "tr_optionalSettings": "Optional settings",
   "tr_pinAtTheTop": "Pin at the top",

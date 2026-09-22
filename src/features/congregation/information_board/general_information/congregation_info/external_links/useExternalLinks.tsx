@@ -1,6 +1,9 @@
 import Button from '@components/button';
 import { IconArrowLink } from '@components/icons';
-import { getWebsiteName } from '@features/congregation/information_board/quick_settings/index.utils';
+import {
+  getWebsiteName,
+  getWebsiteURL,
+} from '@features/congregation/information_board/quick_settings/index.utils';
 import { infoBoardExternalLinksState } from '@states/information_board';
 import { useAtomValue } from 'jotai';
 import { useMemo } from 'react';
@@ -14,7 +17,7 @@ const useExternalLinks = () => {
         <Button
           key={externalLink.id}
           variant="tertiary"
-          href={externalLink.link}
+          href={getWebsiteURL(externalLink.link)}
           target="_blank"
           rel="noopener noreferrer"
           startIcon={<IconArrowLink />}

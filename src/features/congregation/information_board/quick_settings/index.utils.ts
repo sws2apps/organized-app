@@ -1,5 +1,5 @@
 export const labelIsCorrect = (value: string) => {
-  return !(value.length <= 25);
+  return value.length < 25;
 };
 
 export const linkIsCorrect = (value: string) => {
@@ -10,7 +10,7 @@ export const linkIsCorrect = (value: string) => {
   }
 
   try {
-    const url = new URL(link);
+    const url = new URL(/^https?:\/\//i.test(link) ? link : `https://${link}`);
 
     if (!['http:', 'https:'].includes(url.protocol)) {
       return false;
@@ -42,12 +42,14 @@ export const getWebsiteName = (link: string): string => {
   if (!link) return '';
 
   try {
-    const { hostname } = new URL(
-      link.startsWith('http') ? link : `https://${link}`
-    );
+    const url = new URL(/^https?:\/\//i.test(link) ? link : `https://${link}`);
 
-    return hostname.replace(/^www\./, '').replaceAll('-', ' ');
+    return url.hostname.replace(/^www\./, '').replaceAll('-', ' ');
   } catch {
     return link;
   }
+};
+
+export const getWebsiteURL = (link: string): string => {
+  return /^https?:\/\//i.test(link) ? link : `https://${link}`;
 };
