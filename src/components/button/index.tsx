@@ -309,6 +309,11 @@ const Button: FC<ButtonPropsType> = (props) => {
           color: 'var(--accent-350)',
           border: getBorder(true),
         },
+        // MUI pulls the icons 4px into the padding; btn-small keeps them at 8px
+        ...(variant === 'small' && {
+          '& .MuiButton-startIcon': { marginLeft: 0 },
+          '& .MuiButton-endIcon': { marginRight: 0 },
+        }),
         '& svg': {
           height: variant === 'small' ? '20px' : '22px',
           width: variant === 'small' ? '20px' : '22px',
