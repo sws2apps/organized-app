@@ -6,6 +6,7 @@ import { clickableRow, rowStates } from './table_styles';
 type RecordItem = {
   id: string;
   title: string;
+  titleColor?: string;
   subtitle?: string;
   badge?: ReactNode;
   actions?: ReactNode;
@@ -54,7 +55,7 @@ const RecordList = ({
             <Stack direction="row" sx={{ alignItems: 'center', gap: '8px' }}>
               <Typography
                 className="body-small-semibold"
-                color="var(--black)"
+                color={item.titleColor ?? 'var(--black)'}
                 noWrap
               >
                 {item.title}

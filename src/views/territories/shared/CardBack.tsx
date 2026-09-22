@@ -20,6 +20,7 @@ const CardBack = ({
   printedOn: string;
 }) => {
   const entries = territory.doNotCalls;
+  const phone = territory.type === 'phone';
 
   // split evenly, so the list uses the card's width instead of growing tall
   const shown = entries.slice(0, rowsPerColumn * 2);
@@ -43,10 +44,12 @@ const CardBack = ({
 
           <View style={{ flexDirection: 'row', gap: 10 }}>
             <View style={{ flexGrow: 1, flexBasis: 0 }}>
-              <DoNotCallTable entries={left} />
+              <DoNotCallTable entries={left} phone={phone} />
             </View>
             <View style={{ flexGrow: 1, flexBasis: 0 }}>
-              {right.length > 0 && <DoNotCallTable entries={right} />}
+              {right.length > 0 && (
+                <DoNotCallTable entries={right} phone={phone} />
+              )}
             </View>
           </View>
 

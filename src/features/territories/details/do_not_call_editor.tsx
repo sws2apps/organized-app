@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { Box, Stack } from '@mui/material';
-import { Button, TextField } from '@components/index';
+import { Box, MenuItem, Stack } from '@mui/material';
+import { Button, Select, TextField, Typography } from '@components/index';
 import DatePicker from '@components/date_picker';
 import Dialog from '@components/dialog';
 import DialogActions from '@components/dialog_actions';
@@ -11,11 +11,14 @@ import EditorHeader from './editor_header';
 
 const DoNotCallEditor = ({
   entry,
+  numbers,
   onClose,
   onSave,
   onDelete,
 }: {
   entry?: DoNotCall;
+  // a phone territory marks one of its own numbers instead of an address
+  numbers?: string[];
   onClose: VoidFunction;
   onSave: (next: DoNotCall) => void;
   onDelete?: VoidFunction;
@@ -45,8 +48,14 @@ const DoNotCallEditor = ({
       open
       header={
         <EditorHeader
-          title={entry ? 'Edit do-not-call address' : 'Add do-not-call address'}
-          description="An address the publishers should skip, and since when."
+          title={`${entry ? 'Edit' : 'Add'} do-not-call ${
+            numbers ? 'number' : 'address'
+          }`}
+          description={
+            numbers
+              ? 'A number the publishers should not call, and since when.'
+              : 'An address the publishers should skip, and since when.'
+          }
           onDelete={
             entry && onDelete
               ? () => {
@@ -58,25 +67,41 @@ const DoNotCallEditor = ({
         />
       }
     >
-      <TextField
-        label="Address"
-        autoFocus={!entry}
-        value={address}
-        onChange={(event) => setAddress(event.target.value)}
-      />
+      {numbers ? (
+        <Select
+          label="Phone number"
+          value={address}
+          onChange={(event) => setAddress(event.target.value as string)}
+        >
+          {numbers.map((number) => (
+            <MenuItem key={number} value={number}>
+              <Typography className="body-regular">{number}</Typography>
+            </MenuItem>
+          ))}
+        </Select>
+      ) : (
+        <TextField
+          label="Address"
+          autoFocus={!entry}
+          value={address}
+          onChange={(event) => setAddress(event.target.value)}
+        />
+      )}
 
       <Stack
         direction={tablet600Up ? 'row' : 'column'}
         spacing="16px"
         sx={{ width: '100%' }}
       >
-        <Box sx={{ flex: 1, minWidth: 0 }}>
-          <TextField
-            label="Name"
-            value={name}
-            onChange={(event) => setName(event.target.value)}
-          />
-        </Box>
+        {!numbers && (
+          <Box sx={{ flex: 1, minWidth: 0 }}>
+            <TextField
+              label="Name"
+              value={name}
+              onChange={(event) => setName(event.target.value)}
+            />
+          </Box>
+        )}
 
         <Box sx={{ flex: 1, minWidth: 0 }}>
           <DatePicker

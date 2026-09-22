@@ -12,6 +12,7 @@ import {
   parseDate,
   upsertById,
   emptyListMessage,
+  isDoNotCallNumber,
 } from '../helpers';
 import DoNotCallEditor from './do_not_call_editor';
 
@@ -33,6 +34,17 @@ const DoNotCallPanel = ({
 
   const entries = territory.doNotCalls;
 
+  const isPhone = territory.type === 'phone';
+
+  // a number already marked is not offered again, except the one being edited
+  const numbers = isPhone
+    ? (territory.phoneNumbers ?? []).filter(
+        (number) =>
+          (editing !== 'new' && editing?.address === number) ||
+          !isDoNotCallNumber(territory, number)
+      )
+    : undefined;
+
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
       <RecordList
@@ -41,7 +53,7 @@ const DoNotCallPanel = ({
           id: entry.id,
           onClick: readOnly ? undefined : () => setEditing(entry),
           title: entry.address,
-          subtitle: [entry.name, displayDate(entry.date, format)]
+          subtitle: [!isPhone && entry.name, displayDate(entry.date, format)]
             .filter(Boolean)
             .join(' · '),
           actions: readOnly ? undefined : (
@@ -69,6 +81,7 @@ const DoNotCallPanel = ({
       {editing && (
         <DoNotCallEditor
           entry={editing === 'new' ? undefined : editing}
+          numbers={numbers}
           onClose={() => setEditing(undefined)}
           onSave={(next) => onChange(upsertById(entries, next))}
           onDelete={() =>

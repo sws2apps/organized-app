@@ -613,3 +613,11 @@ export const upsertById = <T extends { id: string }>(list: T[], next: T) =>
   list.some((item) => item.id === next.id)
     ? list.map((item) => (item.id === next.id ? next : item))
     : [...list, next];
+
+// numbers are compared by their digits, however they were typed
+export const phoneDigits = (value: string) => value.replace(/\D/g, '');
+
+export const isDoNotCallNumber = (territory: Territory, number: string) =>
+  territory.doNotCalls.some(
+    (entry) => phoneDigits(entry.address) === phoneDigits(number)
+  );

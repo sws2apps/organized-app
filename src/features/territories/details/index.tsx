@@ -180,7 +180,7 @@ const TerritoryDetails = ({
 
         <Card>
           <Typography className="h4" color="var(--black)">
-            Do-not-call addresses
+            {isPhone ? 'Do-not-call numbers' : 'Do-not-call addresses'}
           </Typography>
           {doNotCalls}
         </Card>

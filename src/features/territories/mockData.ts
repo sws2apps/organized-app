@@ -248,12 +248,19 @@ const buildTerritory = (index: number, random: () => number): Territory => {
     (_, entryIndex) => {
       const year = 2019 + Math.floor(random() * 7);
 
+      const address = `${STREETS[Math.floor(random() * STREETS.length)]} ${
+        1 + Math.floor(random() * 240)
+      }`;
+      const name =
+        DNC_NAMES[Math.floor(random() * DNC_NAMES.length)] || undefined;
+
+      // a phone territory's do-not-calls are some of its own numbers
+      const step = phoneNumbers ? Math.floor(phoneNumbers.length / 5) : 0;
+
       return {
         id: `dnc-${index}-${entryIndex}`,
-        address: `${STREETS[Math.floor(random() * STREETS.length)]} ${
-          1 + Math.floor(random() * 240)
-        }`,
-        name: DNC_NAMES[Math.floor(random() * DNC_NAMES.length)] || undefined,
+        address: phoneNumbers ? phoneNumbers[entryIndex * step] : address,
+        name: phoneNumbers ? undefined : name,
         date: formatDate(random, year),
         addedBy: PUBLISHERS[Math.floor(random() * PUBLISHERS.length)],
       };

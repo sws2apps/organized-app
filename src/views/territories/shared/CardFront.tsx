@@ -4,14 +4,20 @@ import styles, { CARD, COLORS } from '../index.styles';
 
 const COLUMNS = 4;
 
+const digits = (value: string) => value.replace(/\D/g, '');
+
 const PhoneGrid = ({
   numbers,
+  blocked,
   width,
 }: {
   numbers: string[];
+  // do-not-call numbers, struck through so they read on a black and white print
+  blocked: string[];
   width: number;
 }) => {
   const cell = (width - (COLUMNS - 1) * 4) / COLUMNS;
+  const skip = new Set(blocked.map(digits));
 
   return (
     <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 4 }}>
@@ -45,7 +51,16 @@ const PhoneGrid = ({
           >
             <Text style={styles.number}>{index + 1}</Text>
           </View>
-          <Text style={styles.phone}>{number}</Text>
+          <Text
+            style={[
+              styles.phone,
+              skip.has(digits(number))
+                ? { color: COLORS.dncText, textDecoration: 'line-through' }
+                : {},
+            ]}
+          >
+            {number}
+          </Text>
         </View>
       ))}
     </View>
@@ -100,7 +115,11 @@ const CardFront = ({
         }}
       >
         {territory.type === 'phone' && (
-          <PhoneGrid numbers={territory.phoneNumbers ?? []} width={inner} />
+          <PhoneGrid
+            numbers={territory.phoneNumbers ?? []}
+            blocked={territory.doNotCalls.map((entry) => entry.address)}
+            width={inner}
+          />
         )}
 
         {territory.type !== 'phone' && showMap && territory.mapImage && (

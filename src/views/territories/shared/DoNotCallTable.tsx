@@ -8,20 +8,31 @@ const cells = {
 };
 
 // only the lines that carry an address are drawn, so a short list stays short
-const DoNotCallTable = ({ entries }: { entries: DoNotCall[] }) => (
+// a phone territory lists numbers, which have no householder name
+const DoNotCallTable = ({
+  entries,
+  phone = false,
+}: {
+  entries: DoNotCall[];
+  phone?: boolean;
+}) => (
   <View>
     <View
       style={{ flexDirection: 'row', gap: 8, paddingTop: 4, paddingBottom: 4 }}
     >
-      <Text style={[styles.columnTitle, cells.wide]}>Address</Text>
-      <Text style={[styles.columnTitle, cells.wide]}>Name</Text>
+      <Text style={[styles.columnTitle, cells.wide]}>
+        {phone ? 'Number' : 'Address'}
+      </Text>
+      {!phone && <Text style={[styles.columnTitle, cells.wide]}>Name</Text>}
       <Text style={[styles.columnTitle, cells.date]}>Date</Text>
     </View>
 
     {entries.map((entry) => (
       <View key={entry.id} style={[styles.row, { gap: 8 }]}>
         <Text style={[styles.rowAddress, cells.wide]}>{entry.address}</Text>
-        <Text style={[styles.rowText, cells.wide]}>{entry.name ?? ''}</Text>
+        {!phone && (
+          <Text style={[styles.rowText, cells.wide]}>{entry.name ?? ''}</Text>
+        )}
         <Text style={[styles.rowText, cells.date]}>{entry.date}</Text>
       </View>
     ))}
