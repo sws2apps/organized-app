@@ -1,10 +1,9 @@
-import { ReactElement } from 'react';
 import { PreachingPartnerRequestType } from '@definition/preaching_partner';
 
 export type PreachingPartnerRowProps = {
   request: PreachingPartnerRequestType;
-  variant: 'accent' | 'orange';
-  actionLabel: string;
-  actionIcon: ReactElement;
-  onAction: VoidFunction;
+  // the row picks its own action from who owns the request and who joined it
+  onEdit?: (request: PreachingPartnerRequestType) => void;
+  onJoin?: (request: PreachingPartnerRequestType) => void;
+  onCancel?: (request: PreachingPartnerRequestType) => void;
 };

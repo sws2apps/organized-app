@@ -9,10 +9,13 @@ import {
   preachingPartnerBuildRequest,
   preachingPartnerTypeLabel,
 } from '@services/app/preaching_partner';
-import { dbPreachingPartnerRequestSave } from '@services/dexie/preaching_partner';
+import {
+  dbPreachingPartnerRequestDelete,
+  dbPreachingPartnerRequestSave,
+} from '@services/dexie/preaching_partner';
 import { displaySnackNotification } from '@services/states/app';
 import { formatDate, generateDateFromTime } from '@utils/date';
-import { getMessageByCode } from '@services/i18n/translation';
+import { getMessageByCode, getTranslation } from '@services/i18n/translation';
 import { hour24FormatState, userLocalUIDState } from '@states/settings';
 
 const MINISTRY_TYPES = [
@@ -52,8 +55,13 @@ const useRequestEditor = ({
     ? generateDateFromTime(value.request_data.end)
     : null;
 
+  const { flexible, start: startTime, end: endTime } = value.request_data;
+
+  const endBeforeStart =
+    !flexible && !!startTime && !!endTime && endTime <= startTime;
+
   // a specific time needs a start; the end stays optional
-  const isValid = value.request_data.flexible || !!value.request_data.start;
+  const isValid = (flexible || !!startTime) && !endBeforeStart;
 
   const updateData = useCallback(
     (data: Partial<PreachingPartnerRequestType['request_data']>) => {
@@ -122,6 +130,33 @@ const useRequestEditor = ({
     }
   };
 
+  const handleDelete = async () => {
+    if (isProcessing || !request) return;
+
+    try {
+      setIsProcessing(true);
+
+      await dbPreachingPartnerRequestDelete(request.request_uid);
+
+      setIsProcessing(false);
+      onClose();
+
+      displaySnackNotification({
+        header: getTranslation({ key: 'tr_partnerRequestDeleted' }),
+        message: getTranslation({ key: 'tr_partnerRequestDeletedDesc' }),
+        severity: 'success',
+      });
+    } catch (error) {
+      setIsProcessing(false);
+
+      displaySnackNotification({
+        header: getMessageByCode('error_app_generic-title'),
+        message: getMessageByCode(error.message),
+        severity: 'error',
+      });
+    }
+  };
+
   useEffect(() => {
     if (!open) return;
 
@@ -137,7 +172,9 @@ const useRequestEditor = ({
     end,
     hour24,
     isValid,
+    endBeforeStart,
     isProcessing,
+    handleDelete,
     typeOptions,
     handleDateChange,
     handleFlexibleChange,

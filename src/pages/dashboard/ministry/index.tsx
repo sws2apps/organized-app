@@ -14,8 +14,13 @@ import MinistryTimer from '@features/ministry/report/ministry_timer';
 const MinistryCard = () => {
   const { t } = useAppTranslation();
 
-  const { isPioneer, enable_AP_application, hours, hours_balance } =
-    useMinistry();
+  const {
+    isPioneer,
+    enable_AP_application,
+    hours,
+    hours_balance,
+    partnerRequestsCount,
+  } = useMinistry();
 
   return (
     <DashboardCard header={t('tr_ministry')}>
@@ -46,6 +51,9 @@ const MinistryCard = () => {
         <DashboardMenu
           icon={<IconRaiseHand color="var(--black)" />}
           primaryText={t('tr_findPreachingPartner')}
+          badgeText={
+            partnerRequestsCount > 0 ? String(partnerRequestsCount) : undefined
+          }
           path="/find-a-preaching-partner"
         />
       </ListItem>

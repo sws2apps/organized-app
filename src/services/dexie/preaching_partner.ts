@@ -39,6 +39,23 @@ export const dbPreachingPartnerRequestDelete = async (request_uid: string) => {
   await dbPreachingPartnerRequestUpdate(request_uid, { _deleted: true });
 };
 
+export const dbPreachingPartnerArrangementClear = async (
+  request_uid: string
+) => {
+  const request = await appDb.preaching_partner_requests.get(request_uid);
+
+  if (!request) return;
+
+  const updated = structuredClone(request);
+
+  delete updated.request_data.partner_uid;
+  delete updated.request_data.arranged_at;
+
+  updated.request_data.updatedAt = new Date().toISOString();
+
+  await appDb.preaching_partner_requests.put(updated);
+};
+
 export const dbPreachingPartnerRequestsClear = async () => {
   await appDb.preaching_partner_requests.clear();
 };

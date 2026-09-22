@@ -34,7 +34,11 @@ const PreachingPartnerNav = ({ value, onChange }: PreachingPartnerNavProps) => {
     <Card sx={{ gap: '8px', height: 'fit-content' }}>
       <Typography className="h3">{t('tr_ministryRequests')}</Typography>
 
-      <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+      <Box
+        role="tablist"
+        aria-label={t('tr_ministryRequests')}
+        sx={{ display: 'flex', flexDirection: 'column' }}
+      >
         {tabs.map((tab, index) => {
           const selected = tab.key === value;
 
@@ -46,6 +50,8 @@ const PreachingPartnerNav = ({ value, onChange }: PreachingPartnerNavProps) => {
 
               <ButtonBase
                 disableRipple
+                role="tab"
+                aria-selected={selected}
                 onClick={() => onChange(tab.key)}
                 sx={{
                   width: '100%',

@@ -149,7 +149,7 @@
   "tr_congregationPartnerRequests": "Congregation requests",
   "tr_congregationPartnerRequestsDesc": "Publishers looking for a partner",
   "tr_newPartnerRequest": "New request",
-  "tr_noPartnerRequests": "No preaching partner requests yet. Tap “New request” to add the first one.",
+  "tr_noPartnerRequests": "No preaching partner requests yet. Tap “New request” to add the first one, or see the <a title=''>congregation requests</a>.",
   "tr_noCongregationPartnerRequests": "Nobody in the congregation is looking for a partner right now.",
   "tr_createPartnerRequest": "Create preaching partner request",
   "tr_editPartnerRequest": "Edit preaching partner request",
@@ -167,5 +167,14 @@
   "tr_join": "Join",
   "tr_arrangementConfirmed": "Arrangement confirmed",
   "tr_partnerRequestJoined": "A publisher joined your request",
-  "tr_partnerRequestJoinedDesc": "{{ publisherName }} will share in the ministry with you on {{ date }} ({{ time }})."
+  "tr_partnerRequestJoinedDesc": "{{ publisherName }} will share in the ministry with you on {{ date }} ({{ time }}). Open <a title=''>Find a preaching partner</a> to see it.",
+  "tr_arranged": "Arranged",
+  "tr_cancelArrangement": "Cancel the arrangement",
+  "tr_cancelArrangementDesc": "The request goes back to the congregation list, so another publisher can join it.",
+  "tr_arrangementCancelled": "Arrangement cancelled",
+  "tr_arrangementCancelledDesc": "The request is open to the congregation again.",
+  "tr_deletePartnerRequest": "Delete the request",
+  "tr_partnerRequestDeleted": "Request deleted",
+  "tr_partnerRequestDeletedDesc": "Other publishers no longer see it.",
+  "tr_endTimeBeforeStart": "The end time must be after the start time"
 }

@@ -26,7 +26,9 @@ const PreachingPartnerEditor = (props: PreachingPartnerEditorProps) => {
     end,
     hour24,
     isValid,
+    endBeforeStart,
     isProcessing,
+    handleDelete,
     typeOptions,
     handleDateChange,
     handleFlexibleChange,
@@ -46,6 +48,7 @@ const PreachingPartnerEditor = (props: PreachingPartnerEditorProps) => {
           ? t('tr_editPartnerRequest')
           : t('tr_createPartnerRequest')
       }
+      closable
     >
       <Box sx={{ width: '100%' }}>
         <DatePicker
@@ -92,6 +95,8 @@ const PreachingPartnerEditor = (props: PreachingPartnerEditorProps) => {
               ampm={!hour24}
               value={end}
               onChange={handleEndChange}
+              error={endBeforeStart}
+              helperText={endBeforeStart ? t('tr_endTimeBeforeStart') : ''}
               sx={{ flex: 1 }}
             />
           </Box>
@@ -132,8 +137,13 @@ const PreachingPartnerEditor = (props: PreachingPartnerEditorProps) => {
       </Box>
 
       <DialogActions>
-        <Button variant="secondary" onClick={props.onClose}>
-          {t('tr_cancel')}
+        <Button
+          variant="secondary"
+          color={props.request ? 'red' : undefined}
+          disabled={isProcessing}
+          onClick={props.request ? handleDelete : props.onClose}
+        >
+          {props.request ? t('tr_deletePartnerRequest') : t('tr_cancel')}
         </Button>
 
         <Button

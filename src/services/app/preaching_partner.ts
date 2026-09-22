@@ -50,6 +50,13 @@ export const preachingPartnerTimeLabel = (
   return `${startLabel} - ${formatDate(generateDateFromTime(end), pattern)}`;
 };
 
+// a request stays listed for the whole of its day, however late it starts
+export const preachingPartnerIsPast = (
+  request: PreachingPartnerRequestType
+) => {
+  return request.request_data.date < formatDate(new Date(), 'yyyy/MM/dd');
+};
+
 export const preachingPartnerSort = (
   requests: PreachingPartnerRequestType[]
 ) => {

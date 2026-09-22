@@ -67,6 +67,10 @@ const useNotificationItem = (notification: NotificationRecordType) => {
       setFilter('unverified');
       navigate('/reports/field-service');
     }
+
+    if (notification.id.startsWith('partner-request-joined-')) {
+      navigate('/find-a-preaching-partner');
+    }
   };
 
   return { itemDate, handleMarkAsRead, handleAnchorClick };

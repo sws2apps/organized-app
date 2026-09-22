@@ -1,6 +1,5 @@
 import { Fragment } from 'react';
 import { Box } from '@mui/material';
-import { IconRaiseHand } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import useCongregationRequests from './useCongregationRequests';
 import Card from '@components/card';
@@ -65,10 +64,7 @@ const CongregationRequests = () => {
                 <PreachingPartnerRow
                   key={request.request_uid}
                   request={request}
-                  variant="orange"
-                  actionLabel={t('tr_join')}
-                  actionIcon={<IconRaiseHand />}
-                  onAction={() => handleJoin(request)}
+                  onJoin={handleJoin}
                 />
               ))}
             </PreachingPartnerGroup>
