@@ -252,7 +252,11 @@ const Button: FC<ButtonPropsType> = (props) => {
       target={props.target}
       sx={{
         cursor: 'pointer',
-        minHeight: props.minHeight ? `${props.minHeight}px` : '40px',
+        minHeight: props.minHeight
+          ? `${props.minHeight}px`
+          : variant === 'small'
+            ? '32px'
+            : '40px',
         fontFeatureSettings: '"cv05"',
         padding: variant === 'small' ? '4px 8px' : '8px 16px',
         backgroundColor: getBackgroundColor(),
