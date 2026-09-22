@@ -96,7 +96,14 @@ const useIBPageAnnouncements = (category: InformationBoardCategory) => {
         title={announcement.title}
         pinned={true}
         content={
-          <Typography className="body-regular" color="var(--black)">
+          <Typography
+            className="body-regular"
+            color="var(--black)"
+            sx={{
+              minWidth: 0,
+              overflowWrap: 'anywhere',
+            }}
+          >
             {announcement.text}
           </Typography>
         }
@@ -125,7 +132,14 @@ const useIBPageAnnouncements = (category: InformationBoardCategory) => {
         title={announcement.title}
         pinned={false}
         content={
-          <Typography className="body-regular" color="var(--black)">
+          <Typography
+            className="body-regular"
+            color="var(--black)"
+            sx={{
+              minWidth: 0,
+              overflowWrap: 'anywhere',
+            }}
+          >
             {announcement.text}
           </Typography>
         }

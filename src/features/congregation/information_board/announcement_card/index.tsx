@@ -40,7 +40,15 @@ const IBAnnouncementCard = (props: IBAnnouncementCardProps) => {
               alignItems="center"
               flexWrap="wrap"
             >
-              <Typography className="h2">{props.title}</Typography>
+              <Typography
+                className="h2"
+                sx={{
+                  minWidth: 0,
+                  overflowWrap: 'anywhere',
+                }}
+              >
+                {props.title}
+              </Typography>
 
               {props.counter && (
                 <Box
