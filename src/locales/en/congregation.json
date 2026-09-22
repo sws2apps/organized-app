@@ -587,5 +587,6 @@
   "tr_continuous": "Continuous",
   "tr_addAnnouncement": "Add announcement",
   "tr_editAnnouncement": "Edit announcement",
+  "tr_deleteAnnouncementTitle": "Delete announcement",
   "tr_noAnnouncementsOrFilesYet": "There are no announcements or files in this category"
 }
