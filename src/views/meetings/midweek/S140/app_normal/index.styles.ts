@@ -121,7 +121,8 @@ const styles: Record<string, Style> = {
   personContainer: {
     width: '145px',
     display: 'flex',
-    gap: '4px',
+    flexDirection: 'column',
+    gap: '2px',
     padding: '2px 0',
   },
   personPrimary: {
