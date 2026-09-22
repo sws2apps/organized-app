@@ -54,11 +54,15 @@ export type TerritoryMapMarker = {
   color?: MapColor;
 };
 
-export type TerritoryMapShape = {
-  id: string;
-  path: TerritoryBoundary;
+// the colors a border or area is drawn with, kept as picked
+export type MapStyle = {
   border: MapColor | 'transparent';
   fill: MapColor | 'transparent';
+};
+
+export type TerritoryMapShape = MapStyle & {
+  id: string;
+  path: TerritoryBoundary;
   label?: string;
 };
 
@@ -70,6 +74,7 @@ export type TerritoryMapLine = {
 
 export type TerritoryMapDraft = {
   boundary?: TerritoryBoundary;
+  boundaryStyle?: MapStyle;
   shapes: TerritoryMapShape[];
   lines: TerritoryMapLine[];
   markers: TerritoryMapMarker[];
@@ -105,6 +110,7 @@ export type Territory = {
   assignments: TerritoryAssignment[];
   // the area drawn on the congregation map, when it has been mapped
   boundary?: TerritoryBoundary;
+  boundaryStyle?: MapStyle;
   // streets, walking routes and notes drawn inside that area
   mapShapes?: TerritoryMapShape[];
   mapLines?: TerritoryMapLine[];
@@ -122,6 +128,16 @@ export type TerritoryFilters = {
   // a period the territory was, or was not, covered in
   coverage?: { covered: boolean; period: string };
   cardLostOnly: boolean;
+};
+
+// how much of the congregation's pool a publisher may reach: their own
+// territories only, the available pool as well, or the pool with requests open
+export type TerritoryAccess = 'own' | 'view' | 'request';
+
+// what a congregation keeps out of the pool publishers may reach
+export type TerritoryRestrictions = {
+  categories: TerritoryCategory[];
+  types: TerritoryType[];
 };
 
 export type TerritoryTab =
@@ -150,13 +166,11 @@ export const TYPE_LABEL: Record<TerritoryType, string> = {
   phone: 'Call',
 };
 
-// the congregation keeps a short list of its own labels
-export const MAX_CATEGORIES = 4;
-
 export const DEFAULT_CATEGORIES: TerritoryCategoryOption[] = [
   { id: 'dangerous', name: 'Dangerous', color: 'red' },
   { id: 'dogs', name: 'Dogs', color: 'orange' },
   { id: 'gated', name: 'Gated access', color: 'blue' },
+  { id: 'rural', name: 'Rural', color: 'green' },
 ];
 
 export const CATEGORY_COLORS: CategoryColor[] = [
@@ -166,6 +180,9 @@ export const CATEGORY_COLORS: CategoryColor[] = [
   'red',
   'grey',
 ];
+
+// one category per color, so each stays recognisable at a glance
+export const MAX_CATEGORIES = CATEGORY_COLORS.length;
 
 export const CATEGORY_COLOR_LABEL: Record<CategoryColor, string> = {
   blue: 'Blue',

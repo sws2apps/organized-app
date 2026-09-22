@@ -11,12 +11,13 @@ import {
   territoriesState,
   territoriesWithStatusState,
 } from '@states/territories';
-import { TerritoryBoundary } from '@definition/territory';
+import { MapColor, TerritoryBoundary } from '@definition/territory';
 import {
   MAP_PROVIDERS,
   CONGREGATION_FILL_LAYER,
   CONGREGATION_LINE_LAYER,
   CONGREGATION_SOURCE,
+  DEFAULT_BOUNDARY_STYLE,
   DEFAULT_CENTER,
   DEFAULT_ZOOM,
   FILL_LAYER,
@@ -24,6 +25,7 @@ import {
   LABEL_LAYER,
   LABELS_SOURCE,
   LINE_LAYER,
+  MAP_COLORS,
   MapProviderKey,
   SOURCE_ID,
   styleUrl,
@@ -51,6 +53,17 @@ import useFullscreen from './useFullscreen';
 import useMapEditor, { EditScope } from './useMapEditor';
 
 const ZOOM_STEP = 0.5;
+
+const FILL_OPACITY: maplibregl.ExpressionSpecification = [
+  'case',
+  ['get', 'filled'],
+  ['case', ['get', 'selected'], 0.45, 0.18],
+  0,
+];
+
+// a border has no transparent option, and an empty fill leaves the area unfilled
+const drawnColor = (color: MapColor | 'transparent') =>
+  color === 'transparent' ? '' : MAP_COLORS[color];
 
 const useTerritoriesMap = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -157,7 +170,19 @@ const useTerritoriesMap = () => {
     return {
       border,
       areas: boundaryCollection(territories, {
-        colorOf: (territory) => colors.get(scheme.keyOf(territory)) ?? '',
+        colorOf: (territory) =>
+          colorView === 'original'
+            ? drawnColor(
+                (territory.boundaryStyle ?? DEFAULT_BOUNDARY_STYLE).border
+              ) || MAP_COLORS.blue
+            : (colors.get(scheme.keyOf(territory)) ?? ''),
+        fillOf:
+          colorView === 'original'
+            ? (territory) =>
+                drawnColor(
+                  (territory.boundaryStyle ?? DEFAULT_BOUNDARY_STYLE).fill
+                )
+            : undefined,
         detailOf: scheme.detailOf,
         selectedId,
         hiddenId,
@@ -172,6 +197,7 @@ const useTerritoriesMap = () => {
     editor.scope,
     selectedId,
     scheme,
+    colorView,
     isDark,
   ]);
 
@@ -238,8 +264,8 @@ const useTerritoriesMap = () => {
       type: 'fill',
       source: SOURCE_ID,
       paint: {
-        'fill-color': ['get', 'color'],
-        'fill-opacity': ['case', ['get', 'selected'], 0.45, 0.18],
+        'fill-color': ['get', 'fill'],
+        'fill-opacity': FILL_OPACITY,
       },
     });
 
@@ -392,6 +418,43 @@ const useTerritoriesMap = () => {
     instance.triggerRepaint();
   }, [data, ready]);
 
+  // while one territory is edited the rest step back, so the drawing stands out
+  useEffect(() => {
+    const instance = map.current;
+    if (!instance || !styleVersion) return;
+
+    const fade = editor.editing ? 0.5 : 1;
+
+    const set = (
+      layer: string,
+      property: Parameters<maplibregl.Map['setPaintProperty']>[1],
+      value: Parameters<maplibregl.Map['setPaintProperty']>[2]
+    ) => {
+      if (instance.getLayer(layer)) {
+        instance.setPaintProperty(layer, property, value);
+      }
+    };
+
+    set(FILL_LAYER, 'fill-opacity', ['*', fade, FILL_OPACITY]);
+    set(LINE_LAYER, 'line-opacity', fade);
+    set(CONGREGATION_FILL_LAYER, 'fill-opacity', 0.06 * fade);
+    set(CONGREGATION_LINE_LAYER, 'line-opacity', fade);
+    set('drawing-shapes-fill', 'fill-opacity', 0.35 * fade);
+
+    for (const layer of [
+      'drawing-shapes-line',
+      'drawing-lines-solid',
+      'drawing-lines-dashed',
+    ]) {
+      set(layer, 'line-opacity', fade);
+    }
+
+    for (const layer of [LABEL_LAYER, LABEL_CAPTION_LAYER]) {
+      set(layer, 'text-opacity', fade);
+      set(layer, 'icon-opacity', fade);
+    }
+  }, [editor.editing, styleVersion]);
+
   useEffect(() => {
     const instance = map.current;
     if (!instance || !styleVersion) return;
@@ -447,9 +510,6 @@ const useTerritoriesMap = () => {
   // set when editing was opened from a territory's page, so saving goes back there
   const returnTo = useRef<string>(undefined);
 
-  // edit mode stays on between territories, so several can be drawn in a row
-  const [editMode, setEditMode] = useState(false);
-
   // a step that would throw away unsaved drawing waits here for a confirmation
   const [pendingLeave, setPendingLeave] = useState<VoidFunction>();
 
@@ -457,20 +517,10 @@ const useTerritoriesMap = () => {
     (scope: EditScope = 'territory') => {
       if (scope === 'territory' && !selected) return;
 
-      setEditMode(true);
       editor.start(scope, selected, congregationBoundary);
     },
     [editor, selected, congregationBoundary]
   );
-
-  // in edit mode, picking a territory opens it for drawing right away
-  useEffect(() => {
-    if (!editMode || editor.editing || !selected) return;
-
-    startEditing('territory');
-    // only a new pick should start a drawing
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [editMode, selected?.id]);
 
   const editRequested = searchParams.get('edit') === '1';
 
@@ -502,7 +552,6 @@ const useTerritoriesMap = () => {
   // leaves editing without saving, back to viewing the map
   const cancelEditing = useCallback(() => {
     editor.finish();
-    setEditMode(false);
     goBack();
   }, [editor, goBack]);
 
@@ -518,19 +567,6 @@ const useTerritoriesMap = () => {
     pendingLeave?.();
     setPendingLeave(undefined);
   }, [pendingLeave]);
-
-  const setMode = useCallback(
-    (next: 'view' | 'edit') => {
-      if (next === 'edit') {
-        setEditMode(true);
-        return;
-      }
-
-      if (editor.editing) requestLeave(cancelEditing);
-      else setEditMode(false);
-    },
-    [editor.editing, requestLeave, cancelEditing]
-  );
 
   const save = useCallback(() => {
     const { draft, scope } = editor;
@@ -553,6 +589,7 @@ const useTerritoriesMap = () => {
             ? {
                 ...item,
                 boundary: draft.boundary,
+                boundaryStyle: draft.boundaryStyle,
                 mapShapes: draft.shapes,
                 mapLines: draft.lines,
                 mapMarkers: draft.markers,
@@ -571,16 +608,9 @@ const useTerritoriesMap = () => {
 
     editor.finish();
 
-    // stay in edit mode with nothing picked, ready for the next territory
-    if (!goBack()) setSelectedId(undefined);
-  }, [
-    editor,
-    selected,
-    setTerritories,
-    setCongregationBoundary,
-    goBack,
-    setSelectedId,
-  ]);
+    // the saved territory stays picked, so the result is on screen
+    goBack();
+  }, [editor, selected, setTerritories, setCongregationBoundary, goBack]);
 
   const locate = useCallback(() => {
     if (!navigator.geolocation) return;
@@ -639,8 +669,6 @@ const useTerritoriesMap = () => {
     fitAll,
     editor,
     startEditing,
-    editMode,
-    setMode,
     cancelEditing,
     requestLeave,
     pendingLeave: !!pendingLeave,

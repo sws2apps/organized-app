@@ -2,16 +2,16 @@ import { Image, Text, View } from '@react-pdf/renderer';
 import { TerritoryPrintData } from '../index.types';
 import styles, { CARD, COLORS } from '../index.styles';
 
-const COLUMNS = 4;
-
-const PhoneGrid = ({
+export const PhoneGrid = ({
   numbers,
   width,
+  columns = 4,
 }: {
   numbers: string[];
   width: number;
+  columns?: number;
 }) => {
-  const cell = (width - (COLUMNS - 1) * 4) / COLUMNS;
+  const cell = (width - (columns - 1) * 4) / columns;
 
   return (
     <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 4 }}>
@@ -23,11 +23,12 @@ const PhoneGrid = ({
             flexDirection: 'row',
             alignItems: 'center',
             gap: 3,
-            paddingTop: 5,
-            paddingBottom: 5,
+            paddingTop: 4,
+            paddingBottom: 4,
             paddingLeft: 4,
             paddingRight: 4,
-            borderBottom: `1px solid ${COLORS.line}`,
+            border: `1px solid ${COLORS.line}`,
+            borderRadius: 4,
           }}
         >
           <View
@@ -79,12 +80,12 @@ const CardFront = ({
       <Text style={styles.title}>Territory Map Card</Text>
 
       <View style={{ flexDirection: 'row', gap: 16, marginTop: 2 }}>
-        <View style={{ flexDirection: 'row', gap: 4, flexGrow: 1 }}>
+        <View style={[styles.metaField, { flexGrow: 1 }]}>
           <Text style={styles.metaLabel}>Locality:</Text>
           <Text style={styles.metaValue}>{territory.city}</Text>
         </View>
 
-        <View style={{ flexDirection: 'row', gap: 4 }}>
+        <View style={[styles.metaField, { width: 110 }]}>
           <Text style={styles.metaLabel}>Terr. no:</Text>
           <Text style={styles.metaValue}>{territory.number}</Text>
         </View>

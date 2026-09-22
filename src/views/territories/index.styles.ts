@@ -28,6 +28,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: COLORS.text,
   },
+  metaField: {
+    flexDirection: 'row',
+    gap: 4,
+    paddingBottom: 2,
+    borderBottom: `1px dashed ${COLORS.muted}`,
+  },
   metaLabel: { fontSize: 11, fontWeight: 400, color: COLORS.text },
   metaValue: { fontSize: 11, fontWeight: 600, color: COLORS.text },
   households: { fontSize: 9, fontWeight: 500, color: COLORS.text },

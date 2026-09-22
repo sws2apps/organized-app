@@ -18,6 +18,7 @@ const boundaryFeature = (
   territory: Territory,
   options: {
     color: string;
+    fill?: string;
     detail: string;
     selected: boolean;
   }
@@ -31,6 +32,8 @@ const boundaryFeature = (
     selected: options.selected,
     detail: options.detail,
     color: options.color,
+    fill: options.fill || options.color,
+    filled: options.fill !== '',
   },
   geometry: { type: 'Polygon', coordinates: [territory.boundary ?? []] },
 });
@@ -39,6 +42,8 @@ export const boundaryCollection = (
   territories: Territory[],
   options: {
     colorOf: (territory: Territory) => string;
+    // empty leaves the area unfilled; without it the fill follows the border
+    fillOf?: (territory: Territory) => string;
     detailOf: (territory: Territory) => string;
     selectedId?: string;
     hiddenId?: string;
@@ -53,6 +58,7 @@ export const boundaryCollection = (
     .map((territory) =>
       boundaryFeature(territory, {
         color: options.colorOf(territory),
+        fill: options.fillOf?.(territory),
         detail: options.detailOf(territory),
         selected: territory.id === options.selectedId,
       })

@@ -132,7 +132,8 @@ const TerritoriesHub = ({ hub }: TerritoriesHubProps) => {
       onReturn={setReturnId}
       showHouseholds={showHouseholds}
       showRequested={tabId !== 'requests' && tabId !== 'requested'}
-      actions={isTerritoryEditor || !isBrowsing}
+      actions={isTerritoryEditor || (!isBrowsing && hub.canRequest)}
+      showHolder={isTerritoryEditor}
       emptyMessage={emptyMessage}
       title={`Territories: ${visible.length}`}
       selectionBar={

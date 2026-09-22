@@ -5,7 +5,7 @@ const StatTile = ({ label, value }: { label: string; value: string }) => (
   <Box
     sx={{
       padding: '12px',
-      backgroundColor: 'var(--accent-150)',
+      backgroundColor: 'var(--accent-100)',
       borderRadius: 'var(--radius-l)',
       display: 'flex',
       flexDirection: 'column',

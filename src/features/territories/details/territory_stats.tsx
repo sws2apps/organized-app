@@ -3,7 +3,13 @@ import { daysLabel } from '../helpers';
 import StatTile from '../components/stat_tile';
 import { Territory } from '@definition/territory';
 
-const TerritoryStats = ({ territory }: { territory: Territory }) => {
+const TerritoryStats = ({
+  territory,
+  showDoNotCalls = true,
+}: {
+  territory: Territory;
+  showDoNotCalls?: boolean;
+}) => {
   const months = territory.assignments.map((assignment) => assignment.months);
 
   const average = months.length
@@ -26,14 +32,15 @@ const TerritoryStats = ({ territory }: { territory: Territory }) => {
       label: 'Usual duration',
       value: `${average} mo`,
     },
-    territory.doNotCalls.length > 0 && {
-      id: 'dnc',
-      label: 'Do not call',
-      value: String(territory.doNotCalls.length),
-    },
+    showDoNotCalls &&
+      territory.doNotCalls.length > 0 && {
+        id: 'dnc',
+        label: 'Do not call',
+        value: String(territory.doNotCalls.length),
+      },
   ].filter(Boolean) as { id: string; label: string; value: string }[];
 
-  if (stats.length < 3) {
+  if (showDoNotCalls && stats.length < 3) {
     stats.push({
       id: 'dnc',
       label: 'Do not call',

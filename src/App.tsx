@@ -130,10 +130,6 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
               path: '/territories/history/:id',
               element: <TerritoryHistory />,
             },
-            {
-              path: '/territories/do-not-calls',
-              element: <TerritoryDoNotCalls />,
-            },
             { path: '/territories/:id', element: <TerritoryDetails /> },
 
             // territory overview pages, for those who hand territories out
@@ -147,6 +143,10 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
                   element: <TerritoryStatistics />,
                 },
                 { path: '/territories/map', element: <TerritoryMapPage /> },
+                {
+                  path: '/territories/do-not-calls',
+                  element: <TerritoryDoNotCalls />,
+                },
               ],
             },
             { path: '/weekly-schedules', element: <WeeklySchedules /> },

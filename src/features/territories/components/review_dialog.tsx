@@ -2,7 +2,7 @@ import { Box, Stack } from '@mui/material';
 import { Button } from '@components/index';
 import Dialog from '@components/dialog';
 import DialogActions from '@components/dialog_actions';
-import { IconClose, IconMoveForward } from '@icons/index';
+import { IconMoveForward, IconReject } from '@icons/index';
 import { daysLabel } from '../helpers';
 import { CategoryBadges, StatusBadge } from './territory_badges';
 import StatTile from './stat_tile';
@@ -29,8 +29,11 @@ const ReviewDialog = ({
     <Dialog
       onClose={onClose}
       open
-      title={`Request for ${territory.number}`}
-      description={`${territory.name} · ${territory.city}`}
+      closable
+      title="Request for territory"
+      description={[territory.number, territory.name, territory.city]
+        .filter(Boolean)
+        .join(' · ')}
     >
       <Stack
         direction="row"
@@ -68,13 +71,13 @@ const ReviewDialog = ({
         <Button
           variant="secondary"
           color="red"
-          startIcon={<IconClose color="var(--red-main)" />}
+          startIcon={<IconReject color="var(--red-main)" />}
           onClick={() => {
             onDecline(territory.id);
             onClose();
           }}
         >
-          Decline
+          Refuse
         </Button>
         <Button
           variant="main"

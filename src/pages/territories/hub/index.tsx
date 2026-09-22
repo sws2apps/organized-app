@@ -3,6 +3,7 @@ import { Box } from '@mui/material';
 import {
   IconAdd,
   IconRaiseHand,
+  IconVisibility,
   IconAssignmetHistory,
   IconCancelCicle,
   IconImportExport,
@@ -36,28 +37,31 @@ const Territories = () => {
   // territories that can be handed out
   const isMine = hub.tabId === 'mine' || hub.tabId === 'requested';
 
-  const mineButtons = (
+  const mineButtons = hub.canBrowse && (
     <NavBarButtonGroup>
       <NavBarButton
-        text="Request"
-        icon={<IconRaiseHand />}
+        text={hub.canRequest ? 'Request' : 'Available'}
+        icon={hub.canRequest ? <IconRaiseHand /> : <IconVisibility />}
         textImportant
         onClick={() => navigate('/territories?tab=recommended')}
       />
     </NavBarButtonGroup>
   );
 
+  // the tools live on the hub itself; the requests page stays a focused review
   const buttons = isMine ? (
     mineButtons
-  ) : (
+  ) : hub.isBrowsing ? (
     <NavBarButtonGroup>
-      <NavBarButton
-        text="Do not call"
-        icon={<IconCancelCicle />}
-        onClick={() =>
-          navigate('/territories/do-not-calls', { state: { parent: title } })
-        }
-      />
+      {isTerritoryEditor && (
+        <NavBarButton
+          text="Do not call"
+          icon={<IconCancelCicle />}
+          onClick={() =>
+            navigate('/territories/do-not-calls', { state: { parent: title } })
+          }
+        />
+      )}
       <NavBarButton
         text="History"
         icon={<IconAssignmetHistory />}
@@ -83,7 +87,7 @@ const Territories = () => {
         />
       )}
     </NavBarButtonGroup>
-  );
+  ) : null;
 
   return (
     <Box

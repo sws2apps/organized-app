@@ -10,10 +10,10 @@ import {
   Typography,
 } from '@components/index';
 import {
-  IconTripOrigin,
   IconClock,
   IconHome,
   IconPerson,
+  IconReturn,
   IconSortDown,
   IconSortUp,
 } from '@icons/index';
@@ -22,7 +22,11 @@ import Tooltip from '@components/tooltip';
 import { useBreakpoints } from '@hooks/index';
 import { shortDateFormatState } from '@states/settings';
 import { displayDate, parseDate, emptyListMessage } from '../helpers';
-import { Territory, TerritoryStatus } from '@definition/territory';
+import {
+  STATUS_LABEL,
+  Territory,
+  TerritoryStatus,
+} from '@definition/territory';
 import AssignButton from './assign_button';
 import { clickableRow, rowStates } from './table_styles';
 import TruncatedText from './truncated_text';
@@ -47,6 +51,8 @@ type TerritoryTableProps = {
   showRequested?: boolean;
   // off for publishers: no selection, no assigning; a row only opens
   actions?: boolean;
+  // publishers see whether a territory is free, not who is working it
+  showHolder?: boolean;
   emptyMessage?: string;
   title?: string;
   selectionBar?: ReactNode;
@@ -137,7 +143,13 @@ const compare =
     return byNumber;
   };
 
-const StatusLine = ({ territory }: { territory: Territory }) => {
+const StatusLine = ({
+  territory,
+  showHolder = true,
+}: {
+  territory: Territory;
+  showHolder?: boolean;
+}) => {
   const shortDateFormat = useAtomValue(shortDateFormatState);
 
   const date = (value?: string) => displayDate(value, shortDateFormat);
@@ -147,10 +159,10 @@ const StatusLine = ({ territory }: { territory: Territory }) => {
 
     return (
       <Stack direction="row" spacing="4px" sx={{ alignItems: 'center' }}>
-        <IconTripOrigin color="var(--green-main)" width={16} height={16} />
+        <IconReturn color="var(--green-main)" width={16} height={16} />
         <Typography
           className="label-small-regular"
-          color="var(--grey-400)"
+          color="var(--green-main)"
           noWrap
         >
           {returned ? date(returned) : 'No records'}
@@ -176,7 +188,10 @@ const StatusLine = ({ territory }: { territory: Territory }) => {
       <TruncatedText
         className="label-small-regular"
         color={overdue ? 'var(--red-main)' : 'var(--grey-400)'}
-        text={[territory.holder, assigned && date(assigned)]
+        text={[
+          showHolder ? territory.holder : STATUS_LABEL[territory.status],
+          assigned && date(assigned),
+        ]
           .filter(Boolean)
           .join(' · ')}
       />
@@ -236,6 +251,7 @@ const TerritoryTable = ({
   showHouseholds = true,
   showRequested = true,
   actions = true,
+  showHolder = true,
   emptyMessage = emptyListMessage(),
   title,
   selectionBar,
@@ -434,7 +450,7 @@ const TerritoryTable = ({
                   minWidth: 0,
                 }}
               >
-                <StatusLine territory={territory} />
+                <StatusLine territory={territory} showHolder={showHolder} />
 
                 {showHouseholds && !tablet688Up && (
                   <Households count={territory.households} />

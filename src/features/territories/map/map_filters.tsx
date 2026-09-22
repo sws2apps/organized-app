@@ -42,7 +42,16 @@ const MapFilters = ({
       </Typography>
 
       <Tooltip title="Hide the panel">
-        <IconButton onClick={onCollapse} sx={{ padding: 0, margin: 0 }}>
+        {/* the same box as the button that opens the panel again */}
+        <IconButton
+          onClick={onCollapse}
+          sx={{
+            padding: '6px',
+            margin: '-6px',
+            borderRadius: 'var(--radius-m)',
+            '&:hover': { backgroundColor: 'var(--accent-150)' },
+          }}
+        >
           <IconPanelClose color="var(--accent-main)" />
         </IconButton>
       </Tooltip>

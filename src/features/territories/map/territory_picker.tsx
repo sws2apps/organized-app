@@ -1,4 +1,4 @@
-import { KeyboardEvent, useEffect, useState } from 'react';
+import { KeyboardEvent, useState } from 'react';
 import { Box, Stack } from '@mui/material';
 import {
   CustomDivider,
@@ -14,18 +14,13 @@ const TerritoryPicker = ({
   selectedId,
   onSelect,
   height,
-  editing,
 }: {
   territories: Territory[];
   selectedId?: string;
   onSelect: (id: string) => void;
   height: string;
-  editing: boolean;
 }) => {
-  // editing is mostly drawing what is missing, so it opens on that list
-  const [tab, setTab] = useState(editing ? 1 : 0);
-
-  useEffect(() => setTab(editing ? 1 : 0), [editing]);
+  const [tab, setTab] = useState(0);
 
   const added = territories.filter((territory) => territory.boundary?.length);
   const notAdded = territories.filter(

@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { pdf } from '@react-pdf/renderer';
 import { saveAs } from 'file-saver';
+import QRCode from 'qrcode';
 import {
   congNameState,
   JWLangLocaleState,
@@ -9,12 +10,16 @@ import {
 } from '@states/settings';
 import { displaySnackNotification } from '@services/states/app';
 import { formatDate } from '@utils/date';
-import { TemplateTerritoryCard, TemplateTerritoryS12 } from '@views/index';
+import {
+  TemplateTerritoryCard,
+  TemplateTerritoryCardVertical,
+  TemplateTerritoryS12,
+} from '@views/index';
 import { TerritoryPrintData } from '@views/territories/index.types';
 import { Territory } from '@definition/territory';
 import { captureTerritoryMap } from '../map/capture';
 
-export type PrintTemplate = 's12' | 'a5';
+export type PrintTemplate = 's12' | 'a5' | 'a5v' | 'letter';
 
 const useTerritoryPrint = (territory: Territory) => {
   const congregation = useAtomValue(congNameState);
@@ -23,6 +28,7 @@ const useTerritoryPrint = (territory: Territory) => {
 
   const [template, setTemplate] = useState<PrintTemplate>('s12');
   const [showMap, setShowMap] = useState(true);
+  const [showQr, setShowQr] = useState(true);
   const [notes, setNotes] = useState('');
   const [printedNotes, setPrintedNotes] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
@@ -43,7 +49,7 @@ const useTerritoryPrint = (territory: Territory) => {
   }, [notes]);
 
   const build = useCallback(async () => {
-    const needsMap = showMap;
+    const needsMap = showMap && territory.type !== 'phone';
 
     if (needsMap && !mapImage.current) {
       mapImage.current = captureTerritoryMap(territory);
@@ -52,32 +58,40 @@ const useTerritoryPrint = (territory: Territory) => {
     const picture =
       needsMap && mapImage.current ? await mapImage.current : undefined;
 
+    // scanning the card opens this territory in the app
+    const qrImage = showQr
+      ? await QRCode.toDataURL(
+          `${window.location.origin}/#/territories/${territory.id}`,
+          { margin: 0 }
+        )
+      : undefined;
+
     const data: TerritoryPrintData[] = [
       {
         ...territory,
         mapImage: picture,
+        qrImage,
         notes: printedNotes.trim() || undefined,
       },
     ];
 
-    const printedOn = formatDate(new Date(), dateFormat);
+    const props = {
+      congregation,
+      territories: data,
+      lang: locale,
+      printedOn: formatDate(new Date(), dateFormat),
+      showMap,
+    };
 
     const document =
       template === 's12' ? (
-        <TemplateTerritoryS12
-          congregation={congregation}
-          territories={data}
-          lang={locale}
-          printedOn={printedOn}
-          showMap={showMap}
-        />
+        <TemplateTerritoryS12 {...props} />
+      ) : template === 'a5v' ? (
+        <TemplateTerritoryCardVertical {...props} />
       ) : (
         <TemplateTerritoryCard
-          congregation={congregation}
-          territories={data}
-          lang={locale}
-          printedOn={printedOn}
-          showMap={showMap}
+          {...props}
+          size={template === 'letter' ? 'LETTER' : 'A4'}
         />
       );
 
@@ -85,6 +99,7 @@ const useTerritoryPrint = (territory: Territory) => {
   }, [
     template,
     showMap,
+    showQr,
     printedNotes,
     territory,
     congregation,
@@ -133,7 +148,7 @@ const useTerritoryPrint = (territory: Territory) => {
     const name =
       template === 's12'
         ? `S-12-${territory.number}.pdf`
-        : `Territory-card-${territory.number}.pdf`;
+        : `Territory-card-${territory.number}-${template}.pdf`;
 
     saveAs(blob.current, name);
   };
@@ -145,6 +160,8 @@ const useTerritoryPrint = (territory: Territory) => {
     setTemplate,
     showMap,
     setShowMap,
+    showQr,
+    setShowQr,
     notes,
     setNotes,
     previewUrl,

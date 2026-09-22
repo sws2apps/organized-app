@@ -173,6 +173,7 @@ const TerritoryDetailsPage = () => {
         territory={territory}
         onChange={handleChange}
         readOnly={!isTerritoryEditor}
+        showDoNotCalls={isTerritoryEditor || heldByMe}
       />
     </Box>
   );

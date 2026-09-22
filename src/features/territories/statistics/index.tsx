@@ -1,6 +1,6 @@
 import { Box, Stack } from '@mui/material';
 import { useNavigate } from 'react-router';
-import { Button, Typography } from '@components/index';
+import { Button } from '@components/index';
 import { useAtomValue } from 'jotai';
 import {
   territoriesWithStatusState,
@@ -16,10 +16,11 @@ import {
   serviceYear,
   inProgressPerMonth,
   medianDuration,
-  totalDoNotCalls,
+  doNotCallAges,
 } from '../helpers';
 import { ChartCard, ColumnChart, Gauge, StatRow } from '../components/charts';
 import PublisherLoad from '../components/publisher_load';
+import StatTile from '../components/stat_tile';
 import AttentionCard from './attention_card';
 import CoverageGrid from './coverage_grid';
 import { PublisherSplit, PublisherTrend } from './publisher_cards';
@@ -34,6 +35,7 @@ const TerritoriesStatistics = () => {
   const current = serviceYear();
 
   const rate = coverageRate(territories, current);
+  const ages = doNotCallAges(territories, current);
   const buckets = trimEmptyBands(durationBuckets(territories));
   const maxBucket = Math.max(...buckets.map((bucket) => bucket.value), 1);
 
@@ -102,6 +104,7 @@ const TerritoriesStatistics = () => {
 
       <ChartCard
         title="Do-not-call addresses"
+        hint={`Added this year counts the ${current} service year`}
         span={4}
         action={
           <Button
@@ -118,9 +121,17 @@ const TerritoriesStatistics = () => {
           </Button>
         }
       >
-        <Typography className="big-numbers" color="var(--black)">
-          {totalDoNotCalls(territories)}
-        </Typography>
+        <Box
+          sx={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
+            gap: '8px',
+          }}
+        >
+          <StatTile label="Older than 2 years" value={String(ages.old)} />
+          <StatTile label="Added this year" value={String(ages.added)} />
+          <StatTile label="Total" value={String(ages.total)} />
+        </Box>
 
         <Stack spacing="12px">
           {[...territories]

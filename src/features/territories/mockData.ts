@@ -50,7 +50,7 @@ const CITIES = [
   'Schöneberg',
 ];
 
-const CATEGORIES: TerritoryCategory[] = ['dangerous', 'dogs', 'gated'];
+const CATEGORIES: TerritoryCategory[] = ['dangerous', 'dogs', 'gated', 'rural'];
 
 const DNC_NAMES = ['Mrs. Kramer', 'Mr. Vogel', 'Family Brinkmann', ''];
 

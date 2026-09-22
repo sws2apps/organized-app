@@ -1,7 +1,12 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate, useSearchParams } from 'react-router';
 import { useAtom, useAtomValue } from 'jotai';
-import { userLocalUIDState } from '@states/settings';
+import {
+  territoryAccessState,
+  territoryRestrictedCategoriesState,
+  territoryRestrictedTypesState,
+  userLocalUIDState,
+} from '@states/settings';
 import { useBreakpoints, useCurrentUser, useSubpane } from '@hooks/index';
 import {
   territoriesShowHouseholdsState,
@@ -32,6 +37,9 @@ const TAB_GROUPS: TerritoryTab[][] = [
 
 const OWN_TABS: TerritoryTab[] = ['mine', 'group', 'requested'];
 
+// tabs that show the congregation's pool rather than a publisher's own work
+const BROWSE_TABS: TerritoryTab[] = ['recommended', 'all'];
+
 const TAB_LABELS: Record<TerritoryTab, string> = {
   recommended: 'Recommended',
   all: 'All territories',
@@ -58,8 +66,16 @@ const useTerritoriesHub = () => {
   const [overdueMonths, setOverdueMonths] = useAtom(
     territoryOverdueMonthsState
   );
+  const access = useAtomValue(territoryAccessState);
+  const restrictedCategories = useAtomValue(territoryRestrictedCategoriesState);
+  const restrictedTypes = useAtomValue(territoryRestrictedTypesState);
 
   const [filters, setFilters] = useState<TerritoryFilters>(EMPTY_FILTERS);
+
+  const restricted = useMemo(
+    () => ({ categories: restrictedCategories, types: restrictedTypes }),
+    [restrictedCategories, restrictedTypes]
+  );
 
   const withStatus = useMemo(
     () => withDerivedStatus(territories, overdueMonths),
@@ -101,9 +117,18 @@ const useTerritoriesHub = () => {
   const groupHolder =
     isGroupLead && my_group ? groupHolderName(my_group.group_data) : undefined;
 
+  // what the congregation lets publishers reach; editors always see the pool
+  const canBrowse = isTerritoryEditor || access !== 'own';
+  const canRequest = isTerritoryEditor || access === 'request';
+
   const tabGroups = TAB_GROUPS.map((ids) =>
-    ids.filter((id) => id !== 'group' || groupHolder)
-  );
+    ids.filter(
+      (id) =>
+        (id !== 'group' || groupHolder) &&
+        (canBrowse || !BROWSE_TABS.includes(id)) &&
+        (canRequest || id !== 'requested')
+    )
+  ).filter((ids) => ids.length > 0);
 
   const groupIndex = tabGroups.findIndex((item) => item.includes(requested));
   const group = tabGroups[Math.max(groupIndex, 0)];
@@ -136,13 +161,19 @@ const useTerritoriesHub = () => {
       : [];
 
   const visible = useMemo(() => {
-    const list = forTab(withStatus, tabId, isTerritoryEditor, groupHolder);
+    const list = forTab(
+      withStatus,
+      tabId,
+      isTerritoryEditor,
+      groupHolder,
+      restricted
+    );
 
     // own territories have no filters, so none left over from other tabs apply
     if (OWN_TABS.includes(tabId)) return list;
 
     return applyFilters(list, filters);
-  }, [withStatus, tabId, filters, isTerritoryEditor, groupHolder]);
+  }, [withStatus, tabId, filters, isTerritoryEditor, groupHolder, restricted]);
 
   const boardTerritories = useMemo(
     () => applyFilters(withStatus, filters),
@@ -315,6 +346,8 @@ const useTerritoriesHub = () => {
     // a user's own territories: a short overview without search or filters
     isOwnTab: OWN_TABS.includes(tabId),
     isTerritoryEditor,
+    canBrowse,
+    canRequest,
     setTab,
     tabs,
     filters,

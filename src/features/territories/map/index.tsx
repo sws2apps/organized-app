@@ -3,12 +3,9 @@ import { Box, Stack } from '@mui/material';
 import { Button, CustomDivider } from '@components/index';
 import Dialog from '@components/dialog';
 import DialogActions from '@components/dialog_actions';
-import TabSwitcher from '@components/tab_switcher';
 import { useNavigate } from 'react-router';
 import {
   IconAdd,
-  IconEdit,
-  IconVisibility,
   IconFullscreen,
   IconFullscreenExit,
   IconMapOverview,
@@ -176,7 +173,12 @@ const TerritoriesMap = ({ map }: { map: TerritoriesMapState }) => {
             }}
           >
             {editor.editing && (
-              <EditPanel editor={editor} territory={map.selected} />
+              <EditPanel
+                editor={editor}
+                territory={map.selected}
+                onCancel={() => map.requestLeave(map.cancelEditing)}
+                onSave={map.save}
+              />
             )}
 
             {!editor.editing && (
@@ -197,7 +199,6 @@ const TerritoriesMap = ({ map }: { map: TerritoriesMapState }) => {
                     selectedId={map.selectedId}
                     onSelect={map.setSelectedId}
                     height="100%"
-                    editing={map.editMode}
                   />
                 </Box>
               </>
@@ -231,32 +232,15 @@ const TerritoriesMap = ({ map }: { map: TerritoriesMapState }) => {
             </MapIsland>
           )}
 
-          <TabSwitcher
-            ariaLabel="Map mode"
-            value={map.editMode ? 'edit' : 'view'}
-            onChange={map.setMode}
-            options={[
-              { value: 'view', label: 'View', icon: <IconVisibility /> },
-              { value: 'edit', label: 'Edit', icon: <IconEdit /> },
-            ]}
-            sx={{
-              flexShrink: 0,
-              width: '220px',
-              backgroundColor: 'var(--white)',
-              boxShadow: 'var(--hover-shadow)',
-              '& [role="tab"]': { minHeight: '36px' },
-            }}
-          />
-
           {editor.editing && <EditToolbar editor={editor} />}
 
-          {map.editMode && !editor.editing && (
+          {!editor.editing && !map.selected && (
             <IdleToolbar
               onCongregation={() => map.startEditing('congregation')}
             />
           )}
 
-          {!map.editMode && map.selected && (
+          {!editor.editing && map.selected && (
             <ViewToolbar
               selected={map.selected}
               onEdit={() => map.startEditing('territory')}
@@ -282,13 +266,7 @@ const TerritoriesMap = ({ map }: { map: TerritoriesMapState }) => {
               maxWidth: 'calc(100% - 400px)',
             }}
           >
-            <MapHint
-              text={
-                map.editMode
-                  ? 'Pick a territory to draw or change its map'
-                  : 'Pick a territory on the map or in the list'
-              }
-            />
+            <MapHint text="Pick a territory on the map or in the list" />
           </Box>
         )}
 

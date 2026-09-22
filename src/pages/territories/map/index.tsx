@@ -1,10 +1,7 @@
 import { useState } from 'react';
 import { Box } from '@mui/material';
-import { IconClose, IconSave } from '@icons/index';
 import { useBreakpoints, useUpNavigation } from '@hooks/index';
 import { InfoNote } from '@components/index';
-import NavBarButton from '@components/nav_bar_button';
-import NavBarButtonGroup from '@components/nav_bar_button_group';
 import PageTitle from '@components/page_title';
 import TerritoriesMap from '@features/territories/map';
 import useTerritoriesMap from '@features/territories/map/useTerritoriesMap';
@@ -34,24 +31,6 @@ const MapScreen = () => {
         secondaryTitle={editor.editing ? 'Territory coverage map' : undefined}
         onBack={editor.editing ? cancel : () => goUp('/')}
         quickSettings={editor.editing ? undefined : () => setSettingsOpen(true)}
-        buttons={
-          editor.editing && (
-            <NavBarButtonGroup>
-              <NavBarButton
-                text="Cancel"
-                icon={<IconClose />}
-                onClick={cancel}
-              />
-              <NavBarButton
-                text="Save"
-                icon={<IconSave />}
-                main
-                disabled={!editor.draft.boundary?.length}
-                onClick={map.save}
-              />
-            </NavBarButtonGroup>
-          )
-        }
       />
 
       {settingsOpen && (

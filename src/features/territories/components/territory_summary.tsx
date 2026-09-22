@@ -1,7 +1,14 @@
 import { Box, Stack } from '@mui/material';
-import { Badge, Typography } from '@components/index';
+import { Typography } from '@components/index';
 import { Territory, TYPE_LABEL } from '@definition/territory';
 import { CardLostBadge, CategoryBadges, StatusBadge } from './territory_badges';
+
+const row = {
+  alignItems: 'center',
+  flexWrap: 'wrap',
+  gap: '8px',
+  minWidth: 0,
+} as const;
 
 const TerritorySummary = ({
   territory,
@@ -15,54 +22,58 @@ const TerritorySummary = ({
 }) => {
   const title = [territory.number, territory.name].filter(Boolean).join(' · ');
 
-  const badges = (
-    <Stack
-      direction="row"
-      sx={{ alignItems: 'center', flexWrap: 'wrap', gap: '8px', minWidth: 0 }}
-    >
-      {heading && territory.city && (
-        <Typography className="body-small-regular" color="var(--grey-400)">
-          {territory.city}
-        </Typography>
-      )}
+  const description = [heading && territory.city, TYPE_LABEL[territory.type]]
+    .filter(Boolean)
+    .join(' · ');
 
+  // the status sits next to whoever it's about, not split from them
+  const state = (
+    <Stack direction="row" sx={row}>
       <Box sx={{ width: 'fit-content' }}>
         <StatusBadge status={territory.status} />
       </Box>
 
-      <Box sx={{ width: 'fit-content' }}>
-        <Badge
-          size="small"
-          filled={false}
-          color="grey"
-          text={TYPE_LABEL[territory.type]}
-        />
-      </Box>
-
-      {heading && <CardLostBadge territory={territory} />}
-      {heading && <CategoryBadges territory={territory} />}
-
       {meta && (
-        <Typography className="label-small-regular" color="var(--grey-350)">
+        <Typography className="label-small-regular" color="var(--grey-400)">
           {meta}
         </Typography>
       )}
     </Stack>
   );
 
-  if (!heading) return badges;
+  if (!heading) {
+    return (
+      <Stack direction="row" sx={row}>
+        {state}
+        <Typography className="label-small-regular" color="var(--grey-350)">
+          {description}
+        </Typography>
+      </Stack>
+    );
+  }
 
   // always there, so typing the first letter doesn't push the card down
   return (
-    <Stack spacing="4px">
-      <Typography
-        component="h2"
-        className="h3"
-        color={title ? 'var(--black)' : 'var(--grey-350)'}
-      >
-        {title || 'New territory'}
-      </Typography>
-      {badges}
+    <Stack spacing="8px">
+      <Stack spacing="4px">
+        <Typography
+          component="h2"
+          className="h3"
+          color={title ? 'var(--black)' : 'var(--grey-350)'}
+        >
+          {title || 'New territory'}
+        </Typography>
+
+        <Stack direction="row" sx={row}>
+          <Typography className="body-small-regular" color="var(--grey-400)">
+            {description}
+          </Typography>
+          <CardLostBadge territory={territory} />
+          <CategoryBadges territory={territory} />
+        </Stack>
+      </Stack>
+
+      {state}
     </Stack>
   );
 };

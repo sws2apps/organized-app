@@ -1,4 +1,4 @@
-import { MapColor, PinType } from '@definition/territory';
+import { MapColor, MapStyle, PinType } from '@definition/territory';
 import { MAP_CENTER } from '../mockData';
 
 /**
@@ -77,6 +77,12 @@ export const MAP_COLORS: Record<MapColor, string> = {
   orange: '#E8912D',
   purple: '#8E5BD6',
   black: '#222222',
+};
+
+// a border drawn before colors could be picked
+export const DEFAULT_BOUNDARY_STYLE: MapStyle = {
+  border: 'blue',
+  fill: 'blue',
 };
 
 export const MAP_COLOR_LABEL: Record<MapColor, string> = {

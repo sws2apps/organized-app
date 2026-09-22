@@ -5,6 +5,7 @@ import {
   Territory,
   TerritoryAssignment,
   TerritoryFilters,
+  TerritoryRestrictions,
   TerritoryTab,
 } from '@definition/territory';
 
@@ -150,10 +151,29 @@ export const applyFilters = (
     return true;
   });
 
-const recommendedTerritories = (territories: Territory[]) =>
+export const NO_RESTRICTIONS: TerritoryRestrictions = {
+  categories: [],
+  types: [],
+};
+
+// territories the congregation keeps out of the pool are never offered on their own;
+// an elder still assigns them by hand, after speaking with the publisher
+const isOffered = (territory: Territory, restricted: TerritoryRestrictions) =>
+  !restricted.types.includes(territory.type) &&
+  !territory.categories.some((category) =>
+    restricted.categories.includes(category)
+  );
+
+const recommendedTerritories = (
+  territories: Territory[],
+  restricted: TerritoryRestrictions
+) =>
   territories
     .filter(
-      (territory) => territory.status === 'available' && !territory.requestedBy
+      (territory) =>
+        territory.status === 'available' &&
+        !territory.requestedBy &&
+        isOffered(territory, restricted)
     )
     .sort((a, b) => b.daysSinceCovered - a.daysSinceCovered);
 
@@ -186,7 +206,9 @@ export const forTab = (
   // publishers browse only what can be handed out, not every territory
   isEditor = true,
   // the group whose territories its overseer and assistant look after
-  groupHolder?: string
+  groupHolder?: string,
+  // what the congregation keeps out of the pool
+  restricted: TerritoryRestrictions = NO_RESTRICTIONS
 ) => {
   if (tab === 'group') {
     return groupHolder
@@ -204,10 +226,18 @@ export const forTab = (
     );
   }
 
-  if (tab === 'recommended') return recommendedTerritories(territories);
+  if (tab === 'recommended') {
+    return recommendedTerritories(
+      territories,
+      isEditor ? NO_RESTRICTIONS : restricted
+    );
+  }
 
   if (tab === 'all' && !isEditor) {
-    return territories.filter((territory) => territory.status === 'available');
+    return territories.filter(
+      (territory) =>
+        territory.status === 'available' && isOffered(territory, restricted)
+    );
   }
 
   if (tab === 'mine') {
@@ -494,8 +524,23 @@ export const publishersPerMonth = (
     return holders.size;
   });
 
-export const totalDoNotCalls = (territories: Territory[]) =>
-  territories.reduce((acc, territory) => acc + territory.doNotCalls.length, 0);
+// entries past two years are due for a re-check with the householder
+export const doNotCallAges = (territories: Territory[], year: number) => {
+  const { start, end } = serviceYearBounds(year);
+
+  const twoYearsAgo = new Date();
+  twoYearsAgo.setFullYear(twoYearsAgo.getFullYear() - 2);
+
+  const dates = territories.flatMap((territory) =>
+    territory.doNotCalls.map((entry) => parseDate(entry.date))
+  );
+
+  return {
+    total: dates.length,
+    old: dates.filter((date) => date && date < twoYearsAgo).length,
+    added: dates.filter((date) => date && date >= start && date <= end).length,
+  };
+};
 
 export const trimEmptyBands = <T extends { value: number }>(bands: T[]) => {
   const last = bands.reduce(

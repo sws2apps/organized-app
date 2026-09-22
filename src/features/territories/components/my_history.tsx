@@ -28,38 +28,12 @@ import TruncatedText from './truncated_text';
 const FIRST_PAGE = 10;
 const PAGE = 20;
 
-const OPEN_KEY = 'territories.previousOpen';
-
-// open beside the list on desktop; below it on smaller screens it starts closed
-// so the current territories stay in view. The choice is kept on the device.
-const readOpen = (fallback: boolean) => {
-  try {
-    const stored = localStorage.getItem(OPEN_KEY);
-    return stored === null ? fallback : stored === '1';
-  } catch {
-    return fallback;
-  }
-};
-
-const writeOpen = (open: boolean) => {
-  try {
-    localStorage.setItem(OPEN_KEY, open ? '1' : '0');
-  } catch {
-    // private mode: the card simply opens with the default next time
-  }
-};
-
 const MyHistory = ({ territories }: { territories: Territory[] }) => {
   const navigate = useNavigate();
 
-  const { tablet688Up, desktopUp } = useBreakpoints();
+  const { tablet688Up } = useBreakpoints();
 
-  const [expanded, setExpanded] = useState(() => readOpen(desktopUp));
-
-  const toggle = () => {
-    setExpanded(!expanded);
-    writeOpen(!expanded);
-  };
+  const [expanded, setExpanded] = useState(true);
 
   const format = useAtomValue(shortDateFormatState);
   const showHouseholds = useAtomValue(territoriesShowHouseholdsState);
@@ -91,7 +65,7 @@ const MyHistory = ({ territories }: { territories: Territory[] }) => {
       <ButtonBase
         disableRipple
         aria-expanded={expanded}
-        onClick={toggle}
+        onClick={() => setExpanded(!expanded)}
         sx={{
           display: 'flex',
           alignItems: 'center',

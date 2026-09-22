@@ -20,12 +20,13 @@ import type { GeoJSONStoreFeatures, HexColor } from 'terra-draw';
 import { TerraDrawMapLibreGLAdapter } from 'terra-draw-maplibre-gl-adapter';
 import {
   MapColor,
+  MapStyle,
   PinType,
   Territory,
   TerritoryBoundary,
   TerritoryMapDraft,
 } from '@definition/territory';
-import { MAP_COLORS } from './constants';
+import { DEFAULT_BOUNDARY_STYLE, MAP_COLORS } from './constants';
 import { roundPosition, toBoundary } from './helpers';
 
 export type MapTool =
@@ -40,11 +41,6 @@ export type MapTool =
 export type MapItemKind = 'boundary' | 'shape' | 'line' | 'pin' | 'text';
 
 export type EditScope = 'territory' | 'congregation';
-
-type ShapeStyle = {
-  border: MapColor | 'transparent';
-  fill: MapColor | 'transparent';
-};
 
 const EMPTY_DRAFT: TerritoryMapDraft = {
   shapes: [],
@@ -70,14 +66,27 @@ const BLUE = MAP_COLORS.blue as HexColor;
 const isShape = (feature: GeoJSONStoreFeatures) =>
   feature.properties?.role === 'shape';
 
+// a border keeps the colors it was drawn with; one saved before colors existed is blue
+const styleOf = (feature: GeoJSONStoreFeatures): MapStyle => ({
+  border:
+    (feature.properties?.border as MapStyle['border']) ??
+    DEFAULT_BOUNDARY_STYLE.border,
+  fill:
+    (feature.properties?.fill as MapStyle['fill']) ??
+    DEFAULT_BOUNDARY_STYLE.fill,
+});
+
+const fallback = (feature: GeoJSONStoreFeatures): MapColor =>
+  isShape(feature) ? 'red' : 'blue';
+
 const fillColor = (feature: GeoJSONStoreFeatures) =>
-  isShape(feature) ? hex(feature.properties.fill as MapColor, 'red') : BLUE;
+  hex(styleOf(feature).fill, fallback(feature));
 
 const outlineColor = (feature: GeoJSONStoreFeatures) =>
-  isShape(feature) ? hex(feature.properties.border as MapColor, 'red') : BLUE;
+  hex(styleOf(feature).border, fallback(feature));
 
 const fillOpacity = (feature: GeoJSONStoreFeatures) =>
-  isShape(feature) && feature.properties.fill === 'transparent' ? 0 : 0.2;
+  styleOf(feature).fill === 'transparent' ? 0 : 0.2;
 
 const selectStyles = {
   selectedPolygonColor: fillColor,
@@ -151,12 +160,20 @@ const readSnapshot = (features: GeoJSONStoreFeatures[]) => {
         next.shapes.push({
           id: String(feature.id),
           path,
-          border: (properties.border as ShapeStyle['border']) ?? 'red',
-          fill: (properties.fill as ShapeStyle['fill']) ?? 'transparent',
+          border: (properties.border as MapStyle['border']) ?? 'red',
+          fill: (properties.fill as MapStyle['fill']) ?? 'transparent',
           label: (properties.label as string) || undefined,
         });
       } else if (properties.role === 'boundary') {
         next.boundary = path;
+        next.boundaryStyle = {
+          border:
+            (properties.border as MapStyle['border']) ??
+            DEFAULT_BOUNDARY_STYLE.border,
+          fill:
+            (properties.fill as MapStyle['fill']) ??
+            DEFAULT_BOUNDARY_STYLE.fill,
+        };
       }
     }
 
@@ -228,7 +245,8 @@ const useMapEditor = ({
   // terra draw calls back outside React, so the current choices live in refs
   const options = useRef({
     tool: 'move' as MapTool,
-    shape: { border: 'red', fill: 'transparent' } as ShapeStyle,
+    shape: { border: 'red', fill: 'transparent' } as MapStyle,
+    boundary: DEFAULT_BOUNDARY_STYLE,
     lineStyle: 'solid' as 'solid' | 'dashed',
     pinType: 'normal' as PinType,
   });
@@ -236,13 +254,16 @@ const useMapEditor = ({
   const [editing, setEditing] = useState(false);
   const [scope, setScope] = useState<EditScope>('territory');
   const [tool, setTool] = useState<MapTool>('move');
-  const [shape, setShape] = useState<ShapeStyle>(options.current.shape);
+  const [shape, setShape] = useState<MapStyle>(options.current.shape);
+  const [boundaryStyle, setBoundaryStyle] = useState<MapStyle>(
+    DEFAULT_BOUNDARY_STYLE
+  );
   const [lineStyle, setLineStyle] = useState<'solid' | 'dashed'>('solid');
   const [pinType, setPinType] = useState<PinType>('normal');
   const [draft, setDraft] = useState<TerritoryMapDraft>(EMPTY_DRAFT);
   const [labelling, setLabelling] = useState<string | number>();
   const [selected, setSelected] = useState<string | number>();
-  const [selectedStyle, setSelectedStyle] = useState<ShapeStyle>();
+  const [selectedStyle, setSelectedStyle] = useState<MapStyle>();
   const [selectedKind, setSelectedKind] = useState<MapItemKind>();
 
   // what the drawing looked like when editing started, to tell if anything changed
@@ -273,6 +294,11 @@ const useMapEditor = ({
 
       const congregation = nextScope === 'congregation';
       const existing = congregation ? border : target?.boundary;
+      const style =
+        (!congregation && target?.boundaryStyle) || DEFAULT_BOUNDARY_STYLE;
+
+      options.current.boundary = style;
+      setBoundaryStyle(style);
 
       stop();
 
@@ -340,8 +366,8 @@ const useMapEditor = ({
         setSelectedStyle(
           feature && isShape(feature)
             ? {
-                border: feature.properties.border as ShapeStyle['border'],
-                fill: feature.properties.fill as ShapeStyle['fill'],
+                border: feature.properties.border as MapStyle['border'],
+                fill: feature.properties.fill as MapStyle['fill'],
               }
             : undefined
         );
@@ -371,7 +397,10 @@ const useMapEditor = ({
 
           if (previous.length > 0) terra.removeFeatures(previous);
 
-          terra.updateFeatureProperties(id, { role: 'boundary' });
+          terra.updateFeatureProperties(id, {
+            role: 'boundary',
+            ...options.current.boundary,
+          });
         }
 
         if (current === 'shape') {
@@ -417,7 +446,7 @@ const useMapEditor = ({
         loaded.push({
           type: 'Feature',
           id: terra.getFeatureId(),
-          properties: { mode: 'polygon', role: 'boundary' },
+          properties: { mode: 'polygon', role: 'boundary', ...style },
           geometry: {
             type: 'Polygon',
             coordinates: [existing.map(roundPosition)],
@@ -519,7 +548,7 @@ const useMapEditor = ({
   );
 
   const pickShape = useCallback(
-    (next: Partial<ShapeStyle>) => {
+    (next: Partial<MapStyle>) => {
       if (selected !== undefined && selectedStyle && draw.current) {
         const restyled = { ...selectedStyle, ...next };
 
@@ -536,6 +565,26 @@ const useMapEditor = ({
       pickTool('shape');
     },
     [pickTool, selected, selectedStyle, readDraft]
+  );
+
+  const pickBoundary = useCallback(
+    (next: Partial<MapStyle>) => {
+      const style = { ...options.current.boundary, ...next };
+
+      options.current.boundary = style;
+      setBoundaryStyle(style);
+
+      const terra = draw.current;
+      const drawn = terra
+        ?.getSnapshot()
+        .find((feature) => feature.properties?.role === 'boundary');
+
+      if (terra && drawn?.id !== undefined) {
+        terra.updateFeatureProperties(drawn.id, style);
+        readDraft();
+      }
+    },
+    [readDraft]
   );
 
   const pickLineStyle = useCallback(
@@ -830,6 +879,7 @@ const useMapEditor = ({
       scope,
       tool,
       shape,
+      boundaryStyle,
       lineStyle,
       pinType,
       draft,
@@ -839,6 +889,7 @@ const useMapEditor = ({
       finish,
       pickTool,
       pickShape,
+      pickBoundary,
       pickLineStyle,
       pickPinType,
       saveLabel,
@@ -856,6 +907,7 @@ const useMapEditor = ({
       scope,
       tool,
       shape,
+      boundaryStyle,
       lineStyle,
       pinType,
       draft,
@@ -865,6 +917,7 @@ const useMapEditor = ({
       finish,
       pickTool,
       pickShape,
+      pickBoundary,
       pickLineStyle,
       pickPinType,
       saveLabel,

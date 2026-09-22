@@ -4,11 +4,13 @@ import { Button, CustomDivider, Typography } from '@components/index';
 import {
   IconAddPin,
   IconCheckCircle,
+  IconClose,
   IconDashedLine,
   IconDelete,
   IconDrawLine,
   IconDrawShape,
   IconRefresh,
+  IconSave,
   IconShapes,
   IconSolidLine,
   IconTypeText,
@@ -31,14 +33,12 @@ const KIND_LABEL: Record<MapItemKind, string> = {
 };
 
 const TOOL_HINT: Partial<Record<MapTool, string>> = {
-  text: 'Click on the map where the note should go.',
-  pin: 'Pick a pin type, then click on the map to place it.',
-  line: 'Click to start the line and to add each bend. Double-click or press Enter to finish.',
-  shape:
-    'Pick colors, then click around the area. Click the first corner again to close it.',
-  move: 'Drag a pin, note, line or area to move it. Click one to select it.',
-  points:
-    'Drag a corner to move it, or drag a small midpoint to add a corner. Click a corner and press Delete to remove it.',
+  text: 'Click where the note goes.',
+  pin: 'Pick a type, then click to place it.',
+  line: 'Click to add bends. Double-click to finish.',
+  shape: 'Click to add corners. Click the first one to close.',
+  move: 'Drag an item to move it.',
+  points: 'Drag corners to reshape. Delete removes a picked corner.',
 };
 
 const Section = ({
@@ -149,26 +149,30 @@ const ColorRow = ({
   label,
   value,
   onPick,
+  allowNone = true,
 }: {
   label: string;
   value: MapColor | 'transparent';
   onPick: (color: MapColor | 'transparent') => void;
+  allowNone?: boolean;
 }) => (
   <Stack spacing="6px">
     <Typography className="label-small-medium" color="var(--grey-400)">
       {label}
     </Typography>
     <Stack direction="row" sx={{ flexWrap: 'wrap', gap: '6px' }}>
-      {(['transparent', ...COLORS] as const).map((color) => (
-        <Chip
-          key={color}
-          label={color === 'transparent' ? 'None' : MAP_COLOR_LABEL[color]}
-          selected={value === color}
-          onClick={() => onPick(color)}
-        >
-          <Swatch color={color} />
-        </Chip>
-      ))}
+      {(allowNone ? (['transparent', ...COLORS] as const) : COLORS).map(
+        (color) => (
+          <Chip
+            key={color}
+            label={color === 'transparent' ? 'None' : MAP_COLOR_LABEL[color]}
+            selected={value === color}
+            onClick={() => onPick(color)}
+          >
+            <Swatch color={color} />
+          </Chip>
+        )
+      )}
     </Stack>
   </Stack>
 );
@@ -227,9 +231,13 @@ const ExtraTool = ({
 const EditPanel = ({
   editor,
   territory,
+  onCancel,
+  onSave,
 }: {
   editor: Editor;
   territory?: Territory;
+  onCancel: VoidFunction;
+  onSave: VoidFunction;
 }) => {
   const congregation = editor.scope === 'congregation';
   const hasBorder = !!editor.draft.boundary?.length;
@@ -240,7 +248,7 @@ const EditPanel = ({
     : `Territory ${territory?.number ?? ''}`;
 
   const subtitle = congregation
-    ? 'The outer border of everything the congregation covers'
+    ? 'Outer edge of all territories'
     : territory?.name;
 
   const extrasTool = ['text', 'pin', 'line', 'shape'].includes(editor.tool);
@@ -272,29 +280,27 @@ const EditPanel = ({
       </Box>
 
       <Section step={1} title="Border" done={hasBorder && !drawingBorder}>
-        {!hasBorder && (
-          <Box
-            sx={{
-              padding: '10px 12px',
-              borderRadius: 'var(--radius-m)',
-              backgroundColor: 'var(--accent-150)',
-            }}
-          >
-            <Typography className="body-small-regular" color="var(--black)">
-              Click on the map to place the first corner, then keep clicking
-              around the area. Click the first corner again or press Enter to
-              close the border. Press Esc to start over.
-            </Typography>
-          </Box>
+        {!hasBorder && <Hint>{TOOL_HINT.shape}</Hint>}
+
+        {!congregation && (
+          <>
+            <ColorRow
+              label="Outline"
+              allowNone={false}
+              value={editor.boundaryStyle.border}
+              onPick={(border) => editor.pickBoundary({ border })}
+            />
+            <ColorRow
+              label="Fill"
+              value={editor.boundaryStyle.fill}
+              onPick={(fill) => editor.pickBoundary({ fill })}
+            />
+          </>
         )}
 
         {hasBorder && (
           <>
-            <Hint>
-              {editor.tool === 'points'
-                ? TOOL_HINT.points
-                : 'The border is drawn. Choose Adjust points to change its shape.'}
-            </Hint>
+            {editor.tool === 'points' && <Hint>{TOOL_HINT.points}</Hint>}
 
             <Stack direction="row" spacing="8px">
               {editor.tool !== 'points' && (
@@ -326,7 +332,7 @@ const EditPanel = ({
         <Section step={2} title="Map notes (optional)" disabled={!hasBorder}>
           <Hint>
             {hasBorder
-              ? 'Mark what publishers should know. Notes are printed on the territory card.'
+              ? 'Printed on the territory card.'
               : 'Draw the border first.'}
           </Hint>
 
@@ -466,6 +472,37 @@ const EditPanel = ({
           </Button>
         </Stack>
       )}
+
+      {/* the last step of the panel, so every action reads top to bottom */}
+      <Stack
+        direction="row"
+        spacing="8px"
+        sx={{
+          position: 'sticky',
+          bottom: '-16px',
+          margin: '0 -16px -16px !important',
+          padding: '0 16px 16px',
+          backgroundColor: 'var(--white)',
+        }}
+      >
+        <Button
+          variant="secondary"
+          startIcon={<IconClose />}
+          onClick={onCancel}
+          sx={{ flex: 1 }}
+        >
+          Cancel
+        </Button>
+        <Button
+          variant="main"
+          startIcon={<IconSave />}
+          disabled={!hasBorder}
+          onClick={onSave}
+          sx={{ flex: 1 }}
+        >
+          Save
+        </Button>
+      </Stack>
     </Stack>
   );
 };

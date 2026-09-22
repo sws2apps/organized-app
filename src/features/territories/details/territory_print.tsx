@@ -1,15 +1,35 @@
-import { Box, Stack } from '@mui/material';
+import { ReactNode } from 'react';
+import { Box, FormControlLabel, RadioGroup, Stack } from '@mui/material';
 import { Button, Checkbox, TextField, Typography } from '@components/index';
+import Radio from '@components/radio';
 import Dialog from '@components/dialog';
 import DialogActions from '@components/dialog_actions';
 import { IconPrint } from '@icons/index';
 import { Territory } from '@definition/territory';
 import useTerritoryPrint, { PrintTemplate } from './useTerritoryPrint';
 
-const TEMPLATES: { id: PrintTemplate; name: string; hint: string }[] = [
-  { id: 's12', name: 'S-12 card', hint: 'The standard size, two per sheet' },
-  { id: 'a5', name: 'A5 card', hint: 'Half a sheet, a bigger map' },
+const TEMPLATES: { id: PrintTemplate; name: string }[] = [
+  { id: 's12', name: 'S-12 card' },
+  { id: 'a5', name: 'A5 horizontal' },
+  { id: 'a5v', name: 'A5 vertical' },
+  { id: 'letter', name: 'US Letter' },
 ];
+
+// the same label-over-options shape as the field service groups export
+const OptionGroup = ({
+  label,
+  children,
+}: {
+  label: string;
+  children: ReactNode;
+}) => (
+  <Stack spacing="8px">
+    <Typography className="body-small-semibold" color="var(--grey-400)">
+      {label}
+    </Typography>
+    {children}
+  </Stack>
+);
 
 const TerritoryPrint = ({
   territory,
@@ -20,53 +40,58 @@ const TerritoryPrint = ({
 }) => {
   const print = useTerritoryPrint(territory);
 
+  const isPhone = territory.type === 'phone';
+
   return (
     <Dialog
       onClose={onClose}
       open
       title={`Print ${territory.number}`}
-      description="Pick the form, check the preview, then print or save it as PDF."
+      description="Check the preview, then print or save it as PDF."
     >
-      <Stack direction="row" spacing="12px" sx={{ width: '100%' }}>
-        {TEMPLATES.map((item) => (
-          <Box
-            key={item.id}
-            onClick={() => print.setTemplate(item.id)}
-            sx={{
-              flex: 1,
-              padding: '12px',
-              cursor: 'pointer',
-              borderRadius: 'var(--radius-l)',
-              border: `1px solid ${
-                print.template === item.id
-                  ? 'var(--accent-main)'
-                  : 'var(--accent-200)'
-              }`,
-              backgroundColor:
-                print.template === item.id
-                  ? 'var(--accent-150)'
-                  : 'transparent',
-              transition: 'background-color 0.15s ease',
-              '&:hover': { backgroundColor: 'var(--accent-100)' },
-            }}
+      <Stack spacing="24px" sx={{ width: '100%' }}>
+        <OptionGroup label="Format">
+          <RadioGroup
+            value={print.template}
+            onChange={(event) =>
+              print.setTemplate(event.target.value as PrintTemplate)
+            }
+            sx={{ gap: '8px', marginLeft: '6px' }}
           >
-            <Typography className="body-small-semibold" color="var(--black)">
-              {item.name}
-            </Typography>
-            <Typography className="label-small-regular" color="var(--grey-350)">
-              {item.hint}
-            </Typography>
-          </Box>
-        ))}
-      </Stack>
+            {TEMPLATES.map((item) => (
+              <FormControlLabel
+                key={item.id}
+                value={item.id}
+                control={<Radio />}
+                label={
+                  <Typography>
+                    {item.id === 's12' && isPhone
+                      ? 'S-12 phone card'
+                      : item.name}
+                  </Typography>
+                }
+              />
+            ))}
+          </RadioGroup>
+        </OptionGroup>
 
-      <Stack spacing="12px" sx={{ width: '100%' }}>
-        <Checkbox
-          label="Territory map"
-          checked={print.showMap}
-          onChange={(_, checked) => print.setShowMap(checked)}
-          className="body-regular"
-        />
+        <OptionGroup label="Include">
+          {!isPhone && (
+            <Checkbox
+              label="Territory map"
+              checked={print.showMap}
+              onChange={(_, checked) => print.setShowMap(checked)}
+              className="body-regular"
+            />
+          )}
+
+          <Checkbox
+            label="QR code"
+            checked={print.showQr}
+            onChange={(_, checked) => print.setShowQr(checked)}
+            className="body-regular"
+          />
+        </OptionGroup>
 
         <TextField
           label="Notes"

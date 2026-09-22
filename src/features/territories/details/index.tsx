@@ -18,6 +18,8 @@ type TerritoryDetailsProps = {
   onChange: (territory: Territory) => void;
   // publishers see the territory to decide on a request, but don't edit it
   readOnly?: boolean;
+  // do-not-call addresses stay with admins and whoever holds the territory
+  showDoNotCalls?: boolean;
 };
 
 type Section = { label: string; badge?: number; Component: ReactNode };
@@ -37,6 +39,7 @@ const TerritoryDetails = ({
   territory,
   onChange,
   readOnly = false,
+  showDoNotCalls = true,
 }: TerritoryDetailsProps) => {
   const { desktopUp } = useBreakpoints();
 
@@ -52,7 +55,7 @@ const TerritoryDetails = ({
         }
       />
 
-      <TerritoryStats territory={territory} />
+      <TerritoryStats territory={territory} showDoNotCalls={showDoNotCalls} />
     </>
   );
 
@@ -88,20 +91,17 @@ const TerritoryDetails = ({
   );
 
   if (readOnly) {
-    return (
-      <Card>
-        {summary}
-
-        <TabbedSections
-          sections={[
-            ...(isPhone
-              ? []
-              : [
-                  {
-                    label: 'Map',
-                    Component: <TerritoryMap territory={territory} readOnly />,
-                  },
-                ]),
+    const sections = [
+      ...(isPhone
+        ? []
+        : [
+            {
+              label: 'Map',
+              Component: <TerritoryMap territory={territory} readOnly />,
+            },
+          ]),
+      ...(showDoNotCalls
+        ? [
             {
               label: 'Do not call',
               badge: territory.doNotCalls.length,
@@ -113,8 +113,15 @@ const TerritoryDetails = ({
                 />
               ),
             },
-          ]}
-        />
+          ]
+        : []),
+    ];
+
+    return (
+      <Card>
+        {summary}
+
+        {sections.length > 0 && <TabbedSections sections={sections} />}
       </Card>
     );
   }

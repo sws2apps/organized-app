@@ -11,7 +11,12 @@ import {
   serviceYearBounds,
 } from '../helpers';
 
-export type ColorView = 'status' | 'lastCovered' | 'heatmap' | 'type';
+export type ColorView =
+  | 'status'
+  | 'lastCovered'
+  | 'heatmap'
+  | 'type'
+  | 'original';
 
 export const HEATMAP_YEARS = () =>
   [1, 2, 3].map((back) => serviceYear() - back);
@@ -32,6 +37,10 @@ export const COLOR_VIEWS = [
   {
     id: 'type' as ColorView,
     label: 'Type',
+  },
+  {
+    id: 'original' as ColorView,
+    label: 'Original colors',
   },
 ];
 
@@ -107,6 +116,15 @@ export const colorScheme = (view: ColorView, year = HEATMAP_YEARS()[0]) => {
       keyOf: (territory: Territory) =>
         `f${Math.min(timesWorked(territory, year), 4)}`,
       detailOf: (territory: Territory) => `${timesWorked(territory, year)}×`,
+    };
+  }
+
+  // each territory paints itself in the colors it was drawn with
+  if (view === 'original') {
+    return {
+      buckets: [] as Bucket[],
+      keyOf: () => '',
+      detailOf: () => '',
     };
   }
 
