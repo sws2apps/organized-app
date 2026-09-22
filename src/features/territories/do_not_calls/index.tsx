@@ -431,11 +431,11 @@ const DoNotCalls = () => {
                       !group.territory &&
                         `${territory.number} ${territory.city}`.trim(),
                       entry.name,
-                      displayDate(entry.date, shortDateFormat),
                       entry.addedBy,
                     ]
                       .filter(Boolean)
                       .join(' · '),
+                    date: displayDate(entry.date, shortDateFormat),
                     onClick: () =>
                       setEditing({ territoryId: territory.id, entry }),
                     actions: (

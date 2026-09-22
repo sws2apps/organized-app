@@ -53,9 +53,8 @@ const DoNotCallPanel = ({
           id: entry.id,
           onClick: readOnly ? undefined : () => setEditing(entry),
           title: entry.address,
-          subtitle: [!isPhone && entry.name, displayDate(entry.date, format)]
-            .filter(Boolean)
-            .join(' · '),
+          subtitle: isPhone ? undefined : entry.name,
+          date: displayDate(entry.date, format),
           actions: readOnly ? undefined : (
             <RowAction title="Edit" onClick={() => setEditing(entry)}>
               <IconEdit color="var(--accent-main)" width={18} height={18} />

@@ -217,6 +217,7 @@ const CategoryEditor = ({
             <Tooltip title="Delete">
               <IconButton
                 color="error"
+                edge={false}
                 aria-label="Delete"
                 onClick={() =>
                   setDraft(draft.filter((item) => item.id !== category.id))

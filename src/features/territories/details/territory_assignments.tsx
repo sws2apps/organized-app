@@ -58,7 +58,7 @@ const TerritoryAssignments = ({
           id: assignment.id,
           onClick: onChange && (() => setEditing(assignment)),
           title: assignment.publisher,
-          subtitle: assignment.returnedOn
+          date: assignment.returnedOn
             ? `${displayDate(assignment.assignedOn, format)} – ${displayDate(assignment.returnedOn, format)}`
             : `Since ${displayDate(assignment.assignedOn, format)}`,
           badge: !assignment.returnedOn && (
