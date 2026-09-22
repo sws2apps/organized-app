@@ -39,7 +39,7 @@ export const ChartCard = ({
         }}
       >
         <Box sx={{ minWidth: 0 }}>
-          <Typography className="h4" color="var(--black)">
+          <Typography className="h2" color="var(--black)">
             {title}
           </Typography>
           {hint && (

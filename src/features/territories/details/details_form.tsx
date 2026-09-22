@@ -170,12 +170,8 @@ const DetailsForm = ({
           margin: '-10px 0',
         }}
       >
-        <Stack
-          direction="row"
-          spacing="8px"
-          sx={{ alignItems: 'center', justifyContent: 'space-between' }}
-        >
-          <Typography className="h4" color="var(--black)">
+        <Stack direction="row" spacing="4px" sx={{ alignItems: 'center' }}>
+          <Typography className="h3" color="var(--black)">
             Categories
           </Typography>
 

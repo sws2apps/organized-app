@@ -53,7 +53,7 @@ const TerritorySummary = ({
   return (
     <Stack spacing="8px">
       <Stack spacing="4px">
-        <Typography className="h4" color="var(--black)">
+        <Typography className="h2" color="var(--black)">
           Overview
         </Typography>
 

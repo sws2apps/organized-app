@@ -77,7 +77,7 @@ const MyHistory = ({ territories }: { territories: Territory[] }) => {
           '&:focus-visible': { outline: 'var(--accent-main) auto 1px' },
         }}
       >
-        <Typography component="h2" className="h4" color="var(--black)">
+        <Typography component="h2" className="h2" color="var(--black)">
           My previous territories
         </Typography>
         {/* on the tinted card the grey badge looks foreign and the accent one

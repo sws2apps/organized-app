@@ -16,6 +16,7 @@ import {
   CATEGORY_COLORS,
   CategoryColor,
   MAX_CATEGORIES,
+  MAX_CATEGORY_NAME,
   TerritoryCategoryOption,
 } from '@definition/territory';
 import { categorySwatch, toCategoryColor } from '../category_colors';
@@ -207,6 +208,7 @@ const CategoryEditor = ({
             <TextField
               placeholder="Category name"
               value={category.name}
+              slotProps={{ htmlInput: { maxLength: MAX_CATEGORY_NAME } }}
               autoFocus={category.name.length === 0}
               onChange={(event) =>
                 patch(category.id, { name: event.target.value })

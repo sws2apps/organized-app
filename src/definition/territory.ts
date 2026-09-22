@@ -184,6 +184,9 @@ export const CATEGORY_COLORS: CategoryColor[] = [
 // one category per color, so each stays recognisable at a glance
 export const MAX_CATEGORIES = CATEGORY_COLORS.length;
 
+// keeps a category readable as a badge and as a checkbox in two columns
+export const MAX_CATEGORY_NAME = 20;
+
 export const CATEGORY_COLOR_LABEL: Record<CategoryColor, string> = {
   blue: 'Blue',
   green: 'Green',

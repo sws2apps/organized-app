@@ -172,14 +172,14 @@ const TerritoryDetails = ({
     >
       <Stack spacing="16px">
         <Card>
-          <Typography className="h4" color="var(--black)">
+          <Typography className="h2" color="var(--black)">
             Territory details
           </Typography>
           {form}
         </Card>
 
         <Card>
-          <Typography className="h4" color="var(--black)">
+          <Typography className="h2" color="var(--black)">
             {isPhone ? 'Do-not-call numbers' : 'Do-not-call addresses'}
           </Typography>
           {doNotCalls}
