@@ -40,12 +40,14 @@ const Section = ({
   title,
   done = false,
   disabled = false,
+  action,
   children,
 }: {
   step?: number;
   title: string;
   done?: boolean;
   disabled?: boolean;
+  action?: ReactNode;
   children: ReactNode;
 }) => (
   <Stack spacing="10px" sx={{ opacity: disabled ? 0.5 : 1 }}>
@@ -77,6 +79,7 @@ const Section = ({
       <Typography className="h4" color="var(--black)">
         {title}
       </Typography>
+      {action && <Box sx={{ marginLeft: 'auto !important' }}>{action}</Box>}
     </Stack>
     {children}
   </Stack>
@@ -300,7 +303,24 @@ const EditPanel = ({
         </Tooltip>
       </Stack>
 
-      <Section step={1} title="Border" done={hasBorder && !drawingBorder}>
+      <Section
+        step={1}
+        title="Border"
+        done={hasBorder && !drawingBorder}
+        action={
+          hasBorder && (
+            <Button
+              variant="small"
+              disableAutoStretch
+              startIcon={<IconRefresh color="var(--accent-main)" />}
+              onClick={editor.redrawBorder}
+              sx={{ minHeight: '28px', padding: '2px 8px' }}
+            >
+              Redraw
+            </Button>
+          )
+        }
+      >
         {!hasBorder && <Hint>{TOOL_HINT.shape}</Hint>}
 
         {!congregation && (
@@ -323,28 +343,21 @@ const EditPanel = ({
           <>
             {editor.tool === 'points' && <Hint>{TOOL_HINT.points}</Hint>}
 
-            <Stack direction="row" spacing="8px">
-              {editor.tool !== 'points' && (
-                <Button
-                  variant="small"
-                  disableAutoStretch
-                  startIcon={<IconDrawShape color="var(--accent-main)" />}
-                  onClick={editor.adjustBorder}
-                  sx={{ minHeight: '28px', padding: '2px 8px' }}
-                >
-                  Adjust border
-                </Button>
-              )}
+            {editor.tool !== 'points' && (
               <Button
                 variant="small"
                 disableAutoStretch
-                startIcon={<IconRefresh color="var(--accent-main)" />}
-                onClick={editor.redrawBorder}
-                sx={{ minHeight: '28px', padding: '2px 8px' }}
+                startIcon={<IconDrawShape color="var(--accent-main)" />}
+                onClick={editor.adjustBorder}
+                sx={{
+                  minHeight: '28px',
+                  padding: '2px 8px',
+                  alignSelf: 'flex-start',
+                }}
               >
-                Redraw border
+                Adjust border
               </Button>
-            </Stack>
+            )}
           </>
         )}
       </Section>
