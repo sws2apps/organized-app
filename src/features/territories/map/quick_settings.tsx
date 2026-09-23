@@ -4,6 +4,45 @@ import SwitchWithLabel from '@components/switch_with_label';
 import QuickSettings from '@features/quick_settings';
 import { MAP_PROVIDERS, MapProviderKey } from './constants';
 import { TerritoriesMapState } from './useTerritoriesMap';
+import { BasemapOptions } from './basemap';
+
+const LAYER_SWITCHES: {
+  key: keyof BasemapOptions;
+  label: string;
+  helper: string;
+}[] = [
+  {
+    key: 'houseNumbers',
+    label: 'House numbers',
+    helper: 'Show house numbers when zoomed in close',
+  },
+  {
+    key: 'buildings',
+    label: 'Building outlines',
+    helper: 'Outline every building when zoomed in',
+  },
+  {
+    key: 'streetNames',
+    label: 'Street names',
+    helper: 'Show street names from further out',
+  },
+  {
+    key: 'places',
+    label: 'Places',
+    helper: 'Show shops, schools and other points of interest',
+  },
+  { key: 'parking', label: 'Car parks', helper: 'Mark car parks with a P' },
+  {
+    key: 'green',
+    label: 'Green areas',
+    helper: 'Tint parks, woods and grass green',
+  },
+  {
+    key: 'water',
+    label: 'Water',
+    helper: 'Tint rivers, lakes and canals blue',
+  },
+];
 
 const MapQuickSettings = ({
   map,
@@ -30,33 +69,15 @@ const MapQuickSettings = ({
         ))}
       </Select>
 
-      <SwitchWithLabel
-        label="House numbers"
-        helper="Show house numbers when zoomed in close"
-        checked={map.houseNumbers}
-        onChange={map.setHouseNumbers}
-      />
-
-      <SwitchWithLabel
-        label="Places"
-        helper="Show shops, schools and other points of interest"
-        checked={map.places}
-        onChange={map.setPlaces}
-      />
-
-      <SwitchWithLabel
-        label="Green areas"
-        helper="Tint parks, woods and grass green"
-        checked={map.green}
-        onChange={map.setGreen}
-      />
-
-      <SwitchWithLabel
-        label="Water"
-        helper="Tint rivers, lakes and canals blue"
-        checked={map.water}
-        onChange={map.setWater}
-      />
+      {LAYER_SWITCHES.map((item) => (
+        <SwitchWithLabel
+          key={item.key}
+          label={item.label}
+          helper={item.helper}
+          checked={map.layers[item.key]}
+          onChange={(value) => map.setLayer(item.key, value)}
+        />
+      ))}
 
       <SwitchWithLabel
         label="Territory numbers"

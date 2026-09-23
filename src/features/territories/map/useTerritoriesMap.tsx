@@ -48,7 +48,11 @@ import {
   boundaryCollection,
   labelCollection,
 } from './helpers';
-import { applyBasemapOptions } from './basemap';
+import {
+  applyBasemapOptions,
+  BasemapOptions,
+  DEFAULT_BASEMAP,
+} from './basemap';
 import { addDrawingLayers, setDrawingData } from './layers';
 import { MarkerRegistry, syncMarkers } from './markers';
 import useFullscreen from './useFullscreen';
@@ -101,10 +105,7 @@ const useTerritoriesMap = () => {
     [colorView, heatmapYear]
   );
   const [provider, setProvider] = useState<MapProviderKey>(DEFAULT_PROVIDER);
-  const [houseNumbers, setHouseNumbers] = useState(true);
-  const [places, setPlaces] = useState(true);
-  const [green, setGreen] = useState(true);
-  const [water, setWater] = useState(true);
+  const [layers, setLayers] = useState<BasemapOptions>(DEFAULT_BASEMAP);
   const [showNumbers, setShowNumbers] = useState(true);
   const [showHouseholds, setShowHouseholds] = useState(false);
 
@@ -207,8 +208,8 @@ const useTerritoriesMap = () => {
     isDark,
   ]);
 
-  const basemap = useRef({ provider, houseNumbers, places, green, water });
-  basemap.current = { provider, houseNumbers, places, green, water };
+  const basemap = useRef({ provider, layers });
+  basemap.current = { provider, layers };
 
   const labelOptions = useRef({ showNumbers, showHouseholds, provider });
   labelOptions.current = { showNumbers, showHouseholds, provider };
@@ -385,7 +386,11 @@ const useTerritoriesMap = () => {
     // 'style.load' is the first point a custom layer is accepted, and it fires
     // again after the theme swaps the basemap
     instance.on('style.load', () => {
-      applyBasemapOptions(instance, basemap.current.provider, basemap.current);
+      applyBasemapOptions(
+        instance,
+        basemap.current.provider,
+        basemap.current.layers
+      );
       applyLayers();
       setReady(true);
       setStyleVersion((version) => version + 1);
@@ -420,13 +425,8 @@ const useTerritoriesMap = () => {
   useEffect(() => {
     if (!map.current || !ready) return;
 
-    applyBasemapOptions(map.current, provider, {
-      houseNumbers,
-      places,
-      green,
-      water,
-    });
-  }, [provider, houseNumbers, places, green, water, ready, styleVersion]);
+    applyBasemapOptions(map.current, provider, layers);
+  }, [provider, layers, ready, styleVersion]);
 
   // swapping the style drops every other layer, terra draw's too, so only on a real basemap change
   useEffect(() => {
@@ -720,14 +720,9 @@ const useTerritoriesMap = () => {
     setHeatmapYear,
     provider,
     setProvider,
-    houseNumbers,
-    setHouseNumbers,
-    places,
-    setPlaces,
-    green,
-    setGreen,
-    water,
-    setWater,
+    layers,
+    setLayer: (key: keyof BasemapOptions, value: boolean) =>
+      setLayers((prev) => ({ ...prev, [key]: value })),
     showNumbers,
     setShowNumbers,
     showHouseholds,

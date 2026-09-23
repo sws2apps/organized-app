@@ -7,6 +7,9 @@ export type BasemapOptions = {
   places: boolean;
   green: boolean;
   water: boolean;
+  buildings: boolean;
+  streetNames: boolean;
+  parking: boolean;
 };
 
 export const DEFAULT_BASEMAP: BasemapOptions = {
@@ -14,6 +17,9 @@ export const DEFAULT_BASEMAP: BasemapOptions = {
   places: true,
   green: true,
   water: true,
+  buildings: true,
+  streetNames: true,
+  parking: true,
 };
 
 // tinted overlays for both tile schemas; a source layer a provider lacks simply draws nothing
@@ -76,8 +82,15 @@ const OVERLAYS: Overlay[] = [
 const HOUSE_NUMBER_LAYERS = new Set(['housenumber', 'addresses']);
 const PLACE_LAYERS = new Set(['poi', 'pois']);
 
+const STREET_NAME_LAYERS = new Set(['transportation_name', 'street_labels']);
+
 const HOUSE_NUMBERS = 'basemap-house-numbers';
 const PLACES = 'basemap-places';
+const PARKING = 'basemap-parking';
+const BUILDINGS = 'basemap-buildings';
+
+// street names from zoom 12 instead of only when close, so the way there stays readable
+const STREET_NAMES_FROM = 12;
 
 const sourceLayerOf = (layer: maplibregl.LayerSpecification) =>
   'source-layer' in layer ? layer['source-layer'] : undefined;
@@ -145,7 +158,60 @@ const addMissingLabels = (map: maplibregl.Map, provider: MapProviderKey) => {
       ['get', 'name'],
     ]);
   }
+
+  // outlines make each building countable at street level
+  for (const [index, layer] of ['building', 'buildings'].entries()) {
+    const id = `${BUILDINGS}-${index}`;
+    if (map.getLayer(id)) continue;
+
+    map.addLayer({
+      id,
+      type: 'line',
+      source,
+      'source-layer': layer,
+      minzoom: 15,
+      paint: {
+        'line-color': getCSSPropertyValue('--grey-350'),
+        'line-width': 0.6,
+        'line-opacity': 0.7,
+      },
+    });
+  }
+
+  const parking: [string, maplibregl.FilterSpecification][] = [
+    ['poi', ['all', ['==', ['get', 'class'], 'parking'], ['has', 'name']]],
+    ['pois', ['all', ['==', ['get', 'amenity'], 'parking'], ['has', 'name']]],
+  ];
+
+  parking.forEach(([layer, filter], index) => {
+    const id = `${PARKING}-${index}`;
+    if (map.getLayer(id)) return;
+
+    map.addLayer({
+      id,
+      type: 'symbol',
+      source,
+      'source-layer': layer,
+      filter,
+      // kerbside strips are mapped as car parks too; the named ones are the real car parks
+      minzoom: 16,
+      layout: {
+        'text-field': 'P',
+        'text-font': [...MAP_PROVIDERS[provider].fonts.bold],
+        'text-size': 12,
+        'symbol-sort-key': ['-', 0, ['coalesce', ['get', 'rank'], 0]],
+      },
+      paint: {
+        'text-color': getCSSPropertyValue('--accent-main'),
+        'text-halo-color': getCSSPropertyValue('--white'),
+        'text-halo-width': 2,
+      },
+    });
+  });
 };
+
+const setVisible = (map: maplibregl.Map, id: string, visible: boolean) =>
+  map.setLayoutProperty(id, 'visibility', visible ? 'visible' : 'none');
 
 export const applyBasemapOptions = (
   map: maplibregl.Map,
@@ -158,22 +224,28 @@ export const applyBasemapOptions = (
     overlay.parts.forEach((_, index) => {
       const id = `${overlay.id}-${index}`;
       if (!map.getLayer(id)) return;
-      map.setLayoutProperty(
-        id,
-        'visibility',
-        options[overlay.option] ? 'visible' : 'none'
-      );
+      setVisible(map, id, options[overlay.option]);
     });
   }
 
   for (const layer of map.getStyle().layers) {
     const sourceLayer = sourceLayerOf(layer) ?? '';
 
-    let visible: boolean;
-    if (HOUSE_NUMBER_LAYERS.has(sourceLayer)) visible = options.houseNumbers;
-    else if (PLACE_LAYERS.has(sourceLayer)) visible = options.places;
-    else continue;
-
-    map.setLayoutProperty(layer.id, 'visibility', visible ? 'visible' : 'none');
+    if (layer.id.startsWith(PARKING))
+      setVisible(map, layer.id, options.parking);
+    else if (layer.id.startsWith(BUILDINGS)) {
+      setVisible(map, layer.id, options.buildings);
+    } else if (HOUSE_NUMBER_LAYERS.has(sourceLayer)) {
+      setVisible(map, layer.id, options.houseNumbers);
+    } else if (PLACE_LAYERS.has(sourceLayer)) {
+      setVisible(map, layer.id, options.places);
+    } else if (STREET_NAME_LAYERS.has(sourceLayer) && layer.type === 'symbol') {
+      map.setLayerZoomRange(
+        layer.id,
+        Math.min(layer.minzoom ?? 0, STREET_NAMES_FROM),
+        layer.maxzoom ?? 24
+      );
+      setVisible(map, layer.id, options.streetNames);
+    }
   }
 };
