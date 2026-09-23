@@ -60,7 +60,7 @@ const TerritoryAssignments = ({
           title: assignment.publisher,
           date: assignment.returnedOn
             ? `${displayDate(assignment.assignedOn, format)} – ${displayDate(assignment.returnedOn, format)}`
-            : `Since ${displayDate(assignment.assignedOn, format)}`,
+            : `Since: ${displayDate(assignment.assignedOn, format)}`,
           badge: !assignment.returnedOn && (
             <Box sx={{ flexShrink: 0 }}>
               <StatusBadge status="in_work" />

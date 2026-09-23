@@ -176,7 +176,7 @@ const DetailsForm = ({
           </Typography>
 
           <RowAction
-            title="Edit categories"
+            title="Edit"
             onClick={() => setCategoryEditor(true)}
           >
             <IconEdit color="var(--accent-main)" width={18} height={18} />

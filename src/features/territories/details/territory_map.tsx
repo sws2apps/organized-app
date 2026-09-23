@@ -132,12 +132,12 @@ const TerritoryMap = ({
   const small = { minHeight: '28px', padding: '2px 8px', minWidth: 'unset' };
 
   const emptyText = readOnly
-    ? `Territory ${territory.number} has no map yet.`
+    ? 'No map yet.'
     : !isSaved
-      ? 'Save the territory first, then draw its borders on the map.'
+      ? 'Save first to draw borders.'
       : laptopUp
-        ? `Territory ${territory.number} has no borders yet. Draw them on the congregation map.`
-        : `Territory ${territory.number} has no borders yet. Borders are drawn on a computer.`;
+        ? 'No borders yet.'
+        : 'No borders yet. Draw them on a computer.';
 
   return (
     <Stack spacing="16px">
@@ -174,9 +174,9 @@ const TerritoryMap = ({
 
             {isSaved && laptopUp && (
               <Button
-                variant="main"
+                variant="secondary"
                 disableAutoStretch
-                startIcon={<IconDrawShape />}
+                startIcon={<IconDrawShape color="var(--accent-main)" />}
                 onClick={openMap}
               >
                 Draw borders
