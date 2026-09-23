@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import { Box, FormControlLabel, RadioGroup, Stack } from '@mui/material';
-import { Button, Checkbox, Typography } from '@components/index';
+import { Button, Checkbox, CustomDivider, Typography } from '@components/index';
+import { useBreakpoints } from '@hooks/index';
 import Radio from '@components/radio';
 import Dialog from '@components/dialog';
 import DialogActions from '@components/dialog_actions';
@@ -48,6 +49,8 @@ const TerritoryExport = ({
 }) => {
   const exporter = useTerritoryExport(territory);
 
+  const { tablet600Up } = useBreakpoints();
+
   const { parts, isPhone } = exporter;
 
   const formats = isPhone ? PHONE_FORMATS : MAP_FORMATS;
@@ -67,7 +70,20 @@ const TerritoryExport = ({
       title={`Export territory ${territory.number}`}
       description="Choose what to include and the format. The PDF is saved to your device."
     >
-      <Stack spacing="24px" sx={{ width: '100%' }}>
+      <Stack
+        direction={tablet600Up ? 'row' : 'column'}
+        spacing="24px"
+        divider={
+          tablet600Up && (
+            <CustomDivider
+              orientation="vertical"
+              flexItem
+              color="var(--accent-200)"
+            />
+          )
+        }
+        sx={{ width: '100%', '& > .MuiStack-root': { flex: 1, minWidth: 0 } }}
+      >
         <OptionGroup label="Include">
           <Checkbox
             label={isPhone ? 'Phone numbers card' : 'Territory map card'}
