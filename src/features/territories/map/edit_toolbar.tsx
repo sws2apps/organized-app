@@ -22,6 +22,7 @@ const ToolButton = ({
   disabled = false,
   hint,
   main = false,
+  compact = false,
   onClick,
 }: {
   label: string;
@@ -30,6 +31,8 @@ const ToolButton = ({
   disabled?: boolean;
   hint?: string;
   main?: boolean;
+  // icon only, with the label in the tooltip
+  compact?: boolean;
   onClick: VoidFunction;
 }) => {
   let color = active ? 'var(--accent-dark)' : 'var(--accent-main)';
@@ -45,12 +48,13 @@ const ToolButton = ({
       disableRipple
       disabled={disabled}
       aria-pressed={active}
+      aria-label={compact ? label : undefined}
       onClick={onClick}
       sx={{
         display: 'flex',
         alignItems: 'center',
         gap: '6px',
-        padding: '6px 10px',
+        padding: compact ? '6px' : '6px 10px',
         cursor: 'pointer',
         borderRadius: 'var(--radius-m)',
         opacity: disabled ? 0.4 : 1,
@@ -63,16 +67,20 @@ const ToolButton = ({
       }}
     >
       {cloneElement(icon, { color })}
-      <Typography className="body-small-semibold" color={color} noWrap>
-        {label}
-      </Typography>
+      {!compact && (
+        <Typography className="body-small-semibold" color={color} noWrap>
+          {label}
+        </Typography>
+      )}
     </ButtonBase>
   );
 
-  if (!hint) return button;
+  const tip = compact ? (hint ?? label) : hint;
+
+  if (!tip) return button;
 
   return (
-    <Tooltip title={hint} enterDelay={600}>
+    <Tooltip title={tip} enterDelay={600}>
       <span>{button}</span>
     </Tooltip>
   );
@@ -99,14 +107,17 @@ const Divider = () => (
 
 export const IdleToolbar = ({
   onCongregation,
+  compact = false,
 }: {
   onCongregation: VoidFunction;
+  compact?: boolean;
 }) => (
   <Stack direction="row" sx={{ flexShrink: 0, ...SHELL }}>
     <ToolButton
       label="Congregation border"
       hint="Draw the outer border of everything the congregation covers"
       icon={<IconCongregationBorder />}
+      compact={compact}
       onClick={onCongregation}
     />
   </Stack>
@@ -115,9 +126,11 @@ export const IdleToolbar = ({
 export const ViewToolbar = ({
   selected,
   onDetails,
+  compact = false,
 }: {
   selected: Territory;
   onDetails: VoidFunction;
+  compact?: boolean;
 }) => {
   const drawn = !!selected.boundary?.length;
 
@@ -143,19 +156,36 @@ export const ViewToolbar = ({
       <ToolButton
         label="Details"
         icon={<IconArrowLink />}
+        compact={compact}
         onClick={onDetails}
       />
     </Stack>
   );
 };
 
-const EditToolbar = ({ editor }: { editor: Editor }) => {
+const EditToolbar = ({
+  editor,
+  compact = false,
+}: {
+  editor: Editor;
+  compact?: boolean;
+}) => {
   const hasBorder = !!editor.draft.boundary?.length;
 
   return (
     <Stack direction="row" sx={{ flexShrink: 0, ...SHELL }}>
-      <ToolButton label="Undo" icon={<IconUndo />} onClick={editor.undo} />
-      <ToolButton label="Redo" icon={<IconRedo />} onClick={editor.redo} />
+      <ToolButton
+        label="Undo"
+        icon={<IconUndo />}
+        compact={compact}
+        onClick={editor.undo}
+      />
+      <ToolButton
+        label="Redo"
+        icon={<IconRedo />}
+        compact={compact}
+        onClick={editor.redo}
+      />
 
       <Divider />
 
@@ -165,6 +195,7 @@ const EditToolbar = ({ editor }: { editor: Editor }) => {
         active={editor.tool === 'points'}
         disabled={!hasBorder}
         icon={<IconEditPoints />}
+        compact={compact}
         onClick={editor.adjustBorder}
       />
 
@@ -174,6 +205,7 @@ const EditToolbar = ({ editor }: { editor: Editor }) => {
         active={editor.tool === 'move'}
         disabled={!hasBorder}
         icon={<IconMoveAround />}
+        compact={compact}
         onClick={() => editor.pickTool('move')}
       />
     </Stack>

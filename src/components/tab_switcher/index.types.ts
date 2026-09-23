@@ -20,6 +20,8 @@ export type TabSwitcherProps<T extends string = string> = {
    *   tinted colours would compete with the content
    */
   surface?: TabSwitcherSurface;
+  /** Only the icons show; each label becomes the option's accessible name. */
+  iconOnly?: boolean;
   sx?: SxProps<Theme>;
 };
 

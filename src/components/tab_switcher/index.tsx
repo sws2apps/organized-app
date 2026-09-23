@@ -33,6 +33,7 @@ const TabSwitcher = <T extends string = string>({
   onChange,
   ariaLabel,
   surface = 'tinted',
+  iconOnly = false,
   sx,
 }: TabSwitcherProps<T>) => {
   const palette = PALETTE[surface];
@@ -81,6 +82,7 @@ const TabSwitcher = <T extends string = string>({
             role="tab"
             className={isActive ? 'body-small-semibold' : 'body-small-regular'}
             aria-selected={isActive}
+            aria-label={iconOnly ? option.label : undefined}
             disabled={option.disabled}
             disableRipple
             onClick={() => onChange(option.value)}
@@ -93,7 +95,7 @@ const TabSwitcher = <T extends string = string>({
               alignItems: 'center',
               justifyContent: 'center',
               gap: '6px',
-              padding: '4px 12px',
+              padding: iconOnly ? '4px 8px' : '4px 12px',
               minHeight: '28px',
               borderRadius: 'var(--radius-m)',
               fontFamily: 'inherit',
@@ -115,17 +117,19 @@ const TabSwitcher = <T extends string = string>({
                 {cloneElement(option.icon, { width: 18, height: 18 })}
               </Box>
             )}
-            <Box
-              component="span"
-              sx={{
-                minWidth: 0,
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                whiteSpace: 'nowrap',
-              }}
-            >
-              {option.label}
-            </Box>
+            {!iconOnly && (
+              <Box
+                component="span"
+                sx={{
+                  minWidth: 0,
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {option.label}
+              </Box>
+            )}
           </ButtonBase>
         );
       })}

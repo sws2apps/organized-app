@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router';
 import { useAtomValue } from 'jotai';
 import * as maplibregl from 'maplibre-gl';
 import { Button, Typography } from '@components/index';
-import { useBreakpoints } from '@hooks/index';
 import { IconDrawShape, IconEditMap, IconShare } from '@icons/index';
 import { isDarkThemeState } from '@states/app';
 import { territoriesState } from '@states/territories';
@@ -73,8 +72,7 @@ const TerritoryMap = ({
 }) => {
   const navigate = useNavigate();
 
-  const { laptopUp: canDraw } = useBreakpoints();
-  const laptopUp = canDraw && !readOnly;
+  const canDraw = !readOnly;
 
   const territories = useAtomValue(territoriesState);
 
@@ -131,9 +129,7 @@ const TerritoryMap = ({
 
   const small = { minHeight: '28px', padding: '2px 8px', minWidth: 'unset' };
 
-  let emptyText = laptopUp
-    ? 'No borders yet.'
-    : 'No borders yet. Draw them on a computer.';
+  let emptyText = 'No borders yet.';
   if (!isSaved) emptyText = 'Save first to draw borders.';
   if (readOnly) emptyText = 'No map yet.';
 
@@ -170,7 +166,7 @@ const TerritoryMap = ({
               {emptyText}
             </Typography>
 
-            {isSaved && laptopUp && (
+            {isSaved && canDraw && (
               <Button
                 variant="secondary"
                 disableAutoStretch
@@ -183,7 +179,7 @@ const TerritoryMap = ({
           </Stack>
         )}
 
-        {hasBoundary && laptopUp && (
+        {hasBoundary && canDraw && (
           <MapIsland corner="top-left">
             <Button
               variant="small"

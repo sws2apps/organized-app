@@ -13,6 +13,7 @@ import {
   IconFullscreenExit,
   IconMapOverview,
   IconMyLocation,
+  IconPanelClose,
   IconPanelOpen,
   IconRemove,
   IconVisibility,
@@ -80,6 +81,11 @@ const ATTRIBUTION_STYLES = {
 
 const LAYOUT_GAP = 32;
 
+const SWITCH_SHELL = {
+  borderRadius: 'var(--radius-l)',
+  boxShadow: 'var(--hover-shadow)',
+};
+
 const TerritoriesMap = ({ map }: { map: TerritoriesMapState }) => {
   const navigate = useNavigate();
 
@@ -116,9 +122,31 @@ const TerritoriesMap = ({ map }: { map: TerritoriesMapState }) => {
   const { editor } = map;
 
   // the editing steps are the only guide while drawing, so they cannot be hidden
-  const showPanel = panelOpen || editor.editing;
+  const compact = !laptopUp;
 
-  const inset = showPanel && laptopUp ? `${PANEL_WIDTH + 24}px` : '12px';
+  // on a phone the editing steps sit behind the panel button, so the drawing stays visible
+  const showPanel = panelOpen || (editor.editing && !compact);
+
+  const inset = showPanel && !compact ? `${PANEL_WIDTH + 24}px` : '12px';
+
+  const modeSwitch = (
+    <TabSwitcher
+      ariaLabel="Map mode"
+      surface="light"
+      iconOnly={compact}
+      value={map.mode}
+      onChange={map.setMode}
+      options={[
+        { value: 'view', label: 'View', icon: <IconVisibility /> },
+        { value: 'edit', label: 'Edit', icon: <IconEdit /> },
+      ]}
+      // as tall as the map's button islands
+      sx={{
+        width: compact ? '88px' : '256px',
+        '& button': { minHeight: '36px' },
+      }}
+    />
+  );
 
   return (
     <Box
@@ -161,12 +189,13 @@ const TerritoriesMap = ({ map }: { map: TerritoriesMapState }) => {
           <Box
             sx={{
               position: 'absolute',
-              top: '12px',
+              // on a phone it opens under the top row, which stays usable
+              top: compact ? '70px' : '12px',
               left: '12px',
               // leaves the corner below free for the attribution button
-              bottom: '56px',
-              maxHeight: 'calc(100% - 68px)',
-              width: laptopUp ? `${PANEL_WIDTH}px` : 'calc(100% - 24px)',
+              bottom: compact ? '12px' : '56px',
+              maxHeight: compact ? 'calc(100% - 82px)' : 'calc(100% - 68px)',
+              width: compact ? 'calc(100% - 24px)' : `${PANEL_WIDTH}px`,
               zIndex: 3,
               display: 'flex',
               flexDirection: 'column',
@@ -224,33 +253,39 @@ const TerritoriesMap = ({ map }: { map: TerritoriesMapState }) => {
             right: '12px',
             zIndex: 2,
             transition: 'left 0.2s ease',
-            gap: '8px',
+            gap: compact ? '6px' : '8px',
             alignItems: 'flex-start',
             pointerEvents: 'none',
             '& > *': { pointerEvents: 'auto' },
           }}
         >
-          {!showPanel && (
+          {(!showPanel || compact) && (
             <MapIsland corner="static">
               <MapAction
-                title="Show the panel"
-                onClick={() => setPanelOpen(true)}
+                title={showPanel ? 'Hide the panel' : 'Show the panel'}
+                onClick={() => setPanelOpen(!showPanel)}
               >
-                <IconPanelOpen color="var(--accent-main)" />
+                {showPanel ? (
+                  <IconPanelClose color="var(--accent-main)" />
+                ) : (
+                  <IconPanelOpen color="var(--accent-main)" />
+                )}
               </MapAction>
             </MapIsland>
           )}
 
-          {editor.editing && <EditToolbar editor={editor} />}
+          {editor.editing && <EditToolbar editor={editor} compact={compact} />}
 
           {!editor.editing && map.mode === 'edit' && (
             <IdleToolbar
+              compact={compact}
               onCongregation={() => map.startEditing('congregation')}
             />
           )}
 
           {map.mode === 'view' && map.selected && (
             <ViewToolbar
+              compact={compact}
               selected={map.selected}
               onDetails={() =>
                 map.selected &&
@@ -260,9 +295,15 @@ const TerritoriesMap = ({ map }: { map: TerritoriesMapState }) => {
               }
             />
           )}
+
+          {compact && (
+            <Box sx={{ marginLeft: 'auto', flexShrink: 0, ...SWITCH_SHELL }}>
+              {modeSwitch}
+            </Box>
+          )}
         </Stack>
 
-        {laptopUp && (
+        {!compact && (
           <Box
             sx={{
               position: 'absolute',
@@ -270,22 +311,10 @@ const TerritoriesMap = ({ map }: { map: TerritoriesMapState }) => {
               left: `calc(${inset} + (100% - ${inset}) / 2)`,
               transform: 'translateX(-50%)',
               zIndex: 2,
-              borderRadius: 'var(--radius-l)',
-              boxShadow: 'var(--hover-shadow)',
+              ...SWITCH_SHELL,
             }}
           >
-            <TabSwitcher
-              ariaLabel="Map mode"
-              surface="light"
-              value={map.mode}
-              onChange={map.setMode}
-              options={[
-                { value: 'view', label: 'View', icon: <IconVisibility /> },
-                { value: 'edit', label: 'Edit', icon: <IconEdit /> },
-              ]}
-              // as tall as the map's button islands
-              sx={{ width: '256px', '& button': { minHeight: '36px' } }}
-            />
+            {modeSwitch}
           </Box>
         )}
 
