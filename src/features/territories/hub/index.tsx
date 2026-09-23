@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import { Box, Stack } from '@mui/material';
 import {
   Button,
@@ -145,6 +146,44 @@ const SidePanel = ({
   </Box>
 );
 
+const TabsRow = ({
+  tabs,
+  value,
+  onChange,
+  aside,
+}: {
+  tabs: TerritoriesHubProps['hub']['tabs'];
+  value: number;
+  onChange: (value: number) => void;
+  aside?: ReactNode;
+}) => {
+  if (tabs.length === 0 && !aside) return null;
+
+  return (
+    <>
+      <Stack
+        direction="row"
+        sx={{ alignItems: 'center', gap: '8px', minHeight: '48px' }}
+      >
+        <Box sx={{ flexGrow: 1, minWidth: 0 }}>
+          {tabs.length > 0 && (
+            <ScrollableTabs
+              appearance="plain"
+              tabs={tabs.map((item) => ({ ...item }))}
+              value={value}
+              onChange={onChange}
+            />
+          )}
+        </Box>
+
+        {aside}
+      </Stack>
+
+      <CustomDivider color="var(--accent-200)" />
+    </>
+  );
+};
+
 const TerritoriesHub = ({ hub }: TerritoriesHubProps) => {
   const {
     tab,
@@ -276,29 +315,12 @@ const TerritoriesHub = ({ hub }: TerritoriesHubProps) => {
       )}
 
       <Box>
-        {(tabs.length > 0 || inlineSwitch) && (
-          <>
-            <Stack
-              direction="row"
-              sx={{ alignItems: 'center', gap: '8px', minHeight: '48px' }}
-            >
-              <Box sx={{ flexGrow: 1, minWidth: 0 }}>
-                {!isBoard && tabs.length > 0 && (
-                  <ScrollableTabs
-                    appearance="plain"
-                    tabs={tabs.map((item) => ({ ...item }))}
-                    value={tab}
-                    onChange={setTab}
-                  />
-                )}
-              </Box>
-
-              {inlineSwitch}
-            </Stack>
-
-            <CustomDivider color="var(--accent-200)" />
-          </>
-        )}
+        <TabsRow
+          tabs={isBoard ? [] : tabs}
+          value={tab}
+          onChange={setTab}
+          aside={inlineSwitch}
+        />
 
         {isBoard && (
           <Stack
