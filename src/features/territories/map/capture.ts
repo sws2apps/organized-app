@@ -1,20 +1,51 @@
 import * as maplibregl from 'maplibre-gl';
 import { Territory } from '@definition/territory';
-import { MAP_PROVIDER } from './constants';
+import { DEFAULT_PROVIDER, MAP_PROVIDER } from './constants';
+import { applyBasemapOptions } from './basemap';
 import { boundaryBounds } from './helpers';
 import { addTerritoryLayers } from './layers';
 import { paintMarkers } from './markers';
 
-// the same 1.74 ratio the card gives the picture, so it fills the frame
-const WIDTH = 1040;
-const HEIGHT = 600;
+// the longer side of the picture; the other follows the frame it is printed in
+const SIZE = 1040;
+
+// the world with the territory cut out, laid over the basemap so the area itself stands out
+const addOutsideVeil = (map: maplibregl.Map, boundary: [number, number][]) => {
+  map.addSource('outside-veil', {
+    type: 'geojson',
+    data: {
+      type: 'Feature',
+      properties: {},
+      geometry: {
+        type: 'Polygon',
+        coordinates: [
+          [
+            [-180, -85],
+            [180, -85],
+            [180, 85],
+            [-180, 85],
+            [-180, -85],
+          ],
+          boundary,
+        ],
+      },
+    },
+  });
+
+  map.addLayer({
+    id: 'outside-veil',
+    type: 'fill',
+    source: 'outside-veil',
+    paint: { 'fill-color': '#FFFFFF', 'fill-opacity': 0.35 },
+  });
+};
 
 /**
  * Renders the territory on an off-screen map and returns it as a PNG data URL.
  * Printing needs a picture, and the same drawing the congregation edits is the
  * only one that is guaranteed to be current.
  */
-export const captureTerritoryMap = (territory: Territory) =>
+export const captureTerritoryMap = (territory: Territory, ratio = 1.74) =>
   new Promise<string | undefined>((resolve) => {
     const boundary = territory.boundary;
 
@@ -23,8 +54,11 @@ export const captureTerritoryMap = (territory: Territory) =>
       return;
     }
 
+    const width = ratio >= 1 ? SIZE : Math.round(SIZE * ratio);
+    const height = ratio >= 1 ? Math.round(SIZE / ratio) : SIZE;
+
     const container = document.createElement('div');
-    container.style.cssText = `position:fixed;left:-10000px;top:0;width:${WIDTH}px;height:${HEIGHT}px`;
+    container.style.cssText = `position:fixed;left:-10000px;top:0;width:${width}px;height:${height}px`;
     document.body.appendChild(container);
 
     const [west, south, east, north] = boundaryBounds(boundary);
@@ -34,7 +68,8 @@ export const captureTerritoryMap = (territory: Territory) =>
       // the card is printed on white paper, so always the light basemap
       style: MAP_PROVIDER.light,
       bounds: [west, south, east, north],
-      fitBoundsOptions: { padding: 48 },
+      // a margin on every side keeps the whole border inside the printed frame
+      fitBoundsOptions: { padding: Math.round(Math.min(width, height) * 0.08) },
       interactive: false,
       attributionControl: false,
       canvasContextAttributes: { preserveDrawingBuffer: true },
@@ -58,6 +93,11 @@ export const captureTerritoryMap = (territory: Territory) =>
 
     map.on('style.load', () => {
       styled = true;
+      applyBasemapOptions(map, DEFAULT_PROVIDER, {
+        houseNumbers: true,
+        places: true,
+      });
+      addOutsideVeil(map, boundary);
       addTerritoryLayers(map, territory, 0);
     });
 

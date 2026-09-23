@@ -16,7 +16,8 @@ import { openInMaps, territoryCenter } from '../helpers';
 import { isDarkThemeState } from '@states/app';
 import { territoriesState } from '@states/territories';
 import { Territory } from '@definition/territory';
-import { MAP_PROVIDER } from '../map/constants';
+import { DEFAULT_PROVIDER, MAP_PROVIDER } from '../map/constants';
+import { applyBasemapOptions } from '../map/basemap';
 import { addAttribution, boundaryBounds } from '../map/helpers';
 import { addTerritoryLayers } from '../map/layers';
 import { captureTerritoryMap } from '../map/capture';
@@ -54,6 +55,10 @@ const BoundaryPreview = ({ territory }: { territory: Territory }) => {
     const registry: MarkerRegistry = new Map();
 
     instance.on('style.load', () => {
+      applyBasemapOptions(instance, DEFAULT_PROVIDER, {
+        houseNumbers: true,
+        places: true,
+      });
       addTerritoryLayers(instance, latest.current, 0.12);
       syncMarkers(instance, mapMarkers ?? [], registry);
       instance.triggerRepaint();

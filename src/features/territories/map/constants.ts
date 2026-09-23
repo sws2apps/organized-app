@@ -5,8 +5,8 @@ import { MapColor, MapStyle, PinType } from '@definition/territory';
  * the map without signing up anywhere. All of them serve vector tiles, which
  * keeps the download small and lets the style follow the app theme.
  *
+ * - openfreemap: unlimited and free forever, fully self-hostable; the default
  * - carto: light and dark siblings of the same design, attribution required
- * - openfreemap: unlimited and free forever, fully self-hostable
  * - versatiles: community hosted, ships a dark style of its own
  */
 export const MAP_PROVIDERS = {
@@ -24,7 +24,7 @@ export const MAP_PROVIDERS = {
   openfreemap: {
     name: 'OpenFreeMap',
     light: 'https://tiles.openfreemap.org/styles/positron',
-    dark: 'https://tiles.openfreemap.org/styles/liberty',
+    dark: 'https://tiles.openfreemap.org/styles/dark',
     // no medium weight on this glyph server; bold reads too heavy for numbers
     fonts: {
       regular: ['Noto Sans Regular'],
@@ -46,7 +46,9 @@ export const MAP_PROVIDERS = {
 
 export type MapProviderKey = keyof typeof MAP_PROVIDERS;
 
-export const MAP_PROVIDER = MAP_PROVIDERS.carto;
+export const DEFAULT_PROVIDER: MapProviderKey = 'openfreemap';
+
+export const MAP_PROVIDER = MAP_PROVIDERS[DEFAULT_PROVIDER];
 
 export const styleUrl = (provider: MapProviderKey, isDark: boolean) => {
   const styles = MAP_PROVIDERS[provider];

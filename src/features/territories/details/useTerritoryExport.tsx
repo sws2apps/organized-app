@@ -20,6 +20,7 @@ import {
   TerritoryPrintData,
   TerritoryTemplateProps,
 } from '@views/territories/index.types';
+import { CARD } from '@views/territories/index.styles';
 import { Territory } from '@definition/territory';
 import { captureTerritoryMap } from '../map/capture';
 
@@ -35,6 +36,17 @@ const TEMPLATES: Record<
   s12a4: TemplateTerritoryS12,
   a5h: TemplateTerritoryCard,
   a5v: TemplateTerritoryCardVertical,
+};
+
+const cardMapRatio = (width: number, height: number) =>
+  (width - CARD.padding * 2) / (height - CARD.mapTop - CARD.footerHeight);
+
+// the map frame of each layout (page sizes as in the templates), so the picture is never cropped
+const MAP_RATIO: Record<ExportFormat, number> = {
+  s12: cardMapRatio(467, 301),
+  s12a4: cardMapRatio(467, 301),
+  a5h: cardMapRatio(575, 400),
+  a5v: 421 / 530,
 };
 
 const FILE_SUFFIX: Record<ExportFormat, string> = {
@@ -59,18 +71,19 @@ const useTerritoryExport = (territory: Territory) => {
 
   const blob = useRef<Blob>(null);
 
-  // kept as a promise so every preview awaits the same capture
-  const mapImage = useRef<Promise<string | undefined>>(null);
+  // kept as promises so every preview of a layout awaits the same capture
+  const mapImages = useRef(new Map<number, Promise<string | undefined>>());
 
   const build = useCallback(async () => {
     const needsMap = parts.front && !isPhone;
 
-    if (needsMap && !mapImage.current) {
-      mapImage.current = captureTerritoryMap(territory);
+    const ratio = MAP_RATIO[format];
+
+    if (needsMap && !mapImages.current.has(ratio)) {
+      mapImages.current.set(ratio, captureTerritoryMap(territory, ratio));
     }
 
-    const picture =
-      needsMap && mapImage.current ? await mapImage.current : undefined;
+    const picture = needsMap ? await mapImages.current.get(ratio) : undefined;
 
     const qrImage = showQr
       ? await QRCode.toDataURL(

@@ -19,6 +19,7 @@ import {
   CONGREGATION_SOURCE,
   DEFAULT_BOUNDARY_STYLE,
   DEFAULT_CENTER,
+  DEFAULT_PROVIDER,
   DEFAULT_ZOOM,
   FILL_LAYER,
   LABEL_CAPTION_LAYER,
@@ -47,6 +48,7 @@ import {
   boundaryCollection,
   labelCollection,
 } from './helpers';
+import { applyBasemapOptions } from './basemap';
 import { addDrawingLayers, setDrawingData } from './layers';
 import { MarkerRegistry, syncMarkers } from './markers';
 import useFullscreen from './useFullscreen';
@@ -98,7 +100,9 @@ const useTerritoriesMap = () => {
     () => colorScheme(colorView, heatmapYear),
     [colorView, heatmapYear]
   );
-  const [provider, setProvider] = useState<MapProviderKey>('carto');
+  const [provider, setProvider] = useState<MapProviderKey>(DEFAULT_PROVIDER);
+  const [houseNumbers, setHouseNumbers] = useState(true);
+  const [places, setPlaces] = useState(true);
   const [showNumbers, setShowNumbers] = useState(true);
   const [showHouseholds, setShowHouseholds] = useState(false);
 
@@ -200,6 +204,9 @@ const useTerritoriesMap = () => {
     colorView,
     isDark,
   ]);
+
+  const basemap = useRef({ provider, houseNumbers, places });
+  basemap.current = { provider, houseNumbers, places };
 
   const labelOptions = useRef({ showNumbers, showHouseholds, provider });
   labelOptions.current = { showNumbers, showHouseholds, provider };
@@ -376,6 +383,7 @@ const useTerritoriesMap = () => {
     // 'style.load' is the first point a custom layer is accepted, and it fires
     // again after the theme swaps the basemap
     instance.on('style.load', () => {
+      applyBasemapOptions(instance, basemap.current.provider, basemap.current);
       applyLayers();
       setReady(true);
       setStyleVersion((version) => version + 1);
@@ -406,6 +414,12 @@ const useTerritoriesMap = () => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (!map.current || !ready) return;
+
+    applyBasemapOptions(map.current, provider, { houseNumbers, places });
+  }, [provider, houseNumbers, places, ready, styleVersion]);
 
   // swapping the style drops every other layer, terra draw's too, so only on a real basemap change
   useEffect(() => {
@@ -699,6 +713,10 @@ const useTerritoriesMap = () => {
     setHeatmapYear,
     provider,
     setProvider,
+    houseNumbers,
+    setHouseNumbers,
+    places,
+    setPlaces,
     showNumbers,
     setShowNumbers,
     showHouseholds,

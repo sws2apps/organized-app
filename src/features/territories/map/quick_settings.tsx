@@ -31,6 +31,20 @@ const MapQuickSettings = ({
       </Select>
 
       <SwitchWithLabel
+        label="House numbers"
+        helper="Show house numbers when zoomed in close"
+        checked={map.houseNumbers}
+        onChange={map.setHouseNumbers}
+      />
+
+      <SwitchWithLabel
+        label="Places"
+        helper="Show shops, schools and other points of interest"
+        checked={map.places}
+        onChange={map.setPlaces}
+      />
+
+      <SwitchWithLabel
         label="Territory numbers"
         helper="Show the number in the middle of every territory"
         checked={map.showNumbers}
