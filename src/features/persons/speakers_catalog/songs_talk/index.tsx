@@ -34,7 +34,12 @@ const SongsTalk = ({ talk, songs }: SongsTalkType) => {
       >
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
           <IconSong color="var(--grey-400)" />
-          <Typography className="body-small-semibold" color="var(--grey-400)">
+          <Typography
+            className="body-small-semibold"
+            sx={{
+              color: 'var(--grey-400)',
+            }}
+          >
             {t('tr_songs')}:
           </Typography>
         </Box>

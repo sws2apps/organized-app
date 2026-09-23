@@ -21,7 +21,11 @@ const AllRecords = (props: AllRecordsProps) => {
       <Stack spacing="16px">
         <Typography className="h2">{t('tr_S21CardTitle')}</Typography>
 
-        <Typography color="var(--grey-400)">
+        <Typography
+          sx={{
+            color: 'var(--grey-400)',
+          }}
+        >
           {t('tr_S21CardTitleDesc')}
         </Typography>
       </Stack>

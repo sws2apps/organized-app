@@ -24,7 +24,11 @@ const PersonsEmpty = () => {
       />
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
         <Typography className="h2">{t('tr_noPersonsAdded')}</Typography>
-        <Typography color="var(--grey-400)">
+        <Typography
+          sx={{
+            color: 'var(--grey-400)',
+          }}
+        >
           {t('tr_noPersonsAddedDesc')}
         </Typography>
       </Box>

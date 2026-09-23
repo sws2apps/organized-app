@@ -19,8 +19,10 @@ const MonthContainer = ({ monthData }: AssignmentsMonthContainerProps) => {
       >
         <Typography
           className="h2"
-          color="var(--accent-dark)"
-          sx={{ textAlign: 'left' }}
+          sx={{
+            color: 'var(--accent-dark)',
+            textAlign: 'left',
+          }}
         >
           {monthLocale}
         </Typography>

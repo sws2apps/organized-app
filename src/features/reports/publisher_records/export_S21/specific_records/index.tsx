@@ -15,7 +15,11 @@ const SpecificRecords = (props: SpecificRecordsProps) => {
       <Stack spacing="16px">
         <Typography className="h2">{t('tr_S21CardTitle')}</Typography>
 
-        <Typography color="var(--grey-400)">
+        <Typography
+          sx={{
+            color: 'var(--grey-400)',
+          }}
+        >
           {t('tr_S21ExportMultipleDesc')}
         </Typography>
       </Stack>

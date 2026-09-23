@@ -179,7 +179,6 @@ const DatePicker = ({
               ref: poperRef,
             },
             textField: {
-              value: valueTmp,
               onClick: () => {
                 if (readOnly) return;
                 setOpen(true);

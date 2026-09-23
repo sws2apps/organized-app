@@ -63,14 +63,26 @@ const SubpageNavbar = ({
           textAlign: { mobile: 'center', tablet688: 'left' },
         }}
       >
-        <Typography className="h3" color="var(--black)" sx={ellipsis}>
+        <Typography
+          className="h3"
+          sx={[
+            {
+              color: 'var(--black)',
+            },
+            ...(Array.isArray(ellipsis) ? ellipsis : [ellipsis]),
+          ]}
+        >
           {title}
         </Typography>
         {subtitle && (
           <Typography
             className="label-small-regular"
-            color="var(--accent-400)"
-            sx={ellipsis}
+            sx={[
+              {
+                color: 'var(--accent-400)',
+              },
+              ...(Array.isArray(ellipsis) ? ellipsis : [ellipsis]),
+            ]}
           >
             {subtitle}
           </Typography>

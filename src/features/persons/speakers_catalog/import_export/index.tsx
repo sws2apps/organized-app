@@ -58,7 +58,11 @@ const ImportExport = (props: ImportExportType) => {
             {t('tr_importExportSpeakersTitle')}
           </Typography>
 
-          <Typography color="var(--grey-400)">
+          <Typography
+            sx={{
+              color: 'var(--grey-400)',
+            }}
+          >
             {value === 0 ? (
               t('tr_exportSpeakersDesc')
             ) : (

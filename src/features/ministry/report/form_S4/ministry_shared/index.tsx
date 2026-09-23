@@ -16,7 +16,12 @@ const MinistryShared = (props: FormS4Props) => {
         <Typography>
           {t('tr_sharedMinistry')}
           {month_name && (
-            <Typography component="span" color="var(--grey-350)">
+            <Typography
+              component="span"
+              sx={{
+                color: 'var(--grey-350)',
+              }}
+            >
               {' '}
               ({month_name})
             </Typography>

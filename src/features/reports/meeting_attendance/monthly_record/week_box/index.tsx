@@ -43,7 +43,12 @@ const WeekBox = (props: WeekBoxProps) => {
     !clickerOpen && focusedField === field;
 
   return (
-    <Stack spacing="4px" flex={1}>
+    <Stack
+      spacing="4px"
+      sx={{
+        flex: 1,
+      }}
+    >
       <Stack spacing="16px">
         {detailed && (
           <Box
@@ -76,14 +81,17 @@ const WeekBox = (props: WeekBoxProps) => {
             <Stack
               key={field.name}
               spacing="4px"
-              height={last && isMeetingDay ? '56px' : 'unset'}
+              sx={{
+                height: last && isMeetingDay ? '56px' : 'unset',
+              }}
             >
               {field.section && (
                 <Typography
                   className="body-small-semibold"
-                  color="var(--grey-400)"
-                  // padding, since the Stack spacing resets child margins
-                  sx={{ paddingBottom: '4px' }}
+                  sx={{
+                    color: 'var(--grey-400)',
+                    paddingBottom: '4px',
+                  }}
                 >
                   {field.section}
                 </Typography>
@@ -141,12 +149,14 @@ const WeekBox = (props: WeekBoxProps) => {
           >
             <Typography
               className="h4"
-              textAlign="center"
               color={
                 props.type === 'midweek'
                   ? 'var(--accent-dark)'
                   : 'var(--weekend-meeting)'
               }
+              sx={{
+                textAlign: 'center',
+              }}
             >
               {total}
             </Typography>

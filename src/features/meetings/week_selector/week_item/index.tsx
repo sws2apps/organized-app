@@ -35,8 +35,10 @@ const WeekItem = ({ week }: WeekItemType) => {
         <ProgressBarSmall value={assigned} maxValue={total} />
         <Typography
           className="label-small-medium"
-          sx={{ width: '48px' }}
-          textAlign="right"
+          sx={{
+            textAlign: 'right',
+            width: '48px',
+          }}
         >
           {total > 0 && `${assigned}/${total}`}
         </Typography>

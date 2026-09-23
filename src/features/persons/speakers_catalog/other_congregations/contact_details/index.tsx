@@ -21,7 +21,12 @@ const ContactDetails = ({
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
       {!hideLabel && (
-        <Typography className="body-small-semibold" color="var(--grey-400)">
+        <Typography
+          className="body-small-semibold"
+          sx={{
+            color: 'var(--grey-400)',
+          }}
+        >
           {label}
         </Typography>
       )}

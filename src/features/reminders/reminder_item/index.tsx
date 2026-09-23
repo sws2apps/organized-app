@@ -14,15 +14,20 @@ const ReminderItem = ({ title, description, path }: ReminderItemProps) => {
         <Stack spacing="4px">
           <Typography
             className="h4"
-            color="var(--always-white)"
-            sx={{ cursor: 'pointer', userSelect: 'none' }}
             onClick={path ? () => navigate(path) : undefined}
+            sx={{
+              color: 'var(--always-white)',
+              cursor: 'pointer',
+              userSelect: 'none',
+            }}
           >
             {title}
           </Typography>
           <Typography
             className="body-small-regular"
-            color="var(--always-white)"
+            sx={{
+              color: 'var(--always-white)',
+            }}
           >
             {description}
           </Typography>

@@ -16,7 +16,13 @@ const OAuth = () => {
       <Stack spacing="32px">
         <Box sx={{ width: '100%' }}>
           <Divider color="var(--accent-300)" sx={{ gap: '32px' }}>
-            <Typography color="var(--accent-400)">{t('tr_orLabel')}</Typography>
+            <Typography
+              sx={{
+                color: 'var(--accent-400)',
+              }}
+            >
+              {t('tr_orLabel')}
+            </Typography>
           </Divider>
         </Box>
 
