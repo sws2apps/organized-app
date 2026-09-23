@@ -160,11 +160,20 @@ export const labelCollection = (
   }),
 });
 
-export const addAttribution = (map: maplibregl.Map) =>
+// starts folded into the info button, so the credits never cover the map
+export const addAttribution = (map: maplibregl.Map) => {
   map.addControl(
     new maplibregl.AttributionControl({ compact: true }),
     'bottom-left'
   );
+
+  map.once('load', () => {
+    const control = map.getContainer().querySelector('.maplibregl-ctrl-attrib');
+
+    control?.classList.remove('maplibregl-compact-show');
+    control?.removeAttribute('open');
+  });
+};
 
 export const LABEL_BACKGROUND = 'territory-label-background';
 

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Box, Stack } from '@mui/material';
+import { Box, Dialog as MuiDialog, Stack } from '@mui/material';
 import { saveAs } from 'file-saver';
 import { displaySnackNotification } from '@services/states/app';
 import { useNavigate } from 'react-router';
@@ -7,9 +7,14 @@ import { useAtomValue } from 'jotai';
 import * as maplibregl from 'maplibre-gl';
 import { Button, Typography } from '@components/index';
 import {
+  IconAdd,
+  IconClose,
   IconDrawShape,
   IconEditMap,
+  IconFullscreen,
   IconLocation,
+  IconMapOverview,
+  IconRemove,
   IconShare,
 } from '@icons/index';
 import { openInMaps, territoryCenter } from '../helpers';
@@ -23,10 +28,19 @@ import { addOutsideVeil, addTerritoryLayers } from '../map/layers';
 import { getCSSPropertyValue } from '@utils/common';
 import { captureTerritoryMap } from '../map/capture';
 import { MarkerRegistry, syncMarkers } from '../map/markers';
-import MapIsland from '../map/map_island';
+import MapIsland, { MapAction } from '../map/map_island';
 import 'maplibre-gl/dist/maplibre-gl.css';
 
-const BoundaryPreview = ({ territory }: { territory: Territory }) => {
+const BoundaryPreview = ({
+  territory,
+  interactive = false,
+  onReady,
+}: {
+  territory: Territory;
+  // the full-screen view lets you pan, zoom and turn the map
+  interactive?: boolean;
+  onReady?: (map?: maplibregl.Map) => void;
+}) => {
   const isDark = useAtomValue(isDarkThemeState);
 
   const container = useRef<HTMLDivElement>(null);
@@ -46,15 +60,18 @@ const BoundaryPreview = ({ territory }: { territory: Territory }) => {
       container: container.current,
       style: isDark ? MAP_PROVIDER.dark : MAP_PROVIDER.light,
       bounds: [west, south, east, north],
-      // clear of the Edit map button above and the credits below
+      // clear of the buttons above and the credits below
       fitBoundsOptions: {
-        padding: { top: 64, bottom: 56, left: 32, right: 32 },
+        padding: interactive
+          ? 64
+          : { top: 64, bottom: 56, left: 32, right: 32 },
       },
-      interactive: false,
+      interactive,
       attributionControl: false,
     });
 
     addAttribution(instance);
+    onReady?.(instance);
 
     const registry: MarkerRegistry = new Map();
 
@@ -70,12 +87,84 @@ const BoundaryPreview = ({ territory }: { territory: Territory }) => {
     });
 
     return () => {
+      onReady?.(undefined);
       syncMarkers(instance, [], registry);
       instance.remove();
     };
-  }, [boundary, mapShapes, mapLines, mapMarkers, isDark]);
+  }, [boundary, mapShapes, mapLines, mapMarkers, isDark, interactive, onReady]);
 
   return <Box ref={container} sx={{ height: '100%', width: '100%' }} />;
+};
+
+const FullscreenMap = ({
+  territory,
+  onClose,
+}: {
+  territory: Territory;
+  onClose: VoidFunction;
+}) => {
+  const [map, setMap] = useState<maplibregl.Map>();
+
+  const fit = () => {
+    if (!map || !territory.boundary?.length) return;
+
+    map.fitBounds(boundaryBounds(territory.boundary), {
+      padding: 64,
+      bearing: 0,
+      pitch: 0,
+    });
+  };
+
+  return (
+    <MuiDialog open fullScreen onClose={onClose}>
+      <Box sx={{ position: 'relative', height: '100dvh' }}>
+        <BoundaryPreview territory={territory} interactive onReady={setMap} />
+
+        <MapIsland corner="top-left">
+          <Typography
+            className="body-small-semibold"
+            color="var(--black)"
+            sx={{ padding: '6px 10px' }}
+          >
+            {[`Territory ${territory.number}`, territory.name]
+              .filter(Boolean)
+              .join(' · ')}
+          </Typography>
+        </MapIsland>
+
+        <MapIsland corner="top-right">
+          <MapAction title="Close" placement="left" onClick={onClose}>
+            <IconClose color="var(--accent-main)" />
+          </MapAction>
+        </MapIsland>
+
+        <MapIsland corner="bottom-right" vertical>
+          <MapAction
+            title="Zoom in"
+            placement="left"
+            onClick={() => map?.zoomIn()}
+          >
+            <IconAdd color="var(--accent-main)" />
+          </MapAction>
+          <MapAction
+            title="Zoom out"
+            placement="left"
+            onClick={() => map?.zoomOut()}
+          >
+            <IconRemove color="var(--accent-main)" />
+          </MapAction>
+          {/* also turns the map back to north up */}
+          <MapAction
+            title="Show the whole territory"
+            placement="left"
+            onClick={fit}
+          >
+            <IconMapOverview color="var(--accent-main)" />
+          </MapAction>
+        </MapIsland>
+      </Box>
+    </MuiDialog>
+  );
 };
 
 const TerritoryMap = ({
@@ -87,6 +176,8 @@ const TerritoryMap = ({
   readOnly?: boolean;
 }) => {
   const navigate = useNavigate();
+
+  const [fullscreen, setFullscreen] = useState(false);
 
   const canDraw = !readOnly;
 
@@ -153,6 +244,12 @@ const TerritoryMap = ({
 
   return (
     <Stack spacing="16px">
+      {fullscreen && (
+        <FullscreenMap
+          territory={territory}
+          onClose={() => setFullscreen(false)}
+        />
+      )}
       <Box
         sx={{
           position: 'relative',
@@ -195,6 +292,14 @@ const TerritoryMap = ({
               </Button>
             )}
           </Stack>
+        )}
+
+        {hasBoundary && (
+          <MapIsland corner="top-right">
+            <MapAction title="Full screen" onClick={() => setFullscreen(true)}>
+              <IconFullscreen color="var(--accent-main)" />
+            </MapAction>
+          </MapIsland>
         )}
 
         {hasBoundary && canDraw && (
