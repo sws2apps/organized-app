@@ -1,11 +1,8 @@
 import { cloneElement, ReactElement, ReactNode } from 'react';
 import { Box, ButtonBase, Stack } from '@mui/material';
 import { Button, CustomDivider, Typography } from '@components/index';
-import IconButton from '@components/icon_button';
-import Tooltip from '@components/tooltip';
 import {
   IconAddPin,
-  IconCheckCircle,
   IconClose,
   IconDashedLine,
   IconDelete,
@@ -52,29 +49,26 @@ const Section = ({
 }) => (
   <Stack spacing="10px" sx={{ opacity: disabled ? 0.5 : 1 }}>
     <Stack direction="row" spacing="8px" sx={{ alignItems: 'center' }}>
-      {done ? (
-        <IconCheckCircle color="var(--green-main)" width={20} height={20} />
-      ) : (
-        step && (
-          <Box
-            sx={{
-              width: '20px',
-              height: '20px',
-              borderRadius: 'var(--radius-max)',
-              backgroundColor: 'var(--accent-main)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
+      {step && (
+        <Box
+          sx={{
+            width: '20px',
+            height: '20px',
+            borderRadius: 'var(--radius-max)',
+            // the number stays, a finished step just turns green
+            backgroundColor: done ? 'var(--green-main)' : 'var(--accent-main)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Typography
+            className="label-small-medium"
+            color="var(--always-white)"
           >
-            <Typography
-              className="label-small-medium"
-              color="var(--always-white)"
-            >
-              {step}
-            </Typography>
-          </Box>
-        )
+            {step}
+          </Typography>
+        </Box>
       )}
       <Typography className="h4" color="var(--black)">
         {title}
@@ -247,6 +241,10 @@ const EditPanel = ({
     : territory?.name;
 
   const extrasTool = ['text', 'pin', 'line', 'shape'].includes(editor.tool);
+  // the border is replaced with Redraw, so only a picked note needs its own delete
+  const pickedNote =
+    editor.selectedKind !== undefined && editor.selectedKind !== 'boundary';
+
   // a picked area shows its own colours, the area tool the ones it draws with
   const shapeStyle =
     editor.selectedKind === 'shape'
@@ -268,40 +266,16 @@ const EditPanel = ({
         minHeight: 0,
       }}
     >
-      <Stack direction="row" spacing="8px" sx={{ alignItems: 'flex-start' }}>
-        <Box sx={{ flexGrow: 1, minWidth: 0 }}>
-          <Typography className="h3" color="var(--black)">
-            {title}
+      <Box>
+        <Typography className="h3" color="var(--black)">
+          {title}
+        </Typography>
+        {subtitle && (
+          <Typography className="body-small-regular" color="var(--grey-400)">
+            {subtitle}
           </Typography>
-          {subtitle && (
-            <Typography className="body-small-regular" color="var(--grey-400)">
-              {subtitle}
-            </Typography>
-          )}
-        </Box>
-
-        {/* deletes whatever is picked on the map, which is highlighted there */}
-        <Tooltip title="Delete">
-          <Box component="span" sx={{ flexShrink: 0 }}>
-            <IconButton
-              color="error"
-              edge={false}
-              aria-label="Delete"
-              disabled={!editor.selectedKind}
-              onClick={editor.deleteSelected}
-              sx={{
-                borderRadius: 'var(--radius-m)',
-                width: '40px',
-                height: '40px',
-                margin: '-4px -8px 0 0',
-                '&.Mui-disabled': { opacity: 0.4 },
-              }}
-            >
-              <IconDelete color="var(--red-main)" />
-            </IconButton>
-          </Box>
-        </Tooltip>
-      </Stack>
+        )}
+      </Box>
 
       <Section
         step={1}
@@ -363,7 +337,25 @@ const EditPanel = ({
       </Section>
 
       {!congregation && (
-        <Section step={2} title="Map notes (optional)" disabled={!hasBorder}>
+        <Section
+          step={2}
+          title="Map notes (optional)"
+          disabled={!hasBorder}
+          action={
+            pickedNote && (
+              <Button
+                variant="small"
+                color="red"
+                disableAutoStretch
+                startIcon={<IconDelete color="var(--red-main)" />}
+                onClick={editor.deleteSelected}
+                sx={{ minHeight: '28px', padding: '2px 8px' }}
+              >
+                Delete
+              </Button>
+            )
+          }
+        >
           <Hint>
             {hasBorder
               ? 'Printed on the territory card.'
