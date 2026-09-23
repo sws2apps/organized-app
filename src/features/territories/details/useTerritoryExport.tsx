@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { ReactElement, useCallback, useEffect, useRef, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { pdf } from '@react-pdf/renderer';
 import { saveAs } from 'file-saver';
@@ -16,13 +16,26 @@ import {
   TemplateTerritoryS12,
   TemplateTerritoryS12Card,
 } from '@views/index';
-import { TerritoryPrintData } from '@views/territories/index.types';
+import {
+  TerritoryPrintData,
+  TerritoryTemplateProps,
+} from '@views/territories/index.types';
 import { Territory } from '@definition/territory';
 import { captureTerritoryMap } from '../map/capture';
 
 export type ExportFormat = 's12' | 's12a4' | 'a5h' | 'a5v';
 
 export type ExportParts = { front: boolean; back: boolean };
+
+const TEMPLATES: Record<
+  ExportFormat,
+  (props: TerritoryTemplateProps) => ReactElement
+> = {
+  s12: TemplateTerritoryS12Card,
+  s12a4: TemplateTerritoryS12,
+  a5h: TemplateTerritoryCard,
+  a5v: TemplateTerritoryCardVertical,
+};
 
 const FILE_SUFFIX: Record<ExportFormat, string> = {
   s12: '',
@@ -82,18 +95,9 @@ const useTerritoryExport = (territory: Territory) => {
       parts,
     };
 
-    const document =
-      format === 's12' ? (
-        <TemplateTerritoryS12Card {...props} />
-      ) : format === 's12a4' ? (
-        <TemplateTerritoryS12 {...props} />
-      ) : format === 'a5v' ? (
-        <TemplateTerritoryCardVertical {...props} />
-      ) : (
-        <TemplateTerritoryCard {...props} />
-      );
+    const Template = TEMPLATES[format];
 
-    return pdf(document).toBlob();
+    return pdf(<Template {...props} />).toBlob();
   }, [
     format,
     parts,
@@ -143,10 +147,9 @@ const useTerritoryExport = (territory: Territory) => {
   const handleExport = () => {
     if (!blob.current) return;
 
-    const form =
-      format === 's12' || format === 's12a4'
-        ? `S-12${isPhone ? '-phone' : ''}`
-        : 'Territory-card';
+    const isS12 = format === 's12' || format === 's12a4';
+    const phone = isPhone ? '-phone' : '';
+    const form = isS12 ? `S-12${phone}` : 'Territory-card';
 
     const name = `${form}-${territory.number}${FILE_SUFFIX[format]}.pdf`;
 

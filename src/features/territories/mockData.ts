@@ -3,7 +3,6 @@ import {
   TerritoryBoundary,
   Territory,
   TerritoryAssignment,
-  TerritoryCategory,
   TerritoryStatus,
   TerritoryType,
 } from '@definition/territory';
@@ -50,7 +49,7 @@ const CITIES = [
   'Schöneberg',
 ];
 
-const CATEGORIES: TerritoryCategory[] = ['dangerous', 'dogs', 'gated', 'rural'];
+const CATEGORIES: string[] = ['dangerous', 'dogs', 'gated', 'rural'];
 
 const DNC_NAMES = ['Mrs. Kramer', 'Mr. Vogel', 'Family Brinkmann', ''];
 
@@ -91,7 +90,7 @@ const DAY_MS = 86400000;
 
 const HISTORY_START = new Date(2024, 8, 1).getTime();
 
-const IDLE = [16, 57, 92, 120];
+const IDLE = new Set([16, 57, 92, 120]);
 
 const storedDate = (date: Date) =>
   date.toLocaleDateString('de-DE', {
@@ -125,36 +124,157 @@ const formatDate = (random: () => number, year: number) =>
     1 + Math.floor(random() * 12)
   ).padStart(2, '0')}.${year}`;
 
+const pickType = (roll: number): TerritoryType => {
+  if (roll > 0.88) return 'phone';
+  if (roll > 0.7) return 'business';
+  return 'door_to_door';
+};
+
+const pickStatus = (idle: boolean, roll: number): TerritoryStatus => {
+  if (idle) return 'available';
+  if (roll > 0.78) return 'overdue';
+  if (roll > 0.44) return 'in_work';
+  return 'available';
+};
+
+const pickPace = (pace: number) => {
+  if (pace > 0.7) return [1, 2, 0, 1];
+  if (pace > 0.25) return [2, 4, 1, 4];
+  return [3, 6, 6, 12];
+};
+
+const pickPublisher = (random: () => number) =>
+  PUBLISHERS[Math.floor(random() * PUBLISHERS.length)];
+
+const serviceYearOf = (date: Date) =>
+  date.getMonth() >= 8 ? date.getFullYear() + 1 : date.getFullYear();
+
+const buildPastAssignments = (index: number, random: () => number) => {
+  const assignments: TerritoryAssignment[] = [];
+
+  const [minMonths, maxMonths, minGap, maxGap] = pickPace(random());
+
+  const now = Date.now();
+  let cursor = HISTORY_START + random() * 60 * DAY_MS;
+
+  while (true) {
+    const duration =
+      (minMonths + random() * (maxMonths - minMonths)) * 30.4 * DAY_MS;
+    const returned = cursor + duration;
+
+    if (returned >= now - 7 * DAY_MS) break;
+
+    const start = new Date(cursor);
+    const end = new Date(returned);
+
+    assignments.push({
+      id: `as-${index}-${assignments.length}`,
+      publisher: pickPublisher(random),
+      assignedOn: storedDate(start),
+      returnedOn: storedDate(end),
+      serviceYear: serviceYearOf(end),
+      months: Math.max(1, Math.round(duration / (30.4 * DAY_MS))),
+      startMonth: (start.getMonth() + 4) % 12,
+      endMonth: (end.getMonth() + 4) % 12,
+    });
+
+    cursor =
+      returned +
+      (minGap + random() * (maxGap - minGap)) * 30.4 * DAY_MS +
+      3 * DAY_MS;
+  }
+
+  return assignments;
+};
+
+const withOpenAssignment = (
+  index: number,
+  past: TerritoryAssignment[],
+  holder: string,
+  daysOut: number
+): TerritoryAssignment[] => {
+  const started = new Date(Date.now() - daysOut * 86400000);
+
+  const before = past.filter((assignment) => {
+    const [day, month, year] = assignment.returnedOn!.split('.').map(Number);
+
+    return new Date(year, month - 1, day) < started;
+  });
+
+  return [
+    ...before,
+    {
+      id: `a-${index}-open`,
+      publisher: holder,
+      assignedOn: started.toLocaleDateString('de-DE', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+      }),
+      serviceYear: serviceYearOf(started),
+      months: Math.max(1, Math.round(daysOut / 30)),
+      startMonth: (started.getMonth() + 4) % 12,
+      endMonth: (new Date().getMonth() + 4) % 12,
+    },
+  ];
+};
+
+const buildPhoneNumbers = (random: () => number) =>
+  Array.from(
+    { length: 8 + Math.floor(random() * 20) },
+    () =>
+      `(${200 + Math.floor(random() * 700)}) 555-${String(
+        Math.floor(random() * 10000)
+      ).padStart(4, '0')}`
+  );
+
+const buildDoNotCalls = (
+  index: number,
+  random: () => number,
+  phoneNumbers?: string[]
+): DoNotCall[] =>
+  Array.from({ length: Math.floor(random() * 6) }, (_, entryIndex) => {
+    const year = 2019 + Math.floor(random() * 7);
+
+    const address = `${STREETS[Math.floor(random() * STREETS.length)]} ${
+      1 + Math.floor(random() * 240)
+    }`;
+    const name =
+      DNC_NAMES[Math.floor(random() * DNC_NAMES.length)] || undefined;
+
+    // a phone territory's do-not-calls are some of its own numbers
+    const step = phoneNumbers ? Math.floor(phoneNumbers.length / 5) : 0;
+
+    return {
+      id: `dnc-${index}-${entryIndex}`,
+      address: phoneNumbers ? phoneNumbers[entryIndex * step] : address,
+      name: phoneNumbers ? undefined : name,
+      date: formatDate(random, year),
+      addedBy: pickPublisher(random),
+    };
+  });
+
 const buildTerritory = (index: number, random: () => number): Territory => {
   const number = String(index + 1);
 
-  const typeRoll = random();
-  const type: TerritoryType =
-    typeRoll > 0.88 ? 'phone' : typeRoll > 0.7 ? 'business' : 'door_to_door';
+  const type = pickType(random());
 
-  const idle = IDLE.includes(index);
+  const idle = IDLE.has(index);
 
-  const statusRoll = random();
-  const status: TerritoryStatus = idle
-    ? 'available'
-    : statusRoll > 0.78
-      ? 'overdue'
-      : statusRoll > 0.44
-        ? 'in_work'
-        : 'available';
+  const status = pickStatus(idle, random());
 
   const cardLost = random() > 0.93;
 
   const assigned = status === 'in_work' || status === 'overdue';
-  const holder = assigned
-    ? PUBLISHERS[Math.floor(random() * PUBLISHERS.length)]
-    : undefined;
+  const holder = assigned ? pickPublisher(random) : undefined;
 
-  const daysOut = assigned
-    ? status === 'overdue'
-      ? 190 + Math.floor(random() * 200)
-      : 5 + Math.floor(random() * 140)
-    : undefined;
+  let daysOut: number | undefined;
+  if (assigned) {
+    daysOut =
+      status === 'overdue'
+        ? 190 + Math.floor(random() * 200)
+        : 5 + Math.floor(random() * 140);
+  }
 
   const daysSinceCovered = idle
     ? 820 + index
@@ -164,111 +284,22 @@ const buildTerritory = (index: number, random: () => number): Territory => {
           10
       );
 
-  let assignments: TerritoryAssignment[] = [];
-
-  if (!idle) {
-    const pace = random();
-    const [minMonths, maxMonths, minGap, maxGap] =
-      pace > 0.7 ? [1, 2, 0, 1] : pace > 0.25 ? [2, 4, 1, 4] : [3, 6, 6, 12];
-
-    const now = Date.now();
-    let cursor = HISTORY_START + random() * 60 * DAY_MS;
-
-    while (true) {
-      const duration =
-        (minMonths + random() * (maxMonths - minMonths)) * 30.4 * DAY_MS;
-      const returned = cursor + duration;
-
-      if (returned >= now - 7 * DAY_MS) break;
-
-      const start = new Date(cursor);
-      const end = new Date(returned);
-
-      assignments.push({
-        id: `as-${index}-${assignments.length}`,
-        publisher: PUBLISHERS[Math.floor(random() * PUBLISHERS.length)],
-        assignedOn: storedDate(start),
-        returnedOn: storedDate(end),
-        serviceYear:
-          end.getMonth() >= 8 ? end.getFullYear() + 1 : end.getFullYear(),
-        months: Math.max(1, Math.round(duration / (30.4 * DAY_MS))),
-        startMonth: (start.getMonth() + 4) % 12,
-        endMonth: (end.getMonth() + 4) % 12,
-      });
-
-      cursor =
-        returned +
-        (minGap + random() * (maxGap - minGap)) * 30.4 * DAY_MS +
-        3 * DAY_MS;
-    }
-  }
+  let assignments = idle ? [] : buildPastAssignments(index, random);
 
   if (holder && daysOut !== undefined) {
-    const started = new Date(Date.now() - daysOut * 86400000);
-
-    assignments = assignments.filter((assignment) => {
-      const [day, month, year] = assignment.returnedOn!.split('.').map(Number);
-
-      return new Date(year, month - 1, day) < started;
-    });
-
-    assignments.push({
-      id: `a-${index}-open`,
-      publisher: holder,
-      assignedOn: started.toLocaleDateString('de-DE', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-      }),
-      serviceYear:
-        started.getMonth() >= 8
-          ? started.getFullYear() + 1
-          : started.getFullYear(),
-      months: Math.max(1, Math.round(daysOut / 30)),
-      startMonth: (started.getMonth() + 4) % 12,
-      endMonth: (new Date().getMonth() + 4) % 12,
-    });
+    assignments = withOpenAssignment(index, assignments, holder, daysOut);
   }
 
-  const phoneNumbers =
-    type === 'phone'
-      ? Array.from(
-          { length: 8 + Math.floor(random() * 20) },
-          () =>
-            `(${200 + Math.floor(random() * 700)}) 555-${String(
-              Math.floor(random() * 10000)
-            ).padStart(4, '0')}`
-        )
-      : undefined;
+  const phoneNumbers = type === 'phone' ? buildPhoneNumbers(random) : undefined;
 
   const categories = CATEGORIES.filter(() => random() > 0.85);
 
-  const doNotCalls: DoNotCall[] = Array.from(
-    { length: Math.floor(random() * 6) },
-    (_, entryIndex) => {
-      const year = 2019 + Math.floor(random() * 7);
-
-      const address = `${STREETS[Math.floor(random() * STREETS.length)]} ${
-        1 + Math.floor(random() * 240)
-      }`;
-      const name =
-        DNC_NAMES[Math.floor(random() * DNC_NAMES.length)] || undefined;
-
-      // a phone territory's do-not-calls are some of its own numbers
-      const step = phoneNumbers ? Math.floor(phoneNumbers.length / 5) : 0;
-
-      return {
-        id: `dnc-${index}-${entryIndex}`,
-        address: phoneNumbers ? phoneNumbers[entryIndex * step] : address,
-        name: phoneNumbers ? undefined : name,
-        date: formatDate(random, year),
-        addedBy: PUBLISHERS[Math.floor(random() * PUBLISHERS.length)],
-      };
-    }
-  );
+  const doNotCalls = buildDoNotCalls(index, random, phoneNumbers);
 
   const streetA = STREETS[Math.floor(random() * STREETS.length)];
   const streetB = STREETS[Math.floor(random() * STREETS.length)];
+
+  const available = status === 'available';
 
   return {
     id: `t${index}`,
@@ -288,10 +319,8 @@ const buildTerritory = (index: number, random: () => number): Territory => {
     boundary: buildBoundary(index, random),
     phoneNumbers,
     requestedBy:
-      status === 'available' && random() > 0.88
-        ? PUBLISHERS[Math.floor(random() * PUBLISHERS.length)]
-        : undefined,
-    reviewNeeded: status === 'available' && random() > 0.9,
+      available && random() > 0.88 ? pickPublisher(random) : undefined,
+    reviewNeeded: available && random() > 0.9,
   };
 };
 

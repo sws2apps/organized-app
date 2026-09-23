@@ -25,6 +25,7 @@ import {
   Territory,
   TerritoryBoundary,
   TerritoryMapDraft,
+  TerritoryMapMarker,
 } from '@definition/territory';
 import { DEFAULT_BOUNDARY_STYLE, MAP_COLORS } from './constants';
 import { roundPosition, toBoundary } from './helpers';
@@ -48,7 +49,7 @@ const EMPTY_DRAFT: TerritoryMapDraft = {
   markers: [],
 };
 
-const EXTRA_TOOLS: MapTool[] = ['text', 'pin', 'line', 'shape'];
+const EXTRA_TOOLS = new Set<MapTool>(['text', 'pin', 'line', 'shape']);
 
 const MODE_FOR: Record<MapTool, string> = {
   border: 'polygon',
@@ -144,6 +145,49 @@ type Properties = Record<string, unknown>;
 
 const position = roundPosition;
 
+const styleFrom = (properties: Properties, fallback: MapStyle): MapStyle => ({
+  border: (properties.border as MapStyle['border']) ?? fallback.border,
+  fill: (properties.fill as MapStyle['fill']) ?? fallback.fill,
+});
+
+const readPolygon = (
+  next: TerritoryMapDraft,
+  id: string,
+  ring: number[][],
+  properties: Properties
+) => {
+  const path = toBoundary(ring);
+
+  if (properties.role === 'shape') {
+    next.shapes.push({
+      id,
+      path,
+      ...styleFrom(properties, { border: 'red', fill: 'transparent' }),
+      label: (properties.label as string) || undefined,
+    });
+  } else if (properties.role === 'boundary') {
+    next.boundary = path;
+    next.boundaryStyle = styleFrom(properties, DEFAULT_BOUNDARY_STYLE);
+  }
+};
+
+const readMarker = (
+  id: string,
+  point: number[],
+  properties: Properties
+): TerritoryMapMarker => {
+  const kind = properties.kind === 'text' ? 'text' : 'pin';
+
+  return {
+    id,
+    kind,
+    position: position(point),
+    text: (properties.label as string) || undefined,
+    pinType: kind === 'pin' ? (properties.pinType as PinType) : undefined,
+    color: (properties.color as MapColor) || undefined,
+  };
+};
+
 const readSnapshot = (features: GeoJSONStoreFeatures[]) => {
   const next: TerritoryMapDraft = { shapes: [], lines: [], markers: [] };
 
@@ -153,51 +197,19 @@ const readSnapshot = (features: GeoJSONStoreFeatures[]) => {
     // terra draw renders its own handles as points; they are not data
     if (properties.selectionPoint || properties.midPoint) continue;
 
+    const id = String(feature.id);
     const geometry = feature.geometry;
 
     if (geometry.type === 'Polygon') {
-      const path = toBoundary(geometry.coordinates[0]);
-
-      if (properties.role === 'shape') {
-        next.shapes.push({
-          id: String(feature.id),
-          path,
-          border: (properties.border as MapStyle['border']) ?? 'red',
-          fill: (properties.fill as MapStyle['fill']) ?? 'transparent',
-          label: (properties.label as string) || undefined,
-        });
-      } else if (properties.role === 'boundary') {
-        next.boundary = path;
-        next.boundaryStyle = {
-          border:
-            (properties.border as MapStyle['border']) ??
-            DEFAULT_BOUNDARY_STYLE.border,
-          fill:
-            (properties.fill as MapStyle['fill']) ??
-            DEFAULT_BOUNDARY_STYLE.fill,
-        };
-      }
-    }
-
-    if (geometry.type === 'LineString') {
+      readPolygon(next, id, geometry.coordinates[0], properties);
+    } else if (geometry.type === 'LineString') {
       next.lines.push({
-        id: String(feature.id),
+        id,
         path: geometry.coordinates.map(position),
         style: properties.lineStyle === 'dashed' ? 'dashed' : 'solid',
       });
-    }
-
-    if (geometry.type === 'Point') {
-      const kind = properties.kind === 'text' ? 'text' : 'pin';
-
-      next.markers.push({
-        id: String(feature.id),
-        kind,
-        position: position(geometry.coordinates),
-        text: (properties.label as string) || undefined,
-        pinType: kind === 'pin' ? (properties.pinType as PinType) : undefined,
-        color: (properties.color as MapColor) || undefined,
-      });
+    } else if (geometry.type === 'Point') {
+      next.markers.push(readMarker(id, geometry.coordinates, properties));
     }
   }
 
@@ -649,7 +661,7 @@ const useMapEditor = ({
     const terra = draw.current;
     if (!terra) return;
 
-    if (EXTRA_TOOLS.includes(tool)) {
+    if (EXTRA_TOOLS.has(tool)) {
       pickTool('points');
       return;
     }
@@ -668,7 +680,7 @@ const useMapEditor = ({
   }, [tool, selected, pickTool, clearVertex]);
 
   const canCancel =
-    EXTRA_TOOLS.includes(tool) || tool === 'border' || selected !== undefined;
+    EXTRA_TOOLS.has(tool) || tool === 'border' || selected !== undefined;
 
   const redrawBorder = useCallback(() => {
     const terra = draw.current;

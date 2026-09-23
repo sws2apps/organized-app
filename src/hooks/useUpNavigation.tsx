@@ -45,7 +45,7 @@ export const useNavigationTrail = () => {
     // a new entry drops everything that was ahead of it
     if (navigationType === 'PUSH') {
       for (const key of Object.keys(trail)) {
-        if (!(Number(key) <= idx)) delete trail[key];
+        if (Number(key) > idx) delete trail[key];
       }
     }
 

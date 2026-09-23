@@ -34,11 +34,13 @@ const ToolButton = ({
   main?: boolean;
   onClick: VoidFunction;
 }) => {
-  const color = main
-    ? 'var(--always-white)'
-    : active
-      ? 'var(--accent-dark)'
-      : 'var(--accent-main)';
+  let color = active ? 'var(--accent-dark)' : 'var(--accent-main)';
+  let background = active ? 'var(--accent-150)' : 'transparent';
+
+  if (main) {
+    color = 'var(--always-white)';
+    background = 'var(--accent-main)';
+  }
 
   const button = (
     <ButtonBase
@@ -54,11 +56,7 @@ const ToolButton = ({
         cursor: 'pointer',
         borderRadius: 'var(--radius-m)',
         opacity: disabled ? 0.4 : 1,
-        backgroundColor: main
-          ? 'var(--accent-main)'
-          : active
-            ? 'var(--accent-150)'
-            : 'transparent',
+        backgroundColor: background,
         transition: 'background-color 0.15s ease',
         '&:hover': {
           backgroundColor: main ? 'var(--accent-dark)' : 'var(--accent-100)',

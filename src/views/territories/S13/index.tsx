@@ -116,7 +116,11 @@ const TemplateS13 = ({
   return (
     <Document title="S-13" lang={lang}>
       {pages.map((chunk, pageIndex) => (
-        <Page key={`page-${pageIndex}`} size="A4" style={styles.page}>
+        <Page
+          key={`page-${chunk[0]?.number ?? 'empty'}`}
+          size="A4"
+          style={styles.page}
+        >
           <Text style={styles.title}>Territory assignment record</Text>
 
           <View style={styles.meta}>

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 import { Box } from '@mui/material';
 import {
   IconAdd,
@@ -47,9 +47,7 @@ const Territories = () => {
   );
 
   // the tools live on the hub itself; the requests page stays a focused review
-  const buttons = isMine ? (
-    mineButtons
-  ) : hub.isBrowsing ? (
+  const browseButtons = (
     <NavBarButtonGroup>
       {isTerritoryEditor && (
         <NavBarButton
@@ -85,7 +83,10 @@ const Territories = () => {
         />
       )}
     </NavBarButtonGroup>
-  ) : null;
+  );
+
+  let buttons: ReactNode = hub.isBrowsing ? browseButtons : null;
+  if (isMine) buttons = mineButtons;
 
   return (
     <Box

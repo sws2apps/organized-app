@@ -90,7 +90,7 @@ export const toBoundary = (
   const ring = coordinates.map(roundPosition);
 
   const [first] = ring;
-  const last = ring[ring.length - 1];
+  const last = ring.at(-1);
 
   if (first && last && (first[0] !== last[0] || first[1] !== last[1])) {
     ring.push(first);

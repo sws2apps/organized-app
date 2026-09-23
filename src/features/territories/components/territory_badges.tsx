@@ -38,12 +38,18 @@ export const StatusBadge = ({ status }: { status: TerritoryStatus }) => (
   />
 );
 
+const coveredColor = (days: number) => {
+  if (days > 365) return 'red';
+  if (days > 182) return 'orange';
+  return 'grey';
+};
+
 export const CoveredBadge = ({ days }: { days: number }) => {
   return (
     <Badge
       size="small"
       filled={false}
-      color={days > 365 ? 'red' : days > 182 ? 'orange' : 'grey'}
+      color={coveredColor(days)}
       text={daysLabel(days)}
       sx={{ width: 'fit-content', flexShrink: 0 }}
     />

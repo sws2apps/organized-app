@@ -35,9 +35,9 @@ const TAB_GROUPS: TerritoryTab[][] = [
   ['requests'],
 ];
 
-const OWN_TABS: TerritoryTab[] = ['mine', 'group', 'requested'];
+const OWN_TABS = new Set<TerritoryTab>(['mine', 'group', 'requested']);
 
-const BROWSE_TABS: TerritoryTab[] = ['recommended', 'all'];
+const BROWSE_TABS = new Set<TerritoryTab>(['recommended', 'all']);
 
 const TAB_LABELS: Record<TerritoryTab, string> = {
   recommended: 'Recommended',
@@ -93,8 +93,7 @@ const useTerritoriesHub = () => {
   const filtersPane = useSubpane('filters');
   // own territories have no filters, even with the flag left in the URL
   const filtersOpen =
-    filtersPane.open &&
-    !OWN_TABS.includes(searchParams.get('tab') as TerritoryTab);
+    filtersPane.open && !OWN_TABS.has(searchParams.get('tab') as TerritoryTab);
   const setFiltersOpen = useCallback(
     (next: boolean) => filtersPane.setOpen(next, !desktopUp),
     [filtersPane, desktopUp]
@@ -122,7 +121,7 @@ const useTerritoriesHub = () => {
     ids.filter(
       (id) =>
         (id !== 'group' || groupHolder) &&
-        (canBrowse || !BROWSE_TABS.includes(id)) &&
+        (canBrowse || !BROWSE_TABS.has(id)) &&
         (canRequest || id !== 'requested')
     )
   ).filter((ids) => ids.length > 0);
@@ -167,7 +166,7 @@ const useTerritoriesHub = () => {
     );
 
     // own territories have no filters, so none left over from other tabs apply
-    if (OWN_TABS.includes(tabId)) return list;
+    if (OWN_TABS.has(tabId)) return list;
 
     return applyFilters(list, filters);
   }, [withStatus, tabId, filters, isTerritoryEditor, groupHolder, restricted]);
@@ -340,7 +339,7 @@ const useTerritoriesHub = () => {
     tab,
     tabId,
     isBrowsing,
-    isOwnTab: OWN_TABS.includes(tabId),
+    isOwnTab: OWN_TABS.has(tabId),
     isTerritoryEditor,
     canBrowse,
     canRequest,

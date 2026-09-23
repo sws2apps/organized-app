@@ -18,11 +18,13 @@ const MapScreen = () => {
 
   const { goUp } = useUpNavigation();
 
-  const title = !editor.editing
-    ? 'Territory coverage map'
-    : editor.scope === 'congregation'
-      ? 'Congregation border'
-      : `Territory ${map.selected?.number ?? ''} map`;
+  let title = 'Territory coverage map';
+  if (editor.editing) {
+    title =
+      editor.scope === 'congregation'
+        ? 'Congregation border'
+        : `Territory ${map.selected?.number ?? ''} map`;
+  }
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>

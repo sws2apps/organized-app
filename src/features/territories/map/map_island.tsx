@@ -1,7 +1,6 @@
 import { ReactNode } from 'react';
-import { Stack } from '@mui/material';
+import { Stack, TooltipProps } from '@mui/material';
 import IconButton from '@components/icon_button';
-import { TooltipProps } from '@mui/material';
 import Tooltip from '@components/tooltip';
 
 type Corner =

@@ -29,6 +29,11 @@ const TerritoryPicker = ({
 
   const shown = tab === 0 ? added : notAdded;
 
+  const emptyTabMessage =
+    tab === 0
+      ? 'No territory is on the map yet. Pick one under “No borders” to draw it.'
+      : 'Every territory has its borders drawn.';
+
   const handleKey = (event: KeyboardEvent, id: string) => {
     if (event.key !== 'Enter' && event.key !== ' ') return;
 
@@ -68,13 +73,7 @@ const TerritoryPicker = ({
         {shown.length === 0 && (
           <InfoNote
             sx={{ padding: '8px 8px 0' }}
-            message={
-              territories.length === 0
-                ? NO_MATCHES
-                : tab === 0
-                  ? 'No territory is on the map yet. Pick one under “No borders” to draw it.'
-                  : 'Every territory has its borders drawn.'
-            }
+            message={territories.length === 0 ? NO_MATCHES : emptyTabMessage}
           />
         )}
 

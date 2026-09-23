@@ -14,12 +14,7 @@ import {
   territoriesState,
   territoryCategoriesState,
 } from '@states/territories';
-import {
-  Territory,
-  TerritoryCategory,
-  TYPE_LABEL,
-  TerritoryType,
-} from '@definition/territory';
+import { Territory, TYPE_LABEL, TerritoryType } from '@definition/territory';
 import RowAction from '../components/row_action';
 import CategoryEditor from './category_editor';
 
@@ -49,6 +44,9 @@ const DetailsForm = ({
   const isDuplicate = !!trimmed && isTaken(trimmed);
   const isBlank = isStored && !trimmed;
 
+  let numberHelp = isBlank ? 'Enter a number' : '';
+  if (isDuplicate) numberHelp = 'This number is already used';
+
   const handleNumberChange = (value: string) => {
     setNumber(value);
 
@@ -59,7 +57,7 @@ const DetailsForm = ({
     }
   };
 
-  const toggleCategory = (category: TerritoryCategory) =>
+  const toggleCategory = (category: string) =>
     onChange({
       ...territory,
       categories: territory.categories.includes(category)
@@ -99,13 +97,7 @@ const DetailsForm = ({
             label="Number"
             value={number}
             error={isDuplicate || isBlank}
-            helperText={
-              isDuplicate
-                ? 'This number is already used'
-                : isBlank
-                  ? 'Enter a number'
-                  : ''
-            }
+            helperText={numberHelp}
             onChange={(event) => handleNumberChange(event.target.value)}
           />
 

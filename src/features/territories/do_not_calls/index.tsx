@@ -72,12 +72,58 @@ const time = (value: string) => parseDate(value)?.getTime() ?? 0;
 const streetOf = (address: string) =>
   address
     .split(',')[0]
-    .replace(/\S*\d\S*/g, '')
-    .replace(/\s+/g, ' ')
-    .trim() || address;
+    .split(/\s+/)
+    .filter((word) => word && !/\d/.test(word))
+    .join(' ') || address;
 
 const place = (territory: Territory) =>
   [territory.city, territory.name].filter(Boolean).join(' • ');
+
+const groupOf = (
+  { territory, entry }: Entry,
+  sortBy: SortKey
+): { key: string; label: string } => {
+  if (sortBy === 'territory') {
+    return {
+      key: territory.id,
+      label: place(territory) || `Territory ${territory.number}`,
+    };
+  }
+
+  if (sortBy === 'locality') {
+    return {
+      key: territory.city || '',
+      label: territory.city || 'No locality',
+    };
+  }
+
+  if (sortBy === 'street') {
+    const street = streetOf(entry.address);
+    return { key: street.toLowerCase(), label: street };
+  }
+
+  const year = parseDate(entry.date)?.getFullYear();
+  return { key: String(year ?? ''), label: year ? String(year) : 'No date' };
+};
+
+const GROUP_ORDER: Record<SortKey, (a: Group, b: Group) => number> = {
+  territory: (a, b) => natural(a.territory!.number, b.territory!.number),
+  locality: (a, b) => natural(a.label, b.label),
+  street: (a, b) => natural(a.label, b.label),
+  date: (a, b) => Number(b.key) - Number(a.key),
+};
+
+const entryOrder = (sortBy: SortKey, reversed: boolean) => {
+  if (sortBy === 'date') {
+    const direction = reversed ? -1 : 1;
+    return (a: Entry, b: Entry) =>
+      (time(b.entry.date) - time(a.entry.date)) * direction;
+  }
+
+  return (a: Entry, b: Entry) =>
+    natural(a.entry.address, b.entry.address) ||
+    natural(a.territory.number, b.territory.number);
+};
 
 const groupBy = (
   entries: Entry[],
@@ -87,30 +133,12 @@ const groupBy = (
   const groups = new Map<string, Group>();
 
   for (const item of entries) {
-    const { territory, entry } = item;
-
-    let key: string;
-    let label: string;
-
-    if (sortBy === 'territory') {
-      key = territory.id;
-      label = place(territory) || `Territory ${territory.number}`;
-    } else if (sortBy === 'locality') {
-      key = territory.city || '';
-      label = territory.city || 'No locality';
-    } else if (sortBy === 'street') {
-      key = streetOf(entry.address).toLowerCase();
-      label = streetOf(entry.address);
-    } else {
-      const year = parseDate(entry.date)?.getFullYear();
-      key = String(year ?? '');
-      label = year ? String(year) : 'No date';
-    }
+    const { key, label } = groupOf(item, sortBy);
 
     const group = groups.get(key) ?? {
       key,
       label,
-      territory: sortBy === 'territory' ? territory : undefined,
+      territory: sortBy === 'territory' ? item.territory : undefined,
       entries: [],
     };
 
@@ -118,23 +146,8 @@ const groupBy = (
     groups.set(key, group);
   }
 
-  const byEntry =
-    sortBy === 'date'
-      ? (a: Entry, b: Entry) =>
-          (time(b.entry.date) - time(a.entry.date)) * (reversed ? -1 : 1)
-      : (a: Entry, b: Entry) =>
-          natural(a.entry.address, b.entry.address) ||
-          natural(a.territory.number, b.territory.number);
-
-  const byGroup =
-    sortBy === 'territory'
-      ? (a: Group, b: Group) =>
-          natural(a.territory!.number, b.territory!.number)
-      : sortBy === 'date'
-        ? (a: Group, b: Group) => Number(b.key) - Number(a.key)
-        : (a: Group, b: Group) => natural(a.label, b.label);
-
-  const list = [...groups.values()].sort(byGroup);
+  const byEntry = entryOrder(sortBy, reversed);
+  const list = [...groups.values()].sort(GROUP_ORDER[sortBy]);
 
   for (const group of list) group.entries.sort(byEntry);
 

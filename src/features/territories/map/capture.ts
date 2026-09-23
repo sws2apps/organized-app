@@ -52,7 +52,7 @@ export const captureTerritoryMap = (territory: Territory) =>
       resolve(result);
     };
 
-    const timeout = window.setTimeout(() => cleanup(undefined), 12000);
+    const timeout = window.setTimeout(() => cleanup(), 12000);
 
     let styled = false;
 
@@ -75,6 +75,6 @@ export const captureTerritoryMap = (territory: Territory) =>
 
     // a missing tile still leaves a usable picture; only a basemap that never loads fails
     map.on('error', () => {
-      if (!styled) cleanup(undefined);
+      if (!styled) cleanup();
     });
   });

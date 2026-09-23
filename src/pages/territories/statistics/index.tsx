@@ -1,6 +1,5 @@
 import { Box } from '@mui/material';
-import { useUpNavigation } from '@hooks/index';
-import { useBreakpoints } from '@hooks/index';
+import { useBreakpoints, useUpNavigation } from '@hooks/index';
 import PageTitle from '@components/page_title';
 import TerritoriesStatistics from '@features/territories/statistics';
 

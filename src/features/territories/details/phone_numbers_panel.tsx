@@ -51,7 +51,7 @@ const PhoneNumbersPanel = ({
   const perColumn = Math.ceil(indexed.length / count);
   const columns = Array.from({ length: count }, (_, position) =>
     indexed.slice(position * perColumn, (position + 1) * perColumn)
-  );
+  ).filter((column) => column.length > 0);
 
   const handleSave = (value: string) =>
     onChange(
@@ -74,9 +74,9 @@ const PhoneNumbersPanel = ({
           alignItems: 'start',
         }}
       >
-        {columns.map((column, position) => (
+        {columns.map((column) => (
           <RecordList
-            key={position}
+            key={column[0].index}
             items={column.map(({ number, index }) => {
               const blocked = isDoNotCallNumber(territory, number);
 

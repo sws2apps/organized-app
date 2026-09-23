@@ -1,5 +1,4 @@
 import { MapColor, MapStyle, PinType } from '@definition/territory';
-import { MAP_CENTER } from '../mockData';
 
 /**
  * Basemaps that cost nothing and need no API key, so a congregation can open
@@ -55,7 +54,7 @@ export const styleUrl = (provider: MapProviderKey, isDark: boolean) => {
   return isDark ? styles.dark : styles.light;
 };
 
-export const DEFAULT_CENTER = MAP_CENTER;
+export { MAP_CENTER as DEFAULT_CENTER } from '../mockData';
 export const DEFAULT_ZOOM = 13;
 
 export const SOURCE_ID = 'territories';

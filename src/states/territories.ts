@@ -5,9 +5,9 @@ import { atom } from 'jotai';
 import {
   DEFAULT_CATEGORIES,
   Territory,
+  TerritoryBoundary,
   TerritoryCategoryOption,
 } from '@definition/territory';
-import { TerritoryBoundary } from '@definition/territory';
 import {
   CONGREGATION_BOUNDARY,
   TERRITORIES,

@@ -20,6 +20,30 @@ import TerritoryDetailsContainer from '@features/territories/details';
 import TerritoryDelete from '@features/territories/details/territory_delete';
 import TerritoryExport from '@features/territories/details/territory_export';
 import useParentPage from '@features/territories/useParentPage';
+import { Territory } from '@definition/territory';
+
+const publisherNoteOf = (territory: Territory) => {
+  if (territory.holder === CURRENT_PUBLISHER) {
+    return 'You are working this territory.';
+  }
+  if (territory.requestedBy === CURRENT_PUBLISHER) {
+    return 'You asked for this territory. You will hear back when it is assigned.';
+  }
+  if (territory.requestedBy) {
+    return 'Someone else has already asked for this territory.';
+  }
+  if (territory.status !== 'available') {
+    return 'This territory is being worked right now.';
+  }
+  return undefined;
+};
+
+const titleOf = (territory: Territory, isNew: boolean) =>
+  isNew
+    ? 'New territory'
+    : [`Territory ${territory.number}`, territory.name]
+        .filter(Boolean)
+        .join(' · ');
 
 const TerritoryDetailsPage = () => {
   const { parent, goBack } = useParentPage();
@@ -53,15 +77,7 @@ const TerritoryDetailsPage = () => {
 
   const canRequest = territory.status === 'available' && !territory.requestedBy;
 
-  const publisherNote = heldByMe
-    ? 'You are working this territory.'
-    : requestedByMe
-      ? 'You asked for this territory. You will hear back when it is assigned.'
-      : territory.requestedBy
-        ? 'Someone else has already asked for this territory.'
-        : territory.status !== 'available'
-          ? 'This territory is being worked right now.'
-          : undefined;
+  const publisherNote = publisherNoteOf(territory);
 
   const setRequest = (requested: boolean) => {
     handleChange({
@@ -99,6 +115,22 @@ const TerritoryDetailsPage = () => {
     </NavBarButtonGroup>
   );
 
+  const editorButtons = !isNew && (
+    <NavBarButtonGroup>
+      <NavBarButton
+        text="Delete"
+        color="red"
+        icon={<IconDelete />}
+        onClick={() => setDeleteOpen(true)}
+      />
+      <NavBarButton
+        text="Export"
+        icon={<IconPrint />}
+        onClick={() => setExportOpen(true)}
+      />
+    </NavBarButtonGroup>
+  );
+
   return (
     <Box
       sx={{
@@ -123,33 +155,11 @@ const TerritoryDetailsPage = () => {
       />
 
       <PageTitle
-        title={
-          isNew
-            ? 'New territory'
-            : [`Territory ${territory.number}`, territory.name]
-                .filter(Boolean)
-                .join(' · ')
-        }
+        title={titleOf(territory, isNew)}
         secondaryTitle={parent}
         onBack={goBack}
         buttons={
-          !isTerritoryEditor ? (
-            publisherButtons
-          ) : isNew ? undefined : (
-            <NavBarButtonGroup>
-              <NavBarButton
-                text="Delete"
-                color="red"
-                icon={<IconDelete />}
-                onClick={() => setDeleteOpen(true)}
-              />
-              <NavBarButton
-                text="Export"
-                icon={<IconPrint />}
-                onClick={() => setExportOpen(true)}
-              />
-            </NavBarButtonGroup>
-          )
+          isTerritoryEditor ? editorButtons || undefined : publisherButtons
         }
       />
 

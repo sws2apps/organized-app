@@ -112,18 +112,19 @@ export const StatRow = ({
   </Stack>
 );
 
+const toneOf = (value: number) => {
+  if (value > 70) return 'var(--green-main)';
+  if (value > 45) return 'var(--orange-main)';
+  return 'var(--red-main)';
+};
+
 export const Gauge = ({ value, label }: { value: number; label: string }) => {
   const size = 200;
   const radius = size / 2 - 16;
   const circumference = Math.PI * radius;
   const filled = (Math.min(100, Math.max(0, value)) / 100) * circumference;
 
-  const tone =
-    value > 70
-      ? 'var(--green-main)'
-      : value > 45
-        ? 'var(--orange-main)'
-        : 'var(--red-main)';
+  const tone = toneOf(value);
 
   return (
     <Box

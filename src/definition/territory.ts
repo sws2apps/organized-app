@@ -4,15 +4,12 @@ export type TerritoryStatus = 'available' | 'in_work' | 'overdue';
 
 export type TerritoryType = 'door_to_door' | 'business' | 'phone';
 
-// categories are defined by the congregation, so an id is any stored string
-export type TerritoryCategory = string;
-
 // a fixed set: the blue is the midweek meeting blue, not the theme accent,
 // so a category keeps its colour whatever colour scheme the app uses
 export type CategoryColor = 'blue' | 'green' | 'orange' | 'red' | 'grey';
 
 export type TerritoryCategoryOption = {
-  id: TerritoryCategory;
+  id: string;
   name: string;
   color: CategoryColor;
 };
@@ -96,7 +93,7 @@ export type Territory = {
   city: string;
   type: TerritoryType;
   status: TerritoryStatus;
-  categories: TerritoryCategory[];
+  categories: string[];
   holder?: string;
   daysOut?: number;
   daysSinceCovered: number;
@@ -118,7 +115,7 @@ export type TerritoryFilters = {
   search: string;
   status: TerritoryStatus[];
   type: TerritoryType[];
-  categories: TerritoryCategory[];
+  categories: string[];
   coverage?: { covered: boolean; period: string };
   cardLostOnly: boolean;
 };
@@ -126,7 +123,7 @@ export type TerritoryFilters = {
 export type TerritoryAccess = 'own' | 'view' | 'request';
 
 export type TerritoryRestrictions = {
-  categories: TerritoryCategory[];
+  categories: string[];
   types: TerritoryType[];
 };
 

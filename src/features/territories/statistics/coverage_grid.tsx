@@ -66,7 +66,7 @@ const CoverageGrid = ({
 
                 {row.months.map((value, month) => (
                   <Tooltip
-                    key={month}
+                    key={months[month]}
                     title={`${value} covered in ${months[month]} ${row.year}`}
                   >
                     <Box

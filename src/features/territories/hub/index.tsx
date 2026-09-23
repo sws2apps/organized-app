@@ -22,6 +22,10 @@ import {
   NO_MATCHES,
 } from '../helpers';
 import { TerritoriesHubProps } from './index.types';
+import {
+  Territory,
+  TerritoryFilters as TerritoryFiltersType,
+} from '@definition/territory';
 import Card from '@components/card';
 import BoardView from '../components/board_view';
 import AssignDialog from '../components/assign_dialog';
@@ -32,6 +36,114 @@ import DialogActions from '@components/dialog_actions';
 import dashedBorder from '@utils/dashed_border';
 import TerritoryFilters from '../components/territory_filters';
 import TerritoryTable from '../components/territory_table';
+
+const plural = (count: number) => (count === 1 ? 'territory' : 'territories');
+
+const SearchRow = ({
+  search,
+  onSearch,
+  showFiltersButton,
+  filtersOpen,
+  applied,
+  onToggleFilters,
+}: {
+  search: string;
+  onSearch: (value: string) => void;
+  showFiltersButton: boolean;
+  filtersOpen: boolean;
+  applied: number;
+  onToggleFilters: VoidFunction;
+}) => (
+  <Stack direction="row" sx={{ alignItems: 'center', gap: '16px' }}>
+    <Box sx={{ flexGrow: 1, minWidth: 0 }}>
+      <SearchBar
+        placeholder="Search territories"
+        value={search}
+        onSearch={onSearch}
+      />
+    </Box>
+
+    {showFiltersButton && (
+      <Button
+        variant="secondary"
+        disableAutoStretch
+        sx={{ flexShrink: 0 }}
+        onClick={onToggleFilters}
+        endIcon={filtersOpen ? <IconPanelOpen /> : <IconPanelClose />}
+      >
+        {applied ? `Filters (${applied})` : 'Filters'}
+      </Button>
+    )}
+  </Stack>
+);
+
+const FiltersPane = ({
+  filters,
+  onChange,
+  applied,
+  count,
+  onClose,
+}: {
+  filters: TerritoryFiltersType;
+  onChange: (filters: TerritoryFiltersType) => void;
+  applied: number;
+  count: number;
+  onClose: VoidFunction;
+}) => (
+  <Card>
+    <TerritoryFilters
+      filters={filters}
+      onChange={onChange}
+      showTitle={false}
+      showClear={false}
+    />
+
+    <DialogActions>
+      <Button
+        variant="secondary"
+        disabled={applied === 0}
+        onClick={() => onChange(clearedFilters(filters))}
+      >
+        Clear all
+      </Button>
+      <Button variant="main" onClick={onClose}>
+        {`Show ${count} ${plural(count)}`}
+      </Button>
+    </DialogActions>
+  </Card>
+);
+
+const SidePanel = ({
+  filters,
+  onChange,
+  showFilters,
+  history,
+}: {
+  filters: TerritoryFiltersType;
+  onChange: (filters: TerritoryFiltersType) => void;
+  showFilters: boolean;
+  history?: Territory[];
+}) => (
+  <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+    {showFilters && (
+      <Card>
+        <TerritoryFilters filters={filters} onChange={onChange} />
+      </Card>
+    )}
+
+    {history && (
+      <Box
+        sx={{
+          padding: '16px',
+          backgroundColor: 'var(--accent-150)',
+          ...dashedBorder({ radius: 12 }),
+        }}
+      >
+        <MyHistory territories={history} />
+      </Box>
+    )}
+  </Box>
+);
 
 const TerritoriesHub = ({ hub }: TerritoriesHubProps) => {
   const {
@@ -77,6 +189,8 @@ const TerritoriesHub = ({ hub }: TerritoriesHubProps) => {
   const applied = appliedFilters(filters);
 
   const filtersInline = desktopUp && !isBoard && !isMine && filtersOpen;
+
+  const hasSidePanel = filtersInline || tabId === 'mine';
 
   const closeFilters = () => {
     setFiltersOpen(false);
@@ -151,29 +265,14 @@ const TerritoriesHub = ({ hub }: TerritoriesHubProps) => {
       {!tablet688Up && layoutSwitch}
 
       {!isMine && (
-        <Stack direction="row" sx={{ alignItems: 'center', gap: '16px' }}>
-          <Box sx={{ flexGrow: 1, minWidth: 0 }}>
-            <SearchBar
-              placeholder="Search territories"
-              value={filters.search}
-              onSearch={(value: string) =>
-                setFilters({ ...filters, search: value })
-              }
-            />
-          </Box>
-
-          {!isBoard && (
-            <Button
-              variant="secondary"
-              disableAutoStretch
-              sx={{ flexShrink: 0 }}
-              onClick={() => setFiltersOpen(!filtersOpen)}
-              endIcon={filtersOpen ? <IconPanelOpen /> : <IconPanelClose />}
-            >
-              {applied ? `Filters (${applied})` : 'Filters'}
-            </Button>
-          )}
-        </Stack>
+        <SearchRow
+          search={filters.search}
+          onSearch={(value) => setFilters({ ...filters, search: value })}
+          showFiltersButton={!isBoard}
+          filtersOpen={filtersOpen}
+          applied={applied}
+          onToggleFilters={() => setFiltersOpen(!filtersOpen)}
+        />
       )}
 
       <Box>
@@ -229,9 +328,7 @@ const TerritoriesHub = ({ hub }: TerritoriesHubProps) => {
       sx={{
         display: 'grid',
         gridTemplateColumns:
-          desktopUp && (filtersInline || tabId === 'mine')
-            ? 'minmax(0, 1fr) 360px'
-            : 'minmax(0, 1fr)',
+          desktopUp && hasSidePanel ? 'minmax(0, 1fr) 360px' : 'minmax(0, 1fr)',
         gap: '16px',
         alignItems: 'start',
       }}
@@ -252,9 +349,7 @@ const TerritoriesHub = ({ hub }: TerritoriesHubProps) => {
 
       {assignManyOpen && (
         <AssignDialog
-          title={`Assign ${assignableCount} ${
-            assignableCount === 1 ? 'territory' : 'territories'
-          }`}
+          title={`Assign ${assignableCount} ${plural(assignableCount)}`}
           territories={territories}
           onClose={() => setAssignManyOpen(false)}
           onAssign={assignMany}
@@ -281,55 +376,26 @@ const TerritoriesHub = ({ hub }: TerritoriesHubProps) => {
             {
               key: 'filters',
               content: (
-                <Card>
-                  <TerritoryFilters
-                    filters={filters}
-                    onChange={setFilters}
-                    showTitle={false}
-                    showClear={false}
-                  />
-
-                  <DialogActions>
-                    <Button
-                      variant="secondary"
-                      disabled={applied === 0}
-                      onClick={() => setFilters(clearedFilters(filters))}
-                    >
-                      Clear all
-                    </Button>
-                    <Button variant="main" onClick={closeFilters}>
-                      {`Show ${visible.length} ${
-                        visible.length === 1 ? 'territory' : 'territories'
-                      }`}
-                    </Button>
-                  </DialogActions>
-                </Card>
+                <FiltersPane
+                  filters={filters}
+                  onChange={setFilters}
+                  applied={applied}
+                  count={visible.length}
+                  onClose={closeFilters}
+                />
               ),
             },
           ]}
         />
       )}
 
-      {(filtersInline || tabId === 'mine') && (
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          {filtersInline && (
-            <Card>
-              <TerritoryFilters filters={filters} onChange={setFilters} />
-            </Card>
-          )}
-
-          {tabId === 'mine' && (
-            <Box
-              sx={{
-                padding: '16px',
-                backgroundColor: 'var(--accent-150)',
-                ...dashedBorder({ radius: 12 }),
-              }}
-            >
-              <MyHistory territories={territories} />
-            </Box>
-          )}
-        </Box>
+      {hasSidePanel && (
+        <SidePanel
+          filters={filters}
+          onChange={setFilters}
+          showFilters={filtersInline}
+          history={tabId === 'mine' ? territories : undefined}
+        />
       )}
     </Box>
   );

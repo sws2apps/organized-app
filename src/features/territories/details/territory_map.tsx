@@ -131,13 +131,11 @@ const TerritoryMap = ({
 
   const small = { minHeight: '28px', padding: '2px 8px', minWidth: 'unset' };
 
-  const emptyText = readOnly
-    ? 'No map yet.'
-    : !isSaved
-      ? 'Save first to draw borders.'
-      : laptopUp
-        ? 'No borders yet.'
-        : 'No borders yet. Draw them on a computer.';
+  let emptyText = laptopUp
+    ? 'No borders yet.'
+    : 'No borders yet. Draw them on a computer.';
+  if (!isSaved) emptyText = 'Save first to draw borders.';
+  if (readOnly) emptyText = 'No map yet.';
 
   return (
     <Stack spacing="16px">

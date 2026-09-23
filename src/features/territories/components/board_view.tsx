@@ -30,7 +30,7 @@ const COLUMN_LABEL: Record<Column, string> = {
 };
 
 // requested and overdue are derived, so cards can leave them but never land there
-const DROPPABLE: Column[] = ['available', 'in_work'];
+const DROPPABLE = new Set<Column>(['available', 'in_work']);
 
 const columnOf = (territory: Territory): Column =>
   territory.status === 'available' && territory.requestedBy
@@ -118,10 +118,13 @@ const BoardView = ({
           .filter((territory) => columnOf(territory) === status)
           .sort((a, b) => b.daysSinceCovered - a.daysSinceCovered);
 
-        const canDrop = DROPPABLE.includes(status);
+        const canDrop = DROPPABLE.has(status);
 
         const accepts =
           canDrop && !(status === 'in_work' && dragFrom === 'overdue');
+
+        let borderColor = canDrop ? 'var(--grey-200)' : 'var(--accent-300)';
+        if (dragging && accepts) borderColor = 'var(--accent-main)';
 
         return (
           <Box
@@ -134,12 +137,7 @@ const BoardView = ({
               borderRadius: 'var(--radius-xl)',
               backgroundColor: canDrop ? 'var(--grey-100)' : 'transparent',
               border: canDrop ? '1px solid' : '1px dashed',
-              borderColor:
-                dragging && accepts
-                  ? 'var(--accent-main)'
-                  : canDrop
-                    ? 'var(--grey-200)'
-                    : 'var(--accent-300)',
+              borderColor,
               opacity: dragging && !accepts ? 0.4 : 1,
               transition: 'border-color 0.2s ease, opacity 0.2s ease',
             }}

@@ -47,14 +47,14 @@ const AttentionCard = ({ territories }: { territories: Territory[] }) => {
         {columns.map((column, columnIndex) => [
           columnIndex > 0 && (
             <CustomDivider
-              key={`divider-${columnIndex}`}
+              key={`divider-${column[0]?.rank}`}
               orientation="vertical"
               flexItem
               color="var(--accent-200)"
             />
           ),
           <Stack
-            key={columnIndex}
+            key={column[0]?.rank}
             spacing="4px"
             divider={<CustomDivider color="var(--accent-200)" />}
           >

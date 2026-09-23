@@ -242,12 +242,8 @@ const EditPanel = ({
     editor.selectedKind !== undefined && editor.selectedKind !== 'boundary';
 
   // a picked area shows its own colours, the area tool the ones it draws with
-  const shapeStyle =
-    editor.selectedKind === 'shape'
-      ? editor.selectedStyle
-      : editor.tool === 'shape'
-        ? editor.shape
-        : undefined;
+  let shapeStyle = editor.tool === 'shape' ? editor.shape : undefined;
+  if (editor.selectedKind === 'shape') shapeStyle = editor.selectedStyle;
 
   return (
     <Stack

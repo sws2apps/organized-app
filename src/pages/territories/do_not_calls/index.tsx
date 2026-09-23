@@ -17,11 +17,7 @@ const DoNotCallsPage = () => {
         paddingBottom: tablet688Up ? '0px' : '60px',
       }}
     >
-      <PageTitle
-        title="Do not call"
-        secondaryTitle={parent}
-        onBack={goBack}
-      />
+      <PageTitle title="Do not call" secondaryTitle={parent} onBack={goBack} />
 
       <TerritoryDoNotCalls />
     </Box>

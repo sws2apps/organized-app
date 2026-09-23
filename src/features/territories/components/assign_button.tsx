@@ -14,6 +14,30 @@ type AssignButtonProps = {
   compact?: boolean;
 };
 
+const lookOf = (isAssigned: boolean, isRequested: boolean) => {
+  if (isAssigned) {
+    return {
+      label: 'Return',
+      color: 'red' as const,
+      icon: <IconMoveBack color="var(--red-main)" />,
+    };
+  }
+
+  if (isRequested) {
+    return {
+      label: 'Review',
+      color: 'orange' as const,
+      icon: <IconRaiseHand color="var(--orange-dark)" />,
+    };
+  }
+
+  return {
+    label: 'Assign',
+    color: undefined,
+    icon: <IconMoveForward color="var(--accent-main)" />,
+  };
+};
+
 const AssignButton = ({
   territory,
   onOpenAssign,
@@ -45,7 +69,7 @@ const AssignButton = ({
     onOpenAssign(territory.id);
   };
 
-  const label = isAssigned ? 'Return' : isRequested ? 'Review' : 'Assign';
+  const { label, color, icon } = lookOf(isAssigned, isRequested);
 
   return (
     <>
@@ -63,17 +87,9 @@ const AssignButton = ({
       <Button
         variant="small"
         disableAutoStretch
-        color={isAssigned ? 'red' : isRequested ? 'orange' : undefined}
+        color={color}
         onClick={handleClick}
-        startIcon={
-          isAssigned ? (
-            <IconMoveBack color="var(--red-main)" />
-          ) : isRequested ? (
-            <IconRaiseHand color="var(--orange-dark)" />
-          ) : (
-            <IconMoveForward color="var(--accent-main)" />
-          )
-        }
+        startIcon={icon}
         aria-label={compact ? label : undefined}
         sx={{
           minHeight: '28px',
