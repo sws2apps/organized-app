@@ -8,6 +8,7 @@ import { isTest } from '@constants/index';
 import useConsoleWarning from '@hooks/useConsoleWarning';
 import useCurrentUser from '@hooks/useCurrentUser';
 import useGlobal from '@hooks/useGlobal';
+import { useNavigationTrail } from '@hooks/useUpNavigation';
 import useRootLayout from './useRootLayout';
 import About from '@features/about';
 import AppFeedback from '@features/app_feedback';
@@ -28,13 +29,19 @@ import Support from '@features/support';
 import UnsupportedBrowser from '@features/app_start/shared/unsupported_browser';
 import WaitingLoader from '@components/waiting_loader';
 import WhatsNew from '@features/whats_new';
+import usePageWidth from '@layouts/usePageWidth';
 
 const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
   const { isSupported } = useGlobal();
 
   useConsoleWarning();
 
+  // lets back buttons tell where the previous history entry leads
+  useNavigationTrail();
+
   const { isPublisher } = useCurrentUser();
+
+  const pageWidth = usePageWidth();
 
   const {
     isAppLoad,
@@ -69,7 +76,7 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
         <Container
           maxWidth={false}
           sx={{
-            maxWidth: '1440px',
+            maxWidth: pageWidth,
             width: '100%',
             paddingInline: 'var(--page-padding)',
             marginTop: '24px',
