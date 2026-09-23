@@ -29,7 +29,7 @@ const TOOL_HINT: Partial<Record<MapTool, string>> = {
   line: 'Click to add bends. Double-click to finish.',
   shape: 'Click to add corners. Click the first one to close.',
   move: 'Drag an item to move it.',
-  points: 'Drag corners to reshape. Delete removes a picked corner.',
+  points: 'Drag corners to reshape. Pick one to delete it.',
 };
 
 const Section = ({
@@ -307,6 +307,23 @@ const EditPanel = ({
         {hasBorder && (
           <>
             {editor.tool === 'points' && <Hint>{TOOL_HINT.points}</Hint>}
+
+            {editor.cornerPicked && (
+              <Button
+                variant="small"
+                color="red"
+                disableAutoStretch
+                startIcon={<IconDelete color="var(--red-main)" />}
+                onClick={editor.deleteVertex}
+                sx={{
+                  minHeight: '28px',
+                  padding: '2px 8px',
+                  alignSelf: 'flex-start',
+                }}
+              >
+                Delete corner
+              </Button>
+            )}
 
             {editor.tool !== 'points' && (
               <Button

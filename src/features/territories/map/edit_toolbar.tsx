@@ -126,7 +126,7 @@ export const ViewToolbar = ({
     .join(' · ');
 
   return (
-    <Stack direction="row" sx={{ flexShrink: 0, minWidth: 0, ...SHELL }}>
+    <Stack direction="row" sx={{ flexShrink: 1, minWidth: 0, ...SHELL }}>
       <Box sx={{ padding: '0 10px', minWidth: 0, maxWidth: '320px' }}>
         <Typography className="body-small-semibold" color="var(--black)" noWrap>
           {selected.number} · {selected.name}

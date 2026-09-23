@@ -290,10 +290,14 @@ const useMapEditor = ({
     if (draw.current) setDraft(readSnapshot(draw.current.getSnapshot()));
   }, []);
 
+  // mirrors the picked corner for the panel, which can't read the ref
+  const [cornerPicked, setCornerPicked] = useState(false);
+
   const clearVertex = useCallback(() => {
     vertex.current = undefined;
     vertexMarker.current?.remove();
     vertexMarker.current = null;
+    setCornerPicked(false);
   }, []);
 
   const stop = useCallback(() => {
@@ -828,7 +832,9 @@ const useMapEditor = ({
     const instance = map.current;
     if (!editing || tool !== 'points' || !instance) return;
 
-    const pick = (event: maplibregl.MapMouseEvent) => {
+    const pick = (
+      event: maplibregl.MapMouseEvent | maplibregl.MapTouchEvent
+    ) => {
       const terra = draw.current;
       if (!terra) return;
 
@@ -859,6 +865,7 @@ const useMapEditor = ({
       }
 
       vertex.current = { id: selected, index: best.index };
+      setCornerPicked(true);
 
       if (!vertexMarker.current) {
         const element = document.createElement('div');
@@ -893,11 +900,15 @@ const useMapEditor = ({
 
     instance.on('mousedown', pick);
     instance.on('mouseup', follow);
+    instance.on('touchstart', pick);
+    instance.on('touchend', follow);
     window.addEventListener('keydown', onKey);
 
     return () => {
       instance.off('mousedown', pick);
       instance.off('mouseup', follow);
+      instance.off('touchstart', pick);
+      instance.off('touchend', follow);
       window.removeEventListener('keydown', onKey);
     };
   }, [map, editing, tool, selected, clearVertex, deleteVertex]);
@@ -934,6 +945,8 @@ const useMapEditor = ({
       deleteSelected,
       cancelAction,
       canCancel,
+      cornerPicked,
+      deleteVertex,
       redrawBorder,
       adjustBorder,
       scope,
@@ -964,6 +977,8 @@ const useMapEditor = ({
       deleteSelected,
       cancelAction,
       canCancel,
+      cornerPicked,
+      deleteVertex,
       redrawBorder,
       adjustBorder,
       scope,

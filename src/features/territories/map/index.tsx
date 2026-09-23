@@ -5,6 +5,7 @@ import TabSwitcher from '@components/tab_switcher';
 import Dialog from '@components/dialog';
 import DialogActions from '@components/dialog_actions';
 import { useNavigate } from 'react-router';
+import { useBreakpoints } from '@hooks/index';
 import {
   IconAdd,
   IconEdit,
@@ -82,7 +83,10 @@ const LAYOUT_GAP = 32;
 const TerritoriesMap = ({ map }: { map: TerritoriesMapState }) => {
   const navigate = useNavigate();
 
-  const [panelOpen, setPanelOpen] = useState(true);
+  const { laptopUp } = useBreakpoints();
+
+  // on a phone the panel would cover the map, so it starts closed there
+  const [panelOpen, setPanelOpen] = useState(laptopUp);
 
   const [top, setTop] = useState(130);
 
@@ -114,7 +118,7 @@ const TerritoriesMap = ({ map }: { map: TerritoriesMapState }) => {
   // the editing steps are the only guide while drawing, so they cannot be hidden
   const showPanel = panelOpen || editor.editing;
 
-  const inset = showPanel ? `${PANEL_WIDTH + 24}px` : '12px';
+  const inset = showPanel && laptopUp ? `${PANEL_WIDTH + 24}px` : '12px';
 
   return (
     <Box
@@ -162,7 +166,7 @@ const TerritoriesMap = ({ map }: { map: TerritoriesMapState }) => {
               // leaves the corner below free for the attribution button
               bottom: '56px',
               maxHeight: 'calc(100% - 68px)',
-              width: `${PANEL_WIDTH}px`,
+              width: laptopUp ? `${PANEL_WIDTH}px` : 'calc(100% - 24px)',
               zIndex: 3,
               display: 'flex',
               flexDirection: 'column',
@@ -199,7 +203,10 @@ const TerritoriesMap = ({ map }: { map: TerritoriesMapState }) => {
                   <TerritoryPicker
                     territories={map.territories}
                     selectedId={map.selectedId}
-                    onSelect={map.pickTerritory}
+                    onSelect={(id) => {
+                      map.pickTerritory(id);
+                      if (!laptopUp) setPanelOpen(false);
+                    }}
                     height="100%"
                   />
                 </Box>
@@ -255,30 +262,32 @@ const TerritoriesMap = ({ map }: { map: TerritoriesMapState }) => {
           )}
         </Stack>
 
-        <Box
-          sx={{
-            position: 'absolute',
-            bottom: '12px',
-            left: `calc(${inset} + (100% - ${inset}) / 2)`,
-            transform: 'translateX(-50%)',
-            zIndex: 2,
-            borderRadius: 'var(--radius-l)',
-            boxShadow: 'var(--hover-shadow)',
-          }}
-        >
-          <TabSwitcher
-            ariaLabel="Map mode"
-            surface="light"
-            value={map.mode}
-            onChange={map.setMode}
-            options={[
-              { value: 'view', label: 'View', icon: <IconVisibility /> },
-              { value: 'edit', label: 'Edit', icon: <IconEdit /> },
-            ]}
-            // as tall as the map's button islands
-            sx={{ width: '256px', '& button': { minHeight: '36px' } }}
-          />
-        </Box>
+        {laptopUp && (
+          <Box
+            sx={{
+              position: 'absolute',
+              bottom: '12px',
+              left: `calc(${inset} + (100% - ${inset}) / 2)`,
+              transform: 'translateX(-50%)',
+              zIndex: 2,
+              borderRadius: 'var(--radius-l)',
+              boxShadow: 'var(--hover-shadow)',
+            }}
+          >
+            <TabSwitcher
+              ariaLabel="Map mode"
+              surface="light"
+              value={map.mode}
+              onChange={map.setMode}
+              options={[
+                { value: 'view', label: 'View', icon: <IconVisibility /> },
+                { value: 'edit', label: 'Edit', icon: <IconEdit /> },
+              ]}
+              // as tall as the map's button islands
+              sx={{ width: '256px', '& button': { minHeight: '36px' } }}
+            />
+          </Box>
+        )}
 
         <Box
           sx={{
