@@ -8,7 +8,7 @@ import {
   IconStatsYear,
 } from '@icons/index';
 import { useAtomValue } from 'jotai';
-import { useBreakpoints, useCurrentUser } from '@hooks/index';
+import { useCurrentUser } from '@hooks/index';
 import { territoriesState } from '@states/territories';
 import { forTab } from '@features/territories/helpers';
 import DashboardCard from '@features/dashboard/card';
@@ -16,7 +16,6 @@ import DashboardMenu from '@features/dashboard/menu';
 
 const TerritoriesCard = () => {
   const { isElder, isServiceCommittee } = useCurrentUser();
-  const { laptopUp } = useBreakpoints();
 
   const territories = useAtomValue(territoriesState);
 
@@ -63,7 +62,7 @@ const TerritoriesCard = () => {
           />
         )}
       </ListItem>
-      {isTerritoryEditor && laptopUp && (
+      {isTerritoryEditor && (
         <ListItem disablePadding>
           <DashboardMenu
             icon={<IconMapView color="var(--black)" />}
