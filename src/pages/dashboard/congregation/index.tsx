@@ -4,6 +4,7 @@ import {
   IconManageAccess,
   IconSettings,
   IconSynced,
+  IconHistory,
 } from '@icons/index';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import useCongregation from './useCongregation';
@@ -81,6 +82,16 @@ const CongregationCard = () => {
             primaryText={t('tr_syncAppData')}
             secondaryText={secondaryText}
             onClick={handleManualSync}
+          />
+        </ListItem>
+      )}
+
+      {!isGroup && isAdmin && (
+        <ListItem disablePadding>
+          <DashboardMenu
+            path="/activity-history"
+            icon={<IconHistory color="var(--black)" />}
+            primaryText={t('tr_activityHistory')}
           />
         </ListItem>
       )}

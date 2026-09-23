@@ -2,6 +2,7 @@ import appDb from '@db/appDb';
 import { UpdateSpec } from 'dexie';
 import { SchedWeekType } from '@definition/schedules';
 import { scheduleSchema } from './schema';
+import { dbAppLogCreate } from './app_logs';
 
 const dbUpdateSchedulesMetadata = async () => {
   const metadata = await appDb.metadata.get(1);
@@ -48,6 +49,36 @@ export const dbSchedBulkUpdate = async (weeks: SchedWeekType[]) => {
 
   await appDb.sched.bulkUpdate(data);
   await dbUpdateSchedulesMetadata();
+
+  if (weeks.length > 0) {
+    const first = weeks.at(0).weekOf;
+    const last = weeks.at(-1).weekOf;
+    const range = first === last ? first : `${first} → ${last}`;
+
+    // Determine type by checking which section has data
+    const hasMidweek = weeks.some((w) => w.midweek_meeting);
+    const hasWeekend = weeks.some((w) => w.weekend_meeting);
+
+    if (hasMidweek) {
+      dbAppLogCreate({
+        module: 'schedules',
+        action: 'publish',
+        entity_type: 'midweek_schedule',
+        field_key: 'tr_logFieldWeeks',
+        value_after: range,
+      });
+    }
+
+    if (hasWeekend) {
+      dbAppLogCreate({
+        module: 'schedules',
+        action: 'publish',
+        entity_type: 'weekend_schedule',
+        field_key: 'tr_logFieldWeeks',
+        value_after: range,
+      });
+    }
+  }
 };
 
 export const dbSchedAuxClassUpdate = async () => {
