@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Box, Stack } from '@mui/material';
 import { Badge, Button, InfoNote } from '@components/index';
-import { IconAdd, IconEdit } from '@icons/index';
+import { IconAdd, IconCall, IconEdit } from '@icons/index';
 import { Territory } from '@definition/territory';
 import RecordList from '../components/record_list';
 import RowAction from '../components/row_action';
@@ -15,6 +15,11 @@ const MAX_PHONE_NUMBERS = 32;
 const MIN_COLUMN = 290;
 const MAX_COLUMNS = 4;
 const GAP = 16;
+
+// a tap on a phone starts the call; the + keeps an international prefix
+const call = (number: string) => {
+  window.location.href = `tel:${number.replace(/[^\d+]/g, '')}`;
+};
 
 const PhoneNumbersPanel = ({
   territory,
@@ -80,9 +85,12 @@ const PhoneNumbersPanel = ({
             items={column.map(({ number, index }) => {
               const blocked = isDoNotCallNumber(territory, number);
 
+              let onClick: VoidFunction | undefined = () => setEditing(index);
+              if (readOnly) onClick = blocked ? undefined : () => call(number);
+
               return {
                 id: `${index}-${number}`,
-                onClick: readOnly ? undefined : () => setEditing(index),
+                onClick,
                 title: number,
                 titleColor: blocked ? 'var(--red-main)' : undefined,
                 badge: blocked && (
@@ -94,14 +102,27 @@ const PhoneNumbersPanel = ({
                     sx={{ width: 'fit-content', flexShrink: 0 }}
                   />
                 ),
-                actions: readOnly ? undefined : (
-                  <RowAction title="Edit" onClick={() => setEditing(index)}>
-                    <IconEdit
-                      color="var(--accent-main)"
-                      width={18}
-                      height={18}
-                    />
-                  </RowAction>
+                actions: (
+                  <>
+                    {!blocked && (
+                      <RowAction title="Call" onClick={() => call(number)}>
+                        <IconCall
+                          color="var(--accent-main)"
+                          width={18}
+                          height={18}
+                        />
+                      </RowAction>
+                    )}
+                    {!readOnly && (
+                      <RowAction title="Edit" onClick={() => setEditing(index)}>
+                        <IconEdit
+                          color="var(--accent-main)"
+                          width={18}
+                          height={18}
+                        />
+                      </RowAction>
+                    )}
+                  </>
                 ),
               };
             })}

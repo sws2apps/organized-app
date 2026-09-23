@@ -28,7 +28,7 @@ export const ChartCard = ({
       display: 'flex',
     }}
   >
-    <Card sx={{ gap: '16px', flexGrow: 1 }}>
+    <Card sx={{ gap: '16px', flexGrow: 1, minWidth: 0 }}>
       <Box
         sx={{
           display: 'flex',
