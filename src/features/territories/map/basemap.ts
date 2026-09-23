@@ -155,6 +155,14 @@ const PLACE_LAYERS = new Set(['poi', 'pois']);
 
 const STREET_NAME_LAYERS = new Set(['transportation_name', 'street_labels']);
 
+const SHORTBREAD_LAYERS = new Set([
+  'land',
+  'water_polygons',
+  'buildings',
+  'pois',
+  'addresses',
+]);
+
 const HOUSE_NUMBERS = 'basemap-house-numbers';
 const PLACES = 'basemap-places';
 const PARKING = 'basemap-parking';
@@ -182,6 +190,14 @@ const addMissingLabels = (map: maplibregl.Map, provider: MapProviderKey) => {
   )?.[0];
   if (!source) return;
 
+  // OpenMapTiles and Shortbread name their layers differently; a layer the tiles
+  // don't carry makes MapLibre reject it, so only this style's schema is used
+  const shortbread = style.layers.some(
+    (layer) => sourceLayerOf(layer) === 'streets'
+  );
+  const inSchema = (sourceLayer: string) =>
+    SHORTBREAD_LAYERS.has(sourceLayer) === shortbread;
+
   const label = (
     id: string,
     sourceLayer: string,
@@ -206,7 +222,7 @@ const addMissingLabels = (map: maplibregl.Map, provider: MapProviderKey) => {
       },
     });
 
-  if (!drawn(HOUSE_NUMBER_LAYERS)) {
+  if (!drawn(HOUSE_NUMBER_LAYERS) && inSchema('housenumber')) {
     label(HOUSE_NUMBERS, 'housenumber', HOUSE_NUMBERS_FROM, [
       'get',
       'housenumber',
@@ -216,7 +232,7 @@ const addMissingLabels = (map: maplibregl.Map, provider: MapProviderKey) => {
   for (const overlay of OVERLAYS) {
     overlay.parts.forEach((part, index) => {
       const id = `${overlay.id}-${index}`;
-      if (map.getLayer(id)) return;
+      if (map.getLayer(id) || !inSchema(part.layer)) return;
 
       map.addLayer({
         id,
@@ -229,7 +245,7 @@ const addMissingLabels = (map: maplibregl.Map, provider: MapProviderKey) => {
     });
   }
 
-  if (!drawn(PLACE_LAYERS)) {
+  if (!drawn(PLACE_LAYERS) && inSchema('poi')) {
     label(PLACES, 'poi', 16, [
       'coalesce',
       ['get', 'name:latin'],
@@ -240,7 +256,7 @@ const addMissingLabels = (map: maplibregl.Map, provider: MapProviderKey) => {
   // outlines make each building countable at street level
   for (const [index, layer] of ['building', 'buildings'].entries()) {
     const id = `${BUILDINGS}-${index}`;
-    if (map.getLayer(id)) continue;
+    if (map.getLayer(id) || !inSchema(layer)) continue;
 
     map.addLayer({
       id,
@@ -263,7 +279,7 @@ const addMissingLabels = (map: maplibregl.Map, provider: MapProviderKey) => {
 
   parking.forEach(([layer, filter], index) => {
     const id = `${PARKING}-${index}`;
-    if (map.getLayer(id)) return;
+    if (map.getLayer(id) || !inSchema(layer)) return;
 
     map.addLayer({
       id,
