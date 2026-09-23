@@ -49,22 +49,34 @@ const TerritorySummary = ({
     );
   }
 
-  // status and holder sit top right beside the title, wrapping under it on a phone
+  // the status pairs with the title, the holder with the details; on a phone the holder takes its own line
   return (
-    <Stack
-      direction="row"
-      sx={{
-        flexWrap: 'wrap',
-        justifyContent: 'space-between',
-        alignItems: 'flex-start',
-        gap: '8px 16px',
-      }}
-    >
-      <Stack spacing="4px" sx={{ minWidth: 0 }}>
+    <Stack spacing="4px">
+      <Stack
+        direction="row"
+        sx={{
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: '12px',
+        }}
+      >
         <Typography className="h2" color="var(--black)">
           Overview
         </Typography>
+        <Box sx={{ width: 'fit-content', flexShrink: 0 }}>
+          <StatusBadge status={territory.status} />
+        </Box>
+      </Stack>
 
+      <Stack
+        direction="row"
+        sx={{
+          flexWrap: 'wrap',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          gap: '6px 16px',
+        }}
+      >
         {/* as tall as a badge, so marking the card lost doesn't shift the card */}
         <Stack direction="row" sx={{ ...row, minHeight: '20px' }}>
           <Typography className="body-small-regular" color="var(--grey-400)">
@@ -73,12 +85,7 @@ const TerritorySummary = ({
           <CardLostBadge territory={territory} />
           <CategoryBadges territory={territory} />
         </Stack>
-      </Stack>
 
-      <Stack spacing="4px" sx={{ alignItems: 'flex-end' }}>
-        <Box sx={{ width: 'fit-content' }}>
-          <StatusBadge status={territory.status} />
-        </Box>
         {meta && (
           <Stack direction="row" sx={{ alignItems: 'center', gap: '4px' }}>
             <IconPerson color="var(--grey-400)" width={16} height={16} />
