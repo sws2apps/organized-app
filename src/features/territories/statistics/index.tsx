@@ -1,7 +1,7 @@
 import { Box, Stack } from '@mui/material';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { Button } from '@components/index';
+import { Button, ScrollableTabs } from '@components/index';
 import { useAtomValue } from 'jotai';
 import {
   territoriesWithStatusState,
@@ -23,7 +23,6 @@ import {
 import { ChartCard, ColumnChart, Gauge, StatRow } from '../components/charts';
 import PublisherLoad from '../components/publisher_load';
 import StatTile from '../components/stat_tile';
-import TabSwitcher from '@components/tab_switcher';
 import AttentionCard from './attention_card';
 import CoverageGrid from './coverage_grid';
 import { PublisherSplit, PublisherTrend } from './publisher_cards';
@@ -67,14 +66,16 @@ const TerritoriesStatistics = () => {
         alignItems: 'stretch',
       }}
     >
-      <Box sx={{ gridColumn: '1 / -1', overflowX: 'auto' }}>
-        <TabSwitcher
-          ariaLabel="Period"
-          surface="light"
-          value={period}
-          onChange={setPeriod}
-          options={periods}
-          sx={{ minWidth: '560px', maxWidth: '720px' }}
+      <Box sx={{ gridColumn: '1 / -1' }}>
+        <ScrollableTabs
+          appearance="plain"
+          tabs={periods.map((item) => ({ label: item.label }))}
+          value={periods.findIndex((item) => item.value === period)}
+          onChange={(index: number) => setPeriod(periods[index].value)}
+          sx={{
+            borderBottom: '1px solid var(--accent-200)',
+            '& .MuiTabs-scrollButtons': { display: 'none' },
+          }}
         />
       </Box>
 
