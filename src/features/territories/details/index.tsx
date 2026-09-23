@@ -53,7 +53,7 @@ const TerritoryDetails = ({
         territory={territory}
         meta={
           !readOnly && territory.holder
-            ? `${territory.holder} · out ${daysLabel(territory.daysOut)}`
+            ? `${territory.holder} · ${daysLabel(territory.daysOut)}`
             : undefined
         }
       />

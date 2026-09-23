@@ -1,5 +1,6 @@
 import { Box, Stack } from '@mui/material';
 import { Typography } from '@components/index';
+import { IconPerson } from '@icons/index';
 import { Territory, TYPE_LABEL } from '@definition/territory';
 import { CardLostBadge, CategoryBadges, StatusBadge } from './territory_badges';
 
@@ -79,9 +80,12 @@ const TerritorySummary = ({
           <StatusBadge status={territory.status} />
         </Box>
         {meta && (
-          <Typography className="label-small-regular" color="var(--grey-400)">
-            {meta}
-          </Typography>
+          <Stack direction="row" sx={{ alignItems: 'center', gap: '4px' }}>
+            <IconPerson color="var(--grey-400)" width={16} height={16} />
+            <Typography className="label-small-regular" color="var(--grey-400)">
+              {meta}
+            </Typography>
+          </Stack>
         )}
       </Stack>
     </Stack>
