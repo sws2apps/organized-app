@@ -126,7 +126,8 @@ const FullscreenMap = ({
             className="body-small-semibold"
             color="var(--black)"
             noWrap
-            sx={{ padding: '6px 10px', maxWidth: 'calc(100vw - 220px)' }}
+            // as tall as the Close button beside it
+            sx={{ padding: '10px', maxWidth: 'calc(100vw - 220px)' }}
           >
             {[`Territory ${territory.number}`, territory.name]
               .filter(Boolean)
