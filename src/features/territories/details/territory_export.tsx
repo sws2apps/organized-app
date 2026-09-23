@@ -134,10 +134,9 @@ const TerritoryExport = ({
           position: 'relative',
           width: '100%',
           height: '380px',
+          // the dialog scrolls instead of squeezing the preview on short screens
+          flexShrink: 0,
           overflow: 'hidden',
-          borderRadius: 'var(--radius-l)',
-          border: '1px solid var(--accent-200)',
-          backgroundColor: 'var(--grey-100)',
         }}
       >
         <PdfPreview url={exporter.previewUrl} />

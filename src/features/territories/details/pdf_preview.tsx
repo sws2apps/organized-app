@@ -37,9 +37,13 @@ const PdfPreview = ({ url }: { url?: string }) => {
         const canvas = window.document.createElement('canvas');
         canvas.width = viewport.width;
         canvas.height = viewport.height;
+        // each page sits in its own frame, like the sheet it prints on
         canvas.style.width = '100%';
         canvas.style.display = 'block';
+        canvas.style.boxSizing = 'border-box';
         canvas.style.backgroundColor = '#FFFFFF';
+        canvas.style.border = '1px solid var(--accent-200)';
+        canvas.style.borderRadius = 'var(--radius-l)';
 
         await page.render({ canvas, viewport }).promise;
         if (cancelled) return;
@@ -74,7 +78,7 @@ const PdfPreview = ({ url }: { url?: string }) => {
 
       <Box
         ref={pages}
-        sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}
+        sx={{ display: 'flex', flexDirection: 'column', gap: '12px' }}
       />
     </Box>
   );
