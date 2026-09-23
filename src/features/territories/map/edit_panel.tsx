@@ -35,14 +35,12 @@ const TOOL_HINT: Partial<Record<MapTool, string>> = {
 const Section = ({
   step,
   title,
-  done = false,
   disabled = false,
   action,
   children,
 }: {
   step?: number;
   title: string;
-  done?: boolean;
   disabled?: boolean;
   action?: ReactNode;
   children: ReactNode;
@@ -55,8 +53,7 @@ const Section = ({
             width: '20px',
             height: '20px',
             borderRadius: 'var(--radius-max)',
-            // the number stays, a finished step just turns green
-            backgroundColor: done ? 'var(--green-main)' : 'var(--accent-main)',
+            backgroundColor: 'var(--accent-main)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -230,7 +227,6 @@ const EditPanel = ({
 }) => {
   const congregation = editor.scope === 'congregation';
   const hasBorder = !!editor.draft.boundary?.length;
-  const drawingBorder = editor.tool === 'border';
 
   const title = congregation
     ? 'Congregation border'
@@ -280,7 +276,6 @@ const EditPanel = ({
       <Section
         step={1}
         title="Border"
-        done={hasBorder && !drawingBorder}
         action={
           hasBorder && (
             <Button
