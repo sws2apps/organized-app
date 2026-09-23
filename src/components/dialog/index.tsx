@@ -86,6 +86,7 @@ const Dialog = ({
   title,
   description,
   closable,
+  size,
 }: DialogProps) => {
   const { t } = useAppTranslation();
 
@@ -176,6 +177,8 @@ const Dialog = ({
 
     onClose();
   };
+  
+  const maxWidth = size === 'large' ? 680 : 560;
 
   return (
     <MUIDialog
@@ -199,7 +202,7 @@ const Dialog = ({
         paper: PaperProps || {
           className: 'pop-up-shadow',
           style: {
-            maxWidth: '560px',
+            maxWidth,
             borderRadius: 'var(--radius-xl)',
             backgroundColor: 'var(--white)',
           },

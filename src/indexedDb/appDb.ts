@@ -59,6 +59,10 @@ import {
 import { publicTalkSchema, PublicTalkTable } from './tables/public_talk';
 import { songSchema, SongTable } from './tables/songs';
 import { appLocalsSchema, AppLocalsTable } from './tables/app_locals';
+import {
+  informationBoardSchema,
+  InformationBoardTable,
+} from './tables/information_board';
 
 type DexieTables = PersonsTable &
   SettingsTable &
@@ -81,7 +85,8 @@ type DexieTables = PersonsTable &
   DelegatedFieldServiceReportsTable &
   PublicTalkTable &
   SongTable &
-  AppLocalsTable;
+  AppLocalsTable &
+  InformationBoardTable;
 
 type Dexie<T = DexieTables> = BaseDexie & T;
 
@@ -271,6 +276,18 @@ appDb
 
 appDb.on('populate', function () {
   appDb.app_settings.add(settingSchema);
+});
+
+appDb.version(15).stores({
+  ...schema,
+  ...metadataSchema,
+  ...delegatedFieldServiceReportsSchema,
+  ...weekTypeSchema,
+  ...publicTalkSchema,
+  ...songSchema,
+  ...upcomingEventsSchema,
+  ...appLocalsSchema,
+  ...informationBoardSchema,
 });
 
 export default appDb;

@@ -1,0 +1,79 @@
+import Dialog from '@components/dialog';
+import Typography from '@components/typography';
+import { useAppTranslation } from '@hooks/index';
+import { Stack } from '@mui/material';
+import Button from '@components/button';
+import Divider from '@components/divider';
+import SwitchWithLabel from '@components/switch_with_label';
+import useAddAnnouncement from './useAddAnnouncement';
+
+const AddAnnouncement = () => {
+  const { t } = useAppTranslation();
+  const {
+    tabs,
+    draft,
+    handleSwitchPinAtTheTop,
+    handleSwitchNotifyEverybody,
+    handleCancel,
+    handlePublish,
+    isPublishEnabled,
+    dialogOpen,
+    announcementId,
+  } = useAddAnnouncement();
+  return (
+    <Dialog
+      onClose={handleCancel}
+      open={dialogOpen}
+      sx={{
+        gap: '24px',
+        padding: '24px',
+      }}
+    >
+      <Typography className="h2">
+        {announcementId !== null
+          ? t('tr_editAnnouncement')
+          : t('tr_addAnnouncement')}
+      </Typography>
+
+      {/* TODO: On new update add second tab for uploading files */}
+      {tabs[0].Component}
+
+      <Stack width={'100%'}>
+        <Divider color="var(--accent-200)" />
+      </Stack>
+
+      <Stack spacing={'16px'}>
+        <Typography className="body-small-semibold" color="var(--grey-350)">
+          {t('tr_optionalSettings')}
+        </Typography>
+        <SwitchWithLabel
+          checked={draft?.pin_at_the_top.value}
+          label={t('tr_pinAtTheTop')}
+          helper={t('tr_pinAtTheTopDesc')}
+          onChange={handleSwitchPinAtTheTop}
+        />
+        <SwitchWithLabel
+          checked={draft?.notify_everybody}
+          label={t('tr_urgentNotification')}
+          helper={t('tr_urgentNotificationDesc')}
+          onChange={handleSwitchNotifyEverybody}
+        />
+      </Stack>
+
+      <Stack spacing="8px" width={'100%'}>
+        <Button
+          variant="main"
+          onClick={handlePublish}
+          disabled={!isPublishEnabled}
+        >
+          {t('tr_publish')}
+        </Button>
+        <Button variant="secondary" onClick={handleCancel}>
+          {t('tr_cancel')}
+        </Button>
+      </Stack>
+    </Dialog>
+  );
+};
+
+export default AddAnnouncement;
