@@ -107,7 +107,7 @@
   "tr_S10ReportNotGenerated": "El informe de este año aún no se ha generado. Genéralo para ver todos los detalles y luego envíalo.",
   "tr_quickAssignAP": "Asignado como precursor auxiliar",
   "tr_quickAssignAPDesc": "Este publicador está asignado como precursor auxiliar este mes. Puedes cambiar esto en la lista de designaciones del publicador en la página Personas.",
-  "tr_reactivatePublisher": "Reactivate publisher",
+  "tr_reactivatePublisher": "Reactivar publicador",
   "tr_S21CardTitle": "Exportar múltiples registros de publicadores (S-21)",
   "tr_S21CardTitleDesc": "Selecciona 'Todos los publicadores' para exportar y ordenar todos los registros de publicadores y de precursores regulares y auxiliares o selecciona 'Publicadores específicos' para exportar registros solo de publicadores seleccionados.",
   "tr_allPublisherRecords": "Todos los publicadores",
@@ -137,5 +137,9 @@
   "tr_bibleStudiesMonthlyLess": "No puedes establecer menos cursos bíblicos que el total que tienes de tus registros diarios",
   "tr_hoursDecreaseError": "No se pueden cambiar las horas",
   "tr_hoursDecreaseErrorDesc": "No puedes establecer menos horas que el total que tienes de tus registros diarios",
-  "tr_SCEL": "Escuela para ancianos de congregación"
+  "tr_SCEL": "Escuela para ancianos de congregación",
+  "tr_timerNothingToSave": "Nada que guardar",
+  "tr_timerNothingToSaveDesc": "La sesión duró menos de un minuto, así que no se añadió tiempo al informe.",
+  "tr_timerNoOpenMonth": "No hay ningún mes al que añadir el tiempo",
+  "tr_timerNoOpenMonthDesc": "Todos los meses transcurridos desde que empezó esta sesión ya están confirmados. La sesión se mantiene en pausa."
 }

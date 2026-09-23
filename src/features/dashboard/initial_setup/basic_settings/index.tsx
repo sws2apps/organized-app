@@ -17,7 +17,11 @@ const BasicSettings = (props: BasicSettingsProps) => {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-      <Typography color="var(--grey-400)">
+      <Typography
+        sx={{
+          color: 'var(--grey-400)',
+        }}
+      >
         {t('tr_initialOrganizedSetupDescStep_1')}
       </Typography>
 
@@ -25,7 +29,12 @@ const BasicSettings = (props: BasicSettingsProps) => {
 
       <HourFormat />
 
-      <Stack spacing="24px" marginTop="12px">
+      <Stack
+        spacing="24px"
+        sx={{
+          marginTop: '12px',
+        }}
+      >
         <DateFormat />
 
         <NameFormat />

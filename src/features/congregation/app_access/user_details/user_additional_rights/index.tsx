@@ -23,11 +23,21 @@ const UserAdditionalRights = () => {
 
   return (
     <>
-      <Typography className="h4" color="var(--grey-400)">
+      <Typography
+        className="h4"
+        sx={{
+          color: 'var(--grey-400)',
+        }}
+      >
         {t('tr_additionalUserRights')}
       </Typography>
 
-      <Typography className="body-small-semibold" color="var(--grey-400)">
+      <Typography
+        className="body-small-semibold"
+        sx={{
+          color: 'var(--grey-400)',
+        }}
+      >
         {t('tr_meetings')}
       </Typography>
 

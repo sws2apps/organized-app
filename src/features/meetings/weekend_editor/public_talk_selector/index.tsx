@@ -1,4 +1,4 @@
-import { Box, Popper } from '@mui/material';
+import { Box } from '@mui/material';
 import { IconClose, IconTalk } from '@components/icons';
 import { PublicTalkOptionType, PublicTalkSelectorType } from './index.types';
 import { useAppTranslation } from '@hooks/index';
@@ -45,15 +45,20 @@ const PublicTalkSelector = ({
         readOnly={readOnly}
         label={t('tr_publicTalk')}
         options={talks}
-        isOptionEqualToValue={(option, value) =>
-          option.talk_number === value.talk_number
-        }
+        isOptionEqualToValue={(option, value) => {
+          if (typeof value === 'string') return false;
+          return option.talk_number === value.talk_number;
+        }}
         getOptionLabel={(option: PublicTalkOptionType) =>
           `${option.talk_number}. ${option.talk_title}`
         }
         value={talks.length > 0 ? selectedTalk : null}
         onChange={(_, value: PublicTalkOptionType) => handleTalkChange(value)}
-        PopperComponent={(props) => <Popper {...props} placement="top-start" />}
+        slotProps={{
+          popper: {
+            placement: 'top-start',
+          },
+        }}
         renderOption={(props, option) => (
           <Box
             component="li"
@@ -62,7 +67,6 @@ const PublicTalkSelector = ({
               margin: 0,
               padding: 0,
               '&.Mui-focused': {
-                backgroundColor: 'var(--accent-100) !important',
                 '& p': {
                   color:
                     showSpeakerCount && option.speakers === 0
@@ -71,7 +75,6 @@ const PublicTalkSelector = ({
                 },
               },
               '&[aria-selected="true"]': {
-                backgroundColor: 'var(--accent-200) !important',
                 '& p:nth-of-type(1)': {
                   color:
                     showSpeakerCount && option.speakers === 0

@@ -52,6 +52,12 @@ export default [
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          varsIgnorePattern: '^_',
+        },
+      ],
       'react/react-in-jsx-scope': 'off',
       'react-refresh/only-export-components': [
         'warn',

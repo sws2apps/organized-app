@@ -1,10 +1,9 @@
-import { Stack, styled, Theme } from '@mui/material';
-import { SxProps } from '@mui/system';
+import { styled, SxProps } from '@mui/material/styles';
+import { Stack, Theme } from '@mui/material';
 import {
   ExportedPickersLayoutSlotProps,
   PickersLayoutProps,
 } from '@mui/x-date-pickers';
-import { ExportedDatePickerToolbarProps } from '@mui/x-date-pickers/DatePicker/DatePickerToolbar';
 import {
   DayCalendarSlotProps,
   PickerPopperSlotProps,
@@ -57,7 +56,7 @@ export const StyleDatePickerToolbar = {
       color: 'var(--black)',
     },
   },
-} as ExportedDatePickerToolbarProps;
+};
 
 export const StyleDatePickerActionBar = {
   sx: {
@@ -89,6 +88,7 @@ export const StyleDatePickerPopper: SxProps<Theme> = {
   },
   '.Mui-selected': {
     backgroundColor: 'var(--accent-main) !important',
+    color: '#ffffff !important',
   },
   '.Mui-disabled': {
     color: 'var(--grey-200) !important',
@@ -158,4 +158,4 @@ export const StyledIconWrapper = styled(Stack)({
   '& svg g, & svg g path': {
     fill: 'var(--accent-350) !important',
   },
-}) as unknown as typeof Stack;
+});

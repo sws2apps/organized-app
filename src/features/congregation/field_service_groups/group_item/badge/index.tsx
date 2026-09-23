@@ -19,7 +19,12 @@ const GroupBadge = (props: GroupBadgeProps) => {
       }}
     >
       <IconVisitors color="var(--always-white)" width={16} height={16} />
-      <Typography className="body-small-semibold" color={'var(--always-white)'}>
+      <Typography
+        className="body-small-semibold"
+        sx={{
+          color: 'var(--always-white)',
+        }}
+      >
         {members_count}
       </Typography>
     </Box>

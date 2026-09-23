@@ -49,7 +49,12 @@ const ImageViewer = ({
                   <Box
                     component="img"
                     src={slide.src}
-                    sx={{ height: 'auto', width: '100%', maxHeight: '200px', objectFit: 'contain' }}
+                    sx={{
+                      height: 'auto',
+                      width: '100%',
+                      maxHeight: '200px',
+                      objectFit: 'contain',
+                    }}
                   />
 
                   <Box
@@ -60,12 +65,19 @@ const ImageViewer = ({
                       textAlign: 'center',
                     }}
                   >
-                    <Typography className="h4" color="var(--accent-dark)">
+                    <Typography
+                      className="h4"
+                      sx={{
+                        color: 'var(--accent-dark)',
+                      }}
+                    >
                       {slides[current].tr_title}
                     </Typography>
                     <Typography
                       className="body-small-regular"
-                      color="var(--accent-400)"
+                      sx={{
+                        color: 'var(--accent-400)',
+                      }}
                     >
                       {slides[current].tr_desc}
                     </Typography>

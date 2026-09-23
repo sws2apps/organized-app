@@ -568,5 +568,6 @@
   "tr_congregationAlreadySynced": "Seurakunta on jo yhdistetty ja synkronoitu.",
   "tr_error_app_data_no_valid_data_found": "Voimassa olevia tietoja ei löytynyt tai puhujaa ei ole valittu.",
   "tr_infirmPioneer": "Kunniatienraivaaja",
-  "tr_infirmPioneerNoGoal": "Kunniatienraivaajana voit palvella niin paljon kuin pystyt ilman vuotuista tuntitavoitetta."
+  "tr_infirmPioneerNoGoal": "Kunniatienraivaajana voit palvella niin paljon kuin pystyt ilman vuotuista tuntitavoitetta.",
+  "tr_importCsvParseError": "Tiedostoa ei voitu lukea. Tarkista sarakkeen rakenne ja yritä uudelleen."
 }

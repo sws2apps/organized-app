@@ -1,15 +1,32 @@
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import { useAppTranslation } from '@hooks/index';
 import { UpcomingEventsListProps } from './index.types';
 import useUpcomingEventsList from './useUpcomingEventsList';
 import InfoNote from '@components/info_note';
+import Typography from '@components/typography';
 import UpcomingEvent from '../upcoming_event';
+
+// starts fading right under the year and trails off far below it, so the list
+// slides out of view instead of passing behind a band
+const YEAR_SCRIM = `linear-gradient(
+  180deg,
+  rgba(var(--accent-100-base), 1) 0%,
+  rgba(var(--accent-100-base), 0.96) 14%,
+  rgba(var(--accent-100-base), 0.85) 26%,
+  rgba(var(--accent-100-base), 0.68) 38%,
+  rgba(var(--accent-100-base), 0.5) 50%,
+  rgba(var(--accent-100-base), 0.34) 61%,
+  rgba(var(--accent-100-base), 0.21) 71%,
+  rgba(var(--accent-100-base), 0.11) 80%,
+  rgba(var(--accent-100-base), 0.05) 88%,
+  rgba(var(--accent-100-base), 0.015) 95%,
+  rgba(var(--accent-100-base), 0) 100%
+)`;
 
 const UpcomingEventsList = (props: UpcomingEventsListProps) => {
   const { t } = useAppTranslation();
 
-  const { eventsSortedByYear, stickyYearRefs, stuckYearIndexes, offsetLeft } =
-    useUpcomingEventsList(props);
+  const { eventsSortedByYear } = useUpcomingEventsList(props);
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -17,66 +34,50 @@ const UpcomingEventsList = (props: UpcomingEventsListProps) => {
         <InfoNote message={t('tr_upcomingEventsEmpty')} variant="card" />
       )}
 
-      {eventsSortedByYear.length > 0 &&
-        eventsSortedByYear.map((upcomingEventsYear, yearIndex) => {
-          const firstStart = upcomingEventsYear[0]?.event_data.start;
+      {eventsSortedByYear.map((upcomingEventsYear) => {
+        const firstStart = upcomingEventsYear[0]?.event_data.start;
 
-          if (!firstStart) return null;
+        if (!firstStart) return null;
 
-          const year = new Date(firstStart).getFullYear();
+        const year = new Date(firstStart).getFullYear();
 
-          const isStuck = stuckYearIndexes.has(yearIndex);
-
-          return (
+        return (
+          <Box
+            key={year}
+            sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}
+          >
             <Box
-              key={year}
               sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '16px',
+                position: 'sticky',
+                top: '62px',
+                zIndex: 2,
+                padding: '8px 0',
+                '&::before': {
+                  content: '""',
+                  position: 'absolute',
+                  insetInline: 0,
+                  top: 0,
+                  bottom: '-64px',
+                  zIndex: -1,
+                  background: YEAR_SCRIM,
+                  pointerEvents: 'none',
+                },
               }}
             >
-              {isStuck && <Box sx={{ height: '36px' }} />}
-
-              <Box
-                ref={(element: HTMLDivElement) => {
-                  stickyYearRefs.current[yearIndex] = element;
-                }}
-                sx={{
-                  padding: isStuck
-                    ? {
-                        mobile: `16px 16px 60px ${offsetLeft}px`,
-                        tablet: `16px 24px 60px ${offsetLeft}px`,
-                        desktop: `16px 32px 60px ${offsetLeft}px`,
-                      }
-                    : '16px 0px 0px 0px',
-                  position: isStuck ? 'fixed' : 'relative',
-                  top: isStuck ? '50px' : 'auto',
-                  height: isStuck ? '80px' : 'auto',
-                  zIndex: 2,
-                  background: isStuck
-                    ? 'linear-gradient(180deg, var(--accent-100) 31%, rgba(248, 249, 255, 0%) 100%)'
-                    : 'transparent',
-                  width: isStuck ? '100%' : 'auto',
-                  left: isStuck ? '0' : 'auto',
-                  transition: 'transform 0.5s ease',
-                  transform: isStuck ? 'translateY(6px)' : 'translateY(0px)',
-                }}
-              >
-                <Typography className="h4" color="var(--accent-400)">
-                  {year}
-                </Typography>
-              </Box>
-
-              {upcomingEventsYear.map((upcomingEvent) => (
-                <UpcomingEvent
-                  data={upcomingEvent}
-                  key={upcomingEvent.event_uid}
-                />
-              ))}
+              <Typography className="h4" color="var(--accent-400)">
+                {year}
+              </Typography>
             </Box>
-          );
-        })}
+
+            {upcomingEventsYear.map((upcomingEvent) => (
+              <UpcomingEvent
+                data={upcomingEvent}
+                key={upcomingEvent.event_uid}
+              />
+            ))}
+          </Box>
+        );
+      })}
     </Box>
   );
 };

@@ -148,7 +148,12 @@ const NavBar = ({ isSupported }: NavBarType) => {
                       gap: '2px',
                     }}
                   >
-                    <Typography className="h3" color="var(--black)">
+                    <Typography
+                      className="h3"
+                      sx={{
+                        color: 'var(--black)',
+                      }}
+                    >
                       Organized
                     </Typography>
                     {APP_ENVIRONMENT && (
@@ -197,6 +202,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
 
                   {tabletUp && (isAppLoad || isTest) && (
                     <LanguageSwitcher
+                      standalone
                       menuStyle={{
                         ...baseMenuStyle,
                         padding: '8px 12px 8px 12px',
@@ -262,30 +268,34 @@ const NavBar = ({ isSupported }: NavBarType) => {
                           },
                         }}
                       >
-                        <MenuItem
-                          disableRipple
-                          sx={{
-                            cursor: 'default',
-                            pointerEvents: 'none',
-                            flexDirection: 'column',
-                            alignItems: 'flex-start',
-                            gap: 0,
-                          }}
-                        >
-                          {fullname && (
-                            <Typography className="body-small-semibold">
-                              {fullname}
-                            </Typography>
-                          )}
-                          {congName && (
-                            <Typography
-                              className="label-small-regular"
-                              color="var(--grey-350)"
-                            >
-                              {congName}
-                            </Typography>
-                          )}
-                        </MenuItem>
+                        {(fullname || congName) && (
+                          <MenuItem
+                            disableRipple
+                            sx={{
+                              cursor: 'default',
+                              pointerEvents: 'none',
+                              flexDirection: 'column',
+                              alignItems: 'flex-start',
+                              gap: 0,
+                            }}
+                          >
+                            {fullname && (
+                              <Typography className="body-small-semibold">
+                                {fullname}
+                              </Typography>
+                            )}
+                            {congName && (
+                              <Typography
+                                className="label-small-regular"
+                                sx={{
+                                  color: 'var(--grey-350)',
+                                }}
+                              >
+                                {congName}
+                              </Typography>
+                            )}
+                          </MenuItem>
+                        )}
 
                         {(tabletDown || (!isAppLoad && !isTest)) && (
                           <LanguageSwitcher menuStyle={menuStyle} />
@@ -517,6 +527,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
                   }}
                 >
                   <IconButton
+                    className="back-arrow-button"
                     aria-label={t('tr_back')}
                     onClick={handleBack}
                     sx={{
@@ -536,8 +547,8 @@ const NavBar = ({ isSupported }: NavBarType) => {
                   >
                     <Typography
                       className="h3"
-                      color="var(--black)"
                       sx={{
+                        color: 'var(--black)',
                         whiteSpace: 'nowrap',
                         textOverflow: 'ellipsis',
                         overflow: 'hidden',
@@ -547,8 +558,8 @@ const NavBar = ({ isSupported }: NavBarType) => {
                     </Typography>
                     <Typography
                       className="label-small-regular"
-                      color="var(--accent-400)"
                       sx={{
+                        color: 'var(--accent-400)',
                         whiteSpace: 'nowrap',
                         textOverflow: 'ellipsis',
                         overflow: 'hidden',

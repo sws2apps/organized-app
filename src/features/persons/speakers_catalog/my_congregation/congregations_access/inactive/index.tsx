@@ -5,7 +5,11 @@ const OutgoingSpeakersListInactive = () => {
   const { t } = useAppTranslation();
 
   return (
-    <Typography color="var(--grey-400)">
+    <Typography
+      sx={{
+        color: 'var(--grey-400)',
+      }}
+    >
       {t('tr_outgoingSpeakersAccessNoneDesc')}
     </Typography>
   );

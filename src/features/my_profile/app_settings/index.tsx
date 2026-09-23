@@ -54,7 +54,9 @@ const AppSettings = () => {
               <Typography>{t('tr_autoSync')}</Typography>
               <Typography
                 className="label-small-regular"
-                color="var(--grey-350)"
+                sx={{
+                  color: 'var(--grey-350)',
+                }}
               >
                 {t('tr_autoSyncDesc')}
               </Typography>
@@ -67,7 +69,12 @@ const AppSettings = () => {
             >
               {[5, 15, 30, 45].map((time) => (
                 <MenuItem key={time} value={time.toString()}>
-                  <Typography className="body-regular" color="var(--black)">
+                  <Typography
+                    className="body-regular"
+                    sx={{
+                      color: 'var(--black)',
+                    }}
+                  >
                     {`${time} ${t('tr_minLabel')}`}
                   </Typography>
                 </MenuItem>
@@ -93,11 +100,15 @@ const AppSettings = () => {
                 flexDirection: laptopUp ? 'row' : 'column',
               }}
             >
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+              <Box
+                sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}
+              >
                 <Typography>{t('tr_autoThemeChange')}</Typography>
                 <Typography
                   className="label-small-regular"
-                  color="var(--grey-350)"
+                  sx={{
+                    color: 'var(--grey-350)',
+                  }}
                 >
                   {t('tr_autoThemeChangeDesc')}
                 </Typography>
@@ -110,12 +121,22 @@ const AppSettings = () => {
                   sx={{ maxWidth: '200px' }}
                 >
                   <MenuItem value="light">
-                    <Typography className="body-regular" color="var(--black)">
+                    <Typography
+                      className="body-regular"
+                      sx={{
+                        color: 'var(--black)',
+                      }}
+                    >
                       {t('tr_modeLight')}
                     </Typography>
                   </MenuItem>
                   <MenuItem value="dark">
-                    <Typography className="body-regular" color="var(--black)">
+                    <Typography
+                      className="body-regular"
+                      sx={{
+                        color: 'var(--black)',
+                      }}
+                    >
                       {t('tr_modeDark')}
                     </Typography>
                   </MenuItem>
@@ -146,7 +167,9 @@ const AppSettings = () => {
                   <Typography>{t('tr_hapticFeedback')}</Typography>
                   <Typography
                     className="label-small-regular"
-                    color="var(--grey-350)"
+                    sx={{
+                      color: 'var(--grey-350)',
+                    }}
                   >
                     {t('tr_hapticFeedbackDesc')}
                   </Typography>

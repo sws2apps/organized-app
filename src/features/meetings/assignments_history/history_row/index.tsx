@@ -15,7 +15,13 @@ const HistoryRow = (props: HistoryRowType) => {
         </Typography>
       </TableCell>
       <TableCell sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-        <Stack direction="row" spacing={1} alignItems="center">
+        <Stack
+          direction="row"
+          spacing={1}
+          sx={{
+            alignItems: 'center',
+          }}
+        >
           <Typography className={textClassname}>
             {history.history_assignment}
           </Typography>
@@ -24,13 +30,23 @@ const HistoryRow = (props: HistoryRowType) => {
         </Stack>
 
         {history.history_misc.ayf?.student && (
-          <Typography className="body-small-regular" color="var(--grey-400)">
+          <Typography
+            className="body-small-regular"
+            sx={{
+              color: 'var(--grey-400)',
+            }}
+          >
             {history.history_misc.ayf.student}
           </Typography>
         )}
 
         {history.history_misc.ayf?.assistant && (
-          <Typography className="body-small-regular" color="var(--grey-400)">
+          <Typography
+            className="body-small-regular"
+            sx={{
+              color: 'var(--grey-400)',
+            }}
+          >
             {history.history_misc.ayf.assistant}
           </Typography>
         )}

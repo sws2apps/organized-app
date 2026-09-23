@@ -23,24 +23,37 @@ const JoinRequest = (props: JoinRequestProps) => {
 
   return (
     <Stack
-      justifyContent="space-between"
       sx={{
+        justifyContent: 'space-between',
         backgroundColor: type === 'page' ? 'var(--white)' : 'var(--accent-150)',
+
         border:
           type === 'page'
             ? '1px dashed var(--accent-300)'
             : '1px solid var(--accent-300)',
+
         padding: '8px 15px',
         borderRadius: 'var(--radius-l)',
         flexDirection: { mobile: 'column', tablet: 'row' },
       }}
     >
-      <Stack direction="row" alignItems="center" spacing="8px">
+      <Stack
+        direction="row"
+        spacing="8px"
+        sx={{
+          alignItems: 'center',
+        }}
+      >
         {type === 'page' && <IconAccount color="var(--black)" />}
         <Typography className="h4">{fullname}</Typography>
       </Stack>
 
-      <Stack direction="row" alignItems="center">
+      <Stack
+        direction="row"
+        sx={{
+          alignItems: 'center',
+        }}
+      >
         <Button
           sx={{ height: '32px', minHeight: '32px' }}
           className={'body-small-semibold'}

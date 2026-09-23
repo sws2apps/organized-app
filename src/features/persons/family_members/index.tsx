@@ -11,7 +11,7 @@ import Typography from '@components/typography';
 
 const FamilyMembers = () => {
   const { t } = useAppTranslation();
-  
+
   const navigate = useNavigate();
 
   const {
@@ -36,7 +36,12 @@ const FamilyMembers = () => {
         gap: '16px',
       }}
     >
-      <Typography className="h2" color="var(--black)">
+      <Typography
+        className="h2"
+        sx={{
+          color: 'var(--black)',
+        }}
+      >
         {t('tr_family')}
       </Typography>
 
@@ -57,7 +62,11 @@ const FamilyMembers = () => {
 
       {!isCurrentPersonMemberOfAFamily && (
         <>
-          <Typography color="var(--grey-400)">
+          <Typography
+            sx={{
+              color: 'var(--grey-400)',
+            }}
+          >
             {t('tr_setPersonToFamilyHead')}
           </Typography>
 
