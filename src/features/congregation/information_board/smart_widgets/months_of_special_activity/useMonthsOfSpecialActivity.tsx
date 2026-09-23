@@ -1,22 +1,39 @@
 import { monthNamesState } from '@states/app';
 import { congSpecialMonthsState } from '@states/settings';
-import { useAtomValue } from 'jotai';
-import { ReactNode, useMemo } from 'react';
+import { useAtom, useAtomValue } from 'jotai';
+import { ReactNode, useEffect, useMemo } from 'react';
 import Divider from '@components/divider';
 import { Stack } from '@mui/material';
 import { IconCalendarWeek } from '@components/icons';
 import Typography from '@components/typography';
+import useCurrentUser from '@hooks/useCurrentUser';
+import { infoBoardSWMonthsOfSpecialActivityState } from '@states/information_board';
 
 const useSWMonthsOfSpecialActivity = () => {
+  const isAdmin = useCurrentUser();
   const monthNames = useAtomValue(monthNamesState);
   const specialMonthsData = useAtomValue(congSpecialMonthsState);
+  const [specialMonthSW, setSpecialMonthSW] = useAtom(
+    infoBoardSWMonthsOfSpecialActivityState
+  );
 
   const activeSpecialMonths = useMemo(
     () => specialMonthsData.filter((special) => !special._deleted),
     [specialMonthsData]
   );
 
-  const noMonths = activeSpecialMonths.length === 0;
+  const hasActiveMonths = useMemo(
+    () => activeSpecialMonths.some((special) => special.months.length > 0),
+    [activeSpecialMonths]
+  );
+
+  const noMonths = !hasActiveMonths;
+
+  useEffect(() => {
+    if (isAdmin && specialMonthSW && !hasActiveMonths) {
+      setSpecialMonthSW(false);
+    }
+  }, [isAdmin, specialMonthSW, hasActiveMonths, setSpecialMonthSW]);
 
   const latestUpdatedAt = useMemo(
     () =>

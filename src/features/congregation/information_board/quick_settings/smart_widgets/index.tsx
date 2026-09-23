@@ -15,7 +15,7 @@ const InfoBoardQSSmartWidgets = (
     monthsOfSpecialActivity,
     handleSmartWidgetToggle,
     pioneersIsExist,
-    noMonths,
+    hasActiveMonths,
   } = useInforBoardQSSmartWidgets(props);
 
   const { t } = useAppTranslation();
@@ -48,10 +48,10 @@ const InfoBoardQSSmartWidgets = (
         onChange={() => handleSmartWidgetToggle('auxiliary_pioneers')}
       />
       <SwitchWithLabel
-        readOnly={!isAdmin || noMonths}
+        readOnly={!isAdmin || !hasActiveMonths}
         label={t('tr_monthsOfSpecialActivity')}
         helper={t('tr_monthsOfSpecialActivityDesc')}
-        checked={!noMonths && monthsOfSpecialActivity}
+        checked={hasActiveMonths && monthsOfSpecialActivity}
         onChange={() => handleSmartWidgetToggle('months_of_special_activity')}
       />
     </Stack>
