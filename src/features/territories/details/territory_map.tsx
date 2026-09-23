@@ -29,6 +29,7 @@ import { getCSSPropertyValue } from '@utils/common';
 import { captureTerritoryMap } from '../map/capture';
 import { MarkerRegistry, syncMarkers } from '../map/markers';
 import MapIsland, { MapAction } from '../map/map_island';
+import Tooltip from '@components/tooltip';
 import 'maplibre-gl/dist/maplibre-gl.css';
 
 const BoundaryPreview = ({
@@ -296,9 +297,22 @@ const TerritoryMap = ({
 
         {hasBoundary && (
           <MapIsland corner="top-right">
-            <MapAction title="Full screen" onClick={() => setFullscreen(true)}>
-              <IconFullscreen color="var(--accent-main)" />
-            </MapAction>
+            {/* the same small size as Edit map across the top */}
+            <Tooltip title="Full screen">
+              <Button
+                variant="small"
+                disableAutoStretch
+                aria-label="Full screen"
+                onClick={() => setFullscreen(true)}
+                sx={{ ...small, width: '28px', padding: '2px' }}
+              >
+                <IconFullscreen
+                  color="var(--accent-main)"
+                  width={20}
+                  height={20}
+                />
+              </Button>
+            </Tooltip>
           </MapIsland>
         )}
 
