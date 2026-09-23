@@ -412,11 +412,11 @@ export const completionCounts = (
   }
 
   return [
-    { label: 'Covered never', value: counts[0], color: 'var(--red-main)' },
-    { label: 'Covered once', value: counts[1], color: 'var(--orange-main)' },
-    { label: 'Covered twice', value: counts[2], color: 'var(--accent-main)' },
+    { label: 'Not covered', value: counts[0], color: 'var(--red-main)' },
+    { label: 'Once', value: counts[1], color: 'var(--orange-main)' },
+    { label: 'Twice', value: counts[2], color: 'var(--accent-main)' },
     {
-      label: 'Covered 3 or more',
+      label: 'Three or more',
       value: counts[3],
       color: 'var(--green-main)',
     },

@@ -57,7 +57,7 @@ const RECENCY: Bucket[] = [
 ];
 
 const FREQUENCY: Bucket[] = [
-  { key: 'f0', label: 'Not worked', color: '--accent-300' },
+  { key: 'f0', label: 'Not covered', color: '--accent-300' },
   { key: 'f1', label: 'Once', color: '--green-main' },
   { key: 'f2', label: 'Twice', color: '--orange-main' },
   { key: 'f3', label: '3 times', color: '--orange-dark' },
