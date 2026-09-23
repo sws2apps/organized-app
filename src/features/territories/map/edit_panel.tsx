@@ -1,6 +1,8 @@
 import { cloneElement, ReactElement, ReactNode } from 'react';
 import { Box, ButtonBase, Stack } from '@mui/material';
 import { Button, CustomDivider, Typography } from '@components/index';
+import IconButton from '@components/icon_button';
+import Tooltip from '@components/tooltip';
 import {
   IconAddPin,
   IconCheckCircle,
@@ -18,19 +20,11 @@ import {
 import { MapColor, Territory } from '@definition/territory';
 import { MAP_COLOR_LABEL, MAP_COLORS, PIN_TYPES } from './constants';
 import PinIcon from './pin_icon';
-import useMapEditor, { MapItemKind, MapTool } from './useMapEditor';
+import useMapEditor, { MapTool } from './useMapEditor';
 
 type Editor = ReturnType<typeof useMapEditor>;
 
 const COLORS = Object.keys(MAP_COLORS) as MapColor[];
-
-const KIND_LABEL: Record<MapItemKind, string> = {
-  boundary: 'Border',
-  shape: 'Area',
-  line: 'Line',
-  pin: 'Pin',
-  text: 'Text note',
-};
 
 const TOOL_HINT: Partial<Record<MapTool, string>> = {
   text: 'Click where the note goes.',
@@ -252,8 +246,13 @@ const EditPanel = ({
     : territory?.name;
 
   const extrasTool = ['text', 'pin', 'line', 'shape'].includes(editor.tool);
-  const selectedExtra =
-    editor.selectedKind !== undefined && editor.selectedKind !== 'boundary';
+  // a picked area shows its own colours, the area tool the ones it draws with
+  const shapeStyle =
+    editor.selectedKind === 'shape'
+      ? editor.selectedStyle
+      : editor.tool === 'shape'
+        ? editor.shape
+        : undefined;
 
   return (
     <Stack
@@ -411,66 +410,28 @@ const EditPanel = ({
                   </Chip>
                 </Stack>
               )}
-
-              {editor.tool === 'shape' && (
-                <>
-                  <ColorRow
-                    label="Outline"
-                    value={editor.shape.border}
-                    onPick={(border) => editor.pickShape({ border })}
-                  />
-                  <ColorRow
-                    label="Fill"
-                    value={editor.shape.fill}
-                    onPick={(fill) => editor.pickShape({ fill })}
-                  />
-                </>
-              )}
-
-              <Hint>{TOOL_HINT[editor.tool]}</Hint>
             </Stack>
           )}
 
-          {editor.tool === 'move' && <Hint>{TOOL_HINT.move}</Hint>}
-        </Section>
-      )}
-
-      {editor.selectedKind && (
-        <Stack spacing="10px">
-          <Typography className="h4" color="var(--black)">
-            Selected: {KIND_LABEL[editor.selectedKind]}
-          </Typography>
-
-          {editor.selectedKind === 'shape' && editor.selectedStyle && (
-            <>
+          {shapeStyle && hasBorder && (
+            <Stack spacing="10px">
               <ColorRow
                 label="Outline"
-                value={editor.selectedStyle.border}
+                value={shapeStyle.border}
                 onPick={(border) => editor.pickShape({ border })}
               />
               <ColorRow
                 label="Fill"
-                value={editor.selectedStyle.fill}
+                value={shapeStyle.fill}
                 onPick={(fill) => editor.pickShape({ fill })}
               />
-            </>
+            </Stack>
           )}
 
-          <Button
-            variant="small"
-            color="red"
-            disableAutoStretch
-            startIcon={<IconDelete color="var(--red-main)" />}
-            onClick={editor.deleteSelected}
-            sx={{
-              minHeight: '28px',
-              padding: '2px 8px',
-              alignSelf: 'flex-start',
-            }}
-          >
-            {selectedExtra ? 'Delete' : 'Delete border'}
-          </Button>
-        </Stack>
+          {extrasTool && hasBorder && <Hint>{TOOL_HINT[editor.tool]}</Hint>}
+
+          {editor.tool === 'move' && <Hint>{TOOL_HINT.move}</Hint>}
+        </Section>
       )}
 
       {/* the last step of the panel, so every action reads top to bottom */}
@@ -481,10 +442,29 @@ const EditPanel = ({
           position: 'sticky',
           bottom: '-16px',
           margin: '0 -16px -16px !important',
-          padding: '0 16px 16px',
+          padding: '16px',
           backgroundColor: 'var(--white)',
         }}
       >
+        {/* acts on whatever is picked on the map, which is already highlighted there */}
+        {editor.selectedKind && (
+          <Tooltip title="Delete">
+            <IconButton
+              color="error"
+              edge={false}
+              aria-label="Delete"
+              onClick={editor.deleteSelected}
+              sx={{
+                flexShrink: 0,
+                borderRadius: 'var(--radius-m)',
+                width: '48px',
+                height: '48px',
+              }}
+            >
+              <IconDelete color="var(--red-main)" />
+            </IconButton>
+          </Tooltip>
+        )}
         <Button
           variant="secondary"
           startIcon={<IconClose />}
