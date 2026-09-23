@@ -93,7 +93,7 @@ const TerritoryDetails = ({
   const doNotCallCard = (content: ReactNode) => (
     <Card>
       <Typography className="h2" color="var(--black)">
-        {isPhone ? 'Do-not-call numbers' : 'Do-not-call addresses'}
+        Do not call
       </Typography>
       {content}
     </Card>

@@ -18,7 +18,7 @@ const DoNotCallsPage = () => {
       }}
     >
       <PageTitle
-        title="Do-not-call addresses"
+        title="Do not call"
         secondaryTitle={parent}
         onBack={goBack}
       />

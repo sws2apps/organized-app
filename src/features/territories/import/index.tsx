@@ -26,7 +26,7 @@ const Summary = ({ result }: { result: ServiceTerritoryImport }) => {
       'Out right now',
       result.territories.filter((territory) => territory.holder).length,
     ],
-    ['Do-not-call addresses', result.doNotCalls],
+    ['Do not call', result.doNotCalls],
     ['Publishers named', result.publishers],
   ] as const;
 

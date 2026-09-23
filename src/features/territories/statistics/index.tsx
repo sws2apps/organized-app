@@ -103,7 +103,7 @@ const TerritoriesStatistics = () => {
       </ChartCard>
 
       <ChartCard
-        title="Do-not-call addresses"
+        title="Do not call"
         hint={`Added this year counts the ${current} service year`}
         span={4}
         action={

@@ -217,7 +217,7 @@ const DoNotCalls = () => {
 
   const openTerritory = (territory: Territory) =>
     navigate(`/territories/${territory.id}`, {
-      state: { parent: 'Do-not-call addresses' },
+      state: { parent: 'Do not call' },
     });
 
   return (
