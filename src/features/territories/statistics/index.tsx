@@ -1,4 +1,5 @@
 import { Box, Stack } from '@mui/material';
+import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Button } from '@components/index';
 import { useAtomValue } from 'jotai';
@@ -17,10 +18,12 @@ import {
   inProgressPerMonth,
   medianDuration,
   doNotCallAges,
+  periodWindow,
 } from '../helpers';
 import { ChartCard, ColumnChart, Gauge, StatRow } from '../components/charts';
 import PublisherLoad from '../components/publisher_load';
 import StatTile from '../components/stat_tile';
+import TabSwitcher from '@components/tab_switcher';
 import AttentionCard from './attention_card';
 import CoverageGrid from './coverage_grid';
 import { PublisherSplit, PublisherTrend } from './publisher_cards';
@@ -34,9 +37,22 @@ const TerritoriesStatistics = () => {
 
   const current = serviceYear();
 
-  const rate = coverageRate(territories, current);
-  const ages = doNotCallAges(territories, current);
-  const buckets = trimEmptyBands(durationBuckets(territories));
+  // the circuit overseer looks at the last six months, so that's where the page opens
+  const periods = [
+    { value: 'last6', label: 'Last 6 months' },
+    { value: 'last12', label: 'Last 12 months' },
+    { value: `sy${current}`, label: `${current} service year` },
+    { value: `sy${current - 1}`, label: `${current - 1} service year` },
+  ];
+
+  const [period, setPeriod] = useState('last6');
+  const range = periodWindow(period) ?? { start: new Date(0), end: new Date() };
+  const periodLabel =
+    periods.find((item) => item.value === period)?.label ?? '';
+
+  const rate = coverageRate(territories, range);
+  const ages = doNotCallAges(territories, range);
+  const buckets = trimEmptyBands(durationBuckets(territories, range));
   const maxBucket = Math.max(...buckets.map((bucket) => bucket.value), 1);
 
   return (
@@ -51,15 +67,26 @@ const TerritoriesStatistics = () => {
         alignItems: 'stretch',
       }}
     >
+      <Box sx={{ gridColumn: '1 / -1', overflowX: 'auto' }}>
+        <TabSwitcher
+          ariaLabel="Period"
+          surface="light"
+          value={period}
+          onChange={setPeriod}
+          options={periods}
+          sx={{ minWidth: '560px', maxWidth: '720px' }}
+        />
+      </Box>
+
       <ChartCard
         title="Coverage"
-        hint="Territories covered at least once this service year"
+        hint={`Territories returned as covered · ${periodLabel}`}
         span={4}
       >
         <Gauge value={rate} label="Covered" />
 
         <Stack spacing="12px">
-          {completionCounts(territories).map((entry) => (
+          {completionCounts(territories, range).map((entry) => (
             <StatRow
               key={entry.label}
               label={entry.label}
@@ -73,7 +100,7 @@ const TerritoriesStatistics = () => {
 
       <ChartCard
         title="Time to cover a territory"
-        hint={`Median: ${medianDuration(territories)} months · average: ${averageDuration(territories)} months`}
+        hint={`Median: ${medianDuration(territories, range)} months · average: ${averageDuration(territories, range)} months · ${periodLabel}`}
         span={4}
       >
         <Stack spacing="12px">
@@ -104,7 +131,7 @@ const TerritoriesStatistics = () => {
 
       <ChartCard
         title="Do not call"
-        hint={`Added this year counts the ${current} service year`}
+        hint={`Added counts ${periodLabel.toLowerCase()}`}
         span={4}
         action={
           <Button
@@ -129,7 +156,7 @@ const TerritoriesStatistics = () => {
           }}
         >
           <StatTile label="Older than 2 years" value={String(ages.old)} />
-          <StatTile label="Added this year" value={String(ages.added)} />
+          <StatTile label="Added" value={String(ages.added)} />
           <StatTile label="Total" value={String(ages.total)} />
         </Box>
 

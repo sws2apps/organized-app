@@ -45,7 +45,9 @@ export const serviceYearBounds = (year: number) => ({
   end: new Date(year, 7, 31, 23, 59, 59),
 });
 
-const periodWindow = (period: string) => {
+export type TimeWindow = { start: Date; end: Date };
+
+export const periodWindow = (period: string): TimeWindow | undefined => {
   const now = new Date();
 
   if (period === 'last6') {
@@ -280,13 +282,11 @@ export const publisherLoad = (territories: Territory[]) => {
 export const suggestedPublisher = (territories: Territory[]) =>
   publisherLoad(territories).at(-1)?.publisher ?? PUBLISHERS[0];
 
-export const coverageRate = (
-  territories: Territory[],
-  year = serviceYear()
-) => {
+// covered means returned as completed within the window; a territory still out is not covered
+export const coverageRate = (territories: Territory[], window: TimeWindow) => {
   if (!territories.length) return 0;
 
-  const { start, end } = serviceYearBounds(year);
+  const { start, end } = window;
 
   const covered = territories.filter((territory) =>
     returnedWithin(territory, start, end)
@@ -306,17 +306,25 @@ const DURATION_BANDS = [
   { label: '17-24 mo', max: Infinity },
 ];
 
-const allDurations = (territories: Territory[]) =>
+const returnedIn = (assignment: TerritoryAssignment, window: TimeWindow) => {
+  const returned = parseDate(assignment.returnedOn);
+  return !!returned && returned >= window.start && returned <= window.end;
+};
+
+const allDurations = (territories: Territory[], window: TimeWindow) =>
   territories.flatMap((territory) =>
     territory.assignments
-      .filter((assignment) => assignment.returnedOn)
+      .filter((assignment) => returnedIn(assignment, window))
       .map((assignment) => assignment.months)
   );
 
-export const durationBuckets = (territories: Territory[]) => {
+export const durationBuckets = (
+  territories: Territory[],
+  window: TimeWindow
+) => {
   const counts = DURATION_BANDS.map(() => 0);
 
-  for (const months of allDurations(territories)) {
+  for (const months of allDurations(territories, window)) {
     const index = DURATION_BANDS.findIndex((band) => months <= band.max);
 
     counts[index] += 1;
@@ -328,8 +336,11 @@ export const durationBuckets = (territories: Territory[]) => {
   }));
 };
 
-export const medianDuration = (territories: Territory[]) => {
-  const months = allDurations(territories).sort((a, b) => a - b);
+export const medianDuration = (
+  territories: Territory[],
+  window: TimeWindow
+) => {
+  const months = allDurations(territories, window).sort((a, b) => a - b);
   if (!months.length) return 0;
 
   const middle = Math.floor(months.length / 2);
@@ -339,8 +350,11 @@ export const medianDuration = (territories: Territory[]) => {
     : Math.round(((months[middle - 1] + months[middle]) / 2) * 10) / 10;
 };
 
-export const averageDuration = (territories: Territory[]) => {
-  const months = allDurations(territories);
+export const averageDuration = (
+  territories: Territory[],
+  window: TimeWindow
+) => {
+  const months = allDurations(territories, window);
   if (!months.length) return 0;
 
   return (
@@ -383,12 +397,15 @@ export const inProgressPerMonth = (
     ).length;
   });
 
-export const completionCounts = (territories: Territory[]) => {
+export const completionCounts = (
+  territories: Territory[],
+  window: TimeWindow
+) => {
   const counts = [0, 0, 0, 0];
 
   for (const territory of territories) {
-    const returned = territory.assignments.filter(
-      (assignment) => assignment.returnedOn
+    const returned = territory.assignments.filter((assignment) =>
+      returnedIn(assignment, window)
     ).length;
 
     counts[Math.min(returned, 3)] += 1;
@@ -534,8 +551,8 @@ export const publishersPerMonth = (
   });
 
 // entries past two years are due for a re-check with the householder
-export const doNotCallAges = (territories: Territory[], year: number) => {
-  const { start, end } = serviceYearBounds(year);
+export const doNotCallAges = (territories: Territory[], window: TimeWindow) => {
+  const { start, end } = window;
 
   const twoYearsAgo = new Date();
   twoYearsAgo.setFullYear(twoYearsAgo.getFullYear() - 2);

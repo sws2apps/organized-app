@@ -276,7 +276,7 @@ const buildTerritory = (index: number, random: () => number): Territory => {
         : 5 + Math.floor(random() * 140);
   }
 
-  const daysSinceCovered = idle
+  const coveredGuess = idle
     ? 820 + index
     : Math.round(
         COVERAGE_MONTHS[index % COVERAGE_MONTHS.length] * 30.4 +
@@ -289,6 +289,18 @@ const buildTerritory = (index: number, random: () => number): Territory => {
   if (holder && daysOut !== undefined) {
     assignments = withOpenAssignment(index, assignments, holder, daysOut);
   }
+
+  // covered means returned as completed, so a territory out for a year still counts from its last return
+  const lastReturn = Math.max(
+    0,
+    ...assignments.map((item) => {
+      const [day, month, year] = (item.returnedOn ?? '').split('.').map(Number);
+      return item.returnedOn ? new Date(year, month - 1, day).getTime() : 0;
+    })
+  );
+  const daysSinceCovered = lastReturn
+    ? Math.round((Date.now() - lastReturn) / DAY_MS)
+    : coveredGuess;
 
   const phoneNumbers = type === 'phone' ? buildPhoneNumbers(random) : undefined;
 
