@@ -238,9 +238,12 @@ export const applyBasemapOptions = (
   for (const layer of map.getStyle().layers) {
     const sourceLayer = sourceLayerOf(layer) ?? '';
 
-    if (layer.id.startsWith(PARKING))
+    // stop and station icons crowd the map; car parks are the only signs we keep
+    if (layer.type === 'symbol' && /transit/.test(layer.id)) {
+      setVisible(map, layer.id, false);
+    } else if (layer.id.startsWith(PARKING)) {
       setVisible(map, layer.id, options.parking);
-    else if (layer.id.startsWith(BUILDINGS)) {
+    } else if (layer.id.startsWith(BUILDINGS)) {
       setVisible(map, layer.id, options.buildings);
     } else if (HOUSE_NUMBER_LAYERS.has(sourceLayer)) {
       map.setLayerZoomRange(

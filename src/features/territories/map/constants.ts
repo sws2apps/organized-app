@@ -23,7 +23,8 @@ export const MAP_PROVIDERS = {
   },
   openfreemap: {
     name: 'OpenFreeMap',
-    light: 'https://tiles.openfreemap.org/styles/positron',
+    // the clearest contrast of the free light styles: real colours for streets, water and parks
+    light: 'https://tiles.openfreemap.org/styles/liberty',
     dark: 'https://tiles.openfreemap.org/styles/dark',
     // no medium weight on this glyph server; bold reads too heavy for numbers
     fonts: {
