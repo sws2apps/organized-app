@@ -99,3 +99,38 @@ export const addTerritoryLayers = (
 
   addDrawingLayers(map, [territory], 'territory');
 };
+
+// the world with the territory cut out, laid over the basemap so the area itself stands out
+export const addOutsideVeil = (
+  map: maplibregl.Map,
+  boundary: [number, number][],
+  color: string
+) => {
+  map.addSource('outside-veil', {
+    type: 'geojson',
+    data: {
+      type: 'Feature',
+      properties: {},
+      geometry: {
+        type: 'Polygon',
+        coordinates: [
+          [
+            [-180, -85],
+            [180, -85],
+            [180, 85],
+            [-180, 85],
+            [-180, -85],
+          ],
+          boundary,
+        ],
+      },
+    },
+  });
+
+  map.addLayer({
+    id: 'outside-veil',
+    type: 'fill',
+    source: 'outside-veil',
+    paint: { 'fill-color': color, 'fill-opacity': 0.6 },
+  });
+};

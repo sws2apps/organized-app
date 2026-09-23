@@ -133,7 +133,11 @@ const TerritoryExport = ({
         sx={{
           position: 'relative',
           width: '100%',
-          height: '380px',
+          // as tall as the pages, scrolling once they pass 380px
+          minHeight: '160px',
+          maxHeight: '380px',
+          display: 'flex',
+          flexDirection: 'column',
           // the dialog scrolls instead of squeezing the preview on short screens
           flexShrink: 0,
           overflow: 'hidden',

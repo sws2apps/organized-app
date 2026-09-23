@@ -65,7 +65,7 @@ const PdfPreview = ({ url }: { url?: string }) => {
   }, [url]);
 
   return (
-    <Box sx={{ height: '100%', overflowY: 'auto' }}>
+    <Box sx={{ minHeight: 0, overflowY: 'auto' }}>
       {failed && (
         <Typography
           className="body-small-regular"

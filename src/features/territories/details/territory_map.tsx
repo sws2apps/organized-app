@@ -19,7 +19,8 @@ import { Territory } from '@definition/territory';
 import { DEFAULT_PROVIDER, MAP_PROVIDER } from '../map/constants';
 import { applyBasemapOptions } from '../map/basemap';
 import { addAttribution, boundaryBounds } from '../map/helpers';
-import { addTerritoryLayers } from '../map/layers';
+import { addOutsideVeil, addTerritoryLayers } from '../map/layers';
+import { getCSSPropertyValue } from '@utils/common';
 import { captureTerritoryMap } from '../map/capture';
 import { MarkerRegistry, syncMarkers } from '../map/markers';
 import MapIsland from '../map/map_island';
@@ -45,7 +46,10 @@ const BoundaryPreview = ({ territory }: { territory: Territory }) => {
       container: container.current,
       style: isDark ? MAP_PROVIDER.dark : MAP_PROVIDER.light,
       bounds: [west, south, east, north],
-      fitBoundsOptions: { padding: 32 },
+      // clear of the Edit map button above and the credits below
+      fitBoundsOptions: {
+        padding: { top: 64, bottom: 56, left: 32, right: 32 },
+      },
       interactive: false,
       attributionControl: false,
     });
@@ -59,6 +63,7 @@ const BoundaryPreview = ({ territory }: { territory: Territory }) => {
         houseNumbers: true,
         places: true,
       });
+      addOutsideVeil(instance, boundary, getCSSPropertyValue('--white'));
       addTerritoryLayers(instance, latest.current, 0.12);
       syncMarkers(instance, mapMarkers ?? [], registry);
       instance.triggerRepaint();

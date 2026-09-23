@@ -3,42 +3,11 @@ import { Territory } from '@definition/territory';
 import { DEFAULT_PROVIDER, MAP_PROVIDER } from './constants';
 import { applyBasemapOptions } from './basemap';
 import { boundaryBounds } from './helpers';
-import { addTerritoryLayers } from './layers';
+import { addOutsideVeil, addTerritoryLayers } from './layers';
 import { paintMarkers } from './markers';
 
 // the longer side of the picture; the other follows the frame it is printed in
 const SIZE = 1040;
-
-// the world with the territory cut out, laid over the basemap so the area itself stands out
-const addOutsideVeil = (map: maplibregl.Map, boundary: [number, number][]) => {
-  map.addSource('outside-veil', {
-    type: 'geojson',
-    data: {
-      type: 'Feature',
-      properties: {},
-      geometry: {
-        type: 'Polygon',
-        coordinates: [
-          [
-            [-180, -85],
-            [180, -85],
-            [180, 85],
-            [-180, 85],
-            [-180, -85],
-          ],
-          boundary,
-        ],
-      },
-    },
-  });
-
-  map.addLayer({
-    id: 'outside-veil',
-    type: 'fill',
-    source: 'outside-veil',
-    paint: { 'fill-color': '#FFFFFF', 'fill-opacity': 0.35 },
-  });
-};
 
 /**
  * Renders the territory on an off-screen map and returns it as a PNG data URL.
@@ -97,7 +66,7 @@ export const captureTerritoryMap = (territory: Territory, ratio = 1.74) =>
         houseNumbers: true,
         places: true,
       });
-      addOutsideVeil(map, boundary);
+      addOutsideVeil(map, boundary, '#FFFFFF');
       addTerritoryLayers(map, territory, 0);
     });
 
