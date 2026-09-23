@@ -5,6 +5,7 @@ import {
   appSnackOpenState,
   congAccountConnectedState,
   isDarkThemeState,
+  workOfflineState,
 } from '@states/app';
 import { disconnectCongAccount, setIsOnline } from '@services/states/app';
 import {
@@ -34,13 +35,18 @@ const useGlobal = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isSupported, setIsSupported] = useState(true);
 
-  useEffect(() => {
-    setIsOnline(isNavigatorOnline);
+  const workOffline = useAtomValue(workOfflineState);
 
-    if (!isNavigatorOnline) {
+  // offline mode reads as "no network" everywhere, without logging out
+  useEffect(() => {
+    const canUseServer = isNavigatorOnline && !workOffline;
+
+    setIsOnline(canUseServer);
+
+    if (!canUseServer) {
       disconnectCongAccount();
     }
-  }, [isNavigatorOnline]);
+  }, [isNavigatorOnline, workOffline]);
 
   useEffect(() => {
     if (isLight) {
