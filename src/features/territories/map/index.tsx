@@ -176,7 +176,6 @@ const TerritoriesMap = ({ map }: { map: TerritoriesMapState }) => {
               <EditPanel
                 editor={editor}
                 territory={map.selected}
-                onCancel={() => map.requestLeave(map.cancelEditing)}
                 onSave={map.save}
               />
             )}

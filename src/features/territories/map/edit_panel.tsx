@@ -225,12 +225,10 @@ const ExtraTool = ({
 const EditPanel = ({
   editor,
   territory,
-  onCancel,
   onSave,
 }: {
   editor: Editor;
   territory?: Territory;
-  onCancel: VoidFunction;
   onSave: VoidFunction;
 }) => {
   const congregation = editor.scope === 'congregation';
@@ -267,16 +265,40 @@ const EditPanel = ({
         minHeight: 0,
       }}
     >
-      <Box>
-        <Typography className="h3" color="var(--black)">
-          {title}
-        </Typography>
-        {subtitle && (
-          <Typography className="body-small-regular" color="var(--grey-400)">
-            {subtitle}
+      <Stack direction="row" spacing="8px" sx={{ alignItems: 'flex-start' }}>
+        <Box sx={{ flexGrow: 1, minWidth: 0 }}>
+          <Typography className="h3" color="var(--black)">
+            {title}
           </Typography>
-        )}
-      </Box>
+          {subtitle && (
+            <Typography className="body-small-regular" color="var(--grey-400)">
+              {subtitle}
+            </Typography>
+          )}
+        </Box>
+
+        {/* deletes whatever is picked on the map, which is highlighted there */}
+        <Tooltip title="Delete">
+          <Box component="span" sx={{ flexShrink: 0 }}>
+            <IconButton
+              color="error"
+              edge={false}
+              aria-label="Delete"
+              disabled={!editor.selectedKind}
+              onClick={editor.deleteSelected}
+              sx={{
+                borderRadius: 'var(--radius-m)',
+                width: '40px',
+                height: '40px',
+                margin: '-4px -8px 0 0',
+                '&.Mui-disabled': { opacity: 0.4 },
+              }}
+            >
+              <IconDelete color="var(--red-main)" />
+            </IconButton>
+          </Box>
+        </Tooltip>
+      </Stack>
 
       <Section step={1} title="Border" done={hasBorder && !drawingBorder}>
         {!hasBorder && <Hint>{TOOL_HINT.shape}</Hint>}
@@ -446,29 +468,11 @@ const EditPanel = ({
           backgroundColor: 'var(--white)',
         }}
       >
-        {/* acts on whatever is picked on the map, which is already highlighted there */}
-        {editor.selectedKind && (
-          <Tooltip title="Delete">
-            <IconButton
-              color="error"
-              edge={false}
-              aria-label="Delete"
-              onClick={editor.deleteSelected}
-              sx={{
-                flexShrink: 0,
-                borderRadius: 'var(--radius-m)',
-                width: '48px',
-                height: '48px',
-              }}
-            >
-              <IconDelete color="var(--red-main)" />
-            </IconButton>
-          </Tooltip>
-        )}
         <Button
           variant="secondary"
           startIcon={<IconClose />}
-          onClick={onCancel}
+          disabled={!editor.canCancel}
+          onClick={editor.cancelAction}
           sx={{ flex: 1 }}
         >
           Cancel

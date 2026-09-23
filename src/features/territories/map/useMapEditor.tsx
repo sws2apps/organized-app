@@ -48,6 +48,8 @@ const EMPTY_DRAFT: TerritoryMapDraft = {
   markers: [],
 };
 
+const EXTRA_TOOLS: MapTool[] = ['text', 'pin', 'line', 'shape'];
+
 const MODE_FOR: Record<MapTool, string> = {
   border: 'polygon',
   move: 'select',
@@ -642,6 +644,32 @@ const useMapEditor = ({
     pickTool(removedBorder ? 'border' : options.current.tool);
   }, [selected, selectedKind, clearVertex, readDraft, pickTool]);
 
+  // steps out of the current action only; leaving the editor is the back arrow
+  const cancelAction = useCallback(() => {
+    const terra = draw.current;
+    if (!terra) return;
+
+    if (EXTRA_TOOLS.includes(tool)) {
+      pickTool('points');
+      return;
+    }
+
+    if (tool === 'border') {
+      // switching modes drops the unfinished outline
+      terra.setMode(MODE_FOR.move);
+      pickTool('border');
+      return;
+    }
+
+    if (selected !== undefined) {
+      clearVertex();
+      terra.deselectFeature(selected);
+    }
+  }, [tool, selected, pickTool, clearVertex]);
+
+  const canCancel =
+    EXTRA_TOOLS.includes(tool) || tool === 'border' || selected !== undefined;
+
   const redrawBorder = useCallback(() => {
     const terra = draw.current;
     if (!terra) return;
@@ -874,6 +902,8 @@ const useMapEditor = ({
       selected,
       selectedKind,
       deleteSelected,
+      cancelAction,
+      canCancel,
       redrawBorder,
       adjustBorder,
       scope,
@@ -902,6 +932,8 @@ const useMapEditor = ({
       selected,
       selectedKind,
       deleteSelected,
+      cancelAction,
+      canCancel,
       redrawBorder,
       adjustBorder,
       scope,
