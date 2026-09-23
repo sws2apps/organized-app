@@ -8,6 +8,7 @@ import {
   TerritoryStatus,
   TYPE_LABEL,
 } from '@definition/territory';
+import { useBreakpoints } from '@hooks/index';
 import AssignButton from './assign_button';
 import { clickableRow } from './table_styles';
 import {
@@ -20,7 +21,8 @@ import { emptyListMessage } from '../helpers';
 
 type Column = 'available' | 'requested' | 'in_work' | 'overdue';
 
-const COLUMNS: Column[] = ['available', 'requested', 'in_work', 'overdue'];
+// requests first as the inbox; available and in work side by side, the pair most drags move between
+const COLUMNS: Column[] = ['requested', 'available', 'in_work', 'overdue'];
 
 const COLUMN_LABEL: Record<Column, string> = {
   available: STATUS_LABEL.available,
@@ -60,6 +62,8 @@ const BoardView = ({
   showHouseholds = true,
   overdueMonths,
 }: BoardViewProps) => {
+  const { tablet688Up } = useBreakpoints();
+
   const [dragging, setDragging] = useState(false);
   const [dragFrom, setDragFrom] = useState<Column>();
 
@@ -107,8 +111,9 @@ const BoardView = ({
         paddingInline: '16px',
         scrollPaddingInline: '16px',
         '& > *': {
-          flex: '1 0 260px',
-          maxWidth: { mobile: '85%', tablet688: 'none' },
+          // narrower on a phone, so the next column shows and a card can be dragged into it
+          flex: { mobile: '0 0 240px', tablet688: '1 0 260px' },
+          minWidth: 0,
           scrollSnapAlign: 'start',
         },
       }}
@@ -288,6 +293,7 @@ const BoardView = ({
                             onAssign={onAssign}
                             onDecline={onDecline}
                             onReturn={onReturn}
+                            compact={!tablet688Up}
                           />
                         </Box>
                       </Stack>
