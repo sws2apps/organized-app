@@ -890,6 +890,24 @@ const useMapEditor = ({
     };
   }, [map, editing, tool, selected, clearVertex, deleteVertex]);
 
+  // with Move items the whole picked drawing goes, as the corner does in points mode
+  useEffect(() => {
+    if (!editing || tool !== 'move' || selected === undefined) return;
+
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key !== 'Delete' && event.key !== 'Backspace') return;
+
+      const target = event.target as HTMLElement;
+      if (target.closest('input, textarea, [contenteditable="true"]')) return;
+
+      event.preventDefault();
+      deleteSelected();
+    };
+
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [editing, tool, selected, deleteSelected]);
+
   useEffect(() => stop, [stop]);
 
   const dirty = editing && JSON.stringify(draft) !== baseline;
