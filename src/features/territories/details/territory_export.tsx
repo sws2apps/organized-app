@@ -86,14 +86,14 @@ const TerritoryExport = ({
       >
         <OptionGroup label="Include">
           <Checkbox
-            label={isPhone ? 'Phone numbers card' : 'Territory map card'}
+            label={isPhone ? 'Phone numbers' : 'Map'}
             checked={parts.front}
             disabled={parts.front && !parts.back}
             onChange={() => exporter.toggleSide('front')}
             className="body-regular"
           />
           <Checkbox
-            label="Back side with do not calls"
+            label="Do not call"
             checked={parts.back}
             disabled={parts.back && !parts.front}
             onChange={() => exporter.toggleSide('back')}
