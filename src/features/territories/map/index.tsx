@@ -1,19 +1,22 @@
 import { useLayoutEffect, useState } from 'react';
 import { Box, Stack } from '@mui/material';
 import { Button, CustomDivider } from '@components/index';
+import TabSwitcher from '@components/tab_switcher';
 import Dialog from '@components/dialog';
 import DialogActions from '@components/dialog_actions';
 import { useNavigate } from 'react-router';
 import {
   IconAdd,
+  IconEdit,
   IconFullscreen,
   IconFullscreenExit,
   IconMapOverview,
   IconMyLocation,
   IconPanelOpen,
   IconRemove,
+  IconVisibility,
 } from '@icons/index';
-import EditToolbar, { IdleToolbar, MapHint, ViewToolbar } from './edit_toolbar';
+import EditToolbar, { IdleToolbar, ViewToolbar } from './edit_toolbar';
 import EditPanel from './edit_panel';
 import LabelDialog from './label_dialog';
 import MapFilters from './map_filters';
@@ -37,7 +40,7 @@ const ATTRIBUTION_STYLES = {
   '& .maplibregl-ctrl-bottom-left .maplibregl-ctrl-attrib.maplibregl-compact': {
     margin: 0,
     minHeight: '36px',
-    padding: '0 0 0 36px',
+    padding: '0 0 0 34px',
     boxSizing: 'border-box',
     display: 'flex',
     alignItems: 'center',
@@ -49,7 +52,7 @@ const ATTRIBUTION_STYLES = {
     fontSize: '11px',
   },
   '& .maplibregl-ctrl-bottom-left .maplibregl-ctrl-attrib.maplibregl-compact-show':
-    { padding: '0 14px 0 36px' },
+    { padding: '0 14px 0 34px' },
   '& .maplibregl-ctrl-attrib a': { color: 'var(--grey-400)' },
   '& .maplibregl-ctrl-attrib-button': {
     top: 0,
@@ -196,7 +199,7 @@ const TerritoriesMap = ({ map }: { map: TerritoriesMapState }) => {
                   <TerritoryPicker
                     territories={map.territories}
                     selectedId={map.selectedId}
-                    onSelect={map.setSelectedId}
+                    onSelect={map.pickTerritory}
                     height="100%"
                   />
                 </Box>
@@ -233,16 +236,15 @@ const TerritoriesMap = ({ map }: { map: TerritoriesMapState }) => {
 
           {editor.editing && <EditToolbar editor={editor} />}
 
-          {!editor.editing && !map.selected && (
+          {!editor.editing && map.mode === 'edit' && (
             <IdleToolbar
               onCongregation={() => map.startEditing('congregation')}
             />
           )}
 
-          {!editor.editing && map.selected && (
+          {map.mode === 'view' && map.selected && (
             <ViewToolbar
               selected={map.selected}
-              onEdit={() => map.startEditing('territory')}
               onDetails={() =>
                 map.selected &&
                 navigate(`/territories/${map.selected.id}`, {
@@ -253,20 +255,29 @@ const TerritoriesMap = ({ map }: { map: TerritoriesMapState }) => {
           )}
         </Stack>
 
-        {!editor.editing && !map.selected && (
-          <Box
-            sx={{
-              position: 'absolute',
-              bottom: '12px',
-              left: `calc(${inset} + (100% - ${inset}) / 2)`,
-              transform: 'translateX(-50%)',
-              zIndex: 2,
-              maxWidth: 'calc(100% - 400px)',
-            }}
-          >
-            <MapHint text="Pick a territory on the map or in the list" />
-          </Box>
-        )}
+        <Box
+          sx={{
+            position: 'absolute',
+            bottom: '12px',
+            left: `calc(${inset} + (100% - ${inset}) / 2)`,
+            transform: 'translateX(-50%)',
+            zIndex: 2,
+            borderRadius: 'var(--radius-l)',
+            boxShadow: 'var(--hover-shadow)',
+          }}
+        >
+          <TabSwitcher
+            ariaLabel="Map mode"
+            surface="light"
+            value={map.mode}
+            onChange={map.setMode}
+            options={[
+              { value: 'view', label: 'View', icon: <IconVisibility /> },
+              { value: 'edit', label: 'Edit', icon: <IconEdit /> },
+            ]}
+            sx={{ width: '220px' }}
+          />
+        </Box>
 
         <Box
           sx={{

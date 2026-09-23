@@ -214,6 +214,22 @@ const useTerritoriesMap = () => {
     [setSearchParams]
   );
 
+  const [editMode, setEditMode] = useState(false);
+
+  // in edit mode a picked territory opens straight in the editor
+  const [pendingEdit, setPendingEdit] = useState<string>();
+
+  const pickTerritory = useCallback(
+    (id?: string) => {
+      setSelectedId(id);
+      if (editMode && id) setPendingEdit(id);
+    },
+    [editMode, setSelectedId]
+  );
+
+  const pickRef = useRef(pickTerritory);
+  pickRef.current = pickTerritory;
+
   // layers live on the style, so they are re-applied whenever the style is swapped
   const applyLayers = useCallback(() => {
     const instance = map.current;
@@ -369,7 +385,7 @@ const useTerritoriesMap = () => {
       if (editor.active.current) return;
 
       const id = event.features?.[0]?.properties?.id;
-      if (typeof id === 'string') setSelectedId(id);
+      if (typeof id === 'string') pickRef.current(id);
     });
 
     instance.on('mouseenter', FILL_LAYER, () => {
@@ -567,6 +583,32 @@ const useTerritoriesMap = () => {
     setPendingLeave(undefined);
   }, [pendingLeave]);
 
+  useEffect(() => {
+    if (!pendingEdit || selected?.id !== pendingEdit || editor.editing) return;
+
+    setPendingEdit(undefined);
+    startEditing('territory');
+  }, [pendingEdit, selected, editor.editing, startEditing]);
+
+  const isEditMode = editMode || editor.editing;
+
+  const setMode = useCallback(
+    (mode: 'view' | 'edit') => {
+      if (mode === 'edit') {
+        setEditMode(true);
+        return;
+      }
+
+      const leave = () => {
+        if (editor.editing) cancelEditing();
+        setEditMode(false);
+      };
+
+      requestLeave(leave);
+    },
+    [editor.editing, cancelEditing, requestLeave]
+  );
+
   const save = useCallback(() => {
     const { draft, scope } = editor;
 
@@ -646,7 +688,9 @@ const useTerritoriesMap = () => {
     mapped,
     selected,
     selectedId,
-    setSelectedId,
+    pickTerritory,
+    mode: isEditMode ? ('edit' as const) : ('view' as const),
+    setMode,
     search,
     setSearch,
     colorView,

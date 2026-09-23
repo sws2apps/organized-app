@@ -5,14 +5,12 @@ import Tooltip from '@components/tooltip';
 import {
   IconArrowLink,
   IconCongregationBorder,
-  IconDrawShape,
-  IconEditMap,
   IconEditPoints,
   IconMoveAround,
   IconRedo,
   IconUndo,
 } from '@icons/index';
-import { Territory } from '@definition/territory';
+import { STATUS_LABEL, Territory } from '@definition/territory';
 import useMapEditor from './useMapEditor';
 
 type Editor = ReturnType<typeof useMapEditor>;
@@ -114,28 +112,22 @@ export const IdleToolbar = ({
   </Stack>
 );
 
-export const MapHint = ({ text }: { text: string }) => (
-  <Box sx={{ ...SHELL, padding: '6px 12px', pointerEvents: 'none' }}>
-    <Typography className="body-small-regular" color="var(--grey-400)" noWrap>
-      {text}
-    </Typography>
-  </Box>
-);
-
 export const ViewToolbar = ({
   selected,
-  onEdit,
   onDetails,
 }: {
   selected: Territory;
-  onEdit: VoidFunction;
   onDetails: VoidFunction;
 }) => {
   const drawn = !!selected.boundary?.length;
 
+  const info = [selected.city, STATUS_LABEL[selected.status], selected.holder]
+    .filter(Boolean)
+    .join(' · ');
+
   return (
     <Stack direction="row" sx={{ flexShrink: 0, minWidth: 0, ...SHELL }}>
-      <Box sx={{ padding: '0 10px', minWidth: 0, maxWidth: '280px' }}>
+      <Box sx={{ padding: '0 10px', minWidth: 0, maxWidth: '320px' }}>
         <Typography className="body-small-semibold" color="var(--black)" noWrap>
           {selected.number} · {selected.name}
         </Typography>
@@ -144,16 +136,9 @@ export const ViewToolbar = ({
           color={drawn ? 'var(--grey-350)' : 'var(--orange-dark)'}
           noWrap
         >
-          {drawn ? selected.city : 'No borders drawn yet'}
+          {drawn ? info : 'No borders drawn yet'}
         </Typography>
       </Box>
-
-      <ToolButton
-        main
-        label={drawn ? 'Edit map' : 'Draw borders'}
-        icon={drawn ? <IconEditMap /> : <IconDrawShape />}
-        onClick={onEdit}
-      />
 
       <ToolButton
         label="Details"
