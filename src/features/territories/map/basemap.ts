@@ -92,6 +92,10 @@ const BUILDINGS = 'basemap-buildings';
 // street names from zoom 12 instead of only when close, so the way there stays readable
 const STREET_NAMES_FROM = 12;
 
+// the tiles carry both from zoom 14, so big territories can show them before street level
+const HOUSE_NUMBERS_FROM = 15;
+const PARKING_FROM = 14;
+
 const sourceLayerOf = (layer: maplibregl.LayerSpecification) =>
   'source-layer' in layer ? layer['source-layer'] : undefined;
 
@@ -132,7 +136,10 @@ const addMissingLabels = (map: maplibregl.Map, provider: MapProviderKey) => {
     });
 
   if (!drawn(HOUSE_NUMBER_LAYERS)) {
-    label(HOUSE_NUMBERS, 'housenumber', 17, ['get', 'housenumber']);
+    label(HOUSE_NUMBERS, 'housenumber', HOUSE_NUMBERS_FROM, [
+      'get',
+      'housenumber',
+    ]);
   }
 
   for (const overlay of OVERLAYS) {
@@ -194,7 +201,7 @@ const addMissingLabels = (map: maplibregl.Map, provider: MapProviderKey) => {
       'source-layer': layer,
       filter,
       // kerbside strips are mapped as car parks too; the named ones are the real car parks
-      minzoom: 16,
+      minzoom: PARKING_FROM,
       layout: {
         'text-field': 'P',
         'text-font': [...MAP_PROVIDERS[provider].fonts.bold],
@@ -236,6 +243,11 @@ export const applyBasemapOptions = (
     else if (layer.id.startsWith(BUILDINGS)) {
       setVisible(map, layer.id, options.buildings);
     } else if (HOUSE_NUMBER_LAYERS.has(sourceLayer)) {
+      map.setLayerZoomRange(
+        layer.id,
+        Math.min(layer.minzoom ?? 0, HOUSE_NUMBERS_FROM),
+        layer.maxzoom ?? 24
+      );
       setVisible(map, layer.id, options.houseNumbers);
     } else if (PLACE_LAYERS.has(sourceLayer)) {
       setVisible(map, layer.id, options.places);
