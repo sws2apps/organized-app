@@ -98,7 +98,7 @@ const useTerritoriesMap = () => {
   const [ready, setReady] = useState(false);
   const [styleVersion, setStyleVersion] = useState(0);
   const [search, setSearch] = useState('');
-  const [colorView, setColorView] = useState<ColorView>('status');
+  const [colorView, setColorView] = useState<ColorView>('original');
 
   const [heatmapYear, setHeatmapYear] = useState(HEATMAP_YEARS()[0]);
 

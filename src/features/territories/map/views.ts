@@ -23,6 +23,10 @@ export const HEATMAP_YEARS = () =>
 
 export const COLOR_VIEWS = [
   {
+    id: 'original' as ColorView,
+    label: 'Default',
+  },
+  {
     id: 'status' as ColorView,
     label: 'Status',
   },
@@ -37,10 +41,6 @@ export const COLOR_VIEWS = [
   {
     id: 'type' as ColorView,
     label: 'Type',
-  },
-  {
-    id: 'original' as ColorView,
-    label: 'Original colors',
   },
 ];
 
