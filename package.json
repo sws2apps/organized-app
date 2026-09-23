@@ -95,7 +95,7 @@
     "@types/react-beautiful-dnd": "^13.1.8",
     "@types/react-dom": "^19.3.0",
     "@types/styled-components": "^5.1.36",
-    "@typescript-eslint/eslint-plugin": "^8.61.1",
+    "@typescript-eslint/eslint-plugin": "^8.70.0",
     "@vitejs/plugin-react": "^6.1.1",
     "conventional-changelog-conventionalcommits": "^9.3.1",
     "cypress": "^15.17.0",
