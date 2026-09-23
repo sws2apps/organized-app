@@ -398,7 +398,8 @@ const TerritoryTable = ({
           <Stack
             key={territory.id}
             direction="row"
-            spacing="12px"
+            // tighter on a phone, where every pixel goes to the name
+            spacing={tablet688Up ? '12px' : '8px'}
             {...clickableRow(() => onOpen(territory.id))}
             sx={{
               alignItems: 'center',
@@ -416,29 +417,27 @@ const TerritoryTable = ({
               />
             )}
 
-            {tablet688Up && (
-              // same line gap as the name column, so both lines sit level with it
-              <Stack spacing="4px" sx={{ width: '48px', flexShrink: 0 }}>
-                <Typography
-                  className="body-small-semibold"
-                  color="var(--black)"
-                  sx={{ fontVariantNumeric: 'tabular-nums' }}
-                >
-                  {territory.number}
-                </Typography>
-                {showHouseholds && <Households count={territory.households} />}
-              </Stack>
-            )}
+            {/* same line gap as the name column, so both lines sit level with it */}
+            <Stack
+              spacing="4px"
+              sx={{ width: tablet688Up ? '48px' : '40px', flexShrink: 0 }}
+            >
+              <Typography
+                className="body-small-semibold"
+                color="var(--black)"
+                sx={{ fontVariantNumeric: 'tabular-nums' }}
+              >
+                {territory.number}
+              </Typography>
+              {showHouseholds && <Households count={territory.households} />}
+            </Stack>
 
             <Stack spacing="4px" sx={{ flexGrow: 1, minWidth: 0 }}>
               <TruncatedText
                 className="body-small-semibold"
-                text={[
-                  !tablet688Up && territory.number,
-                  [territory.city, territory.name].filter(Boolean).join(' • '),
-                ]
+                text={[territory.city, territory.name]
                   .filter(Boolean)
-                  .join('  ')}
+                  .join(' • ')}
               />
 
               <Stack
@@ -451,10 +450,6 @@ const TerritoryTable = ({
                 }}
               >
                 <StatusLine territory={territory} showHolder={showHolder} />
-
-                {showHouseholds && !tablet688Up && (
-                  <Households count={territory.households} />
-                )}
 
                 {!laptopUp && badges(territory, showRequested)}
               </Stack>
