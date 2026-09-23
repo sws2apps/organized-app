@@ -275,7 +275,8 @@ const TerritoriesMap = ({ map }: { map: TerritoriesMapState }) => {
               { value: 'view', label: 'View', icon: <IconVisibility /> },
               { value: 'edit', label: 'Edit', icon: <IconEdit /> },
             ]}
-            sx={{ width: '220px' }}
+            // as tall as the map's button islands
+            sx={{ width: '256px', '& button': { minHeight: '36px' } }}
           />
         </Box>
 
