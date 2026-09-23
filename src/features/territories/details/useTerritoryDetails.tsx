@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router';
 import { useAtom } from 'jotai';
-import { IconCheckCircle } from '@icons/index';
-import { displaySnackNotification } from '@services/states/app';
 import { territoriesState } from '@states/territories';
 import { Territory } from '@definition/territory';
 
@@ -37,41 +35,26 @@ const useTerritoryDetails = () => {
 
   const territory = isNew ? draft : stored;
 
-  const takenNumbers = territories
-    .filter((item) => item.id !== territory?.id)
-    .map((item) => item.number);
-
-  const isDuplicate =
-    !!territory?.number.trim() &&
-    takenNumbers.includes(territory.number.trim());
-
-  const canSave = !!territory?.number.trim() && !isDuplicate;
-
   const handleChange = (next: Territory) => {
-    if (isNew) {
+    if (!isNew) {
+      setTerritories((prev) =>
+        prev.map((item) => (item.id === next.id ? next : item))
+      );
+      return;
+    }
+
+    const number = next.number.trim();
+    const isTaken = territories.some((item) => item.number.trim() === number);
+
+    if (!number || isTaken) {
       setDraft(next);
       return;
     }
 
-    setTerritories((prev) =>
-      prev.map((item) => (item.id === next.id ? next : item))
-    );
-  };
-
-  const handleSave = () => {
-    if (!canSave) return;
-
-    setTerritories((prev) => [draft, ...prev]);
-
-    displaySnackNotification({
-      header: 'Territory added',
-      message: `Territory ${draft.number} was added.`,
-      severity: 'success',
-      icon: <IconCheckCircle color="var(--white)" />,
-    });
-
-    // the saved territory keeps the page it was added from as its parent
-    navigate(`/territories/${draft.id}`, {
+    // saved as soon as it has a usable number, like every later change;
+    // it keeps the page it was added from as its parent
+    setTerritories((prev) => [next, ...prev]);
+    navigate(`/territories/${next.id}`, {
       replace: true,
       state: location.state,
     });
@@ -89,8 +72,6 @@ const useTerritoryDetails = () => {
     territory,
     isNew,
     handleChange,
-    canSave,
-    handleSave,
     handleDelete,
     deleteOpen,
     setDeleteOpen,

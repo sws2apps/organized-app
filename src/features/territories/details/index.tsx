@@ -90,74 +90,61 @@ const TerritoryDetails = ({
     />
   );
 
+  const doNotCallCard = (content: ReactNode) => (
+    <Card>
+      <Typography className="h2" color="var(--black)">
+        {isPhone ? 'Do-not-call numbers' : 'Do-not-call addresses'}
+      </Typography>
+      {content}
+    </Card>
+  );
+
   if (readOnly) {
-    const sections = [
-      ...(isPhone
-        ? showPrivate
-          ? [
-              {
-                label: 'Phone numbers',
-                badge: territory.phoneNumbers?.length ?? 0,
-                Component: (
-                  <PhoneNumbersPanel
-                    territory={territory}
-                    onChange={() => {}}
-                    readOnly
-                  />
-                ),
-              },
-            ]
-          : []
-        : [
-            {
-              label: 'Map',
-              Component: <TerritoryMap territory={territory} readOnly />,
-            },
-          ]),
-      ...(showPrivate
-        ? [
-            {
-              label: 'Do not call',
-              badge: territory.doNotCalls.length,
-              Component: (
-                <DoNotCallPanel
-                  territory={territory}
-                  onChange={() => {}}
-                  readOnly
-                />
-              ),
-            },
-          ]
-        : []),
-    ];
+    const content = isPhone ? (
+      showPrivate && (
+        <PhoneNumbersPanel territory={territory} onChange={() => {}} readOnly />
+      )
+    ) : (
+      <TerritoryMap territory={territory} readOnly />
+    );
 
     return (
-      <Card>
-        {summary}
+      <Stack spacing="16px">
+        <Card>
+          {summary}
 
-        {sections.length > 0 && <TabbedSections sections={sections} />}
-      </Card>
+          {content}
+        </Card>
+
+        {showPrivate &&
+          doNotCallCard(
+            <DoNotCallPanel
+              territory={territory}
+              onChange={() => {}}
+              readOnly
+            />
+          )}
+      </Stack>
     );
   }
 
   if (!desktopUp) {
     return (
-      <Card>
-        {summary}
+      <Stack spacing="16px">
+        <Card>
+          {summary}
 
-        <TabbedSections
-          sections={[
-            { label: 'Details', Component: form },
-            { label: isPhone ? 'Phone numbers' : 'Map', Component: map },
-            { label: 'Assignments', Component: assignments },
-            {
-              label: 'Do not call',
-              badge: territory.doNotCalls.length,
-              Component: doNotCalls,
-            },
-          ]}
-        />
-      </Card>
+          <TabbedSections
+            sections={[
+              { label: 'Details', Component: form },
+              { label: isPhone ? 'Phone numbers' : 'Map', Component: map },
+              { label: 'Assignments', Component: assignments },
+            ]}
+          />
+        </Card>
+
+        {doNotCallCard(doNotCalls)}
+      </Stack>
     );
   }
 
@@ -178,12 +165,7 @@ const TerritoryDetails = ({
           {form}
         </Card>
 
-        <Card>
-          <Typography className="h2" color="var(--black)">
-            {isPhone ? 'Do-not-call numbers' : 'Do-not-call addresses'}
-          </Typography>
-          {doNotCalls}
-        </Card>
+        {doNotCallCard(doNotCalls)}
       </Stack>
 
       <Card>

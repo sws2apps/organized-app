@@ -8,7 +8,6 @@ import {
   IconDelete,
   IconPrint,
   IconRaiseHand,
-  IconSave,
 } from '@icons/index';
 import { useBreakpoints, useCurrentUser } from '@hooks/index';
 import { displaySnackNotification } from '@services/states/app';
@@ -35,8 +34,6 @@ const TerritoryDetailsPage = () => {
     territory,
     isNew,
     handleChange,
-    canSave,
-    handleSave,
     handleDelete,
     deleteOpen,
     setDeleteOpen,
@@ -139,33 +136,19 @@ const TerritoryDetailsPage = () => {
         buttons={
           !isTerritoryEditor ? (
             publisherButtons
-          ) : (
+          ) : isNew ? undefined : (
             <NavBarButtonGroup>
-              {!isNew && (
-                <NavBarButton
-                  text="Delete"
-                  color="red"
-                  icon={<IconDelete />}
-                  onClick={() => setDeleteOpen(true)}
-                />
-              )}
-
-              {isNew && (
-                <NavBarButton
-                  text="Save"
-                  icon={<IconSave />}
-                  disabled={!canSave}
-                  onClick={handleSave}
-                />
-              )}
-
-              {!isNew && (
-                <NavBarButton
-                  text="Export"
-                  icon={<IconPrint />}
-                  onClick={() => setExportOpen(true)}
-                />
-              )}
+              <NavBarButton
+                text="Delete"
+                color="red"
+                icon={<IconDelete />}
+                onClick={() => setDeleteOpen(true)}
+              />
+              <NavBarButton
+                text="Export"
+                icon={<IconPrint />}
+                onClick={() => setExportOpen(true)}
+              />
             </NavBarButtonGroup>
           )
         }
