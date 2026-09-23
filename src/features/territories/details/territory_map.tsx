@@ -5,7 +5,7 @@ import { displaySnackNotification } from '@services/states/app';
 import { useNavigate } from 'react-router';
 import { useAtomValue } from 'jotai';
 import * as maplibregl from 'maplibre-gl';
-import { Button, Typography } from '@components/index';
+import { Badge, Button, Typography } from '@components/index';
 import {
   IconAdd,
   IconClose,
@@ -22,7 +22,7 @@ import { isDarkThemeState } from '@states/app';
 import { territoriesState } from '@states/territories';
 import { Territory } from '@definition/territory';
 import { DEFAULT_PROVIDER, MAP_PROVIDER } from '../map/constants';
-import { applyBasemapOptions } from '../map/basemap';
+import { applyBasemapOptions, DEFAULT_BASEMAP } from '../map/basemap';
 import { addAttribution, boundaryBounds } from '../map/helpers';
 import { addOutsideVeil, addTerritoryLayers } from '../map/layers';
 import { getCSSPropertyValue } from '@utils/common';
@@ -77,10 +77,7 @@ const BoundaryPreview = ({
     const registry: MarkerRegistry = new Map();
 
     instance.on('style.load', () => {
-      applyBasemapOptions(instance, DEFAULT_PROVIDER, {
-        houseNumbers: true,
-        places: true,
-      });
+      applyBasemapOptions(instance, DEFAULT_PROVIDER, DEFAULT_BASEMAP);
       addOutsideVeil(instance, boundary, getCSSPropertyValue('--white'));
       addTerritoryLayers(instance, latest.current, 0.12);
       syncMarkers(instance, mapMarkers ?? [], registry);
@@ -99,9 +96,12 @@ const BoundaryPreview = ({
 
 const FullscreenMap = ({
   territory,
+  doNotCalls,
   onClose,
 }: {
   territory: Territory;
+  // a reminder while walking the area, for those allowed to see them
+  doNotCalls: number;
   onClose: VoidFunction;
 }) => {
   const [map, setMap] = useState<maplibregl.Map>();
@@ -125,12 +125,22 @@ const FullscreenMap = ({
           <Typography
             className="body-small-semibold"
             color="var(--black)"
-            sx={{ padding: '6px 10px' }}
+            noWrap
+            sx={{ padding: '6px 10px', maxWidth: 'calc(100vw - 220px)' }}
           >
             {[`Territory ${territory.number}`, territory.name]
               .filter(Boolean)
               .join(' · ')}
           </Typography>
+          {doNotCalls > 0 && (
+            <Badge
+              size="small"
+              color="red"
+              filled={false}
+              text={`Do not call: ${doNotCalls}`}
+              sx={{ width: 'fit-content', flexShrink: 0, marginRight: '6px' }}
+            />
+          )}
         </MapIsland>
 
         <MapIsland corner="top-right">
@@ -171,10 +181,12 @@ const FullscreenMap = ({
 const TerritoryMap = ({
   territory,
   readOnly = false,
+  showDoNotCalls = true,
 }: {
   territory: Territory;
   // publishers look at the map; drawing it is for those who manage territories
   readOnly?: boolean;
+  showDoNotCalls?: boolean;
 }) => {
   const navigate = useNavigate();
 
@@ -248,6 +260,7 @@ const TerritoryMap = ({
       {fullscreen && (
         <FullscreenMap
           territory={territory}
+          doNotCalls={showDoNotCalls ? territory.doNotCalls.length : 0}
           onClose={() => setFullscreen(false)}
         />
       )}

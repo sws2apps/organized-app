@@ -45,6 +45,20 @@ const MapQuickSettings = ({
       />
 
       <SwitchWithLabel
+        label="Green areas"
+        helper="Tint parks, woods and grass green"
+        checked={map.green}
+        onChange={map.setGreen}
+      />
+
+      <SwitchWithLabel
+        label="Water"
+        helper="Tint rivers, lakes and canals blue"
+        checked={map.water}
+        onChange={map.setWater}
+      />
+
+      <SwitchWithLabel
         label="Territory numbers"
         helper="Show the number in the middle of every territory"
         checked={map.showNumbers}

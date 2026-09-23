@@ -1,7 +1,7 @@
 import * as maplibregl from 'maplibre-gl';
 import { Territory } from '@definition/territory';
 import { DEFAULT_PROVIDER, MAP_PROVIDER } from './constants';
-import { applyBasemapOptions } from './basemap';
+import { applyBasemapOptions, DEFAULT_BASEMAP } from './basemap';
 import { boundaryBounds } from './helpers';
 import { addOutsideVeil, addTerritoryLayers } from './layers';
 import { paintMarkers } from './markers';
@@ -62,10 +62,7 @@ export const captureTerritoryMap = (territory: Territory, ratio = 1.74) =>
 
     map.on('style.load', () => {
       styled = true;
-      applyBasemapOptions(map, DEFAULT_PROVIDER, {
-        houseNumbers: true,
-        places: true,
-      });
+      applyBasemapOptions(map, DEFAULT_PROVIDER, DEFAULT_BASEMAP);
       addOutsideVeil(map, boundary, '#FFFFFF');
       addTerritoryLayers(map, territory, 0);
     });

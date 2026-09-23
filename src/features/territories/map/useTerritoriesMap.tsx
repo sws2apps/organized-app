@@ -103,6 +103,8 @@ const useTerritoriesMap = () => {
   const [provider, setProvider] = useState<MapProviderKey>(DEFAULT_PROVIDER);
   const [houseNumbers, setHouseNumbers] = useState(true);
   const [places, setPlaces] = useState(true);
+  const [green, setGreen] = useState(true);
+  const [water, setWater] = useState(true);
   const [showNumbers, setShowNumbers] = useState(true);
   const [showHouseholds, setShowHouseholds] = useState(false);
 
@@ -205,8 +207,8 @@ const useTerritoriesMap = () => {
     isDark,
   ]);
 
-  const basemap = useRef({ provider, houseNumbers, places });
-  basemap.current = { provider, houseNumbers, places };
+  const basemap = useRef({ provider, houseNumbers, places, green, water });
+  basemap.current = { provider, houseNumbers, places, green, water };
 
   const labelOptions = useRef({ showNumbers, showHouseholds, provider });
   labelOptions.current = { showNumbers, showHouseholds, provider };
@@ -418,8 +420,13 @@ const useTerritoriesMap = () => {
   useEffect(() => {
     if (!map.current || !ready) return;
 
-    applyBasemapOptions(map.current, provider, { houseNumbers, places });
-  }, [provider, houseNumbers, places, ready, styleVersion]);
+    applyBasemapOptions(map.current, provider, {
+      houseNumbers,
+      places,
+      green,
+      water,
+    });
+  }, [provider, houseNumbers, places, green, water, ready, styleVersion]);
 
   // swapping the style drops every other layer, terra draw's too, so only on a real basemap change
   useEffect(() => {
@@ -717,6 +724,10 @@ const useTerritoriesMap = () => {
     setHouseNumbers,
     places,
     setPlaces,
+    green,
+    setGreen,
+    water,
+    setWater,
     showNumbers,
     setShowNumbers,
     showHouseholds,

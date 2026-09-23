@@ -108,7 +108,11 @@ const TerritoryDetails = ({
         <PhoneNumbersPanel territory={territory} onChange={() => {}} readOnly />
       )
     ) : (
-      <TerritoryMap territory={territory} readOnly />
+      <TerritoryMap
+        territory={territory}
+        readOnly
+        showDoNotCalls={showPrivate}
+      />
     );
 
     return (

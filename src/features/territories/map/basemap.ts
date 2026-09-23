@@ -2,7 +2,75 @@ import * as maplibregl from 'maplibre-gl';
 import { getCSSPropertyValue } from '@utils/common';
 import { MAP_PROVIDERS, MapProviderKey } from './constants';
 
-export type BasemapOptions = { houseNumbers: boolean; places: boolean };
+export type BasemapOptions = {
+  houseNumbers: boolean;
+  places: boolean;
+  green: boolean;
+  water: boolean;
+};
+
+export const DEFAULT_BASEMAP: BasemapOptions = {
+  houseNumbers: true,
+  places: true,
+  green: true,
+  water: true,
+};
+
+// tinted overlays for both tile schemas; a source layer a provider lacks simply draws nothing
+type Overlay = {
+  id: string;
+  option: 'green' | 'water';
+  color: string;
+  opacity: number;
+  parts: { layer: string; filter?: maplibregl.FilterSpecification }[];
+};
+
+const OVERLAYS: Overlay[] = [
+  {
+    id: 'basemap-green',
+    option: 'green',
+    color: '#4CAF50',
+    opacity: 0.22,
+    parts: [
+      { layer: 'park' },
+      {
+        layer: 'landcover',
+        filter: [
+          'in',
+          ['get', 'class'],
+          ['literal', ['grass', 'wood', 'wetland']],
+        ],
+      },
+      {
+        layer: 'land',
+        filter: [
+          'in',
+          ['get', 'kind'],
+          [
+            'literal',
+            [
+              'park',
+              'forest',
+              'grass',
+              'meadow',
+              'garden',
+              'village_green',
+              'recreation_ground',
+              'cemetery',
+            ],
+          ],
+        ],
+      },
+    ],
+  },
+  {
+    id: 'basemap-water',
+    option: 'water',
+    color: '#2196F3',
+    opacity: 0.25,
+    parts: [{ layer: 'water' }, { layer: 'water_polygons' }],
+  },
+];
 
 // the tile layers that carry them, in the OpenMapTiles and Shortbread schemas
 const HOUSE_NUMBER_LAYERS = new Set(['housenumber', 'addresses']);
@@ -54,6 +122,22 @@ const addMissingLabels = (map: maplibregl.Map, provider: MapProviderKey) => {
     label(HOUSE_NUMBERS, 'housenumber', 17, ['get', 'housenumber']);
   }
 
+  for (const overlay of OVERLAYS) {
+    overlay.parts.forEach((part, index) => {
+      const id = `${overlay.id}-${index}`;
+      if (map.getLayer(id)) return;
+
+      map.addLayer({
+        id,
+        type: 'fill',
+        source,
+        'source-layer': part.layer,
+        ...(part.filter && { filter: part.filter }),
+        paint: { 'fill-color': overlay.color, 'fill-opacity': overlay.opacity },
+      });
+    });
+  }
+
   if (!drawn(PLACE_LAYERS)) {
     label(PLACES, 'poi', 16, [
       'coalesce',
@@ -69,6 +153,18 @@ export const applyBasemapOptions = (
   options: BasemapOptions
 ) => {
   addMissingLabels(map, provider);
+
+  for (const overlay of OVERLAYS) {
+    overlay.parts.forEach((_, index) => {
+      const id = `${overlay.id}-${index}`;
+      if (!map.getLayer(id)) return;
+      map.setLayoutProperty(
+        id,
+        'visibility',
+        options[overlay.option] ? 'visible' : 'none'
+      );
+    });
+  }
 
   for (const layer of map.getStyle().layers) {
     const sourceLayer = sourceLayerOf(layer) ?? '';
