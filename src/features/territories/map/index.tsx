@@ -325,8 +325,8 @@ const TerritoriesMap = ({ map }: { map: TerritoriesMapState }) => {
       <Dialog
         open={map.pendingLeave}
         onClose={map.keepEditing}
-        title="Discard your changes?"
-        description="What you drew since opening the editor will be lost."
+        title="Discard changes"
+        description="Your unsaved changes will be lost."
       >
         <DialogActions>
           <Button variant="secondary" onClick={map.keepEditing}>

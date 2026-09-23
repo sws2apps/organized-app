@@ -57,7 +57,8 @@ const TerritorySummary = ({
           Overview
         </Typography>
 
-        <Stack direction="row" sx={row}>
+        {/* as tall as a badge, so marking the card lost doesn't shift the card */}
+        <Stack direction="row" sx={{ ...row, minHeight: '20px' }}>
           <Typography className="body-small-regular" color="var(--grey-400)">
             {description}
           </Typography>

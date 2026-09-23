@@ -165,7 +165,7 @@ const StatusLine = ({
           color="var(--green-main)"
           noWrap
         >
-          {returned ? date(returned) : 'No records'}
+          {returned ? date(returned) : 'No records yet'}
         </Typography>
       </Stack>
     );

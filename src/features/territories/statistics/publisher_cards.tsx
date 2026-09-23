@@ -19,13 +19,13 @@ export const PublisherSplit = ({
 
   const rows = [
     {
-      label: 'With a territory',
+      label: 'With territory',
       tooltip: 'with a territory',
       value: withTerritory,
       color: 'var(--accent-main)',
     },
     {
-      label: 'Without one now',
+      label: 'Without territory',
       tooltip: 'without one now',
       value: without,
       color: 'var(--accent-300)',

@@ -36,7 +36,7 @@ const TerritoriesQuickSettings = ({
       >
         <Stack spacing="4px">
           <Typography className="body-regular" color="var(--black)">
-            Overdue after
+            Overdue period
           </Typography>
           <Typography className="label-small-regular" color="var(--grey-350)">
             Months a publisher may hold a territory before it counts as overdue

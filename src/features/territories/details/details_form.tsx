@@ -175,10 +175,7 @@ const DetailsForm = ({
             Categories
           </Typography>
 
-          <RowAction
-            title="Edit"
-            onClick={() => setCategoryEditor(true)}
-          >
+          <RowAction title="Edit" onClick={() => setCategoryEditor(true)}>
             <IconEdit color="var(--accent-main)" width={18} height={18} />
           </RowAction>
         </Stack>
