@@ -6,7 +6,7 @@ import Dialog from '@components/dialog';
 import DialogActions from '@components/dialog_actions';
 import { useBreakpoints } from '@hooks/index';
 import { DoNotCall } from '@definition/territory';
-import { parseDate, toStoredDate } from '../helpers';
+import { CURRENT_PUBLISHER, parseDate, toStoredDate } from '../helpers';
 import EditorHeader from './editor_header';
 
 const DoNotCallEditor = ({
@@ -37,7 +37,7 @@ const DoNotCallEditor = ({
       address: address.trim(),
       name: name.trim() || undefined,
       date: toStoredDate(date ?? new Date()),
-      addedBy: entry?.addedBy ?? 'You',
+      addedBy: entry?.addedBy ?? CURRENT_PUBLISHER,
     });
     onClose();
   };

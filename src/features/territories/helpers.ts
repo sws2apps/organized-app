@@ -177,6 +177,27 @@ const recommendedTerritories = (
 
 export const CURRENT_PUBLISHER = 'Mike Wallenter';
 
+// Apple devices open Apple Maps, everything else Google Maps (the app, where installed)
+export const openInMaps = (query: string) => {
+  const q = encodeURIComponent(query);
+  const url = /iPhone|iPad|Macintosh/.test(navigator.userAgent)
+    ? `https://maps.apple.com/?q=${q}`
+    : `https://www.google.com/maps/search/?api=1&query=${q}`;
+
+  window.open(url, '_blank', 'noopener');
+};
+
+// the middle of the drawn border, so the maps app lands on the territory itself
+export const territoryCenter = (territory: Territory) => {
+  const ring = territory.boundary?.slice(0, -1) ?? [];
+  if (ring.length === 0) return undefined;
+
+  const lng = ring.reduce((sum, [x]) => sum + x, 0) / ring.length;
+  const lat = ring.reduce((sum, [, y]) => sum + y, 0) / ring.length;
+
+  return `${lat.toFixed(6)},${lng.toFixed(6)}`;
+};
+
 // read at render time to follow the app language
 export const emptyListMessage = () =>
   getTranslation({ key: 'tr_noRecordsYet' });

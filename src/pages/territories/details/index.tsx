@@ -172,6 +172,7 @@ const TerritoryDetailsPage = () => {
         onChange={handleChange}
         readOnly={!isTerritoryEditor}
         showPrivate={isTerritoryEditor || heldByMe}
+        heldByMe={heldByMe}
       />
     </Box>
   );

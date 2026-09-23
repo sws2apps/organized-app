@@ -4,6 +4,7 @@ import { CustomDivider, Typography } from '@components/index';
 import Tooltip from '@components/tooltip';
 import {
   IconArrowLink,
+  IconLocation,
   IconCongregationBorder,
   IconEditPoints,
   IconMoveAround,
@@ -12,6 +13,7 @@ import {
 } from '@icons/index';
 import { STATUS_LABEL, Territory } from '@definition/territory';
 import useMapEditor from './useMapEditor';
+import { openInMaps, territoryCenter } from '../helpers';
 
 type Editor = ReturnType<typeof useMapEditor>;
 
@@ -133,6 +135,7 @@ export const ViewToolbar = ({
   compact?: boolean;
 }) => {
   const drawn = !!selected.boundary?.length;
+  const center = territoryCenter(selected);
 
   const info = [selected.city, STATUS_LABEL[selected.status], selected.holder]
     .filter(Boolean)
@@ -152,6 +155,15 @@ export const ViewToolbar = ({
           {drawn ? info : 'No borders drawn yet'}
         </Typography>
       </Box>
+
+      {center && (
+        <ToolButton
+          label="Open in maps"
+          icon={<IconLocation />}
+          compact
+          onClick={() => openInMaps(center)}
+        />
+      )}
 
       <ToolButton
         label="Details"

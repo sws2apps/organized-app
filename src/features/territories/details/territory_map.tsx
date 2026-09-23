@@ -6,7 +6,13 @@ import { useNavigate } from 'react-router';
 import { useAtomValue } from 'jotai';
 import * as maplibregl from 'maplibre-gl';
 import { Button, Typography } from '@components/index';
-import { IconDrawShape, IconEditMap, IconShare } from '@icons/index';
+import {
+  IconDrawShape,
+  IconEditMap,
+  IconLocation,
+  IconShare,
+} from '@icons/index';
+import { openInMaps, territoryCenter } from '../helpers';
 import { isDarkThemeState } from '@states/app';
 import { territoriesState } from '@states/territories';
 import { Territory } from '@definition/territory';
@@ -73,6 +79,8 @@ const TerritoryMap = ({
   const navigate = useNavigate();
 
   const canDraw = !readOnly;
+
+  const center = territoryCenter(territory);
 
   const territories = useAtomValue(territoriesState);
 
@@ -195,14 +203,30 @@ const TerritoryMap = ({
       </Box>
 
       {hasBoundary && (
-        <Button
-          variant="secondary"
-          disabled={sharing}
-          startIcon={<IconShare color="var(--accent-main)" />}
-          onClick={handleShare}
+        <Stack
+          direction="row"
+          sx={{ justifyContent: 'center', flexWrap: 'wrap', gap: '8px' }}
         >
-          Share map
-        </Button>
+          <Button
+            variant="secondary"
+            disableAutoStretch
+            disabled={sharing}
+            startIcon={<IconShare color="var(--accent-main)" />}
+            onClick={handleShare}
+          >
+            Share map
+          </Button>
+          {center && (
+            <Button
+              variant="secondary"
+              disableAutoStretch
+              startIcon={<IconLocation color="var(--accent-main)" />}
+              onClick={() => openInMaps(center)}
+            >
+              Open in maps
+            </Button>
+          )}
+        </Stack>
       )}
     </Stack>
   );

@@ -20,6 +20,7 @@ import {
   IconArrowLink,
   IconCollapse,
   IconEdit,
+  IconLocation,
   IconExpand,
   IconSortDown,
   IconSortUp,
@@ -34,6 +35,7 @@ import {
   upsertById,
   emptyListMessage,
   NO_MATCHES,
+  openInMaps,
 } from '../helpers';
 import { clickableRow, rowStates } from '../components/table_styles';
 import RecordList from '../components/record_list';
@@ -452,18 +454,38 @@ const DoNotCalls = () => {
                     onClick: () =>
                       setEditing({ territoryId: territory.id, entry }),
                     actions: (
-                      <RowAction
-                        title="Edit"
-                        onClick={() =>
-                          setEditing({ territoryId: territory.id, entry })
-                        }
-                      >
-                        <IconEdit
-                          color="var(--accent-main)"
-                          width={18}
-                          height={18}
-                        />
-                      </RowAction>
+                      <>
+                        {territory.type !== 'phone' && (
+                          <RowAction
+                            title="Open in maps"
+                            onClick={() =>
+                              openInMaps(
+                                [entry.address, territory.city]
+                                  .filter(Boolean)
+                                  .join(', ')
+                              )
+                            }
+                          >
+                            <IconLocation
+                              color="var(--accent-main)"
+                              width={18}
+                              height={18}
+                            />
+                          </RowAction>
+                        )}
+                        <RowAction
+                          title="Edit"
+                          onClick={() =>
+                            setEditing({ territoryId: territory.id, entry })
+                          }
+                        >
+                          <IconEdit
+                            color="var(--accent-main)"
+                            width={18}
+                            height={18}
+                          />
+                        </RowAction>
+                      </>
                     ),
                   }))}
                 />

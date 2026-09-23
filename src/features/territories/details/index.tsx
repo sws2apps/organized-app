@@ -20,6 +20,8 @@ type TerritoryDetailsProps = {
   readOnly?: boolean;
   // do-not-call addresses and phone numbers stay with admins and the holder
   showPrivate?: boolean;
+  // the publisher working the territory adds the do-not-calls they meet
+  heldByMe?: boolean;
 };
 
 type Section = { label: string; badge?: number; Component: ReactNode };
@@ -40,6 +42,7 @@ const TerritoryDetails = ({
   onChange,
   readOnly = false,
   showPrivate = true,
+  heldByMe = false,
 }: TerritoryDetailsProps) => {
   const { desktopUp } = useBreakpoints();
 
@@ -120,8 +123,8 @@ const TerritoryDetails = ({
           doNotCallCard(
             <DoNotCallPanel
               territory={territory}
-              onChange={() => {}}
-              readOnly
+              onChange={(next) => onChange({ ...territory, doNotCalls: next })}
+              access={heldByMe ? 'own' : 'none'}
             />
           )}
       </Stack>
