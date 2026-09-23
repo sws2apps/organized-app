@@ -53,7 +53,6 @@ const TerritoryDetailsPage = () => {
 
   const canRequest = territory.status === 'available' && !territory.requestedBy;
 
-  // why a publisher can't ask for it, when they can't
   const publisherNote = heldByMe
     ? 'You are working this territory.'
     : requestedByMe

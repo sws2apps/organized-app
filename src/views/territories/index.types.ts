@@ -11,6 +11,5 @@ export type TerritoryTemplateProps = {
   territories: TerritoryPrintData[];
   lang: string;
   printedOn: string;
-  // the map side and the do-not-call side can each be left out
   parts: { front: boolean; back: boolean };
 };

@@ -456,7 +456,6 @@ const EditPanel = ({
         </Section>
       )}
 
-      {/* the last step of the panel, so every action reads top to bottom */}
       <Stack
         direction="row"
         spacing="8px"

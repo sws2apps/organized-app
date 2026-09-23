@@ -22,7 +22,6 @@ import {
 import { categorySwatch, toCategoryColor } from '../category_colors';
 import IconButton from '@components/icon_button';
 
-// one dot per row that opens the palette, instead of a wall of circles
 const ColorDot = ({
   color,
   onChange,
@@ -215,7 +214,6 @@ const CategoryEditor = ({
               }
             />
 
-            {/* the square delete from the circuit overseer visits, as tall as the field */}
             <Tooltip title="Delete">
               <IconButton
                 color="error"
@@ -238,7 +236,6 @@ const CategoryEditor = ({
         ))}
       </Stack>
 
-      {/* at the limit the button simply goes away */}
       {draft.length < MAX_CATEGORIES && (
         <Stack
           direction="row"

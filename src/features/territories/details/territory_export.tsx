@@ -24,7 +24,6 @@ const PHONE_FORMATS: Format[] = [
   { id: 's12a4', name: 'S-12 phone card on A4' },
 ];
 
-// the same label-over-options shape as the field service groups export
 const OptionGroup = ({
   label,
   children,

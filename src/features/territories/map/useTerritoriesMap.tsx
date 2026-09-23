@@ -549,7 +549,6 @@ const useTerritoriesMap = () => {
     return !!target;
   }, [navigate]);
 
-  // leaves editing without saving, back to viewing the map
   const cancelEditing = useCallback(() => {
     editor.finish();
     goBack();
@@ -608,7 +607,6 @@ const useTerritoriesMap = () => {
 
     editor.finish();
 
-    // the saved territory stays picked, so the result is on screen
     goBack();
   }, [editor, selected, setTerritories, setCongregationBoundary, goBack]);
 

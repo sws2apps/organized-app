@@ -253,7 +253,6 @@ const TerritoriesMap = ({ map }: { map: TerritoriesMapState }) => {
           )}
         </Stack>
 
-        {/* what to do next, until a territory is picked */}
         {!editor.editing && !map.selected && (
           <Box
             sx={{

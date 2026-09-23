@@ -80,8 +80,7 @@ const MyHistory = ({ territories }: { territories: Territory[] }) => {
         <Typography component="h2" className="h2" color="var(--black)">
           My previous territories
         </Typography>
-        {/* on the tinted card the grey badge looks foreign and the accent one
-            vanishes, so it takes one accent step up */}
+        {/* the accent badge vanishes on the tinted card */}
         <Badge
           size="small"
           color="accent"
@@ -104,7 +103,6 @@ const MyHistory = ({ territories }: { territories: Territory[] }) => {
         <Stack spacing="12px" sx={{ paddingTop: '12px' }}>
           {rows.length === 0 && <InfoNote message={emptyListMessage()} />}
 
-          {/* the same row as the territory list above, so both read alike */}
           <Stack
             spacing="2px"
             divider={<CustomDivider color={ROW_DIVIDER.tinted} />}

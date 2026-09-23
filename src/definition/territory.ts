@@ -20,7 +20,6 @@ export type TerritoryCategoryOption = {
 export type DoNotCall = {
   id: string;
   address: string;
-  // the householder, when the congregation recorded one
   name?: string;
   date: string;
   addedBy: string;
@@ -29,7 +28,6 @@ export type DoNotCall = {
 // a closed ring of [longitude, latitude] pairs, in GeoJSON order
 export type TerritoryBoundary = [number, number][];
 
-// what a territory carries on the congregation map besides its borders
 export type MapColor = 'red' | 'blue' | 'green' | 'orange' | 'purple' | 'black';
 
 export type PinType =
@@ -54,7 +52,6 @@ export type TerritoryMapMarker = {
   color?: MapColor;
 };
 
-// the colors a border or area is drawn with, kept as picked
 export type MapStyle = {
   border: MapColor | 'transparent';
   fill: MapColor | 'transparent';
@@ -104,14 +101,11 @@ export type Territory = {
   daysOut?: number;
   daysSinceCovered: number;
   households: number;
-  // the printed card went missing and has to be printed again
   cardLost: boolean;
   doNotCalls: DoNotCall[];
   assignments: TerritoryAssignment[];
-  // the area drawn on the congregation map, when it has been mapped
   boundary?: TerritoryBoundary;
   boundaryStyle?: MapStyle;
-  // streets, walking routes and notes drawn inside that area
   mapShapes?: TerritoryMapShape[];
   mapLines?: TerritoryMapLine[];
   mapMarkers?: TerritoryMapMarker[];
@@ -125,16 +119,12 @@ export type TerritoryFilters = {
   status: TerritoryStatus[];
   type: TerritoryType[];
   categories: TerritoryCategory[];
-  // a period the territory was, or was not, covered in
   coverage?: { covered: boolean; period: string };
   cardLostOnly: boolean;
 };
 
-// how much of the congregation's pool a publisher may reach: their own
-// territories only, the available pool as well, or the pool with requests open
 export type TerritoryAccess = 'own' | 'view' | 'request';
 
-// what a congregation keeps out of the pool publishers may reach
 export type TerritoryRestrictions = {
   categories: TerritoryCategory[];
   types: TerritoryType[];
@@ -184,7 +174,6 @@ export const CATEGORY_COLORS: CategoryColor[] = [
 // one category per color, so each stays recognisable at a glance
 export const MAX_CATEGORIES = CATEGORY_COLORS.length;
 
-// keeps a category readable as a badge and as a checkbox in two columns
 export const MAX_CATEGORY_NAME = 20;
 
 export const CATEGORY_COLOR_LABEL: Record<CategoryColor, string> = {

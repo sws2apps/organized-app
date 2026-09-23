@@ -33,8 +33,6 @@ const Territories = () => {
 
   const { title } = hub;
 
-  // own territories have one job left: asking for another, from the list of
-  // territories that can be handed out
   const isMine = hub.tabId === 'mine' || hub.tabId === 'requested';
 
   const mineButtons = hub.canBrowse && (

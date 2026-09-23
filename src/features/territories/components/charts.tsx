@@ -12,7 +12,6 @@ export const ChartCard = ({
 }: {
   title: string;
   hint?: string;
-  // shown in the card's top right corner, such as a "See all" link
   action?: ReactNode;
   children: ReactNode;
   span?: number;

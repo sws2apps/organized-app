@@ -319,7 +319,6 @@ const TerritoriesHub = ({ hub }: TerritoriesHubProps) => {
           )}
 
           {tabId === 'mine' && (
-            // a quiet info card, so the current territories keep the focus
             <Box
               sx={{
                 padding: '16px',

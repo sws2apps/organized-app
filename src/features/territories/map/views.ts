@@ -119,7 +119,6 @@ export const colorScheme = (view: ColorView, year = HEATMAP_YEARS()[0]) => {
     };
   }
 
-  // each territory paints itself in the colors it was drawn with
   if (view === 'original') {
     return {
       buckets: [] as Bucket[],

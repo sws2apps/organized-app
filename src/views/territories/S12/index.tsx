@@ -6,8 +6,7 @@ import CardFront from '../shared/CardFront';
 
 const CUT = '0.5px dashed #BDBDBD';
 
-// the card is cut out of the sheet, so both halves sit where Figma places the
-// cut areas: 467 x 301 pt, centred, front above back
+// where Figma places the cut areas, front above back
 const WIDTH = 467;
 const HEIGHT = 301;
 const LEFT = 64;

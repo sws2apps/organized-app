@@ -37,7 +37,6 @@ const TAB_GROUPS: TerritoryTab[][] = [
 
 const OWN_TABS: TerritoryTab[] = ['mine', 'group', 'requested'];
 
-// tabs that show the congregation's pool rather than a publisher's own work
 const BROWSE_TABS: TerritoryTab[] = ['recommended', 'all'];
 
 const TAB_LABELS: Record<TerritoryTab, string> = {
@@ -106,7 +105,6 @@ const useTerritoriesHub = () => {
   const requested =
     fromUrl === 'requests' && !isTerritoryEditor ? 'requested' : fromUrl;
 
-  // group overseers and assistants also look after their group's territories
   const userUID = useAtomValue(userLocalUIDState);
 
   const isGroupLead = !!my_group?.group_data.members.some(
@@ -117,7 +115,6 @@ const useTerritoriesHub = () => {
   const groupHolder =
     isGroupLead && my_group ? groupHolderName(my_group.group_data) : undefined;
 
-  // what the congregation lets publishers reach; editors always see the pool
   const canBrowse = isTerritoryEditor || access !== 'own';
   const canRequest = isTerritoryEditor || access === 'request';
 
@@ -343,7 +340,6 @@ const useTerritoriesHub = () => {
     tab,
     tabId,
     isBrowsing,
-    // a user's own territories: a short overview without search or filters
     isOwnTab: OWN_TABS.includes(tabId),
     isTerritoryEditor,
     canBrowse,

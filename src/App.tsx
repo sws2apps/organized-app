@@ -132,7 +132,6 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
             },
             { path: '/territories/:id', element: <TerritoryDetails /> },
 
-            // territory overview pages, for those who hand territories out
             {
               element: (
                 <RouteProtected allowed={isElder || isServiceCommittee} />

@@ -39,8 +39,7 @@ const SelectionBar = ({
         border: '1px solid var(--accent-200)',
       }}
     >
-      {/* a caption, not a control: caps, grey, and wide enough that a
-          two digit count does not resize the island */}
+      {/* wide enough that a two-digit count does not resize the island */}
       <Typography
         className="button-caps"
         color="var(--accent-400)"

@@ -17,14 +17,12 @@ const TerritorySummary = ({
 }: {
   territory: Territory;
   meta?: string;
-  // a card title like its neighbours, locality underneath; the name sits in the page title
   heading?: boolean;
 }) => {
   const description = [heading && territory.city, TYPE_LABEL[territory.type]]
     .filter(Boolean)
     .join(' · ');
 
-  // the status sits next to whoever it's about, not split from them
   const state = (
     <Stack direction="row" sx={row}>
       <Box sx={{ width: 'fit-content' }}>

@@ -1,7 +1,4 @@
-// A CSS `dashed` border lets each browser pick its own dash length, and it
-// can't be tuned. This draws the border as a masked layer instead, so every
-// dashed box in the app gets the same dash and gap and still follows rounded
-// corners. The colour stays a CSS variable, so it follows the theme.
+// CSS `dashed` lets each browser pick the dash length; a masked layer keeps it the same everywhere
 
 type DashedBorderOptions = {
   color?: string;

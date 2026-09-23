@@ -168,8 +168,7 @@ export const addAttribution = (map: maplibregl.Map) =>
 
 export const LABEL_BACKGROUND = 'territory-label-background';
 
-// a stretchable rounded rectangle drawn behind each territory label; a text
-// halo traces every glyph and looks ragged on busy maps
+// a text halo traces every glyph and looks ragged on busy maps
 export const addLabelBackground = (
   map: maplibregl.Map,
   fill: string,
@@ -206,8 +205,7 @@ export const addLabelBackground = (
     pixelRatio: ratio,
     stretchX: [middle],
     stretchY: [middle],
-    // the text may use the whole box inside the outline, so the background
-    // hugs the number instead of adding the corners as extra padding
+    // the background hugs the number instead of padding by the corners
     content: [line, line, size - line, size - line],
   });
 };
@@ -250,7 +248,6 @@ type LabelFonts = {
   number: readonly string[];
 };
 
-// the territory number, drawn inside its small white badge
 export const numberText = (fonts: LabelFonts) =>
   [
     'format',
@@ -258,8 +255,6 @@ export const numberText = (fonts: LabelFonts) =>
     { 'font-scale': 1.25, 'text-font': ['literal', fonts.number] },
   ] as maplibregl.ExpressionSpecification;
 
-// the caption under the badge: the Display mode's detail and, when shown,
-// the households
 export const captionText = (
   options: { showHouseholds: boolean },
   fonts: LabelFonts

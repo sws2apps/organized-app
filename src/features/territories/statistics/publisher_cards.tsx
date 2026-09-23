@@ -88,7 +88,6 @@ export const PublisherSplit = ({
   );
 };
 
-// option B: how that share moved through the service year
 export const PublisherTrend = ({
   territories,
 }: {

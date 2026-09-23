@@ -17,7 +17,6 @@ export const EMPTY_FILTERS: TerritoryFilters = {
   cardLostOnly: false,
 };
 
-// clears every filter but keeps what was typed in the search
 export const clearedFilters = (
   filters: TerritoryFilters
 ): TerritoryFilters => ({
@@ -25,7 +24,6 @@ export const clearedFilters = (
   search: filters.search,
 });
 
-// the service year runs from September to August
 export const serviceYear = (date = new Date()) =>
   date.getMonth() >= 8 ? date.getFullYear() + 1 : date.getFullYear();
 
@@ -179,14 +177,11 @@ const recommendedTerritories = (
 
 export const CURRENT_PUBLISHER = 'Mike Wallenter';
 
-// one wording for every empty list in the territories area, so a new list
-// never needs its own sentence; read at render time to follow the app language
+// read at render time to follow the app language
 export const emptyListMessage = () =>
   getTranslation({ key: 'tr_noRecordsYet' });
 export const NO_MATCHES = 'Nothing matches your search or filters.';
 
-// how a field service group shows up as a territory holder; groups are known
-// by their number ("Group 5"), and a name when they have one
 export const groupHolderName = (group: {
   name: string;
   sort_index: number;
@@ -203,11 +198,8 @@ export const groupHolderName = (group: {
 export const forTab = (
   territories: Territory[],
   tab: TerritoryTab,
-  // publishers browse only what can be handed out, not every territory
   isEditor = true,
-  // the group whose territories its overseer and assistant look after
   groupHolder?: string,
-  // what the congregation keeps out of the pool
   restricted: TerritoryRestrictions = NO_RESTRICTIONS
 ) => {
   if (tab === 'group') {
@@ -438,11 +430,9 @@ export const toStoredDate = (date: Date) =>
     year: 'numeric',
   });
 
-// month 0 of a service year is September
 const serviceMonth = (date: Date) => (date.getMonth() + 4) % 12;
 
-// the stored month indexes follow from the dates, so they are derived, never
-// typed in
+// derived from the dates, never typed in
 export const assignmentFromDates = (
   base: TerritoryAssignment,
   publisher: string,
@@ -489,7 +479,6 @@ export const coverageGrid = (territories: Territory[], years: number[]) =>
 export const publisherCoverage = (territories: Territory[]) => {
   const load = publisherLoad(territories);
 
-  // anyone named on any assignment, returned or not, has had a territory
   const everHeld = new Set(
     territories.flatMap((territory) =>
       territory.assignments.map((assignment) => assignment.publisher)
@@ -504,7 +493,6 @@ export const publisherCoverage = (territories: Territory[]) => {
   return { withTerritory, without: idle.length - never, never };
 };
 
-// how many publishers held something in each month of a service year
 export const publishersPerMonth = (
   territories: Territory[],
   year = serviceYear()

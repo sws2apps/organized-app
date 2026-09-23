@@ -101,7 +101,6 @@ const Divider = () => (
   />
 );
 
-// shown in edit mode before a territory is picked; the hint sits at the bottom
 export const IdleToolbar = ({
   onCongregation,
 }: {
@@ -117,7 +116,6 @@ export const IdleToolbar = ({
   </Stack>
 );
 
-// a short prompt at the bottom of the map, out of the way of the tools
 export const MapHint = ({ text }: { text: string }) => (
   <Box sx={{ ...SHELL, padding: '6px 12px', pointerEvents: 'none' }}>
     <Typography className="body-small-regular" color="var(--grey-400)" noWrap>
@@ -126,7 +124,6 @@ export const MapHint = ({ text }: { text: string }) => (
   </Box>
 );
 
-// shown while browsing once a territory is picked: the one thing to do with it
 export const ViewToolbar = ({
   selected,
   onEdit,
@@ -169,7 +166,6 @@ export const ViewToolbar = ({
   );
 };
 
-// shown while editing: history and the two ways to change what is drawn
 const EditToolbar = ({ editor }: { editor: Editor }) => {
   const hasBorder = !!editor.draft.boundary?.length;
 

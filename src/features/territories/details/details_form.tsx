@@ -160,8 +160,7 @@ const DetailsForm = ({
 
       <CustomDivider color="var(--accent-200)" />
 
-      {/* the edit button and checkbox hit areas already add air, so the block
-          takes back part of the form's gap to the dividers */}
+      {/* the hit areas already add air, so this takes back part of the gap */}
       <Box
         sx={{
           display: 'flex',

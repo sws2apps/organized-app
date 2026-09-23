@@ -9,7 +9,6 @@ export const toCategoryColor = (value: string): CategoryColor =>
     ? (value as CategoryColor)
     : 'blue';
 
-// the solid colour, for swatches and dots
 export const categorySwatch = (value: string) => {
   const color = toCategoryColor(value);
 
@@ -19,9 +18,7 @@ export const categorySwatch = (value: string) => {
   return `var(--${color}-main)`;
 };
 
-// the badge the app already draws for green, orange, red and grey; blue has
-// no badge colour of its own, so it borrows the grey one and repaints it in
-// the fixed midweek blue
+// blue has no badge colour, so it borrows grey and repaints it
 export const categoryBadge = (
   value: string
 ): { color: BadgeColor; sx?: Record<string, unknown> } => {

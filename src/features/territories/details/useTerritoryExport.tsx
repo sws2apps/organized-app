@@ -46,8 +46,7 @@ const useTerritoryExport = (territory: Territory) => {
 
   const blob = useRef<Blob>(null);
 
-  // the map picture is expensive to render, so the promise itself is kept:
-  // every preview awaits the same capture instead of starting another one
+  // kept as a promise so every preview awaits the same capture
   const mapImage = useRef<Promise<string | undefined>>(null);
 
   const build = useCallback(async () => {
@@ -60,7 +59,6 @@ const useTerritoryExport = (territory: Territory) => {
     const picture =
       needsMap && mapImage.current ? await mapImage.current : undefined;
 
-    // scanning the card opens this territory in the app
     const qrImage = showQr
       ? await QRCode.toDataURL(
           `${window.location.origin}/#/territories/${territory.id}`,
