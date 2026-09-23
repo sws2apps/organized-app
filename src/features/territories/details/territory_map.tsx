@@ -336,7 +336,7 @@ const TerritoryMap = ({
           <MapIsland corner="top-right">
             {[
               {
-                label: 'Share map',
+                label: 'Share',
                 icon: IconShare,
                 onClick: handleShare,
                 disabled: sharing,
@@ -383,7 +383,7 @@ const TerritoryMap = ({
               onClick={openMap}
               sx={small}
             >
-              Edit map
+              Edit
             </Button>
           </MapIsland>
         )}
