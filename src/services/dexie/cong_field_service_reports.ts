@@ -19,8 +19,73 @@ const dbUpdateCongFieldReportMetadata = async () => {
 export const dbFieldServiceReportsSave = async (
   report: CongFieldServiceReportType
 ) => {
+  await markTransferBackfillOverride(report);
   await appDb.cong_field_service_reports.put(report);
   await dbUpdateCongFieldReportMetadata();
+};
+
+// Marks reports added into an already-submitted month so they stay editable
+// (transfer backfills, see #5420). Runs on every congregation report save so
+// no editor surface can forget it. Never clears an existing mark, never marks
+// late reports, and never marks reports that already shared before this save.
+const markTransferBackfillOverride = async (
+  report: CongFieldServiceReportType
+) => {
+  if (report.report_data.lock_override) return;
+
+  if (report.report_data.late.value) return;
+
+  const prev = report.report_id
+    ? await appDb.cong_field_service_reports.get(report.report_id)
+    : undefined;
+
+  if (prev?.report_data.shared_ministry) return;
+
+  const branchReports = await appDb.branch_field_service_reports.toArray();
+
+  const branch = branchReports.find(
+    (record) =>
+      record.report_date === report.report_data.report_date &&
+      !record.report_data._deleted
+  );
+
+  if (branch?.report_data.submitted) {
+    report.report_data.lock_override = true;
+  }
+};
+
+// Single source of truth for the submitted-month edit lock. A stored override
+// mark is checked first: reports added after submission (transfer backfills,
+// see #5420) stay editable without the late workflow. Once the mark is set it
+// persists on the record, so the lock cannot drift mid-session and late
+// hydration cannot unlock submitted reports. Late comes from the editing draft
+// so clearing late relocks immediately and marking late unlocks immediately.
+// Shared comes from the persisted record so entering hours does not lock the
+// remaining fields mid-session.
+export const isCongReportLocked = (
+  persistedReport: CongFieldServiceReportType | undefined,
+  branchSubmitted: boolean | undefined,
+  draftLate?: CongFieldServiceReportType['report_data']['late'],
+  draftOverride?: boolean
+) => {
+  const override =
+    draftOverride ?? persistedReport?.report_data.lock_override;
+
+  if (override) return false;
+
+  if (!branchSubmitted) return false;
+
+  const late = draftLate ?? persistedReport?.report_data.late;
+
+  const isLate = late?.value && late?.submitted.length === 0;
+
+  if (isLate) return false;
+
+  const shared = persistedReport?.report_data.shared_ministry;
+
+  if (!shared) return false;
+
+  return true;
 };
 
 export const dbFieldServiceReportsBulkSave = async (
@@ -62,6 +127,17 @@ export const dbHandleIncomingReports = async (reports: IncomingReport[]) => {
 
     // allow add if report is late
     if (branch?.report_data.submitted && findReport?.report_data.late.value) {
+      allowAdd = true;
+    }
+
+    // allow transfer backfill: unshared records never counted in a
+    // submission sync without the late workflow. Already-shared incoming
+    // records stay out so a submitted month cannot be flipped to shared.
+    if (
+      branch?.report_data.submitted &&
+      !findReport?.report_data.shared_ministry &&
+      !record.shared_ministry
+    ) {
       allowAdd = true;
     }
 
