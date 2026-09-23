@@ -52,6 +52,8 @@ import {
   applyBasemapOptions,
   BasemapOptions,
   DEFAULT_BASEMAP,
+  LayerSwitch,
+  PlaceType,
 } from './basemap';
 import { addDrawingLayers, setDrawingData } from './layers';
 import { MarkerRegistry, syncMarkers } from './markers';
@@ -721,8 +723,15 @@ const useTerritoriesMap = () => {
     provider,
     setProvider,
     layers,
-    setLayer: (key: keyof BasemapOptions, value: boolean) =>
+    setLayer: (key: LayerSwitch, value: boolean) =>
       setLayers((prev) => ({ ...prev, [key]: value })),
+    togglePlaceType: (type: PlaceType) =>
+      setLayers((prev) => ({
+        ...prev,
+        placeTypes: prev.placeTypes.includes(type)
+          ? prev.placeTypes.filter((item) => item !== type)
+          : [...prev.placeTypes, type],
+      })),
     showNumbers,
     setShowNumbers,
     showHouseholds,

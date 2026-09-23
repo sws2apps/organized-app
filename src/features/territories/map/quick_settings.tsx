@@ -1,13 +1,13 @@
-import { MenuItem, Stack } from '@mui/material';
-import { Select, Typography } from '@components/index';
+import { Box, MenuItem, Stack } from '@mui/material';
+import { Checkbox, Select, Typography } from '@components/index';
 import SwitchWithLabel from '@components/switch_with_label';
 import QuickSettings from '@features/quick_settings';
 import { MAP_PROVIDERS, MapProviderKey } from './constants';
 import { TerritoriesMapState } from './useTerritoriesMap';
-import { BasemapOptions } from './basemap';
+import { LayerSwitch, PLACE_TYPES, PlaceType } from './basemap';
 
 const LAYER_SWITCHES: {
-  key: keyof BasemapOptions;
+  key: LayerSwitch;
   label: string;
   helper: string;
 }[] = [
@@ -70,13 +70,35 @@ const MapQuickSettings = ({
       </Select>
 
       {LAYER_SWITCHES.map((item) => (
-        <SwitchWithLabel
-          key={item.key}
-          label={item.label}
-          helper={item.helper}
-          checked={map.layers[item.key]}
-          onChange={(value) => map.setLayer(item.key, value)}
-        />
+        <Stack key={item.key} spacing="8px">
+          <SwitchWithLabel
+            label={item.label}
+            helper={item.helper}
+            checked={map.layers[item.key]}
+            onChange={(value) => map.setLayer(item.key, value)}
+          />
+
+          {/* which kinds of places show, so bins and recycling can stay off */}
+          {item.key === 'places' && map.layers.places && (
+            <Box
+              sx={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+                paddingLeft: '52px',
+              }}
+            >
+              {(Object.keys(PLACE_TYPES) as PlaceType[]).map((type) => (
+                <Checkbox
+                  key={type}
+                  label={PLACE_TYPES[type].label}
+                  checked={map.layers.placeTypes.includes(type)}
+                  onChange={() => map.togglePlaceType(type)}
+                  className="body-small-regular"
+                />
+              ))}
+            </Box>
+          )}
+        </Stack>
       ))}
 
       <SwitchWithLabel

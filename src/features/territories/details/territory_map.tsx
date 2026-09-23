@@ -55,21 +55,40 @@ const BoundaryPreview = ({
   useEffect(() => {
     if (!container.current || !boundary?.length) return;
 
-    const [west, south, east, north] = boundaryBounds(boundary);
+    const bounds = boundaryBounds(boundary);
+    const element = container.current;
+
+    // a share of the frame rather than fixed pixels, so a bigger screen shows a bigger
+    // territory; never less than the room the buttons and credits need
+    const padding = () => {
+      const { clientWidth: width, clientHeight: height } = element;
+      const side = Math.max(32, width * 0.1);
+
+      return {
+        top: Math.max(64, height * 0.12),
+        bottom: Math.max(56, height * 0.1),
+        left: side,
+        right: side,
+      };
+    };
 
     const instance = new maplibregl.Map({
-      container: container.current,
+      container: element,
       style: isDark ? MAP_PROVIDER.dark : MAP_PROVIDER.light,
-      bounds: [west, south, east, north],
-      // clear of the buttons above and the credits below
-      fitBoundsOptions: {
-        padding: interactive
-          ? 64
-          : { top: 64, bottom: 56, left: 32, right: 32 },
-      },
+      bounds,
+      fitBoundsOptions: { padding: padding() },
       interactive,
       attributionControl: false,
     });
+
+    // the card settles its size after the map starts, and changes with the window;
+    // the small map follows, the full-screen one keeps wherever the user moved it
+    const observer = new ResizeObserver(() => {
+      instance.resize();
+      if (!interactive)
+        instance.fitBounds(bounds, { padding: padding(), duration: 0 });
+    });
+    observer.observe(element);
 
     addAttribution(instance);
     onReady?.(instance);
@@ -85,6 +104,7 @@ const BoundaryPreview = ({
     });
 
     return () => {
+      observer.disconnect();
       onReady?.(undefined);
       syncMarkers(instance, [], registry);
       instance.remove();
@@ -268,7 +288,9 @@ const TerritoryMap = ({
       <Box
         sx={{
           position: 'relative',
-          height: '320px',
+          // a shape rather than a height, so wide screens don't zoom the territory out
+          aspectRatio: '3 / 2',
+          minHeight: '240px',
           overflow: 'hidden',
           borderRadius: 'var(--radius-l)',
           clipPath: 'inset(0 round var(--radius-l))',
@@ -310,23 +332,45 @@ const TerritoryMap = ({
         )}
 
         {hasBoundary && (
+          // the same small size as Edit map across the top
           <MapIsland corner="top-right">
-            {/* the same small size as Edit map across the top */}
-            <Tooltip title="Full screen">
-              <Button
-                variant="small"
-                disableAutoStretch
-                aria-label="Full screen"
-                onClick={() => setFullscreen(true)}
-                sx={{ ...small, width: '28px', padding: '2px' }}
-              >
-                <IconFullscreen
-                  color="var(--accent-main)"
-                  width={20}
-                  height={20}
-                />
-              </Button>
-            </Tooltip>
+            {[
+              {
+                label: 'Share map',
+                icon: IconShare,
+                onClick: handleShare,
+                disabled: sharing,
+              },
+              ...(center
+                ? [
+                    {
+                      label: 'Open in maps',
+                      icon: IconLocation,
+                      onClick: () => openInMaps(center),
+                      disabled: false,
+                    },
+                  ]
+                : []),
+              {
+                label: 'Full screen',
+                icon: IconFullscreen,
+                onClick: () => setFullscreen(true),
+                disabled: false,
+              },
+            ].map(({ label, icon: Icon, onClick, disabled }) => (
+              <Tooltip key={label} title={label}>
+                <Button
+                  variant="small"
+                  disableAutoStretch
+                  aria-label={label}
+                  disabled={disabled}
+                  onClick={onClick}
+                  sx={{ ...small, width: '28px', padding: '2px' }}
+                >
+                  <Icon color="var(--accent-main)" width={20} height={20} />
+                </Button>
+              </Tooltip>
+            ))}
           </MapIsland>
         )}
 
@@ -344,33 +388,6 @@ const TerritoryMap = ({
           </MapIsland>
         )}
       </Box>
-
-      {hasBoundary && (
-        <Stack
-          direction="row"
-          sx={{ justifyContent: 'center', flexWrap: 'wrap', gap: '8px' }}
-        >
-          <Button
-            variant="secondary"
-            disableAutoStretch
-            disabled={sharing}
-            startIcon={<IconShare color="var(--accent-main)" />}
-            onClick={handleShare}
-          >
-            Share map
-          </Button>
-          {center && (
-            <Button
-              variant="secondary"
-              disableAutoStretch
-              startIcon={<IconLocation color="var(--accent-main)" />}
-              onClick={() => openInMaps(center)}
-            >
-              Open in maps
-            </Button>
-          )}
-        </Stack>
-      )}
     </Stack>
   );
 };

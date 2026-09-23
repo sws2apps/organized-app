@@ -2,6 +2,67 @@ import * as maplibregl from 'maplibre-gl';
 import { getCSSPropertyValue } from '@utils/common';
 import { MAP_PROVIDERS, MapProviderKey } from './constants';
 
+// place icons grouped by their OpenMapTiles class, so a congregation keeps only the useful ones
+export const PLACE_TYPES = {
+  shops: {
+    label: 'Shops',
+    classes: [
+      'shop',
+      'grocery',
+      'alcohol_shop',
+      'clothing_store',
+      'bakery',
+      'hardware',
+      'furniture',
+      'florist',
+      'jewelry',
+      'mobile_phone',
+      'books',
+      'laundry',
+    ],
+  },
+  food: {
+    label: 'Food and drink',
+    classes: ['restaurant', 'fast_food', 'cafe', 'bar', 'beer', 'ice_cream'],
+  },
+  schools: {
+    label: 'Schools',
+    classes: ['school', 'college', 'kindergarten', 'library'],
+  },
+  worship: { label: 'Places of worship', classes: ['place_of_worship'] },
+  health: {
+    label: 'Health',
+    classes: ['hospital', 'pharmacy', 'doctors', 'dentist'],
+  },
+  services: {
+    label: 'Public services',
+    classes: ['town_hall', 'post', 'police', 'fire_station', 'bank', 'atm'],
+  },
+  leisure: {
+    label: 'Leisure',
+    classes: [
+      'park',
+      'playground',
+      'stadium',
+      'swimming',
+      'pitch',
+      'zoo',
+      'theatre',
+      'cinema',
+      'museum',
+      'attraction',
+      'castle',
+      'monument',
+    ],
+  },
+  // bins, recycling, fuel, charging and everything else without a group
+  other: { label: 'Other', classes: [] as string[] },
+} as const;
+
+export type PlaceType = keyof typeof PLACE_TYPES;
+
+export type LayerSwitch = Exclude<keyof BasemapOptions, 'placeTypes'>;
+
 export type BasemapOptions = {
   houseNumbers: boolean;
   places: boolean;
@@ -10,6 +71,7 @@ export type BasemapOptions = {
   buildings: boolean;
   streetNames: boolean;
   parking: boolean;
+  placeTypes: PlaceType[];
 };
 
 export const DEFAULT_BASEMAP: BasemapOptions = {
@@ -20,6 +82,15 @@ export const DEFAULT_BASEMAP: BasemapOptions = {
   buildings: true,
   streetNames: true,
   parking: true,
+  placeTypes: [
+    'shops',
+    'food',
+    'schools',
+    'worship',
+    'health',
+    'services',
+    'leisure',
+  ],
 };
 
 // tinted overlays for both tile schemas; a source layer a provider lacks simply draws nothing
@@ -217,6 +288,63 @@ const addMissingLabels = (map: maplibregl.Map, provider: MapProviderKey) => {
   });
 };
 
+// older styles still use the legacy filter syntax, which can't be combined with an expression
+const isLegacyFilter = (filter: unknown): boolean => {
+  if (!Array.isArray(filter)) return false;
+  const [op, ...rest] = filter;
+  if (op === 'all' || op === 'any' || op === 'none') {
+    return rest.some(isLegacyFilter);
+  }
+  return typeof rest[0] === 'string' && op !== 'literal' && op !== 'get';
+};
+
+const KNOWN_CLASSES = Object.values(PLACE_TYPES).flatMap(
+  (type) => type.classes
+);
+
+const placeTypeFilter = (
+  types: PlaceType[]
+): maplibregl.ExpressionSpecification => {
+  const classes = types.flatMap((type) => PLACE_TYPES[type].classes);
+
+  const inGroups: maplibregl.ExpressionSpecification = [
+    'in',
+    ['get', 'class'],
+    ['literal', classes],
+  ];
+  const ungrouped: maplibregl.ExpressionSpecification = [
+    '!',
+    ['in', ['get', 'class'], ['literal', KNOWN_CLASSES]],
+  ];
+
+  return types.includes('other') ? ['any', inGroups, ungrouped] : inGroups;
+};
+
+// each map remembers the filters its style came with, so the type filter never stacks
+const styleFilters = new WeakMap<
+  maplibregl.Map,
+  Map<string, maplibregl.FilterSpecification | undefined>
+>();
+
+const filterPlaces = (map: maplibregl.Map, id: string, types: PlaceType[]) => {
+  const saved = styleFilters.get(map) ?? new Map();
+  styleFilters.set(map, saved);
+
+  if (!saved.has(id)) saved.set(id, map.getFilter(id) ?? undefined);
+  const original = saved.get(id);
+
+  if (isLegacyFilter(original)) return;
+
+  const byType = placeTypeFilter(types);
+
+  map.setFilter(
+    id,
+    original
+      ? (['all', original, byType] as maplibregl.FilterSpecification)
+      : byType
+  );
+};
+
 const setVisible = (map: maplibregl.Map, id: string, visible: boolean) =>
   map.setLayoutProperty(id, 'visibility', visible ? 'visible' : 'none');
 
@@ -238,8 +366,12 @@ export const applyBasemapOptions = (
   for (const layer of map.getStyle().layers) {
     const sourceLayer = sourceLayerOf(layer) ?? '';
 
-    // stop and station icons crowd the map; car parks are the only signs we keep
-    if (layer.type === 'symbol' && /transit/.test(layer.id)) {
+    // stop and station icons crowd the map; car parks are the only signs we keep.
+    // 3D buildings draw above every flat layer, so they'd poke through the outside fade
+    if (
+      (layer.type === 'symbol' && /transit/.test(layer.id)) ||
+      layer.type === 'fill-extrusion'
+    ) {
       setVisible(map, layer.id, false);
     } else if (layer.id.startsWith(PARKING)) {
       setVisible(map, layer.id, options.parking);
@@ -254,6 +386,9 @@ export const applyBasemapOptions = (
       setVisible(map, layer.id, options.houseNumbers);
     } else if (PLACE_LAYERS.has(sourceLayer)) {
       setVisible(map, layer.id, options.places);
+      if (sourceLayer === 'poi' && layer.type === 'symbol') {
+        filterPlaces(map, layer.id, options.placeTypes);
+      }
     } else if (STREET_NAME_LAYERS.has(sourceLayer) && layer.type === 'symbol') {
       map.setLayerZoomRange(
         layer.id,
