@@ -1,4 +1,5 @@
 import * as maplibregl from 'maplibre-gl';
+import './worker';
 import { Territory } from '@definition/territory';
 import { DEFAULT_PROVIDER, MAP_PROVIDER } from './constants';
 import { applyBasemapOptions, DEFAULT_BASEMAP } from './basemap';

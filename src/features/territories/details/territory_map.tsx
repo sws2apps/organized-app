@@ -5,6 +5,7 @@ import { displaySnackNotification } from '@services/states/app';
 import { useNavigate } from 'react-router';
 import { useAtomValue } from 'jotai';
 import * as maplibregl from 'maplibre-gl';
+import '../map/worker';
 import { Badge, Button, Typography } from '@components/index';
 import {
   IconAdd,

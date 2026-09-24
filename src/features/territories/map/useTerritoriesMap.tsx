@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import * as maplibregl from 'maplibre-gl';
+import './worker';
 import { IconCheckCircle } from '@icons/index';
 import { displaySnackNotification } from '@services/states/app';
 import { getCSSPropertyValue } from '@utils/common';
