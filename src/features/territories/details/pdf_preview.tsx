@@ -4,14 +4,14 @@ import { Typography } from '@components/index';
 
 // embedded browsers and Android WebViews show a PDF in an iframe as a blank
 // box, so the pages are drawn onto canvases instead
-const PdfPreview = ({ url }: { url?: string }) => {
+const PdfPreview = ({ file }: { file?: Blob }) => {
   const pages = useRef<HTMLDivElement>(null);
 
   const [failed, setFailed] = useState(false);
 
   useEffect(() => {
     const host = pages.current;
-    if (!url || !host) return;
+    if (!file || !host) return;
 
     let cancelled = false;
 
@@ -23,7 +23,9 @@ const PdfPreview = ({ url }: { url?: string }) => {
 
       pdfjs.GlobalWorkerOptions.workerSrc = worker.default;
 
-      const document = await pdfjs.getDocument({ url }).promise;
+      // bytes rather than a blob: URL, which the CSP doesn't let pdf.js fetch
+      const data = new Uint8Array(await file.arrayBuffer());
+      const document = await pdfjs.getDocument({ data }).promise;
       const canvases: HTMLCanvasElement[] = [];
 
       for (let number = 1; number <= document.numPages; number++) {
@@ -62,7 +64,7 @@ const PdfPreview = ({ url }: { url?: string }) => {
     return () => {
       cancelled = true;
     };
-  }, [url]);
+  }, [file]);
 
   return (
     <Box sx={{ minHeight: 0, overflowY: 'auto' }}>

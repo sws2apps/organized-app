@@ -143,7 +143,7 @@ const TerritoryExport = ({
           overflow: 'hidden',
         }}
       >
-        <PdfPreview url={exporter.previewUrl} />
+        <PdfPreview file={exporter.preview} />
 
         {exporter.isProcessing && (
           <Stack

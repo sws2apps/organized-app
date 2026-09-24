@@ -67,7 +67,7 @@ const useTerritoryExport = (territory: Territory) => {
   const [parts, setParts] = useState<ExportParts>({ front: true, back: true });
   const [showQr, setShowQr] = useState(true);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [previewUrl, setPreviewUrl] = useState<string>();
+  const [preview, setPreview] = useState<Blob>();
 
   const blob = useRef<Blob>(null);
 
@@ -124,7 +124,6 @@ const useTerritoryExport = (territory: Territory) => {
 
   useEffect(() => {
     let cancelled = false;
-    let url: string | undefined;
 
     const render = async () => {
       setIsProcessing(true);
@@ -134,8 +133,7 @@ const useTerritoryExport = (territory: Territory) => {
         if (cancelled) return;
 
         blob.current = result;
-        url = URL.createObjectURL(result);
-        setPreviewUrl(url);
+        setPreview(result);
       } catch (error) {
         if (!cancelled) {
           displaySnackNotification({
@@ -153,7 +151,6 @@ const useTerritoryExport = (territory: Territory) => {
 
     return () => {
       cancelled = true;
-      if (url) URL.revokeObjectURL(url);
     };
   }, [build]);
 
@@ -184,7 +181,7 @@ const useTerritoryExport = (territory: Territory) => {
     toggleSide,
     showQr,
     setShowQr,
-    previewUrl,
+    preview,
     isProcessing,
     handleExport,
   };
