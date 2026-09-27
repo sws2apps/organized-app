@@ -123,7 +123,7 @@ const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
         header: getMessageByCode('error_app_generic-title'),
         message: error.message,
         severity: 'error',
-        icon: <IconError color="var(--white)" />,
+        icon: <IconError />,
       });
     }
   };
@@ -142,7 +142,7 @@ const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
         header: getMessageByCode('error_app_generic-title'),
         message: error.message,
         severity: 'error',
-        icon: <IconError color="var(--white)" />,
+        icon: <IconError />,
       });
     }
   };
@@ -163,13 +163,21 @@ const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
         header: getMessageByCode('error_app_generic-title'),
         message: error.message,
         severity: 'error',
-        icon: <IconError color="var(--white)" />,
+        icon: <IconError />,
       });
     }
   };
 
+  // Keep the visible input text in sync with the resolved selection.
+  // Previously this only handled the "no match found" case, which meant
+  // that after leaving and re-entering the view, a successfully resolved
+  // `value` (e.g. a speaker picked from the catalog) was never reflected
+  // back into `inputValue`, making the field appear empty even though the
+  // assignment was correctly persisted in the schedule.
   useEffect(() => {
-    if (!value) {
+    if (value) {
+      setInputValue(value.person_name);
+    } else {
       setInputValue(defaultValue || '');
     }
   }, [defaultValue, value]);
