@@ -128,11 +128,11 @@ const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
     }
   };
 
-  const handleValueChange = async (text: string) => {
+  const handleValueChange = async (text: string, reason?: string) => {
     setInputValue(text);
 
     try {
-      if (text.length === 0) {
+      if (text.length === 0 && reason !== 'reset') {
         await schedulesSaveAssignment(schedule, assignment, '');
       }
     } catch (error) {
