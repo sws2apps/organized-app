@@ -157,12 +157,14 @@ const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
     if (timerSource.current) clearTimeout(timerSource.current);
     pendingFlushRef.current = null;
 
-    // A cleared selection is already committed by handleValueChange's
-    // empty-text branch (MUI fires onInputChange('') before onChange(null)
-    // when clearing) - committing again here would needlessly re-save and,
-    // for WM_Speaker_Part1, incorrectly reopen the song selector because
-    // `null` is not a string.
-    if (!selected) return;
+    if (!selected) {
+      // MUI's clear sequence already committed '' via handleValueChange's
+      // empty-text branch (onInputChange('', 'clear') fires before this
+      // onChange(null)) - just unblock the sync effect again so it resumes
+      // reflecting value/defaultValue once the assignment changes.
+      setIsEditing(false);
+      return;
+    }
 
     // Show the newly picked name immediately instead of waiting for the
     // save to settle - otherwise the sync effect (still gated on isSaving)
@@ -260,14 +262,19 @@ const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
     setInputValue(value ? value.person_name : defaultValue || '');
   }, [defaultValue, value, isEditing, isSaving]);
 
-  // Cancel any pending debounced save if the component unmounts entirely
-  // (not just a week-prop change, which keeps it mounted and is handled by
-  // the flush above). Without this, a timer scheduled just before unmount
-  // could still fire and persist a stale closure's value afterwards.
+  // Flush any pending debounced save if the component unmounts entirely
+  // (not just a week-prop change, which is handled by the effect above).
+  // Consistent with that effect: an almost-saved edit is committed rather
+  // than silently dropped when the selector goes away. The flush closure
+  // only touches schedulesSaveAssignment and atom setters, so calling it
+  // during cleanup is safe even though the component itself is gone.
   useEffect(() => {
     return () => {
       if (timerSource.current) clearTimeout(timerSource.current);
+
+      const flush = pendingFlushRef.current;
       pendingFlushRef.current = null;
+      flush?.();
     };
   }, []);
 
