@@ -26,6 +26,7 @@ import { getMessageByCode } from '@services/i18n/translation';
 
 const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
   const timerSource = useRef<NodeJS.Timeout>(undefined);
+  const pendingFlushRef = useRef<(() => void) | null>(null);
 
   const setLocalSongSelectorOpen = useSetAtom(weekendSongSelectorOpenState);
 
@@ -37,6 +38,7 @@ const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
 
   const [inputValue, setInputValue] = useState('');
   const [isEditing, setIsEditing] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
 
   const schedule = useMemo(() => {
     return schedules.find((record) => record.weekOf === week);
@@ -122,6 +124,8 @@ const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
   // and the "open song selector" side effect only exist once instead of
   // being duplicated across every handler that can trigger a save.
   const commitAssignment = async (payload: PersonOptionsType | string) => {
+    setIsSaving(true);
+
     try {
       await schedulesSaveAssignment(schedule, assignment, payload);
 
@@ -137,11 +141,14 @@ const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
         severity: 'error',
         icon: <IconError color="var(--white)" />,
       });
+    } finally {
+      setIsSaving(false);
     }
   };
 
   const handleSaveAssignment = (selected: PersonOptionsType) => {
     if (timerSource.current) clearTimeout(timerSource.current);
+    pendingFlushRef.current = null;
 
     // A cleared selection is already committed by handleValueChange's
     // empty-text branch (MUI fires onInputChange('') before onChange(null)
@@ -150,6 +157,10 @@ const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
     // `null` is not a string.
     if (!selected) return;
 
+    // Show the newly picked name immediately instead of waiting for the
+    // save to settle - otherwise the sync effect (still gated on isSaving)
+    // would leave the previous speaker's name visible until then.
+    setInputValue(selected.person_name);
     setIsEditing(false);
     commitAssignment(selected);
   };
@@ -173,6 +184,7 @@ const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
       // Cancel any pending debounced save from prior typing - otherwise it
       // can fire a second later and resurrect the text just cleared here.
       if (timerSource.current) clearTimeout(timerSource.current);
+      pendingFlushRef.current = null;
 
       commitAssignment('');
     }
@@ -195,35 +207,57 @@ const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
 
     if (timerSource.current) clearTimeout(timerSource.current);
 
-    timerSource.current = setTimeout(() => commitAssignment(pendingValue), 1000);
+    // Captured now, from this render's schedule/pendingValue - if the week
+    // changes before the timer fires, the week-change effect below flushes
+    // this exact closure immediately instead of leaving it to fire later
+    // against a schedule that has since moved on.
+    const flush = () => commitAssignment(pendingValue);
+    pendingFlushRef.current = flush;
+
+    timerSource.current = setTimeout(() => {
+      pendingFlushRef.current = null;
+      flush();
+    }, 1000);
   };
 
-  // Hard reset on an actual week change (the original week-navigation fix):
-  // whatever the user was mid-editing in the previous week no longer
-  // applies once the displayed week itself changes.
+  // Hard reset on an actual week change (the original week-navigation fix).
+  // A pending debounced edit for the previous week is flushed
+  // deterministically first - rather than silently cancelled - so an
+  // almost-saved edit isn't discarded right when it's about to complete;
+  // that would reintroduce the same class of data loss this PR fixes.
   useEffect(() => {
+    if (pendingFlushRef.current) {
+      if (timerSource.current) clearTimeout(timerSource.current);
+
+      const flush = pendingFlushRef.current;
+      pendingFlushRef.current = null;
+      flush();
+    }
+
     setIsEditing(false);
   }, [week]);
 
   // Keep the visible input text in sync with the resolved selection - but
-  // never while the user is actively editing. value/defaultValue can change
-  // identity purely because the user's own in-flight save just landed in
-  // the store; if that happens while they're still typing (or have made a
-  // newer selection), overwriting inputValue here would discard that newer
-  // edit and point the next debounced save at a stale value.
+  // never while the user is actively editing, and never while a save is
+  // still in flight. value/defaultValue can change identity purely because
+  // the user's own in-flight save just landed in the store; overwriting
+  // inputValue in that window (before commitAssignment settles, or while
+  // the user has since typed something newer) would discard that edit and
+  // point the next debounced save at a stale value.
   useEffect(() => {
-    if (isEditing) return;
+    if (isEditing || isSaving) return;
 
     setInputValue(value ? value.person_name : defaultValue || '');
-  }, [defaultValue, value, isEditing]);
+  }, [defaultValue, value, isEditing, isSaving]);
 
   // Cancel any pending debounced save if the component unmounts entirely
-  // (not just a week-prop change, which keeps it mounted). Without this, a
-  // timer scheduled just before unmount could still fire and persist a
-  // stale closure's value afterwards.
+  // (not just a week-prop change, which keeps it mounted and is handled by
+  // the flush above). Without this, a timer scheduled just before unmount
+  // could still fire and persist a stale closure's value afterwards.
   useEffect(() => {
     return () => {
       if (timerSource.current) clearTimeout(timerSource.current);
+      pendingFlushRef.current = null;
     };
   }, []);
 
