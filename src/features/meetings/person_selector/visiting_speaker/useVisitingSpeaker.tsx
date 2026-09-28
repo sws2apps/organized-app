@@ -155,7 +155,7 @@ const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
 
   const handleValueSaveDb = async () => {
     try {
-      await schedulesSaveAssignment(schedule, assignment, inputValue);
+      await schedulesSaveAssignment(schedule, assignment, value ?? inputValue);
     } catch (error) {
       console.error(error);
 
@@ -168,6 +168,12 @@ const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
     }
   };
 
+  // Keep the visible input text in sync with the resolved selection.
+  // Previously this only handled the "no match found" case, which meant
+  // that after leaving and re-entering the view, a successfully resolved
+  // `value` (e.g. a speaker picked from the catalog) was never reflected
+  // back into `inputValue`, making the field appear empty even though the
+  // assignment was correctly persisted in the schedule.
   useEffect(() => {
     if (value) {
       setInputValue(value.person_name);
