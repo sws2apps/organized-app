@@ -198,13 +198,24 @@ const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
     timerSource.current = setTimeout(() => commitAssignment(pendingValue), 1000);
   };
 
-  // Keep the visible input text in sync with the resolved selection and
-  // drop any in-progress free-text edit whenever the underlying assignment
-  // changes (e.g. after navigating to a different week).
+  // Hard reset on an actual week change (the original week-navigation fix):
+  // whatever the user was mid-editing in the previous week no longer
+  // applies once the displayed week itself changes.
   useEffect(() => {
     setIsEditing(false);
+  }, [week]);
+
+  // Keep the visible input text in sync with the resolved selection - but
+  // never while the user is actively editing. value/defaultValue can change
+  // identity purely because the user's own in-flight save just landed in
+  // the store; if that happens while they're still typing (or have made a
+  // newer selection), overwriting inputValue here would discard that newer
+  // edit and point the next debounced save at a stale value.
+  useEffect(() => {
+    if (isEditing) return;
+
     setInputValue(value ? value.person_name : defaultValue || '');
-  }, [defaultValue, value]);
+  }, [defaultValue, value, isEditing]);
 
   // Cancel any pending debounced save if the component unmounts entirely
   // (not just a week-prop change, which keeps it mounted). Without this, a
