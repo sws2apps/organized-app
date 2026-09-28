@@ -123,7 +123,7 @@ const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
         header: getMessageByCode('error_app_generic-title'),
         message: error.message,
         severity: 'error',
-        icon: <IconError />,
+        icon: <IconError color="var(--white)" />,
       });
     }
   };
@@ -142,7 +142,7 @@ const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
         header: getMessageByCode('error_app_generic-title'),
         message: error.message,
         severity: 'error',
-        icon: <IconError />,
+        icon: <IconError color="var(--white)" />,
       });
     }
   };
@@ -163,7 +163,7 @@ const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
         header: getMessageByCode('error_app_generic-title'),
         message: error.message,
         severity: 'error',
-        icon: <IconError />,
+        icon: <IconError color="var(--white)" />,
       });
     }
   };
