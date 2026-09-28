@@ -17,6 +17,7 @@ import {
   schedulesSaveAssignment,
 } from '@services/app/schedules';
 import { incomingSpeakersState } from '@states/visiting_speakers';
+import { personsByViewState } from '@states/persons';
 import { personSchema } from '@services/dexie/schema';
 import { ASSIGNMENT_PATH } from '@constants/index';
 import { AssignmentCongregation } from '@definition/schedules';
@@ -32,6 +33,7 @@ const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
   const fullnameOption = useAtomValue(fullnameOptionState);
   const schedules = useAtomValue(schedulesState);
   const incomingSpeakers = useAtomValue(incomingSpeakersState);
+  const persons = useAtomValue(personsByViewState);
   const dataView = useAtomValue(userDataViewState);
 
   const [inputValue, setInputValue] = useState('');
@@ -40,6 +42,18 @@ const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
   const schedule = useMemo(() => {
     return schedules.find((record) => record.weekOf === week);
   }, [schedules, week]);
+
+  // Name-to-UID resolution below is only safe for the "Local Speaker" talk
+  // type, where the app enforces unique person names within the
+  // congregation. Other talk types (visiting speaker, host congregation,
+  // group) can legitimately have identical names across congregations.
+  const talkType = useMemo(() => {
+    const type = schedule?.weekend_meeting.public_talk_type.find(
+      (record) => record.type === dataView
+    )?.value;
+
+    return type ?? 'localSpeaker';
+  }, [schedule, dataView]);
 
   const options = useMemo(() => {
     const filteredPersons: PersonOptionsType[] = [];
@@ -104,11 +118,43 @@ const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
     return assigned?.value;
   }, [week, schedule, dataView, assignment]);
 
-  const value = useMemo(() => {
-    const person = options.find((record) => record.person_uid === defaultValue);
-
-    return person || null;
+  const catalogMatch = useMemo(() => {
+    return options.find((record) => record.person_uid === defaultValue) ?? null;
   }, [defaultValue, options]);
+
+  // Fallback for assignments referencing a congregation member who isn't
+  // (yet) part of the Speakers Catalog - this happens for members resolved
+  // by name below. Without this, the display would fall back to showing
+  // the raw UID instead of the person's name.
+  const localPersonMatch = useMemo(() => {
+    if (catalogMatch || !defaultValue) return null;
+
+    const person = persons.find((record) => record.person_uid === defaultValue);
+
+    if (!person) return null;
+
+    return {
+      ...person,
+      person_name: personGetDisplayName(person, displayNameEnabled, fullnameOption),
+    } as PersonOptionsType;
+  }, [catalogMatch, defaultValue, persons, displayNameEnabled, fullnameOption]);
+
+  const value = catalogMatch ?? localPersonMatch;
+
+  // Single place where a typed name may be upgraded to a real person
+  // reference. Only applies in "Local Speaker" mode, and only on an exact,
+  // unambiguous display-name match.
+  const resolveLocalPersonByName = (name: string): PersonOptionsType | null => {
+    if (talkType !== 'localSpeaker' || !name) return null;
+
+    const match = persons.find(
+      (record) => personGetDisplayName(record, displayNameEnabled, fullnameOption) === name
+    );
+
+    if (!match) return null;
+
+    return { ...match, person_name: name } as PersonOptionsType;
+  };
 
   // Single value representing what would currently be persisted: the
   // resolved catalog selection while the user isn't actively editing the
@@ -117,14 +163,21 @@ const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
     return isEditing ? inputValue : value ?? inputValue;
   }, [isEditing, inputValue, value]);
 
-  // Single place that actually persists an assignment, so error handling
-  // and the "open song selector" side effect only exist once instead of
-  // being duplicated across every handler that can trigger a save.
+  // Single place that actually persists an assignment, so error handling,
+  // the "open song selector" side effect, and the local-name resolution
+  // only exist once instead of being duplicated across every handler that
+  // can trigger a save.
   const commitAssignment = async (payload: PersonOptionsType | string) => {
-    try {
-      await schedulesSaveAssignment(schedule, assignment, payload);
+    let finalPayload = payload;
 
-      if (assignment === 'WM_Speaker_Part1' && typeof payload !== 'string') {
+    if (typeof payload === 'string' && payload.length > 0) {
+      finalPayload = resolveLocalPersonByName(payload) ?? payload;
+    }
+
+    try {
+      await schedulesSaveAssignment(schedule, assignment, finalPayload);
+
+      if (assignment === 'WM_Speaker_Part1' && typeof finalPayload !== 'string') {
         setLocalSongSelectorOpen(true);
       }
     } catch (error) {
