@@ -25,7 +25,6 @@ import { getMessageByCode } from '@services/i18n/translation';
 
 const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
   const timerSource = useRef<NodeJS.Timeout>(undefined);
-  const suppressNextSaveRef = useRef(false);
 
   const setLocalSongSelectorOpen = useSetAtom(weekendSongSelectorOpenState);
 
@@ -150,7 +149,6 @@ const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
     // `null` is not a string.
     if (!selected) return;
 
-    suppressNextSaveRef.current = true;
     setIsEditing(false);
     commitAssignment(selected);
   };
@@ -176,16 +174,13 @@ const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
     }
   };
 
-  const handleValueSave = () => {
-    // Selecting an option with Enter fires onChange (which already commits
-    // and clears the timer) immediately followed by a keyup for that same
-    // keypress. Without this guard, the trailing keyup would re-arm a
-    // debounced save from `pendingValue`, which can still be stale at that
-    // point and would overwrite the just-made selection a second later.
-    if (suppressNextSaveRef.current) {
-      suppressNextSaveRef.current = false;
-      return;
-    }
+  const handleValueSave = (event?: { key?: string }) => {
+    // Selecting an option with Enter triggers onChange immediately (which
+    // already commits and clears the timer), followed by a keyup for that
+    // same keypress. Only that specific keyup is skipped here - any other
+    // key (including the very next real keystroke after a mouse selection)
+    // still schedules the debounced save normally.
+    if (event?.key === 'Enter') return;
 
     if (timerSource.current) clearTimeout(timerSource.current);
 
