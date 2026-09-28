@@ -25,6 +25,7 @@ import { getMessageByCode } from '@services/i18n/translation';
 
 const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
   const timerSource = useRef<NodeJS.Timeout>(undefined);
+  const suppressNextSaveRef = useRef(false);
 
   const setLocalSongSelectorOpen = useSetAtom(weekendSongSelectorOpenState);
 
@@ -142,6 +143,14 @@ const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
   const handleSaveAssignment = (selected: PersonOptionsType) => {
     if (timerSource.current) clearTimeout(timerSource.current);
 
+    // A cleared selection is already committed by handleValueChange's
+    // empty-text branch (MUI fires onInputChange('') before onChange(null)
+    // when clearing) - committing again here would needlessly re-save and,
+    // for WM_Speaker_Part1, incorrectly reopen the song selector because
+    // `null` is not a string.
+    if (!selected) return;
+
+    suppressNextSaveRef.current = true;
     setIsEditing(false);
     commitAssignment(selected);
   };
@@ -159,11 +168,25 @@ const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
     setIsEditing(true);
 
     if (text.length === 0) {
+      // Cancel any pending debounced save from prior typing - otherwise it
+      // can fire a second later and resurrect the text just cleared here.
+      if (timerSource.current) clearTimeout(timerSource.current);
+
       commitAssignment('');
     }
   };
 
   const handleValueSave = () => {
+    // Selecting an option with Enter fires onChange (which already commits
+    // and clears the timer) immediately followed by a keyup for that same
+    // keypress. Without this guard, the trailing keyup would re-arm a
+    // debounced save from `pendingValue`, which can still be stale at that
+    // point and would overwrite the just-made selection a second later.
+    if (suppressNextSaveRef.current) {
+      suppressNextSaveRef.current = false;
+      return;
+    }
+
     if (timerSource.current) clearTimeout(timerSource.current);
 
     timerSource.current = setTimeout(() => commitAssignment(pendingValue), 1000);
