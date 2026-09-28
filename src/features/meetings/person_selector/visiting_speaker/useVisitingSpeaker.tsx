@@ -35,6 +35,7 @@ const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
   const dataView = useAtomValue(userDataViewState);
 
   const [inputValue, setInputValue] = useState('');
+  const [isEditing, setIsEditing] = useState(false);
 
   const schedule = useMemo(() => {
     return schedules.find((record) => record.weekOf === week);
@@ -109,11 +110,21 @@ const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
     return person || null;
   }, [defaultValue, options]);
 
-  const handleSaveAssignment = async (value: PersonOptionsType) => {
-    try {
-      await schedulesSaveAssignment(schedule, assignment, value);
+  // Single value representing what would currently be persisted: the
+  // resolved catalog selection while the user isn't actively editing the
+  // text, or the raw typed text once they diverge from that selection.
+  const pendingValue = useMemo(() => {
+    return isEditing ? inputValue : value ?? inputValue;
+  }, [isEditing, inputValue, value]);
 
-      if (assignment === 'WM_Speaker_Part1') {
+  // Single place that actually persists an assignment, so error handling
+  // and the "open song selector" side effect only exist once instead of
+  // being duplicated across every handler that can trigger a save.
+  const commitAssignment = async (payload: PersonOptionsType | string) => {
+    try {
+      await schedulesSaveAssignment(schedule, assignment, payload);
+
+      if (assignment === 'WM_Speaker_Part1' && typeof payload !== 'string') {
         setLocalSongSelectorOpen(true);
       }
     } catch (error) {
@@ -128,58 +139,42 @@ const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
     }
   };
 
-  const handleValueChange = async (text: string, reason?: string) => {
+  const handleSaveAssignment = (selected: PersonOptionsType) => {
+    if (timerSource.current) clearTimeout(timerSource.current);
+
+    setIsEditing(false);
+    commitAssignment(selected);
+  };
+
+  // `reason` is forwarded by AutoComplete from MUI's onInputChange. MUI can
+  // call this with an empty string and reason "reset" purely to reconcile
+  // its own controlled value/inputValue pair (e.g. right after the
+  // assignment resolves to a real option on navigation) - that is not user
+  // input and must never be treated as a request to clear the assignment.
+  const handleValueChange = (text: string, reason?: string) => {
     setInputValue(text);
 
-    try {
-      if (text.length === 0 && reason !== 'reset') {
-        await schedulesSaveAssignment(schedule, assignment, '');
-      }
-    } catch (error) {
-      console.error(error);
+    if (reason === 'reset') return;
 
-      displaySnackNotification({
-        header: getMessageByCode('error_app_generic-title'),
-        message: error.message,
-        severity: 'error',
-        icon: <IconError color="var(--white)" />,
-      });
+    setIsEditing(true);
+
+    if (text.length === 0) {
+      commitAssignment('');
     }
   };
 
   const handleValueSave = () => {
     if (timerSource.current) clearTimeout(timerSource.current);
 
-    timerSource.current = setTimeout(handleValueSaveDb, 1000);
+    timerSource.current = setTimeout(() => commitAssignment(pendingValue), 1000);
   };
 
-  const handleValueSaveDb = async () => {
-    try {
-      await schedulesSaveAssignment(schedule, assignment, value ?? inputValue);
-    } catch (error) {
-      console.error(error);
-
-      displaySnackNotification({
-        header: getMessageByCode('error_app_generic-title'),
-        message: error.message,
-        severity: 'error',
-        icon: <IconError color="var(--white)" />,
-      });
-    }
-  };
-
-  // Keep the visible input text in sync with the resolved selection.
-  // Previously this only handled the "no match found" case, which meant
-  // that after leaving and re-entering the view, a successfully resolved
-  // `value` (e.g. a speaker picked from the catalog) was never reflected
-  // back into `inputValue`, making the field appear empty even though the
-  // assignment was correctly persisted in the schedule.
+  // Keep the visible input text in sync with the resolved selection and
+  // drop any in-progress free-text edit whenever the underlying assignment
+  // changes (e.g. after navigating to a different week).
   useEffect(() => {
-    if (value) {
-      setInputValue(value.person_name);
-    } else {
-      setInputValue(defaultValue || '');
-    }
+    setIsEditing(false);
+    setInputValue(value ? value.person_name : defaultValue || '');
   }, [defaultValue, value]);
 
   return {
