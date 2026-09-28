@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
+import { AutocompleteInputChangeReason } from '@mui/material/Autocomplete';
 import { IconError } from '@components/icons';
 import { PersonOptionsType, PersonSelectorType } from '../index.types';
 import {
@@ -158,7 +159,10 @@ const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
   // its own controlled value/inputValue pair (e.g. right after the
   // assignment resolves to a real option on navigation) - that is not user
   // input and must never be treated as a request to clear the assignment.
-  const handleValueChange = (text: string, reason?: string) => {
+  const handleValueChange = (
+    text: string,
+    reason?: AutocompleteInputChangeReason
+  ) => {
     setInputValue(text);
 
     if (reason === 'reset') return;
@@ -182,6 +186,13 @@ const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
     // still schedules the debounced save normally.
     if (event?.key === 'Enter') return;
 
+    // No text is being edited and a catalog selection is already resolved:
+    // pendingValue equals that same value, so there is nothing new to
+    // persist. A "silent" keyup like an arrow key or Home/End would
+    // otherwise re-commit the unchanged selection and, for
+    // WM_Speaker_Part1, reopen the song selector a second time.
+    if (!isEditing && value) return;
+
     if (timerSource.current) clearTimeout(timerSource.current);
 
     timerSource.current = setTimeout(() => commitAssignment(pendingValue), 1000);
@@ -194,6 +205,16 @@ const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
     setIsEditing(false);
     setInputValue(value ? value.person_name : defaultValue || '');
   }, [defaultValue, value]);
+
+  // Cancel any pending debounced save if the component unmounts entirely
+  // (not just a week-prop change, which keeps it mounted). Without this, a
+  // timer scheduled just before unmount could still fire and persist a
+  // stale closure's value afterwards.
+  useEffect(() => {
+    return () => {
+      if (timerSource.current) clearTimeout(timerSource.current);
+    };
+  }, []);
 
   return {
     options,
