@@ -3,7 +3,6 @@ import { MidweekMeetingDataType } from '@definition/schedules';
 export type S140Type = {
   data: MidweekMeetingDataType[];
   cong_name: string;
-  fullname?: boolean;
   lang: string;
 };
 
@@ -62,7 +61,6 @@ export type S140WeekTitleType = {
 
 export type S140AYFType = {
   meetingData: MidweekMeetingDataType;
-  fullname?: boolean;
   lang: string;
 };
 
