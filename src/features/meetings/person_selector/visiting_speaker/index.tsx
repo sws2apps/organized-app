@@ -32,7 +32,7 @@ const VisitingSpeaker = (props: PersonSelectorType) => {
         options={options}
         value={value}
         inputValue={inputValue}
-        onInputChange={(_, value) => handleValueChange(value)}
+        onInputChange={(_, value, reason) => handleValueChange(value, reason)}
         onKeyUp={handleValueSave}
         onChange={(_, value: PersonOptionsType) => handleSaveAssignment(value)}
         fullWidth={true}
