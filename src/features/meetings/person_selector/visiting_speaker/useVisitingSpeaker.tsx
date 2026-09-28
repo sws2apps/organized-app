@@ -27,6 +27,7 @@ import { getMessageByCode } from '@services/i18n/translation';
 const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
   const timerSource = useRef<NodeJS.Timeout>(undefined);
   const pendingFlushRef = useRef<(() => void) | null>(null);
+  const activeSavesRef = useRef(0);
 
   const setLocalSongSelectorOpen = useSetAtom(weekendSongSelectorOpenState);
 
@@ -122,8 +123,12 @@ const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
 
   // Single place that actually persists an assignment, so error handling
   // and the "open song selector" side effect only exist once instead of
-  // being duplicated across every handler that can trigger a save.
+  // being duplicated across every handler that can trigger a save. Tracks
+  // concurrent saves with a counter (not a boolean) so isSaving only goes
+  // false once every in-flight save - e.g. a week-change flush and an
+  // immediately following selection in the new week - has settled.
   const commitAssignment = async (payload: PersonOptionsType | string) => {
+    activeSavesRef.current += 1;
     setIsSaving(true);
 
     try {
@@ -142,7 +147,9 @@ const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
         icon: <IconError color="var(--white)" />,
       });
     } finally {
-      setIsSaving(false);
+      activeSavesRef.current -= 1;
+
+      if (activeSavesRef.current === 0) setIsSaving(false);
     }
   };
 
@@ -166,18 +173,21 @@ const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
   };
 
   // `reason` is forwarded by AutoComplete from MUI's onInputChange. MUI can
-  // call this with an empty string and reason "reset" purely to reconcile
-  // its own controlled value/inputValue pair (e.g. right after the
-  // assignment resolves to a real option on navigation) - that is not user
-  // input and must never be treated as a request to clear the assignment.
+  // call this with reason "reset" purely to reconcile its own controlled
+  // value/inputValue pair (e.g. right after the assignment resolves to a
+  // real option on navigation) - that is not user input. Checked first,
+  // before touching any state: display synchronization for resolved values
+  // is owned entirely by the sync effect below, which already respects
+  // isEditing/isSaving. Letting this function's own setInputValue run first
+  // would wipe an in-progress free-text draft if MUI fires a reset while
+  // the user is still typing.
   const handleValueChange = (
     text: string,
     reason?: AutocompleteInputChangeReason
   ) => {
-    setInputValue(text);
-
     if (reason === 'reset') return;
 
+    setInputValue(text);
     setIsEditing(true);
 
     if (text.length === 0) {
