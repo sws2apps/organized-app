@@ -1,4 +1,4 @@
-# <img src="https://github.com/sws2apps/cpe-sws/assets/26148770/f86c0643-b6aa-44f3-93ee-8c5fb68caad5" alt="image" width="24"> Application Organized : Logiciel de planification des réunions et de gestion d'assemblée pour les Témoins de Jéhovah
+# <img src="https://github.com/sws2apps/organized-app/assets/26148770/f86c0643-b6aa-44f3-93ee-8c5fb68caad5" alt="image" width="24"> Application Organized : Logiciel de planification des réunions et de gestion d'assemblée pour les Témoins de Jéhovah
 
 ![Organized-devices](https://github.com/sws2apps/organized-app/assets/26148770/9526daa0-ad34-4a1b-8611-c50f0d3375b7)
 
@@ -30,6 +30,12 @@ Organized adopte une approche centrée sur les anciens : une fois que le collèg
 📃 **Programmes des réunions :** Récupération automatique des données de jw.org pour programmer les réunions de semaine et du week-end, et bien plus encore.
 
 📊 **Rapports :** Rapports instantanés du service de terrain, de présence et de congrégation avec des calculs précis des rapports mensuels et annuels.
+
+⏱️ **Prédication :** Enregistre ton temps de prédication avec un chronomètre intégré, envoie tes rapports mensuels, fais ta demande de pionnier auxiliaire et envoie les rapports des personnes déléguées.
+
+👥 **Groupes de prédication et fiches des proclamateurs :** Répartis les proclamateurs en groupes de prédication et tiens à jour la fiche de chaque proclamateur avec les totaux de l'année de service.
+
+🔢 **Assistance aux réunions :** Compte l'assistance avec un compteur intégré et prépare le rapport mensuel pour la filiale.
 
 📅 **Prochaines attributions :** Consulte tes prochaines attributions d'élève, de discours public et de réunion.
 
@@ -71,7 +77,7 @@ Nous apprécions grandement ton esprit volontaire ! Voici quelques façons de so
 
 ## Disponible en plusieurs langues
 
-Organized est déjà entièrement ou partiellement localisé dans de nombreuses langues, dont le `Français`, l'`Anglais`, l'`Espagnol`, le `Portugais`, l'`Allemand`, l'`Italien`, le `Polonais`, le `Japonais`, le `Coréen`, le `Russe`, le `Suédois`, le `Chinois`, l'`Ukrainien`, le `Malgache`, le `Turc`, le `Filipino` et bien d'autres.
+Organized est déjà entièrement ou partiellement localisé dans plus de 50 langues, dont le `Français`, l'`Anglais`, l'`Espagnol`, le `Portugais`, l'`Allemand`, l'`Italien`, le `Polonais`, le `Japonais`, le `Coréen`, le `Russe`, le `Suédois`, le `Chinois`, l'`Ukrainien`, le `Malgache`, le `Turc`, le `Filipino` et bien d'autres.
 
 ## Liens utiles
 

@@ -1,4 +1,4 @@
-# <img src="https://github.com/sws2apps/cpe-sws/assets/26148770/f86c0643-b6aa-44f3-93ee-8c5fb68caad5" alt="sary" width="24"> Rindranasa Organized: Rindrambaiko fandaharana fivoriana sy fitantanana fiangonana ho an'ny Vavolombelon'i Jehovah
+# <img src="https://github.com/sws2apps/organized-app/assets/26148770/f86c0643-b6aa-44f3-93ee-8c5fb68caad5" alt="sary" width="24"> Rindranasa Organized: Rindrambaiko fandaharana fivoriana sy fitantanana fiangonana ho an'ny Vavolombelon'i Jehovah
 
 ![Organized-devices](https://github.com/sws2apps/organized-app/assets/26148770/9526daa0-ad34-4a1b-8611-c50f0d3375b7)
 
@@ -30,6 +30,12 @@ Ny Organized dia manomboka amin'ny loholona: rehefa aprovain'ny loholona sy nape
 📃 **Fandaharam-pivoriana:** Fitaomana angona avy amin'ny jw.org ho an'ny fandaharam-pivoriana andavanandro sy ny faran'ny herinandro, ary bebe kokoa.
 
 📊 **Tatitra:** Tatitra fanompoana, mpanatrika ary fiangonana avy hatrany miaraka amin'ny kajy marina ho an'ny tatitra fiangonana isam-bolana sy isan-taona.
+
+⏱️ **Fanompoana:** Raiketo amin'ny famantaranandro ao anaty app ny fotoana nanaovanao fanompoana, alefaso ny tatitra isam-bolana, mangataha ho mpisava lalana mpanampy ary alefaso ny tatitry ny mpitory hafa.
+
+👥 **Andiam-pitory sy firaketana ny mpitory:** Zarao ho andiam-pitory ny mpitory ary tahirizo ny firaketana ny tsirairay miaraka amin'ny fitambaran'ny taom-panompoana.
+
+🔢 **Mpanatrika fivoriana:** Isao amin'ny mpanisa ao anaty app ny mpanatrika ary omano ny tatitra isam-bolana alefa any amin'ny biraon'ny sampana.
 
 📅 **Anjara asa ho avy:** Jereo ny anjara asa mpianatra, lahateny ampahibemaso ary anjara asa fivoriana ho avy.
 
@@ -71,7 +77,7 @@ Tena mankasitraka ny fahasahiananao manofo ianay! Ireto ny fomba vitsivitsy hano
 
 ## Misy amin'ny fiteny maro
 
-Ny Organized dia voalokana tanteraka na ampahany amin'ny fiteny maro, anisan'izany ny `Malagasy`, `Anglisy`, `Espaniola`, `Portogey`, `Frantsay`, `Alemana`, `Italiana`, `Poloney`, `Japoney`, `Koreana`, `Rosiana`, `Soedoa`, `Sinoa`, `Okrainianina`, `Tagalog` ary bebe kokoa. Raha te-hanampy amin'ny fandikana ny Organized ho amin'ny fiteninao, tsy maintsy misy ny anjara asarao.
+Ny Organized dia voalokana tanteraka na ampahany amin'ny fiteny maherin'ny 50, anisan'izany ny `Malagasy`, `Anglisy`, `Espaniola`, `Portogey`, `Frantsay`, `Alemana`, `Italiana`, `Poloney`, `Japoney`, `Koreana`, `Rosiana`, `Soedoa`, `Sinoa`, `Okrainianina`, `Tagalog` ary bebe kokoa. Raha te-hanampy amin'ny fandikana ny Organized ho amin'ny fiteninao, tsy maintsy misy ny anjara asarao.
 
 ## Rohy mahasoa
 

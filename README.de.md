@@ -1,4 +1,4 @@
-# <img src="https://github.com/sws2apps/cpe-sws/assets/26148770/f86c0643-b6aa-44f3-93ee-8c5fb68caad5" alt="Bild" width="24"> Organized-App: Software zur Planung von Zusammenkünften und Versammlungsverwaltung für Zeugen Jehovas
+# <img src="https://github.com/sws2apps/organized-app/assets/26148770/f86c0643-b6aa-44f3-93ee-8c5fb68caad5" alt="Bild" width="24"> Organized-App: Software zur Planung von Zusammenkünften und Versammlungsverwaltung für Zeugen Jehovas
 
 ![Organized-devices](https://github.com/sws2apps/organized-app/assets/26148770/9526daa0-ad34-4a1b-8611-c50f0d3375b7)
 
@@ -30,6 +30,12 @@ Organized verfolgt einen Ältesten-zentrierten Ansatz: Sobald der Ältestenrat d
 📃 **Zusammenkunftsprogramme:** Automatischer Datenabruf von jw.org für die Planung der Zusammenkunft unter der Woche und am Wochenende sowie vieles mehr.
 
 📊 **Berichte:** Sofortige Berichte für Predigtdienst, Besucherzahl und Versammlung mit genauen Berechnungen für monatliche und jährliche Versammlungsberichte.
+
+⏱️ **Dienst:** Erfasse deine Zeit im Predigtdienst mit einem eingebauten Timer, gib deine Monatsberichte ab, bewirb dich für den Hilfspionierdienst und gib Berichte für delegierte Personen ab.
+
+👥 **Predigtdienstgruppen und Verkündigerkarten:** Teile Verkündiger in Predigtdienstgruppen ein und führe für jeden Verkündiger eine Karte mit den Summen des Dienstjahres.
+
+🔢 **Besucherzahlen:** Zähle die Anwesenden mit einem eingebauten Zähler und bereite den Monatsbericht an das Zweigbüro vor.
 
 📅 **Kommende Aufgaben:** Sieh deine nächsten Schüler-, Öffentlicher-Vortrag- und Zusammenkunftsaufgaben.
 
@@ -71,7 +77,7 @@ Wir schätzen deinen ehrenamtlichen Geist sehr! Hier sind einige Möglichkeiten,
 
 ## In vielen Sprachen verfügbar
 
-Organized ist bereits vollständig oder teilweise in vielen Sprachen lokalisiert, darunter `Deutsch`, `Englisch`, `Spanisch`, `Portugiesisch`, `Französisch`, `Italienisch`, `Polnisch`, `Japanisch`, `Koreanisch`, `Russisch`, `Schwedisch`, `Chinesisch`, `Ukrainisch`, `Madagassisch`, `Türkisch`, `Filipino` und viele mehr.
+Organized ist bereits vollständig oder teilweise in mehr als 50 Sprachen lokalisiert, darunter `Deutsch`, `Englisch`, `Spanisch`, `Portugiesisch`, `Französisch`, `Italienisch`, `Polnisch`, `Japanisch`, `Koreanisch`, `Russisch`, `Schwedisch`, `Chinesisch`, `Ukrainisch`, `Madagassisch`, `Türkisch`, `Filipino` und viele mehr.
 
 ## Nützliche Links
 

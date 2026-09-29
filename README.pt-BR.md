@@ -1,4 +1,4 @@
-# <img src="https://github.com/sws2apps/cpe-sws/assets/26148770/f86c0643-b6aa-44f3-93ee-8c5fb68caad5" alt="imagem" width="24"> Aplicativo Organized: Software de programação de reuniões e gestão de congregações para as Testemunhas de Jeová
+# <img src="https://github.com/sws2apps/organized-app/assets/26148770/f86c0643-b6aa-44f3-93ee-8c5fb68caad5" alt="imagem" width="24"> Aplicativo Organized: Software de programação de reuniões e gestão de congregações para as Testemunhas de Jeová
 
 ![Organized-devices](https://github.com/sws2apps/organized-app/assets/26148770/9526daa0-ad34-4a1b-8611-c50f0d3375b7)
 
@@ -30,6 +30,12 @@ O Organized adota uma abordagem centrada nos anciãos: depois que o corpo de anc
 📃 **Programações:** Busca automática de dados do jw.org para programar as reuniões de meio de semana e fim de semana, entre outros recursos.
 
 📊 **Relatórios:** Relatórios instantâneos de serviço de campo, assistência e congregação com cálculos precisos dos relatórios mensais e anuais da congregação.
+
+⏱️ **Ministério:** Registre seu tempo de pregação com um cronômetro integrado, envie seus relatórios mensais, peça para ser pioneiro auxiliar e envie relatórios de pessoas delegadas.
+
+👥 **Grupos de serviço de campo e registros de publicador:** Organize os publicadores em grupos de serviço de campo e mantenha o registro de cada publicador com os totais do ano de serviço.
+
+🔢 **Assistência às reuniões:** Conte a assistência com um contador integrado e prepare o relatório mensal para a filial.
 
 📅 **Designações futuras:** Veja suas próximas designações de estudante, discurso público e reunião.
 
@@ -71,7 +77,7 @@ Agradecemos muito seu espírito voluntário! Veja algumas formas de apoiar o apl
 
 ## Disponível em vários idiomas
 
-O Organized já está totalmente ou parcialmente localizado em muitos idiomas, incluindo `Português`, `Inglês`, `Espanhol`, `Francês`, `Alemão`, `Italiano`, `Polonês`, `Japonês`, `Coreano`, `Russo`, `Sueco`, `Chinês`, `Ucraniano`, `Malgaxe`, `Turco`, `Filipino` e muito mais.
+O Organized já está totalmente ou parcialmente localizado em mais de 50 idiomas, incluindo `Português`, `Inglês`, `Espanhol`, `Francês`, `Alemão`, `Italiano`, `Polonês`, `Japonês`, `Coreano`, `Russo`, `Sueco`, `Chinês`, `Ucraniano`, `Malgaxe`, `Turco`, `Filipino` e muito mais.
 
 ## Links úteis
 
