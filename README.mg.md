@@ -1,6 +1,6 @@
 # <img src="https://github.com/sws2apps/cpe-sws/assets/26148770/f86c0643-b6aa-44f3-93ee-8c5fb68caad5" alt="sary" width="24"> Rindranasa Organized: Rindrambaiko fandaharana fivoriana sy fitantanana fiangonana ho an'ny Vavolombelon'i Jehovah
 
-![Organized-devices](https://github.com/sws2apps/organized-app/assets/26148770/9526daa0-ad34-4a1b-8611-c50f0d3375b7)
+![Organized amin'ny solosaina, takelaka ary finday](.github/assets/organized-header.webp)
 
 Rindrambaiko fandaharana sy rindranasa fitantanana fiangonana maimaim-poana ho an'ny Vavolombelon'i Jehovah, natao hanampy amin'ny anjara asa sy ny andraikitra, mba hanamora ny zavatra rehetra ary hahafaka fotoana ho an'ny zavatra lehibe kokoa! [Andrao ny Organized amin'ny tontolo fitsapana](https://test.organized-app.com) ary tsapao ny fahasamihafana, tsy mila lisitraina!
 

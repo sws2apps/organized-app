@@ -1,6 +1,6 @@
 # <img src="https://github.com/sws2apps/cpe-sws/assets/26148770/f86c0643-b6aa-44f3-93ee-8c5fb68caad5" alt="immagine" width="24"> App Organized: Software per la programmazione delle adunanze e la gestione della congregazione per i Testimoni di Geova
 
-![Organized-devices](https://github.com/sws2apps/organized-app/assets/26148770/9526daa0-ad34-4a1b-8611-c50f0d3375b7)
+![Organized su computer desktop, portatile, tablet e smartphone](.github/assets/organized-header.webp)
 
 Un software di programmazione gratuito e un'app per la gestione della congregazione per i Testimoni di Geova, realizzata per aiutare con gli incarichi e le responsabilità, semplificando le cose e liberando tempo per ciò che conta davvero! [Prova Organized nell'ambiente di anteprima](https://test.organized-app.com) e sperimenta tu stesso la differenza, senza registrazione!
 

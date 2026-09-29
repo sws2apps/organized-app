@@ -1,6 +1,6 @@
 # <img src="https://github.com/sws2apps/cpe-sws/assets/26148770/f86c0643-b6aa-44f3-93ee-8c5fb68caad5" alt="image" width="24"> Application Organized : Logiciel de planification des réunions et de gestion d'assemblée pour les Témoins de Jéhovah
 
-![Organized-devices](https://github.com/sws2apps/organized-app/assets/26148770/9526daa0-ad34-4a1b-8611-c50f0d3375b7)
+![Organized sur ordinateur de bureau, ordinateur portable, tablettes et téléphones](.github/assets/organized-header.webp)
 
 Un logiciel de planification gratuit et une application de gestion d'assemblée pour les Témoins de Jéhovah, conçus pour aider avec les tâches et les responsabilités, facilitant les choses et libérant du temps pour l'essentiel ! [Essaie Organized dans l'environnement de démonstration](https://test.organized-app.com) et constate la différence par toi-même, sans inscription !
 
