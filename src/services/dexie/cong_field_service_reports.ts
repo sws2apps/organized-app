@@ -26,8 +26,9 @@ export const dbFieldServiceReportsSave = async (
 
 // Marks reports added into an already-submitted month so they stay editable
 // (transfer backfills, see #5420). Runs on every congregation report save so
-// no editor surface can forget it. Never clears an existing mark, never marks
-// late reports, and never marks reports that already shared before this save.
+// no editor surface can forget it. Only marks a report the first time it is
+// saved, so a mark the publisher cleared is never silently restored. Never
+// clears an existing mark and never marks late reports.
 const markTransferBackfillOverride = async (
   report: CongFieldServiceReportType
 ) => {
@@ -39,7 +40,7 @@ const markTransferBackfillOverride = async (
     ? await appDb.cong_field_service_reports.get(report.report_id)
     : undefined;
 
-  if (prev?.report_data.shared_ministry) return;
+  if (prev) return;
 
   const branchReports = await appDb.branch_field_service_reports.toArray();
 
