@@ -427,6 +427,8 @@ export const upcomingEventsSchema: UpcomingEventType = {
     type: 'main',
     duration: null,
   },
+  _deleted: false,
+  updatedAt: '',
 };
 
 export const vistingSpeakerSchema: VisitingSpeakerType = {

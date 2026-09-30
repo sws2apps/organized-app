@@ -355,7 +355,6 @@ const meetingDutiesDefault = (type: string) => {
     sisters_duties: { value: false, updatedAt },
     mic_sections: { value: false, updatedAt },
     av_combined: { value: false, updatedAt },
-    sections: [],
     audio_amount: { value: 1, updatedAt },
     video_amount: { value: 1, updatedAt },
     mic_amount: { value: 2, updatedAt },
@@ -374,7 +373,13 @@ export const dbAppSettingsSetupMeetingDuties = async () => {
   if (!settings) return;
 
   const meetingDuties = settings.cong_settings.meeting_duties ?? [];
-  const dataView = settings.user_settings.data_view.value;
+
+  // older records still hold the data view as a plain string
+  const dataViewSetting = settings.user_settings.data_view;
+  const dataView =
+    typeof dataViewSetting === 'string'
+      ? dataViewSetting
+      : dataViewSetting.value;
 
   const current = meetingDuties.find((duty) => duty.type === dataView);
   const defaults = meetingDutiesDefault(dataView);
