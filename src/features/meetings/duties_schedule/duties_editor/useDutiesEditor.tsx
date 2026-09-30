@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useAtom, useAtomValue } from 'jotai';
 import {
   AssignmentCode,
@@ -17,12 +17,9 @@ import {
   schedulesDutiesMeetingInfo,
   schedulesDutiesSections,
 } from '@services/app/schedules';
-import {
-  addDays,
-  formatDate,
-  formatMediumDateWithFullMonth,
-} from '@utils/date';
+import { formatMediumDateWithFullMonth } from '@utils/date';
 import { useAppTranslation } from '@hooks/index';
+import useWeekNavigation from '@features/meetings/hooks/useWeekNavigation';
 import { DutyFieldType } from '../duty_row/index.types';
 
 export type DutiesMeetingValue = 'midweek' | 'weekend';
@@ -46,14 +43,8 @@ const useDutiesEditor = () => {
   const [activeMeeting, setActiveMeeting] =
     useState<DutiesMeetingValue>('midweek');
 
-  const [showWeekNav, setShowWeekNav] = useState({
-    back: false,
-    next: false,
-  });
-
-  const allWeeks = useMemo(() => {
-    return schedules.map((schedule) => schedule.weekOf);
-  }, [schedules]);
+  const { handleChangeWeekBack, handleChangeWeekNext, showWeekArrows } =
+    useWeekNavigation(selectedWeek, setSelectedWeek);
 
   const weekDateLocale = useMemo(() => {
     if (selectedWeek.length === 0) return '';
@@ -158,61 +149,10 @@ const useDutiesEditor = () => {
     setActiveMeeting(tab === 0 ? 'midweek' : 'weekend');
   };
 
-  const handleChangeWeekBack = () => {
-    const selectedWeekIndex = allWeeks.indexOf(selectedWeek);
-
-    if (selectedWeekIndex > 0) {
-      setSelectedWeek(allWeeks[selectedWeekIndex - 1]);
-    }
-  };
-
-  const handleChangeWeekNext = () => {
-    const selectedWeekIndex = allWeeks.indexOf(selectedWeek);
-
-    if (selectedWeekIndex < allWeeks.length - 1) {
-      setSelectedWeek(allWeeks[selectedWeekIndex + 1]);
-    }
-  };
-
-  useEffect(() => {
-    const selectedWeekIndex = allWeeks.indexOf(selectedWeek);
-
-    if (selectedWeekIndex !== -1) {
-      setShowWeekNav({
-        back: selectedWeekIndex !== 0,
-        next: selectedWeekIndex + 1 !== allWeeks.length,
-      });
-    }
-  }, [allWeeks, selectedWeek]);
-
-  // open the next unassigned week by default instead of the empty state
-  useEffect(() => {
-    if (selectedWeek.length > 0 || schedules.length === 0) return;
-
-    // the running week has weekOf at most 6 days back
-    const minWeekOf = formatDate(addDays(new Date(), -6), 'yyyy/MM/dd');
-
-    const candidates = schedules.filter(
-      (schedule) => schedule.weekOf >= minWeekOf
-    );
-
-    const nextUnassigned = candidates.find((schedule) => {
-      const midweek = schedulesDutiesMeetingInfo(schedule.weekOf, 'midweek');
-      const weekend = schedulesDutiesMeetingInfo(schedule.weekOf, 'weekend');
-      const total = midweek.total + weekend.total;
-
-      return total > 0 && midweek.assigned + weekend.assigned < total;
-    });
-
-    const nextWeek = nextUnassigned ?? candidates.at(0);
-
-    if (nextWeek) setSelectedWeek(nextWeek.weekOf);
-  }, [selectedWeek, schedules, setSelectedWeek]);
-
   return {
     weekDateLocale,
     selectedWeek,
-    showWeekNav,
+    showWeekNav: showWeekArrows,
     activeMeeting,
     activePrefix: MEETING_PREFIX[activeMeeting],
     micSectionsEnabled: dutiesConfig?.mic_sections.value ?? false,

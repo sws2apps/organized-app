@@ -17,9 +17,3 @@ export type SectionEditProps = {
   week: string;
   id?: string;
 };
-
-export type SectionDeleteProps = {
-  open: boolean;
-  onClose: VoidFunction;
-  id: string;
-};

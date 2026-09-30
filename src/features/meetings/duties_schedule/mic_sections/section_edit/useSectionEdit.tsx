@@ -44,7 +44,7 @@ const useSectionEdit = ({
   };
 
   const handleAmountChange = (e: SelectChangeEvent<unknown>) => {
-    setAmount(e.target.value as number);
+    setAmount(Number(e.target.value));
   };
 
   const handleTogglePart = (key: string) => {

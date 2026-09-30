@@ -76,7 +76,7 @@ const useDutyItem = ({ id }: DutyItemProps) => {
   };
 
   const handleAmountChange = async (e: SelectChangeEvent<unknown>) => {
-    const value = e.target.value as number;
+    const value = Number(e.target.value);
 
     try {
       const meetingDuties = structuredClone(
@@ -98,7 +98,7 @@ const useDutyItem = ({ id }: DutyItemProps) => {
 
       await dutiesReleasePositions({
         dataView,
-        amount: Number(value),
+        amount: value,
         customId: id,
       });
     } catch (error) {
