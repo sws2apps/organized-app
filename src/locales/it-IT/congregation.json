@@ -380,6 +380,7 @@
   "tr_congregationRequestRejectedDesc": "La congregazione <strong>{{ congregationNameAndNumber }}</strong> ha respinto la tua richiesta di visualizzare la loro lista di oratori uscenti. Se necessario, puoi contattarli personalmente.",
   "tr_congregationAccessRevoke": "Revoca l'accesso per questa congregazione",
   "tr_congregationAccessRevokeDesc": "Revocare l'accesso alla lista degli oratori di congregazione? <strong>{{ congregationName }}</strong>? Non potranno più vederla, ma potrai condividerla di nuovo con loro in futuro se faranno una nuova richiesta.",
+  "tr_withoutGroup": "Without a group",
   "tr_noGroupsYet": "Non hai ancora creato nessun gruppo per il servizio di campo. Crea prima un gruppo per iniziare ad aggiungere i proclamatori e riordinare i gruppi.",
   "tr_coordinator": "Coordinatore",
   "tr_secretary": "Segretario",
