@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
+import { AutocompleteInputChangeReason } from '@mui/material/Autocomplete';
 import { IconError } from '@components/icons';
 import { PersonOptionsType, PersonSelectorType } from '../index.types';
 import {
@@ -25,6 +26,10 @@ import { getMessageByCode } from '@services/i18n/translation';
 
 const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
   const timerSource = useRef<NodeJS.Timeout>(undefined);
+  const pendingFlushRef = useRef<(() => void) | null>(null);
+  const activeSavesRef = useRef(0);
+  // stored value the current edit is based on, updated by our own saves
+  const editBaseRef = useRef('');
 
   const setLocalSongSelectorOpen = useSetAtom(weekendSongSelectorOpenState);
 
@@ -35,6 +40,8 @@ const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
   const dataView = useAtomValue(userDataViewState);
 
   const [inputValue, setInputValue] = useState('');
+  const [isEditing, setIsEditing] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
 
   const schedule = useMemo(() => {
     return schedules.find((record) => record.weekOf === week);
@@ -109,11 +116,21 @@ const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
     return person || null;
   }, [defaultValue, options]);
 
-  const handleSaveAssignment = async (value: PersonOptionsType) => {
-    try {
-      await schedulesSaveAssignment(schedule, assignment, value);
+  // Tracks concurrent saves with a counter so isSaving only clears once every
+  // in-flight save (e.g. a week-change flush plus a new selection) settles.
+  const commitAssignment = async (
+    payload: PersonOptionsType | string,
+    openSongSelector = false
+  ) => {
+    activeSavesRef.current += 1;
+    editBaseRef.current =
+      typeof payload === 'string' ? payload : payload.person_uid;
+    setIsSaving(true);
 
-      if (assignment === 'WM_Speaker_Part1') {
+    try {
+      await schedulesSaveAssignment(schedule, assignment, payload);
+
+      if (openSongSelector && assignment === 'WM_Speaker_Part1') {
         setLocalSongSelectorOpen(true);
       }
     } catch (error) {
@@ -125,54 +142,97 @@ const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
         severity: 'error',
         icon: <IconError color="var(--white)" />,
       });
+    } finally {
+      activeSavesRef.current -= 1;
+
+      if (activeSavesRef.current === 0) setIsSaving(false);
     }
   };
 
-  const handleValueChange = async (text: string) => {
-    setInputValue(text);
-
-    try {
-      if (text.length === 0) {
-        await schedulesSaveAssignment(schedule, assignment, '');
-      }
-    } catch (error) {
-      console.error(error);
-
-      displaySnackNotification({
-        header: getMessageByCode('error_app_generic-title'),
-        message: error.message,
-        severity: 'error',
-        icon: <IconError color="var(--white)" />,
-      });
-    }
-  };
-
-  const handleValueSave = () => {
+  const clearPendingSave = () => {
     if (timerSource.current) clearTimeout(timerSource.current);
-
-    timerSource.current = setTimeout(handleValueSaveDb, 1000);
+    pendingFlushRef.current = null;
   };
 
-  const handleValueSaveDb = async () => {
-    try {
-      await schedulesSaveAssignment(schedule, assignment, inputValue);
-    } catch (error) {
-      console.error(error);
+  // freeSolo: Enter on typed text passes the raw string instead of an option
+  const handleSaveAssignment = (selected: PersonOptionsType | string) => {
+    clearPendingSave();
 
-      displaySnackNotification({
-        header: getMessageByCode('error_app_generic-title'),
-        message: error.message,
-        severity: 'error',
-        icon: <IconError color="var(--white)" />,
-      });
+    // a clear was already saved by handleValueChange
+    if (!selected) return;
+
+    setInputValue(
+      typeof selected === 'string' ? selected : selected.person_name
+    );
+    setIsEditing(false);
+    commitAssignment(selected, true);
+  };
+
+  const handleValueChange = (
+    text: string,
+    reason?: AutocompleteInputChangeReason
+  ) => {
+    // MUI reconciling its controlled value (e.g. on week change), not user input
+    if (reason === 'reset') return;
+
+    if (!isEditing) editBaseRef.current = defaultValue ?? '';
+
+    setInputValue(text);
+    setIsEditing(true);
+
+    if (text.length === 0) {
+      clearPendingSave();
+      commitAssignment('');
     }
+  };
+
+  const handleValueSave = (event?: { key?: string }) => {
+    // Enter already saved through onChange
+    if (event?.key === 'Enter') return;
+
+    clearPendingSave();
+
+    // text still matches the selected speaker: nothing to save
+    if (value && inputValue === value.person_name) return;
+
+    // bound to this week's schedule, so a week change can flush it safely
+    const flush = () => commitAssignment(inputValue);
+    pendingFlushRef.current = flush;
+
+    timerSource.current = setTimeout(() => {
+      pendingFlushRef.current = null;
+      flush();
+    }, 1000);
   };
 
   useEffect(() => {
-    if (!value) {
-      setInputValue(defaultValue || '');
-    }
-  }, [defaultValue, value]);
+    const flush = pendingFlushRef.current;
+
+    clearPendingSave();
+    flush?.();
+
+    setIsEditing(false);
+  }, [week]);
+
+  useEffect(() => {
+    if (isSaving) return;
+
+    // while typing, skip our own saves landing; any other change wins
+    if (isEditing && (defaultValue ?? '') === editBaseRef.current) return;
+
+    clearPendingSave();
+    setIsEditing(false);
+    setInputValue(value ? value.person_name : defaultValue || '');
+  }, [defaultValue, value, isEditing, isSaving]);
+
+  useEffect(() => {
+    return () => {
+      const flush = pendingFlushRef.current;
+
+      clearPendingSave();
+      flush?.();
+    };
+  }, []);
 
   return {
     options,
