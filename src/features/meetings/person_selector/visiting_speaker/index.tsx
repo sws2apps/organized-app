@@ -28,13 +28,17 @@ const VisitingSpeaker = (props: PersonSelectorType) => {
         isOptionEqualToValue={(option, value) =>
           option.person_uid === value.person_uid
         }
-        getOptionLabel={(option: PersonOptionsType) => option.person_name}
+        getOptionLabel={(option: PersonOptionsType | string) =>
+          typeof option === 'string' ? option : option.person_name
+        }
         options={options}
         value={value}
         inputValue={inputValue}
         onInputChange={(_, value, reason) => handleValueChange(value, reason)}
         onKeyUp={handleValueSave}
-        onChange={(_, value: PersonOptionsType) => handleSaveAssignment(value)}
+        onChange={(_, value: PersonOptionsType | string) =>
+          handleSaveAssignment(value)
+        }
         fullWidth={true}
         slots={{
           popper(props) {

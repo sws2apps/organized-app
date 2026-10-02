@@ -28,6 +28,8 @@ const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
   const timerSource = useRef<NodeJS.Timeout>(undefined);
   const pendingFlushRef = useRef<(() => void) | null>(null);
   const activeSavesRef = useRef(0);
+  // stored value the current edit is based on, updated by our own saves
+  const editBaseRef = useRef('');
 
   const setLocalSongSelectorOpen = useSetAtom(weekendSongSelectorOpenState);
 
@@ -114,27 +116,21 @@ const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
     return person || null;
   }, [defaultValue, options]);
 
-  // Single value representing what would currently be persisted: the
-  // resolved catalog selection while the user isn't actively editing the
-  // text, or the raw typed text once they diverge from that selection.
-  const pendingValue = useMemo(() => {
-    return isEditing ? inputValue : value ?? inputValue;
-  }, [isEditing, inputValue, value]);
-
-  // Single place that actually persists an assignment, so error handling
-  // and the "open song selector" side effect only exist once instead of
-  // being duplicated across every handler that can trigger a save. Tracks
-  // concurrent saves with a counter (not a boolean) so isSaving only goes
-  // false once every in-flight save - e.g. a week-change flush and an
-  // immediately following selection in the new week - has settled.
-  const commitAssignment = async (payload: PersonOptionsType | string) => {
+  // Tracks concurrent saves with a counter so isSaving only clears once every
+  // in-flight save (e.g. a week-change flush plus a new selection) settles.
+  const commitAssignment = async (
+    payload: PersonOptionsType | string,
+    openSongSelector = false
+  ) => {
     activeSavesRef.current += 1;
+    editBaseRef.current =
+      typeof payload === 'string' ? payload : payload.person_uid;
     setIsSaving(true);
 
     try {
       await schedulesSaveAssignment(schedule, assignment, payload);
 
-      if (assignment === 'WM_Speaker_Part1' && typeof payload !== 'string') {
+      if (openSongSelector && assignment === 'WM_Speaker_Part1') {
         setLocalSongSelectorOpen(true);
       }
     } catch (error) {
@@ -153,77 +149,54 @@ const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
     }
   };
 
-  const handleSaveAssignment = (selected: PersonOptionsType) => {
+  const clearPendingSave = () => {
     if (timerSource.current) clearTimeout(timerSource.current);
     pendingFlushRef.current = null;
-
-    if (!selected) {
-      // MUI's clear sequence already committed '' via handleValueChange's
-      // empty-text branch (onInputChange('', 'clear') fires before this
-      // onChange(null)) - just unblock the sync effect again so it resumes
-      // reflecting value/defaultValue once the assignment changes.
-      setIsEditing(false);
-      return;
-    }
-
-    // Show the newly picked name immediately instead of waiting for the
-    // save to settle - otherwise the sync effect (still gated on isSaving)
-    // would leave the previous speaker's name visible until then.
-    setInputValue(selected.person_name);
-    setIsEditing(false);
-    commitAssignment(selected);
   };
 
-  // `reason` is forwarded by AutoComplete from MUI's onInputChange. MUI can
-  // call this with reason "reset" purely to reconcile its own controlled
-  // value/inputValue pair (e.g. right after the assignment resolves to a
-  // real option on navigation) - that is not user input. Checked first,
-  // before touching any state: display synchronization for resolved values
-  // is owned entirely by the sync effect below, which already respects
-  // isEditing/isSaving. Letting this function's own setInputValue run first
-  // would wipe an in-progress free-text draft if MUI fires a reset while
-  // the user is still typing.
+  // freeSolo: Enter on typed text passes the raw string instead of an option
+  const handleSaveAssignment = (selected: PersonOptionsType | string) => {
+    clearPendingSave();
+
+    // a clear was already saved by handleValueChange
+    if (!selected) return;
+
+    setInputValue(
+      typeof selected === 'string' ? selected : selected.person_name
+    );
+    setIsEditing(false);
+    commitAssignment(selected, true);
+  };
+
   const handleValueChange = (
     text: string,
     reason?: AutocompleteInputChangeReason
   ) => {
+    // MUI reconciling its controlled value (e.g. on week change), not user input
     if (reason === 'reset') return;
+
+    if (!isEditing) editBaseRef.current = defaultValue ?? '';
 
     setInputValue(text);
     setIsEditing(true);
 
     if (text.length === 0) {
-      // Cancel any pending debounced save from prior typing - otherwise it
-      // can fire a second later and resurrect the text just cleared here.
-      if (timerSource.current) clearTimeout(timerSource.current);
-      pendingFlushRef.current = null;
-
+      clearPendingSave();
       commitAssignment('');
     }
   };
 
   const handleValueSave = (event?: { key?: string }) => {
-    // Selecting an option with Enter triggers onChange immediately (which
-    // already commits and clears the timer), followed by a keyup for that
-    // same keypress. Only that specific keyup is skipped here - any other
-    // key (including the very next real keystroke after a mouse selection)
-    // still schedules the debounced save normally.
+    // Enter already saved through onChange
     if (event?.key === 'Enter') return;
 
-    // No text is being edited and a catalog selection is already resolved:
-    // pendingValue equals that same value, so there is nothing new to
-    // persist. A "silent" keyup like an arrow key or Home/End would
-    // otherwise re-commit the unchanged selection and, for
-    // WM_Speaker_Part1, reopen the song selector a second time.
-    if (!isEditing && value) return;
+    clearPendingSave();
 
-    if (timerSource.current) clearTimeout(timerSource.current);
+    // text still matches the selected speaker: nothing to save
+    if (value && inputValue === value.person_name) return;
 
-    // Captured now, from this render's schedule/pendingValue - if the week
-    // changes before the timer fires, the week-change effect below flushes
-    // this exact closure immediately instead of leaving it to fire later
-    // against a schedule that has since moved on.
-    const flush = () => commitAssignment(pendingValue);
+    // bound to this week's schedule, so a week change can flush it safely
+    const flush = () => commitAssignment(inputValue);
     pendingFlushRef.current = flush;
 
     timerSource.current = setTimeout(() => {
@@ -232,48 +205,31 @@ const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
     }, 1000);
   };
 
-  // Hard reset on an actual week change (the original week-navigation fix).
-  // A pending debounced edit for the previous week is flushed
-  // deterministically first - rather than silently cancelled - so an
-  // almost-saved edit isn't discarded right when it's about to complete;
-  // that would reintroduce the same class of data loss this PR fixes.
   useEffect(() => {
-    if (pendingFlushRef.current) {
-      if (timerSource.current) clearTimeout(timerSource.current);
+    const flush = pendingFlushRef.current;
 
-      const flush = pendingFlushRef.current;
-      pendingFlushRef.current = null;
-      flush();
-    }
+    clearPendingSave();
+    flush?.();
 
     setIsEditing(false);
   }, [week]);
 
-  // Keep the visible input text in sync with the resolved selection - but
-  // never while the user is actively editing, and never while a save is
-  // still in flight. value/defaultValue can change identity purely because
-  // the user's own in-flight save just landed in the store; overwriting
-  // inputValue in that window (before commitAssignment settles, or while
-  // the user has since typed something newer) would discard that edit and
-  // point the next debounced save at a stale value.
   useEffect(() => {
-    if (isEditing || isSaving) return;
+    if (isSaving) return;
 
+    // while typing, skip our own saves landing; any other change wins
+    if (isEditing && (defaultValue ?? '') === editBaseRef.current) return;
+
+    clearPendingSave();
+    setIsEditing(false);
     setInputValue(value ? value.person_name : defaultValue || '');
   }, [defaultValue, value, isEditing, isSaving]);
 
-  // Flush any pending debounced save if the component unmounts entirely
-  // (not just a week-prop change, which is handled by the effect above).
-  // Consistent with that effect: an almost-saved edit is committed rather
-  // than silently dropped when the selector goes away. The flush closure
-  // only touches schedulesSaveAssignment and atom setters, so calling it
-  // during cleanup is safe even though the component itself is gone.
   useEffect(() => {
     return () => {
-      if (timerSource.current) clearTimeout(timerSource.current);
-
       const flush = pendingFlushRef.current;
-      pendingFlushRef.current = null;
+
+      clearPendingSave();
       flush?.();
     };
   }, []);
