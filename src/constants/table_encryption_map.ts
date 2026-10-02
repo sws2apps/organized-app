@@ -12,6 +12,7 @@ export const TABLE_ENCRYPTION_MAP = {
     timeAway: 'shared',
     archived: 'shared',
     disqualified: 'private',
+    autofill_skipped: 'shared',
     email: 'shared',
     address: 'shared',
     phone: 'shared',
