@@ -8,6 +8,7 @@ import { GroupsContainer } from './index.styles';
 import useFieldServiceGroups from './useFieldServiceGroups';
 import GroupItem from './group_item';
 import InfoNote from '@components/info_note';
+import UnassignedPublishers from './unassigned_publishers';
 
 const FieldServiceGroupsContainer = () => {
   const { t } = useAppTranslation();
@@ -51,6 +52,8 @@ const FieldServiceGroupsContainer = () => {
                 editable={!record.group_data.language_group}
               />
             ))}
+
+            <UnassignedPublishers />
           </GroupsContainer>
         </Box>
       )}
