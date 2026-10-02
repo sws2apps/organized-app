@@ -400,7 +400,10 @@ export const sourcesCheckAYFExplainBeliefsAssignment = (
 
     // the marker appearing first in the source decides whether the part is a
     // talk or a demonstration, hence the single alternation over both groups
-    const match = new RegExp(`(?:^|\\s)(${searchKey})`, 'i').exec(source);
+    const match = new RegExp(
+      String.raw`(?:^|\s)(${searchKey})`,
+      'i'
+    ).exec(source);
 
     if (!match) return false;
 
