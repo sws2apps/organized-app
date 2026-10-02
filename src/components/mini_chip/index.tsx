@@ -14,6 +14,7 @@ const MiniChip = ({
   edit = false,
   onDelete,
   disabled = false,
+  variant = 'main',
 }: MiniChipProps) => {
   return (
     <Chip
@@ -23,10 +24,13 @@ const MiniChip = ({
       onDelete={edit ? () => onDelete() : null}
       sx={{
         padding: edit ? '4px 4px 4px 12px' : '4px 12px',
-        color: 'var(--accent-dark)',
+        color: variant == 'main' ? 'var(--accent-dark)' : 'var(--grey-400)',
         borderRadius: 'var(--radius-max)',
-        border: '1px solid var(--accent-dark)',
-        background: 'var(--accent-150)',
+        border:
+          variant == 'main'
+            ? '1px solid var(--accent-dark)'
+            : '1px solid var(--grey-200)',
+        background: variant == 'main' ? 'var(--accent-150)' : 'var(--grey-100)',
         minHeight: '26px',
         height: 'auto',
         '.MuiChip-label': {

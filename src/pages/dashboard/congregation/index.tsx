@@ -1,6 +1,7 @@
 import { ListItem } from '@mui/material';
 import {
   IconGroups,
+  IconInformationBoard,
   IconManageAccess,
   IconSettings,
   IconSynced,
@@ -28,6 +29,13 @@ const CongregationCard = () => {
     <DashboardCard
       header={isGroup ? t('tr_languageGroupShort') : t('tr_congregation')}
     >
+      <ListItem disablePadding>
+        <DashboardMenu
+          icon={<IconInformationBoard color="var(--black)" />}
+          primaryText={t('tr_informationBoard')}
+          path="/information-board"
+        />
+      </ListItem>
       {(isAdmin || isPublisher) && (
         <ListItem disablePadding>
           <DashboardMenu

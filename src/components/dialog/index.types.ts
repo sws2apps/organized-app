@@ -5,6 +5,7 @@ export type DialogProps = PropsWithChildren & {
   open: boolean;
   onClose: VoidFunction;
   sx?: SxProps<Theme>;
+  size?: 'default' | 'large';
   PaperProps?: MUIDialogProps['PaperProps'];
 
   title?: string;
