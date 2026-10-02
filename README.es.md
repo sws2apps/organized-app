@@ -1,4 +1,4 @@
-# <img src="https://github.com/sws2apps/cpe-sws/assets/26148770/f86c0643-b6aa-44f3-93ee-8c5fb68caad5" alt="imagen" width="24"> App Organized: Software de programación de reuniones y gestión de congregaciones para los Testigos de Jehová
+# <img src="https://github.com/sws2apps/organized-app/assets/26148770/f86c0643-b6aa-44f3-93ee-8c5fb68caad5" alt="imagen" width="24"> App Organized: Software de programación de reuniones y gestión de congregaciones para los Testigos de Jehová
 
 ![Organized en un ordenador, portátil, tabletas y teléfonos](.github/assets/organized-header.webp)
 
@@ -30,6 +30,12 @@ Organized adopta un enfoque centrado en los ancianos: una vez que el cuerpo de a
 📃 **Programas:** Obtención automática de datos de jw.org para programar las reuniones de entre semana y fin de semana, entre otros recursos.
 
 📊 **Informes:** Informes instantáneos de servicio del campo, asistencia y congregación con cálculos precisos de los informes mensuales y anuales.
+
+⏱️ **Predicación:** Registra tu tiempo de predicación con un cronómetro integrado, envía tus informes mensuales, solicita el precursorado auxiliar y envía los informes de personas delegadas.
+
+👥 **Grupos de servicio del campo y registros de publicador:** Organiza a los publicadores en grupos de servicio del campo y lleva el registro de cada publicador con los totales del año de servicio.
+
+🔢 **Asistencia a las reuniones:** Cuenta la asistencia con un contador integrado y prepara el informe mensual para la sucursal.
 
 📅 **Próximas asignaciones:** Consulta tus próximas asignaciones de estudiante, discurso público y reunión.
 
@@ -71,7 +77,7 @@ Organized es una solución segura y de código abierto construida en un modelo l
 
 ## Disponible en muchos idiomas
 
-Organized ya está totalmente o parcialmente localizado en muchos idiomas, incluidos `Español`, `Inglés`, `Portugués`, `Francés`, `Alemán`, `Italiano`, `Polaco`, `Japonés`, `Coreano`, `Ruso`, `Sueco`, `Chino`, `Ucraniano`, `Malgache`, `Turco`, `Filipino` y más.
+Organized ya está totalmente o parcialmente localizado en más de 50 idiomas, incluidos `Español`, `Inglés`, `Portugués`, `Francés`, `Alemán`, `Italiano`, `Polaco`, `Japonés`, `Coreano`, `Ruso`, `Sueco`, `Chino`, `Ucraniano`, `Malgache`, `Turco`, `Filipino` y más.
 
 ## Links útiles
 
