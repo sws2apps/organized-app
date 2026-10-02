@@ -21,6 +21,7 @@ import {
   sourcesJWAutoImportState,
 } from '@states/settings';
 import { addWeeks, formatDate, getWeekDate } from '@utils/date';
+import { splitTranslationVariations } from '@utils/i18n';
 import { STORAGE_KEY } from '@constants/index';
 import logger from '@services/logger';
 
@@ -67,16 +68,19 @@ const getAYFAssignmentTypes = (sourceLanguage: string) => {
 
   const result: AssignmentAYFOnlyType[] = assignmentTypes
     .filter((record) => record.type === 'ayf')
-    .map((record) => {
-      return {
-        label:
-          record.assignment_type_name[sourceLanguage] ??
-          record.assignment_type_name.E ??
-          '',
+    .flatMap((record) => {
+      const label =
+        record.assignment_type_name[sourceLanguage] ??
+        record.assignment_type_name.E ??
+        '';
+
+      // a translation may list every known wording for a given assignment,
+      // pipe-separated: each variation is a distinct label to match against
+      return splitTranslationVariations(label).map((variation) => ({
+        label: variation,
         value: record.code,
-      };
+      }));
     })
-    .filter((record) => record.label.length > 0)
     .sort((a, b) => {
       return a.value > b.value ? 1 : -1;
     });
@@ -372,23 +376,37 @@ const sourcesFormatAndSaveData = async (
   }
 };
 
+const escapeRegExp = (value: string) =>
+  value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
 export const sourcesCheckAYFExplainBeliefsAssignment = (
   source: string,
   language: string
 ) => {
   if (source) {
-    const boundary = '(?:^|\\s|$)';
-    const talk = getTranslation({ key: 'tr_talk', language });
-    const demonstration = getTranslation({ key: 'tr_demonstration', language });
-    const searchKey = `${boundary}${talk}|${boundary}${demonstration}`;
-    const regex = new RegExp(searchKey, 'i');
-    const result = source.match(regex);
+    // every known wording for a given marker is listed pipe-separated in the
+    // translation, so each one has to become its own escaped alternative
+    const talkVariations = splitTranslationVariations(
+      getTranslation({ key: 'tr_talk', language })
+    ).map((variation) => escapeRegExp(variation));
 
-    if (result?.length > 0) {
-      const isTalk = result[0].toLowerCase() === talk.toLowerCase();
+    const demonstrationVariations = splitTranslationVariations(
+      getTranslation({ key: 'tr_demonstration', language })
+    ).map((variation) => escapeRegExp(variation));
 
-      return isTalk;
-    }
+    const searchKey = [...talkVariations, ...demonstrationVariations].join('|');
+
+    if (!searchKey) return false;
+
+    // the marker appearing first in the source decides whether the part is a
+    // talk or a demonstration, hence the single alternation over both groups
+    const match = new RegExp(`(?:^|\\s)(${searchKey})`, 'i').exec(source);
+
+    if (!match) return false;
+
+    return talkVariations.some((variation) =>
+      new RegExp(`^${variation}$`, 'i').test(match[1])
+    );
   }
 
   return false;

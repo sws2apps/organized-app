@@ -93,6 +93,7 @@ import {
   personGetDisplayName,
   speakerGetDetails,
 } from '@utils/common';
+import { primaryTranslation } from '@utils/i18n';
 import { sourcesFind } from '@services/states/sources';
 import { weekTypeLocaleState } from '@states/weekType';
 import { VisitingSpeakerType } from '@definition/visiting_speakers';
@@ -211,7 +212,7 @@ export const schedulesMidweekInfo = (week: string) => {
       assignment = assignment.find((record) => record.type === dataView);
     }
 
-    if (assignment?.value.length > 0) {
+    if ((assignment?.value?.length ?? 0) > 0) {
       assigned = assigned + 1;
     } else {
       const defaultCounselorEnabled = store.get(
@@ -430,17 +431,18 @@ export const schedulesMidweekInfo = (week: string) => {
       const lcPart: LivingAsChristiansType =
         source.midweek_meeting[`lc_part${a}`];
 
-      const titleOverride = lcPart.title.override.find(
-        (record) => record.type === dataView
-      )?.value;
-      const titleDefault = lcPart.title.default[lang];
-      const title = titleOverride?.length > 0 ? titleOverride : titleDefault;
+      const titleOverride =
+        lcPart.title.override.find((record) => record.type === dataView)
+          ?.value ?? '';
 
-      const descOverride = lcPart.desc.override.find(
-        (record) => record.type === dataView
-      )?.value;
+      const titleDefault = lcPart.title.default[lang];
+      const title = titleOverride.length > 0 ? titleOverride : titleDefault;
+
+      const descOverride =
+        lcPart.desc.override.find((record) => record.type === dataView)
+          ?.value ?? '';
       const descDefault = lcPart.desc.default[lang];
-      const desc = descOverride?.length > 0 ? descOverride : descDefault;
+      const desc = descOverride.length > 0 ? descOverride : descDefault;
 
       if (title?.length > 0) {
         const noAssign = sourcesCheckLCAssignments(title, desc, sourceLocale);
@@ -606,7 +608,7 @@ export const schedulesWeekendInfo = (week: string) => {
   const dataView = store.get(userDataViewState);
   const coName = store.get(COFullnameState);
 
-  const schedule = schedules.find((record) => record.weekOf === week);
+  const schedule = schedules.find((record) => record.weekOf === week)!;
 
   let total = 0;
   let assigned = 0;
@@ -622,7 +624,7 @@ export const schedulesWeekendInfo = (week: string) => {
     return { total, assigned };
   }
 
-  let assignment: AssignmentCongregation;
+  let assignment: AssignmentCongregation | undefined = undefined;
 
   const isMainCOVisit =
     schedule.midweek_meeting.week_type.find((record) => record.type === 'main')
@@ -638,7 +640,7 @@ export const schedulesWeekendInfo = (week: string) => {
       (record) => record.type === dataView
     );
 
-    if (assignment?.value.length > 0) {
+    if (assignment && assignment.value.length > 0) {
       assigned = assigned + 1;
     }
 
@@ -651,7 +653,7 @@ export const schedulesWeekendInfo = (week: string) => {
         (record) => record.type === dataView
       );
 
-      if (assignment?.value.length > 0) {
+      if (assignment && assignment.value.length > 0) {
         assigned = assigned + 1;
       }
     }
@@ -665,7 +667,7 @@ export const schedulesWeekendInfo = (week: string) => {
         (record) => record.type === dataView
       );
 
-      if (assignment?.value.length > 0) {
+      if (assignment && assignment.value.length > 0) {
         assigned = assigned + 1;
       }
 
@@ -674,7 +676,7 @@ export const schedulesWeekendInfo = (week: string) => {
         (record) => record.type === dataView
       );
 
-      if (assignment?.value.length > 0) {
+      if (assignment && assignment.value.length > 0) {
         total = total + 1;
         assigned = assigned + 1;
       }
@@ -688,7 +690,7 @@ export const schedulesWeekendInfo = (week: string) => {
       (record) => record.type === dataView
     );
 
-    if (assignment?.value.length > 0) {
+    if (assignment && assignment.value.length > 0) {
       assigned = assigned + 1;
     } else {
       const defaultConductor = store.get(
@@ -725,14 +727,14 @@ export const schedulesWeekendInfo = (week: string) => {
       (record) => record.type === dataView
     );
 
-    if (assignment?.value.length > 0) {
+    if (assignment && assignment.value.length > 0) {
       assigned = assigned + 1;
     } else {
       const speaker = schedule.weekend_meeting.speaker.part_1.find(
         (record) => record.type === dataView
       );
 
-      if (speaker?.value.length > 0) {
+      if (speaker && speaker.value.length > 0) {
         assigned = assigned + 1;
       }
     }
@@ -811,7 +813,7 @@ export const schedulesWeekGetAssigned = ({
 
   let result: string;
 
-  if (assigned?.value?.length > 0) {
+  if (assigned && assigned.value.length > 0) {
     const person = personsStateFind(assigned.value);
     if (person) {
       if (useDisplayName) {
@@ -834,7 +836,7 @@ export const schedulesWeekGetAssigned = ({
     }
   }
 
-  return result;
+  return result!;
 };
 
 export const schedulesGetSpeakerDetails = (
@@ -941,7 +943,7 @@ export const schedulesGetHistoryDetails = ({
   }
 
   if (assignment.includes('AYFPart')) {
-    const partNum = assignment.match(/\d+\.?\d*/g).at(0);
+    const partNum = assignment.match(/\d+\.?\d*/g)!.at(0);
     const code: AssignmentCode =
       source.midweek_meeting[`ayf_part${partNum}`].type[lang];
 
@@ -949,9 +951,12 @@ export const schedulesGetHistoryDetails = ({
       const src: string =
         source.midweek_meeting[`ayf_part${partNum}`].src[lang];
 
-      const title =
+      // the stored translation may list every known wording for the
+      // assignment pipe-separated: only the primary one is displayed
+      const title = primaryTranslation(
         assignments.find((record) => record.code === code)
-          ?.assignment_type_name[lang] ?? '';
+          ?.assignment_type_name[lang]
+      );
 
       history.assignment.src = src;
       history.assignment.ayf = {};
@@ -1005,7 +1010,7 @@ export const schedulesGetHistoryDetails = ({
   }
 
   if (assignment.startsWith('MM_LCPart') && assignment !== 'MM_LCPart3') {
-    const partNum = assignment.match(/\d+\.?\d*/g).at(0);
+    const partNum = assignment.match(/\d+\.?\d*/g)!.at(0);
     const lcPartLabel = `lc_part${partNum}`;
 
     const lcPart: LivingAsChristiansType = source.midweek_meeting[lcPartLabel];
@@ -1224,7 +1229,8 @@ export const schedulesUpdateHistory = (
 
     if (previousIndex !== -1) historyStale.splice(previousIndex, 1);
 
-    let assigned: AssignmentCongregation;
+    let assigned: AssignmentCongregation | undefined = undefined;
+
     const dataView = store.get(userDataViewState);
     const schedules = store.get(schedulesState);
     const schedule = schedules.find((record) => record.weekOf === week);
@@ -1264,7 +1270,7 @@ export const schedulesUpdateHistory = (
 
       const shortDateFormat = store.get(shortDateFormatState);
 
-      const source = sources.find((record) => record.weekOf === week);
+      const source = sources.find((record) => record.weekOf === week)!;
 
       const lang =
         languages.find((l) => l.type === assigned.type)?.value.toUpperCase() ??
@@ -1311,7 +1317,7 @@ export const schedulesSaveAssignment = async (
       : '';
 
     const path = ASSIGNMENT_PATH[assignment];
-    const fieldUpdate = structuredClone(schedulesGetData(schedule, path));
+    const fieldUpdate = structuredClone(schedulesGetData(schedule, path))!;
 
     if (Array.isArray(fieldUpdate)) {
       const assigned = fieldUpdate.find((record) => record.type === dataView);
@@ -1465,9 +1471,9 @@ export const schedulesRemoveAssignment = (
 ) => {
   const dataView = store.get(userDataViewState);
   const path = ASSIGNMENT_PATH[assignment];
-  const fieldUpdate = structuredClone(schedulesGetData(schedule, path));
+  const fieldUpdate = structuredClone(schedulesGetData(schedule, path))!;
 
-  let assigned: AssignmentCongregation;
+  let assigned: AssignmentCongregation | undefined = undefined;
 
   if (Array.isArray(fieldUpdate)) {
     assigned = fieldUpdate.find((record) => record.type === dataView);
@@ -1615,7 +1621,7 @@ export const scheduleDeleteWeekendAssignments = async (
 ) => {
   const settings = await dbAppSettingsGet();
 
-  const userRole = settings.user_settings.cong_role;
+  const userRole = settings!.user_settings.cong_role;
 
   const adminRole = userRole.some(
     (role) => role === 'admin' || role === 'coordinator' || role === 'secretary'
@@ -1738,9 +1744,9 @@ export const schedulesAutofillSaveAssignment = ({
 
   const toSave = value ? value.person_uid : '';
   const path = ASSIGNMENT_PATH[assignment];
-  const fieldUpdate = schedulesGetData(schedule, path);
+  const fieldUpdate = schedulesGetData(schedule, path)!;
 
-  let assigned: AssignmentCongregation;
+  let assigned: AssignmentCongregation | undefined = undefined;
 
   if (Array.isArray(fieldUpdate)) {
     assigned = fieldUpdate.find((record) => record.type === dataView);
@@ -1860,7 +1866,7 @@ export const schedulesS89Data = (schedule: SchedWeekType, dataView: string) => {
         ) as AssignmentCongregation;
 
         if (assistantAssigned?.value.length > 0) {
-          const assistantPerson = personsStateFind(assistantAssigned.value);
+          const assistantPerson = personsStateFind(assistantAssigned.value)!;
 
           obj.assistant_name = buildPersonFullname(
             assistantPerson.person_data.person_lastname.value,
@@ -2043,7 +2049,7 @@ export const schedulesMidweekData = (
   dataView: string,
   lang: string
 ) => {
-  const source = sourcesFind(schedule.weekOf);
+  const source = sourcesFind(schedule.weekOf)!;
   const class_count = store.get(midweekMeetingClassCountState);
 
   const openingPrayerLinked = store.get(midweekMeetingOpeningPrayerLinkedState);
@@ -2149,7 +2155,7 @@ export const schedulesMidweekData = (
       const weekTypes = store.get(weekTypeLocaleState);
       const name = weekTypes.find(
         (record) => record.id === week_type
-      ).week_type_name;
+      )!.week_type_name;
 
       result.week_type_name = name;
     }
@@ -2492,7 +2498,7 @@ export const schedulesWeekendData = (
   schedule: SchedWeekType,
   dataView: string
 ) => {
-  const source = sourcesFind(schedule.weekOf);
+  const source = sourcesFind(schedule.weekOf)!;
   const talks = store.get(publicTalksState);
 
   const openingPrayerAuto = store.get(
@@ -2604,7 +2610,7 @@ export const schedulesWeekendData = (
       }
 
       if (typeof talk === 'number') {
-        const record = talks.find((data) => data.talk_number === talk);
+        const record = talks.find((data) => data.talk_number === talk)!;
         result.public_talk_number =
           getTranslation({ key: 'tr_shortNumberLabel' }) +
           ' ' +
@@ -2783,7 +2789,7 @@ export const scheduleOutgoingSpeakers = (
   for (const record of outgoingTalkSchedules) {
     const speaker = persons.find(
       (person) => person.person_uid === record.value
-    );
+    )!;
 
     const speakerName = personGetDisplayName(
       speaker,

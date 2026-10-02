@@ -14,6 +14,7 @@ import {
 import appDb from '@db/appDb';
 import { dbFieldServiceGroupBulkSave } from '@services/dexie/field_service_groups';
 import Papa from 'papaparse';
+import { primaryTranslation } from '@utils/i18n';
 
 const useCSVImport = () => {
   const { t } = useAppTranslation();
@@ -102,8 +103,8 @@ const useCSVImport = () => {
             if (!value || value.trim() === '') continue;
 
             try {
-              mapping.field.handler(csvperson, value);
-              if (mapping.field.key === 'field_service_group') {
+              mapping.field!.handler(csvperson, value);
+              if (mapping.field!.key === 'field_service_group') {
                 const sortIndex = Number.parseInt(value, 10) - 1;
                 if (sortIndex + 1 > 0) {
                   addPersonToGroupBySortIndex(
@@ -139,7 +140,7 @@ const useCSVImport = () => {
   };
   const getPersonPathsTranslated = (): string[] => {
     return PERSON_FIELD_META.map((field) => {
-      return t(field.label);
+      return primaryTranslation(t(field.label));
     });
   };
 
