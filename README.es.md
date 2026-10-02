@@ -1,6 +1,6 @@
 # <img src="https://github.com/sws2apps/cpe-sws/assets/26148770/f86c0643-b6aa-44f3-93ee-8c5fb68caad5" alt="imagen" width="24"> App Organized: Software de programación de reuniones y gestión de congregaciones para los Testigos de Jehová
 
-![Organized-devices](https://github.com/sws2apps/organized-app/assets/26148770/9526daa0-ad34-4a1b-8611-c50f0d3375b7)
+![Organized en un ordenador, portátil, tabletas y teléfonos](.github/assets/organized-header.webp)
 
 Un software de programación gratuito y una app de gestión de congregaciones para los Testigos de Jehová, creada para ayudar con las asignaciones y responsabilidades, facilitando las cosas y liberando tiempo para lo que más importa. [Prueba Organized en el entorno de demostración](https://test.organized-app.com) y comprueba la diferencia tú mismo — ¡sin registro!
 

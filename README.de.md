@@ -1,6 +1,6 @@
 # <img src="https://github.com/sws2apps/cpe-sws/assets/26148770/f86c0643-b6aa-44f3-93ee-8c5fb68caad5" alt="Bild" width="24"> Organized-App: Software zur Planung von Zusammenkünften und Versammlungsverwaltung für Zeugen Jehovas
 
-![Organized-devices](https://github.com/sws2apps/organized-app/assets/26148770/9526daa0-ad34-4a1b-8611-c50f0d3375b7)
+![Organized auf Desktop, Laptop, Tablets und Smartphones](.github/assets/organized-header.webp)
 
 Eine kostenlose Software zur Planung und Versammlungsverwaltung für Zeugen Jehovas, die bei Aufgaben und Verantwortlichkeiten hilft, Dinge einfacher macht und Zeit für das Wichtigste freisetzt! [Teste Organized in der Vorschau-Umgebung](https://test.organized-app.com) und erlebe den Unterschied selbst — ohne Registrierung!
 

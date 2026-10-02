@@ -1,6 +1,6 @@
 # <img src="https://github.com/sws2apps/cpe-sws/assets/26148770/f86c0643-b6aa-44f3-93ee-8c5fb68caad5" alt="larawan" width="24"> Organized App: Software sa pag-iskedyul ng pulong at pamamahala ng kongregasyon para sa mga Saksi ni Jehova
 
-![Organized-devices](https://github.com/sws2apps/organized-app/assets/26148770/9526daa0-ad34-4a1b-8611-c50f0d3375b7)
+![Organized sa desktop, laptop, tablet at telepono](.github/assets/organized-header.webp)
 
 Isang libreng software sa pag-iskedyul at app para sa pamamahala ng kongregasyon para sa mga Saksi ni Jehova, na ginawa upang tumulong sa mga atas at pananagutan, na nagpapadali ng mga bagay at nagpalaya ng oras para sa mas mahahalagang bagay! [Subukan ang Organized sa preview na kapaligiran](https://test.organized-app.com) at maranasan ang pagkakaiba, walang kailangang pagpaparehistro!
 
