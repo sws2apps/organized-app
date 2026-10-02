@@ -24,7 +24,7 @@ const useFeatureFlags = () => {
     queryKey: ['feature-flags'],
     queryFn: () =>
       apiFeatureFlagsGet(installationId, settings.user_settings.id),
-    enabled: installationId.length > 0,
+    enabled: installationId.length > 0 && isOnline,
     retry: 2,
     refetchInterval: 5 * 60 * 1000,
     refetchOnWindowFocus: 'always',
