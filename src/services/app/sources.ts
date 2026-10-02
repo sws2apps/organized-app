@@ -22,6 +22,7 @@ import {
 } from '@states/settings';
 import { addWeeks, formatDate, getWeekDate } from '@utils/date';
 import { STORAGE_KEY } from '@constants/index';
+import { AYF_LABEL_ALIASES } from '@constants/ayf_label_aliases';
 import logger from '@services/logger';
 
 export const sourcesImportEPUB = async (fileEPUB) => {
@@ -57,25 +58,11 @@ const remapAssignmentType = (week: string, type: number) => {
       return 123;
     case 102:
       return 124;
+    case 103:
+      return 125;
     default:
       return type;
   }
-};
-
-// Workbooks from November 2026 use new wording; older issues keep the locale labels
-const AYF_LABEL_ALIASES: Record<string, AssignmentAYFOnlyType[]> = {
-  S: [
-    {
-      label: 'Empecemos conversaciones',
-      value: AssignmentCode.MM_StartingConversation,
-    },
-    { label: 'Hagamos revisitas', value: AssignmentCode.MM_FollowingUp },
-    { label: 'Hagamos discípulos', value: AssignmentCode.MM_MakingDisciples },
-    {
-      label: 'Expliquemos nuestras creencias',
-      value: AssignmentCode.MM_ExplainingBeliefs,
-    },
-  ],
 };
 
 const getAYFAssignmentTypes = (sourceLanguage: string) => {
