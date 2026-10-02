@@ -21,6 +21,8 @@ import { AssignmentFieldType } from '@definition/assignment';
 
 export const settingsState = atom(settingSchema);
 
+export const settingsLoadedState = atom(false);
+
 // CONGREGATION SETTINGS
 export const congNumberState = atom((get) => {
   const settings = get(settingsState);
