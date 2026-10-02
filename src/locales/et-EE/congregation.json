@@ -380,6 +380,7 @@
   "tr_congregationRequestRejectedDesc": "<strong>{{ congregationNameAndNumber }}</strong> kogudus lükkas tagasi sinu taotluse nende kõnepidajate nimekirja vaatamiseks. Vajadusel võid nendega isiklikult ühendust võtta.",
   "tr_congregationAccessRevoke": "Keela selle koguduse ligipääs",
   "tr_congregationAccessRevokeDesc": "Keela ligipääs sinu kõnepidajate nimekirjale: <strong>{{ congregationName }}</strong> kogudus? Nad ei saa seda enam näha, kuid saad selle neile hiljem uuesti jagada, kui nad esitavad uue taotluse.",
+  "tr_withoutGroup": "Without a group",
   "tr_noGroupsYet": "Sul pole veel ühtegi kuulutustöögruppi loodud. Loo esmalt grupp, et hakata kuulutajaid lisama ja gruppe ümber korraldama.",
   "tr_coordinator": "Koordinaator",
   "tr_secretary": "Sekretär",
