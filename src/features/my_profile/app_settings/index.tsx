@@ -12,10 +12,12 @@ import {
 import { useAppTranslation } from '@hooks/index';
 import useAppSettings from './useAppSettings';
 import useThemeSwitcher from '@features/theme_switcher/useThemeSwitcher';
+import useLanguage from '@features/language_switcher/useLanguage';
 
 const AppSettings = () => {
   const { t } = useAppTranslation();
   const { isDark, handleChangeTheme } = useThemeSwitcher();
+  const { LANGUAGE_LIST, selectedLang, handleLangChange } = useLanguage();
 
   const {
     autoSync,
@@ -28,6 +30,7 @@ const AppSettings = () => {
     haptics,
     handleUpdateHaptics,
     showHaptics,
+    showLanguage,
   } = useAppSettings();
 
   return (
@@ -35,6 +38,67 @@ const AppSettings = () => {
       <Typography className="h2">{t('tr_organizedSettings')}</Typography>
 
       <SettingWithBorderContainer>
+        {showLanguage && (
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: laptopUp ? 'center' : 'flex-start',
+              gap: '16px',
+              justifyContent: 'space-between',
+              flexDirection: laptopUp ? 'row' : 'column',
+            }}
+          >
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+              <Typography>{t('tr_changeLanguage')}</Typography>
+              <Typography
+                className="label-small-regular"
+                color="var(--grey-350)"
+              >
+                {t('tr_appLanguageDesc')}
+              </Typography>
+            </Box>
+            <Select
+              label={t('tr_changeLanguage')}
+              value={selectedLang}
+              onChange={(e) => handleLangChange(e.target.value as string)}
+              menuMaxHeight="min(480px, 60vh)"
+              renderValue={(value) =>
+                LANGUAGE_LIST.find((lang) => lang.threeLettersCode === value)
+                  ?.name
+              }
+              sx={{ maxWidth: '200px' }}
+            >
+              {LANGUAGE_LIST.map((lang) => (
+                <MenuItem
+                  key={lang.threeLettersCode}
+                  value={lang.threeLettersCode}
+                >
+                  <Box
+                    sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}
+                  >
+                    <Typography
+                      className="label-small-medium"
+                      color="var(--accent-dark)"
+                      sx={{
+                        backgroundColor: 'var(--accent-200)',
+                        padding: '2px 4px',
+                        borderRadius: 'var(--radius-s)',
+                        minWidth: '28px',
+                        textAlign: 'center',
+                      }}
+                    >
+                      {lang.code.toUpperCase()}
+                    </Typography>
+                    <Typography className="body-regular" color="var(--black)">
+                      {lang.name}
+                    </Typography>
+                  </Box>
+                </MenuItem>
+              ))}
+            </Select>
+          </Box>
+        )}
+
         <SwitcherContainer>
           <Switch
             checked={autoSync}
