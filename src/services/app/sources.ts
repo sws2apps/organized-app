@@ -62,6 +62,22 @@ const remapAssignmentType = (week: string, type: number) => {
   }
 };
 
+// Workbooks from November 2026 use new wording; older issues keep the locale labels
+const AYF_LABEL_ALIASES: Record<string, AssignmentAYFOnlyType[]> = {
+  S: [
+    {
+      label: 'Empecemos conversaciones',
+      value: AssignmentCode.MM_StartingConversation,
+    },
+    { label: 'Hagamos revisitas', value: AssignmentCode.MM_FollowingUp },
+    { label: 'Hagamos discípulos', value: AssignmentCode.MM_MakingDisciples },
+    {
+      label: 'Expliquemos nuestras creencias',
+      value: AssignmentCode.MM_ExplainingBeliefs,
+    },
+  ],
+};
+
 const getAYFAssignmentTypes = (sourceLanguage: string) => {
   const assignmentTypes = store.get(assignmentState);
 
@@ -77,6 +93,7 @@ const getAYFAssignmentTypes = (sourceLanguage: string) => {
       };
     })
     .filter((record) => record.label.length > 0)
+    .concat(AYF_LABEL_ALIASES[sourceLanguage] ?? [])
     .sort((a, b) => {
       return a.value > b.value ? 1 : -1;
     });
