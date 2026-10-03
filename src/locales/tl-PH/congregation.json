@@ -380,6 +380,7 @@
   "tr_congregationRequestRejectedDesc": "Tumanggi ang <strong>{{ congregationNameAndNumber }}</strong> congregation sa iyong request na makita ang listahan ng mga lumalabas na speaker. Maaari mo silang kontakin hinggil dito.",
   "tr_congregationAccessRevoke": "Alisin ang access ng kongregasyong ito",
   "tr_congregationAccessRevokeDesc": "Alisin ang access sa listahan ng mga speaker ng <strong>{{ congregationName }}</strong> congregation? Hindi na nila ito makikita, pero makikita ulit ito kapag nag-request silang muli.",
+  "tr_withoutGroup": "Without a group",
   "tr_noGroupsYet": "Wala pang nagagawang mga field service group. Gumawa muna upang makapaglagay ng mga publisher at maiayos ang mga ito.",
   "tr_coordinator": "Coordinator",
   "tr_secretary": "Secretary",

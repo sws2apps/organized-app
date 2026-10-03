@@ -380,6 +380,7 @@
   "tr_congregationRequestRejectedDesc": "A <strong>{{ congregationNameAndNumber }}</strong> gyülekezet elutasította a kérelmedet az előadóik listájának megtekintésére. Ha szükséges, közvetlenül kapcsolatba léphetsz velük.",
   "tr_congregationAccessRevoke": "Hozzáférés megvonása ettől a gyülekezettől",
   "tr_congregationAccessRevokeDesc": "Visszavonod az előadók listájához való hozzáférését a <strong>{{ congregationName }}</strong> gyülekezettől? Ezután már nem láthatják, de később újra megoszthatod velük, ha új kérelmet küldenek.",
+  "tr_withoutGroup": "Without a group",
   "tr_noGroupsYet": "Még nincs létrehozva szántóföldi csoport. Hozz létre egy csoportot először, hogy elkezdhess hírnököket hozzáadni és csoportokat átrendezni.",
   "tr_coordinator": "Koordinátor",
   "tr_secretary": "Titkár",
