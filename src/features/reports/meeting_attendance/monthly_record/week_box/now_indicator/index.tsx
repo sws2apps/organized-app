@@ -13,6 +13,7 @@ const NowIndicator = ({ type }: NowIndicatorProps) => {
       }
       sx={{
         textAlign: 'center',
+        whiteSpace: 'nowrap',
       }}
     >
       • {t('tr_today')}

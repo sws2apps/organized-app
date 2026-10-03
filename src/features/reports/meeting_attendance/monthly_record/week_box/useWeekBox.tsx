@@ -371,7 +371,6 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
 
   return {
     isCurrent,
-    isMeetingDay,
     detailed,
     recordOnline,
     fields,
