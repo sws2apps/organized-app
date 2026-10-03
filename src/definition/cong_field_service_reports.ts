@@ -33,6 +33,7 @@ export type CongFieldServiceReportType = {
       value: boolean;
       submitted: string;
     };
+    lock_override: boolean;
     status: 'received' | 'confirmed';
   };
 };
