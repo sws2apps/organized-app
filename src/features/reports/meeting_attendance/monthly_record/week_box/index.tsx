@@ -54,9 +54,8 @@ const WeekBox = (props: WeekBoxProps) => {
             sx={{
               display: 'flex',
               alignItems: 'center',
-              flexWrap: 'wrap',
               justifyContent: 'space-between',
-              columnGap: '4px',
+              gap: '4px',
               padding: '4px 16px',
               backgroundColor:
                 props.type === 'midweek'
@@ -72,6 +71,7 @@ const WeekBox = (props: WeekBoxProps) => {
                   ? 'var(--accent-dark)'
                   : 'var(--weekend-meeting)'
               }
+              sx={{ flexShrink: 0 }}
             >
               {box_label}
             </Typography>
@@ -109,7 +109,11 @@ const WeekBox = (props: WeekBoxProps) => {
               >
                 <TextField
                   type="number"
-                  label={field.label}
+                  label={
+                    !detailed && isCurrent
+                      ? `${field.label} • ${t('tr_today')}`
+                      : field.label
+                  }
                   value={values[field.name]}
                   onChange={handleValueChange(field.name)}
                   onFocus={() => handleFieldFocus(field.name)}
@@ -159,8 +163,6 @@ const WeekBox = (props: WeekBoxProps) => {
           </Box>
         )}
       </Stack>
-
-      {!detailed && isCurrent && <NowIndicator type={props.type} />}
 
       {clickerEnabled && (
         <ClickerMode
