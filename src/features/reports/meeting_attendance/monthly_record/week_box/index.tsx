@@ -15,7 +15,6 @@ const WeekBox = (props: WeekBoxProps) => {
 
   const {
     isCurrent,
-    isMeetingDay,
     detailed,
     recordOnline,
     fields,
@@ -53,6 +52,11 @@ const WeekBox = (props: WeekBoxProps) => {
         {detailed && (
           <Box
             sx={{
+              display: 'flex',
+              alignItems: 'center',
+              flexWrap: 'wrap',
+              justifyContent: 'space-between',
+              columnGap: '4px',
               padding: '4px 16px',
               backgroundColor:
                 props.type === 'midweek'
@@ -71,20 +75,14 @@ const WeekBox = (props: WeekBoxProps) => {
             >
               {box_label}
             </Typography>
+
+            {isCurrent && <NowIndicator type={props.type} />}
           </Box>
         )}
 
-        {fields.map((field, index) => {
-          const last = detailed && index === fields.length - 1;
-
+        {fields.map((field) => {
           return (
-            <Stack
-              key={field.name}
-              spacing="4px"
-              sx={{
-                height: last && isMeetingDay ? '56px' : 'unset',
-              }}
-            >
+            <Stack key={field.name} spacing="4px">
               {field.section && (
                 <Typography
                   className="body-small-semibold"
@@ -130,8 +128,6 @@ const WeekBox = (props: WeekBoxProps) => {
                   />
                 )}
               </Box>
-
-              {last && isCurrent && <NowIndicator type={props.type} />}
             </Stack>
           );
         })}
