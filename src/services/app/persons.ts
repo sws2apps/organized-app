@@ -804,15 +804,17 @@ export const applyGroupFilters = (
 
       // bethelite selected
       if (isPassed && isBetheliteFilter)
-        isPassed = person.person_data.bethelite?.value ?? false;
+        isPassed = isBaptized && (person.person_data.bethelite?.value ?? false);
 
       // bethel commuter selected
       if (isPassed && isBethelCommuterFilter)
-        isPassed = person.person_data.bethel_commuter?.value ?? false;
+        isPassed =
+          isBaptized && (person.person_data.bethel_commuter?.value ?? false);
 
       // ldc volunteer selected
       if (isPassed && isLDCVolunteerFilter)
-        isPassed = person.person_data.ldc_volunteer?.value ?? false;
+        isPassed =
+          isBaptized && (person.person_data.ldc_volunteer?.value ?? false);
 
       if (isPassed) {
         finalResult.push(person);

@@ -59,9 +59,12 @@ const usePersonCard = (person: PersonType) => {
       reportMonths,
       branchReports
     );
-    const isBethelite = person.person_data.bethelite?.value ?? false;
-    const isBethelCommuter = person.person_data.bethel_commuter?.value ?? false;
-    const isLdcVolunteer = person.person_data.ldc_volunteer?.value ?? false;
+    const isBethelite =
+      isBaptized && (person.person_data.bethelite?.value ?? false);
+    const isBethelCommuter =
+      isBaptized && (person.person_data.bethel_commuter?.value ?? false);
+    const isLdcVolunteer =
+      isBaptized && (person.person_data.ldc_volunteer?.value ?? false);
 
     const badges: { name: string; color: BadgeColor }[] = [];
 

@@ -38,7 +38,8 @@ export const publisherCurrentReportState = atom(
  * The months each person shared in the ministry, keyed by person_uid.
  *
  * A report saying the person did not share in the ministry is left out, since
- * that month does not count towards regularity.
+ * that month does not count towards regularity. Only verified (confirmed)
+ * reports count: a report that is still unverified cannot establish regularity.
  */
 export const reportsMapState = atom((get) => {
   const reports = get(congFieldServiceReportsState);
@@ -47,6 +48,7 @@ export const reportsMapState = atom((get) => {
 
   for (const r of reports) {
     if (!r.report_data.shared_ministry) continue;
+    if (r.report_data.status !== 'confirmed') continue;
 
     const uid = r.report_data.person_uid;
     const month = r.report_data.report_date;
