@@ -22,8 +22,8 @@ const ProfilePictureEntry = ({ size, onOpen }: Props) => {
         borderRadius: 'var(--radius-max)',
         '&:hover .avatar-hover, &:focus-visible .avatar-hover': { opacity: 1 },
         '&:focus-visible': {
-          outline: '2px solid var(--accent-main)',
-          outlineOffset: '4px',
+          outline: 'none',
+          boxShadow: '0 0 0 2px var(--white), 0 0 0 4px var(--accent-main)',
         },
       }}
     >
@@ -36,7 +36,7 @@ const ProfilePictureEntry = ({ size, onOpen }: Props) => {
           position: 'absolute',
           inset: 0,
           borderRadius: 'var(--radius-max)',
-          backgroundColor: 'var(--accent-dark-overlay)',
+          backgroundColor: 'rgba(var(--accent-main-base), 0.24)',
           opacity: 0,
           pointerEvents: 'none',
           transition: 'opacity var(--motion-fast) var(--ease-standard)',

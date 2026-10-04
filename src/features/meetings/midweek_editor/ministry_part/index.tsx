@@ -45,7 +45,12 @@ const MinistryPart = (props: MinistryPartProps) => {
       <SecondaryFieldContainer sx={{ maxWidth: laptopUp ? '360px' : '100%' }}>
         <ClassAssignmentContainer>
           {assignmentType !== AssignmentCode.MM_Discussion && doublePerson && (
-            <Typography className="body-small-semibold" color="var(--grey-350)">
+            <Typography
+              className="body-small-semibold"
+              sx={{
+                color: 'var(--grey-350)',
+              }}
+            >
               {t('tr_mainHall')}
             </Typography>
           )}
@@ -91,7 +96,12 @@ const MinistryPart = (props: MinistryPartProps) => {
 
         {doublePerson && (
           <ClassAssignmentContainer>
-            <Typography className="body-small-semibold" color="var(--grey-350)">
+            <Typography
+              className="body-small-semibold"
+              sx={{
+                color: 'var(--grey-350)',
+              }}
+            >
               {t('tr_auxClass')}
             </Typography>
             <PersonDoubleContainer>

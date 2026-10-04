@@ -92,8 +92,10 @@ const VisitingSpeaker = (props: PersonSelectorType) => {
             >
               <Typography
                 className="body-small-regular"
-                color="var(--grey-350)"
-                sx={{ width: '200px' }}
+                sx={{
+                  color: 'var(--grey-350)',
+                  width: '200px',
+                }}
               >
                 {t('tr_name')}
               </Typography>

@@ -12,7 +12,6 @@ import Button from '@components/button';
 import HoursField from './hours_field';
 import LateReport from './late_report';
 import MinistryShared from './ministry_shared';
-import Typography from '@components/typography';
 import { IconAuxiliaryPioneer } from '@components/icons';
 
 const ReportDetails = (props: ReportDetailsProps) => {
@@ -28,12 +27,17 @@ const ReportDetails = (props: ReportDetailsProps) => {
   } = useReportDetails(props);
 
   return (
-    <Dialog open={props.open} onClose={props.onClose} sx={{ padding: '24px' }}>
-      <Typography className="h2">
-        {t('tr_fieldReportEdit')} ({reportMonth})
-      </Typography>
-
-      <Stack spacing="8px" width="100%">
+    <Dialog
+      open={props.open}
+      onClose={props.onClose}
+      title={`${t('tr_fieldReportEdit')} (${reportMonth})`}
+    >
+      <Stack
+        spacing="8px"
+        sx={{
+          width: '100%',
+        }}
+      >
         <LateReport />
 
         <Stack spacing="24px" divider={<Divider color="var(--accent-200)" />}>

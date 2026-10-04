@@ -5,8 +5,8 @@ const SectionTitle = ({ children }: PropsWithChildren) => {
   return (
     <Typography
       className="h4"
-      color="var(--accent-dark)"
       sx={{
+        color: 'var(--accent-dark)',
         borderRadius: 'var(--radius-s)',
         padding: '4px 8px',
         backgroundColor: 'var(--accent-150)',

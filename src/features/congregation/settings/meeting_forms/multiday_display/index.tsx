@@ -30,7 +30,12 @@ const MultiDayDisplay = () => {
         <MenuItem value="range">{t('tr_oneDateRange')}</MenuItem>
       </Select>
 
-      <Typography className="label-small-regular" color="var(--grey-350)">
+      <Typography
+        className="label-small-regular"
+        sx={{
+          color: 'var(--grey-350)',
+        }}
+      >
         {t('tr_multiDayEventsHint', { days: UPCOMING_EVENT_MAX_LIST_DAYS })}
       </Typography>
     </Box>

@@ -112,7 +112,12 @@ const ClickerMode = (props: ClickerModeProps) => {
       }}
     >
       <ClickerLayout>
-        <SubpageNavbar title={title} onBack={onClose} backLabel={t('tr_back')} />
+        <SubpageNavbar
+          title={title}
+          secondaryTitle={props.secondaryTitle}
+          onBack={onClose}
+          backLabel={t('tr_back')}
+        />
 
         <ClickerBody>
           {recordOnline && (

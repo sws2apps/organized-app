@@ -16,7 +16,7 @@ const ExportS21 = (props: ExportS21Props) => {
   } = useExportS21(props);
 
   return (
-    <Dialog onClose={props.onClose} open={props.open} sx={{ padding: '24px' }}>
+    <Dialog onClose={props.onClose} open={props.open}>
       {allOpen && (
         <AllRecords
           type={type}

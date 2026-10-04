@@ -32,11 +32,7 @@ const MidweekExport = ({ open, onClose }: MidweekExportType) => {
   } = useMidweekExport(onClose);
 
   return (
-    <Dialog
-      onClose={onClose}
-      open={open}
-      sx={{ padding: '24px', position: 'relative' }}
-    >
+    <Dialog onClose={onClose} open={open} sx={{ position: 'relative' }}>
       <Box
         sx={{
           display: 'flex',
@@ -49,7 +45,11 @@ const MidweekExport = ({ open, onClose }: MidweekExportType) => {
       >
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
           <Typography className="h2">{t('tr_exportMidweekMeeting')}</Typography>
-          <Typography color="var(--grey-400)">
+          <Typography
+            sx={{
+              color: 'var(--grey-400)',
+            }}
+          >
             {t('tr_exportMidweekMeetinDesc')}
           </Typography>
         </Box>

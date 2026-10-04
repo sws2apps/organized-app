@@ -28,7 +28,12 @@ const ReportFormDialog = (props: ReportFormDialogProps) => {
         },
       }}
     >
-      <Stack spacing="16px" width="100%">
+      <Stack
+        spacing="16px"
+        sx={{
+          width: '100%',
+        }}
+      >
         <ServiceTime
           isEdit={isEdit}
           onClose={props.onClose}

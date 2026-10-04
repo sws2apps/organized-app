@@ -3,7 +3,6 @@ import { IconInfo } from '@components/icons';
 import { InfoNoteProps } from './index.types';
 import Typography from '@components/typography';
 
-
 const InfoNote = ({
   message,
   children,
@@ -25,31 +24,34 @@ const InfoNote = ({
     </Box>
   );
 
-  const content = message === undefined ? (
-    <Box
-      sx={{
-        color: 'var(--accent-400)',
-        // Ensure nested paragraphs (e.g., from <Markup>) display inline
-        '& p': {
-          display: 'inline',
-          margin: 0,
+  const content =
+    message === undefined ? (
+      <Box
+        sx={{
+          color: 'var(--accent-400)',
+          // Ensure nested paragraphs (e.g., from <Markup>) display inline
+          '& p': {
+            display: 'inline',
+            margin: 0,
+            letterSpacing: '0px !important',
+          },
+        }}
+      >
+        {iconElement}
+        {children}
+      </Box>
+    ) : (
+      <Typography
+        className="body-small-regular"
+        sx={{
+          color: 'var(--accent-400)',
           letterSpacing: '0px !important',
-        },
-      }}
-    >
-      {iconElement}
-      {children}
-    </Box>
-  ) : (
-    <Typography
-      className="body-small-regular"
-      color="var(--accent-400)"
-      sx={{ letterSpacing: '0px !important' }}
-    >
-      {iconElement}
-      {message}
-    </Typography>
-  );
+        }}
+      >
+        {iconElement}
+        {message}
+      </Typography>
+    );
 
   if (variant === 'card') {
     return (

@@ -24,22 +24,39 @@ const ScheduleItem = (props: ScheduleItemProps) => {
         <Stack spacing="8px">
           <Stack
             spacing="8px"
-            flexWrap="wrap"
             direction={tabletUp ? 'row' : 'column'}
-            alignItems={tabletUp && 'center'}
+            sx={{
+              flexWrap: 'wrap',
+              ...(tabletUp && { alignItems: 'center' }),
+            }}
           >
-            <Typography className="h4" color="var(--weekend-meeting)">
+            <Typography
+              className="h4"
+              sx={{
+                color: 'var(--weekend-meeting)',
+              }}
+            >
               {t('tr_publicTalk')}
             </Typography>
             {tabletUp && (
-              <Typography className="h4" color="var(--weekend-meeting)">
+              <Typography
+                className="h4"
+                sx={{
+                  color: 'var(--weekend-meeting)',
+                }}
+              >
                 —
               </Typography>
             )}
 
             <Box sx={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
               <IconCongregation color="var(--weekend-meeting)" />
-              <Typography className="h4" color="var(--weekend-meeting)">
+              <Typography
+                className="h4"
+                sx={{
+                  color: 'var(--weekend-meeting)',
+                }}
+              >
                 {talkSchedule.congregation}
               </Typography>
             </Box>

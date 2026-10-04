@@ -156,8 +156,13 @@ const useCSVImport = () => {
       transformHeader: (header: string) => header.trim(),
     });
 
-    if (parsed.errors.length > 0) {
-      console.error('CSV parsing errors:', parsed.errors);
+     const fatalErrors = parsed.errors.filter(
+      (error) => error.code !== 'TooFewFields'
+    );
+
+    if (fatalErrors.length > 0) {
+      console.error('CSV parsing errors:', fatalErrors);
+      throw new Error(t('tr_importCsvParseError'));
     }
 
     return parsed.data;
@@ -450,6 +455,8 @@ const useCSVImport = () => {
     return existingPerson ? existingPerson.person_uid : undefined;
   };
 
+  const normalizeCongName = (name: string) => name.trim().toLowerCase();
+
   /**
    * Builds the two lookup maps (UUID -> name and name -> UUID) for all active
    * congregations currently stored in the local database. Soft-deleted
@@ -470,7 +477,7 @@ const useCSVImport = () => {
     existingCongs.forEach((c) => {
       if (!c._deleted.value && c.id) {
         congUidMap.set(c.id, c.cong_data.cong_name.value);
-        congNameMap.set(c.cong_data.cong_name.value, c.id);
+        congNameMap.set(normalizeCongName(c.cong_data.cong_name.value), c.id);
       }
     });
 
@@ -533,7 +540,8 @@ const useCSVImport = () => {
       ? existingCongs.find(
           (c) =>
             !c._deleted.value &&
-            c.cong_data.cong_name.value === ownCongName &&
+            normalizeCongName(c.cong_data.cong_name.value) ===
+              normalizeCongName(ownCongName) &&
             !c.cong_data.cong_id?.length
         )?.id
       : congNameMap.get(congKey);
@@ -544,7 +552,8 @@ const useCSVImport = () => {
       const ownCongRecord = rows.find(
         (c) =>
           !c._deleted.value &&
-          c.cong_data.cong_name.value === ownCongName &&
+          normalizeCongName(c.cong_data.cong_name.value) ===
+            normalizeCongName(ownCongName) &&
           !c.cong_data.cong_id?.length
       );
 
@@ -633,8 +642,8 @@ const useCSVImport = () => {
         ? ctx.ownCongName
         : congregation.cong_name;
 
-    const congKey = congregation.cong_name;
-    const isOwnCongregation = congKey === ctx.ownCongName;
+    const congKey = normalizeCongName(congregation.cong_name);
+    const isOwnCongregation = congKey === normalizeCongName(ctx.ownCongName);
 
     let existingPersonUid: string | undefined;
 

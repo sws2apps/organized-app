@@ -44,8 +44,10 @@ const SiblingAssignment = ({
           )}
           <Typography
             className="h2-caps"
-            color="var(--always-white)"
             align="center"
+            sx={{
+              color: 'var(--always-white)',
+            }}
           >
             {label}
           </Typography>

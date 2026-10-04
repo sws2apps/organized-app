@@ -1,12 +1,20 @@
 import { MeetingAttendanceType } from '@definition/meeting_attendance';
 import { updatedAtOverride } from '@utils/common';
+import { meetingAttendanceSplitDeaf } from '@utils/meeting_attendance';
 import appDb from '@db/appDb';
 
 const useAttendanceImport = () => {
   const getAttendances = async (attendances: MeetingAttendanceType[]) => {
     const result: MeetingAttendanceType[] = [];
 
-    result.push(...attendances);
+    // the parsed backup is left untouched: the import can still be cancelled
+    for (const attendance of attendances) {
+      const record = structuredClone(attendance);
+
+      meetingAttendanceSplitDeaf(record);
+
+      result.push(record);
+    }
 
     const oldAttendances = await appDb.meeting_attendance.toArray();
 

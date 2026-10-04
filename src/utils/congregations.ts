@@ -41,7 +41,7 @@ export const updateCongregationAddress = (
 
 // --- Meetings ---
 const normalizeWeekday = (weekday: number, fallback: number): number => {
-  return Number.isInteger(weekday) && weekday >= 1 && weekday <= 7
+  return Number.isInteger(weekday) && weekday >= 0 && weekday <= 6
     ? weekday
     : fallback;
 };
@@ -50,7 +50,7 @@ export const updateMidweekWeekday = (
   cong: CongregationIncomingDetailsType,
   weekday: number
 ): void => {
-  cong.midweek_meeting.weekday.value = normalizeWeekday(weekday, 2);
+  cong.midweek_meeting.weekday.value = normalizeWeekday(weekday, 1);
 };
 
 export const updateMidweekTime = (
@@ -65,7 +65,7 @@ export const updateWeekendWeekday = (
   cong: CongregationIncomingDetailsType,
   weekday: number
 ): void => {
-  cong.weekend_meeting.weekday.value = normalizeWeekday(weekday, 7);
+  cong.weekend_meeting.weekday.value = normalizeWeekday(weekday, 6);
 };
 
 export const updateWeekendTime = (

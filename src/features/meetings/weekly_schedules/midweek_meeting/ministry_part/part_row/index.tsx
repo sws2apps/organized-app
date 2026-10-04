@@ -42,7 +42,9 @@ const PartRow = (props: PartRowProps) => {
             {showAuxClass && ayfType !== AssignmentCode.MM_Discussion && (
               <Typography
                 className="body-small-semibold"
-                color="var(--grey-350)"
+                sx={{
+                  color: 'var(--grey-350)',
+                }}
               >
                 {t('tr_mainHall')}
               </Typography>
@@ -72,7 +74,9 @@ const PartRow = (props: PartRowProps) => {
               {ayfType !== AssignmentCode.MM_Discussion && (
                 <Typography
                   className="body-small-semibold"
-                  color="var(--grey-350)"
+                  sx={{
+                    color: 'var(--grey-350)',
+                  }}
                 >
                   {t('tr_auxClassroom')}
                 </Typography>

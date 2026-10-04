@@ -12,6 +12,7 @@ import useConfirmImport from './useConfirmImport';
 import useCSVImport from './useCSVImport';
 import usePersonsImportConfig from './usePersonsImportConfig';
 import type { ConfirmImportProps } from './index.types';
+import { primaryTranslation } from '@utils/i18n';
 
 const ConfirmImport = (props: ConfirmImportProps) => {
   const { t } = useAppTranslation();
@@ -50,20 +51,31 @@ const ConfirmImport = (props: ConfirmImportProps) => {
     <Stack spacing="16px" sx={{ width: '100%' }}>
       <Typography className="h2">{t('tr_importDataConfirm')}</Typography>
 
-      <Typography color="var(--grey-400)">
+      <Typography
+        sx={{
+          color: 'var(--grey-400)',
+        }}
+      >
         {t('tr_importPersonsDataConfirmDesc')}
       </Typography>
 
       <Stack
         spacing="16px"
-        padding="16px"
-        borderRadius="var(--radius-m)"
-        bgcolor="var(--accent-150)"
         divider={<Divider color="var(--accent-200)" />}
+        sx={{
+          padding: '16px',
+          borderRadius: 'var(--radius-m)',
+          bgcolor: 'var(--accent-150)',
+        }}
       >
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <IconImportCsv color="var(--accent-dark)" />
-          <Typography className="h4" color="var(--accent-dark)">
+          <Typography
+            className="h4"
+            sx={{
+              color: 'var(--accent-dark)',
+            }}
+          >
             {filename}
           </Typography>
         </Box>
@@ -77,7 +89,9 @@ const ConfirmImport = (props: ConfirmImportProps) => {
             label={
               <Typography
                 className="body-small-semibold"
-                color="var(--accent-dark)"
+                sx={{
+                  color: 'var(--accent-dark)',
+                }}
               >
                 {t('tr_selectAll')}
               </Typography>
@@ -159,7 +173,7 @@ const ConfirmImport = (props: ConfirmImportProps) => {
                                   opacity: isFieldAvailable ? 1 : 0.6,
                                 }}
                               >
-                                {t(field.label)}
+                                {primaryTranslation(t(field.label))}
                               </Typography>
                             }
                           />
@@ -181,7 +195,7 @@ const ConfirmImport = (props: ConfirmImportProps) => {
         <Button
           variant="main"
           onClick={handleImportData}
-          endIcon={isProcessing && <IconLoading />}
+          endIcon={isProcessing ? <IconLoading /> : undefined}
         >
           {t('tr_import')}
         </Button>

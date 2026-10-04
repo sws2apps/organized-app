@@ -1,5 +1,5 @@
+import { styled } from '@mui/material/styles';
 import { Box } from '@mui/material';
-import { styled } from '@mui/system';
 
 export const GroupsContainer = styled(Box)({
   width: '100%',

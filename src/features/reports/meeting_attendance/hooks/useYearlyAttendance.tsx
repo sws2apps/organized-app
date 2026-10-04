@@ -3,6 +3,7 @@ import { useAtomValue } from 'jotai';
 import { meetingAttendanceState } from '@states/meeting_attendance';
 import { WeeklyAttendance } from '@definition/meeting_attendance';
 import { MeetingType } from '@definition/app';
+import { attendanceRecordTotal } from '@utils/meeting_attendance';
 
 const useYearlyAttendance = (year: string) => {
   const attendances = useAtomValue(meetingAttendanceState);
@@ -33,7 +34,7 @@ const useYearlyAttendance = (year: string) => {
           const meetingAttendances = weeklyAttendanceData[meeting] ?? [];
           return meetingAttendances.reduce(
             (acc, current) =>
-              acc + (current?.online ?? 0) + (current?.present ?? 0),
+              acc + (current ? attendanceRecordTotal(current) : 0),
             0
           );
         })

@@ -68,7 +68,9 @@ const S89TemplateItem = ({ item, onChange, selected }: S89TemplateItemType) => {
         <Typography
           align="center"
           className="body-small-regular"
-          color="var(--grey-400)"
+          sx={{
+            color: 'var(--grey-400)',
+          }}
         >
           {item.desc}
         </Typography>

@@ -22,12 +22,7 @@ import { applyRTL } from '@views/utils/pdf_utils';
 
 registerFonts();
 
-const TemplateS140AppNormal = ({
-  data,
-  cong_name,
-  fullname,
-  lang,
-}: S140Type) => {
+const TemplateS140AppNormal = ({ data, cong_name, lang }: S140Type) => {
   const { t } = useAppTranslation();
 
   const stylesSmart = applyRTL(styles, lang);
@@ -235,11 +230,7 @@ const TemplateS140AppNormal = ({
                     section={t('tr_applyFieldMinistryPart', { lng: lang })}
                     lang={lang}
                   >
-                    <S140AYF
-                      meetingData={meetingData}
-                      fullname={fullname}
-                      lang={lang}
-                    />
+                    <S140AYF meetingData={meetingData} lang={lang} />
                   </S140Section>
                 )}
 
@@ -357,7 +348,6 @@ const TemplateS140AppNormal = ({
                           <S140Person
                             primary={meetingData.lc_cbs_conductor_name}
                             secondary={meetingData.lc_cbs_reader_name}
-                            direction={fullname ? 'column' : 'row'}
                             lang={lang}
                           />
                         </View>

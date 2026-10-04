@@ -27,7 +27,12 @@ const MonthItem = ({ data }: MonthItemProps) => {
           userSelect: 'none',
         }}
       >
-        <Typography className="h4" color="var(--accent-dark)">
+        <Typography
+          className="h4"
+          sx={{
+            color: 'var(--accent-dark)',
+          }}
+        >
           {data.label}
         </Typography>
         <IconCollapse

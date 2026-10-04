@@ -24,15 +24,19 @@ const AccountChooser = () => {
       <Box>
         <Typography
           className="h1"
-          color="var(--black)"
-          sx={{ marginBottom: { mobile: '8px', tablet: '8px', laptop: '16px' } }}
+          sx={{
+            color: 'var(--black)',
+            marginBottom: { mobile: '8px', tablet: '8px', laptop: '16px' },
+          }}
         >
           {t('tr_welcomeApp')}
         </Typography>
         <Typography
           className="body-regular"
-          color="var(--grey-400)"
-          sx={{ marginBottom: '32px' }}
+          sx={{
+            color: 'var(--grey-400)',
+            marginBottom: '32px',
+          }}
         >
           {t('tr_selectAccount')}
         </Typography>
@@ -62,7 +66,6 @@ const AccountChooser = () => {
             onClick={handleChoosePocket}
           />
         </Box>
-
       </Box>
 
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>

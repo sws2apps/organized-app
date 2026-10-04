@@ -380,6 +380,7 @@
   "tr_congregationRequestRejectedDesc": "Församlingen <strong>{{ congregationNameAndNumber }}</strong> har nekat din begäran att visa deras lista över utresande talare. Om nödvändigt kan du kontakta dem.",
   "tr_congregationAccessRevoke": "Återkalla åtkomst för denna församling",
   "tr_congregationAccessRevokeDesc": "Återkalla åtkomst till din talarlista för församlingen <strong>{{ congregationName }}</strong>? De kommer inte längre att kunna se den, men du kan dela den med dem igen senare om de gör en ny förfrågan.",
+  "tr_withoutGroup": "Without a group",
   "tr_noGroupsYet": "Du har ännu inga tjänstegrupper skapade. Skapa en grupp först för att börja lägga till förkunnare och omordna grupper.",
   "tr_coordinator": "Samordnare",
   "tr_secretary": "Sekreterare",
@@ -568,5 +569,6 @@
   "tr_congregationAlreadySynced": "Församlingen är redan ansluten och synkroniserad.",
   "tr_error_app_data_no_valid_data_found": "Inga giltiga data hittades eller ingen talare vald.",
   "tr_infirmPioneer": "Ålderspionjär",
-  "tr_infirmPioneerNoGoal": "Som ålderspionjär kan du tjäna så mycket du kan, utan ett årligt timmål."
+  "tr_infirmPioneerNoGoal": "Som ålderspionjär kan du tjäna så mycket du kan, utan ett årligt timmål.",
+  "tr_importCsvParseError": "Filen kunde inte läsas. Kontrollera kolumnstrukturen och försök igen."
 }

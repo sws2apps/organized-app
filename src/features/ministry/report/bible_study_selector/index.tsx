@@ -69,9 +69,6 @@ const BibleStudySelector = (props: BibleStudySelectorProps) => {
               borderBottom: 'none',
             },
           }}
-          MenuListProps={{
-            'aria-labelledby': 'basic-button',
-          }}
           slotProps={{
             paper: {
               style: {
@@ -80,6 +77,10 @@ const BibleStudySelector = (props: BibleStudySelectorProps) => {
                 backgroundColor: 'var(--white)',
                 width: props.anchorEl.current.clientWidth,
               },
+            },
+
+            list: {
+              'aria-labelledby': 'basic-button',
             },
           }}
         >
@@ -109,7 +110,11 @@ const BibleStudySelector = (props: BibleStudySelectorProps) => {
               }}
             >
               <IconAdd color="var(--accent-dark)" />
-              <Typography color="var(--accent-dark)">
+              <Typography
+                sx={{
+                  color: 'var(--accent-dark)',
+                }}
+              >
                 {t('tr_addNewStudy')}
               </Typography>
             </Box>
