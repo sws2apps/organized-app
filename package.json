@@ -58,7 +58,7 @@
     "meeting-schedules-parser": "^4.5.0",
     "mui-one-time-password-input": "^7.0.0",
     "nanoid": "^5.1.16",
-    "node-html-parser": "^7.1.0",
+    "node-html-parser": "^9.0.4",
     "papaparse": "^5.5.3",
     "qrcode": "^1.5.4",
     "react": "^19.3.0",
