@@ -213,7 +213,13 @@ const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
     clearPendingSave();
     flush?.();
 
+    // rebase on the new week's stored value after the flush overwrote it
+    editBaseRef.current = defaultValue ?? '';
     setIsEditing(false);
+    // Run on week change only: defaultValue and clearPendingSave are read as
+    // a snapshot of the new week, re-running on their changes would discard
+    // in-progress edits.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [week]);
 
   useEffect(() => {
