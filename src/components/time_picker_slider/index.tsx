@@ -1,89 +1,36 @@
-import { useMemo, useState } from 'react';
-import { TimePickerSliderProps } from './index.types';
-import {
-  formatTimeUnit,
-  getNextValue,
-  getPrevValue,
-  validateHours,
-  validateMinutes,
-} from './index.utils';
+import { useState } from 'react';
 import { Box } from '@mui/material';
-import TimeUnit from './TimeUnit';
+import { TimePickerSliderProps } from './index.types';
 import {
   CASE_SIZE,
   TimePickerContainerStyle,
   TimePickerTypography,
 } from './index.styles';
+import TimeUnit from './TimeUnit';
 import Typography from '@components/typography';
 
 const TimePickerSlider = ({ value, onChange }: TimePickerSliderProps) => {
-  const { initialHours, initialMinutes } = useMemo(() => {
-    // Convert seconds to hours, minutes
-    const seconds = value % 60;
+  const [hours, setHours] = useState(() => {
+    const hours = Math.floor(value / 3600);
 
-    const minutesTotal = (value - seconds) / 60;
-    const minutes = minutesTotal % 60;
+    return hours < 24 ? hours : 0;
+  });
 
-    const hoursTotal = value - seconds - minutes * 60;
-    const hours = hoursTotal / 3600;
+  const [minutes, setMinutes] = useState(() => Math.floor(value / 60) % 60);
 
-    return {
-      initialHours: String(hours).padStart(2, '0'),
-      initialMinutes: String(minutes).padStart(2, '0'),
-    };
-  }, [value]);
-
-  const [hours, setHours] = useState(() => validateHours(initialHours));
-  const [minutes, setMinutes] = useState(() => validateMinutes(initialMinutes));
-
-  const convertToSeconds = (hours: string, minutes: string) => {
-    const hoursInSeconds = parseInt(hours) * 3600;
-    const minutesInSeconds = parseInt(minutes) * 60;
-    return hoursInSeconds + minutesInSeconds;
+  const handleHoursChange = (value: number) => {
+    setHours(value);
+    onChange(value * 3600 + minutes * 60);
   };
 
-  const handleHourChange = (newHours: string) => {
-    setHours(newHours);
-
-    const value = convertToSeconds(newHours, minutes);
-    onChange(value);
-  };
-
-  const handleMinuteChange = (newMinutes: string) => {
-    setMinutes(newMinutes);
-    const value = convertToSeconds(hours, newMinutes);
-    onChange(value);
-  };
-
-  const incrementHours = () => {
-    const newValue = (parseInt(hours, 10) + 1) % 24;
-    handleHourChange(formatTimeUnit(newValue));
-  };
-
-  const decrementHours = () => {
-    const newValue = (parseInt(hours, 10) - 1 + 24) % 24;
-    handleHourChange(formatTimeUnit(newValue));
-  };
-
-  const incrementMinutes = () => {
-    const newValue = (parseInt(minutes, 10) + 1) % 60;
-    handleMinuteChange(formatTimeUnit(newValue));
-  };
-
-  const decrementMinutes = () => {
-    const newValue = (parseInt(minutes, 10) - 1 + 60) % 60;
-    handleMinuteChange(formatTimeUnit(newValue));
+  const handleMinutesChange = (value: number) => {
+    setMinutes(value);
+    onChange(hours * 3600 + value * 60);
   };
 
   return (
     <Box sx={TimePickerContainerStyle}>
-      <TimeUnit
-        value={hours}
-        prevValue={getPrevValue(parseInt(hours, 10), 24)}
-        nextValue={getNextValue(parseInt(hours, 10), 24)}
-        onIncrement={incrementHours}
-        onDecrement={decrementHours}
-      />
+      <TimeUnit defaultValue={hours} max={24} onChange={handleHoursChange} />
 
       <Box sx={{ width: CASE_SIZE, display: 'flex', justifyContent: 'center' }}>
         <Typography className="h3" sx={TimePickerTypography}>
@@ -92,11 +39,9 @@ const TimePickerSlider = ({ value, onChange }: TimePickerSliderProps) => {
       </Box>
 
       <TimeUnit
-        value={minutes}
-        prevValue={getPrevValue(parseInt(minutes, 10), 60)}
-        nextValue={getNextValue(parseInt(minutes, 10), 60)}
-        onIncrement={incrementMinutes}
-        onDecrement={decrementMinutes}
+        defaultValue={minutes}
+        max={60}
+        onChange={handleMinutesChange}
       />
     </Box>
   );

@@ -11,11 +11,18 @@ const NowIndicator = ({ type }: NowIndicatorProps) => {
       color={
         type === 'midweek' ? 'var(--accent-dark)' : 'var(--weekend-meeting)'
       }
+      // a word that does not fit wraps onto a hidden second line, leaving the dot
       sx={{
-        textAlign: 'center',
+        display: 'flex',
+        flexWrap: 'wrap',
+        justifyContent: 'flex-end',
+        columnGap: '4px',
+        height: '14px',
+        overflow: 'hidden',
       }}
     >
-      • {t('tr_today')}
+      <span>•</span>
+      <span>{t('tr_today')}</span>
     </Typography>
   );
 };
