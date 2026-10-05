@@ -380,7 +380,7 @@
   "tr_congregationRequestRejectedDesc": "Seurakunta <strong>{{ congregationNameAndNumber }}</strong> hylkäsi pyyntösi nähdä heidän lähtevien puhujien luetteloa. Jos tarpeen, voit ottaa heihin henkilökohtaisesti yhteyttä.",
   "tr_congregationAccessRevoke": "Peruuta pääsy tälle seurakunnalle",
   "tr_congregationAccessRevokeDesc": "Peruuta pääsy saapuvien puhujien luetteloosi seurakunnalle <strong>{{ congregationName }}</strong>? He eivät voi enää nähdä sitä, mutta voit jakaa sen heidän kanssaan uudelleen myöhemmin, jos he tekevät uuden pyynnön.",
-  "tr_withoutGroup": "Without a group",
+  "tr_withoutGroup": "Ilman ryhmää",
   "tr_noGroupsYet": "Et ole vielä luonut kenttäpalvelusryhmiä. Luo ryhmä ensin, jotta voit alkaa lisätä julistajia ja järjestää ryhmiä.",
   "tr_coordinator": "Koordinaattori",
   "tr_secretary": "Sihteeri",

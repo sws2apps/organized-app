@@ -1,11 +1,14 @@
 import type { Vibration } from 'web-haptics';
 
-export type HapticIntent = 'tap' | 'limit' | 'reset' | 'celebrate';
+export type HapticIntent = 'tap' | 'tick' | 'limit' | 'reset' | 'celebrate';
 
 const TAP_INTENSITY = 0.55;
 
 export const HAPTIC_PATTERNS: Record<HapticIntent, Vibration[]> = {
   tap: [{ duration: 10, intensity: TAP_INTENSITY }],
+
+  // One faint detent per value a picker wheel rolls past.
+  tick: [{ duration: 5, intensity: 0.3 }],
 
   // Mirrors the 400ms cap-refused shake: four decaying jolts, one every 80ms.
   limit: [
