@@ -380,6 +380,7 @@
   "tr_congregationRequestRejectedDesc": "Собрание <strong>{{ congregationNameAndNumber }}</strong> отклонило твой запрос на просмотр их списка одобренных докладчиков. При необходимости ты можешь связаться с ними напрямую.",
   "tr_congregationAccessRevoke": "Отозвать доступ для этого собрания",
   "tr_congregationAccessRevokeDesc": "Отозвать доступ к твоему списку докладчиков для собрания <strong>{{ congregationName }}</strong>? Они больше не смогут его видеть, но ты всё же сможешь поделиться им позже после нового запроса.",
+  "tr_withoutGroup": "Without a group",
   "tr_noGroupsYet": "У тебя пока нет созданных групп для служения. Сначала создай группу, чтобы начать добавлять возвещателей и изменять порядок групп.",
   "tr_coordinator": "Координатор",
   "tr_secretary": "Секретарь",

@@ -1,6 +1,6 @@
-# <img src="https://github.com/sws2apps/cpe-sws/assets/26148770/f86c0643-b6aa-44f3-93ee-8c5fb68caad5" alt="larawan" width="24"> Organized App: Software sa pag-iskedyul ng pulong at pamamahala ng kongregasyon para sa mga Saksi ni Jehova
+# <img src="https://github.com/sws2apps/organized-app/assets/26148770/f86c0643-b6aa-44f3-93ee-8c5fb68caad5" alt="larawan" width="24"> Organized App: Software sa pag-iskedyul ng pulong at pamamahala ng kongregasyon para sa mga Saksi ni Jehova
 
-![Organized-devices](https://github.com/sws2apps/organized-app/assets/26148770/9526daa0-ad34-4a1b-8611-c50f0d3375b7)
+![Organized sa desktop, laptop, tablet at telepono](.github/assets/organized-header.webp)
 
 Isang libreng software sa pag-iskedyul at app para sa pamamahala ng kongregasyon para sa mga Saksi ni Jehova, na ginawa upang tumulong sa mga atas at pananagutan, na nagpapadali ng mga bagay at nagpalaya ng oras para sa mas mahahalagang bagay! [Subukan ang Organized sa preview na kapaligiran](https://test.organized-app.com) at maranasan ang pagkakaiba, walang kailangang pagpaparehistro!
 
@@ -30,6 +30,12 @@ Ang Organized ay may diskarteng nakatuon sa mga elder: kapag inaprubahan ng kata
 📃 **Mga iskedyul:** Awtomatikong pagkuha ng data ng jw.org para sa pag-iiskedyul ng pulong sa gitnang sanlinggo at dulong sanlinggo, at marami pa.
 
 📊 **Mga ulat:** Agarang ulat ng paglilingkod sa larangan, attendance at kongregasyon na may tumpak na kalkulasyon ng buwanan at taunang ulat ng kongregasyon.
+
+⏱️ **Paglilingkod:** I-track ang oras mo sa paglilingkod sa larangan gamit ang built-in na timer, magsumite ng buwanang ulat, mag-apply bilang auxiliary pioneer at magsumite ng ulat para sa mga delegated person.
+
+👥 **Mga grupo ng paglilingkod sa larangan at rekord ng mamamahayag:** Ayusin ang mga mamamahayag sa mga grupo ng paglilingkod sa larangan at itago ang rekord ng bawat mamamahayag kasama ang kabuuan ng taon ng paglilingkod.
+
+🔢 **Attendance ng pulong:** Bilangin ang mga dumalo gamit ang built-in na counter at ihanda ang buwanang ulat para sa sangay.
 
 📅 **Mga paparating na takdang-gawain:** Tingnan ang iyong susunod na takdang-gawain bilang estudyante, pampublikong talumpati at pulong.
 
@@ -71,7 +77,7 @@ Lubos naming pinahahalagahan ang iyong boluntaryong espiritu! Narito ang ilang p
 
 ## Available sa maraming wika
 
-Ang Organized ay ganap o bahagyang naka-localize sa maraming wika, kasama ang `Filipino`, `Ingles`, `Espanyol`, `Portuges`, `Pranses`, `Aleman`, `Italyano`, `Polako`, `Hapon`, `Koreano`, `Ruso`, `Suweko`, `Tsino`, `Ukraniano`, `Malagasy`, `Turko` at marami pang iba.
+Ang Organized ay ganap o bahagyang naka-localize sa mahigit 50 wika, kasama ang `Filipino`, `Ingles`, `Espanyol`, `Portuges`, `Pranses`, `Aleman`, `Italyano`, `Polako`, `Hapon`, `Koreano`, `Ruso`, `Suweko`, `Tsino`, `Ukraniano`, `Malagasy`, `Turko` at marami pang iba.
 
 ## Mga kapaki-pakinabang na link
 

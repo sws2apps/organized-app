@@ -380,6 +380,7 @@
   "tr_congregationRequestRejectedDesc": "Tsy neken’ny fiangona <strong>{{ congregationNameAndNumber }}</strong> ty fangatahanao hahita ty listan'ny mpandahateny mpitsidiky amin-drozy ao. Azonao resahy rozy laha ilà.",
   "tr_congregationAccessRevoke": "Hangalaky ty fahazoa alala ananan’ny fiangona",
   "tr_congregationAccessRevokeDesc": "Halanao va ty fahazoa alalan'ny fiangona <strong>{{ congregationName }}</strong> manenty ty listan'ny mpandahateny mpitsidiky? Tsy afaky hahita ani-zay sasy rozy bakeo, fe mbo afaky ameanao alala ndraiky laha mimpoly manao rozy.",
+  "tr_withoutGroup": "Without a group",
   "tr_noGroupsYet": "Mbo tsy misy andiam-pitory. Mamoro andiam-pitory vaovao, le tendreo ty mpitory ao bakeo. Azonao amboary koa ty filaharan’ny andiam-pitory reo.",
   "tr_coordinator": "Anti-panahy mpandrindra",
   "tr_secretary": "Mpitan-tsoratsy",
