@@ -8,7 +8,7 @@ export type InfoMessagePropsType = {
   /**
    * The variant of the info message.
    */
-  variant: 'error' | 'success' | 'message-with-button';
+  variant: 'error' | 'success' | 'warning' | 'message-with-button';
 
   /**
    * The function to be executed when the action button is clicked.
