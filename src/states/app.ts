@@ -40,7 +40,18 @@ export const isContactOpenState = atom(false);
 
 export const isLoginOpenState = atom(false);
 
-export const appLangState = atom(localStorageGetItem('ui_lang'));
+// ui_lang stays a plain string, as the boot script and the database read it
+// straight from localStorage
+export const appLangState = atomWithStorage(
+  'ui_lang',
+  'eng',
+  {
+    getItem: (key, initialValue) => localStorageGetItem(key) ?? initialValue,
+    setItem: (key, value) => localStorage.setItem(key, value),
+    removeItem: (key) => localStorage.removeItem(key),
+  },
+  { getOnInit: true }
+);
 
 export const appFontState = atomWithStorage('font', 'Inter');
 
@@ -134,7 +145,7 @@ export const appThemeState = atom((get) => {
 });
 
 export const monthNamesState = atom((get) => {
-  const appLang = get(appLangState)!;
+  const appLang = get(appLangState);
 
   const months: string[] = [];
 
@@ -155,7 +166,7 @@ export const monthNamesState = atom((get) => {
 });
 
 export const monthShortNamesState = atom((get) => {
-  const appLang = get(appLangState)!;
+  const appLang = get(appLangState);
 
   const months: string[] = [];
 
@@ -176,7 +187,7 @@ export const monthShortNamesState = atom((get) => {
 });
 
 export const dayNamesState = atom((get) => {
-  const appLang = get(appLangState)!;
+  const appLang = get(appLangState);
 
   const days: string[] = [];
 
@@ -192,7 +203,7 @@ export const dayNamesState = atom((get) => {
 });
 
 export const dayNamesShortState = atom((get) => {
-  const appLang = get(appLangState)!;
+  const appLang = get(appLangState);
 
   const days: string[] = [];
 
