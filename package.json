@@ -59,7 +59,7 @@
     "mui-one-time-password-input": "^7.0.0",
     "nanoid": "^5.1.16",
     "node-html-parser": "^7.1.0",
-    "papaparse": "^5.5.3",
+    "papaparse": "^5.7.0",
     "qrcode": "^1.5.4",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
