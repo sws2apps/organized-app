@@ -165,7 +165,7 @@ const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
       typeof selected === 'string' ? selected : selected.person_name
     );
     setIsEditing(false);
-    commitAssignment(selected, true);
+    void commitAssignment(selected, true);
   };
 
   const handleValueChange = (
@@ -184,7 +184,7 @@ const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
 
     if (text.length === 0) {
       clearPendingSave();
-      commitAssignment('');
+      void commitAssignment('');
     }
   };
 
@@ -198,7 +198,7 @@ const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
     if (value && inputValue === value.person_name) return;
 
     // bound to this week's schedule, so a week change can flush it safely
-    const flush = () => commitAssignment(inputValue);
+    const flush = () => void commitAssignment(inputValue);
     pendingFlushRef.current = flush;
 
     timerSource.current = setTimeout(() => {
