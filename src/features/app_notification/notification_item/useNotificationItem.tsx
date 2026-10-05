@@ -22,42 +22,36 @@ const useNotificationItem = (notification: NotificationRecordType) => {
 
   const itemDate = useMemo(() => {
     const toFormat = new Date(notification.date);
+
     return formatLongDate(toFormat, shortDateFormat, hour24);
   }, [hour24, shortDateFormat, notification.date]);
 
   const handleMarkAsRead = async () => {
-    const isStandardNotif = notification.id.startsWith('standard-notification');
+    if (!notification.id.startsWith('standard-notification-')) {
+      setNotifications((prev) =>
+        prev.map((record) =>
+          record.id === notification.id ? { ...record, read: true } : record
+        )
+      );
 
-    if (isStandardNotif) {
-      const id = +notification.id.split('-').at(-1);
-      const dbNotif = dbNotifications.find((record) => record.id === id);
-
-      if (!dbNotif) return;
-
-      const newNotif = structuredClone(dbNotif);
-      newNotif.read = true;
-      newNotif.updatedAt = new Date().toISOString();
-
-      await dbNotificationsSave(newNotif);
-
-      setNotifications((prev) => {
-        const newValue = prev.filter((record) => record.id !== notification.id);
-        return newValue;
-      });
+      return;
     }
 
-    if (!isStandardNotif) {
-      setNotifications((prev) => {
-        const find = prev.find((record) => record.id === notification.id);
-        const newObj = { icon: find.icon, ...find };
-        newObj.read = true;
+    const id = Number(notification.id.replace('standard-notification-', ''));
 
-        const newData = prev.filter((record) => record.id !== notification.id);
-        newData.push(newObj);
+    const dbNotification = dbNotifications.find((record) => record.id === id);
 
-        return newData;
-      });
-    }
+    if (!dbNotification) return;
+
+    await dbNotificationsSave({
+      ...dbNotification,
+      read: true,
+      updatedAt: new Date().toISOString(),
+    });
+
+    setNotifications((prev) =>
+      prev.filter((record) => record.id !== notification.id)
+    );
   };
 
   const handleAnchorClick = () => {
@@ -69,7 +63,11 @@ const useNotificationItem = (notification: NotificationRecordType) => {
     }
   };
 
-  return { itemDate, handleMarkAsRead, handleAnchorClick };
+  return {
+    itemDate,
+    handleMarkAsRead,
+    handleAnchorClick,
+  };
 };
 
 export default useNotificationItem;

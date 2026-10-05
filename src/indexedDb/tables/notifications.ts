@@ -6,5 +6,5 @@ export type NotificationTable = {
 };
 
 export const notificationSchema = {
-  notification: '&id, updatedAt, title, desc, read',
+  notification: '&id, updatedAt, title, desc, read, notificationId',
 };

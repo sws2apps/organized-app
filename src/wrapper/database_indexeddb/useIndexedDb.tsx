@@ -24,6 +24,7 @@ import { upcomingEventsDbState } from '@states/upcoming_events';
 import { publicTalksState } from '@states/public_talks';
 import { songsState } from '@states/songs';
 import { appLocalsState } from '@states/app_locals';
+import { informationBoardState } from '@states/information_board';
 
 const useIndexedDb = () => {
   const dbSettings = useLiveQuery(() => appDb.app_settings.toArray());
@@ -67,6 +68,9 @@ const useIndexedDb = () => {
   const dbPublicTalks = useLiveQuery(() => appDb.public_talks.toArray());
   const dbSongs = useLiveQuery(() => appDb.songs.toArray());
   const dbAppLocals = useLiveQuery(() => appDb.app_locals.toArray());
+  const dbInformationBoard = useLiveQuery(() =>
+    appDb.information_board.toArray()
+  );
 
   const setSettings = useSetAtom(settingsState);
   const setPersons = useSetAtom(personsState);
@@ -91,6 +95,7 @@ const useIndexedDb = () => {
   const setPublicTalks = useSetAtom(publicTalksState);
   const setSongs = useSetAtom(songsState);
   const setAppLocals = useSetAtom(appLocalsState);
+  const setInformationBoard = useSetAtom(informationBoardState);
 
   const loadSettings = useCallback(() => {
     if (dbSettings && dbSettings[0]) {
@@ -217,6 +222,12 @@ const useIndexedDb = () => {
       setAppLocals(dbAppLocals);
     }
   }, [dbAppLocals, setAppLocals]);
+  
+  const loadInformationBoard = useCallback(() => {
+    if (dbInformationBoard && dbInformationBoard[0]) {
+      setInformationBoard(dbInformationBoard[0]);
+    }
+  }, [dbInformationBoard, setInformationBoard]);
 
   return {
     loadSettings,
@@ -240,6 +251,7 @@ const useIndexedDb = () => {
     loadPublicTalks,
     loadSongs,
     loadAppLocals,
+    loadInformationBoard,
   };
 };
 
