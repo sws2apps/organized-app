@@ -175,7 +175,9 @@ const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
     // MUI reconciling its controlled value (e.g. on week change), not user input
     if (reason === 'reset') return;
 
-    if (!isEditing) editBaseRef.current = defaultValue ?? '';
+    if (!isEditing && activeSavesRef.current === 0) {
+      editBaseRef.current = defaultValue ?? '';
+    }
 
     setInputValue(text);
     setIsEditing(true);
