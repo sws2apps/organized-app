@@ -30,7 +30,7 @@ const useLockOverride = () => {
     return branch_submitted;
   }, [currentReport, branch_submitted]);
 
-  const handleChecked = async (value: boolean) => {
+  const handleChecked = (value: boolean) => {
     const overrideReport = structuredClone(currentReport);
     overrideReport.report_data.lock_override = value;
     overrideReport.report_data.status = 'confirmed';
