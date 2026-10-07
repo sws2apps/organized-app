@@ -1483,6 +1483,31 @@ const dbRestoreSources = async (
         }
 
         syncFromRemote(newItem, remoteItem);
+
+        // Keep the locally imported AYF part types. The type map is a plain
+        // {[language]: code} map with no updatedAt, so syncFromRemote would
+        // otherwise overwrite a corrected import (for example 129) with the
+        // stale backup value (for example 127) on every sync, and the restore
+        // happens before the upload is built, so the backup never heals.
+        const ayfParts = [
+          'ayf_part1',
+          'ayf_part2',
+          'ayf_part3',
+          'ayf_part4',
+        ] as const;
+
+        for (const part of ayfParts) {
+          const localType = localItem.midweek_meeting[part]?.type;
+          const mergedType = newItem.midweek_meeting[part]?.type;
+
+          if (!localType || !mergedType) continue;
+
+          newItem.midweek_meeting[part].type = {
+            ...mergedType,
+            ...localType,
+          };
+        }
+
         dataToUpdate.push(newItem);
       }
     }
