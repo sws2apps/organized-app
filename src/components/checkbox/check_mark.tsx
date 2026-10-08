@@ -24,10 +24,14 @@ export type CheckMarkState = 'unchecked' | 'checked' | 'indeterminate';
 const CheckMark = ({
   state,
   disabled = false,
+  fontSize,
 }: {
   state: CheckMarkState;
   disabled?: boolean;
+  // set by MUI from the checkbox's size
+  fontSize?: 'small' | 'medium' | 'large' | 'inherit';
 }) => {
+  const size = fontSize === 'small' ? 20 : 24;
   const on = state !== 'unchecked';
   // a box that loads checked stays still; only a change pops
   const [seen, setSeen] = useState(state);
@@ -63,8 +67,8 @@ const CheckMark = ({
       viewBox="0 0 24 24"
       aria-hidden
       sx={{
-        width: 24,
-        height: 24,
+        width: size,
+        height: size,
         display: 'block',
         transformOrigin: 'center',
         animation: changes
