@@ -27,7 +27,9 @@ const useLockOverride = () => {
   const show_override = useMemo(() => {
     if (currentReport.report_data.lock_override) return true;
 
-    return branch_submitted;
+    if (!branch_submitted) return false;
+
+    return !currentReport.report_data.shared_ministry;
   }, [currentReport, branch_submitted]);
 
   const handleChecked = (value: boolean) => {
