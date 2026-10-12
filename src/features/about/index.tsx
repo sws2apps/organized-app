@@ -6,6 +6,8 @@ import useAbout from './useAbout';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
 import IconButton from '@components/icon_button';
+import ReleaseNotes from './release_notes';
+import Tabs from '@components/tabs';
 import TextMarkup from '@components/text_markup';
 import Typography from '@components/typography';
 import Tooltip from '@components/tooltip';
@@ -19,6 +21,8 @@ const About = (props: AboutProps) => {
     handleOpenSupport,
     handleForceReload,
     privacyText,
+    tab,
+    handleTabChange,
   } = useAbout(props);
 
   const { t } = useAppTranslation();
@@ -62,52 +66,81 @@ const About = (props: AboutProps) => {
         </Tooltip>
       </Box>
 
-      <TextMarkup content={t('tr_appAboutDesc')} className="body-regular" />
+      <Tabs
+        value={tab}
+        onChange={handleTabChange}
+        tabs={[
+          {
+            label: t('tr_aboutShort'),
+            Component: (
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: {
+                    mobile: 'var(--dialog-gap-mobile)',
+                    desktop: 'var(--dialog-gap)',
+                  },
+                }}
+              >
+                <TextMarkup
+                  content={t('tr_appAboutDesc')}
+                  className="body-regular"
+                />
 
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'stretch',
-          gap: '8px',
-          alignSelf: 'stretch',
-        }}
-      >
-        <Button variant="main" onClick={handleOpenSupport}>
-          {t('tr_wantSupportApp')}
-        </Button>
-        <Button variant="secondary" onClick={handleOpenDoc}>
-          {t('tr_howToUseApp')}
-        </Button>
-      </Box>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'stretch',
+                    gap: '8px',
+                    alignSelf: 'stretch',
+                  }}
+                >
+                  <Button variant="main" onClick={handleOpenSupport}>
+                    {t('tr_wantSupportApp')}
+                  </Button>
+                  <Button variant="secondary" onClick={handleOpenDoc}>
+                    {t('tr_howToUseApp')}
+                  </Button>
+                </Box>
 
-      <Typography
-        className="body-small-regular"
-        sx={{
-          color: 'var(--grey-350)',
-        }}
-      >
-        © {currentYear} Organized (sws2apps) |{' '}
-        <Link
-          className="body-small-semibold"
-          href="https://sws2apps.com/privacy"
-          target="_blank"
-          rel="noopener"
-          sx={{ color: 'var(--accent-dark)' }}
-        >
-          {privacyText}
-        </Link>{' '}
-        |{' '}
-        <Link
-          className="body-small-semibold"
-          href="https://github.com/sws2apps/organized-app"
-          target="_blank"
-          rel="noopener"
-          sx={{ color: 'var(--accent-dark)' }}
-        >
-          GitHub
-        </Link>
-      </Typography>
+                <Typography
+                  className="body-small-regular"
+                  sx={{
+                    color: 'var(--grey-350)',
+                  }}
+                >
+                  © {currentYear} Organized (sws2apps) |{' '}
+                  <Link
+                    className="body-small-semibold"
+                    href="https://sws2apps.com/privacy"
+                    target="_blank"
+                    rel="noopener"
+                    sx={{ color: 'var(--accent-dark)' }}
+                  >
+                    {privacyText}
+                  </Link>{' '}
+                  |{' '}
+                  <Link
+                    className="body-small-semibold"
+                    href="https://github.com/sws2apps/organized-app"
+                    target="_blank"
+                    rel="noopener"
+                    sx={{ color: 'var(--accent-dark)' }}
+                  >
+                    GitHub
+                  </Link>
+                </Typography>
+              </Box>
+            ),
+          },
+          {
+            label: t('tr_whatsNewShort'),
+            Component: <ReleaseNotes />,
+          },
+        ]}
+      />
     </Dialog>
   );
 };
