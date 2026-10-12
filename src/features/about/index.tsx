@@ -71,7 +71,7 @@ const About = (props: AboutProps) => {
         onChange={handleTabChange}
         tabs={[
           {
-            label: t('tr_aboutShort'),
+            label: t('tr_general'),
             Component: (
               <Box
                 sx={{
@@ -136,7 +136,7 @@ const About = (props: AboutProps) => {
             ),
           },
           {
-            label: t('tr_whatsNewShort'),
+            label: t('tr_whatsNew'),
             Component: <ReleaseNotes />,
           },
         ]}
