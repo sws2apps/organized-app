@@ -18,6 +18,8 @@
   "tr_type": "Type",
   "tr_sourceMaterial": "Source material",
   "tr_overwriteWithCustomData": "Overwrite with custom data",
+  "tr_governingBodyUpdate": "Governing Body Update",
+  "tr_governingBodyUpdateTitle": "Governing Body Update #{{ number }}",
   "tr_title": "Title",
   "tr_addCustomMeetingPart": "Add custom part",
   "tr_appointedBrothers": "Appointed brothers",
