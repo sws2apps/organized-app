@@ -63,7 +63,12 @@ export type BadgePropsType = {
    */
   key?: number | string;
 
-  faded?: boolean
+  faded?: boolean;
+
+  /**
+   * Shrinks the small badge and cuts the text with an ellipsis when space runs out.
+   */
+  truncate?: boolean;
 };
 
 /**
