@@ -1,10 +1,6 @@
 import { Checkbox as MUICheckbox, FormControlLabel } from '@mui/material';
 import Typography from '@components/typography';
-import {
-  IconCheckboxEmpty,
-  IconCheckboxFilled,
-  IconCheckboxMultiple,
-} from '@icons/index';
+import CheckMark from './check_mark';
 import { CheckboxPropsType } from './index.types';
 import {
   StyleCheckboxBorder,
@@ -62,21 +58,11 @@ const Checkbox = (props: CheckboxPropsType) => {
               color: 'var(--accent-400)',
             },
           }}
-          icon={
-            <IconCheckboxEmpty
-              color={disabled ? 'var(--accent-300)' : 'var(--accent-350)'}
-            />
-          }
+          icon={<CheckMark state="unchecked" disabled={disabled} />}
           indeterminateIcon={
-            <IconCheckboxMultiple
-              color={disabled ? 'var(--accent-300)' : 'var(--accent-main)'}
-            />
+            <CheckMark state="indeterminate" disabled={disabled} />
           }
-          checkedIcon={
-            <IconCheckboxFilled
-              color={disabled ? 'var(--accent-300)' : 'var(--accent-main)'}
-            />
-          }
+          checkedIcon={<CheckMark state="checked" disabled={disabled} />}
         />
       }
       label={
