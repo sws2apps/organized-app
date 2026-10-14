@@ -11,7 +11,7 @@ import Typography from '@components/typography';
  * @param props The props for the CustomSelect component.
  * @returns A custom select input field.
  */
-const Select = ({ helperText, ...props }: SelectPropsType) => {
+const Select = ({ helperText, menuMaxHeight, ...props }: SelectPropsType) => {
   const { t } = useAppTranslation();
 
   return (
@@ -46,7 +46,7 @@ const Select = ({ helperText, ...props }: SelectPropsType) => {
                 border: '1px solid var(--accent-200)',
                 padding: '8px 0px',
                 marginTop: '2px',
-                maxHeight: '232px',
+                maxHeight: menuMaxHeight ?? '232px',
                 width: !props.children ? '300px !important' : 'auto',
                 '& ul': {
                   paddingTop: 0,
