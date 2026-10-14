@@ -306,6 +306,7 @@ export type SettingsType = {
     };
     theme_follow_os_enabled: { value: boolean; updatedAt: string };
     haptics_enabled: { value: boolean; updatedAt: string };
+    group_badges_enabled: { value: boolean; updatedAt: string };
     hour_credits_enabled: { value: boolean; updatedAt: string };
     data_view: { value: string; updatedAt: string };
   };

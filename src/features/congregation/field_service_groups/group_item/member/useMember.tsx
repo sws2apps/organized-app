@@ -1,21 +1,39 @@
 import { MouseEvent, useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
+import { BadgeColor } from '@definition/app';
 import { IconAssistant, IconOverseer, IconPerson } from '@components/icons';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { buildPersonFullname } from '@utils/common';
 import { personsState } from '@states/persons';
-import { fullnameOptionState } from '@states/settings';
+import {
+  fullnameOptionState,
+  groupBadgesEnabledState,
+  settingsState,
+} from '@states/settings';
+import { addMonths } from 'date-fns';
+import { formatDate, formatDateShortMonth } from '@utils/date';
 import { fieldGroupsState } from '@states/field_service_groups';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { GroupMemberProps } from './index.types';
 import { dbFieldServiceGroupSave } from '@services/dexie/field_service_groups';
+import {
+  personIsAP,
+  personIsFMF,
+  personIsFR,
+  personIsFS,
+  personIsInactive,
+} from '@services/app/persons';
 import usePerson from '@features/persons/hooks/usePerson';
 
 const useMember = ({ member, index, group_id }: GroupMemberProps) => {
   const { t } = useAppTranslation();
 
-  const { isServiceCommittee } = useCurrentUser();
+  const { isServiceCommittee, isElder, isAppointed } = useCurrentUser();
+
+  const settings = useAtomValue(settingsState);
+
+  const badgesEnabled = useAtomValue(groupBadgesEnabledState);
 
   const { personIsElder, personIsMS, personIsBaptizedPublisher } = usePerson();
 
@@ -86,6 +104,51 @@ const useMember = ({ member, index, group_id }: GroupMemberProps) => {
     }
   }, [member, person, personIsElder, t]);
 
+  const member_away = useMemo(() => {
+    if (!person) return;
+
+    const timeAwayPublic = settings.cong_settings.time_away_public?.value;
+
+    if (!isAppointed && !timeAwayPublic) return;
+
+    const today = formatDate(new Date(), 'yyyy/MM/dd');
+
+    const timeAway = person.person_data.timeAway
+      ?.filter((record) => {
+        if (record._deleted || !record.start_date) return false;
+
+        if (!record.end_date) return true;
+
+        return formatDate(new Date(record.end_date), 'yyyy/MM/dd') >= today;
+      })
+      .sort((a, b) => a.start_date.localeCompare(b.start_date))
+      .at(0);
+
+    if (!timeAway) return;
+
+    const start = formatDate(new Date(timeAway.start_date), 'yyyy/MM/dd');
+    const noticeFrom = formatDate(addMonths(new Date(), 1), 'yyyy/MM/dd');
+
+    if (start > noticeFrom) return;
+
+    const isAway = start <= today;
+
+    const startDate = formatDateShortMonth(timeAway.start_date);
+
+    if (!timeAway.end_date) {
+      return t(isAway ? 'tr_awayFromDate' : 'tr_awaySoonFromDate', {
+        startDate,
+      });
+    }
+
+    const endDate = formatDateShortMonth(timeAway.end_date);
+
+    return t(isAway ? 'tr_awayDates' : 'tr_awaySoonDates', {
+      startDate,
+      endDate,
+    });
+  }, [person, settings, isAppointed, t]);
+
   const make_overseer = useMemo(() => {
     if (!isServiceCommittee) return false;
 
@@ -111,6 +174,46 @@ const useMember = ({ member, index, group_id }: GroupMemberProps) => {
     const isBaptized = personIsBaptizedPublisher(person);
     return isBaptized;
   }, [isServiceCommittee, person, personIsBaptizedPublisher, member]);
+
+  const member_badges = useMemo(() => {
+    const badges: { name: string; color: BadgeColor }[] = [];
+
+    if (!person || !badgesEnabled) return badges;
+
+    if (personIsInactive(person)) {
+      if (isElder) {
+        badges.push({ name: t('tr_inactivePublisher'), color: 'red' });
+      }
+
+      return badges;
+    }
+
+    if (personIsElder(person)) {
+      badges.push({ name: t('tr_elder'), color: 'accent' });
+    }
+
+    if (personIsMS(person)) {
+      badges.push({ name: t('tr_ministerialServant'), color: 'green' });
+    }
+
+    if (personIsFS(person)) {
+      badges.push({ name: t('tr_FS'), color: 'orange' });
+    }
+
+    if (personIsFMF(person)) {
+      badges.push({ name: t('tr_FMF'), color: 'orange' });
+    }
+
+    if (personIsFR(person)) {
+      badges.push({ name: t('tr_FR'), color: 'orange' });
+    }
+
+    if (personIsAP(person)) {
+      badges.push({ name: t('tr_AP'), color: 'orange' });
+    }
+
+    return badges;
+  }, [person, badgesEnabled, isElder, personIsElder, personIsMS, t]);
 
   const current_group = useMemo(() => {
     return groups.find((record) => record.group_id === group_id);
@@ -275,6 +378,8 @@ const useMember = ({ member, index, group_id }: GroupMemberProps) => {
     member_icon,
     member_name,
     member_desc,
+    member_away,
+    member_badges,
     icon_hover_color,
     anchorEl,
     open,
