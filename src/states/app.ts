@@ -288,7 +288,62 @@ export const appMessageHeaderState = atom('');
 
 export const appMessageIconState = atom<ReactElement>();
 
+export const appMessageActionState = atom<
+  { text: string; onClick: VoidFunction } | undefined
+>(undefined);
+
 export const congAccountConnectedState = atom(false);
+
+export type WorkOfflineType = {
+  since: string;
+};
+
+const WORK_OFFLINE_KEY = 'organized_work_offline';
+
+const readWorkOffline = (): WorkOfflineType | undefined => {
+  try {
+    const raw = localStorage.getItem(WORK_OFFLINE_KEY);
+    if (!raw) return undefined;
+
+    return JSON.parse(raw) as WorkOfflineType;
+  } catch {
+    return undefined;
+  }
+};
+
+export const workOfflineState = atom<WorkOfflineType | undefined>(
+  readWorkOffline()
+);
+
+export const workOfflineStorageKey = WORK_OFFLINE_KEY;
+
+export const accountAttentionState = atom<
+  '' | 'signin' | 'two-step' | 'pocket-reconnect'
+>('');
+
+export type ConnectionStatusType =
+  | 'connected'
+  | 'connecting'
+  | 'paused'
+  | 'no-network'
+  | 'server-unreachable'
+  | 'attention';
+
+export const offlineConfirmedState = atom<'' | 'network' | 'server'>('');
+
+export const justResumedState = atom(false);
+
+export const connectionStatusState = atom<ConnectionStatusType>((get) => {
+  if (get(workOfflineState)) return 'paused';
+  if (get(accountAttentionState) !== '') return 'attention';
+
+  const confirmed = get(offlineConfirmedState);
+  if (confirmed === 'network') return 'no-network';
+  if (confirmed === 'server') return 'server-unreachable';
+
+  if (get(congAccountConnectedState)) return 'connected';
+  return 'connecting';
+});
 
 export const themeOptionsState = atom((get) => {
   const isLight = get(isDarkThemeState);

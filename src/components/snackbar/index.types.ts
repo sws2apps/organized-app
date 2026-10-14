@@ -22,7 +22,7 @@ export type SnackbarPropsType = {
   /**
    * The variant of the Snackbar.
    */
-  variant: 'error' | 'success' | 'message-with-button';
+  variant: 'error' | 'success' | 'warning' | 'message-with-button';
 
   /**
    * The icon to display alongside the message.

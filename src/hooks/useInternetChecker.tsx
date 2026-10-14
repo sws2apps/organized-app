@@ -1,26 +1,58 @@
-import { useCallback, useEffect, useState } from 'react';
-import { displaySnackNotification } from '@services/states/app';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import {
+  displaySnackNotification,
+  retryConnectionNow,
+} from '@services/states/app';
 import useAppTranslation from './useAppTranslation';
-import { IconNoConnection } from '@components/icons';
+import { IconCloudOff } from '@components/icons';
+import { store } from '@states/index';
+import { offlineConfirmedState } from '@states/app';
 
 const useInternetChecker = () => {
   const { t } = useAppTranslation();
 
   const [isNavigatorOnline, setIsNavigatorOnline] = useState(navigator.onLine);
 
-  const handleSwitchOnline = () => {
+  // switching Wi-Fi and mobile data drops the network briefly: ignore it
+  const quietTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const confirmTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
+
+  const handleSwitchOnline = useCallback(() => {
+    clearTimeout(quietTimer.current);
+    clearTimeout(confirmTimer.current);
     setIsNavigatorOnline(true);
-  };
+
+    if (store.get(offlineConfirmedState) === 'network') {
+      store.set(offlineConfirmedState, '');
+
+      displaySnackNotification({
+        header: t('tr_backOnline'),
+        message: t('tr_backOnlineDesc'),
+        severity: 'success',
+      });
+    }
+  }, [t]);
 
   const handleSwitchOffline = useCallback(async () => {
-    setIsNavigatorOnline(false);
+    clearTimeout(quietTimer.current);
+    clearTimeout(confirmTimer.current);
 
-    displaySnackNotification({
-      header: t('tr_noInternetConnection'),
-      message: t('tr_noInternetConnectionDesc'),
-      icon: <IconNoConnection color="var(--always-white)" />,
-      severity: 'error',
-    });
+    quietTimer.current = setTimeout(() => {
+      if (!navigator.onLine) setIsNavigatorOnline(false);
+    }, 3000);
+
+    confirmTimer.current = setTimeout(() => {
+      if (navigator.onLine) return;
+
+      store.set(offlineConfirmedState, 'network');
+
+      displaySnackNotification({
+        header: t('tr_noInternetConnection'),
+        message: t('tr_noInternetConnectionDesc'),
+        icon: <IconCloudOff color="var(--always-white)" />,
+        action: { text: t('tr_tryAgain'), onClick: retryConnectionNow },
+      });
+    }, 30000);
   }, [t]);
 
   useEffect(() => {
@@ -28,10 +60,12 @@ const useInternetChecker = () => {
     window.addEventListener('offline', handleSwitchOffline);
 
     return () => {
+      clearTimeout(quietTimer.current);
+      clearTimeout(confirmTimer.current);
       window.removeEventListener('online', handleSwitchOnline);
       window.removeEventListener('offline', handleSwitchOffline);
     };
-  }, [handleSwitchOffline]);
+  }, [handleSwitchOnline, handleSwitchOffline]);
 
   return { isNavigatorOnline };
 };

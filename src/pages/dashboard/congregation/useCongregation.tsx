@@ -4,6 +4,7 @@ import {
   congAccountConnectedState,
   isAppDataSyncingState,
   lastAppDataSyncState,
+  workOfflineState,
 } from '@states/app';
 import {
   useAppTranslation,
@@ -26,6 +27,7 @@ const useCongregation = () => {
   const isSyncing = useAtomValue(isAppDataSyncingState);
   const lastSync = useAtomValue(lastAppDataSyncState);
   const isConnected = useAtomValue(congAccountConnectedState);
+  const workOffline = useAtomValue(workOfflineState);
   const isUserAdmin = useAtomValue(adminRoleState);
   const joinRequestsCount = useAtomValue(joinRequestsCountState);
 
@@ -36,6 +38,8 @@ const useCongregation = () => {
   }, [joinRequestsCount]);
 
   const getSecondaryText = () => {
+    if (workOffline) return t('tr_syncPausedOffline');
+
     let label = t('tr_syncAppDataInProgress');
 
     if (!isSyncing) {
@@ -115,6 +119,7 @@ const useCongregation = () => {
     secondaryText: getSecondaryText(),
     handleManualSync,
     isConnected,
+    isOfflineMode: !!workOffline,
     isUserAdmin,
     requests_count,
   };

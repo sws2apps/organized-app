@@ -1,15 +1,9 @@
 import { useAtomValue } from 'jotai';
-import { congAccountConnectedState, isAppLoadState } from '@states/app';
+import { connectionStatusState, isAppLoadState } from '@states/app';
 
-/**
- * Custom hook for managing the user's offline status.
- * @returns {Object} Object containing isOffline property
- */
 export const useAccountHeaderIcon = () => {
-  const congAccountConnected = useAtomValue(congAccountConnectedState);
+  const status = useAtomValue(connectionStatusState);
   const isAppLoad = useAtomValue(isAppLoadState);
 
-  const isOffline = isAppLoad ? false : !congAccountConnected;
-
-  return { isOffline };
+  return { status: isAppLoad ? 'connected' : status };
 };

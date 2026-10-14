@@ -10,12 +10,22 @@ const AppFeedback = () => {
     snackOpen,
     appMessageHeader,
     appMessageIcon,
+    appMessageAction,
   } = useAppFeedback();
 
   return (
     <SnackBar
       open={snackOpen}
-      variant={appSeverity}
+      variant={appMessageAction ? 'message-with-button' : appSeverity}
+      actionText={appMessageAction?.text}
+      actionClick={
+        appMessageAction
+          ? () => {
+              handleClose();
+              appMessageAction.onClick();
+            }
+          : undefined
+      }
       position="bottom-center"
       messageHeader={appMessageHeader}
       message={appMessage}
