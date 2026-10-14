@@ -10,6 +10,8 @@ import {
 } from 'react';
 import { useNavigate } from 'react-router';
 import { useAtom, useAtomValue } from 'jotai';
+import { useQueryClient } from '@tanstack/react-query';
+import { store } from '@states/index';
 import usePwaInstall from '@hooks/usePwaInstall';
 import {
   IconInstallDesktop,
@@ -37,7 +39,7 @@ import {
   congNameState,
   fullnameState,
 } from '@states/settings';
-import { userSignOut } from '@services/firebase/auth';
+import { currentAuthUser, userSignOut } from '@services/firebase/auth';
 
 import NavBarButton from '@components/nav_bar_button';
 import { NavBarButtonProps } from '@components/nav_bar_button/index.types';
@@ -119,8 +121,22 @@ const useNavbar = () => {
     navBarOptions.quickSettings!();
   };
 
-  const handleReconnectAccount = () => {
+  const queryClient = useQueryClient();
+
+  const handleReconnectAccount = async () => {
     handleCloseMore();
+
+    // Usually nothing is wrong with the sign-in: the account only lost its
+    // connection (network drop, expired device cookie). Check again quietly
+    // and only send the user to the sign-in screen if that does not help.
+    if (accountType === 'vip' && currentAuthUser()) {
+      await queryClient.refetchQueries({ queryKey: ['whoami-vip'] });
+
+      for (let i = 0; i < 20; i++) {
+        if (store.get(congAccountConnectedState)) return;
+        await new Promise((resolve) => setTimeout(resolve, 250));
+      }
+    }
 
     setOfflineOverride(true);
     setIsSetup(true);

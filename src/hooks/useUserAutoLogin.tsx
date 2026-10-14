@@ -1,9 +1,10 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   apiHostState,
   congAccountConnectedState,
+  featureFlagsState,
   congPrefixState,
   isAppLoadState,
   isMFAEnabledState,
@@ -12,8 +13,8 @@ import {
   offlineOverrideState,
   userIDState,
 } from '@states/app';
-import { apiValidateMe } from '@services/api/user';
-import { userSignOut } from '@services/firebase/auth';
+import { apiSendAuthorization, apiValidateMe } from '@services/api/user';
+import { currentAuthUser, userSignOut } from '@services/firebase/auth';
 import { handleDeleteDatabase } from '@services/app';
 import { APP_ROLES, isTest, VIP_ROLES } from '@constants/index';
 import { accountTypeState, congIDState } from '@states/settings';
@@ -22,7 +23,7 @@ import logger from '@services/logger/index';
 import worker from '@services/worker/backupWorker';
 import { apiPocketValidateMe } from '@services/api/pocket';
 import { displaySnackNotification } from '@services/states/app';
-import { IconInfo } from '@components/icons';
+import { IconInfo, IconNoConnection } from '@components/icons';
 import { useAppTranslation } from '.';
 import {
   dbAppSettingsGet,
@@ -35,6 +36,11 @@ const useUserAutoLogin = () => {
 
   const { t } = useAppTranslation();
 
+  const queryClient = useQueryClient();
+
+  // one quiet attempt to re-register this device per missing-cookie episode
+  const deviceRestoreTried = useRef(false);
+
   const setCongConnected = useSetAtom(congAccountConnectedState);
   const setUserID = useSetAtom(userIDState);
   const setCongPrefix = useSetAtom(congPrefixState);
@@ -44,6 +50,8 @@ const useUserAutoLogin = () => {
   const setIsAppLoad = useSetAtom(isAppLoadState);
 
   const isOnline = useAtomValue(isOnlineState);
+  const featureFlags = useAtomValue(featureFlagsState);
+  const isConnected = useAtomValue(congAccountConnectedState);
   const apiHost = useAtomValue(apiHostState);
   const isAppLoad = useAtomValue(isAppLoadState);
   const accountType = useAtomValue(accountTypeState);
@@ -74,23 +82,82 @@ const useUserAutoLogin = () => {
     isPending: isPendingVip,
     data: dataVip,
     error: errorVip,
+    dataUpdatedAt: dataVipUpdatedAt,
+    errorUpdatedAt: errorVipUpdatedAt,
   } = useQuery({
     queryKey: ['whoami-vip'],
     queryFn: apiValidateMe,
     enabled: runFetchVip,
     refetchOnWindowFocus: 'always',
+    // retries are scheduled below, with a backoff that keeps going
+    retry: false,
   });
 
   const {
     isPending: isPendingPocket,
     data: dataPocket,
     error: errorPocket,
+    dataUpdatedAt: dataPocketUpdatedAt,
+    errorUpdatedAt: errorPocketUpdatedAt,
   } = useQuery({
     queryKey: ['whoami-pocket'],
     queryFn: apiPocketValidateMe,
     enabled: runFetchPocket,
     refetchOnWindowFocus: 'always',
+    retry: false,
   });
+
+  // The server could not be reached although the device reports a network
+  // (captive portal, server outage): show the account as offline instead of
+  // pretending it is connected.
+  useEffect(() => {
+    if (errorVip || errorPocket) setCongConnected(false);
+  }, [
+    errorVip,
+    errorPocket,
+    errorVipUpdatedAt,
+    errorPocketUpdatedAt,
+    setCongConnected,
+  ]);
+
+  // A decision from the server that retrying cannot change (signed out,
+  // device needs a new sign-in) stops the automatic re-checks below.
+  const recheckBlocked = useRef(false);
+  const recheckDelay = useRef(2000);
+
+  // While the account is not connected, keep checking again with a growing
+  // delay (2 s up to 1 min) instead of waiting for a restart.
+  useEffect(() => {
+    if (isConnected) {
+      recheckDelay.current = 2000;
+      recheckBlocked.current = false;
+      return;
+    }
+
+    if (recheckBlocked.current || isAppLoad || !isOnline) return;
+    if (accountType === 'vip' && !isAuthenticated) return;
+    if (accountType !== 'vip' && accountType !== 'pocket') return;
+
+    const queryKey = accountType === 'vip' ? ['whoami-vip'] : ['whoami-pocket'];
+
+    const timer = setTimeout(() => {
+      queryClient.invalidateQueries({ queryKey });
+      recheckDelay.current = Math.min(recheckDelay.current * 2, 60000);
+    }, recheckDelay.current);
+
+    return () => clearTimeout(timer);
+  }, [
+    isConnected,
+    isAppLoad,
+    isOnline,
+    accountType,
+    isAuthenticated,
+    queryClient,
+    dataVipUpdatedAt,
+    errorVipUpdatedAt,
+    dataPocketUpdatedAt,
+    errorPocketUpdatedAt,
+  ]);
 
   const [autoLoginStatus, setAutoLoginStatus] = useState('');
 
@@ -104,6 +171,52 @@ const useUserAutoLogin = () => {
         if (!dataVip) return;
 
         if (dataVip.status === 403) {
+          const reason = dataVip.result?.message;
+
+          // The Firebase session is fine but the device cookie is gone (Safari
+          // caps it to 7 days because the API is on another host). Register
+          // this device again with the valid Firebase session instead of
+          // logging the user out.
+          //
+          // Behind a flag: this is only safe once the API refuses to register
+          // a device again with a login that was revoked on purpose (from the
+          // sessions list). Without the flag the user is logged out, as
+          // before, but now told why.
+          if (
+            reason === 'DEVICE_REVOKED' &&
+            featureFlags['DEVICE_SESSION_RESTORE'] &&
+            !deviceRestoreTried.current
+          ) {
+            deviceRestoreTried.current = true;
+
+            const { status } = await apiSendAuthorization();
+
+            if (status === 200) {
+              await queryClient.invalidateQueries({ queryKey: ['whoami-vip'] });
+              return;
+            }
+          }
+
+          // a token the server did not accept: refresh it once and check again
+          if (reason === 'LOGIN_FIRST' && !deviceRestoreTried.current) {
+            deviceRestoreTried.current = true;
+
+            await currentAuthUser()?.getIdToken(true);
+            await queryClient.invalidateQueries({ queryKey: ['whoami-vip'] });
+            return;
+          }
+
+          // revoked from another device, or the account is gone: sign out,
+          // and say so instead of leaving the app looking merely offline
+          recheckBlocked.current = true;
+          setCongConnected(false);
+
+          displaySnackNotification({
+            header: t('tr_deviceSignedOut'),
+            message: t('tr_deviceSignedOutDesc'),
+            icon: <IconInfo color="var(--white)" />,
+          });
+
           await userSignOut();
           return;
         }
@@ -111,6 +224,22 @@ const useUserAutoLogin = () => {
         // congregation not found -> user not authorized and delete local data
         if (dataVip.status === 404) {
           await handleDeleteDatabase();
+          return;
+        }
+
+        // A new session on this device (e.g. after the device cookie was
+        // replaced) needs the two-step code again. Say so instead of
+        // leaving the account silently offline.
+        if (dataVip.status === 401) {
+          recheckBlocked.current = true;
+          setCongConnected(false);
+
+          displaySnackNotification({
+            header: t('tr_confirmTwoStep'),
+            message: t('tr_confirmTwoStepDesc'),
+            icon: <IconInfo color="var(--white)" />,
+          });
+
           return;
         }
 
@@ -122,6 +251,8 @@ const useUserAutoLogin = () => {
         }
 
         if (dataVip.status === 200) {
+          deviceRestoreTried.current = false;
+
           if (congID.length > 0 && dataVip.result.cong_id !== congID) {
             await handleDeleteDatabase();
             return;
@@ -221,9 +352,14 @@ const useUserAutoLogin = () => {
     }
   }, [
     t,
+    queryClient,
+    featureFlags,
     accountType,
     isPendingVip,
     dataVip,
+    // a successful check that returns the same answer as before must still
+    // reconnect the account, e.g. after the network came back
+    dataVipUpdatedAt,
     errorVip,
     setCongConnected,
     setUserID,
@@ -244,9 +380,25 @@ const useUserAutoLogin = () => {
 
         setAutoLoginStatus('auto login process started');
 
-        // congregation not found -> user not authorized and delete local data
         if (dataPocket.status === 403) {
-          await handleDeleteDatabase();
+          // the pocket user was removed: local data belongs to nobody anymore
+          if (dataPocket.result?.message === 'ACCOUNT_NOT_FOUND') {
+            await handleDeleteDatabase();
+            return;
+          }
+
+          // Only this device's session cookie is gone (Safari caps it to 7
+          // days). The data on the device is still the user's: keep it.
+          recheckBlocked.current = true;
+          setCongConnected(false);
+
+          displaySnackNotification({
+            header: t('tr_deviceNeedsReconnect'),
+            message: t('tr_deviceNeedsReconnectDesc'),
+            icon: <IconNoConnection color="var(--always-white)" />,
+            severity: 'error',
+          });
+
           return;
         }
 
@@ -305,9 +457,11 @@ const useUserAutoLogin = () => {
       handleLoginData();
     }
   }, [
+    t,
     accountType,
     isPendingPocket,
     dataPocket,
+    dataPocketUpdatedAt,
     errorPocket,
     setCongConnected,
     setUserID,
