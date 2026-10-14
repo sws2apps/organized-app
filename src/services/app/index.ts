@@ -22,7 +22,10 @@ import {
 } from '@services/states/app';
 import { dbWeekTypeUpdate } from '@services/dexie/weekType';
 import { dbAssignmentUpdate } from '@services/dexie/assignment';
-import { dbAppDelete } from '@services/dexie/app';
+import {
+  dbAppDelete,
+  dbAppGetAssignmentHistorySources,
+} from '@services/dexie/app';
 import { schedulesBuildHistoryList } from './schedules';
 import { setAssignmentsHistory } from '@services/states/schedules';
 import { withCongSettingsDefaults } from '@services/states/settings';
@@ -59,6 +62,9 @@ import {
   settingsState,
   userLocalUIDState,
 } from '@states/settings';
+import { schedulesState } from '@states/schedules';
+import { sourcesState } from '@states/sources';
+import { publicTalksState } from '@states/public_talks';
 import { apiPocketValidateMe } from '@services/api/pocket';
 import { UserLoginResponseType } from '@definition/api';
 import { settingSchema } from '@services/dexie/schema';
@@ -66,14 +72,34 @@ import { dbUpcomingEventsCleanup } from '@services/dexie/upcoming_events';
 import appDb from '@db/appDb';
 import { dbSpeakersCongregationsSetName } from '@services/dexie/speakers_congregations';
 
-export const loadApp = () => {
+// live queries lag behind the writes of runUpdater and sync, so read directly
+const primeAssignmentHistorySources = async () => {
+  const { settings, schedules, sources, publicTalks } =
+    await dbAppGetAssignmentHistorySources();
+
+  if (settings) store.set(settingsState, settings);
+  store.set(schedulesState, schedules);
+  store.set(sourcesState, sources);
+  store.set(publicTalksState, publicTalks);
+};
+
+export const buildAssignmentHistory = async () => {
+  try {
+    await primeAssignmentHistorySources();
+  } catch (error) {
+    console.error(error);
+  }
+
+  const history = schedulesBuildHistoryList();
+  setAssignmentsHistory(history);
+};
+
+export const loadApp = async () => {
   const appLang = store.get(appLangState);
 
   handleAppChangeLanguage(appLang);
 
-  // load assignment history
-  const history = schedulesBuildHistoryList();
-  setAssignmentsHistory(history);
+  await buildAssignmentHistory();
 };
 
 export const runUpdater = async () => {
@@ -257,14 +283,11 @@ export const getListLanguages = async () => {
 const handleLoadApp = async () => {
   await runUpdater();
 
-  loadApp();
+  await loadApp();
 
   store.set(isSetupState, false);
-
-  setTimeout(async () => {
-    store.set(offlineOverrideState, false);
-    store.set(isAppLoadState, false);
-  }, 2000);
+  store.set(offlineOverrideState, false);
+  store.set(isAppLoadState, false);
 };
 
 const handleUpdateSettings = async (data: UserLoginResponseType) => {

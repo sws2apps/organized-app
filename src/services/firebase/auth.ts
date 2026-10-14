@@ -18,6 +18,41 @@ export const userSignOut = async () => {
   }
 };
 
+export class AuthNotReadyError extends Error {
+  constructor() {
+    super('Firebase auth did not settle in time');
+    this.name = 'AuthNotReadyError';
+  }
+}
+
+// rejects on timeout: "not known yet" must not be read as "signed out"
+export const waitForAuthReady = async (timeoutMs = 10000) => {
+  const auth = getAuth();
+
+  let timer: ReturnType<typeof setTimeout> | undefined;
+
+  try {
+    await Promise.race([
+      auth.authStateReady(),
+      new Promise<never>((_, reject) => {
+        timer = setTimeout(() => reject(new AuthNotReadyError()), timeoutMs);
+      }),
+    ]);
+  } finally {
+    clearTimeout(timer);
+  }
+
+  return auth.currentUser;
+};
+
+export const whenAuthSettled = async () => {
+  const auth = getAuth();
+
+  await auth.authStateReady();
+
+  return auth.currentUser;
+};
+
 export const currentAuthUser = () => {
   const auth = getAuth();
   const user = auth?.currentUser;
