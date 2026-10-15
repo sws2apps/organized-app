@@ -3009,13 +3009,15 @@ export const schedulesGetMeetingDate = ({
   const month = meetingDate.getMonth();
   const year = meetingDate.getFullYear();
 
-  const monthName = forPrint
-    ? short
-      ? generateMonthShortNames(sourceLocale)[month]
-      : generateMonthNames(sourceLocale)[month]
-    : short
-      ? monthShortNames[month]
-      : monthNames[month];
+  let monthName: string;
+  if (forPrint) {
+    const printNames = short
+      ? generateMonthShortNames(sourceLocale)
+      : generateMonthNames(sourceLocale);
+    monthName = printNames[month];
+  } else {
+    monthName = short ? monthShortNames[month] : monthNames[month];
+  }
 
   if (locale === '') {
     locale = getTranslation({
