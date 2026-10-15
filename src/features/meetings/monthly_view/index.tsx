@@ -27,10 +27,9 @@ const MonthlyView = () => {
   const {
     selectedWeeks,
     getWeekLocale,
-    currentYear,
     selectedMonth,
     monthName,
-    thisYearMonths,
+    availableMonths,
     setSelectedMonth,
     classCount,
     showDoublePerson,
@@ -96,10 +95,10 @@ const MonthlyView = () => {
             value={selectedMonth}
             onChange={(e) => setSelectedMonth(e.target.value as string)}
           >
-            {thisYearMonths?.map((month) => {
+            {availableMonths?.map((month) => {
               return (
                 <MenuItem value={month.value} key={month.value}>
-                  {`${month.label} ${currentYear}`}
+                  {`${month.label} ${month.year}`}
                 </MenuItem>
               );
             })}
