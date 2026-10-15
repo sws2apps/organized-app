@@ -60,22 +60,24 @@ const useMonthlyView = () => {
     [sourcesFormatted]
   );
 
-  const currentYear = new Date().getFullYear().toString();
-
-  // the months of this year that have material, newest first already
-  const thisYearMonths = useMemo(() => {
-    const year = sourcesFormatted.find(
-      (record) => record.value.toString() === currentYear
-    );
-
-    return (year?.months ?? []).map((month) => ({
-      value: month.value,
-      label: monthNames[Number(month.value.split('/')[1]) - 1],
-    }));
-  }, [sourcesFormatted, currentYear, monthNames]);
+  // the material files a month under a `YYYY/MM` key, so that key is what the
+  // list, the selection and the lookup all speak. All years with material
+  // are offered, newest first, so a January 2027 schedule stays reachable
+  // when the calendar still shows 2026.
+  const availableMonths = useMemo(() => {
+    return [...sourcesFormatted]
+      .sort((a, b) => Number(b.value) - Number(a.value))
+      .flatMap((year) =>
+        year.months.map((month) => ({
+          value: month.value,
+          label: monthNames[Number(month.value.split('/')[1]) - 1],
+          year: month.value.split('/')[0],
+        }))
+      );
+  }, [sourcesFormatted, monthNames]);
 
   // a congregation whose material stops short of today opens on its newest
-  const preferredMonth = useCallback((months: typeof thisYearMonths) => {
+  const preferredMonth = useCallback((months: typeof availableMonths) => {
     const today = new Date();
 
     const thisMonth = `${today.getFullYear()}/${String(
@@ -88,7 +90,7 @@ const useMonthlyView = () => {
   }, []);
 
   const [selectedMonth, setSelectedMonth] = useState(() =>
-    preferredMonth(thisYearMonths)
+    preferredMonth(availableMonths)
   );
 
   const [selectedWeeks, setSelectedWeeks] = useState(() =>
@@ -156,7 +158,7 @@ const useMonthlyView = () => {
     useState(null);
 
   const monthName =
-    thisYearMonths.find((month) => month.value === selectedMonth)?.label ?? '';
+    availableMonths.find((month) => month.value === selectedMonth)?.label ?? '';
 
   const getWeekLocale = (date, monthName) => {
     return t('tr_longDateNoYearLocale', {
@@ -232,16 +234,16 @@ const useMonthlyView = () => {
   // the material arrives from the database after this view is mounted, and a
   // month can equally disappear from it, so the choice is kept answerable
   useEffect(() => {
-    if (thisYearMonths.length === 0) return;
+    if (availableMonths.length === 0) return;
 
-    const stillOffered = thisYearMonths.some(
+    const stillOffered = availableMonths.some(
       (month) => month.value === selectedMonth
     );
 
     if (stillOffered) return;
 
-    setSelectedMonth(preferredMonth(thisYearMonths));
-  }, [thisYearMonths, selectedMonth, preferredMonth]);
+    setSelectedMonth(preferredMonth(availableMonths));
+  }, [availableMonths, selectedMonth, preferredMonth]);
 
   useEffect(() => {
     setSelectedWeeks(getWeeksByMonth(selectedMonth));
@@ -467,8 +469,7 @@ const useMonthlyView = () => {
 
   return {
     // General Settings
-    currentYear,
-    thisYearMonths,
+    availableMonths,
     openingPrayerLinked,
     closingPrayerLinked,
     showDoublePerson,
