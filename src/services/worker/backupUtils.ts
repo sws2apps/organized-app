@@ -1402,6 +1402,54 @@ const dbRestoreMeetingAttendance = async (
   }
 };
 
+const keepLocalAYFPartTypes = (
+  newItem: SourceWeekType,
+  localItem: SourceWeekType
+) => {
+  const ayfParts = ['ayf_part1', 'ayf_part2', 'ayf_part3', 'ayf_part4'] as const;
+
+  for (const part of ayfParts) {
+    const localType = localItem.midweek_meeting[part]?.type;
+    const mergedType = newItem.midweek_meeting[part]?.type;
+
+    if (!localType || !mergedType) continue;
+
+    newItem.midweek_meeting[part].type = {
+      ...mergedType,
+      ...localType,
+    };
+  }
+};
+
+const mergeLocalSource = (
+  localItem: SourceWeekType,
+  remoteItem: SourceWeekType
+) => {
+  const newItem = structuredClone(localItem);
+
+  const midweekMeeting = newItem.midweek_meeting as Record<string, unknown>;
+  const weekendMeeting = newItem.weekend_meeting as Record<string, unknown>;
+
+  if (!Array.isArray(midweekMeeting.event_name)) {
+    delete midweekMeeting.event_name;
+  }
+
+  if (!Array.isArray(weekendMeeting.event_name)) {
+    delete weekendMeeting.event_name;
+  }
+
+  syncFromRemote(newItem, remoteItem);
+
+  // Keep the locally imported AYF part types. The type map is a plain
+  // {[language]: code} map with no updatedAt, so syncFromRemote would
+  // otherwise overwrite a corrected import (for example 129) with the
+  // stale backup value (for example 127) on every sync, and the restore
+  // happens before the upload is built, so the backup never heals.
+  keepLocalAYFPartTypes(newItem, localItem);
+
+  return newItem;
+};
+
 const dbRestoreSources = async (
   backupData: BackupDataType,
   accessCode: string
@@ -1463,27 +1511,7 @@ const dbRestoreSources = async (
       }
 
       if (localItem) {
-        const newItem = structuredClone(localItem);
-
-        const midweekMeeting = newItem.midweek_meeting as Record<
-          string,
-          unknown
-        >;
-        const weekendMeeting = newItem.weekend_meeting as Record<
-          string,
-          unknown
-        >;
-
-        if (!Array.isArray(midweekMeeting.event_name)) {
-          delete midweekMeeting.event_name;
-        }
-
-        if (!Array.isArray(weekendMeeting.event_name)) {
-          delete weekendMeeting.event_name;
-        }
-
-        syncFromRemote(newItem, remoteItem);
-        dataToUpdate.push(newItem);
+        dataToUpdate.push(mergeLocalSource(localItem, remoteItem));
       }
     }
 
