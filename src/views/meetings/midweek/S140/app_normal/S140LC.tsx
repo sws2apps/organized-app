@@ -4,6 +4,7 @@ import { S140LCType } from '../shared/index.types';
 import S140PartTime from './S140PartTime';
 import S140Source from './S140Source';
 import S140Person from './S140Person';
+import livingTint from './livingTint';
 import styles from './index.styles';
 import { applyRTL } from '@views/utils/pdf_utils';
 
@@ -24,7 +25,7 @@ const LivingPartRow = ({ meetingData, lang }: S140LCType) => {
               <View
                 style={{
                   ...stylesSmart.rowContainer,
-                  backgroundColor: index % 2 === 0 ? '' : '#FFF3F1',
+                  backgroundColor: livingTint(meetingData, `lc_part${index}`),
                 }}
               >
                 <S140PartTime

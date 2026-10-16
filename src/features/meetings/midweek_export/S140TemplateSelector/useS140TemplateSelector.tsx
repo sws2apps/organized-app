@@ -4,6 +4,9 @@ import { S140ImagesListType, S140TemplateSelectorType } from './index.types';
 import { S140TemplateType } from '@definition/schedules';
 import S140_default from '@assets/img/S140_default.png';
 import S140_app_normal from '@assets/img/S140_app_normal.png';
+import S140_app_supercompact from '@assets/img/S140_app_supercompact.png';
+import S140_app_compact from '@assets/img/S140_app_compact.png';
+import S140_app_detailed from '@assets/img/S140_app_detailed.png';
 
 const useS140TemplateSelector = ({ onChange }: S140TemplateSelectorType) => {
   const { t } = useAppTranslation();
@@ -11,11 +14,32 @@ const useS140TemplateSelector = ({ onChange }: S140TemplateSelectorType) => {
   const images: S140ImagesListType[] = useMemo(() => {
     return [
       {
+        src: S140_app_supercompact,
+        small: S140_app_supercompact,
+        id: 'S140_app_supercompact',
+        name: t('tr_templateS140AppSupercompactName'),
+        desc: t('tr_templateS140DescUp5Weeks'),
+      },
+      {
+        src: S140_app_compact,
+        small: S140_app_compact,
+        id: 'S140_app_compact',
+        name: t('tr_templateS140AppCompactName'),
+        desc: t('tr_templateS140DescUp5Weeks'),
+      },
+      {
         src: S140_app_normal,
         small: S140_app_normal,
         id: 'S140_app_normal',
         name: t('tr_templateS140AppNormalName'),
         desc: t('tr_templateS140DescUp2Weeks'),
+      },
+      {
+        src: S140_app_detailed,
+        small: S140_app_detailed,
+        id: 'S140_app_detailed',
+        name: t('tr_templateS140AppDetailedName'),
+        desc: t('tr_templateS140DescOneWeek'),
       },
       {
         src: S140_default,
