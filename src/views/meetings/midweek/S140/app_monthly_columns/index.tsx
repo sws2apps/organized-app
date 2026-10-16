@@ -12,7 +12,7 @@ import pickDensity from './pickDensity';
 
 registerFonts();
 
-const TemplateS140AppSupercompact = ({ data, cong_name, lang }: S140Type) => {
+const TemplateS140AppMonthlyColumns = ({ data, cong_name, lang }: S140Type) => {
   const { t } = useAppTranslation();
 
   const stylesSmart = applyRTL(styles, lang);
@@ -43,4 +43,4 @@ const TemplateS140AppSupercompact = ({ data, cong_name, lang }: S140Type) => {
   );
 };
 
-export default TemplateS140AppSupercompact;
+export default TemplateS140AppMonthlyColumns;

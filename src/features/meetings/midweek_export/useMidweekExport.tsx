@@ -32,10 +32,10 @@ import {
 } from '@states/settings';
 import {
   TemplateS140,
-  TemplateS140AppCompact,
+  TemplateS140AppMonthlyList,
   TemplateS140AppDetailed,
   TemplateS140AppNormal,
-  TemplateS140AppSupercompact,
+  TemplateS140AppMonthlyColumns,
   TemplateS89,
   TemplateS89Doc4in1,
 } from '@views/index';
@@ -156,8 +156,8 @@ const useMidweekExport = (onClose: MidweekExportType['onClose']) => {
       const templates = {
         S140_default: TemplateS140,
         S140_app_normal: TemplateS140AppNormal,
-        S140_app_supercompact: TemplateS140AppSupercompact,
-        S140_app_compact: TemplateS140AppCompact,
+        S140_app_monthly_columns: TemplateS140AppMonthlyColumns,
+        S140_app_monthly_list: TemplateS140AppMonthlyList,
         S140_app_detailed: TemplateS140AppDetailed,
       };
 

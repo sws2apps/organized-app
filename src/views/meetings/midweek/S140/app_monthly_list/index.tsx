@@ -95,7 +95,7 @@ const pickDensity = (data: MidweekMeetingDataType[]) => {
   return DENSE;
 };
 
-const TemplateS140AppCompact = ({ data, cong_name, lang }: S140Type) => {
+const TemplateS140AppMonthlyList = ({ data, cong_name, lang }: S140Type) => {
   const { t } = useAppTranslation();
 
   const stylesSmart = applyRTL(styles, lang);
@@ -126,4 +126,4 @@ const TemplateS140AppCompact = ({ data, cong_name, lang }: S140Type) => {
   );
 };
 
-export default TemplateS140AppCompact;
+export default TemplateS140AppMonthlyList;

@@ -4,8 +4,8 @@ import { Week } from './week_type';
 export type S140TemplateType =
   | 'S140_default'
   | 'S140_app_normal'
-  | 'S140_app_supercompact'
-  | 'S140_app_compact'
+  | 'S140_app_monthly_columns'
+  | 'S140_app_monthly_list'
   | 'S140_app_detailed';
 
 export type S89TemplateType = 'S89_1x1' | 'S89_4x1';
