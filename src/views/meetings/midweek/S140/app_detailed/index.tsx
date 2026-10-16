@@ -16,7 +16,7 @@ const TemplateS140AppDetailed = ({ data, cong_name, lang }: S140Type) => {
 
   const stylesSmart = applyRTL(styles, lang);
 
-  // each meeting week starts a page; no-meeting cards ride along with a neighbouring week
+  // no-meeting cards share the page of a neighbouring week
   const pages = data.reduce<MidweekMeetingDataType[][]>(
     (result, meetingData) => {
       const current = result.at(-1);

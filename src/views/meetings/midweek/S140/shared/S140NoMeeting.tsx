@@ -35,7 +35,6 @@ const EventIcon = ({ weekType, size }: { weekType: Week; size: number }) => {
   return <IconCalendarClock size={size} color={TEXT} />;
 };
 
-// a dashed outline marks a week without a meeting and stays light in print
 const S140NoMeeting = ({
   date,
   name,

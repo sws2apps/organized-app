@@ -13,6 +13,7 @@ import IconSong from '@views/components/icons/IconSong';
 import { S140_COLORS } from '../shared/index.utils';
 import styles, { Density } from './index.styles';
 import S140NoMeeting from '../shared/S140NoMeeting';
+import S140NamePair from '../shared/S140NamePair';
 
 type Names = { primary?: string; secondary?: string };
 
@@ -37,13 +38,8 @@ type Column = {
 
 const DIVIDER = '0.5px solid #E6E8F0';
 
-// names column inside a section column: card width / 3 minus padding and the time column
+// a third of the card minus column padding and the time column
 const NAMES_WIDTH = 555 / 3 - 12 - 22;
-const PAIR_GAP = 3;
-
-// rough Inter widths at 7pt; good enough to decide how a name pair splits
-const estimateWidth = (text: string, weight: number) =>
-  text.length * (weight >= 500 ? 4 : 3.8);
 
 const S140Week = ({
   meetingData,
@@ -72,55 +68,6 @@ const S140Week = ({
     </View>
   );
 
-  // two names share one line; when they do not fit, each keeps at least half of it
-  const pairLine = (names: Names) => {
-    const available = NAMES_WIDTH - PAIR_GAP;
-    const half = available / 2;
-    const primaryWidth = estimateWidth(`${names.primary},`, 500);
-    const secondaryWidth = estimateWidth(names.secondary ?? '', 400);
-
-    if (!names.secondary || primaryWidth + secondaryWidth <= available) {
-      return (
-        <Text style={stylesSmart.names}>
-          {rlm}
-          <Text style={stylesSmart.primary}>{names.primary}</Text>
-          {names.secondary && `, ${names.secondary}`}
-        </Text>
-      );
-    }
-
-    let primary = half;
-
-    if (primaryWidth <= half) primary = primaryWidth;
-    else if (secondaryWidth <= half) primary = available - secondaryWidth;
-
-    const cell = (width: number): Style => ({
-      flexGrow: 0,
-      flexShrink: 0,
-      flexBasis: `${width}px`,
-    });
-
-    return (
-      <>
-        <Text style={[stylesSmart.names, stylesSmart.primary, cell(primary)]}>
-          {rlm}
-          {names.primary},
-        </Text>
-        <Text
-          style={[
-            stylesSmart.names,
-            cell(available - primary),
-            { marginLeft: `${PAIR_GAP}px` },
-          ]}
-        >
-          {rlm}
-          {names.secondary}
-        </Text>
-      </>
-    );
-  };
-
-  // with an auxiliary classroom each hall gets a half: student on top, assistant below
   const classCell = (names: Names, tag?: string) => (
     <View style={stylesSmart.classCell}>
       <View style={stylesSmart.itemLine}>
@@ -155,7 +102,13 @@ const S140Week = ({
           {classCell(auxNames, 'AUX')}
         </>
       ) : (
-        pairLine(names)
+        <S140NamePair
+          {...names}
+          width={NAMES_WIDTH}
+          primaryStyle={{ ...stylesSmart.names, ...stylesSmart.primary }}
+          secondaryStyle={stylesSmart.names}
+          lang={lang}
+        />
       )}
     </View>
   );
@@ -264,7 +217,7 @@ const S140Week = ({
         names: { primary: meetingData[`lc_part${index}_name`] },
       }));
 
-    // the app orders a CO week as concluding comments, then the CO talk, then the closing song
+    // matches the app: concluding comments come before the CO talk
     if (isCOVisit) {
       items.push({
         time: timing.concluding_comments,

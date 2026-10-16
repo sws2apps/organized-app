@@ -68,7 +68,6 @@ const estimateWeekHeight = (
   );
 };
 
-// the roomiest spacing whose estimated height still fits one page; tight data gets the minimum
 const pickDensity = (data: MidweekMeetingDataType[]) => {
   for (let gap = MAX_GAP; gap > MIN_GAP; gap -= 0.25) {
     const density = densityFor(gap);

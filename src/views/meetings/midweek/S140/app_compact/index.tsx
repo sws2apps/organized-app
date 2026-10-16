@@ -51,7 +51,6 @@ const rowsInWeek = (meetingData: MidweekMeetingDataType) => {
       ayf +
       (meetingData.living ? lc : 0) +
       Number(meetingData.full),
-    // stacked student and assistant names in the classroom cells add a line
     extraLines: meetingData.aux_class ? ayf : 0,
   };
 };
@@ -79,9 +78,8 @@ const mix = (ratio: number, stackNames: boolean): Density => ({
   weekGap: DENSE.weekGap + (ROOMY.weekGap - DENSE.weekGap) * ratio,
 });
 
-// the roomiest spacing that still keeps the export on one page; five full weeks stay dense
 const pickDensity = (data: MidweekMeetingDataType[]) => {
-  // student and assistant stack in the classroom cells while they fit, else they share a line
+  // stacked student/assistant names only while the page still fits
   for (const stackNames of [true, false]) {
     for (let ratio = 1; ratio >= 0; ratio -= 0.05) {
       const density = mix(ratio, stackNames);

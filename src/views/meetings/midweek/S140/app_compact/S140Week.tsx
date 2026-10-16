@@ -12,6 +12,7 @@ import IconPart from '@views/components/icons/IconPart';
 import IconSong from '@views/components/icons/IconSong';
 import { S140_COLORS } from '../shared/index.utils';
 import S140NoMeeting from '../shared/S140NoMeeting';
+import S140NamePair from '../shared/S140NamePair';
 import styles, { Density, MIDDLE_WIDTH, NAMES_WIDTH } from './index.styles';
 
 type Names = { primary?: string; secondary?: string };
@@ -23,7 +24,6 @@ type Row = {
   color?: string;
   names?: Names;
   classNames?: [Names, Names];
-  middle?: ReactNode;
 };
 
 type Section = {
@@ -38,11 +38,6 @@ type Section = {
 };
 
 const CLASS_BORDER = `0.75px solid ${S140_COLORS.ministry.main}`;
-const PAIR_GAP = 3;
-
-// rough Inter widths at 7pt, enough to decide how two names share one cell
-const estimateWidth = (text: string, weight: number) =>
-  text.length * (weight >= 500 ? 3.9 : 3.7);
 
 const S140Week = ({
   meetingData,
@@ -98,53 +93,15 @@ const S140Week = ({
     </View>
   );
 
-  // two names share the cell; once they do not fit, each one keeps at least half of it
-  const pair = ({ primary, secondary }: Names, width = NAMES_WIDTH - 4.5) => {
-    const available = width - PAIR_GAP;
-    const half = available / 2;
-    const primaryWidth = estimateWidth(`${primary},`, 500);
-    const secondaryWidth = estimateWidth(secondary ?? '', 400);
-
-    if (!secondary || primaryWidth + secondaryWidth <= available) {
-      return (
-        <Text style={[stylesSmart.secondary, { flex: 1 }]}>
-          {rlm}
-          <Text style={stylesSmart.primary}>{primary}</Text>
-          {secondary && `, ${secondary}`}
-        </Text>
-      );
-    }
-
-    let first = half;
-
-    if (primaryWidth <= half) first = primaryWidth;
-    else if (secondaryWidth <= half) first = available - secondaryWidth;
-
-    const basis = (width: number): Style => ({
-      flexGrow: 0,
-      flexShrink: 0,
-      flexBasis: `${width}px`,
-    });
-
-    return (
-      <>
-        <Text style={[stylesSmart.primary, basis(first)]}>
-          {rlm}
-          {primary},
-        </Text>
-        <Text
-          style={[
-            stylesSmart.secondary,
-            basis(available - first),
-            applyRTL({ marginLeft: `${PAIR_GAP}px` }, lang),
-          ]}
-        >
-          {rlm}
-          {secondary}
-        </Text>
-      </>
-    );
-  };
+  const pair = (names: Names, width = NAMES_WIDTH - 4.5) => (
+    <S140NamePair
+      {...names}
+      width={width}
+      primaryStyle={stylesSmart.primary}
+      secondaryStyle={stylesSmart.secondary}
+      lang={lang}
+    />
+  );
 
   const classBorders = (
     index: number,
@@ -162,7 +119,7 @@ const S140Week = ({
       lang
     );
 
-  // auxiliary classroom first, so the main hall keeps the column every other name uses
+  // aux first, so the main hall keeps the names column used everywhere else
   const classNamesFor = (part: string): [Names, Names] => [
     {
       primary: meetingData[`${part}_B_student_name`],
@@ -258,7 +215,7 @@ const S140Week = ({
         names: { primary: meetingData[`lc_part${index}_name`] },
       }));
 
-    // the app orders a CO week as concluding comments, then the CO talk, then the closing song
+    // matches the app: concluding comments come before the CO talk
     if (isCOVisit) {
       rows.push(
         {
@@ -377,7 +334,6 @@ const S140Week = ({
                   const opensBlock = !blockStarted;
                   blockStarted = true;
 
-                  // the section header carries the hall tags and the auxiliary counselor
                   return hallTags.map((_, index) => (
                     <View
                       key={index}
@@ -500,7 +456,7 @@ const S140Week = ({
                   </View>
                 ) : (
                   <>
-                    {row.middle ?? <View style={stylesSmart.middle} />}
+                    <View style={stylesSmart.middle} />
                     <View style={stylesSmart.names}>
                       {row.names && pair(row.names)}
                     </View>

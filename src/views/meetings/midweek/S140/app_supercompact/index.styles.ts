@@ -1,6 +1,5 @@
 import { Style } from '@react-pdf/types';
 
-// every text stays on one line, clipped with an ellipsis, so cards keep a fixed rhythm
 const line: Style = {
   fontSize: '7px',
   lineHeight: 1.2,
@@ -18,7 +17,7 @@ const styles: Record<string, Style> = {
     borderColor: '#DDE1F2',
     borderRadius: '4px',
   },
-  // the header covers the card border so both share one corner radius
+  // covers the card border so both share one corner radius
   header: {
     display: 'flex',
     flexDirection: 'row',
@@ -62,10 +61,6 @@ const styles: Record<string, Style> = {
     display: 'flex',
     flexDirection: 'column',
     padding: '3px 6px',
-  },
-  columnDivider: {
-    borderLeftWidth: '0.5px',
-    borderLeftColor: '#E6E8F0',
   },
   sectionHeader: {
     display: 'flex',

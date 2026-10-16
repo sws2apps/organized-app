@@ -7,7 +7,6 @@ import styles from './index.styles';
 
 const BORDER = `0.5px solid ${S140_COLORS.ministry.main}`;
 
-// the classroom table has rounded outer top corners only
 const corners = (index: number, count: number) => ({
   borderTopLeftRadius: index === 0 ? '4px' : 0,
   borderTopRightRadius: index === count - 1 ? '4px' : 0,
@@ -68,7 +67,7 @@ const S140Row = ({
       style={[
         stylesSmart.row,
         { backgroundColor },
-        // stretched rows let the classroom cells set the height when they are the tallest
+        // lets the classroom cells set the row height
         classNames ? { alignItems: 'stretch' } : {},
         rounded,
       ]}

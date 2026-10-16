@@ -4,7 +4,6 @@ export const TIME_WIDTH = 25.5;
 export const MIDDLE_WIDTH = 112;
 export const NAMES_WIDTH = 150;
 
-// every cell keeps to one line and ends with an ellipsis, so rows keep a fixed height
 const line: Style = {
   fontSize: '7px',
   lineHeight: 1.2,
@@ -67,7 +66,7 @@ const styles: Record<string, Style> = {
     alignItems: 'center',
     borderBottomWidth: '0.75px',
   },
-  // the icon block runs over the section underline so the two meet without a seam
+  // overlaps the section underline to avoid a hairline gap
   sectionIcon: {
     marginBottom: '-0.75px',
   },

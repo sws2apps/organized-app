@@ -25,7 +25,6 @@ const livingRows = (meetingData: MidweekMeetingDataType) => {
   return rows;
 };
 
-// every second row of the section is tinted, whichever rows the week has
 const livingTint = (meetingData: MidweekMeetingDataType, row: string) =>
   livingRows(meetingData).indexOf(row) % 2 === 1 ? '#FFF3F1' : undefined;
 

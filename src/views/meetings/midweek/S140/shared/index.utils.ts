@@ -34,7 +34,7 @@ export type S140Classroom = {
   group?: string;
 };
 
-// auxiliary classrooms come first so the main hall stays in the right-hand names column
+// aux first, so the main hall keeps the names column used everywhere else
 export const getClassrooms = (
   meetingData: MidweekMeetingDataType,
   names: { main: string; aux: string }
@@ -63,7 +63,7 @@ export const splitStudyReference = (src = '') => {
   return { reference: match[2], text: match[1] };
 };
 
-// monthly layouts start every calendar month on its own page, by the actual meeting date
+// by meeting date, not week start
 export const groupByMonth = (data: MidweekMeetingDataType[]) =>
   data.reduce<MidweekMeetingDataType[][]>((months, meetingData) => {
     const monthOf = (week: MidweekMeetingDataType) =>
