@@ -2,6 +2,7 @@ import { ReactNode } from 'react';
 import { S140Classroom } from '../shared/index.utils';
 
 export type S140NamesType = {
+  id?: string;
   primary?: string;
   secondary?: string;
 };

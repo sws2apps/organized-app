@@ -116,7 +116,7 @@ const S140Row = ({
         <View style={stylesSmart.classCells}>
           {classNames.map((cell, index) => (
             <View
-              key={index}
+              key={cell.id}
               style={[
                 stylesSmart.classCell,
                 applyRTL(

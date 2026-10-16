@@ -46,7 +46,7 @@ const S140NoMeeting = ({
   lang,
 }: S140NoMeetingType) => {
   const { t } = useAppTranslation();
-  const rlm = isRTL(lang) ? '‏' : '';
+  const rlm = isRTL(lang) ? '\u200f' : '';
 
   const text = {
     fontSize: `${fontSize}px`,

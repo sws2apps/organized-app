@@ -9,6 +9,7 @@ import IconLiving from '@views/components/icons/IconLiving';
 import IconMinistry from '@views/components/icons/IconMinistry';
 import {
   S140_COLORS,
+  S140Classroom,
   getClassrooms,
   splitStudyReference,
 } from '../shared/index.utils';
@@ -22,7 +23,7 @@ import styles from './index.styles';
 type RowData = Omit<
   S140RowType,
   'timeColor' | 'timeBackground' | 'backgroundColor' | 'lang'
->;
+> & { id: string };
 
 type SectionData = {
   key: string;
@@ -30,6 +31,183 @@ type SectionData = {
   titleColor: string;
   bar?: ReactNode;
   rows: RowData[];
+};
+
+type Translate = (key: string) => string;
+
+const compact = (rows: (RowData | false)[]) =>
+  rows.filter(Boolean) as RowData[];
+
+const openingRows = (meetingData: MidweekMeetingDataType, tr: Translate) => {
+  const { full, timing } = meetingData;
+
+  return compact([
+    full && {
+      id: 'opening_song',
+      time: timing.pgm_start,
+      titleNode: (
+        <S140SongTitle
+          song={meetingData.song_first}
+          title={meetingData.song_first_title}
+        />
+      ),
+      labels: [`${tr('tr_prayer')}:`],
+      names: { primary: meetingData.opening_prayer_name },
+    },
+    {
+      id: 'opening_comments',
+      time: full ? timing.opening_comments : undefined,
+      title: full ? tr('tr_openingComments') : undefined,
+      labels: [`${tr('tr_chairman')}:`],
+      names: { primary: meetingData.chairman_A_name },
+    },
+  ]);
+};
+
+const treasuresRows = (
+  meetingData: MidweekMeetingDataType,
+  tr: Translate,
+  classrooms: S140Classroom[]
+) => {
+  const { timing } = meetingData;
+  const reading = splitStudyReference(meetingData.tgw_bible_reading_desc);
+  const multiClass = classrooms.length > 1;
+
+  return compact([
+    meetingData.treasures && {
+      id: 'tgw_talk',
+      time: timing.tgw_talk,
+      title: meetingData.tgw_talk_src,
+      duration: meetingData.tgw_talk_time,
+      names: { primary: meetingData.tgw_talk_name },
+    },
+    meetingData.treasures && {
+      id: 'tgw_gems',
+      time: timing.tgw_gems,
+      title: meetingData.tgw_gems_src,
+      duration: meetingData.tgw_gems_time,
+      names: { primary: meetingData.tgw_gems_name },
+    },
+    meetingData.students && {
+      id: 'tgw_bible_reading',
+      time: timing.tgw_bible_reading,
+      title: meetingData.tgw_bible_reading_src,
+      duration: `4 ${tr('tr_minLabel')}`,
+      reference: reading.reference,
+      text: reading.text,
+      labels: [`${tr('tr_student')}:`],
+      names: { primary: meetingData.tgw_bible_reading_A_name },
+      classrooms: multiClass ? classrooms : undefined,
+      classNames: multiClass
+        ? classrooms.map((classroom) => ({
+            id: classroom.id,
+            primary: meetingData[`tgw_bible_reading_${classroom.id}_name`],
+          }))
+        : undefined,
+    },
+  ]);
+};
+
+const ministryRows = (
+  meetingData: MidweekMeetingDataType,
+  tr: Translate,
+  classrooms: S140Classroom[]
+) =>
+  [1, 2, 3, 4]
+    .filter((index) => meetingData[`ayf_part${index}_type`])
+    .map((index): RowData => {
+      const part = `ayf_part${index}`;
+      const src = splitStudyReference(meetingData[`${part}_src`]);
+      const label: string = meetingData[`${part}_label`] ?? '';
+      const labels = label.length ? [`${tr('tr_student')}:`] : [];
+
+      if (/[\n/]/.test(label)) labels.push(`${tr('tr_assistant')}:`);
+
+      const cell = (id: string) => ({
+        id,
+        primary: meetingData[`${part}_${id}_student_name`],
+        secondary: meetingData[`${part}_${id}_assistant_name`],
+      });
+
+      return {
+        id: part,
+        time: meetingData.timing[part],
+        title: meetingData[`${part}_type_name`],
+        duration: meetingData[`${part}_time`],
+        reference: src.reference,
+        text: src.text,
+        labels,
+        names: cell('A'),
+        classNames:
+          classrooms.length > 1
+            ? classrooms.map((classroom) => cell(classroom.id))
+            : undefined,
+      };
+    });
+
+const livingRows = (meetingData: MidweekMeetingDataType, tr: Translate) => {
+  const { full, timing } = meetingData;
+  const cbsLabels = [`${tr('tr_cbsConductor')}:`];
+
+  if (meetingData.lc_cbs_reader_name) cbsLabels.push(`${tr('tr_cbsReader')}:`);
+
+  return compact([
+    full && {
+      id: 'middle_song',
+      time: timing.lc_middle_song,
+      titleNode: (
+        <S140SongTitle
+          song={meetingData.lc_middle_song}
+          title={meetingData.lc_middle_song_title}
+        />
+      ),
+    },
+    ...[1, 2, 3]
+      .filter((index) => meetingData[`lc_part${index}_src`]?.length)
+      .map((index) => ({
+        id: `lc_part${index}`,
+        time: timing[`lc_part${index}`],
+        title: meetingData[`lc_part${index}_src`],
+        duration: meetingData[`lc_part${index}_time`],
+        names: { primary: meetingData[`lc_part${index}_name`] },
+      })),
+    meetingData.cbs && {
+      id: 'cbs',
+      time: timing.cbs,
+      title: meetingData.lc_cbs_title,
+      duration: meetingData.lc_cbs_time,
+      reference: meetingData.lc_cbs_src,
+      labels: cbsLabels,
+      names: {
+        primary: meetingData.lc_cbs_conductor_name,
+        secondary: meetingData.lc_cbs_reader_name,
+      },
+    },
+    full && {
+      id: 'concluding_comments',
+      time: timing.concluding_comments,
+      title: tr('tr_concludingComments'),
+      titleColor: '#222222',
+    },
+    meetingData.week_type === Week.CO_VISIT && {
+      id: 'co_talk',
+      time: timing.co_talk,
+      title: meetingData.lc_co_talk,
+      names: { primary: meetingData.co_name },
+    },
+    full && {
+      id: 'closing_song',
+      time: timing.pgm_end,
+      titleNode: (
+        <S140SongTitle
+          song={meetingData.lc_concluding_song}
+          title={meetingData.lc_concluding_song_title}
+        />
+      ),
+      labels: [`${tr('tr_prayer')}:`],
+      names: { primary: meetingData.lc_concluding_prayer },
+    },
+  ]);
 };
 
 const S140Week = ({
@@ -41,214 +219,6 @@ const S140Week = ({
 }) => {
   const { t } = useAppTranslation();
   const stylesSmart = applyRTL(styles, lang);
-
-  const tr = (key: string) => t(key, { lng: lang });
-  const prayerLabel = `${tr('tr_prayer')}:`;
-
-  const { full, timing } = meetingData;
-  const isCOVisit = meetingData.week_type === Week.CO_VISIT;
-  const { week, treasures, ministry, living } = S140_COLORS;
-
-  const classrooms = getClassrooms(meetingData, {
-    main: tr('tr_mainHall'),
-    aux: tr('tr_auxClass'),
-  });
-  const multiClass = classrooms.length > 1;
-
-  const sections: SectionData[] = [];
-
-  sections.push({
-    key: 'opening',
-    color: week,
-    titleColor: '#222222',
-    rows: [
-      full && {
-        time: timing.pgm_start,
-        titleNode: (
-          <S140SongTitle
-            song={meetingData.song_first}
-            title={meetingData.song_first_title}
-          />
-        ),
-        labels: [prayerLabel],
-        names: { primary: meetingData.opening_prayer_name },
-      },
-      {
-        time: full ? timing.opening_comments : undefined,
-        title: full ? tr('tr_openingComments') : undefined,
-        labels: [`${tr('tr_chairman')}:`],
-        names: { primary: meetingData.chairman_A_name },
-      },
-    ].filter(Boolean) as RowData[],
-  });
-
-  if (meetingData.treasures || meetingData.students) {
-    const reading = splitStudyReference(meetingData.tgw_bible_reading_desc);
-
-    sections.push({
-      key: 'treasures',
-      color: treasures,
-      titleColor: treasures.text,
-      bar: (
-        <S140SectionBar
-          icon={<IconDiamond />}
-          section={tr('tr_treasuresPart')}
-          color={treasures.main}
-          lang={lang}
-        />
-      ),
-      rows: [
-        meetingData.treasures && {
-          time: timing.tgw_talk,
-          title: meetingData.tgw_talk_src,
-          duration: meetingData.tgw_talk_time,
-          names: { primary: meetingData.tgw_talk_name },
-        },
-        meetingData.treasures && {
-          time: timing.tgw_gems,
-          title: meetingData.tgw_gems_src,
-          duration: meetingData.tgw_gems_time,
-          names: { primary: meetingData.tgw_gems_name },
-        },
-        meetingData.students && {
-          time: timing.tgw_bible_reading,
-          title: meetingData.tgw_bible_reading_src,
-          duration: `4 ${tr('tr_minLabel')}`,
-          reference: reading.reference,
-          text: reading.text,
-          labels: [`${tr('tr_student')}:`],
-          names: { primary: meetingData.tgw_bible_reading_A_name },
-          classrooms: multiClass ? classrooms : undefined,
-          classNames: multiClass
-            ? classrooms.map((classroom) => ({
-                primary: meetingData[`tgw_bible_reading_${classroom.id}_name`],
-              }))
-            : undefined,
-        },
-      ].filter(Boolean) as RowData[],
-    });
-  }
-
-  if (meetingData.students) {
-    sections.push({
-      key: 'ministry',
-      color: ministry,
-      titleColor: ministry.text,
-      bar: (
-        <S140SectionBar
-          icon={<IconMinistry />}
-          section={tr('tr_applyFieldMinistryPart')}
-          color={ministry.main}
-          lang={lang}
-        />
-      ),
-      rows: [1, 2, 3, 4]
-        .filter((index) => meetingData[`ayf_part${index}_type`])
-        .map((index) => {
-          const part = `ayf_part${index}`;
-          const src = splitStudyReference(meetingData[`${part}_src`]);
-          const label: string = meetingData[`${part}_label`] ?? '';
-          const withAssistant = /[\n/]/.test(label);
-
-          const cell = (id: string) => ({
-            primary: meetingData[`${part}_${id}_student_name`],
-            secondary: meetingData[`${part}_${id}_assistant_name`],
-          });
-
-          return {
-            time: timing[part],
-            title: meetingData[`${part}_type_name`],
-            duration: meetingData[`${part}_time`],
-            reference: src.reference,
-            text: src.text,
-            labels: label.length
-              ? [
-                  `${tr('tr_student')}:`,
-                  ...(withAssistant ? [`${tr('tr_assistant')}:`] : []),
-                ]
-              : [],
-            names: cell('A'),
-            classNames: multiClass
-              ? classrooms.map((classroom) => cell(classroom.id))
-              : undefined,
-          };
-        }),
-    });
-  }
-
-  if (meetingData.living) {
-    sections.push({
-      key: 'living',
-      color: living,
-      titleColor: living.text,
-      bar: (
-        <S140SectionBar
-          icon={<IconLiving />}
-          section={tr('tr_livingPart')}
-          color={living.main}
-          lang={lang}
-        />
-      ),
-      rows: [
-        full && {
-          time: timing.lc_middle_song,
-          titleNode: (
-            <S140SongTitle
-              song={meetingData.lc_middle_song}
-              title={meetingData.lc_middle_song_title}
-            />
-          ),
-        },
-        ...[1, 2, 3]
-          .filter((index) => meetingData[`lc_part${index}_src`]?.length)
-          .map((index) => ({
-            time: timing[`lc_part${index}`],
-            title: meetingData[`lc_part${index}_src`],
-            duration: meetingData[`lc_part${index}_time`],
-            names: { primary: meetingData[`lc_part${index}_name`] },
-          })),
-        meetingData.cbs && {
-          time: timing.cbs,
-          title: meetingData.lc_cbs_title,
-          duration: meetingData.lc_cbs_time,
-          reference: meetingData.lc_cbs_src,
-          labels: [
-            `${tr('tr_cbsConductor')}:`,
-            ...(meetingData.lc_cbs_reader_name
-              ? [`${tr('tr_cbsReader')}:`]
-              : []),
-          ],
-          names: {
-            primary: meetingData.lc_cbs_conductor_name,
-            secondary: meetingData.lc_cbs_reader_name,
-          },
-        },
-        full && {
-          time: timing.concluding_comments,
-          title: tr('tr_concludingComments'),
-          titleColor: '#222222',
-        },
-        isCOVisit && {
-          time: timing.co_talk,
-          title: meetingData.lc_co_talk,
-          names: { primary: meetingData.co_name },
-        },
-        full && {
-          time: timing.pgm_end,
-          titleNode: (
-            <S140SongTitle
-              song={meetingData.lc_concluding_song}
-              title={meetingData.lc_concluding_song_title}
-            />
-          ),
-          labels: [prayerLabel],
-          names: { primary: meetingData.lc_concluding_prayer },
-        },
-      ].filter(Boolean) as RowData[],
-    });
-  }
-
-  const lastSection = sections.at(-1);
 
   if (meetingData.no_meeting) {
     return (
@@ -267,37 +237,80 @@ const S140Week = ({
     );
   }
 
+  const tr: Translate = (key) => t(key, { lng: lang });
+  const { week, treasures, ministry, living } = S140_COLORS;
+
+  const classrooms = getClassrooms(meetingData, {
+    main: tr('tr_mainHall'),
+    aux: tr('tr_auxClass'),
+  });
+
+  const sectionBar = (icon: ReactNode, title: string, color: string) => (
+    <S140SectionBar icon={icon} section={tr(title)} color={color} lang={lang} />
+  );
+
+  const sections: SectionData[] = [
+    {
+      key: 'opening',
+      color: week,
+      titleColor: '#222222',
+      rows: openingRows(meetingData, tr),
+    },
+    (meetingData.treasures || meetingData.students) && {
+      key: 'treasures',
+      color: treasures,
+      titleColor: treasures.text,
+      bar: sectionBar(<IconDiamond />, 'tr_treasuresPart', treasures.main),
+      rows: treasuresRows(meetingData, tr, classrooms),
+    },
+    meetingData.students && {
+      key: 'ministry',
+      color: ministry,
+      titleColor: ministry.text,
+      bar: sectionBar(
+        <IconMinistry />,
+        'tr_applyFieldMinistryPart',
+        ministry.main
+      ),
+      rows: ministryRows(meetingData, tr, classrooms),
+    },
+    meetingData.living && {
+      key: 'living',
+      color: living,
+      titleColor: living.text,
+      bar: sectionBar(<IconLiving />, 'tr_livingPart', living.main),
+      rows: livingRows(meetingData, tr),
+    },
+  ].filter(Boolean) as SectionData[];
+
+  const lastRow = sections.at(-1)?.rows.at(-1);
+
   return (
     <View style={stylesSmart.weekContainer}>
       <S140WeekHeader
         title={meetingData.schedule_title}
-        event={meetingData.no_meeting ? undefined : meetingData.week_type_name}
+        event={meetingData.week_type_name}
         lang={lang}
       />
 
-      {!meetingData.no_meeting &&
-        sections.map((section) => (
-          <Fragment key={section.key}>
-            {section.bar}
+      {sections.map((section) => (
+        <Fragment key={section.key}>
+          {section.bar}
 
-            {section.rows.map((row, index) => (
-              <S140Row
-                key={index}
-                timeColor={section.color.text}
-                timeBackground={section.color.time}
-                titleColor={section.titleColor}
-                {...row}
-                backgroundColor={
-                  index % 2 === 1 ? section.color.tint : undefined
-                }
-                last={
-                  section === lastSection && index === section.rows.length - 1
-                }
-                lang={lang}
-              />
-            ))}
-          </Fragment>
-        ))}
+          {section.rows.map((row, index) => (
+            <S140Row
+              key={row.id}
+              timeColor={section.color.text}
+              timeBackground={section.color.time}
+              titleColor={section.titleColor}
+              {...row}
+              backgroundColor={index % 2 === 1 ? section.color.tint : undefined}
+              last={row === lastRow}
+              lang={lang}
+            />
+          ))}
+        </Fragment>
+      ))}
     </View>
   );
 };

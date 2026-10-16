@@ -43,20 +43,23 @@ const estimateWeekHeight = (
     Number(meetingData.week_type === Week.CO_VISIT) * 2 +
     Number(meetingData.cbs);
 
-  const tallest = Math.max(
-    treasures || students
-      ? column((treasures ? 2 : 0) + Number(students), full)
-      : 0,
-    students
-      ? column(
-          ayfParts,
-          meetingData.aux_class,
-          0,
-          meetingData.aux_class ? 3 : 2
-        )
-      : 0,
-    living ? column(lcParts, full, full ? 2 * LINE + 4 + gap + 1 : 0) : 0
-  );
+  const columns: number[] = [];
+
+  if (treasures || students) {
+    columns.push(column((treasures ? 2 : 0) + Number(students), full));
+  }
+
+  if (students) {
+    const lines = meetingData.aux_class ? 3 : 2;
+    columns.push(column(ayfParts, meetingData.aux_class, 0, lines));
+  }
+
+  if (living) {
+    const closing = full ? 2 * LINE + 4 + gap + 1 : 0;
+    columns.push(column(lcParts, full, closing));
+  }
+
+  const tallest = Math.max(0, ...columns);
 
   return (
     HEADER +

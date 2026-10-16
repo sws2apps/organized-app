@@ -1,6 +1,7 @@
 import { Text } from '@react-pdf/renderer';
 import { Style } from '@react-pdf/types';
 import { applyRTL, isRTL } from '@views/utils/pdf_utils';
+import { estimateWidth, splitWidth } from './index.utils';
 
 type S140NamePairType = {
   primary?: string;
@@ -13,17 +14,12 @@ type S140NamePairType = {
 
 const GAP = 3;
 
-// rough Inter widths at 7pt, enough to decide how two names share the cell
-const estimateWidth = (text: string, weight: number) =>
-  text.length * (weight >= 500 ? 3.9 : 3.7);
-
 const fixedWidth = (width: number): Style => ({
   flexGrow: 0,
   flexShrink: 0,
   flexBasis: `${width}px`,
 });
 
-// once two names do not fit, each keeps at least half of the cell
 const S140NamePair = ({
   primary,
   secondary,
@@ -32,9 +28,8 @@ const S140NamePair = ({
   secondaryStyle,
   lang,
 }: S140NamePairType) => {
-  const rlm = isRTL(lang) ? '‏' : '';
+  const rlm = isRTL(lang) ? '\u200f' : '';
   const available = width - GAP;
-  const half = available / 2;
   const primaryWidth = estimateWidth(`${primary},`, 500);
   const secondaryWidth = estimateWidth(secondary ?? '', 400);
 
@@ -48,10 +43,7 @@ const S140NamePair = ({
     );
   }
 
-  let first = half;
-
-  if (primaryWidth <= half) first = primaryWidth;
-  else if (secondaryWidth <= half) first = available - secondaryWidth;
+  const first = splitWidth(primaryWidth, secondaryWidth, available);
 
   return (
     <>

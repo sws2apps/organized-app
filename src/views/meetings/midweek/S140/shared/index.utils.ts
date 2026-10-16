@@ -56,11 +56,15 @@ export const getClassrooms = (
 
 // workbook sources end with the study reference in brackets, e.g. "Job 32:1-22 (th study 10)"
 export const splitStudyReference = (src = '') => {
-  const match = /^([\s\S]*?)\s*\(([^()]+)\)\s*$/.exec(src.trim());
+  const text = src.trim();
+  const open = text.lastIndexOf('(');
 
-  if (!match) return { reference: '', text: src.trim() };
+  if (!text.endsWith(')') || open < 0) return { reference: '', text };
 
-  return { reference: match[2], text: match[1] };
+  return {
+    reference: text.slice(open + 1, -1).trim(),
+    text: text.slice(0, open).trim(),
+  };
 };
 
 // by meeting date, not week start
@@ -78,3 +82,21 @@ export const groupByMonth = (data: MidweekMeetingDataType[]) =>
 
     return months;
   }, []);
+
+// rough Inter widths at 7pt, enough to decide how two names share the cell
+export const estimateWidth = (text: string, weight: number) =>
+  text.length * (weight >= 500 ? 3.9 : 3.7);
+
+// width for the first of two blocks: whoever fits in half leaves the rest to the other
+export const splitWidth = (
+  first: number,
+  second: number,
+  available: number
+) => {
+  const half = available / 2;
+
+  if (first + second <= available || first <= half) return first;
+  if (second <= half) return available - second;
+
+  return half;
+};
