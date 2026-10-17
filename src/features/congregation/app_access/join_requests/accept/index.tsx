@@ -49,11 +49,17 @@ const AcceptRequest = (props: AcceptRequestProps) => {
         {t('tr_accept')}
       </Button>
 
-      <Dialog onClose={handleClose} open={open} sx={{ padding: '24px' }}>
-        <Typography className="h2">
-          {t('tr_joinRequestsAccept', { user: fullname })}
-        </Typography>
-        <Typography className="body-regular" color="var(--grey-400)">
+      <Dialog
+        onClose={handleClose}
+        open={open}
+        title={t('tr_joinRequestsAccept', { user: fullname })}
+      >
+        <Typography
+          className="body-regular"
+          sx={{
+            color: 'var(--grey-400)',
+          }}
+        >
           {t('tr_joinRequestsAcceptDesc')}
         </Typography>
 
@@ -88,7 +94,12 @@ const AcceptRequest = (props: AcceptRequestProps) => {
           />
 
           <Stack spacing="12px">
-            <Typography className="h4" color="var(--grey-400)">
+            <Typography
+              className="h4"
+              sx={{
+                color: 'var(--grey-400)',
+              }}
+            >
               {t('tr_roles')}
             </Typography>
 
@@ -126,7 +137,12 @@ const AcceptRequest = (props: AcceptRequestProps) => {
           </Stack>
 
           <Stack spacing="12px">
-            <Typography className="h4" color="var(--grey-400)">
+            <Typography
+              className="h4"
+              sx={{
+                color: 'var(--grey-400)',
+              }}
+            >
               {t('tr_additionalUserRights')}
             </Typography>
 

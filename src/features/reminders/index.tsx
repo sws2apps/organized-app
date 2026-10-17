@@ -18,12 +18,14 @@ const AppReminders = () => {
 
   const { tablet688Up } = useBreakpoints();
 
-  const { reminders, reminderMeTomorrow } = useReminders();
+  const { reminders, isOpen, reminderMeTomorrow, handleRemindersHidden } =
+    useReminders();
 
   return (
     <Slide
       direction="left"
-      in={reminders.length > 0}
+      in={isOpen}
+      onExited={handleRemindersHidden}
       mountOnEnter
       unmountOnExit
       easing={{
@@ -49,7 +51,12 @@ const AppReminders = () => {
             }}
           >
             <IconReminder color="var(--always-white)" />
-            <Typography className="h4" color="var(--always-white)">
+            <Typography
+              className="h4"
+              sx={{
+                color: 'var(--always-white)',
+              }}
+            >
               {t('tr_reminders')}
             </Typography>
           </Box>

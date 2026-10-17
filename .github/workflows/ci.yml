@@ -21,7 +21,7 @@ jobs:
           persist-credentials: false
 
       - name: Use Node.js LTS version
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
         with:
           node-version: lts/Krypton
 
@@ -29,7 +29,7 @@ jobs:
         run: npm ci && npm i -D @rollup/rollup-linux-x64-gnu
 
       - name: Cypress run testing
-        uses: cypress-io/github-action@09090944bd8aaa2a517cefb6e38bf1aae336b42b
+        uses: cypress-io/github-action@789d836053c5ca389c2905fc0c9f2909da778c46
         with:
           command-prefix: '--'
           install: false

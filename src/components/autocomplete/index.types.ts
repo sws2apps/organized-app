@@ -46,9 +46,11 @@ export type AutocompletePropsType<T> = Omit<
 
   decorator?: boolean;
 
+  decoratorColor?: string;
+
   variant?: TextFieldProps['variant'];
 };
 
 export type CustomPaperType = PaperProps & {
-  optionsHeader: ReactNode;
+  optionsHeader?: ReactNode;
 };

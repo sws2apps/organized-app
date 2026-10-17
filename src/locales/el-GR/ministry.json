@@ -107,7 +107,7 @@
   "tr_S10ReportNotGenerated": "This year’s report hasn’t been generated yet. Generate it to see all the details and then submit.",
   "tr_quickAssignAP": "Auxiliary pioneer assigned",
   "tr_quickAssignAPDesc": "This publisher is assigned as an auxiliary pioneer this month. You can change this on the publisher's enrollments list on the Persons page.",
-  "tr_reactivatePublisher": "Reactivate this publisher",
+  "tr_reactivatePublisher": "Reactivate publisher",
   "tr_S21CardTitle": "Export multiple publisher records (S-21)",
   "tr_S21CardTitleDesc": "Select ‘All publishers’ to export and sort all records for publishers, full-time, and auxiliary servants, or ‘Specific publishers’ to export records only for selected publishers.",
   "tr_allPublisherRecords": "All publishers",
@@ -137,5 +137,9 @@
   "tr_bibleStudiesMonthlyLess": "You cannot set the Bible studies less than the total you have from your daily records",
   "tr_hoursDecreaseError": "Cannot change hours",
   "tr_hoursDecreaseErrorDesc": "You cannot set the hours less than the total you have from your daily records",
-  "tr_SCEL": "School for Congregation Elders"
+  "tr_SCEL": "School for Congregation Elders",
+  "tr_timerNothingToSave": "Nothing to save",
+  "tr_timerNothingToSaveDesc": "The session was shorter than a minute, so no time was added to the report.",
+  "tr_timerNoOpenMonth": "No month to add the time to",
+  "tr_timerNoOpenMonthDesc": "Every month since this session started is already confirmed. The session stays paused."
 }

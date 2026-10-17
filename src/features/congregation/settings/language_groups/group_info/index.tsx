@@ -9,7 +9,6 @@ import IconLoading from '@components/icon_loading';
 import LanguageGroupMembers from '../group_members';
 import LanguageGroupDetails from '../group_details';
 import Tabs from '@components/tabs';
-import Typography from '@components/typography';
 
 const GroupInfo = (props: GroupInfoProps) => {
   const { t } = useAppTranslation();
@@ -31,10 +30,9 @@ const GroupInfo = (props: GroupInfoProps) => {
     <Dialog
       onClose={handleClose}
       open={props.open}
-      sx={{ padding: '24px', gap: '16px' }}
+      sx={{ gap: '16px' }}
+      title={t('tr_languageGroupEdit')}
     >
-      <Typography className="h2">{t('tr_languageGroupEdit')}</Typography>
-
       <Box sx={{ margin: '0 0 -16px 0', width: '100%' }}>
         <Tabs
           tabs={[

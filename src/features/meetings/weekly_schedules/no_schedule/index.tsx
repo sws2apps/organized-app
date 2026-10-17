@@ -34,7 +34,11 @@ const NoSchedule = () => {
             }}
           >
             <Typography className="h2">{t('tr_noSchedulesYet')}</Typography>
-            <Typography color="var(--grey-400)">
+            <Typography
+              sx={{
+                color: 'var(--grey-400)',
+              }}
+            >
               {t('tr_noSchedulesYetDesc')}
             </Typography>
           </Stack>

@@ -1,4 +1,4 @@
-import { Box, Stack } from '@mui/material';
+import { Box } from '@mui/material';
 import { IconDelete, IconEncryptionKey } from '@components/icons';
 import IconLoading from '@components/icon_loading';
 import { useAppTranslation } from '@hooks/index';
@@ -7,7 +7,6 @@ import Button from '@components/button';
 import Dialog from '@components/dialog';
 import DialogActions from '@components/dialog_actions';
 import TextField from '@components/textfield';
-import Typography from '@components/typography';
 
 const DeleteCongregation = () => {
   const { t } = useAppTranslation();
@@ -28,16 +27,9 @@ const DeleteCongregation = () => {
         <Dialog
           onClose={handleDeleteClose}
           open={modalOpen}
-          sx={{ padding: '24px' }}
+          title={t('tr_deleteCongregation')}
+          description={t('tr_deleteCongregationDesc')}
         >
-          <Stack spacing="16px">
-            <Typography className="h2">{t('tr_deleteCongregation')}</Typography>
-
-            <Typography color="var(--grey-400)">
-              {t('tr_deleteCongregationDesc')}
-            </Typography>
-          </Stack>
-
           <TextField
             type="password"
             placeholder={t('tr_deleteCongregationMasterKeyRequired')}

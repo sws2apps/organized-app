@@ -9,6 +9,7 @@ export type ClickerModeProps = {
   open: boolean;
   onClose: () => void;
   title: string;
+  secondaryTitle?: string;
   initialTab: ClickerTab;
   recordOnline: boolean;
   presentValue: number;

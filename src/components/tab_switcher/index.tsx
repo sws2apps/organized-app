@@ -52,6 +52,7 @@ const TabSwitcher = <T extends string = string>({
           <ButtonBase
             key={option.value}
             role="tab"
+            className={isActive ? 'h4' : 'body-regular'}
             aria-selected={isActive}
             disabled={option.disabled}
             disableRipple
@@ -69,9 +70,6 @@ const TabSwitcher = <T extends string = string>({
               minHeight: '28px',
               borderRadius: 'var(--radius-m)',
               fontFamily: 'inherit',
-              fontSize: '15px',
-              lineHeight: '20px',
-              fontWeight: isActive ? 500 : 400,
               color: isActive ? 'var(--accent-dark)' : 'var(--accent-400)',
               transition: 'color 0.16s ease-out',
               '&.Mui-disabled': { opacity: 0.5 },

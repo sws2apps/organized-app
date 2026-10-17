@@ -1,15 +1,17 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
-import { dbVisitingSpeakersAdd } from '@services/dexie/visiting_speakers';
 import { visitingSpeakersActiveState } from '@states/visiting_speakers';
 import { speakersCongregationsState } from '@states/speakers_congregations';
+import { fullnameOptionState } from '@states/settings';
 import { speakersSortByName } from '@services/app/visiting_speakers';
 
-const useSpeakersList = (cong_id: string, isEdit: boolean) => {
+const useSpeakersList = (cong_id: string) => {
   const visitingSpeakers = useAtomValue(visitingSpeakersActiveState);
   const congregations = useAtomValue(speakersCongregationsState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
 
-  const [speakers, setSpeakers] = useState(visitingSpeakers);
+  const [editSpeaker, setEditSpeaker] = useState('');
+  const [isAdding, setIsAdding] = useState(false);
 
   const congregation = useMemo(() => {
     return congregations.find(
@@ -17,43 +19,38 @@ const useSpeakersList = (cong_id: string, isEdit: boolean) => {
     );
   }, [congregations, cong_id]);
 
-  const filteredList = useMemo(() => {
-    return speakers.filter((record) => record.speaker_data.cong_id === cong_id);
-  }, [speakers, cong_id]);
-
   const incomingSpeakers = useMemo(() => {
-    return isEdit ? filteredList : speakersSortByName(filteredList);
-  }, [filteredList, isEdit]);
+    const records = visitingSpeakers.filter(
+      (record) => record.speaker_data.cong_id === cong_id
+    );
 
-  const handleVisitingSpeakersAdd = async (cong_id: string) => {
-    await dbVisitingSpeakersAdd(cong_id);
+    return speakersSortByName(records, fullnameOption);
+  }, [visitingSpeakers, cong_id, fullnameOption]);
+
+  const handleVisitingSpeakersAdd = () => setIsAdding(true);
+
+  const handleOpenSpeakerEdit = (person_uid: string) => {
+    setEditSpeaker(person_uid);
   };
 
-  useEffect(() => {
-    setSpeakers((prev) => {
-      const data = prev.filter((record) =>
-        visitingSpeakers.some((s) => s.person_uid === record.person_uid)
-      );
+  const handleCloseSpeakerEdit = () => {
+    setEditSpeaker('');
+    setIsAdding(false);
+  };
 
-      for (const speaker of visitingSpeakers) {
-        const index = data.findIndex(
-          (record) => record.person_uid === speaker.person_uid
-        );
+  const speakerToEdit = useMemo(() => {
+    return incomingSpeakers.find((record) => record.person_uid === editSpeaker);
+  }, [incomingSpeakers, editSpeaker]);
 
-        if (index !== -1) {
-          data[index] = speaker;
-        }
-
-        if (index === -1) {
-          data.push(speaker);
-        }
-      }
-
-      return data;
-    });
-  }, [visitingSpeakers]);
-
-  return { handleVisitingSpeakersAdd, incomingSpeakers, congregation };
+  return {
+    handleVisitingSpeakersAdd,
+    incomingSpeakers,
+    congregation,
+    speakerToEdit,
+    isAdding,
+    handleOpenSpeakerEdit,
+    handleCloseSpeakerEdit,
+  };
 };
 
 export default useSpeakersList;

@@ -26,7 +26,7 @@ const WhatsNew = () => {
     <Dialog
       open={open}
       onClose={handleClose}
-      sx={{ padding: '24px', position: 'relative' }}
+      sx={{ position: 'relative' }}
       title={t('tr_newOrganizedUpdate')}
       description={t('tr_newOrganizedUpdateDesc')}
       closable={!isLoading && images.length > 0}

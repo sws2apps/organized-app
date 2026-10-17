@@ -36,6 +36,8 @@
   "tr_december": "December",
   "tr_longDateFormat": "yyyy. MMM. dd., EEE.",
   "tr_delete": "Törlés",
+  "tr_continueEditing": "Continue editing",
+  "tr_discardChanges": "Discard changes",
   "tr_add": "Hozzáadás",
   "tr_pickerSelectTime": "Időpont kiválasztása",
   "tr_pickerSelectDate": "Dátum kiválasztása",
@@ -129,12 +131,12 @@
   "tr_appliesOnlyToBrothers": "Csak testvérekre vonatkozik",
   "tr_circuit": "Körzet: {{ circuitNumber }}",
   "tr_ageInYearsAndMonths": "{{ years }} év, {{months}} hónap",
-  "tr_personHasNoAssignmentHistory": "Ennek a személynek még nincs feladatelőzménye",
+  "tr_personHasNoAssignmentHistory": "No assignment history yet",
   "tr_appUserProfile": "Alkalmazás felhasználói fiók",
   "tr_appUserProfileNotRegisteredDesc": "Ez a személy még nem használja az alkalmazást. A 'Felhasználói fiókok' oldalon létrehozhatsz egy Organized fiókot ennek a személynek.",
   "tr_appUserProfileRegisteredDesc": "Ez a személy már Organized felhasználó. Legutóbb online: <span class='h4'>{{ lastTimeOnline }}</span>. Egyéb jogok és beállítások szerkesztése a 'Felhasználói fiókok' oldalon.",
   "tr_notYet": "Soha",
-  "tr_manageUserProfileSettings": "Felhasználói fiókbeállítások kezelése",
+  "tr_manageUserProfileSettings": "Manage user account",
   "tr_createUserProfile": "Felhasználói fiók létrehozása",
   "tr_download": "Letöltés",
   "tr_import": "Importálás",
@@ -176,5 +178,7 @@
   "tr_fontSize": "Font size",
   "tr_small": "Small",
   "tr_normal": "Normal",
-  "tr_large": "Large"
+  "tr_large": "Large",
+  "tr_chooseFields": "Choose export fields",
+  "tr_chooseFieldsDesc": "Please select the fields you want to include in the export file."
 }

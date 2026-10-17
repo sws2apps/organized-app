@@ -24,11 +24,9 @@ import {
   schedulesS89Data,
 } from '@services/app/schedules';
 import {
-  displayNameMeetingsEnableState,
   JWLangLocaleState,
   JWLangState,
   meetingExactDateState,
-  midweekMeetingClassCountState,
   midweekMeetingWeekdayState,
   userDataViewState,
 } from '@states/settings';
@@ -52,9 +50,7 @@ const useMidweekExport = (onClose: MidweekExportType['onClose']) => {
   const schedules = useAtomValue(schedulesState);
   const dataView = useAtomValue(userDataViewState);
   const lang = useAtomValue(JWLangState);
-  const class_count = useAtomValue(midweekMeetingClassCountState);
   const cong_name = useAtomValue(headerForScheduleState);
-  const displayNameEnabled = useAtomValue(displayNameMeetingsEnableState);
   const cookiesConsent = useAtomValue(cookiesConsentState);
   const sourceLocale = useAtomValue(JWLangLocaleState);
   const meetingExactDate = useAtomValue(meetingExactDateState);
@@ -156,18 +152,11 @@ const useMidweekExport = (onClose: MidweekExportType['onClose']) => {
     if (S140.length > 0) {
       const blob = await pdf(
         S140Template === 'S140_default' ? (
-          <TemplateS140
-            class_count={class_count}
-            cong_name={cong_name}
-            data={S140}
-            lang={sourceLocale}
-          />
+          <TemplateS140 cong_name={cong_name} data={S140} lang={sourceLocale} />
         ) : (
           <TemplateS140AppNormal
-            class_count={class_count}
             cong_name={cong_name}
             data={S140}
-            fullname={!displayNameEnabled}
             lang={sourceLocale}
           />
         )

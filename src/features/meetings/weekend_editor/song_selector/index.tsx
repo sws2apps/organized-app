@@ -25,7 +25,7 @@ const SongSelector = (props: SongSelectorProps) => {
   } = useSongSelector(props);
 
   return (
-    <Dialog onClose={handleClose} open={selectorOpen} sx={{ padding: '24px' }}>
+    <Dialog onClose={handleClose} open={selectorOpen}>
       <Stack spacing="16px">
         <Box
           sx={{
@@ -43,7 +43,11 @@ const SongSelector = (props: SongSelectorProps) => {
           </IconButton>
         </Box>
 
-        <Typography color="var(--grey-400)">
+        <Typography
+          sx={{
+            color: 'var(--grey-400)',
+          }}
+        >
           {t('tr_selectSongDesc')}
         </Typography>
 

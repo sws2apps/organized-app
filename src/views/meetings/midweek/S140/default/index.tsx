@@ -20,7 +20,7 @@ import S140LC from './S140LC';
 
 registerFonts();
 
-const ScheduleS140 = ({ data, class_count, cong_name, lang }: S140Type) => {
+const ScheduleS140 = ({ data, cong_name, lang }: S140Type) => {
   const { t } = useAppTranslation();
 
   const minLabel = t('tr_minLabel', { lng: lang });
@@ -129,7 +129,6 @@ const ScheduleS140 = ({ data, class_count, cong_name, lang }: S140Type) => {
                                 backgroundColor={'#2a6b77'}
                                 classroomHeading={true}
                                 meetingData={meetingData}
-                                class_count={class_count}
                                 lang={lang}
                               />
 
@@ -199,14 +198,12 @@ const ScheduleS140 = ({ data, class_count, cong_name, lang }: S140Type) => {
                                     backgroundColor={'#a56803'}
                                     classroomHeading={true}
                                     meetingData={meetingData}
-                                    class_count={class_count}
                                     lang={lang}
                                   />
 
                                   {/* AYF Parts */}
                                   <S140AYF
                                     meetingData={meetingData}
-                                    class_count={class_count}
                                     lang={lang}
                                   />
                                 </>
@@ -222,7 +219,6 @@ const ScheduleS140 = ({ data, class_count, cong_name, lang }: S140Type) => {
                                 backgroundColor={'#942926'}
                                 classroomHeading={false}
                                 meetingData={meetingData}
-                                class_count={class_count}
                                 lang={lang}
                               />
 

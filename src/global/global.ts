@@ -1,5 +1,5 @@
 // Do not edit directly
-// Generated on 9/3/2024, 9:50:20 PM
+// Generated on 9/17/2026, 2:51:14 PM
 
 const styles = {
   font: {
@@ -48,13 +48,13 @@ const styles = {
       textTransform: 'none',
     },
     h2Caps: {
-      fontSize: '20px',
+      fontSize: '18px',
       textDecoration: 'none',
       fontWeight: 450,
       fontStyle: 'normal',
       fontStretch: 'normal',
-      letterSpacing: '0.2px',
-      lineHeight: '24px',
+      letterSpacing: '0.18px',
+      lineHeight: '22px',
       textIndent: '0px',
       textTransform: 'uppercase',
     },
@@ -70,7 +70,7 @@ const styles = {
       textTransform: 'none',
     },
     h4: {
-      fontSize: '16px',
+      fontSize: '15px',
       textDecoration: 'none',
       fontWeight: 500,
       fontStyle: 'normal',
@@ -81,7 +81,7 @@ const styles = {
       textTransform: 'none',
     },
     buttonCaps: {
-      fontSize: '15px',
+      fontSize: '14px',
       textDecoration: 'none',
       fontWeight: 450,
       fontStyle: 'normal',
@@ -92,7 +92,7 @@ const styles = {
       textTransform: 'uppercase',
     },
     bodyRegular: {
-      fontSize: '16px',
+      fontSize: '15px',
       textDecoration: 'none',
       fontWeight: 400,
       fontStyle: 'normal',
@@ -170,13 +170,13 @@ const styles = {
         textTransform: 'none',
       },
       h2Caps: {
-        fontSize: '18px',
+        fontSize: '16px',
         textDecoration: 'none',
         fontWeight: 450,
         fontStyle: 'normal',
         fontStretch: 'normal',
-        letterSpacing: '0.18px',
-        lineHeight: '22px',
+        letterSpacing: '0.16px',
+        lineHeight: '20px',
         textIndent: '0px',
         textTransform: 'uppercase',
       },
@@ -203,7 +203,7 @@ const styles = {
         textTransform: 'none',
       },
       buttonCaps: {
-        fontSize: '14px',
+        fontSize: '12px',
         textDecoration: 'none',
         fontWeight: 450,
         fontStyle: 'normal',
