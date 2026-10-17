@@ -1,11 +1,20 @@
-import { useMemo } from 'react';
+import { useCallback, useMemo, useRef } from 'react';
 import { useAtomValue } from 'jotai';
+import { useLocation } from 'react-router';
 import { schedulesState } from '@states/schedules';
 import { addDays, formatDate, getWeekDate } from '@utils/date';
 import { OutgoingTalkSchedule, OutgoingTalkSchedules } from './index.types';
+import { WeeklySchedulesLocationState } from '@pages/meetings/schedules/index.types';
 
 const useOutgoingTalks = () => {
   const schedules = useAtomValue(schedulesState);
+
+  const location = useLocation();
+  const targetWeek = (location.state as WeeklySchedulesLocationState | null)
+    ?.week;
+
+  // the navigation already scrolled to, so re-renders keep the user's position
+  const scrolledNavigation = useRef<string | null>(null);
 
   const talkSchedules = useMemo(() => {
     const outgoingSchedules: OutgoingTalkSchedule[] = [];
@@ -64,7 +73,26 @@ const useOutgoingTalks = () => {
     return talkSchedules.length === 0;
   }, [talkSchedules]);
 
-  return { talkSchedules, noSchedule };
+  // the talk opened from another page, such as My assignments
+  const targetDate = useMemo(() => {
+    if (!targetWeek) return;
+
+    return talkSchedules.find((item) =>
+      item.schedules.some((schedule) => schedule.weekOf === targetWeek)
+    )?.date;
+  }, [talkSchedules, targetWeek]);
+
+  const targetRef = useCallback(
+    (el: HTMLDivElement | null) => {
+      if (!el || scrolledNavigation.current === location.key) return;
+
+      scrolledNavigation.current = location.key;
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    },
+    [location.key]
+  );
+
+  return { talkSchedules, noSchedule, targetDate, targetRef };
 };
 
 export default useOutgoingTalks;
