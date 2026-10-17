@@ -6,7 +6,7 @@ import Switch from './index';
 const meta = {
   title: 'Components/Switch',
   component: Switch,
-  args: { onChange: fn(), inputProps: { 'aria-label': 'Toggle' } },
+  args: { onChange: fn(), slotProps: { input: { 'aria-label': 'Toggle' } } },
   tags: ['autodocs'],
 } satisfies Meta<typeof Switch>;
 

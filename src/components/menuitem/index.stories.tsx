@@ -1,3 +1,4 @@
+import { MenuList } from '@mui/material';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { fn } from 'storybook/test';
 import { IconEdit } from '@components/icons';
@@ -18,9 +19,9 @@ const meta = {
   },
   decorators: [
     (Story) => (
-      <div style={{ width: 200 }}>
+      <MenuList sx={{ width: 200, backgroundColor: 'var(--white)' }}>
         <Story />
-      </div>
+      </MenuList>
     ),
   ],
   tags: ['autodocs'],

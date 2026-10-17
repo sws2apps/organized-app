@@ -5,7 +5,7 @@ import Radio from './index';
 const meta = {
   title: 'Components/Radio',
   component: Radio,
-  args: { onChange: fn(), inputProps: { 'aria-label': 'Option' } },
+  args: { onChange: fn(), slotProps: { input: { 'aria-label': 'Option' } } },
   tags: ['autodocs'],
 } satisfies Meta<typeof Radio>;
 

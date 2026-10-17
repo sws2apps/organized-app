@@ -1,3 +1,4 @@
+import { MenuList } from '@mui/material';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import MenuItem from '@components/menuitem';
 import Typography from '@components/typography';
@@ -9,7 +10,7 @@ const meta = {
   args: { children: 'Congregation' },
   decorators: [
     (Story) => (
-      <div style={{ width: 240, backgroundColor: 'var(--white)' }}>
+      <MenuList sx={{ width: 240, backgroundColor: 'var(--white)' }}>
         <Story />
         <MenuItem>
           <Typography>Settings</Typography>
@@ -17,7 +18,7 @@ const meta = {
         <MenuItem>
           <Typography>Manage access</Typography>
         </MenuItem>
-      </div>
+      </MenuList>
     ),
   ],
   tags: ['autodocs'],

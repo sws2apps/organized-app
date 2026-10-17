@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { fn } from 'storybook/test';
+import { expect, fn, screen } from 'storybook/test';
 import DatePicker from './index';
 
 const meta = {
@@ -31,6 +31,10 @@ export const Empty: Story = {
 
 export const ButtonView: Story = {
   args: { value, view: 'button' },
+  play: async ({ canvas, userEvent }) => {
+    await userEvent.click(canvas.getByRole('button'));
+    await expect(screen.getByRole('dialog')).toBeVisible();
+  },
 };
 
 export const WithError: Story = {

@@ -1,4 +1,5 @@
 import type { Decorator, Preview } from '@storybook/react-vite';
+import { expect, spyOn } from 'storybook/test';
 import { mswLoader } from 'msw-storybook-addon/csf3';
 import { ColorSchemeType } from '../src/definition/app';
 import { AppProviders, AppTheme } from './providers';
@@ -35,6 +36,14 @@ const preview: Preview = {
   // requests so a story never shows data fetched by a previous one.
   beforeEach: () => {
     queryClient.clear();
+    const errors = spyOn(console, 'error');
+    return () => {
+      try {
+        expect(errors).not.toHaveBeenCalled();
+      } finally {
+        errors.mockRestore();
+      }
+    };
   },
   globalTypes: {
     theme: {
