@@ -16,7 +16,13 @@ const DetailsRow = (props: DetailsRowProps) => {
         gap: '8px',
       }}
     >
-      <Typography color="var(--grey-400)">{label}</Typography>
+      <Typography
+        sx={{
+          color: 'var(--grey-400)',
+        }}
+      >
+        {label}
+      </Typography>
       <Typography className="h4" sx={{ textWrap: 'nowrap' }}>
         {value}
       </Typography>

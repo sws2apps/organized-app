@@ -134,15 +134,20 @@ const OutgoingSpeakersHeader = ({
           >
             {!isGroup && (
               <>
-                <Typography className="h4" color="var(--grey-400)">
+                <Typography
+                  className="h4"
+                  sx={{
+                    color: 'var(--grey-400)',
+                  }}
+                >
                   {congName}
                 </Typography>
 
                 {congNumber && (
                   <Typography
                     className="body-small-semibold"
-                    color="var(--grey-400)"
                     sx={{
+                      color: 'var(--grey-400)',
                       borderRadius: 'var(--radius-s)',
                       padding: '2px 8px',
                       backgroundColor: 'var(--grey-150)',
@@ -156,8 +161,8 @@ const OutgoingSpeakersHeader = ({
 
             <Typography
               className="body-small-semibold"
-              color="var(--grey-400)"
               sx={{
+                color: 'var(--grey-400)',
                 borderRadius: 'var(--radius-s)',
                 padding: '2px 8px',
                 backgroundColor: 'var(--grey-150)',

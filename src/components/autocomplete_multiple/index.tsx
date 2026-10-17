@@ -18,8 +18,6 @@ const AutocompleteMultiple = <T,>(props: AutocompleteMutilePropsType<T>) => {
       multiple
       {...props}
       clearIcon={false}
-      PaperComponent={CustomPaper}
-      ListboxComponent={CustomListBoxComponent}
       sx={{
         '& .MuiAutocomplete-popupIndicator': {
           color: 'var(--black)',
@@ -70,6 +68,14 @@ const AutocompleteMultiple = <T,>(props: AutocompleteMutilePropsType<T>) => {
           }}
         />
       )}
+      slots={{
+        paper: CustomPaper,
+      }}
+      slotProps={{
+        listbox: {
+          component: CustomListBoxComponent,
+        },
+      }}
     />
   );
 };

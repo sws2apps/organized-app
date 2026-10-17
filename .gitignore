@@ -37,6 +37,7 @@ replit.nix
 *.sw?
 **/tasks.json
 .vercel
+.qoder
 
 api/
 

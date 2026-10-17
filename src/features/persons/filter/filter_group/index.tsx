@@ -9,7 +9,12 @@ const FilterGroup = ({ group }: FilterGroupType) => {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-      <Typography className="body-small-semibold" color="var(--grey-350)">
+      <Typography
+        className="body-small-semibold"
+        sx={{
+          color: 'var(--grey-350)',
+        }}
+      >
         {group.name}
       </Typography>
       <Box

@@ -65,7 +65,12 @@ const PersonsFilter = ({ hideTitle }: PersonsFilterProps) => {
             minWidth: '150px',
           }}
         >
-          <Typography className="body-small-semibold" color="var(--grey-350)">
+          <Typography
+            className="body-small-semibold"
+            sx={{
+              color: 'var(--grey-350)',
+            }}
+          >
             {t('tr_assignments')}
           </Typography>
           <Box
