@@ -1,6 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { useAtomValue } from 'jotai';
 import { useBreakpoints } from '@hooks/index';
 import { IconError } from '@components/icons';
+import {
+  eventsMultiDayDisplayState,
+  hour24FormatState,
+} from '@states/settings';
 import { dbUpcomingEventsSave } from '@services/dexie/upcoming_events';
 import { UpcomingEventType } from '@definition/upcoming_events';
 import { displaySnackNotification } from '@services/states/app';
@@ -11,6 +16,9 @@ import { decorationsForEvent } from '../decorations_for_event';
 import { UpcomingEventProps } from './index.types';
 
 const useUpcomingEvent = ({ data }: UpcomingEventProps) => {
+  const multiDayDisplay = useAtomValue(eventsMultiDayDisplayState);
+  const hour24 = useAtomValue(hour24FormatState);
+
   const { tablet688Up } = useBreakpoints();
 
   const dayIndicatorRefs = useRef<HTMLDivElement[]>([]);
@@ -26,9 +34,12 @@ const useUpcomingEvent = ({ data }: UpcomingEventProps) => {
     return formatDate(result, 'yyyy/MM/dd');
   }, []);
 
+  // upcomingEventData reads these settings straight from the store, so they
+  // have to be dependencies for the list to react when either changes
   const eventFormatted = useMemo(() => {
     return upcomingEventData(data);
-  }, [data]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data, multiDayDisplay, hour24]);
 
   const dayColumns = useMemo(() => {
     const days = eventFormatted.dates.map((date, index) => ({
@@ -36,7 +47,7 @@ const useUpcomingEvent = ({ data }: UpcomingEventProps) => {
       index,
     }));
 
-    if (!tablet688Up) return [days];
+    if (!tablet688Up) return days.length > 0 ? [days] : [];
 
     const splitIndex = Math.ceil(days.length / 2);
 

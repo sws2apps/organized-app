@@ -18,6 +18,7 @@ import { FieldServiceGroupExportType } from '@definition/field_service_groups';
 import { PublishersSortOption } from '@definition/settings';
 import usePerson from '@features/persons/hooks/usePerson';
 import { TemplateFieldServiceGroups } from '@views/index';
+import { ExportGroupsSettings } from './index.types';
 
 const useExportGroups = () => {
   const { t } = useAppTranslation();
@@ -33,7 +34,7 @@ const useExportGroups = () => {
 
   const [isProcessing, setIsProcessing] = useState(false);
 
-  const handleExport = async () => {
+  const handleExport = async (settings: ExportGroupsSettings) => {
     if (isProcessing) return;
 
     try {
@@ -117,6 +118,8 @@ const useExportGroups = () => {
           groups={formatted_groups}
           congregation={congName}
           lang={locale}
+          orientation={settings.orientation}
+          fontSize={settings.fontSize}
         />
       ).toBlob();
 

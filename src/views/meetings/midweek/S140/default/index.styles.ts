@@ -40,6 +40,21 @@ const styles = StyleSheet.create({
     padding: '0 0 0 8px',
     width: '130px',
   },
+  personContainer: {
+    width: '130px',
+    display: 'flex',
+    padding: '0 0 0 8px',
+  },
+  personPrimary: {
+    color: 'black',
+    fontSize: '9px',
+    textAlign: 'left',
+  },
+  personSecondary: {
+    color: 'black',
+    fontSize: '9px',
+    textAlign: 'left',
+  },
   weekTitle: {
     fontWeight: 'bold',
     color: 'black',

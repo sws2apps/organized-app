@@ -12,7 +12,7 @@ const EditDeleteDialog = ({
   type,
 }: EditDeleteDialogProps) => {
   return (
-    <Dialog onClose={onClose} open={open} sx={{ padding: '24px' }}>
+    <Dialog onClose={onClose} open={open}>
       {type === 'edit' && (
         <GroupEdit
           group={group}

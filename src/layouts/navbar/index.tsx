@@ -28,6 +28,7 @@ import { NavBarType } from './index.types';
 import useNavbar from './useNavbar';
 import AccountHeaderIcon from '@components/account_header_icon';
 import AppNotification from '@features/app_notification';
+import InstallDialog from '@features/app_install/install_dialog';
 import Button from '@components/button';
 import DemoBanner from '@features/demo/banner';
 import LanguageSwitcher from '@features/language_switcher';
@@ -50,7 +51,7 @@ const menuStyle = {
     '& p': {
       color: 'var(--accent-main)',
     },
-    '& svg, & svg g, & svg g path': {
+    '& svg, & svg g, & svg path, & svg rect': {
       fill: 'var(--accent-main)',
     },
   },
@@ -58,7 +59,6 @@ const menuStyle = {
 
 const NavBar = ({ isSupported }: NavBarType) => {
   const { t } = useAppTranslation();
-
 
   const [settingsAnimating, setSettingsAnimating] = useState(false);
 
@@ -84,11 +84,17 @@ const NavBar = ({ isSupported }: NavBarType) => {
     handleBack,
     accountType,
     tablet688Up,
-    handleDisonnectAccount,
+    handleDisconnectAccount,
     congName,
     fullname,
     navBarOptions,
     handleQuickSettings,
+    showInstallButton,
+    handleInstallApp,
+    InstallIcon,
+    installDialogOpen,
+    handleCloseInstallDialog,
+    installGuide,
     markLastNavBarButton,
   } = useNavbar();
 
@@ -142,7 +148,12 @@ const NavBar = ({ isSupported }: NavBarType) => {
                       gap: '2px',
                     }}
                   >
-                    <Typography className="h3" color="var(--black)">
+                    <Typography
+                      className="h3"
+                      sx={{
+                        color: 'var(--black)',
+                      }}
+                    >
                       Organized
                     </Typography>
                     {APP_ENVIRONMENT && (
@@ -191,6 +202,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
 
                   {tabletUp && (isAppLoad || isTest) && (
                     <LanguageSwitcher
+                      standalone
                       menuStyle={{
                         ...baseMenuStyle,
                         padding: '8px 12px 8px 12px',
@@ -256,30 +268,34 @@ const NavBar = ({ isSupported }: NavBarType) => {
                           },
                         }}
                       >
-                        <MenuItem
-                          disableRipple
-                          sx={{
-                            cursor: 'default',
-                            pointerEvents: 'none',
-                            flexDirection: 'column',
-                            alignItems: 'flex-start',
-                            gap: 0,
-                          }}
-                        >
-                          {fullname && (
-                            <Typography className="body-small-semibold">
-                              {fullname}
-                            </Typography>
-                          )}
-                          {congName && (
-                            <Typography
-                              className="label-small-regular"
-                              color="var(--grey-350)"
-                            >
-                              {congName}
-                            </Typography>
-                          )}
-                        </MenuItem>
+                        {(fullname || congName) && (
+                          <MenuItem
+                            disableRipple
+                            sx={{
+                              cursor: 'default',
+                              pointerEvents: 'none',
+                              flexDirection: 'column',
+                              alignItems: 'flex-start',
+                              gap: 0,
+                            }}
+                          >
+                            {fullname && (
+                              <Typography className="body-small-semibold">
+                                {fullname}
+                              </Typography>
+                            )}
+                            {congName && (
+                              <Typography
+                                className="label-small-regular"
+                                sx={{
+                                  color: 'var(--grey-350)',
+                                }}
+                              >
+                                {congName}
+                              </Typography>
+                            )}
+                          </MenuItem>
+                        )}
 
                         {(tabletDown || (!isAppLoad && !isTest)) && (
                           <LanguageSwitcher menuStyle={menuStyle} />
@@ -304,6 +320,30 @@ const NavBar = ({ isSupported }: NavBarType) => {
                             <ListItemText>
                               <Typography className="body-regular">
                                 {t('tr_myProfile')}
+                              </Typography>
+                            </ListItemText>
+                          </MenuItem>
+                        )}
+
+                        {showInstallButton && (
+                          <MenuItem
+                            disableRipple
+                            sx={menuStyle}
+                            onClick={handleInstallApp}
+                          >
+                            <ListItemIcon
+                              sx={{
+                                '&.MuiListItemIcon-root': {
+                                  width: '24px',
+                                  minWidth: '24px !important',
+                                },
+                              }}
+                            >
+                              <InstallIcon color="var(--black)" />
+                            </ListItemIcon>
+                            <ListItemText>
+                              <Typography className="body-regular">
+                                {t('tr_installApp')}
                               </Typography>
                             </ListItemText>
                           </MenuItem>
@@ -450,7 +490,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
                           <MenuItem
                             disableRipple
                             sx={menuStyle}
-                            onClick={handleDisonnectAccount}
+                            onClick={handleDisconnectAccount}
                           >
                             <ListItemIcon
                               sx={{
@@ -487,6 +527,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
                   }}
                 >
                   <IconButton
+                    className="back-arrow-button"
                     aria-label={t('tr_back')}
                     onClick={handleBack}
                     sx={{
@@ -506,8 +547,8 @@ const NavBar = ({ isSupported }: NavBarType) => {
                   >
                     <Typography
                       className="h3"
-                      color="var(--black)"
                       sx={{
+                        color: 'var(--black)',
                         whiteSpace: 'nowrap',
                         textOverflow: 'ellipsis',
                         overflow: 'hidden',
@@ -517,8 +558,8 @@ const NavBar = ({ isSupported }: NavBarType) => {
                     </Typography>
                     <Typography
                       className="label-small-regular"
-                      color="var(--accent-400)"
                       sx={{
+                        color: 'var(--accent-400)',
                         whiteSpace: 'nowrap',
                         textOverflow: 'ellipsis',
                         overflow: 'hidden',
@@ -584,6 +625,11 @@ const NavBar = ({ isSupported }: NavBarType) => {
       {navBarOptions.buttons && !tablet688Up && (
         <BottomMenu buttons={markLastNavBarButton(navBarOptions.buttons)} />
       )}
+      <InstallDialog
+        open={installDialogOpen}
+        onClose={handleCloseInstallDialog}
+        guide={installGuide}
+      />
     </>
   );
 };

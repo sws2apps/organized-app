@@ -4,6 +4,7 @@ import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useUpcomingEvents from './useUpcomingEvents';
 import EditUpcomingEvent from '@features/activities/upcoming_events/edit_upcoming_event';
 import PageTitle from '@components/page_title';
+import QuickSettingsUpcomingEvents from '@features/activities/upcoming_events/quick_settings';
 import UpcomingEventsList from '@features/activities/upcoming_events/upcoming_events_list';
 import ExportUpcomingEvents from '@features/activities/upcoming_events/export_upcoming_events';
 import NavBarButton from '@components/nav_bar_button';
@@ -21,6 +22,9 @@ const UpcomingEvents = () => {
     handleHideAddEventBox,
     addEventBoxShow,
     handleSaveEvent,
+    quickSettingsOpen,
+    handleOpenQuickSettings,
+    handleCloseQuickSettings,
   } = useUpcomingEvents();
 
   return (
@@ -32,8 +36,16 @@ const UpcomingEvents = () => {
         paddingBottom: !tablet688Up ? '60px' : '0px',
       }}
     >
+      {quickSettingsOpen && (
+        <QuickSettingsUpcomingEvents
+          open={quickSettingsOpen}
+          onClose={handleCloseQuickSettings}
+        />
+      )}
+
       <PageTitle
         title={t('tr_upcomingEvents')}
+        quickSettings={isAdmin ? handleOpenQuickSettings : undefined}
         buttons={
           isAdmin && (
             <NavBarButtonGroup>

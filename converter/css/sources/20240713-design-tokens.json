@@ -96,14 +96,14 @@
       "description": "For some cases where we need CAPS titles. For instance, for meeting schedule part names",
       "type": "custom-fontStyle",
       "value": {
-        "fontSize": 20,
+        "fontSize": 18,
         "textDecoration": "none",
         "fontFamily": "Inter",
         "fontWeight": 450,
         "fontStyle": "normal",
         "fontStretch": "normal",
-        "letterSpacing": 0.2,
-        "lineHeight": 24,
+        "letterSpacing": 0.18,
+        "lineHeight": 22,
         "paragraphIndent": 0,
         "paragraphSpacing": 0,
         "textCase": "uppercase"
@@ -141,7 +141,7 @@
       "description": "Basically a bold version of body regular",
       "type": "custom-fontStyle",
       "value": {
-        "fontSize": 16,
+        "fontSize": 15,
         "textDecoration": "none",
         "fontFamily": "Inter",
         "fontWeight": 500,
@@ -164,7 +164,7 @@
       "description": "Used for all regular action buttons",
       "type": "custom-fontStyle",
       "value": {
-        "fontSize": 15,
+        "fontSize": 14,
         "textDecoration": "none",
         "fontFamily": "Inter",
         "fontWeight": 450,
@@ -187,7 +187,7 @@
       "description": "All main body text",
       "type": "custom-fontStyle",
       "value": {
-        "fontSize": 16,
+        "fontSize": 15,
         "textDecoration": "none",
         "fontFamily": "Inter",
         "fontWeight": 400,
@@ -343,14 +343,14 @@
       "m-h2-caps": {
         "type": "custom-fontStyle",
         "value": {
-          "fontSize": 18,
+          "fontSize": 16,
           "textDecoration": "none",
           "fontFamily": "Inter",
           "fontWeight": 450,
           "fontStyle": "normal",
           "fontStretch": "normal",
-          "letterSpacing": 0.18,
-          "lineHeight": 22,
+          "letterSpacing": 0.16,
+          "lineHeight": 20,
           "paragraphIndent": 0,
           "paragraphSpacing": 0,
           "textCase": "uppercase"
@@ -409,7 +409,7 @@
       "m-button-caps": {
         "type": "custom-fontStyle",
         "value": {
-          "fontSize": 14,
+          "fontSize": 12,
           "textDecoration": "none",
           "fontFamily": "Inter",
           "fontWeight": 450,
@@ -1453,48 +1453,6 @@
     }
   },
   "group-colors": {
-    "group-2": {
-      "type": "color",
-      "value": "#d64d4dff",
-      "blendMode": "normal",
-      "extensions": {
-        "org.lukasoppermann.figmaDesignTokens": {
-          "mode": "Mode 1",
-          "collection": "Group colors",
-          "scopes": ["ALL_SCOPES"],
-          "variableId": "VariableID:3860:126537",
-          "exportKey": "variables"
-        }
-      }
-    },
-    "group-6": {
-      "type": "color",
-      "value": "#944cb5ff",
-      "blendMode": "normal",
-      "extensions": {
-        "org.lukasoppermann.figmaDesignTokens": {
-          "mode": "Mode 1",
-          "collection": "Group colors",
-          "scopes": ["ALL_SCOPES"],
-          "variableId": "VariableID:3860:126572",
-          "exportKey": "variables"
-        }
-      }
-    },
-    "group-4": {
-      "type": "color",
-      "value": "#ea8135ff",
-      "blendMode": "normal",
-      "extensions": {
-        "org.lukasoppermann.figmaDesignTokens": {
-          "mode": "Mode 1",
-          "collection": "Group colors",
-          "scopes": ["ALL_SCOPES"],
-          "variableId": "VariableID:3860:126573",
-          "exportKey": "variables"
-        }
-      }
-    },
     "group-1": {
       "type": "color",
       "value": "#458a43ff",
@@ -1505,6 +1463,20 @@
           "collection": "Group colors",
           "scopes": ["ALL_SCOPES"],
           "variableId": "VariableID:3860:126574",
+          "exportKey": "variables"
+        }
+      }
+    },
+    "group-2": {
+      "type": "color",
+      "value": "#d64d4dff",
+      "blendMode": "normal",
+      "extensions": {
+        "org.lukasoppermann.figmaDesignTokens": {
+          "mode": "Mode 1",
+          "collection": "Group colors",
+          "scopes": ["ALL_SCOPES"],
+          "variableId": "VariableID:3860:126537",
           "exportKey": "variables"
         }
       }
@@ -1523,9 +1495,23 @@
         }
       }
     },
+    "group-4": {
+      "type": "color",
+      "value": "#ea8135ff",
+      "blendMode": "normal",
+      "extensions": {
+        "org.lukasoppermann.figmaDesignTokens": {
+          "mode": "Mode 1",
+          "collection": "Group colors",
+          "scopes": ["ALL_SCOPES"],
+          "variableId": "VariableID:3860:126573",
+          "exportKey": "variables"
+        }
+      }
+    },
     "group-5": {
       "type": "color",
-      "value": "#946951ff",
+      "value": "#a8b93eff",
       "blendMode": "normal",
       "extensions": {
         "org.lukasoppermann.figmaDesignTokens": {
@@ -1537,16 +1523,30 @@
         }
       }
     },
-    "group-9": {
+    "group-6": {
       "type": "color",
-      "value": "#a8b93eff",
+      "value": "#944cb5ff",
       "blendMode": "normal",
       "extensions": {
         "org.lukasoppermann.figmaDesignTokens": {
           "mode": "Mode 1",
           "collection": "Group colors",
           "scopes": ["ALL_SCOPES"],
-          "variableId": "VariableID:3860:126577",
+          "variableId": "VariableID:3860:126572",
+          "exportKey": "variables"
+        }
+      }
+    },
+    "group-7": {
+      "type": "color",
+      "value": "#25a9a9ff",
+      "blendMode": "normal",
+      "extensions": {
+        "org.lukasoppermann.figmaDesignTokens": {
+          "mode": "Mode 1",
+          "collection": "Group colors",
+          "scopes": ["ALL_SCOPES"],
+          "variableId": "VariableID:3860:126579",
           "exportKey": "variables"
         }
       }
@@ -1565,16 +1565,16 @@
         }
       }
     },
-    "group-7": {
+    "group-9": {
       "type": "color",
-      "value": "#25a9a9ff",
+      "value": "#946951ff",
       "blendMode": "normal",
       "extensions": {
         "org.lukasoppermann.figmaDesignTokens": {
           "mode": "Mode 1",
           "collection": "Group colors",
           "scopes": ["ALL_SCOPES"],
-          "variableId": "VariableID:3860:126579",
+          "variableId": "VariableID:3860:126577",
           "exportKey": "variables"
         }
       }

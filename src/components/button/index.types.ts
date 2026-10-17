@@ -26,6 +26,15 @@ export type ButtonPropsType = {
   disabled?: boolean;
 
   /**
+   * Forces the pressed (`:active`) look via an `is-pressed` class.
+   *
+   * Use when the browser skips `:active` for a press — e.g. the first press
+   * right after focus moves (switching tabs). Pair with an `&.is-pressed`
+   * selector in `sx` for non-default variants.
+   */
+  pressed?: boolean;
+
+  /**
    * Variant style of the button.
    */
   variant?:

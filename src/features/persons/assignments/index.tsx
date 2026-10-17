@@ -12,6 +12,7 @@ const PersonAssignments = () => {
   const {
     assignments,
     checkedItems,
+    classroomQualifications,
     handleToggleAssignment,
     handleToggleGroup,
     male,
@@ -46,6 +47,7 @@ const PersonAssignments = () => {
               onHeaderChange={handleToggleGroup}
               onItemChange={handleToggleAssignment}
               checkedItems={checkedItems}
+              classroomQualifications={classroomQualifications}
               male={male}
               disqualified={disqualified}
             />

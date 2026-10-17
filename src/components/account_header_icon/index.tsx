@@ -1,7 +1,8 @@
-import { Avatar, Box, SxProps, Theme } from '@mui/material';
-import { IconExpand, IconHeaderAccount, IconNoConnection } from '@icons/index';
+import { Box, SxProps, Theme } from '@mui/material';
+import { IconExpand, IconNoConnection } from '@icons/index';
 import { useAccountHeaderIcon } from './useAccountHeaderIcon';
 import { isTest } from '@constants/index';
+import ProfilePicture from '@components/profile_picture';
 
 /**
  * Functional component for rendering the user's avatar or a default icon
@@ -22,7 +23,7 @@ const AccountHeaderIcon = ({
   isMoreOpen?: boolean;
   sx?: SxProps<Theme>;
 }) => {
-  const { userAvatar, isOffline } = useAccountHeaderIcon();
+  const { isOffline } = useAccountHeaderIcon();
 
   const isRed = !isTest && isOffline;
 
@@ -66,22 +67,7 @@ const AccountHeaderIcon = ({
           position: 'relative',
         }}
       >
-        {userAvatar ? (
-          <Avatar
-            alt="Avatar"
-            src={userAvatar}
-            sx={{
-              width: '28px',
-              height: '28px',
-            }}
-          />
-        ) : (
-          <IconHeaderAccount
-            width={28}
-            height={28}
-            color="var(--accent-main)"
-          />
-        )}
+        <ProfilePicture size={28} />
         {isRed && (
           <Box
             sx={{

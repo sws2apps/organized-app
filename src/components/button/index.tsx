@@ -25,7 +25,11 @@ const Button: FC<ButtonPropsType> = (props) => {
 
   if (variant === 'small') className = 'body-small-semibold';
 
+  if (props.pressed) className += ' is-pressed';
+
   const isGradient = variant === 'main';
+
+  const defaultMinHeight = variant === 'small' ? 32 : 40;
 
   const gradientTop = color
     ? `color-mix(in oklch, var(--${color}-main), white 15%)`
@@ -34,7 +38,7 @@ const Button: FC<ButtonPropsType> = (props) => {
   const overlayBorderTop =
     'linear-gradient(180deg, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0) 100%)';
   const overlayBorderBottom =
-    'linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.05) 100%)';
+    'linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.02) 100%)';
   const gradientBackground = `${topHighlight}, ${overlayBorderTop}, ${overlayBorderBottom}`;
 
   const darkenOverlay = 'inset 0 0 0 1000px var(--btn-hover-overlay)';
@@ -44,7 +48,11 @@ const Button: FC<ButtonPropsType> = (props) => {
   const springEasing = 'cubic-bezier(0.34, 1.56, 0.64, 1)';
 
   const hasPressScale =
-    isGradient || variant === 'secondary' || variant === 'tertiary';
+    isGradient ||
+    variant === 'secondary' ||
+    variant === 'small' ||
+    variant === 'tertiary' ||
+    variant === 'semi-white';
 
   const getBorder = (isDisabled = false) => {
     if (isGradient) {
@@ -246,7 +254,7 @@ const Button: FC<ButtonPropsType> = (props) => {
       target={props.target}
       sx={{
         cursor: 'pointer',
-        minHeight: props.minHeight ? `${props.minHeight}px` : '40px',
+        minHeight: `${props.minHeight || defaultMinHeight}px`,
         fontFeatureSettings: '"cv05"',
         padding: variant === 'small' ? '4px 8px' : '8px 16px',
         backgroundColor: getBackgroundColor(),
@@ -273,12 +281,6 @@ const Button: FC<ButtonPropsType> = (props) => {
             : getBackgroundColorHover(),
           boxShadow: isGradient ? darkenOverlay : 'none',
           border: getBorder(),
-          borderRadius:
-            variant === 'group'
-              ? 'none'
-              : variant === 'small' || variant === 'semi-white'
-                ? 'var(--radius-m)'
-                : 'var(--radius-l)',
           '@media (hover: none)': {
             backgroundColor: getBackgroundColor(),
             ...(isGradient && { boxShadow: noOverlay }),
@@ -296,14 +298,6 @@ const Button: FC<ButtonPropsType> = (props) => {
           ...(hasPressScale && { transform: 'scale(0.985)' }),
           boxShadow: isGradient ? noOverlay : 'none',
           border: getBorder(),
-          borderRadius:
-            variant === 'group'
-              ? 'none'
-              : variant === 'small'
-                ? 'var(--radius-s)'
-                : variant === 'semi-white'
-                  ? 'var(--radius-m)'
-                  : 'var(--radius-l)',
           opacity: !isGradient && (variant === 'small' || color) ? 0.8 : 1,
         },
         '&:disabled': {
@@ -313,6 +307,11 @@ const Button: FC<ButtonPropsType> = (props) => {
           color: 'var(--accent-350)',
           border: getBorder(true),
         },
+        // MUI pulls the icons 4px into the padding; btn-small keeps them at 8px
+        ...(variant === 'small' && {
+          '& .MuiButton-startIcon': { marginLeft: 0 },
+          '& .MuiButton-endIcon': { marginRight: 0 },
+        }),
         '& svg': {
           height: variant === 'small' ? '20px' : '22px',
           width: variant === 'small' ? '20px' : '22px',

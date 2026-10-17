@@ -23,7 +23,12 @@ const InactivePublishers = (props: InactivePublishersProps) => {
   } = useActivePublishers(props);
 
   return (
-    <Stack spacing="24px" marginBottom="-24px">
+    <Stack
+      spacing="24px"
+      sx={{
+        marginBottom: '-24px',
+      }}
+    >
       <Stack spacing="16px">
         <SearchBar
           placeholder={t('tr_searchByName')}

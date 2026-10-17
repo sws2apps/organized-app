@@ -5,7 +5,7 @@ import S140Time from './S140Time';
 import S140SourceComplex from './S140SourceComplex';
 import S140Person from './S140Person';
 
-const ApplyMinistryRow = ({ meetingData, class_count,lang }: S140AYFType) => {
+const ApplyMinistryRow = ({ meetingData, lang }: S140AYFType) => {
   return (
     <>
       {[1, 2, 3, 4].map((index) => {
@@ -14,8 +14,10 @@ const ApplyMinistryRow = ({ meetingData, class_count,lang }: S140AYFType) => {
         const ayfTypeName = meetingData[`ayf_part${index}_type_name`];
         const ayfTime = meetingData[`ayf_part${index}_time`];
         const ayfLabel = meetingData[`ayf_part${index}_label`];
-        const ayfNameA = meetingData[`ayf_part${index}_A_name`];
-        const ayfNameB = meetingData[`ayf_part${index}_B_name`];
+        const ayfStudentA = meetingData[`ayf_part${index}_A_student_name`];
+        const ayfAssistantA = meetingData[`ayf_part${index}_A_assistant_name`];
+        const ayfStudentB = meetingData[`ayf_part${index}_B_student_name`];
+        const ayfAssistantB = meetingData[`ayf_part${index}_B_assistant_name`];
 
         return (
           <View key={`ayf-${meetingData.weekOf}-${index}`}>
@@ -34,8 +36,18 @@ const ApplyMinistryRow = ({ meetingData, class_count,lang }: S140AYFType) => {
                   partLabel={ayfLabel}
                   lang={lang}
                 />
-                <S140Person person={class_count === 1 ? '' : ayfNameB} />
-                <S140Person person={ayfNameA} />
+                <S140Person
+                  primary={meetingData.aux_class ? ayfStudentB : ''}
+                  secondary={meetingData.aux_class ? ayfAssistantB : undefined}
+                  direction="column"
+                  lang={lang}
+                />
+                <S140Person
+                  primary={ayfStudentA}
+                  secondary={ayfAssistantA}
+                  direction="column"
+                  lang={lang}
+                />
               </View>
             )}
           </View>

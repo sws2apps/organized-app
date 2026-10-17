@@ -44,19 +44,7 @@ const MyCongregation = () => {
         >
           <VisibilityToggle />
 
-          <ScrollableTabs
-            indicatorMode
-            tabs={tabs}
-            value={0}
-            sx={{
-              '& button.Mui-selected': {
-                color: 'var(--accent-main)',
-                background: 'unset',
-                borderRadius: 'unset',
-              },
-              '& span.MuiTouchRipple-root': { borderRadius: 'var(--radius-l)' },
-            }}
-          />
+          <ScrollableTabs appearance="plain" tabs={tabs} value={0} />
         </Box>
       </Collapse>
     </Box>

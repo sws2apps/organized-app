@@ -16,7 +16,11 @@ const CongregationOnlineAdd = ({
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-      <Typography color="var(--grey-400)">
+      <Typography
+        sx={{
+          color: 'var(--grey-400)',
+        }}
+      >
         {t('tr_addOrganizedCongregationDesc')}
       </Typography>
 

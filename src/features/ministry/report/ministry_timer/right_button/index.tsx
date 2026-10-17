@@ -3,7 +3,7 @@ import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { RightButtonProps } from './index.types';
 import TimerButton from '../timer_button';
 
-const RightButton = ({ onClick, state }: RightButtonProps) => {
+const RightButton = ({ onClick, state, disabled }: RightButtonProps) => {
   const { t } = useAppTranslation();
 
   const { isGroup } = useCurrentUser();
@@ -19,6 +19,7 @@ const RightButton = ({ onClick, state }: RightButtonProps) => {
             />
           }
           onClick={onClick}
+          disabled={disabled}
         />
       );
 
@@ -32,6 +33,7 @@ const RightButton = ({ onClick, state }: RightButtonProps) => {
             />
           }
           onClick={onClick}
+          disabled={disabled}
         />
       );
 
@@ -45,6 +47,7 @@ const RightButton = ({ onClick, state }: RightButtonProps) => {
             />
           }
           onClick={onClick}
+          disabled={disabled}
         />
       );
   }

@@ -6,6 +6,7 @@ import { getMessageByCode } from '@services/i18n/translation';
 import { SessionItemType } from './index.types';
 import { hour24FormatState, shortDateFormatState } from '@states/settings';
 import { formatLongDate } from '@utils/date';
+import { copyToClipboard } from '@utils/common';
 
 const useSessionItem = ({ onTerminate, session }: SessionItemType) => {
   const { t } = useAppTranslation();
@@ -15,9 +16,28 @@ const useSessionItem = ({ onTerminate, session }: SessionItemType) => {
 
   const [isProcessing, setIsProcessing] = useState(false);
   const [isCurrent, setIsCurrent] = useState(false);
-  const [location, setLocation] = useState('');
+  const [country, setCountry] = useState('');
+  const [ip, setIp] = useState('');
   const [browser, setBrowser] = useState('');
   const [lastSeen, setLastSeen] = useState('');
+
+  const handleCopyAddress = async () => {
+    try {
+      await copyToClipboard(session.ip);
+
+      displaySnackNotification({
+        header: t('tr_textCopied'),
+        message: '',
+        severity: 'success',
+      });
+    } catch (error) {
+      displaySnackNotification({
+        header: getMessageByCode('error_app_generic-title'),
+        message: getMessageByCode((error as Error).message),
+        severity: 'error',
+      });
+    }
+  };
 
   const handleTerminate = async () => {
     if (isProcessing) return;
@@ -42,11 +62,8 @@ const useSessionItem = ({ onTerminate, session }: SessionItemType) => {
   useEffect(() => {
     setIsCurrent(session.isSelf);
 
-    setLocation(session.ip);
-
-    if (session.country_name.length > 0) {
-      setLocation((prev) => `${prev} - ${session.country_name}`);
-    }
+    setCountry(session.country_name);
+    setIp(session.ip);
 
     setBrowser(session.device.browserName);
 
@@ -61,14 +78,16 @@ const useSessionItem = ({ onTerminate, session }: SessionItemType) => {
       tmpDate = formatLongDate(toFormat, shortDateFormat, hour24);
     }
 
-    setLastSeen(tmpDate.length > 0 ? t('tr_lastSeen', { date: tmpDate }) : '');
+    setLastSeen(tmpDate);
   }, [session, t, hour24, shortDateFormat]);
 
   return {
     isProcessing,
+    handleCopyAddress,
     handleTerminate,
     isCurrent,
-    location,
+    country,
+    ip,
     browser,
     lastSeen,
   };

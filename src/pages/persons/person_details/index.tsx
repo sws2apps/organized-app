@@ -25,7 +25,8 @@ const PersonDetails = () => {
 
   const { isAdmin } = useCurrentUser();
 
-  const { isNewPerson, isBaptized, male, isConnected } = usePersonDetails();
+  const { isNewPerson, isBaptized, male, isConnected, personName } =
+    usePersonDetails();
 
   return (
     <Box
@@ -38,6 +39,7 @@ const PersonDetails = () => {
     >
       <PageTitle
         title={isNewPerson ? t('tr_addNewPerson') : t('tr_editPerson')}
+        secondaryTitle={isNewPerson ? undefined : personName}
         buttons={<PersonButtonActions />}
       />
 

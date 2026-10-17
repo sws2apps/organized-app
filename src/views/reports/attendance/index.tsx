@@ -15,8 +15,12 @@ const TemplateS88 = ({ attendance, lang }: TemplateS88Props) => {
 
   return (
     <Document title="S-88" lang={lang}>
-      {attendance.data.map((data) => (
-        <Page key={data.name} size={[595.2, 842]} style={styles.body}>
+      {attendance.data.map((data, index) => (
+        <Page
+          key={`${data.name}-${index}`}
+          size={[595.2, 842]}
+          style={styles.body}
+        >
           <View style={styles.title}>
             <Text>{t('tr_S88Title', { lng: attendance.locale })}</Text>
             {data.name !== 'main' && (
@@ -33,10 +37,10 @@ const TemplateS88 = ({ attendance, lang }: TemplateS88Props) => {
               </Text>
 
               <View style={styles.container}>
-                {data.years.map((year, index) => (
+                {data.columns.map((caption, index) => (
                   <TableHeader
-                    key={year}
-                    year={year}
+                    key={caption}
+                    caption={caption}
                     locale={attendance.locale}
                     column={index + 1}
                   />
@@ -82,10 +86,10 @@ const TemplateS88 = ({ attendance, lang }: TemplateS88Props) => {
               </Text>
 
               <View style={styles.container}>
-                {data.years.map((year, index) => (
+                {data.columns.map((caption, index) => (
                   <TableHeader
-                    key={year}
-                    year={year}
+                    key={caption}
+                    caption={caption}
                     locale={attendance.locale}
                     column={index + 1}
                   />

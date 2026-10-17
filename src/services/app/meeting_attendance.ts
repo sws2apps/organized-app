@@ -2,6 +2,10 @@ import { store } from '@states/index';
 import { meetingAttendanceState } from '@states/meeting_attendance';
 import { debounce } from '@utils/common';
 import {
+  AttendanceCongregation,
+  AttendanceRecordField,
+  AttendanceValues,
+  MeetingAttendanceStats,
   MeetingAttendanceType,
   WeeklyAttendance,
 } from '@definition/meeting_attendance';
@@ -10,24 +14,25 @@ import { MeetingType } from '@definition/app';
 import { dbMeetingAttendanceSave } from '@services/dexie/meeting_attendance';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode, getTranslation } from '@services/i18n/translation';
+import {
+  attendanceHasDeafCount,
+  attendanceRecordTotal,
+  attendanceSplitDeaf,
+} from '@utils/meeting_attendance';
 
-const handleUpdateRecord = ({
+// Cloned record + data-view row (created if missing); clone keeps writes off the atom.
+const getWritableAttendance = ({
   index,
   month,
-  record,
   type,
-  value,
   dataView,
 }: {
-  month: string;
   index: number;
-  record: 'present' | 'online';
-  value: number;
+  month: string;
   type: MeetingType;
   dataView: string;
 }) => {
   const attendances = store.get(meetingAttendanceState);
-
   const dbAttendance = attendances.find(
     (record) => record.month_date === month
   );
@@ -47,16 +52,50 @@ const handleUpdateRecord = ({
   let current = meetingRecord.find((record) => record.type === dataView);
 
   if (!current) {
-    meetingRecord.push({
+    current = {
       type: dataView,
       online: undefined,
       present: undefined,
       updatedAt: '',
-    });
-    current = meetingRecord.find((record) => record.type === dataView);
+    };
+    meetingRecord.push(current);
   }
 
-  current[record] = value;
+  return { attendance, current };
+};
+
+// every field of a week is written in one go: a deaf count and the count it
+// belongs to have to land together
+const handleUpdateRecord = ({
+  index,
+  month,
+  type,
+  values,
+  dataView,
+}: {
+  month: string;
+  index: number;
+  values: AttendanceValues;
+  type: MeetingType;
+  dataView: string;
+}) => {
+  const { attendance, current } = getWritableAttendance({
+    index,
+    month,
+    type,
+    dataView,
+  });
+
+  attendanceSplitDeaf(current);
+
+  const entries = Object.entries(values) as [AttendanceRecordField, string][];
+
+  for (const [field, count] of entries) {
+    current[field] = count.length === 0 ? undefined : +count;
+  }
+
+  if (attendanceHasDeafCount(current)) current.deaf_separate = true;
+
   current.updatedAt = new Date().toISOString();
 
   return attendance;
@@ -66,25 +105,21 @@ const handlePresentSaveDb = async ({
   index,
   month,
   type,
-  count,
-  record,
+  values,
   dataView,
 }: {
-  count: string;
   month: string;
   index: number;
   type: MeetingType;
-  record: 'present' | 'online';
+  values: AttendanceValues;
   dataView: string;
 }) => {
   try {
-    const value = count.length === 0 ? undefined : +count;
     const attendance = handleUpdateRecord({
       index,
       month,
-      record,
       type,
-      value,
+      values,
       dataView,
     });
 
@@ -101,3 +136,53 @@ const handlePresentSaveDb = async ({
 };
 
 export const meetingAttendancePresentSave = debounce(handlePresentSaveDb, 10);
+
+const sumField = (
+  records: AttendanceCongregation[],
+  field: AttendanceRecordField
+) => records.reduce((acc, record) => acc + (record[field] || 0), 0);
+
+export const meetingAttendanceGetStats = (
+  attendance: MeetingAttendanceType | undefined,
+  meeting: MeetingType,
+  category?: string
+): MeetingAttendanceStats => {
+  let count = 0;
+  let total = 0;
+  let online = 0;
+  let deaf = 0;
+
+  for (let i = 1; i <= 5; i++) {
+    const weekData = attendance?.[`week_${i}`] as WeeklyAttendance;
+
+    if (!weekData) continue;
+
+    const records = category
+      ? weekData[meeting].filter((record) => record.type === category)
+      : weekData[meeting];
+
+    const weekTotal = records.reduce(
+      (acc, record) => acc + attendanceRecordTotal(record),
+      0
+    );
+
+    if (weekTotal === 0) continue;
+
+    count++;
+    total += weekTotal;
+    online += sumField(records, 'online') + sumField(records, 'online_deaf');
+    deaf +=
+      sumField(records, 'present_deaf') + sumField(records, 'online_deaf');
+  }
+
+  const average = count === 0 ? 0 : Math.round(total / count);
+
+  return {
+    count,
+    total,
+    average,
+    average_online: count === 0 ? 0 : Math.round(online / count),
+    total_deaf: deaf,
+    average_deaf: count === 0 ? 0 : Math.round(deaf / count),
+  };
+};

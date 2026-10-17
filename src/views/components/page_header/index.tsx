@@ -88,14 +88,14 @@ const PageHeader = ({
             style={{
               borderRadius: '2px',
               padding: '2px 8px',
-              backgroundColor: getCSSPropertyValue('--pdf-blue-main'),
+              backgroundColor: '#D5DFFD',
             }}
           >
             <Text
               style={{
                 fontWeight: 500,
                 fontSize: '12px',
-                color: '#FEFEFE',
+                color: '#3B4CA3',
               }}
             >
               {congregationName}

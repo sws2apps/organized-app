@@ -1,18 +1,48 @@
 import { useEffect, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import {
+  attendanceDeafRecordState,
   attendanceOnlineRecordState,
   settingsState,
   userDataViewState,
 } from '@states/settings';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
+import { settingSchema } from '@services/dexie/schema';
+
+type DataViewSetting = {
+  type: string;
+  value: boolean;
+  updatedAt: string;
+  _deleted: boolean;
+};
+
+const setValueForDataView = (
+  records: DataViewSetting[],
+  dataView: string,
+  value: boolean
+) => {
+  const updatedAt = new Date().toISOString();
+
+  const current = records.find((record) => record.type === dataView);
+
+  if (current) {
+    current.value = value;
+    current.updatedAt = updatedAt;
+  } else {
+    records.push({ type: dataView, _deleted: false, updatedAt, value });
+  }
+
+  return records;
+};
 
 const useMeetingAttendance = () => {
   const settings = useAtomValue(settingsState);
   const dataView = useAtomValue(userDataViewState);
   const recordOnlineInitial = useAtomValue(attendanceOnlineRecordState);
+  const recordDeafInitial = useAtomValue(attendanceDeafRecordState);
 
   const [recordOnline, setRecordOnline] = useState(false);
+  const [recordDeaf, setRecordDeaf] = useState(false);
 
   const handleRecordOnlineToggle = async () => {
     let newRecordOnline = structuredClone(
@@ -26,26 +56,27 @@ const useMeetingAttendance = () => {
       newRecordOnline = [{ type: 'main', _deleted: false, updatedAt, value }];
     }
 
-    const findRecord = newRecordOnline.find(
-      (record) => record.type === dataView
+    await dbAppSettingsUpdate({
+      'cong_settings.attendance_online_record': setValueForDataView(
+        newRecordOnline,
+        dataView,
+        !recordOnline
+      ),
+    });
+  };
+
+  const handleRecordDeafToggle = async () => {
+    const newRecordDeaf = structuredClone(
+      settings.cong_settings.attendance_deaf_record ??
+        settingSchema.cong_settings.attendance_deaf_record
     );
 
-    if (findRecord) {
-      findRecord.value = !recordOnline;
-      findRecord.updatedAt = new Date().toISOString();
-    }
-
-    if (!findRecord) {
-      newRecordOnline.push({
-        type: dataView,
-        _deleted: false,
-        updatedAt: new Date().toISOString(),
-        value: !recordOnline,
-      });
-    }
-
     await dbAppSettingsUpdate({
-      'cong_settings.attendance_online_record': newRecordOnline,
+      'cong_settings.attendance_deaf_record': setValueForDataView(
+        newRecordDeaf,
+        dataView,
+        !recordDeaf
+      ),
     });
   };
 
@@ -53,9 +84,15 @@ const useMeetingAttendance = () => {
     setRecordOnline(recordOnlineInitial);
   }, [recordOnlineInitial]);
 
+  useEffect(() => {
+    setRecordDeaf(recordDeafInitial);
+  }, [recordDeafInitial]);
+
   return {
     recordOnline,
     handleRecordOnlineToggle,
+    recordDeaf,
+    handleRecordDeafToggle,
   };
 };
 

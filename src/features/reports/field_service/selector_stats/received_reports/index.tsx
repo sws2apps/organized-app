@@ -21,7 +21,12 @@ const ReceivedReports = () => {
         }}
       >
         <Typography className="h3">{t('tr_receivedReports')}</Typography>
-        <Typography className="body-small-regular" color="var(--accent-400)">
+        <Typography
+          className="body-small-regular"
+          sx={{
+            color: 'var(--accent-400)',
+          }}
+        >
           {t('tr_publishersCountReport', {
             publishersCount: publishers_active,
           })}

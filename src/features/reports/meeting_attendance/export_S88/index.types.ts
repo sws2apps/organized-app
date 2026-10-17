@@ -1,13 +1,9 @@
-export type MeetingStatsData = {
-  count: number;
-  total: number;
-  average: number;
-};
+import { MeetingAttendanceStats } from '@definition/meeting_attendance';
 
 export type MonthData = {
   month: string;
-  midweek: MeetingStatsData;
-  weekend: MeetingStatsData;
+  midweek: MeetingAttendanceStats;
+  weekend: MeetingAttendanceStats;
 };
 
 export type YearlyData = {
@@ -19,4 +15,10 @@ export type AttendanceExport = {
   category: string;
   name: string;
   data: YearlyData[];
+};
+
+export type ColumnSource = {
+  label: string;
+  months: MonthData[];
+  deaf?: boolean;
 };

@@ -5,7 +5,6 @@ import useWithdrawReport from './useWithdrawReport';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
 import DialogActions from '@components/dialog_actions';
-import Typography from '@components/typography';
 
 const WithdrawReport = (props: WithdrawReportProps) => {
   const { t } = useAppTranslation();
@@ -13,13 +12,12 @@ const WithdrawReport = (props: WithdrawReportProps) => {
   const { isProcessing, handleWithdrawal } = useWithdrawReport(props);
 
   return (
-    <Dialog onClose={props.onClose} open={props.open} sx={{ padding: '24px' }}>
-      <Typography className="h2">{t('tr_undoSubmission')}</Typography>
-
-      <Typography color="var(--grey-400)">
-        {t('tr_undoSubmissionDesc')}
-      </Typography>
-
+    <Dialog
+      onClose={props.onClose}
+      open={props.open}
+      title={t('tr_undoSubmission')}
+      description={t('tr_undoSubmissionDesc')}
+    >
       <DialogActions>
         <Button
           variant="secondary"

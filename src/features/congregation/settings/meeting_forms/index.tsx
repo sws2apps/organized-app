@@ -12,6 +12,7 @@ import DateFormat from './date_format';
 import DisplayName from './display_name';
 import MenuItem from '@components/menuitem';
 import MidweekExactDate from './midweek_exact_date';
+import MultiDayDisplay from './multiday_display';
 import NameFormat from './name_format';
 import PublishersSort from '../congregation_privacy/publishers_sort';
 import Select from '@components/select';
@@ -38,7 +39,7 @@ const MeetingForms = () => {
     <CardSection>
       <CardSectionHeader title={t('tr_meetinMaterialsTitle')} />
 
-      <CardSectionContent marginTop="-8px !important">
+      <CardSectionContent sx={{ marginTop: '-8px !important' }}>
         {!isGroup && (
           <Stack spacing="16px">
             <SwitchWithLabel
@@ -88,7 +89,12 @@ const MeetingForms = () => {
           <DisplayName />
         </Stack>
 
-        <Stack spacing="16px" marginTop="24px !important">
+        <Stack
+          spacing="16px"
+          sx={{
+            marginTop: '24px !important',
+          }}
+        >
           <NameFormat />
 
           <DateFormat />
@@ -102,6 +108,11 @@ const MeetingForms = () => {
             <PublishersSort />
           </Stack>
         )}
+
+        <Stack spacing="16px">
+          <CardSubSectionHeader title={t('tr_upcomingEvents')} />
+          <MultiDayDisplay />
+        </Stack>
       </CardSectionContent>
     </CardSection>
   );

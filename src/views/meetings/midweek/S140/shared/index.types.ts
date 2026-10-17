@@ -2,9 +2,7 @@ import { MidweekMeetingDataType } from '@definition/schedules';
 
 export type S140Type = {
   data: MidweekMeetingDataType[];
-  class_count: number;
   cong_name: string;
-  fullname?: boolean;
   lang: string;
 };
 
@@ -13,7 +11,6 @@ export type S140MeetingPartHeadingType = {
   meetingPart: string;
   backgroundColor: string;
   classroomHeading: boolean;
-  class_count: number;
   lang: string;
 };
 
@@ -22,7 +19,10 @@ export type S140PartMiniLabelType = {
 };
 
 export type S140PersonType = {
-  person: string;
+  primary: string;
+  secondary?: string;
+  lang: string;
+  direction?: 'row' | 'column';
 };
 
 export type S140SourceComplexType = {
@@ -61,8 +61,6 @@ export type S140WeekTitleType = {
 
 export type S140AYFType = {
   meetingData: MidweekMeetingDataType;
-  class_count: number;
-  fullname?: boolean;
   lang: string;
 };
 

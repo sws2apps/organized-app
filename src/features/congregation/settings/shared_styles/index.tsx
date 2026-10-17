@@ -1,36 +1,10 @@
 import { FC, PropsWithChildren } from 'react';
-import { styled } from '@mui/system';
-import { Box, Stack, StackProps, SxProps } from '@mui/material';
+import { Stack, StackProps, SxProps } from '@mui/material';
 import Markup from '@components/text_markup';
 import Typography from '@components/typography';
 import Divider from '@components/divider';
 
-const CardSectionStyled = styled(Box)({
-  backgroundColor: 'var(--white)',
-  padding: '15px',
-  border: '1px solid var(--accent-300)',
-  borderRadius: 'var(--radius-l)',
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '24px',
-});
-
-export const CardSection = (props: PropsWithChildren & SxProps) => {
-  return <CardSectionStyled {...props} />;
-};
-
-const TwoColumnsRowStyled = styled(Box)({
-  display: 'flex',
-  gap: '16px',
-  alignItems: 'center',
-  '> *': {
-    flex: '1 0 0',
-  },
-});
-
-export const TwoColumnsRow = (props: PropsWithChildren & SxProps) => {
-  return <TwoColumnsRowStyled {...props} />;
-};
+export { CardSection, TwoColumnsRow } from './index.styles';
 
 export const CardSectionTitle = ({ children }: PropsWithChildren) => {
   return <Typography className="h2">{children}</Typography>;
@@ -80,7 +54,7 @@ export const CardSubSectionHeader = ({
   return (
     <Stack spacing="4px">
       <CardSubSectionTitle>{title}</CardSubSectionTitle>
-      <CardSectionDescription content={description} />
+      {description && <CardSectionDescription content={description} />}
     </Stack>
   );
 };

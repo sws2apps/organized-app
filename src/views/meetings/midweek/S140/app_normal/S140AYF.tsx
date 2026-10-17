@@ -7,12 +7,7 @@ import S140Person from './S140Person';
 import styles from './index.styles';
 import { applyRTL } from '@views/utils/pdf_utils';
 
-const ApplyMinistryRow = ({
-  meetingData,
-  class_count,
-  fullname,
-  lang,
-}: S140AYFType) => {
+const ApplyMinistryRow = ({ meetingData, lang }: S140AYFType) => {
   const stylesSmart = applyRTL(styles, lang);
 
   return (
@@ -52,11 +47,10 @@ const ApplyMinistryRow = ({
                   lang={lang}
                 />
 
-                {class_count === 2 && (
+                {meetingData.aux_class && (
                   <S140Person
                     primary={ayfStudentNameB}
                     secondary={ayfAssistantNameB}
-                    direction={fullname ? 'column' : 'row'}
                     lang={lang}
                   />
                 )}
@@ -64,7 +58,6 @@ const ApplyMinistryRow = ({
                 <S140Person
                   primary={ayfStudentNameA}
                   secondary={ayfAssistantNameA}
-                  direction={fullname ? 'column' : 'row'}
                   lang={lang}
                 />
               </View>
