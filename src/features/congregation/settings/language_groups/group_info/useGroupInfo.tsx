@@ -4,11 +4,10 @@ import { useAppTranslation } from '@hooks/index';
 import { displaySnackNotification } from '@services/states/app';
 import { refreshLocaleDerivedData } from '@services/app/locale_derived_data';
 import { syncJWMeetingMaterials } from '@services/app/meeting_materials';
-import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { settingsState, userDataViewState } from '@states/settings';
 import { GroupInfoProps } from './index.types';
 import { FieldServiceGroupType } from '@definition/field_service_groups';
-import { dbFieldServiceGroupSave } from '@services/dexie/field_service_groups';
+import { fieldGroupsSaveWithSettings } from '@services/app/field_service_groups';
 
 const useGroupInfo = ({ group, onClose }: GroupInfoProps) => {
   const { t } = useAppTranslation();
@@ -116,12 +115,12 @@ const useGroupInfo = ({ group, onClose }: GroupInfoProps) => {
         findCircuit.updatedAt = new Date().toISOString();
       }
 
-      await dbAppSettingsUpdate({
+      const saved = await fieldGroupsSaveWithSettings(groupToSave, {
         'cong_settings.source_material.language': sourceLanguages,
         'cong_settings.cong_circuit': circuits,
       });
 
-      await dbFieldServiceGroupSave(groupToSave);
+      if (!saved) return;
 
       if (activeGroupLanguageChanged) {
         await refreshLocaleDerivedData();
