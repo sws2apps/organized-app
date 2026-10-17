@@ -256,7 +256,7 @@ const Button: FC<ButtonPropsType> = (props) => {
         cursor: 'pointer',
         minHeight: `${props.minHeight || defaultMinHeight}px`,
         fontFeatureSettings: '"cv05"',
-        padding: variant === 'small' ? '4px 8px' : '8px 16px',
+        padding: variant === 'small' ? '4px 8px' : '8px 12px',
         backgroundColor: getBackgroundColor(),
         ...(isGradient && {
           backgroundImage: gradientBackground,
@@ -313,9 +313,12 @@ const Button: FC<ButtonPropsType> = (props) => {
           '& .MuiButton-endIcon': { marginRight: 0 },
         }),
         '& svg': {
-          height: variant === 'small' ? '20px' : '22px',
-          width: variant === 'small' ? '20px' : '22px',
+          height: '20px',
+          width: '20px',
         },
+        // caps labels are compact, so the icon sits a little closer
+        '& .MuiButton-startIcon': { marginLeft: 0, marginRight: '6px' },
+        '& .MuiButton-endIcon': { marginRight: 0, marginLeft: '6px' },
         '& svg, & svg g, & svg g path': {
           fill: getSvgColor(),
         },

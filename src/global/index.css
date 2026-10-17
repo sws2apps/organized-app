@@ -150,9 +150,10 @@ span .text-markup:last-child {
   }
 }
 
-/* width */
+/* width, and the same size for horizontal bars */
 ::-webkit-scrollbar {
   width: 6px;
+  height: 6px;
 }
 
 /* Track */

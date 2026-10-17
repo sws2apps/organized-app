@@ -1,0 +1,192 @@
+import { ReactNode } from 'react';
+import { Box, Stack } from '@mui/material';
+import { ScrollableTabs, Typography } from '@components/index';
+import Card from '@components/card';
+import { useBreakpoints } from '@hooks/index';
+import { Territory } from '@definition/territory';
+import { daysLabel, withAssignments } from '../helpers';
+import TerritorySummary from '../components/territory_summary';
+import DetailsForm from './details_form';
+import DoNotCallPanel from './do_not_call_panel';
+import TerritoryAssignments from './territory_assignments';
+import TerritoryMap from './territory_map';
+import PhoneNumbersPanel from './phone_numbers_panel';
+import TerritoryStats from './territory_stats';
+
+type TerritoryDetailsProps = {
+  territory: Territory;
+  onChange: (territory: Territory) => void;
+  // publishers see the territory to decide on a request, but don't edit it
+  readOnly?: boolean;
+  // do-not-call addresses and phone numbers stay with admins and the holder
+  showPrivate?: boolean;
+  // the publisher working the territory adds the do-not-calls they meet
+  heldByMe?: boolean;
+};
+
+type Section = { label: string; badge?: number; Component: ReactNode };
+
+const TabbedSections = ({ sections }: { sections: Section[] }) => (
+  <Box sx={{ '& [role="tabpanel"] > *': { padding: '16px 0 0' } }}>
+    <ScrollableTabs
+      appearance="plain"
+      tabs={sections}
+      value={0}
+      sx={{ borderBottom: '1px solid var(--accent-200)' }}
+    />
+  </Box>
+);
+
+const TerritoryDetails = ({
+  territory,
+  onChange,
+  readOnly = false,
+  showPrivate = true,
+  heldByMe = false,
+}: TerritoryDetailsProps) => {
+  const { desktopUp } = useBreakpoints();
+
+  const summary = (
+    <>
+      <TerritorySummary
+        heading
+        territory={territory}
+        meta={
+          !readOnly && territory.holder
+            ? `${territory.holder} · ${daysLabel(territory.daysOut)}`
+            : undefined
+        }
+      />
+
+      <TerritoryStats territory={territory} showDoNotCalls={showPrivate} />
+    </>
+  );
+
+  const form = (
+    <DetailsForm key={territory.id} territory={territory} onChange={onChange} />
+  );
+
+  const isPhone = territory.type === 'phone';
+
+  const map = isPhone ? (
+    <PhoneNumbersPanel
+      territory={territory}
+      onChange={(next) => onChange({ ...territory, phoneNumbers: next })}
+    />
+  ) : (
+    <TerritoryMap territory={territory} />
+  );
+
+  const mapLabel = isPhone ? 'Phone numbers' : 'Territory map';
+
+  const assignments = (
+    <TerritoryAssignments
+      territory={territory}
+      onChange={(next) => onChange(withAssignments(territory, next))}
+    />
+  );
+
+  const doNotCalls = (
+    <DoNotCallPanel
+      territory={territory}
+      onChange={(next) => onChange({ ...territory, doNotCalls: next })}
+    />
+  );
+
+  const doNotCallCard = (content: ReactNode) => (
+    <Card>
+      <Typography className="h2" color="var(--black)">
+        Do not call
+      </Typography>
+      {content}
+    </Card>
+  );
+
+  if (readOnly) {
+    const content = isPhone ? (
+      showPrivate && (
+        <PhoneNumbersPanel territory={territory} onChange={() => {}} readOnly />
+      )
+    ) : (
+      <TerritoryMap
+        territory={territory}
+        readOnly
+        showDoNotCalls={showPrivate}
+      />
+    );
+
+    return (
+      <Stack spacing="16px">
+        <Card>
+          {summary}
+
+          {content}
+        </Card>
+
+        {showPrivate &&
+          doNotCallCard(
+            <DoNotCallPanel
+              territory={territory}
+              onChange={(next) => onChange({ ...territory, doNotCalls: next })}
+              access={heldByMe ? 'own' : 'none'}
+            />
+          )}
+      </Stack>
+    );
+  }
+
+  if (!desktopUp) {
+    return (
+      <Stack spacing="16px">
+        <Card>
+          {summary}
+
+          <TabbedSections
+            sections={[
+              { label: 'Details', Component: form },
+              { label: isPhone ? 'Phone numbers' : 'Map', Component: map },
+              { label: 'Assignments', Component: assignments },
+            ]}
+          />
+        </Card>
+
+        {doNotCallCard(doNotCalls)}
+      </Stack>
+    );
+  }
+
+  return (
+    <Box
+      sx={{
+        display: 'grid',
+        gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)',
+        gap: '16px',
+        alignItems: 'start',
+      }}
+    >
+      <Stack spacing="16px">
+        <Card>
+          <Typography className="h2" color="var(--black)">
+            Territory details
+          </Typography>
+          {form}
+        </Card>
+
+        {doNotCallCard(doNotCalls)}
+      </Stack>
+
+      <Card>
+        {summary}
+
+        <TabbedSections
+          sections={[
+            { label: mapLabel, Component: map },
+            { label: 'Assignments', Component: assignments },
+          ]}
+        />
+      </Card>
+    </Box>
+  );
+};
+
+export default TerritoryDetails;
