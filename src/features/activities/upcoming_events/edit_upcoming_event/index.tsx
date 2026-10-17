@@ -77,7 +77,12 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
           gap: '16px',
         }}
       >
-        <Typography className="h2" color="var(--black)">
+        <Typography
+          className="h2"
+          sx={{
+            color: 'var(--black)',
+          }}
+        >
           {props.type == 'add'
             ? t('tr_addUpcomingEvent')
             : t('tr_editUpcomingEvent')}
@@ -139,7 +144,12 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
                   }}
                 >
                   {cloneElement(option.icon, { color: 'var(--black)' })}
-                  <Typography className="body-regular" color="var(--black)">
+                  <Typography
+                    className="body-regular"
+                    sx={{
+                      color: 'var(--black)',
+                    }}
+                  >
                     {t(option.translationKey)}
                   </Typography>
                 </Box>
@@ -186,12 +196,22 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
             helperText={errors.duration && t('tr_fillRequiredField')}
           >
             <MenuItem value={UpcomingEventDuration.SingleDay} key={0}>
-              <Typography className="body-regular" color="var(--black)">
+              <Typography
+                className="body-regular"
+                sx={{
+                  color: 'var(--black)',
+                }}
+              >
                 {t('tr_singleDay')}
               </Typography>
             </MenuItem>
             <MenuItem value={UpcomingEventDuration.MultipleDays} key={1}>
-              <Typography className="body-regular" color="var(--black)">
+              <Typography
+                className="body-regular"
+                sx={{
+                  color: 'var(--black)',
+                }}
+              >
                 {t('tr_multipleDays')}
               </Typography>
             </MenuItem>

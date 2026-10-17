@@ -80,8 +80,7 @@ const MonthView = ({ days, onSelectDay }: MonthViewProps) => {
         >
           <Typography
             className="label-small-medium"
-            color={color}
-            sx={{ textAlign: 'center' }}
+            sx={{ color: color, textAlign: 'center' }}
           >
             {isOver ? occupied : available}
           </Typography>

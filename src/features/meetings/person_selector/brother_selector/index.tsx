@@ -118,9 +118,11 @@ const BrotherSelector = (props: PersonSelectorType) => {
             <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <Typography
                 className="body-small-regular"
-                color="var(--grey-350)"
                 align="center"
-                sx={{ width: '85px' }}
+                sx={{
+                  color: 'var(--grey-350)',
+                  width: '85px',
+                }}
               >
                 {option.last_assignment}
               </Typography>
@@ -144,8 +146,10 @@ const BrotherSelector = (props: PersonSelectorType) => {
             >
               <Typography
                 className="body-small-regular"
-                color="var(--grey-350)"
-                sx={{ width: '200px' }}
+                sx={{
+                  color: 'var(--grey-350)',
+                  width: '200px',
+                }}
               >
                 {t('tr_name')}
               </Typography>
@@ -153,9 +157,11 @@ const BrotherSelector = (props: PersonSelectorType) => {
               <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <Typography
                   className="body-small-regular"
-                  color="var(--grey-350)"
                   align="center"
-                  sx={{ width: '85px' }}
+                  sx={{
+                    color: 'var(--grey-350)',
+                    width: '85px',
+                  }}
                 >
                   {t('tr_lastAssignment')}
                 </Typography>

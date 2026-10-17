@@ -56,7 +56,10 @@ const LocationDetails = ({ location }: LocationDetailsProps) => {
       </Box>
 
       {description.length > 0 && (
-        <Typography className="body-small-regular" color="var(--grey-400)">
+        <Typography
+          className="body-small-regular"
+          sx={{ color: 'var(--grey-400)' }}
+        >
           {description}
         </Typography>
       )}

@@ -42,10 +42,13 @@ const WeekView = ({ days, canInteract, onSelectSlot }: ShiftsViewProps) => {
 
     return (
       <Stack spacing="2px" sx={{ minWidth: 0 }}>
-        <Typography className="body-small-semibold" color={colors.date}>
+        <Typography className="body-small-semibold" sx={{ color: colors.date }}>
           {formatDateShortMonth(day.dateObj)}
         </Typography>
-        <Typography className="body-small-regular" color={colors.weekday}>
+        <Typography
+          className="body-small-regular"
+          sx={{ color: colors.weekday }}
+        >
           {dayNames[day.dateObj.getDay()]}
         </Typography>
       </Stack>

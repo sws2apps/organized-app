@@ -25,7 +25,7 @@ const Stepper = ({ steps, activeStep, sx }: StepperProps) => (
           <StepLabel>
             <Typography
               className="label-small-medium"
-              color={done ? 'var(--accent-dark)' : 'var(--accent-400)'}
+              sx={{ color: done ? 'var(--accent-dark)' : 'var(--accent-400)' }}
             >
               {label}
             </Typography>

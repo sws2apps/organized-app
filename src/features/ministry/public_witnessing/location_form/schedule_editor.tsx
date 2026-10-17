@@ -197,7 +197,10 @@ const ScheduleEditor = ({
             }}
           >
             <IconInfo color="var(--grey-350)" />
-            <Typography className="body-small-regular" color="var(--grey-400)">
+            <Typography
+              className="body-small-regular"
+              sx={{ color: 'var(--grey-400)' }}
+            >
               {t('tr_PWScheduleSelectDay')}
             </Typography>
           </Box>

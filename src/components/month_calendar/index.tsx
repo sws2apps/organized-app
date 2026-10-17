@@ -93,7 +93,10 @@ const DayCell = ({
           width: '100%',
         }}
       >
-        <Typography className="body-small-semibold" color="var(--black)">
+        <Typography
+          className="body-small-semibold"
+          sx={{ color: 'var(--black)' }}
+        >
           {day.dayNumber}
         </Typography>
         {day.isToday && (
@@ -166,8 +169,10 @@ const MonthCalendar = ({
           >
             <Typography
               className="body-small-semibold"
-              color="var(--grey-400)"
-              sx={{ textAlign: tabletUp ? 'left' : 'center' }}
+              sx={{
+                color: 'var(--grey-400)',
+                textAlign: tabletUp ? 'left' : 'center',
+              }}
             >
               {tabletUp ? label : label.charAt(0)}
             </Typography>

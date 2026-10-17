@@ -119,7 +119,12 @@ const FormBody = (props: ApplicationFormProps) => {
               flexDirection: laptopUp ? 'row' : 'column',
             }}
           >
-            <Stack spacing="16px" flex={1}>
+            <Stack
+              spacing="16px"
+              sx={{
+                flex: 1,
+              }}
+            >
               <Typography className="h4">
                 {t('tr_noteAPSApplication')}
               </Typography>
@@ -129,8 +134,18 @@ const FormBody = (props: ApplicationFormProps) => {
               />
             </Stack>
 
-            <Stack spacing="16px" flex={1}>
-              <Typography className="h4" textAlign="center">
+            <Stack
+              spacing="16px"
+              sx={{
+                flex: 1,
+              }}
+            >
+              <Typography
+                className="h4"
+                sx={{
+                  textAlign: 'center',
+                }}
+              >
                 {t('tr_approvingAPSApplication')}
               </Typography>
 

@@ -5,7 +5,10 @@ import Typography from '@components/typography';
 const ShiftsEmpty = ({ message }: { message: string }) => (
   <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
     <IconInfo color="var(--grey-350)" />
-    <Typography className="body-small-regular" color="var(--grey-400)">
+    <Typography
+      className="body-small-regular"
+      sx={{ color: 'var(--grey-400)' }}
+    >
       {message}
     </Typography>
   </Box>

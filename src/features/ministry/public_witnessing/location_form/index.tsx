@@ -134,7 +134,7 @@ const LocationForm = (props: LocationFormProps) => {
         },
       }}
     >
-      <Stack spacing="16px" width="100%">
+      <Stack spacing="16px" sx={{ width: '100%' }}>
         <Box
           sx={{
             display: 'flex',
@@ -180,7 +180,7 @@ const LocationForm = (props: LocationFormProps) => {
         )}
       </Stack>
 
-      <Stack spacing="8px" width="100%">
+      <Stack spacing="8px" sx={{ width: '100%' }}>
         <Button variant="main" disabled={isSaving} onClick={mainAction.onClick}>
           {mainAction.label}
         </Button>

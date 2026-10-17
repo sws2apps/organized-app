@@ -45,7 +45,7 @@ const LocationsReorder = (props: LocationsReorderProps) => {
         </ReactSortable>
       </Box>
 
-      <Stack spacing="8px" width="100%">
+      <Stack spacing="8px" sx={{ width: '100%' }}>
         <Button variant="main" onClick={handleSaveChanges}>
           {t('tr_save')}
         </Button>

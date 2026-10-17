@@ -32,12 +32,12 @@ const LocationDelete = ({ open, onClose, location }: LocationDeleteProps) => {
       <Stack spacing="16px">
         <Typography className="h2">{t('tr_deletePWLocation')}</Typography>
 
-        <Typography color="var(--grey-400)">
+        <Typography sx={{ color: 'var(--grey-400)' }}>
           {t('tr_deletePWLocationDesc')}
         </Typography>
       </Stack>
 
-      <Stack spacing="8px" width="100%">
+      <Stack spacing="8px" sx={{ width: '100%' }}>
         <Button variant="main" color="red" onClick={handleDelete}>
           {t('tr_delete')}
         </Button>

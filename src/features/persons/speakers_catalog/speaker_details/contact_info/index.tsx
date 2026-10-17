@@ -33,8 +33,10 @@ const SpeakerContactInfo = ({ speaker, onClose }: SpeakerContactInfoType) => {
           >
             <Typography
               className="body-small-semibold"
-              color="var(--accent-dark)"
-              sx={{ wordBreak: 'break-all' }}
+              sx={{
+                color: 'var(--accent-dark)',
+                wordBreak: 'break-all',
+              }}
             >
               {speaker.speaker_data.person_phone.value}
             </Typography>
@@ -64,8 +66,10 @@ const SpeakerContactInfo = ({ speaker, onClose }: SpeakerContactInfoType) => {
           >
             <Typography
               className="body-small-semibold"
-              color="var(--accent-dark)"
-              sx={{ wordBreak: 'break-all' }}
+              sx={{
+                color: 'var(--accent-dark)',
+                wordBreak: 'break-all',
+              }}
             >
               {speaker.speaker_data.person_email.value}
             </Typography>

@@ -62,7 +62,7 @@ const PublisherNames = ({
 }: Omit<CellContentProps, 'statusLabel'> & { compact?: boolean }) => (
   <Typography
     className={compact ? 'label-small-regular' : 'body-small-regular'}
-    color={color}
+    sx={{ color: color }}
   >
     {slot.publishers.join(', ')}
   </Typography>
@@ -81,7 +81,7 @@ const CompactContent = ({
       {slot.status === 'partner_needed' && (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
           <IconPersonSearch color={color} width={16} height={16} />
-          <Typography className="label-small-regular" color={color}>
+          <Typography className="label-small-regular" sx={{ color: color }}>
             {statusLabel}
           </Typography>
         </Box>
@@ -185,8 +185,7 @@ const ShiftCell = ({
       >
         <Typography
           className={compact ? 'label-small-medium' : 'body-small-semibold'}
-          color={color}
-          sx={{ whiteSpace: 'nowrap' }}
+          sx={{ color: color, whiteSpace: 'nowrap' }}
         >
           {times}
         </Typography>

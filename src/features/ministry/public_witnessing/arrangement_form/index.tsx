@@ -96,7 +96,10 @@ const ArrangementForm = (props: ArrangementFormProps) => {
       {partnerNames.map((partner, index) => (
         <Stack key={partner.id} spacing="8px">
           {numbered && (
-            <Typography className="body-small-semibold" color="var(--grey-400)">
+            <Typography
+              className="body-small-semibold"
+              sx={{ color: 'var(--grey-400)' }}
+            >
               {t('tr_publisherWithNumber', { publisherNumber: index + 1 })}
             </Typography>
           )}
@@ -147,7 +150,10 @@ const ArrangementForm = (props: ArrangementFormProps) => {
       <Radio checked={checked} sx={{ padding: 0, alignSelf: 'flex-start' }} />
       <Stack spacing="2px">
         <Typography className="body-regular">{label}</Typography>
-        <Typography className="body-small-regular" color="var(--grey-400)">
+        <Typography
+          className="body-small-regular"
+          sx={{ color: 'var(--grey-400)' }}
+        >
           {description}
         </Typography>
       </Stack>
@@ -194,12 +200,12 @@ const ArrangementForm = (props: ArrangementFormProps) => {
         <>
           <Stack spacing="16px">
             <Typography className="h2">{t('tr_addToCalendar')}</Typography>
-            <Typography color="var(--grey-400)">
+            <Typography sx={{ color: 'var(--grey-400)' }}>
               {t('tr_addToCalendarDesc')}
             </Typography>
           </Stack>
 
-          <Stack spacing="8px" width="100%">
+          <Stack spacing="8px" sx={{ width: '100%' }}>
             <Button
               variant="main"
               onClick={() => {
@@ -216,7 +222,7 @@ const ArrangementForm = (props: ArrangementFormProps) => {
         </>
       ) : (
         <>
-          <Stack spacing="16px" width="100%">
+          <Stack spacing="16px" sx={{ width: '100%' }}>
             <Stack spacing="8px">
               <Box
                 sx={{
@@ -245,7 +251,7 @@ const ArrangementForm = (props: ArrangementFormProps) => {
               <Stack>
                 <Typography
                   className="body-small-regular"
-                  color="var(--grey-400)"
+                  sx={{ color: 'var(--grey-400)' }}
                 >
                   {props.location.location_data.name}
                 </Typography>
@@ -269,7 +275,7 @@ const ArrangementForm = (props: ArrangementFormProps) => {
             {mode !== 'join' && publisherForm()}
           </Stack>
 
-          <Stack spacing="8px" width="100%">
+          <Stack spacing="8px" sx={{ width: '100%' }}>
             <Button
               variant="main"
               disabled={isSaving || !canConfirm}

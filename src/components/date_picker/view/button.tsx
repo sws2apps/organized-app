@@ -14,6 +14,19 @@ const ButtonField = (props: DatePickerFieldProps) => {
 
   const { forwardedProps } = useSplitFieldProps(props, 'date');
 
+  const {
+    enableAccessibleFieldDOMStructure: _enableAccessibleFieldDOMStructure,
+    clearable: _clearable,
+    onClear: _onClear,
+    customInput: _customInput,
+    ...buttonProps
+  } = forwardedProps as typeof forwardedProps & {
+    enableAccessibleFieldDOMStructure?: boolean;
+    clearable?: boolean;
+    onClear?: () => void;
+    customInput?: unknown;
+  };
+
   const pickerContext = usePickerContext();
 
   const value = useMemo(() => {
@@ -26,7 +39,7 @@ const ButtonField = (props: DatePickerFieldProps) => {
 
   return (
     <Button
-      {...forwardedProps}
+      {...buttonProps}
       variant="text"
       onClick={() => pickerContext.setOpen((prev) => !prev)}
       endIcon={<IconDate color={'var(--accent-dark)'} />}

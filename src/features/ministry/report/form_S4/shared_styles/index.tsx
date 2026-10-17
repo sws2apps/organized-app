@@ -1,4 +1,5 @@
-import { Box, styled } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { Box } from '@mui/material';
 
 export const FieldContainer = styled(Box)({
   width: '100%',
@@ -6,4 +7,4 @@ export const FieldContainer = styled(Box)({
   justifyContent: 'space-between',
   alignItems: 'center',
   gap: '12px',
-}) as unknown as typeof Box;
+});
