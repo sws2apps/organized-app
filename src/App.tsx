@@ -22,8 +22,13 @@ import RouteProtected from '@components/route_protected';
 import { determineAppLocale } from '@services/app';
 import { firstDayWeekState } from '@states/settings';
 import { LANGUAGE_LIST } from './constants';
+import useUnsavedDrafts from '@hooks/useUnsavedDrafts';
 
 // lazy loading
+const HallAttendant = lazy(() => import('@pages/meetings/hall_attendant'));
+const HallEmergency = lazy(
+  () => import('@pages/meetings/hall_attendant/emergency')
+);
 const Dashboard = lazy(() => import('@pages/dashboard'));
 const MyProfile = lazy(() => import('@pages/my_profile'));
 const PersonsAll = lazy(() => import('@pages/persons/all_persons'));
@@ -80,12 +85,14 @@ const rtlCache = createCache({
 });
 
 const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
+  useUnsavedDrafts();
   const {
     isAdmin,
     isPublisher,
     isElder,
     isPersonEditor,
     isAttendanceEditor,
+    canUseHallAttendant,
     isAppointed,
     isMidweekEditor,
     isWeekendEditor,
@@ -216,6 +223,16 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
               children: [{ path: '/persons/new', element: <PersonDetails /> }],
             },
 
+            {
+              element: <RouteProtected allowed={canUseHallAttendant} />,
+              children: [
+                { path: '/hall-attendant', element: <HallAttendant /> },
+                {
+                  path: '/hall-attendant/emergency',
+                  element: <HallEmergency />,
+                },
+              ],
+            },
             // attendance editor routes
             {
               element: <RouteProtected allowed={isAttendanceEditor} />,

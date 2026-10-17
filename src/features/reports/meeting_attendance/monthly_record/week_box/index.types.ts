@@ -1,4 +1,5 @@
 import { MeetingType } from '@definition/app';
+import { AttendanceSaveParams } from '@definition/meeting_attendance';
 
 export type WeekBoxProps = {
   index: number;
@@ -12,6 +13,18 @@ export type WeekBoxValues = {
   online: string;
   presentDeaf: string;
   onlineDeaf: string;
+};
+
+export type AttendanceDraftsProps = {
+  initialValues: WeekBoxValues;
+  recordKey: string;
+  disabled: boolean;
+  params: Omit<AttendanceSaveParams, 'values'>;
+};
+
+export type AttendancePendingSave = {
+  timer: ReturnType<typeof setTimeout>;
+  save: () => Promise<void>;
 };
 
 export type WeekBoxField = {

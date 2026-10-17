@@ -10,6 +10,27 @@ const useUserAdditionalRights = () => {
   const [isWeekend, setIsWeekend] = useState(false);
   const [isPublicTalk, setIsPublicTalk] = useState(false);
   const [isAttendance, setIsAttendance] = useState(false);
+  const isHallInfoEditor =
+    currentUser?.profile.cong_role?.includes('hall_attendant_info') ?? false;
+  const handleToggleHallInfo = async (value: boolean) => {
+    try {
+      if (!currentUser) return;
+      const next = structuredClone(currentUser);
+      next.profile.cong_role = (next.profile.cong_role ?? []).filter(
+        (role) => role !== 'hall_attendant_info'
+      );
+      if (value) next.profile.cong_role.push('hall_attendant_info');
+      await handleSaveDetails(next);
+    } catch (error) {
+      displaySnackNotification({
+        header: getMessageByCode('error_app_generic-title'),
+        message: getMessageByCode(
+          error instanceof Error ? error.message : 'error_app_generic-desc'
+        ),
+        severity: 'error',
+      });
+    }
+  };
 
   const handleToggleMidweek = async (value: boolean) => {
     try {
@@ -150,6 +171,8 @@ const useUserAdditionalRights = () => {
   }, [currentUser]);
 
   return {
+    isHallInfoEditor,
+    handleToggleHallInfo,
     isMidweek,
     handleToggleMidweek,
     isWeekend,

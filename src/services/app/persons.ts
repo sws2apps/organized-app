@@ -1,3 +1,4 @@
+import { isHallAttendant } from '@utils/hall_attendant';
 import { store } from '@states/index';
 import {
   AssignmentType,
@@ -908,6 +909,8 @@ export const refreshReadOnlyRoles = (
   const userRole: AppRoleType[] = [];
 
   if (!person) return userRole;
+
+  if (isHallAttendant(person)) userRole.push('hall_attendant');
 
   // cleanup
   initial = initial.filter((record) => !APP_READ_ONLY_ROLES.includes(record));

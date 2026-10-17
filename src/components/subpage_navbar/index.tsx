@@ -9,6 +9,7 @@ import { SubpageNavbarProps } from './index.types';
 /** Navigation bar for subpages/overlays shown as their own screen (e.g. on mobile). */
 const SubpageNavbar = ({
   title,
+  titleId,
   secondaryTitle,
   onBack,
   backLabel,
@@ -64,11 +65,10 @@ const SubpageNavbar = ({
         }}
       >
         <Typography
+          id={titleId}
           className="h3"
           sx={[
-            {
-              color: 'var(--black)',
-            },
+            { color: 'var(--black)' },
             ...(Array.isArray(ellipsis) ? ellipsis : [ellipsis]),
           ]}
         >
