@@ -32,7 +32,10 @@ import {
 } from '@states/settings';
 import {
   TemplateS140,
+  TemplateS140AppMonthlyList,
+  TemplateS140AppDetailed,
   TemplateS140AppNormal,
+  TemplateS140AppMonthlyColumns,
   TemplateS89,
   TemplateS89Doc4in1,
 } from '@views/index';
@@ -150,16 +153,18 @@ const useMidweekExport = (onClose: MidweekExportType['onClose']) => {
     }
 
     if (S140.length > 0) {
+      const templates = {
+        S140_default: TemplateS140,
+        S140_app_normal: TemplateS140AppNormal,
+        S140_app_monthly_columns: TemplateS140AppMonthlyColumns,
+        S140_app_monthly_list: TemplateS140AppMonthlyList,
+        S140_app_detailed: TemplateS140AppDetailed,
+      };
+
+      const Template = templates[S140Template] ?? TemplateS140AppNormal;
+
       const blob = await pdf(
-        S140Template === 'S140_default' ? (
-          <TemplateS140 cong_name={cong_name} data={S140} lang={sourceLocale} />
-        ) : (
-          <TemplateS140AppNormal
-            cong_name={cong_name}
-            data={S140}
-            lang={sourceLocale}
-          />
-        )
+        <Template cong_name={cong_name} data={S140} lang={sourceLocale} />
       ).toBlob();
 
       const toAdd = meetingExactDate ? midweekDay : 0;

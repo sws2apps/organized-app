@@ -29,7 +29,7 @@ const styles: Record<string, Style> = {
     marginBottom: '24px',
   },
   weekHeader: {
-    padding: '4px 5px 4px 15px',
+    padding: '4px 5px 4px 8px',
     backgroundColor: '#6876BE',
     borderTopLeftRadius: '6px',
     borderTopRightRadius: '6px',
@@ -47,7 +47,7 @@ const styles: Record<string, Style> = {
     color: '#FEFEFE',
     fontWeight: 'bold',
     fontSize: '10px',
-    marginLeft: '5px',
+    marginLeft: '12px',
     textAlign: 'left',
   },
   coWeekTypeContainer: {
@@ -84,13 +84,14 @@ const styles: Record<string, Style> = {
     textAlign: 'center',
   },
   sourceContainer: {
-    flexGrow: 1,
+    flex: 1,
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
   },
   sourceTextContainer: {
+    flexShrink: 1,
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
@@ -126,12 +127,16 @@ const styles: Record<string, Style> = {
     padding: '2px 0',
   },
   personPrimary: {
+    maxLines: 1,
+    textOverflow: 'ellipsis',
     fontSize: '9px',
     letterSpacing: '-0.04px',
     fontWeight: 'medium',
     textAlign: 'left',
   },
   personSecondary: {
+    maxLines: 1,
+    textOverflow: 'ellipsis',
     fontSize: '9px',
     letterSpacing: '-0.04px',
     textAlign: 'left',
@@ -150,7 +155,7 @@ const styles: Record<string, Style> = {
   sectionContainer: {
     paddingTop: '2px',
     paddingBottom: '2px',
-    paddingLeft: '15px',
+    paddingLeft: '8px',
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
@@ -160,7 +165,7 @@ const styles: Record<string, Style> = {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    gap: '4px',
+    gap: '12px',
     flexGrow: 1,
   },
   sectionTitleText: {
@@ -182,6 +187,8 @@ const styles: Record<string, Style> = {
     flexDirection: 'column',
   },
   hallName: {
+    maxLines: 1,
+    textOverflow: 'ellipsis',
     fontSize: '9px',
     fontWeight: 'bold',
     letterSpacing: '-0.04px',
@@ -189,24 +196,11 @@ const styles: Record<string, Style> = {
     textAlign: 'left',
   },
   hallCounselor: {
+    maxLines: 1,
+    textOverflow: 'ellipsis',
     fontSize: '9px',
     letterSpacing: '-0.06px',
     color: '#FEFEFE',
-    textAlign: 'left',
-  },
-  hallGroup: {
-    fontSize: '8px',
-    letterSpacing: '-0.07px',
-    color: '#FEFEFE',
-    textAlign: 'left',
-  },
-  weekInfoLabel: {
-    fontWeight: 'bold',
-    color: 'darkblue',
-    fontSize: '11px',
-    marginTop: '3px',
-    width: '100%',
-    marginLeft: '33px',
     textAlign: 'left',
   },
 };
