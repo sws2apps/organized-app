@@ -36,7 +36,7 @@ const SectionEdit = (props: SectionEditProps) => {
 
   return (
     <Dialog onClose={props.onClose} open={props.open}>
-      <Stack spacing="24px" width="100%">
+      <Stack spacing="24px" sx={{ width: '100%' }}>
         <Typography className="h2">
           {props.type === 'add' ? t('tr_sectionAdd') : t('tr_sectionEdit')}
         </Typography>
@@ -73,16 +73,25 @@ const SectionEdit = (props: SectionEditProps) => {
         </Stack>
 
         <Stack spacing="4px">
-          <Typography className="body-small-semibold" color="var(--grey-400)">
+          <Typography
+            className="body-small-semibold"
+            sx={{ color: 'var(--grey-400)' }}
+          >
             {t('tr_sectionParts')}
           </Typography>
 
-          <Typography className="label-small-regular" color="var(--grey-350)">
+          <Typography
+            className="label-small-regular"
+            sx={{ color: 'var(--grey-350)' }}
+          >
             {t('tr_sectionPartsDesc')}
           </Typography>
 
           {parts.length === 0 && (
-            <Typography className="label-small-regular" color="var(--grey-350)">
+            <Typography
+              className="label-small-regular"
+              sx={{ color: 'var(--grey-350)' }}
+            >
               {t('tr_sectionPartsNone')}
             </Typography>
           )}

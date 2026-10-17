@@ -28,10 +28,10 @@ const DutiesExport = ({ open, onClose }: DutiesExportType) => {
 
   return (
     <Dialog onClose={onClose} open={open} sx={{ padding: '24px' }}>
-      <Stack spacing="24px" width="100%">
+      <Stack spacing="24px" sx={{ width: '100%' }}>
         <Stack spacing="8px">
           <Typography className="h2">{t('tr_exportDuties')}</Typography>
-          <Typography color="var(--grey-400)">
+          <Typography sx={{ color: 'var(--grey-400)' }}>
             {t('tr_exportDutiesDesc')}
           </Typography>
         </Stack>
@@ -45,10 +45,13 @@ const DutiesExport = ({ open, onClose }: DutiesExportType) => {
         <Stack
           direction={tablet600Down ? 'column' : 'row'}
           spacing="24px"
-          alignItems="flex-start"
+          sx={{ alignItems: 'flex-start' }}
         >
-          <Stack spacing="8px" flex={1} width="100%">
-            <Typography className="body-small-semibold" color="var(--grey-400)">
+          <Stack spacing="8px" sx={{ flex: 1, width: '100%' }}>
+            <Typography
+              className="body-small-semibold"
+              sx={{ color: 'var(--grey-400)' }}
+            >
               {t('tr_orientation')}
             </Typography>
             <RadioGroup
@@ -73,8 +76,11 @@ const DutiesExport = ({ open, onClose }: DutiesExportType) => {
             </RadioGroup>
           </Stack>
 
-          <Stack spacing="8px" flex={1} width="100%">
-            <Typography className="body-small-semibold" color="var(--grey-400)">
+          <Stack spacing="8px" sx={{ flex: 1, width: '100%' }}>
+            <Typography
+              className="body-small-semibold"
+              sx={{ color: 'var(--grey-400)' }}
+            >
               {t('tr_fontSize')}
             </Typography>
             <RadioGroup
@@ -104,7 +110,7 @@ const DutiesExport = ({ open, onClose }: DutiesExportType) => {
           </Stack>
         </Stack>
 
-        <Stack spacing="8px" width="100%">
+        <Stack spacing="8px" sx={{ width: '100%' }}>
           <Button
             variant="main"
             onClick={handleExport}

@@ -24,8 +24,7 @@ const DutyName = ({ icon, duty }: DutyNameProps) => {
       {icon}
       <Typography
         className="body-small-semibold"
-        color="var(--accent-dark)"
-        sx={{ textWrap: 'wrap' }}
+        sx={{ color: 'var(--accent-dark)', textWrap: 'wrap' }}
       >
         {duty}
       </Typography>

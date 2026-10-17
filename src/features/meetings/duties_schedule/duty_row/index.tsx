@@ -20,11 +20,11 @@ const DutyRow = ({ duty, icon, week, fields = [], columns }: DutyRowProps) => {
     <Stack
       spacing={laptopDown ? '12px' : '8px'}
       direction={laptopDown ? 'column' : 'row'}
-      alignItems="flex-start"
+      sx={{ alignItems: 'flex-start' }}
     >
       <DutyName duty={duty} icon={icon} />
 
-      <Stack spacing="8px" flex={1} width="100%">
+      <Stack spacing="8px" sx={{ flex: 1, width: '100%' }}>
         <Grid container columnSpacing="8px" rowSpacing="16px">
           {groups.map((group) => (
             <Grid

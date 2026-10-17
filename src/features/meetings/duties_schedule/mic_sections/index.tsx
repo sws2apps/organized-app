@@ -33,7 +33,7 @@ const MicSections = ({ week, prefix, meeting }: MicSectionsProps) => {
   } = useMicSections(week, meeting);
 
   return (
-    <Stack spacing="16px" flex={1} width="100%">
+    <Stack spacing="16px" sx={{ flex: 1, width: '100%' }}>
       {formOpen && (
         <SectionEdit
           open={formOpen}
@@ -47,9 +47,9 @@ const MicSections = ({ week, prefix, meeting }: MicSectionsProps) => {
 
       {deleteId.length > 0 && (
         <Dialog onClose={handleCloseDelete} open={deleteId.length > 0}>
-          <Stack spacing="24px" width="100%">
+          <Stack spacing="24px" sx={{ width: '100%' }}>
             <Typography className="h2">{t('tr_sectionDelete')}</Typography>
-            <Typography color="var(--grey-400)">
+            <Typography sx={{ color: 'var(--grey-400)' }}>
               {t('tr_sectionDeleteDesc')}
             </Typography>
             <Stack spacing="8px">
@@ -96,7 +96,7 @@ const MicSections = ({ week, prefix, meeting }: MicSectionsProps) => {
                 <Stack spacing="2px">
                   <Typography
                     className="body-small-semibold"
-                    color="var(--grey-400)"
+                    sx={{ color: 'var(--grey-400)' }}
                   >
                     {section.name}
                   </Typography>
@@ -106,7 +106,7 @@ const MicSections = ({ week, prefix, meeting }: MicSectionsProps) => {
                   {partsLabel.length > 0 && partsLabel !== section.name && (
                     <Typography
                       className="label-small-regular"
-                      color="var(--grey-350)"
+                      sx={{ color: 'var(--grey-350)' }}
                     >
                       {partsLabel}
                     </Typography>
@@ -167,7 +167,7 @@ const MicSections = ({ week, prefix, meeting }: MicSectionsProps) => {
 
       <Divider color="var(--accent-200)" />
 
-      <Stack spacing="4px" alignItems="flex-start">
+      <Stack spacing="4px" sx={{ alignItems: 'flex-start' }}>
         <Button
           variant="small"
           onClick={handleOpenAdd}
@@ -183,7 +183,10 @@ const MicSections = ({ week, prefix, meeting }: MicSectionsProps) => {
 
         {/* the limit only shows once it is in the way */}
         {sections.length >= DUTIES_SECTIONS_MAX && (
-          <Typography className="label-small-regular" color="var(--grey-350)">
+          <Typography
+            className="label-small-regular"
+            sx={{ color: 'var(--grey-350)' }}
+          >
             {t('tr_sectionsMax', { maxSections: DUTIES_SECTIONS_MAX })}
           </Typography>
         )}

@@ -15,13 +15,23 @@ const SpecialMonths = () => {
     useSpecialMonths();
 
   return (
-    <Stack spacing="16px" marginTop="-16px !important">
+    <Stack
+      spacing="16px"
+      sx={{
+        marginTop: '-16px !important',
+      }}
+    >
       <CardSubSectionHeader
         title={t('tr_specialMonths')}
         description={t('tr_specialMonthsDesc')}
       />
 
-      <Stack spacing="16px" marginTop="24px !important">
+      <Stack
+        spacing="16px"
+        sx={{
+          marginTop: '24px !important',
+        }}
+      >
         {yearsList.map((option) => (
           <Select
             key={option.year}

@@ -180,7 +180,10 @@ export const dbAssignmentUpdate = async () => {
       key: 'tr_auxClassCounselor',
       language: lang.locale,
     });
-    assistantOnlyMMObj[langCode] = getTranslation({ key: 'tr_assistantOnly' });
+    assistantOnlyMMObj[langCode] = getTranslation({
+      key: 'tr_assistantOnly',
+      language: lang.locale,
+    });
     startingConversationObj[langCode] = getTranslation({
       key: 'tr_startingConversation',
       language: lang.locale,

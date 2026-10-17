@@ -30,11 +30,8 @@ const InputTextField = forwardRef(function DatePickerInputField(
           paddingTop: `calc(14.5px - ${varHeight}px)`,
           paddingBottom: `calc(14.5px - ${varHeight}px)`,
           flex: '1 0 0',
-          color:
-            props.value || props.inputProps['value']
-              ? 'var(--black)'
-              : 'var(--accent-400)',
-          cursor: props.disabled && 'not-allowed',
+          color: !props.areAllSectionsEmpty ? 'var(--black)' : 'var(--accent-400)',
+          cursor: props.disabled ? 'not-allowed' : 'auto',
         },
         '.MuiPickersInput-root:before': {
           borderBottom: '1px solid var(--accent-300) !important',

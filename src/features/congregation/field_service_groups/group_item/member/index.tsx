@@ -72,7 +72,9 @@ const GroupMember = (props: GroupMemberProps) => {
           {member_desc && (
             <Typography
               className="label-small-medium"
-              color={'var(--grey-400)'}
+              sx={{
+                color: 'var(--grey-400)',
+              }}
             >
               {member_desc}
             </Typography>
@@ -141,7 +143,11 @@ const GroupMember = (props: GroupMemberProps) => {
               sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}
             >
               <IconRemovePerson color="var(--red-main)" />
-              <Typography color="var(--red-main)">
+              <Typography
+                sx={{
+                  color: 'var(--red-main)',
+                }}
+              >
                 {t('tr_removeFromGroups')}
               </Typography>
             </MenuItem>

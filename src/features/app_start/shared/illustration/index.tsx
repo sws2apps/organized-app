@@ -56,14 +56,18 @@ const StartupIllustration = () => {
                 <Box>
                   <Typography
                     className="h1"
-                    color="var(--always-white)"
-                    sx={{ marginBottom: '24px' }}
+                    sx={{
+                      color: 'var(--always-white)',
+                      marginBottom: '24px',
+                    }}
                   >
                     {slide.title}
                   </Typography>
                   <Typography
                     className="body-regular"
-                    color="var(--always-white)"
+                    sx={{
+                      color: 'var(--always-white)',
+                    }}
                   >
                     {slide.desc}
                   </Typography>

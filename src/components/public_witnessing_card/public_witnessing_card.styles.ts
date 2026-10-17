@@ -1,4 +1,4 @@
-import { styled } from '@mui/system';
+import { styled } from '@mui/material/styles';
 import { ButtonBase } from '@mui/material';
 import { ButtonBaseProps } from '@mui/material/ButtonBase/ButtonBase';
 import { CustomAccordionVariant } from './public_witnessing_card.types';

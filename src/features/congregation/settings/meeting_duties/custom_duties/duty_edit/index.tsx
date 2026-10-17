@@ -19,11 +19,10 @@ const DutyEdit = (props: DutyEditProps) => {
 
   return (
     <Dialog onClose={props.onClose} open={props.open}>
-      <Stack spacing="24px" width="100%">
+      <Stack spacing="24px" sx={{ width: '100%' }}>
         <Stack
           direction="row"
-          alignItems="center"
-          justifyContent="space-between"
+          sx={{ alignItems: 'center', justifyContent: 'space-between' }}
         >
           <Typography className="h2">{t('tr_dutiesCustom')}</Typography>
 

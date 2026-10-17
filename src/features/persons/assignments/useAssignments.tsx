@@ -14,6 +14,7 @@ import {
 import { languageGroupsState } from '@states/field_service_groups';
 import { CLASSROOM_QUALIFICATIONS_ASSIGNMENT } from '@constants/index';
 import { clearClassroomQualification } from '@utils/assignments';
+import { primaryTranslation } from '@utils/i18n';
 
 const useAssignments = () => {
   const { t } = useAppTranslation();
@@ -52,10 +53,7 @@ const useAssignments = () => {
     ];
   }, [t]);
 
-  const handleClassroomsChange = (
-    code: AssignmentCode,
-    selected: string[]
-  ) => {
+  const handleClassroomsChange = (code: AssignmentCode, selected: string[]) => {
     const newPerson = structuredClone(person);
 
     let personAssignments = newPerson.person_data.assignments.find(
@@ -140,21 +138,30 @@ const useAssignments = () => {
         color:
           'apply-yourself-to-the-field-ministry' as AssignmentCheckListColors,
         items: [
-          { code: AssignmentCode.MM_Discussion, name: t('tr_discussion') },
+          {
+            code: AssignmentCode.MM_Discussion,
+            name: primaryTranslation(t('tr_discussion')),
+          },
           {
             code: AssignmentCode.MM_StartingConversation,
-            name: t('tr_startingConversation'),
+            name: primaryTranslation(t('tr_startingConversation')),
           },
-          { code: AssignmentCode.MM_FollowingUp, name: t('tr_followingUp') },
+          {
+            code: AssignmentCode.MM_FollowingUp,
+            name: primaryTranslation(t('tr_followingUp')),
+          },
           {
             code: AssignmentCode.MM_MakingDisciples,
-            name: t('tr_makingDisciples'),
+            name: primaryTranslation(t('tr_makingDisciples')),
           },
           {
             code: AssignmentCode.MM_ExplainingBeliefs,
-            name: t('tr_explainingBeliefs'),
+            name: primaryTranslation(t('tr_explainingBeliefs')),
           },
-          { code: AssignmentCode.MM_Talk, name: t('tr_talk') },
+          {
+            code: AssignmentCode.MM_Talk,
+            name: primaryTranslation(t('tr_talk')),
+          },
           {
             code: AssignmentCode.MM_AssistantOnly,
             name: t('tr_assistantOnly'),
@@ -286,7 +293,7 @@ const useAssignments = () => {
   const handleToggleGroup = async (checked: boolean, id: string) => {
     const newPerson = structuredClone(person);
 
-    const items = assignments.find((group) => group.id === id).items;
+    const items = assignments.find((group) => group.id === id)!.items;
 
     if (checked) {
       const views: string[] = [];
@@ -348,7 +355,7 @@ const useAssignments = () => {
         } else {
           const personAssignments = newPerson.person_data.assignments.find(
             (a) => a.type === dataView
-          );
+          )!;
 
           personAssignments.updatedAt = new Date().toISOString();
           personAssignments.values = personAssignments.values.filter(
@@ -406,7 +413,7 @@ const useAssignments = () => {
             AssignmentCode.WM_SpeakerSymposium
           );
 
-          if (symposium) {
+          if (symposium && personAssignments) {
             personAssignments.updatedAt = new Date().toISOString();
             personAssignments.values = personAssignments.values.filter(
               (c) => c !== AssignmentCode.WM_SpeakerSymposium
@@ -417,7 +424,7 @@ const useAssignments = () => {
         if (code === AssignmentCode.WM_SpeakerSymposium) {
           const speaker = currentItems.includes(AssignmentCode.WM_Speaker);
 
-          if (speaker) {
+          if (speaker && personAssignments) {
             personAssignments.updatedAt = new Date().toISOString();
             personAssignments.values = personAssignments.values.filter(
               (c) => c !== AssignmentCode.WM_Speaker
@@ -436,7 +443,7 @@ const useAssignments = () => {
       } else {
         const personAssignments = newPerson.person_data.assignments.find(
           (a) => a.type === dataView
-        );
+        )!;
 
         personAssignments.updatedAt = new Date().toISOString();
         personAssignments.values = personAssignments.values.filter(

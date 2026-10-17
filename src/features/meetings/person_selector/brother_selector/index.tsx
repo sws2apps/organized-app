@@ -61,9 +61,8 @@ const BrotherOption = ({
         {option.conflict && (
           <Typography
             className="label-small-regular"
-            color="var(--grey-350)"
             sx={{
-              // stay muted when the row turns accent on hover
+              color: 'var(--grey-350)',
               '.MuiAutocomplete-option:hover &': {
                 color: 'var(--accent-400) !important',
               },
@@ -79,9 +78,8 @@ const BrotherOption = ({
       <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
         <Typography
           className="body-small-regular"
-          color="var(--grey-350)"
           align="center"
-          sx={{ width: '85px' }}
+          sx={{ color: 'var(--grey-350)', width: '85px' }}
         >
           {option.last_assignment}
         </Typography>
@@ -103,8 +101,7 @@ const BrotherGroup = ({
     <>
       <Typography
         className="body-small-semibold"
-        color="var(--accent-main)"
-        sx={{ padding: '8px 12px 4px 16px' }}
+        sx={{ color: 'var(--accent-main)', padding: '8px 12px 4px 16px' }}
       >
         {group === 'free'
           ? t('tr_noOtherAssignments')
@@ -141,8 +138,7 @@ const BrothersHeader = () => {
       >
         <Typography
           className="body-small-regular"
-          color="var(--grey-350)"
-          sx={{ width: '200px' }}
+          sx={{ color: 'var(--grey-350)', width: '200px' }}
         >
           {t('tr_name')}
         </Typography>
@@ -150,9 +146,8 @@ const BrothersHeader = () => {
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <Typography
             className="body-small-regular"
-            color="var(--grey-350)"
             align="center"
-            sx={{ width: '85px' }}
+            sx={{ color: 'var(--grey-350)', width: '85px' }}
           >
             {t('tr_lastAssignment')}
           </Typography>
@@ -245,8 +240,8 @@ const SelectorAdornments = ({
       {helperText.length > 0 && (
         <Typography
           className="label-small-regular"
-          color={isLinkedPart ? 'var(--grey-350)' : helperColor}
           sx={{
+            color: isLinkedPart ? 'var(--grey-350)' : helperColor,
             padding: '4px 16px 0 16px',
             maxWidth: desktopUp ? '350px' : '100%',
           }}

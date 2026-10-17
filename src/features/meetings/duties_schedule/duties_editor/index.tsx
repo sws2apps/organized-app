@@ -45,7 +45,7 @@ const TabLabel = ({
         },
       }}
     >
-      <Typography className="label-small-medium" color="inherit">
+      <Typography className="label-small-medium" sx={{ color: 'inherit' }}>
         {assigned}/{total}
       </Typography>
     </Box>
@@ -95,7 +95,7 @@ const DutiesEditor = () => {
             <Stack
               spacing={laptopDown ? '12px' : '8px'}
               direction={laptopDown ? 'column' : 'row'}
-              alignItems="flex-start"
+              sx={{ alignItems: 'flex-start' }}
             >
               <DutyName
                 duty={t('tr_dutiesMicrophones')}
@@ -202,7 +202,9 @@ const DutiesEditor = () => {
   const noMeetingPanel = (
     <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
       <IconInfo color="var(--accent-400)" />
-      <Typography color="var(--grey-400)">{t('tr_noMeeting')}</Typography>
+      <Typography sx={{ color: 'var(--grey-400)' }}>
+        {t('tr_noMeeting')}
+      </Typography>
     </Box>
   );
 
@@ -221,7 +223,7 @@ const DutiesEditor = () => {
       {weekDateLocale.length === 0 && (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <IconInfo color="var(--accent-400)" />
-          <Typography color="var(--grey-400)">
+          <Typography sx={{ color: 'var(--grey-400)' }}>
             {t('tr_infoPlanMeetingDuties')}
           </Typography>
         </Box>
@@ -262,8 +264,10 @@ const DutiesEditor = () => {
             <Stack
               direction="row"
               spacing="16px"
-              alignItems="center"
-              justifyContent={tablet500Down ? 'space-between' : undefined}
+              sx={{
+                alignItems: 'center',
+                justifyContent: tablet500Down ? 'space-between' : undefined,
+              }}
             >
               <IconButton
                 disabled={!showWeekNav.back}

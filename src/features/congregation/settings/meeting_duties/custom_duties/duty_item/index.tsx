@@ -51,9 +51,9 @@ const DutyItem = (props: DutyItemProps) => {
 
       {deleteOpen && (
         <Dialog onClose={handleCloseDelete} open={deleteOpen}>
-          <Stack spacing="24px" width="100%">
+          <Stack spacing="24px" sx={{ width: '100%' }}>
             <Typography className="h2">{t('tr_dutiesCustomDelete')}</Typography>
-            <Typography color="var(--grey-400)">
+            <Typography sx={{ color: 'var(--grey-400)' }}>
               {t('tr_dutiesCustomDeleteDesc')}
             </Typography>
             <Stack spacing="8px">
@@ -71,9 +71,9 @@ const DutyItem = (props: DutyItemProps) => {
       <Stack
         spacing="4px"
         direction="row"
-        alignItems="center"
         onMouseEnter={handleHover}
         onMouseLeave={handleUnhover}
+        sx={{ alignItems: 'center' }}
       >
         <Typography>{props.name}</Typography>
 

@@ -19,11 +19,14 @@ const MeetingDutiesSettings = () => {
 
       <Stack
         spacing="16px"
-        width="100%"
         divider={<Divider color="var(--accent-200)" />}
+        sx={{ width: '100%' }}
       >
         <Stack spacing="16px">
-          <Typography className="body-small-semibold" color="var(--grey-400)">
+          <Typography
+            className="body-small-semibold"
+            sx={{ color: 'var(--grey-400)' }}
+          >
             {t('tr_assignmentPreferences')}
           </Typography>
 
@@ -33,7 +36,10 @@ const MeetingDutiesSettings = () => {
         </Stack>
 
         <Stack spacing="16px">
-          <Typography className="body-small-semibold" color="var(--grey-400)">
+          <Typography
+            className="body-small-semibold"
+            sx={{ color: 'var(--grey-400)' }}
+          >
             {t('tr_dutiesConfiguration')}
           </Typography>
 
@@ -45,7 +51,10 @@ const MeetingDutiesSettings = () => {
         </Stack>
 
         <Stack spacing="16px">
-          <Typography className="body-small-semibold" color="var(--grey-400)">
+          <Typography
+            className="body-small-semibold"
+            sx={{ color: 'var(--grey-400)' }}
+          >
             {t('tr_dutiesCustom')}
           </Typography>
 
