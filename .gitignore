@@ -40,3 +40,9 @@ replit.nix
 .qoder
 
 api/
+
+# storybook
+*storybook.log
+storybook-static
+.storybook/public/mockServiceWorker.js
+!.storybook/.env

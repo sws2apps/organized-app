@@ -52,7 +52,13 @@ const useCountry = ({
       const result: { status: number; data: CountryResponseType[] } =
         queryClient.getQueryData(['countries']);
 
-      if (active && result.status === 200) {
+      // the query may have been evicted while the component unmounted
+      if (!active || !result) {
+        setIsLoading(false);
+        return;
+      }
+
+      if (result.status === 200) {
         if (Array.isArray(result.data)) setCountries(result.data);
       }
 
@@ -80,7 +86,7 @@ const useCountry = ({
       return;
     }
 
-    if (value === null) {
+    if (!value) {
       setSelected(null);
       return;
     }
