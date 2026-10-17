@@ -28,6 +28,7 @@ const useAssignments = () => {
 
   const male = person.person_data.male.value;
   const disqualified = person.person_data.disqualified.value;
+  const autofillSkipped = person.person_data.autofill_skipped?.value ?? false;
 
   const duplicateAssignmentsGroup = useMemo(() => {
     return ['ministry'];
@@ -323,6 +324,17 @@ const useAssignments = () => {
     setPersonCurrentDetails(newPerson);
   };
 
+  const handleToggleAutofillSkipped = async (checked: boolean) => {
+    const newPerson = structuredClone(person);
+
+    newPerson.person_data.autofill_skipped = {
+      value: checked,
+      updatedAt: new Date().toISOString(),
+    };
+
+    setPersonCurrentDetails(newPerson);
+  };
+
   const handleToggleAssignment = async (
     checked: boolean,
     code: AssignmentCode
@@ -418,6 +430,8 @@ const useAssignments = () => {
     handleToggleGroup,
     male,
     disqualified,
+    autofillSkipped,
+    handleToggleAutofillSkipped,
     getAssignmentName,
   };
 };
