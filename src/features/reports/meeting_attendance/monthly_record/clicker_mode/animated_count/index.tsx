@@ -219,7 +219,12 @@ const AnimatedCount = ({ value, label, shake = 0 }: AnimatedCountProps) => {
         userSelect: 'none',
       }}
     >
-      <Typography className="h4" color="var(--accent-350)">
+      <Typography
+        className="h4"
+        sx={{
+          color: 'var(--accent-350)',
+        }}
+      >
         {label}
       </Typography>
 

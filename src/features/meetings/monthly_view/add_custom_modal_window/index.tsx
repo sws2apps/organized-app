@@ -33,11 +33,21 @@ const AddCustomModalWindow = (props: AddCustomModalWindowType) => {
             width: '100%',
           }}
         >
-          <Typography color="var(--black)" className="h2">
+          <Typography
+            className="h2"
+            sx={{
+              color: 'var(--black)',
+            }}
+          >
             {t('tr_addCustomMeetingPart')}
           </Typography>
         </Box>
-        <Typography className="body-regular" color="var(--grey-400)">
+        <Typography
+          className="body-regular"
+          sx={{
+            color: 'var(--grey-400)',
+          }}
+        >
           {t('tr_customMeetingPartDesc')}
         </Typography>
       </Box>

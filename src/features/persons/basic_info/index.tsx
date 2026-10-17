@@ -36,7 +36,7 @@ const PersonBasicInfo = () => {
     displayNameEnabled,
     isCurrentPersonMemberOfAFamily,
     familyHeadName,
-    isFamilyHead
+    isFamilyHead,
   } = useBasicInfo();
 
   return (
@@ -110,7 +110,7 @@ const PersonBasicInfo = () => {
               width: 'fit-content',
             }}
           >
-            <Typography fontSize="1rem" color="var(--accent-dark)">
+            <Typography sx={{ fontSize: '1rem', color: 'var(--accent-dark)' }}>
               {t('tr_family')}: {familyHeadName}
             </Typography>
           </Box>

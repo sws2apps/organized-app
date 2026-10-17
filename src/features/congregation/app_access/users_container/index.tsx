@@ -42,7 +42,13 @@ const UsersContainer = ({
     >
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
         <Typography className="h2">{title}</Typography>
-        <Typography color={'var(--grey-400)'}>{description}</Typography>
+        <Typography
+          sx={{
+            color: 'var(--grey-400)',
+          }}
+        >
+          {description}
+        </Typography>
       </Box>
 
       {children}

@@ -1,4 +1,7 @@
 :root {
+  --dashed-border-width: 1px;
+  --dashed-border-pattern: 10 7;
+
   --dialog-padding: 24px;
   --dialog-gap: 24px;
   --dialog-gap-mobile: 16px;

@@ -113,7 +113,12 @@ const LivingPart = (props: LivingPartProps) => {
               <Box
                 sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}
               >
-                <Typography className="h4" color="var(--living-as-christians)">
+                <Typography
+                  className="h4"
+                  sx={{
+                    color: 'var(--living-as-christians)',
+                  }}
+                >
                   {`${t('tr_concludingComments')} ${t('tr_partDuration', { time: 3 })}`}
                 </Typography>
               </Box>

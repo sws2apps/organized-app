@@ -33,7 +33,12 @@ const NotificationItem = ({
 
   return (
     <Box>
-      <Stack mb={2.3} spacing={1}>
+      <Stack
+        spacing={1}
+        sx={{
+          mb: 2.3,
+        }}
+      >
         <Stack direction="row" spacing={1}>
           {notification.icon === 'talk' && <IconTalk color="var(--black)" />}
 
@@ -57,7 +62,8 @@ const NotificationItem = ({
             <TabLabelWithBadge
               className="h3"
               label={notification.title}
-              badgeColor="var(--accent-main)"
+              badgeColor="var(--accent-dark)"
+              color="var(--black)"
               count={(notification as UnverifiedReportNotificationType).count}
             />
           )}
@@ -102,12 +108,14 @@ const NotificationItem = ({
 
         <Stack
           direction="row"
-          justifyContent={
-            notification.enableRead && !notification.read
-              ? 'space-between'
-              : 'flex-end'
-          }
-          alignItems={'center'}
+          sx={{
+            justifyContent:
+              notification.enableRead && !notification.read
+                ? 'space-between'
+                : 'flex-end',
+
+            alignItems: 'center',
+          }}
         >
           {notification.enableRead && !notification.read && (
             <Button
@@ -120,8 +128,10 @@ const NotificationItem = ({
             </Button>
           )}
           <Typography
-            color={'var(--grey-350)'}
             className={'body-small-regular'}
+            sx={{
+              color: 'var(--grey-350)',
+            }}
           >
             {itemDate}
           </Typography>

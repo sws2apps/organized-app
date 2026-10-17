@@ -70,7 +70,11 @@ const EmailSent = () => {
 
           <Divider color="var(--accent-200)" />
 
-          <Typography color="var(--grey-400)">
+          <Typography
+            sx={{
+              color: 'var(--grey-400)',
+            }}
+          >
             {t('tr_loginEmailCode')}
           </Typography>
 
