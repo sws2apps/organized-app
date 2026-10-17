@@ -57,7 +57,11 @@ const GroupSelector = ({
             justifyContent: 'space-between',
           }}
         >
-          <Typography color="var(--accent-dark)">
+          <Typography
+            sx={{
+              color: 'var(--accent-dark)',
+            }}
+          >
             {t('tr_serviceGroupsQuickEdit')}
           </Typography>
           <IconArrowLink color="var(--accent-main)" />

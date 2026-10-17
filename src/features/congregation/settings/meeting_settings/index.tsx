@@ -31,8 +31,8 @@ const MeettingSettings = () => {
         description={t('tr_weeklyMeetingsDesc')}
       />
       <CardSectionContent
-        marginTop="-8px !important"
         sx={{
+          marginTop: '-8px !important',
           '& > hr': { display: 'none' },
           '& [role="tabpanel"] > div': { paddingBottom: '0 !important' },
         }}

@@ -27,7 +27,10 @@ const LinkedParts = () => {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-      <Typography className="body-small-regular" color="var(--grey-400)">
+      <Typography
+        className="body-small-regular"
+        sx={{ color: 'var(--grey-400)' }}
+      >
         {t('tr_linkedPartsDesc')}
       </Typography>
 

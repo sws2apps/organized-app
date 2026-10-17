@@ -33,8 +33,7 @@ const CongregationPersons = ({ isLoading }: UsersListType) => {
             <IconInfo color="var(--accent-400)" sx={{ flexShrink: 0 }} />
             <Typography
               className="body-small-regular"
-              color="var(--accent-400)"
-              sx={{ wordBreak: 'break-word' }}
+              sx={{ color: 'var(--accent-400)', wordBreak: 'break-word' }}
             >
               {t('tr_noUsersAdded')}
             </Typography>

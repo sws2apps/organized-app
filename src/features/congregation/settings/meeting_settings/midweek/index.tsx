@@ -22,7 +22,7 @@ const MidweekSettings = () => {
           <Divider color="var(--accent-200)" />
 
           <Stack spacing="8px">
-            <Typography className="h4" color="var(--black)">
+            <Typography className="h4" sx={{ color: 'var(--black)' }}>
               {t('tr_linkedParts')}
             </Typography>
             <LinkedParts />

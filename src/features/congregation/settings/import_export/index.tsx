@@ -31,7 +31,7 @@ const ImportExport = (props: ImportExportType) => {
                 {t('tr_importExportTitle')}
               </Typography>
 
-              <Typography color="var(--grey-400)">
+              <Typography sx={{ color: 'var(--grey-400)' }}>
                 {value === 0 ? t('tr_exportDesc') : t('tr_importDesc')}
               </Typography>
             </>

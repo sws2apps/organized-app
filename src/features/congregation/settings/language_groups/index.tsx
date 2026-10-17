@@ -55,10 +55,15 @@ const LanguageGroups = ({ activeTab, onTabChange }: LanguageGroupsProps) => {
         <GroupsHeader>
           <Typography
             className="h3"
-            color={
-              languageGroups.length > 0 ? 'var(--black)' : 'var(--accent-400)'
-            }
-            sx={{ flexGrow: 1, marginInlineEnd: '16px', textAlign: 'start' }}
+            sx={{
+              color:
+                languageGroups.length > 0
+                  ? 'var(--black)'
+                  : 'var(--accent-400)',
+              flexGrow: 1,
+              marginInlineEnd: '16px',
+              textAlign: 'start',
+            }}
           >
             {t('tr_langGroups')}
           </Typography>
@@ -99,8 +104,7 @@ const LanguageGroups = ({ activeTab, onTabChange }: LanguageGroupsProps) => {
             <IconInfo color="var(--accent-400)" sx={{ flexShrink: 0 }} />
             <Typography
               className="body-small-regular"
-              color="var(--accent-400)"
-              sx={{ wordBreak: 'break-word' }}
+              sx={{ color: 'var(--accent-400)', wordBreak: 'break-word' }}
             >
               {t('tr_noLanguageGroupsYet')}
             </Typography>

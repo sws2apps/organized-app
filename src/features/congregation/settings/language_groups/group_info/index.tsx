@@ -98,7 +98,7 @@ const GroupInfo = (props: GroupInfoProps) => {
         </DialogSection>
       </DialogSectionsContainer>
 
-      <Stack spacing="8px" width="100%" sx={{ mt: '8px' }}>
+      <Stack spacing="8px" sx={{ width: '100%', mt: '8px' }}>
         <Button variant="main" onClick={handleClose}>
           {t('tr_done')}
         </Button>

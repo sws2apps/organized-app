@@ -44,7 +44,11 @@ const NotificationContainer = ({
             <NoNotificationImg viewBox="0 0 128 128" />
             <Stack spacing="8px">
               <Typography className="h2">{t('tr_noNotifications')}</Typography>
-              <Typography color="var(--grey-400)">
+              <Typography
+                sx={{
+                  color: 'var(--grey-400)',
+                }}
+              >
                 {t('tr_noNotificationsDesc')}
               </Typography>
             </Stack>

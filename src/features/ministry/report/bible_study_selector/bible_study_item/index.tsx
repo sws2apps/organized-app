@@ -33,7 +33,11 @@ const BibleStudyItem = (props: BibleStudyItemProps) => {
           <IconButton onClick={handleEditStudy} sx={{ padding: 0 }}>
             <IconEdit color="var(--accent-350)" />
           </IconButton>
-          <Typography color="var(--accent-dark)">
+          <Typography
+            sx={{
+              color: 'var(--accent-dark)',
+            }}
+          >
             {props.bibleStudy.person_data.person_name}
           </Typography>
         </Box>

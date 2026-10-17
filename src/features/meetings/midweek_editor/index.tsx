@@ -352,7 +352,9 @@ const MidweekEditor = () => {
                               {showDoublePerson && (
                                 <Typography
                                   className="body-small-semibold"
-                                  color="var(--grey-350)"
+                                  sx={{
+                                    color: 'var(--grey-350)',
+                                  }}
                                 >
                                   {t('tr_mainHall')}
                                 </Typography>
@@ -376,7 +378,9 @@ const MidweekEditor = () => {
                               <ClassAssignmentContainer>
                                 <Typography
                                   className="body-small-semibold"
-                                  color="var(--grey-350)"
+                                  sx={{
+                                    color: 'var(--grey-350)',
+                                  }}
                                 >
                                   {t('tr_auxClass')}
                                 </Typography>

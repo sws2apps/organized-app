@@ -22,7 +22,12 @@ const GroupMembers = (props: GroupMembersProps) => {
   } = useGroupMembers(props);
 
   return (
-    <Stack spacing="8px" width="100%">
+    <Stack
+      spacing="8px"
+      sx={{
+        width: '100%',
+      }}
+    >
       <ScrollArea sx={{ maxHeight: '300px' }}>
         {members.length > 0 && (
           <ReactSortable

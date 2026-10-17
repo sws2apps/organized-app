@@ -32,14 +32,21 @@ const Import = (props: ImportType) => {
           <Stack>
             <DropZoneContent>
               <IconImportJson color="var(--accent-dark)" />
-              <Typography className="button-caps" color="var(--accent-dark)">
+              <Typography
+                className="button-caps"
+                sx={{
+                  color: 'var(--accent-dark)',
+                }}
+              >
                 {t('tr_dragOrClick')}
               </Typography>
             </DropZoneContent>
             <Typography
-              textAlign="center"
               className="label-small-regular"
-              color="var(--accent-400)"
+              sx={{
+                textAlign: 'center',
+                color: 'var(--accent-400)',
+              }}
             >
               {t('tr_uploadJsonFile')}
             </Typography>
@@ -49,7 +56,7 @@ const Import = (props: ImportType) => {
         {!isProcessing && hasFile && (
           <FileInfoRow>
             <IconImportJson color="var(--accent-dark)" />
-            <Typography className="h4" color="var(--accent-dark)">
+            <Typography className="h4" sx={{ color: 'var(--accent-dark)' }}>
               {backupFileName}
             </Typography>
           </FileInfoRow>
