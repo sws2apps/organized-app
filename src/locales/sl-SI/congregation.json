@@ -380,6 +380,7 @@
   "tr_congregationRequestRejectedDesc": "Občina <strong>{{ congregationNameAndNumber }}</strong> je zavrnila tvojo zahtevo za dostop do njihovega seznama bratov, ki lahko imajo govore v drugih občinah. Če je treba, jih lahko osebno kontaktiraš.",
   "tr_congregationAccessRevoke": "Prekliči dostop za to občino",
   "tr_congregationAccessRevokeDesc": "Ali želiš občini <strong>{{ congregationName }}</strong> preklicati dostop do vašega seznama bratov, ki lahko imajo govore v drugih občinah? Ne bodo ga več mogli videti, vendar jim ga lahko kasneje ponovno posreduješ, če bodo oddali novo zahtevo.",
+  "tr_withoutGroup": "Brez skupine",
   "tr_noGroupsYet": "Še nimaš ustvarjenih oznanjevalskih skupin. Najprej ustvari skupino, potem pa začni dodajati oznanjevalce in preurejati skupine.",
   "tr_coordinator": "Koordinator",
   "tr_secretary": "Tajnik",

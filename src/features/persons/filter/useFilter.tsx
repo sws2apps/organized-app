@@ -9,6 +9,7 @@ import {
   personsFiltersKeyState,
   personsTabState,
 } from '@states/persons';
+import { primaryTranslation } from '@utils/i18n';
 
 const useFilter = () => {
   const { t } = useAppTranslation();
@@ -55,21 +56,30 @@ const useFilter = () => {
         color:
           'apply-yourself-to-the-field-ministry' as AssignmentCheckListColors,
         items: [
-          { code: AssignmentCode.MM_Discussion, name: t('tr_discussion') },
+          {
+            code: AssignmentCode.MM_Discussion,
+            name: primaryTranslation(t('tr_discussion')),
+          },
           {
             code: AssignmentCode.MM_StartingConversation,
-            name: t('tr_startingConversation'),
+            name: primaryTranslation(t('tr_startingConversation')),
           },
-          { code: AssignmentCode.MM_FollowingUp, name: t('tr_followingUp') },
+          {
+            code: AssignmentCode.MM_FollowingUp,
+            name: primaryTranslation(t('tr_followingUp')),
+          },
           {
             code: AssignmentCode.MM_MakingDisciples,
-            name: t('tr_makingDisciples'),
+            name: primaryTranslation(t('tr_makingDisciples')),
           },
           {
             code: AssignmentCode.MM_ExplainingBeliefs,
-            name: t('tr_explainingBeliefs'),
+            name: primaryTranslation(t('tr_explainingBeliefs')),
           },
-          { code: AssignmentCode.MM_Talk, name: t('tr_talk') },
+          {
+            code: AssignmentCode.MM_Talk,
+            name: primaryTranslation(t('tr_talk')),
+          },
           {
             code: AssignmentCode.MM_AssistantOnly,
             name: t('tr_assistantOnly'),
@@ -184,7 +194,7 @@ const useFilter = () => {
   const handleToggleGroup = (checked: boolean, id: string) => {
     let newFiltersKey = [...filters];
 
-    const items = assignments.find((group) => group.id === id).items;
+    const items = assignments.find((group) => group.id === id)!.items;
 
     if (checked) {
       for (const item of items) {

@@ -109,7 +109,7 @@ const inferAYFTypeFromLabel = (
 
 export const getAssType = (
   lookup: AYFLookup,
-  label: string,
+  label: string | undefined,
   weekOf: string
 ) => {
   const assType = inferAYFTypeFromLabel(label, lookup);
