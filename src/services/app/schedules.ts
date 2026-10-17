@@ -3,8 +3,9 @@ import { store } from '@states/index';
 import {
   COFullnameState,
   COPrintScheduleNameState,
-  displayNameMeetingsEnableState,
+  printDisplayNameState,
   printFullnameOptionState,
+  s89PrintNamePolicyState,
   midweekMeetingAuxCounselorDefaultEnabledState,
   midweekMeetingAuxCounselorDefaultState,
   midweekMeetingClassCountState,
@@ -797,7 +798,7 @@ export const schedulesWeekGetAssigned = ({
   assignment: AssignmentFieldType;
   identifier?: boolean;
 }) => {
-  const useDisplayName = store.get(displayNameMeetingsEnableState);
+  const useDisplayName = store.get(printDisplayNameState);
 
   const path = ASSIGNMENT_PATH[assignment];
   const assigned = schedulesGetData(
@@ -810,7 +811,7 @@ export const schedulesWeekGetAssigned = ({
     return assigned?.value ?? '';
   }
 
-  let result: string;
+  let result = '';
 
   if (assigned && assigned.value.length > 0) {
     const person = personsStateFind(assigned.value);
@@ -819,7 +820,7 @@ export const schedulesWeekGetAssigned = ({
         result = person.person_data.person_display_name.value;
       }
 
-      if (!useDisplayName) {
+      if (!useDisplayName || !result) {
         const fullnameOption = store.get(printFullnameOptionState);
 
         result = buildPersonFullname(
@@ -846,7 +847,7 @@ export const schedulesGetSpeakerDetails = (
     assigned,
     speakers: store.get(incomingSpeakersState),
     congregations: store.get(speakersCongregationsState),
-    displayNameEnabled: store.get(displayNameMeetingsEnableState),
+    displayNameEnabled: store.get(printDisplayNameState),
     fullnameOption: store.get(printFullnameOptionState),
   });
 };
@@ -1789,7 +1790,7 @@ export const schedulesWeekNoMeeting = (week: Week) => {
 };
 
 export const schedulesS89Data = (schedule: SchedWeekType, dataView: string) => {
-  const fullnameOption = store.get(printFullnameOptionState);
+  const namePolicy = store.get(s89PrintNamePolicyState);
 
   const result: S89DataType[] = [];
 
@@ -1850,11 +1851,10 @@ export const schedulesS89Data = (schedule: SchedWeekType, dataView: string) => {
 
       obj.id = crypto.randomUUID();
       obj.weekOf = schedule.weekOf;
-      obj.student_name = buildPersonFullname(
-        person.person_data.person_lastname.value,
-        person.person_data.person_firstname.value,
-        fullnameOption,
-        person.person_data.person_middlename?.value
+      obj.student_name = personGetDisplayName(
+        person,
+        namePolicy.displayName,
+        namePolicy.format
       );
 
       if (assignment.includes('AYFPart')) {
@@ -1869,11 +1869,10 @@ export const schedulesS89Data = (schedule: SchedWeekType, dataView: string) => {
         if (assistantAssigned?.value.length > 0) {
           const assistantPerson = personsStateFind(assistantAssigned.value)!;
 
-          obj.assistant_name = buildPersonFullname(
-            assistantPerson.person_data.person_lastname.value,
-            assistantPerson.person_data.person_firstname.value,
-            fullnameOption,
-            assistantPerson.person_data.person_middlename?.value
+          obj.assistant_name = personGetDisplayName(
+            assistantPerson,
+            namePolicy.displayName,
+            namePolicy.format
           );
         }
       }
@@ -2058,7 +2057,7 @@ export const schedulesMidweekData = (
 
   const closingPrayerLinked = store.get(midweekMeetingClosingPrayerLinkedState);
 
-  const useDisplayName = store.get(displayNameMeetingsEnableState);
+  const useDisplayName = store.get(printDisplayNameState);
   const sourceLocale = store.get(JWLangLocaleState);
   const assignFSG = store.get(midweekMeetingAssigFSGState);
   const fieldGroups = store.get(fieldGroupsState);
@@ -2769,7 +2768,7 @@ export const scheduleOutgoingSpeakers = (
 ): OutgoingSpeakersScheduleType => {
   const talks = store.get(publicTalksState);
   const fullnameOption = store.get(printFullnameOptionState);
-  const displayNameEnabled = store.get(displayNameMeetingsEnableState);
+  const displayNameEnabled = store.get(printDisplayNameState);
   const persons = store.get(personsByViewState);
   const songs = store.get(songsLocaleState);
   const lang = store.get(JWLangState);

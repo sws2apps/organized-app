@@ -1,75 +1,42 @@
-import { useEffect, useState } from 'react';
-import { useAtomValue } from 'jotai';
-import { settingsState, userDataViewState } from '@states/settings';
-import { dbAppSettingsUpdate } from '@services/dexie/settings';
-import { FullnameOption } from '@definition/settings';
+import { useAtomValue, useSetAtom } from 'jotai';
+import {
+  fullnameOptionState,
+  settingsState,
+  userDataViewState,
+} from '@states/settings';
+import { nameFormatChangeState } from '@states/name_settings';
+import { NameFormatSelection, PrintNameContext } from '@definition/settings';
+import { getPrintNameSelection } from '@utils/name_format';
+import { displaySnackNotification } from '@services/states/app';
+import { getMessageByCode } from '@services/i18n/translation';
 
 const useNameFormatOption = (
   field: 'fullname_option' | 'print_fullname_option',
-  optionInitial: FullnameOption
+  context: PrintNameContext = 'schedule'
 ) => {
   const settings = useAtomValue(settingsState);
-  const dataView = useAtomValue(userDataViewState);
-
-  const [option, setOption] = useState(FullnameOption.FIRST_BEFORE_LAST);
-
-  const hasRecord = (settings.cong_settings[field] ?? []).some(
-    (record) => record.type === dataView && !record._deleted
-  );
-
-  const handleOptionChange = async (value: FullnameOption) => {
-    const records = structuredClone(settings.cong_settings[field] ?? []);
-
-    const current = records.find((record) => record.type === dataView);
-
-    if (current) {
-      current.value = value;
-      current.updatedAt = new Date().toISOString();
-      current._deleted = false;
-    }
-
-    if (!current) {
-      records.push({
-        _deleted: false,
-        type: dataView,
-        updatedAt: new Date().toISOString(),
-        value,
+  const view = useAtomValue(userDataViewState);
+  const appOption = useAtomValue(fullnameOptionState);
+  const save = useSetAtom(nameFormatChangeState);
+  const option =
+    field === 'fullname_option'
+      ? appOption
+      : getPrintNameSelection(
+          settings.cong_settings.print_fullname_option,
+          view,
+          context
+        );
+  const handleOptionChange = async (selection: NameFormatSelection) => {
+    try {
+      await save({ field, view, context, selection });
+    } catch {
+      displaySnackNotification({
+        header: getMessageByCode('error_app_generic-title'),
+        message: getMessageByCode('error_app_name-save'),
+        severity: 'error',
       });
     }
-
-    const update =
-      field === 'fullname_option'
-        ? { 'cong_settings.fullname_option': records }
-        : { 'cong_settings.print_fullname_option': records };
-
-    await dbAppSettingsUpdate(update);
   };
-
-  const handleOptionClear = async () => {
-    const records = structuredClone(settings.cong_settings[field] ?? []);
-
-    const current = records.find(
-      (record) => record.type === dataView && !record._deleted
-    );
-
-    if (!current) return;
-
-    current._deleted = true;
-    current.updatedAt = new Date().toISOString();
-
-    const update =
-      field === 'fullname_option'
-        ? { 'cong_settings.fullname_option': records }
-        : { 'cong_settings.print_fullname_option': records };
-
-    await dbAppSettingsUpdate(update);
-  };
-
-  useEffect(() => {
-    setOption(optionInitial);
-  }, [optionInitial]);
-
-  return { option, hasRecord, handleOptionChange, handleOptionClear };
+  return { option, handleOptionChange };
 };
-
 export default useNameFormatOption;

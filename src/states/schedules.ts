@@ -15,7 +15,7 @@ import {
 import {
   adminRoleState,
   congRoleState,
-  displayNameMeetingsEnableState,
+  printDisplayNameState,
   printFullnameOptionState,
   userDataViewState,
   weekendMeetingWTStudyConductorDefaultState,
@@ -66,7 +66,7 @@ export const S89TemplateState = atom<S89TemplateType>(
 // fallback name follows the print format
 export const defaultWTStudyConductorNameState = atom((get) => {
   const value = get(weekendMeetingWTStudyConductorDefaultState);
-  const useDisplayName = get(displayNameMeetingsEnableState);
+  const useDisplayName = get(printDisplayNameState);
   const persons = get(personsState);
   const fullnameOption = get(printFullnameOptionState);
 
@@ -82,7 +82,7 @@ export const defaultWTStudyConductorNameState = atom((get) => {
     result = person.person_data.person_display_name.value;
   }
 
-  if (!useDisplayName) {
+  if (!useDisplayName || !result) {
     result = buildPersonFullname(
       person.person_data.person_lastname.value,
       person.person_data.person_firstname.value,

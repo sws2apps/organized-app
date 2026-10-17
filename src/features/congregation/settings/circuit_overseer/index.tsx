@@ -20,14 +20,14 @@ const CircuitOverseer = () => {
     displayname,
     firstname,
     handleDisplaynameChange,
-    handleDisplaynameSave,
+
     handleFirstnameChange,
-    handleFirstnameSave,
+
     handleMiddlenameChange,
-    handleMiddlenameSave,
+
     middlename,
     handleLastnameChange,
-    handleLastnameSave,
+
     lastname,
   } = useCircuitOverseer();
 
@@ -53,7 +53,6 @@ const CircuitOverseer = () => {
               label={t('tr_firstname')}
               value={firstname}
               onChange={(e) => handleFirstnameChange(e.target.value)}
-              onKeyUp={handleFirstnameSave}
               slotProps={{ input: { readOnly: !isAdmin } }}
               sx={{ flex: '1 0 200px' }}
             />
@@ -62,7 +61,6 @@ const CircuitOverseer = () => {
               label={t('tr_middlename')}
               value={middlename}
               onChange={(e) => handleMiddlenameChange(e.target.value)}
-              onKeyUp={handleMiddlenameSave}
               slotProps={{ input: { readOnly: !isAdmin } }}
               sx={{ flex: '1 0 200px' }}
             />
@@ -71,7 +69,6 @@ const CircuitOverseer = () => {
               label={t('tr_lastname')}
               value={lastname}
               onChange={(e) => handleLastnameChange(e.target.value)}
-              onKeyUp={handleLastnameSave}
               slotProps={{ input: { readOnly: !isAdmin } }}
               sx={{ flex: '1 0 200px' }}
             />
@@ -85,7 +82,6 @@ const CircuitOverseer = () => {
               label={t('tr_displayName')}
               value={displayname}
               onChange={(e) => handleDisplaynameChange(e.target.value)}
-              onKeyUp={handleDisplaynameSave}
               slotProps={{ input: { readOnly: !isAdmin } }}
             />
           )}

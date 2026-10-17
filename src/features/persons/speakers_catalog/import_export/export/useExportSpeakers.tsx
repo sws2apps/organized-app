@@ -1,3 +1,5 @@
+import { speakerNameCells } from '@utils/speakers';
+import { copyNameFields } from '@utils/name_format';
 // src/features/persons/speakers_catalog/import_export/export/useExportSpeakers.tsx
 import { useState } from 'react';
 import { useAtomValue } from 'jotai';
@@ -102,11 +104,9 @@ const useExportSpeakers = () => {
     speaker: VisitingSpeakerType,
     field: string
   ): string => {
+    const names = speakerNameCells(speaker);
+    if (field in names) return names[field as keyof typeof names];
     switch (field) {
-      case 'speaker.firstname':
-        return speaker.speaker_data.person_firstname.value;
-      case 'speaker.lastname':
-        return speaker.speaker_data.person_lastname.value;
       case 'speaker.email':
         return speaker.speaker_data.person_email?.value || '';
       case 'speaker.phone':
@@ -353,14 +353,7 @@ const useExportSpeakers = () => {
           ...speaker,
           speaker_data: {
             ...speaker.speaker_data,
-            person_firstname: {
-              value: person.person_data.person_firstname.value,
-              updatedAt: speaker.speaker_data.person_firstname.updatedAt,
-            },
-            person_lastname: {
-              value: person.person_data.person_lastname.value,
-              updatedAt: speaker.speaker_data.person_lastname.updatedAt,
-            },
+            ...copyNameFields(person.person_data),
             person_display_name: {
               value: person.person_data.person_display_name.value,
               updatedAt: speaker.speaker_data.person_display_name.updatedAt,

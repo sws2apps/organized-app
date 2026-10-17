@@ -1,3 +1,7 @@
+import {
+  getPrintNameSelection,
+  resolvePrintNamePolicy,
+} from '@utils/name_format';
 /*
 This file holds the source of the truth from the table "settings".
 Individual property are evaluated using recoil selector
@@ -12,6 +16,7 @@ import {
   AvatarType,
   FirstDayWeekOption,
   FullnameOption,
+  PrintNameContext,
   PublishersSortOption,
   SettingsType,
   SourceFrequency,
@@ -97,18 +102,35 @@ export const fullnameOptionState = atom((get) => {
   );
 });
 
-export const printFullnameOptionState = atom((get) => {
-  const settings = get(settingsState);
-  const dataView = get(userDataViewState);
+const printNamePolicyAtom = (
+  context: PrintNameContext,
+  inheritDisplayNames = context === 'schedule'
+) =>
+  atom((get) => {
+    const settings = get(settingsState);
+    const selection = getPrintNameSelection(
+      settings.cong_settings.print_fullname_option,
+      get(userDataViewState),
+      context
+    );
+    return resolvePrintNamePolicy(
+      selection,
+      get(fullnameOptionState),
+      inheritDisplayNames && get(displayNameMeetingsEnableState)
+    );
+  });
 
-  const printOption = settings.cong_settings.print_fullname_option?.find(
-    (record) => record.type === dataView && !record._deleted
-  )?.value;
-
-  // congregations that never chose a print format keep printing exactly
-  // what they print today, so no migration is needed
-  return printOption || get(fullnameOptionState);
-});
+export const schedulePrintNamePolicyState = printNamePolicyAtom('schedule');
+export const s89PrintNamePolicyState = printNamePolicyAtom('schedule', false);
+export const publisherPrintNamePolicyState =
+  printNamePolicyAtom('publisher_card');
+export const groupPrintNamePolicyState = printNamePolicyAtom('group_list');
+export const printFullnameOptionState = atom(
+  (get) => get(schedulePrintNamePolicyState).format
+);
+export const printDisplayNameState = atom(
+  (get) => get(schedulePrintNamePolicyState).displayName
+);
 
 export const shortDateFormatState = atom((get) => {
   const settings = get(settingsState);
@@ -220,11 +242,7 @@ export const COPrintFullnameState = atom((get) => {
 export const COPrintScheduleNameState = atom((get) => {
   const fullname = get(COPrintFullnameState);
   const displayName = get(CODisplayNameState);
-  const useDisplayName = get(displayNameMeetingsEnableState);
-
-  const scheduleName = useDisplayName ? displayName : fullname;
-
-  return scheduleName;
+  return get(printDisplayNameState) && displayName ? displayName : fullname;
 });
 
 export const secretaryRoleState = atom((get) => {

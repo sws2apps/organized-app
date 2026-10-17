@@ -11,6 +11,17 @@ export enum FullnameOption {
   LAST_COMMA_FIRST_MIDDLE = 6,
 }
 
+export type PrintNameContext = 'schedule' | 'publisher_card' | 'group_list';
+export type PrintNameFormat = FullnameOption | 'display';
+export type NameFormatSelection = PrintNameFormat | 'inherit';
+export type PrintNameRecord = {
+  type: string;
+  value: PrintNameFormat;
+  updatedAt: string;
+  _deleted: boolean;
+};
+export type PrintNamePolicy = { format: FullnameOption; displayName: boolean };
+
 export type AccountTypeState = 'vip' | 'pocket';
 
 /**
@@ -157,12 +168,7 @@ export type SettingsType = {
       updatedAt: string;
       _deleted: boolean;
     }[];
-    print_fullname_option?: {
-      type: string;
-      value: FullnameOption;
-      updatedAt: string;
-      _deleted: boolean;
-    }[];
+    print_fullname_option?: PrintNameRecord[];
     short_date_format: {
       type: string;
       value: string;

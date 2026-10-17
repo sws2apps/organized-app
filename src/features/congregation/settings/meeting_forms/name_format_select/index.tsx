@@ -1,7 +1,7 @@
 import { Stack } from '@mui/material';
 import { useAppTranslation } from '@hooks/index';
 import { FullnameOption } from '@definition/settings';
-import { NAME_FORMAT_INHERIT, NameFormatSelectType } from './index.types';
+import { NameFormatSelectType } from '@features/congregation/settings/meeting_forms/name_format_select/index.types';
 import { buildPersonFullname } from '@utils/common';
 import MenuItem from '@components/menuitem';
 import Select from '@components/select';
@@ -48,13 +48,24 @@ const NameFormatSelect = ({
   return (
     <Select
       label={label}
+      inputProps={{ 'aria-label': label }}
       value={value}
-      onChange={(e) => onChange(+e.target.value)}
+      onChange={(e) => {
+        const value = e.target.value;
+        if (value === 'inherit' || value === 'display') onChange(value);
+        else if (
+          NAME_FORMAT_OPTIONS.some((option) => option.value === Number(value))
+        )
+          onChange(Number(value));
+      }}
       readOnly={readOnly}
       renderValue={(selected) => {
-        if (selected === NAME_FORMAT_INHERIT) {
+        if (selected === 'inherit') {
           return <Typography>{t('tr_nameFormatSameAsApp')}</Typography>;
         }
+
+        if (selected === 'display')
+          return <Typography>{t('tr_nameFormatDisplay')}</Typography>;
 
         const option = NAME_FORMAT_OPTIONS.find(
           (record) => record.value === selected
@@ -64,8 +75,14 @@ const NameFormatSelect = ({
       }}
     >
       {inherit && (
-        <MenuItem value={NAME_FORMAT_INHERIT}>
+        <MenuItem value={'inherit'}>
           <Typography>{t('tr_nameFormatSameAsApp')}</Typography>
+        </MenuItem>
+      )}
+
+      {inherit && (
+        <MenuItem value="display">
+          <Typography>{t('tr_nameFormatDisplay')}</Typography>
         </MenuItem>
       )}
 
@@ -73,7 +90,7 @@ const NameFormatSelect = ({
         <MenuItem
           key={option.value}
           value={option.value}
-          sx={{ minHeight: '56px' }}
+          sx={{ whiteSpace: 'normal' }}
         >
           <Stack>
             <Typography>{t(option.label)}</Typography>

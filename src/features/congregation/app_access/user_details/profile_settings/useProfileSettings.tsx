@@ -60,6 +60,7 @@ const useProfileSettings = () => {
     try {
       setSelectedPerson(value);
 
+      if (!currentUser) return;
       const newUser = structuredClone(currentUser);
       newUser.profile.user_local_uid = value.person_uid;
 
@@ -69,6 +70,7 @@ const useProfileSettings = () => {
         (record) => record.person_uid === value.person_uid
       );
 
+      if (!person) return;
       newUser.profile.cong_role = refreshReadOnlyRoles(person, userRole);
 
       newUser.profile.firstname = {
@@ -76,6 +78,10 @@ const useProfileSettings = () => {
         updatedAt: new Date().toISOString(),
       };
 
+      newUser.profile.middlename = {
+        value: person.person_data.person_middlename?.value ?? '',
+        updatedAt: new Date().toISOString(),
+      };
       newUser.profile.lastname = {
         value: person.person_data.person_lastname.value,
         updatedAt: new Date().toISOString(),
@@ -99,6 +105,7 @@ const useProfileSettings = () => {
 
       const persons = value.map((record) => record.person_uid);
 
+      if (!currentUser) return;
       const newUser = structuredClone(currentUser);
       newUser.profile.user_members_delegate = persons;
 
@@ -122,6 +129,7 @@ const useProfileSettings = () => {
 
       setDelegatedPersons(values);
 
+      if (!currentUser) return;
       const newUser = structuredClone(currentUser);
       newUser.profile.user_members_delegate = values.map(
         (record) => record.person_uid

@@ -1,3 +1,4 @@
+import { samePersonName, speakerNameKey } from '@utils/name_format';
 // src/features/persons/speakers_catalog/import_export/confirm_import/useCSVImport.tsx
 import Papa from 'papaparse';
 import appDb from '@db/appDb';
@@ -156,7 +157,7 @@ const useCSVImport = () => {
       transformHeader: (header: string) => header.trim(),
     });
 
-     const fatalErrors = parsed.errors.filter(
+    const fatalErrors = parsed.errors.filter(
       (error) => error.code !== 'TooFewFields'
     );
 
@@ -424,12 +425,7 @@ const useCSVImport = () => {
    * @param {string} lastname - The speaker's last name.
    * @returns {string} The normalized composite key (trimmed, lowercased).
    */
-  const buildSpeakerKey = (
-    congUid: string,
-    firstname: string,
-    lastname: string
-  ): string =>
-    `${congUid}|${firstname.trim().toLowerCase()}|${lastname.trim().toLowerCase()}`;
+  const buildSpeakerKey = speakerNameKey;
 
   /**
    * Looks up the person record matching a speaker by first and last name
@@ -444,12 +440,12 @@ const useCSVImport = () => {
     speaker: SpeakerIncomingDetailsType,
     persons: PersonType[]
   ): string | undefined => {
-    const existingPerson = persons.find(
-      (person) =>
-        person.person_data.person_firstname.value.trim().toLowerCase() ===
-          speaker.firstname.trim().toLowerCase() &&
-        person.person_data.person_lastname.value.trim().toLowerCase() ===
-          speaker.lastname.trim().toLowerCase()
+    const existingPerson = persons.find((person) =>
+      samePersonName(person.person_data, {
+        person_firstname: { value: speaker.firstname },
+        person_lastname: { value: speaker.lastname },
+        person_middlename: { value: speaker.middlename ?? '' },
+      })
     );
 
     return existingPerson ? existingPerson.person_uid : undefined;
@@ -506,7 +502,8 @@ const useCSVImport = () => {
           buildSpeakerKey(
             s.speaker_data.cong_id,
             s.speaker_data.person_firstname.value,
-            s.speaker_data.person_lastname.value
+            s.speaker_data.person_lastname.value,
+            s.speaker_data.person_middlename?.value
           )
         )
     );
@@ -680,7 +677,8 @@ const useCSVImport = () => {
     const speakerKey = buildSpeakerKey(
       finalCongUid,
       speaker.firstname,
-      speaker.lastname
+      speaker.lastname,
+      speaker.middlename
     );
     if (ctx.existingSpeakerKeys.has(speakerKey)) {
       return { kind: 'skipped', reason: t('tr_speakerAlreadyExists') };

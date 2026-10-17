@@ -343,6 +343,7 @@ export const apiCongregationUserUpdate = async ({
   user_secret_code,
   first_name,
   last_name,
+  middle_name,
 }: {
   user_id: string;
   user_secret_code?: string;
@@ -351,6 +352,7 @@ export const apiCongregationUserUpdate = async ({
   cong_person_delegates: string[];
   first_name: string;
   last_name: string;
+  middle_name?: string;
 }) => {
   try {
     const {
@@ -378,6 +380,7 @@ export const apiCongregationUserUpdate = async ({
           user_secret_code,
           first_name,
           last_name,
+          middle_name,
         }),
       }
     );

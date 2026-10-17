@@ -20,6 +20,7 @@ export type IncomingTalkType = {
  */
 export type SpeakerIncomingDetailsType = {
   firstname: string;
+  middlename?: string;
   lastname: string;
   email: string;
   phone: string;
@@ -38,6 +39,7 @@ export type SpeakerIncomingDetailsType = {
 export const createEmptySpeaker = (): SpeakerIncomingDetailsType => {
   return {
     firstname: '',
+    middlename: '',
     lastname: '',
     email: '',
     phone: '',
@@ -325,6 +327,7 @@ export const convertToDatabaseSpeaker = (
     speaker_data: {
       cong_id: congId,
       person_firstname: { value: incoming.firstname, updatedAt: now },
+      person_middlename: { value: incoming.middlename ?? '', updatedAt: now },
       person_lastname: { value: incoming.lastname, updatedAt: now },
       person_display_name: {
         value: generateDisplayName(incoming.lastname, incoming.firstname),
@@ -348,3 +351,16 @@ export const convertToDatabaseSpeaker = (
     },
   };
 };
+
+export const updateSpeakerMiddlename = (
+  speaker: SpeakerIncomingDetailsType,
+  value: string
+): void => {
+  speaker.middlename = value;
+};
+
+export const speakerNameCells = (speaker: VisitingSpeakerType) => ({
+  'speaker.firstname': speaker.speaker_data.person_firstname.value,
+  'speaker.middlename': speaker.speaker_data.person_middlename?.value ?? '',
+  'speaker.lastname': speaker.speaker_data.person_lastname.value,
+});

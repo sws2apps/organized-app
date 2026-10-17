@@ -242,6 +242,7 @@ export type CongregationUserType = {
     global_role: UserGlobalRoleType;
     cong_role: AppRoleType[];
     firstname: { value: string; updatedAt: string };
+    middlename?: { value: string; updatedAt: string };
     lastname: { value: string; updatedAt: string };
     user_local_uid: string;
     user_members_delegate: string[];

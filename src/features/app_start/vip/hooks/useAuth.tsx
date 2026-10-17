@@ -1,3 +1,4 @@
+import { restoreLoginMiddleName } from '@services/app/login_names';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { UserLoginResponseType } from '@definition/api';
 import { APP_ROLES, VIP_ROLES } from '@constants/index';
@@ -94,18 +95,16 @@ const useAuth = () => {
   };
 
   const updateUserSettings = async (
-    { app_settings, code }: UserLoginResponseType,
+    response: UserLoginResponseType,
     nextStep: NextStepType
   ) => {
+    const { app_settings, code } = response;
     if (app_settings) {
+      await restoreLoginMiddleName(response);
       await dbAppSettingsUpdate({
         'user_settings.account_type': 'vip',
         'user_settings.lastname': app_settings.user_settings.lastname,
         'user_settings.firstname': app_settings.user_settings.firstname,
-        'user_settings.middlename': app_settings.user_settings.middlename ?? {
-          value: '',
-          updatedAt: new Date().toISOString(),
-        },
       });
     }
 

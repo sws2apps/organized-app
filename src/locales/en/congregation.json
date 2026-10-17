@@ -581,5 +581,13 @@
   "tr_error_app_data_no_valid_data_found": "No valid data found or no speaker selected.",
   "tr_infirmPioneer": "Infirm pioneer",
   "tr_infirmPioneerNoGoal": "As an infirm pioneer, you can serve as much as you are able without a yearly hour goal.",
-  "tr_importCsvParseError": "The file could not be read. Please check the column structure and try again."
+  "tr_importCsvParseError": "The file could not be read. Please check the column structure and try again.",
+  "tr_schedulePrintNameFormat": "Name format for printed schedules",
+  "tr_publisherPrintNameFormat": "Name format for publisher cards",
+  "tr_groupPrintNameFormat": "Name format for printed group lists",
+  "tr_nameFormatDisplay": "Abbreviated (display name)",
+  "tr_personsExportFormat": "Export format",
+  "tr_personsExportXlsx": "Excel list (.xlsx)",
+  "tr_personsExportCsv": "Names and contact details for import (.csv)",
+  "tr_personsExportCsvHint": "Includes names and contact details. Import creates new person records; it does not update existing records or restore publisher history."
 }

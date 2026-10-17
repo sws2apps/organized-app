@@ -98,7 +98,18 @@ const MeetingForms = () => {
         >
           <NameFormat />
 
-          <PrintNameFormat />
+          <PrintNameFormat
+            context="schedule"
+            label="tr_schedulePrintNameFormat"
+          />
+          <PrintNameFormat
+            context="publisher_card"
+            label="tr_publisherPrintNameFormat"
+          />
+          <PrintNameFormat
+            context="group_list"
+            label="tr_groupPrintNameFormat"
+          />
 
           <DateFormat />
 

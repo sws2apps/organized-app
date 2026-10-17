@@ -1,3 +1,4 @@
+import { printNameRecordBelongsToView } from '@utils/name_format';
 import { useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
@@ -104,11 +105,11 @@ const useGroupDelete = ({ group }: GroupDeleteProps) => {
         settings.cong_settings.print_fullname_option ?? []
       );
 
-      const findPrintOption = printFullnameOption.find(
-        (record) => record.type === group.group_id
+      const matchingPrintOptions = printFullnameOption.filter((record) =>
+        printNameRecordBelongsToView(record.type, group.group_id)
       );
 
-      if (findPrintOption) {
+      for (const findPrintOption of matchingPrintOptions) {
         findPrintOption._deleted = true;
         findPrintOption.updatedAt = new Date().toISOString();
       }

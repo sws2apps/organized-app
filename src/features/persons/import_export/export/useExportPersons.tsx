@@ -1,3 +1,5 @@
+import { saveAs } from 'file-saver';
+import { personsToCsv } from '@utils/persons_csv';
 import { useState } from 'react';
 import { useAtomValue } from 'jotai';
 import writeXlsxFile, { Row, SheetData } from 'write-excel-file/browser';
@@ -15,7 +17,8 @@ const useExportPersons = () => {
   const persons = useAtomValue(personsAllState);
   const groups = useAtomValue(fieldWithLanguageGroupsState);
   const lng = useAtomValue(JWLangLocaleState);
-  const fileName = 'persons-list.xlsx';
+  const [fileFormat, setFileFormat] = useState<'xlsx' | 'csv'>('xlsx');
+  const fileName = `persons-list.${fileFormat}`;
 
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -30,6 +33,18 @@ const useExportPersons = () => {
   const handleExport = async () => {
     try {
       setIsProcessing(true);
+
+      if (fileFormat === 'csv') {
+        const csv = personsToCsv(
+          persons.filter((person) => !person._deleted.value)
+        );
+        saveAs(
+          new Blob(['\ufeff', csv], { type: 'text/csv;charset=utf-8;' }),
+          fileName
+        );
+        setIsProcessing(false);
+        return;
+      }
 
       const data: SheetData = [];
 
@@ -119,7 +134,7 @@ const useExportPersons = () => {
       });
     }
   };
-  return { handleExport, isProcessing, fileName };
+  return { handleExport, isProcessing, fileName, fileFormat, setFileFormat };
 };
 
 export default useExportPersons;

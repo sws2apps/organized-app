@@ -18,7 +18,8 @@
     "generate:css": "node converter/css/convert.js && prettier  converter/css/tokens.json src/global/global.css src/global/global.ts --write",
     "generate:icons": "node converter/svg/convert.js && prettier src/components/icons --write",
     "locales:unused": "tsx unused-i18n-keys.ts",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "test:names": "node --import tsx --test tests/name_formats.test.ts tests/name_print_layout.test.ts"
   },
   "eslintConfig": {
     "extends": [
