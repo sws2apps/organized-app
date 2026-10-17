@@ -15,7 +15,12 @@ const YearDetails = ({ year }: YearDetailsProps) => {
     useYearDetails(year);
 
   return (
-    <Stack spacing="16px" marginBottom="-24px">
+    <Stack
+      spacing="16px"
+      sx={{
+        marginBottom: '-24px',
+      }}
+    >
       {months.length > 0 && (
         <Stack spacing="8px" divider={<Divider color="var(--accent-200)" />}>
           {months.map((record) => (
@@ -41,15 +46,20 @@ const YearDetails = ({ year }: YearDetailsProps) => {
             backgroundColor: 'var(--accent-100)',
           }}
         >
-          <Typography className="h3" color="var(--accent-dark)">
+          <Typography
+            className="h3"
+            sx={{
+              color: 'var(--accent-dark)',
+            }}
+          >
             {t('tr_total')}
           </Typography>
 
           <Stack spacing="8px" direction="row">
             <Typography
               className="body-small-semibold"
-              color="var(--accent-dark)"
               sx={{
+                color: 'var(--accent-dark)',
                 backgroundColor: 'var(--accent-200)',
                 borderRadius: 'var(--radius-s)',
                 padding: '4px 8px',
@@ -61,8 +71,8 @@ const YearDetails = ({ year }: YearDetailsProps) => {
             {credit_hours > 0 && (
               <Typography
                 className="body-small-semibold"
-                color="var(--accent-dark)"
                 sx={{
+                  color: 'var(--accent-dark)',
                   backgroundColor: 'var(--accent-200)',
                   borderRadius: 'var(--radius-s)',
                   padding: '4px 8px',

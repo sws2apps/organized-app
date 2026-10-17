@@ -35,7 +35,7 @@ const DailyHistory = () => {
         sx={{
           display: 'flex',
           flexDirection: tabletUp ? 'row' : 'column',
-          alignItems: tabletUp && 'center',
+          ...(tabletUp && { alignItems: 'center' }),
           justifyContent: 'space-between',
           gap: '16px',
         }}

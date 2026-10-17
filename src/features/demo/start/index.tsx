@@ -86,7 +86,7 @@ const DemoStartup = () => {
             flex: 1,
           }}
         >
-          <Typography className="h3" color="var(--black)">
+          <Typography className="h3" sx={{ color: 'var(--black)' }}>
             {t('tr_testAppMode')}
           </Typography>
 

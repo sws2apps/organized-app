@@ -20,10 +20,12 @@ const IconButton: FC<CustomIconButtonProps> = (props) => {
   // shape still follows it while the rest of the defaults now always apply.
   const shapeRadius = 'sx' in props ? '50%' : 'var(--radius-l)';
 
+  const redHover = 'rgba(var(--red-main-base), 0.12)';
+
   const getBackgroundColor = () => {
     switch (props.color) {
       case 'error':
-        return 'var(--red-secondary)';
+        return redHover;
 
       default:
         return 'var(--accent-200)';
@@ -39,6 +41,8 @@ const IconButton: FC<CustomIconButtonProps> = (props) => {
         {
           padding: '8px',
           borderRadius: shapeRadius,
+          transition:
+            'background-color var(--motion-fast) var(--ease-standard)',
 
           ...(disableHover
             ? {
@@ -53,6 +57,14 @@ const IconButton: FC<CustomIconButtonProps> = (props) => {
                 '&:hover': {
                   backgroundColor: getBackgroundColor(),
                 },
+                // a red icon carries its own meaning, so it is tinted in red
+                "&:has(path[fill='var(--red-main)']):hover": {
+                  backgroundColor: redHover,
+                },
+                "&:has(path[fill='var(--red-main)']) .MuiTouchRipple-ripple .MuiTouchRipple-child":
+                  {
+                    backgroundColor: redHover,
+                  },
                 '.MuiTouchRipple-ripple .MuiTouchRipple-child': {
                   borderRadius: shapeRadius,
                   backgroundColor: getBackgroundColor(),

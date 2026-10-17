@@ -24,7 +24,11 @@ const PersonRecord = ({ onPrevious }: PersonRecordProps) => {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-      <Typography color="var(--grey-400)">
+      <Typography
+        sx={{
+          color: 'var(--grey-400)',
+        }}
+      >
         {t('tr_initialOrganizedSetupDescStep_2')}
       </Typography>
 

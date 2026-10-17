@@ -67,7 +67,9 @@ const WeekScheduleHeader = (props: WeekScheduleHeaderProps) => {
           <Typography
             component="span"
             className="body-small-semibold"
-            color="var(--accent-dark)"
+            sx={{
+              color: 'var(--accent-dark)',
+            }}
           >
             {t('tr_toCurrentWeek')}
           </Typography>

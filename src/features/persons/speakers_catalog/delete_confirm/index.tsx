@@ -21,7 +21,12 @@ const DeleteConfirm = ({
       sx={{ padding: '24px', gap: '16px' }}
     >
       <Typography className="h2">{title}</Typography>
-      <Typography className="body-regular" color="var(--grey-400)">
+      <Typography
+        className="body-regular"
+        sx={{
+          color: 'var(--grey-400)',
+        }}
+      >
         {description}
       </Typography>
 

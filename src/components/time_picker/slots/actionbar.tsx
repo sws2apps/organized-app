@@ -12,13 +12,15 @@ const ActionBar = ({ onClose, onClear }: ActionBarProps) => {
 
   return (
     <Stack
-      width={'100%'}
       direction={'row'}
-      justifyContent={'space-between'}
-      p={'12px'}
       style={{
         gridRow: '3',
         gridColumn: '1 / 3',
+      }}
+      sx={{
+        width: '100%',
+        justifyContent: 'space-between',
+        p: '12px',
       }}
     >
       <Button variant="secondary" onClick={onClear}>

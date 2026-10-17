@@ -20,6 +20,7 @@ const MinistryTimer = () => {
     handleOpenSlider,
     handleTimeAdded,
     time,
+    rollDigits,
   } = useMinistryTimer();
 
   return (
@@ -59,6 +60,7 @@ const MinistryTimer = () => {
         time={time}
         paused={timerState === 'paused'}
         started={timerState === 'started'}
+        animate={timerState === 'started' && rollDigits}
         onClick={handleOpenSlider}
       />
       <RightButton
