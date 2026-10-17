@@ -1,5 +1,6 @@
-import { useEffect, useMemo, useState } from 'react';
+import { MouseEvent, useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'react-router';
+import { createFilterOptions, FilterOptionsState } from '@mui/material';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { IconError } from '@components/icons';
 import { PersonOptionsType, PersonSelectorType } from '../index.types';
@@ -13,6 +14,7 @@ import {
 import { personIsAway, personIsElder } from '@services/app/persons';
 import {
   displayNameMeetingsEnableState,
+  dutiesSistersState,
   fullnameOptionState,
   JWLangLocaleState,
   JWLangState,
@@ -32,6 +34,8 @@ import {
 } from '@states/schedules';
 import { personGetDisplayName, speakerGetDisplayName } from '@utils/common';
 import {
+  schedulesDutyAllowedForPerson,
+  schedulesDutyPersonQualified,
   schedulesGetData,
   schedulesGetMeetingDate,
   schedulesPersonHasConsecutiveAssignment,
@@ -39,7 +43,11 @@ import {
   schedulesSaveAssignment,
 } from '@services/app/schedules';
 import { ASSIGNMENT_PATH } from '@constants/index';
-import { AssignmentCongregation } from '@definition/schedules';
+import {
+  AssignmentCongregation,
+  AssignmentHistoryType,
+  DutiesGender,
+} from '@definition/schedules';
 import { useAppTranslation } from '@hooks/index';
 import { incomingSpeakersState } from '@states/visiting_speakers';
 import { displaySnackNotification } from '@services/states/app';
@@ -47,7 +55,55 @@ import { getMessageByCode } from '@services/i18n/translation';
 import { formatDate } from '@utils/date';
 import { languageGroupsState } from '@states/field_service_groups';
 
-const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
+const defaultFilterOptions = createFilterOptions<PersonOptionsType>();
+
+type WeekConflict = { title: string; isDuty: boolean };
+
+// person_uid -> another assignment they hold in the same meeting
+const collectWeekConflicts = ({
+  history,
+  week,
+  dataView,
+  assignment,
+  schedule_id,
+}: {
+  history: AssignmentHistoryType[];
+  week: string;
+  dataView: string;
+  assignment: string;
+  schedule_id?: string;
+}) => {
+  const conflicts = new Map<string, WeekConflict>();
+
+  const meetingPrefix = assignment.slice(0, 3);
+
+  for (const { weekOf, assignment: held } of history) {
+    const isOtherFieldOfMeeting =
+      weekOf === week &&
+      held.dataView === dataView &&
+      held.key?.startsWith(meetingPrefix) &&
+      !(held.key === assignment && held.schedule_id === schedule_id);
+
+    if (!isOtherFieldOfMeeting || !held.person) continue;
+
+    const isDuty = held.key?.includes('_DUTIES_') ?? false;
+    const existing = conflicts.get(held.person);
+
+    // duty conflicts take precedence over meeting-part ones
+    if (!existing || (isDuty && !existing.isDuty)) {
+      conflicts.set(held.person, { title: held.title ?? '', isDuty });
+    }
+  }
+
+  return conflicts;
+};
+
+const useBrotherSelector = ({
+  type,
+  week,
+  assignment,
+  schedule_id,
+}: PersonSelectorType) => {
   const location = useLocation();
 
   const { t } = useAppTranslation();
@@ -87,10 +143,12 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
   const wmShowMonthlyWarning = useAtomValue(
     weekendMeetingShowMonthlyWarningState
   );
+  const sistersDuties = useAtomValue(dutiesSistersState);
 
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
   const [isFreeSolo, setIsFreeSolo] = useState(false);
   const [inputValue, setInputValue] = useState('');
+  const [gender, setGender] = useState<DutiesGender>('male');
 
   const [isLinkedPart, setIsLinkedPart] = useState(false);
 
@@ -154,6 +212,29 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
     }
   }, [assignment, personsByView, talkType, persons, languageGroups]);
 
+  const isDutiesField = assignment.includes('_DUTIES_');
+
+  const weekConflicts = useMemo(() => {
+    if (!isDutiesField || week.length === 0) {
+      return new Map<string, WeekConflict>();
+    }
+
+    return collectWeekConflicts({
+      history: assignmentsHistory,
+      week,
+      dataView,
+      assignment,
+      schedule_id,
+    });
+  }, [
+    isDutiesField,
+    week,
+    dataView,
+    assignment,
+    schedule_id,
+    assignmentsHistory,
+  ]);
+
   const options = useMemo(() => {
     const filteredPersons = personsList.filter((record) => {
       const activeAssignments =
@@ -180,7 +261,10 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
         type !== AssignmentCode.MM_LCPart &&
         type !== AssignmentCode.WM_SpeakerSymposium
       ) {
-        return activeAssignments.includes(type);
+        return (
+          schedulesDutyPersonQualified(type, activeAssignments) &&
+          schedulesDutyAllowedForPerson(record, type, sistersDuties)
+        );
       }
 
       if (type === AssignmentCode.WM_SpeakerSymposium) {
@@ -258,6 +342,8 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
         ? formatDate(new Date(lastAssignment.weekOf), shortDateFormat)
         : '';
 
+      const conflict = weekConflicts.get(record.person_uid);
+
       return {
         ...record,
         last_assignment: lastAssignmentFormat,
@@ -267,10 +353,19 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
           displayNameEnabled,
           fullnameOption
         ),
+        conflict: conflict ? { title: conflict.title } : undefined,
       };
     });
 
     return newPersons.sort((a, b) => {
+      // conflict-free persons first, so the group order stays stable
+      const aConflict = a.conflict ? 1 : 0;
+      const bConflict = b.conflict ? 1 : 0;
+
+      if (aConflict !== bConflict) {
+        return aConflict - bConflict;
+      }
+
       // If both 'weekOf' fields are empty, sort by name
       if (a.weekOf.length === 0 && b.weekOf.length === 0) {
         return a.person_name.localeCompare(b.person_name);
@@ -306,6 +401,8 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
     fullnameOption,
     sourceLocale,
     talkType,
+    weekConflicts,
+    sistersDuties,
   ]);
 
   const value = useMemo(() => {
@@ -329,7 +426,11 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
     let assigned: AssignmentCongregation;
 
     if (Array.isArray(dataSchedule)) {
-      assigned = dataSchedule.find((record) => record.type === dataView);
+      assigned = schedule_id
+        ? dataSchedule.find(
+            (record) => record.id === schedule_id && record.type === dataView
+          )
+        : dataSchedule.find((record) => record.type === dataView);
     } else {
       assigned = dataSchedule;
     }
@@ -391,6 +492,7 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
     assignment,
     dataView,
     schedule,
+    schedule_id,
     options,
     defaultWTConductor,
     defaultAuxCounselor,
@@ -433,14 +535,18 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
   }, [value, assignmentsHistory, week, type, dataView]);
 
   const meetingDate = useMemo(() => {
-    const meeting = location.pathname.includes('midweek')
-      ? 'midweek'
-      : 'weekend';
+    let meeting: 'midweek' | 'weekend';
+
+    if (isDutiesField) {
+      meeting = assignment.startsWith('MM_DUTIES_') ? 'midweek' : 'weekend';
+    } else {
+      meeting = location.pathname.includes('midweek') ? 'midweek' : 'weekend';
+    }
 
     const date = schedulesGetMeetingDate({ week, meeting });
 
     return date.date;
-  }, [location.pathname, week]);
+  }, [location.pathname, week, isDutiesField, assignment]);
 
   const helperText = useMemo(() => {
     if (!value || week.length === 0) return '';
@@ -461,6 +567,16 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
 
     if (timeAwayNotice) {
       return timeAwayNotice;
+    }
+
+    if (isDutiesField) {
+      const conflict = weekConflicts.get(value.person_uid);
+
+      if (!conflict) return '';
+
+      return conflict.isDuty
+        ? t('tr_hasAnotherDuty')
+        : t('tr_hasAnotherAssignment', { assignment: conflict.title });
     }
 
     // check week assignments
@@ -498,9 +614,17 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
     isLinkedPart,
     persons,
     meetingDate,
+    isDutiesField,
+    weekConflicts,
     isMeetingConflict,
     isConsecutiveAssignment,
   ]);
+
+  const helperSeverity: 'error' | 'warning' = useMemo(() => {
+    if (!isDutiesField || !value) return 'warning';
+
+    return weekConflicts.get(value.person_uid)?.isDuty ? 'error' : 'warning';
+  }, [isDutiesField, value, weekConflicts]);
 
   const defaultInputValue = useMemo(() => {
     if (week.length === 0) return '';
@@ -565,7 +689,7 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
 
   const handleSaveAssignment = async (value: PersonOptionsType) => {
     try {
-      await schedulesSaveAssignment(schedule, assignment, value);
+      await schedulesSaveAssignment(schedule, assignment, value, schedule_id);
 
       if (assignment === 'WM_Speaker_Part1') {
         setLocalSongSelectorOpen(true);
@@ -605,11 +729,46 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
     setInputValue(defaultInputValue);
   }, [defaultInputValue]);
 
+  const showGenderSelector = isDutiesField && sistersDuties;
+
+  // filtered at display time, so an assigned person of the other gender stays
+  // a valid value while the list shows the chosen side
+  const filterOptions = useMemo(() => {
+    if (!showGenderSelector) return undefined;
+
+    return (
+      list: PersonOptionsType[],
+      state: FilterOptionsState<PersonOptionsType>
+    ) =>
+      defaultFilterOptions(
+        list.filter(
+          (record) => record.person_data.male.value === (gender === 'male')
+        ),
+        state
+      );
+  }, [showGenderSelector, gender]);
+
+  const handleGenderChange = (
+    e: MouseEvent<HTMLLabelElement>,
+    value: DutiesGender
+  ) => {
+    // a click on the label would otherwise close the list
+    e.preventDefault();
+    setGender(value);
+  };
+
+  // the list follows the assigned person, and an empty field starts on brothers
+  useEffect(() => {
+    setGender(!value || value.person_data.male.value ? 'male' : 'female');
+  }, [value]);
+
   return {
     options,
     handleSaveAssignment,
     value,
     helperText,
+    helperSeverity,
+    isDutiesField,
     personHistory,
     isHistoryOpen,
     handleOpenHistory,
@@ -619,6 +778,10 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
     handleValueChange,
     isLinkedPart,
     isMeetingConflict,
+    showGenderSelector,
+    gender,
+    handleGenderChange,
+    filterOptions,
   };
 };
 

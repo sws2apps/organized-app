@@ -7,6 +7,12 @@ import Dialog from '@components/dialog';
 import DialogActions from '@components/dialog_actions';
 import WeekRangeSelector from '../week_range_selector';
 
+const TITLE_KEYS: Record<ScheduleAutofillType['meeting'], string> = {
+  midweek: 'tr_autofillMM',
+  weekend: 'tr_autofillWM',
+  duties: 'tr_autofillDuties',
+};
+
 const ScheduleAutofillDialog = ({
   open,
   onClose,
@@ -25,7 +31,7 @@ const ScheduleAutofillDialog = ({
     <Dialog
       onClose={onClose}
       open={open}
-      title={meeting === 'midweek' ? t('tr_autofillMM') : t('tr_autofillWM')}
+      title={t(TITLE_KEYS[meeting])}
       description={t('tr_autofillDesc')}
     >
       <WeekRangeSelector
