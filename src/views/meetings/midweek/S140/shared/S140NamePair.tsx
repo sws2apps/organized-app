@@ -29,6 +29,16 @@ const S140NamePair = ({
   lang,
 }: S140NamePairType) => {
   const rlm = isRTL(lang) ? '\u200f' : '';
+
+  if (!primary) {
+    return (
+      <Text style={[secondaryStyle, { flex: 1 }]}>
+        {rlm}
+        {secondary}
+      </Text>
+    );
+  }
+
   const available = width - GAP;
   const primaryWidth = estimateWidth(`${primary},`, 500);
   const secondaryWidth = estimateWidth(secondary ?? '', 400);
