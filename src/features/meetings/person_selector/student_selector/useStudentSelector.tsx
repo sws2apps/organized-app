@@ -83,7 +83,11 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
   }, [assignment]);
 
   const classroom = useMemo(() => {
-    return assignment.endsWith('_B') ? '2' : '1';
+    return assignment.endsWith('_C')
+      ? '3'
+      : assignment.endsWith('_B')
+        ? '2'
+        : '1';
   }, [assignment]);
 
   const assignedFSG = useMemo(() => {
@@ -220,6 +224,13 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
       );
 
       const activeAssignments = personAssignments?.values ?? [];
+
+      if (
+        classroom === '1' &&
+        activeAssignments.includes(AssignmentCode.MM_AuxiliaryClassroomOnly)
+      ) {
+        return false;
+      }
 
       if (!isAssistant) {
         return (
