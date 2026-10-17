@@ -23,8 +23,10 @@ const FirstReport = () => {
 
       <Typography
         className="label-small-regular"
-        color="var(--grey-350)"
-        sx={{ padding: '8px 16px 0px 16px' }}
+        sx={{
+          color: 'var(--grey-350)',
+          padding: '8px 16px 0px 16px',
+        }}
       >
         {t('tr_firstReportDesc')}
       </Typography>

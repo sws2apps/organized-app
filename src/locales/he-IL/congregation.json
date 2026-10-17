@@ -380,6 +380,7 @@
   "tr_congregationRequestRejectedDesc": "קהילת <strong>{{ congregationNameAndNumber }}</strong> דחתה את בקשתך לצפות ברשימת הנואמים היוצאים שלה. במידת הצורך, תוכל ליצור איתם קשר באופן אישי.",
   "tr_congregationAccessRevoke": "שלול גישה עבור קהילה זו",
   "tr_congregationAccessRevokeDesc": "לשלול את הגישה לרשימת הנואמים שלך עבור קהילת <strong>{{ congregationName }}</strong>? הם לא יוכלו לראות אותה יותר, אך תוכל לשתף אותה איתם שוב מאוחר יותר אם יגישו בקשה חדשה.",
+  "tr_withoutGroup": "Without a group",
   "tr_noGroupsYet": "אין לך עדיין קבוצות שירות. צור קבוצה תחילה כדי להתחיל להוסיף מבשרים ולסדר מחדש קבוצות.",
   "tr_coordinator": "מתאם",
   "tr_secretary": "מזכיר",
@@ -569,5 +570,5 @@
   "tr_error_app_data_no_valid_data_found": "לא נמצאו נתונים תקפים או שלא נבחר נואם.",
   "tr_infirmPioneer": "חלוץ מוגבל",
   "tr_infirmPioneerNoGoal": "כחלוץ מוגבל, אתה יכול לשרת ככל יכולתך ללא יעד שעות שנתיות.",
-  "tr_importCsvParseError": "The file could not be read. Please check the column structure and try again."
+  "tr_importCsvParseError": "לא ניתן היה לקרוא את הקובץ. אנא בדוק את מבנה העמודות ונסה שוב."
 }

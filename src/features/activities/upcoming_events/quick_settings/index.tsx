@@ -12,7 +12,12 @@ const QuickSettingsUpcomingEvents = ({
 
   return (
     <QuickSettings title={t('tr_upcomingEvents')} open={open} onClose={onClose}>
-      <Stack spacing="16px" width="100%">
+      <Stack
+        spacing="16px"
+        sx={{
+          width: '100%',
+        }}
+      >
         <MultiDayDisplay />
       </Stack>
     </QuickSettings>

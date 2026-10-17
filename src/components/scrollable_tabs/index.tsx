@@ -60,7 +60,12 @@ function ScrollableTabs({
   return (
     <Box sx={{ width: '100%', minHeight: tabs.length > 0 && '45px' }}>
       {tabs.length === 0 && (
-        <Typography className="body-small-semibold" color="var(--red-main)">
+        <Typography
+          className="body-small-semibold"
+          sx={{
+            color: 'var(--red-main)',
+          }}
+        >
           TAB_DATA_EMPTY
         </Typography>
       )}
@@ -80,39 +85,41 @@ function ScrollableTabs({
                   backgroundColor: hasIndicator
                     ? 'var(--accent-main)'
                     : 'transparent',
-                  borderRadius: hasIndicator && '16px 16px 0px 0px',
+                  borderRadius: hasIndicator ? '16px 16px 0px 0px' : 'unset',
                   height: '4px',
                 },
               },
             }}
             slots={{
-              EndScrollButtonIcon: ArrowForwardIosIcon,
-              StartScrollButtonIcon: ArrowBackIosIcon,
+              endScrollButtonIcon: ArrowForwardIosIcon,
+              startScrollButtonIcon: ArrowBackIosIcon,
             }}
             aria-label="scrollable-auto-tabs"
-            sx={{
-              [`& .${tabsClasses.scrollButtons}`]: {
-                color: 'var(--accent-main)',
-                '&.Mui-disabled': { opacity: 0.3 },
+            sx={[
+              {
+                [`& .${tabsClasses.scrollButtons}`]: {
+                  color: 'var(--accent-main)',
+                  '&.Mui-disabled': { opacity: 0.3 },
+                },
+                '& .MuiSvgIcon-root g path': {
+                  fill: 'var(--accent-400)',
+                },
+                '& .Mui-selected > .MuiSvgIcon-root g path': {
+                  fill: 'var(--accent-dark)',
+                },
+                '& .MuiTabScrollButton-root': {
+                  width: 'auto !important',
+                  height: '36px',
+                },
+                alignItems: 'center',
+                minHeight: TAB_HEIGHT,
+                [`& .${tabsClasses.list}`]: {
+                  gap: '4px',
+                },
               },
-              ...tabsSharedStyles(appearance),
-              '& .MuiSvgIcon-root g path': {
-                fill: 'var(--accent-400)',
-              },
-              '& .Mui-selected > .MuiSvgIcon-root g path': {
-                fill: 'var(--accent-dark)',
-              },
-              '& .MuiTabScrollButton-root': {
-                width: 'auto !important',
-                height: '36px',
-              },
-              alignItems: 'center',
-              minHeight: TAB_HEIGHT,
-              [`& .${tabsClasses.flexContainer}`]: {
-                gap: '4px',
-              },
-              ...sx,
-            }}
+              tabsSharedStyles(appearance),
+              ...(Array.isArray(sx) ? sx : [sx]),
+            ]}
           >
             {tabs.map(
               ({ label, badge, icon, className }, index): ReactNode => (

@@ -12,15 +12,18 @@ const AttendanceSummary = (props: AttendanceSummaryProps) => {
   return (
     <Stack
       spacing="2px"
-      borderRadius="var(--radius-l)"
-      padding="4px 8px"
-      bgcolor={
-        props.type === 'midweek'
-          ? 'var(--accent-150)'
-          : 'var(--green-secondary)'
-      }
-      height="48px"
-      flex={1}
+      sx={{
+        borderRadius: 'var(--radius-l)',
+        padding: '4px 8px',
+
+        bgcolor:
+          props.type === 'midweek'
+            ? 'var(--accent-150)'
+            : 'var(--green-secondary)',
+
+        height: '48px',
+        flex: 1,
+      }}
     >
       <Typography
         className="h4"

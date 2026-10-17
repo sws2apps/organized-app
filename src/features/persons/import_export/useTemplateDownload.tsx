@@ -7,6 +7,7 @@ import {
 } from '@utils/csvFiles';
 import { format, parseISO } from 'date-fns';
 import useDateFormat from '@features/congregation/settings/meeting_forms/date_format/useDateFormat';
+import { primaryTranslation } from '@utils/i18n';
 
 const useTemplateDownload = () => {
   const { t } = useAppTranslation();
@@ -17,7 +18,9 @@ const useTemplateDownload = () => {
     const delimiter = getCSVDelimiterByNumberFormat();
 
     const headers = PERSON_FIELD_META.map((field) => field.key);
-    const translations = PERSON_FIELD_META.map((field) => t(field.label));
+    const translations = PERSON_FIELD_META.map((field) =>
+      primaryTranslation(t(field.label))
+    );
 
     const maxExamples = Math.max(
       ...PERSON_FIELD_META.map((field) =>

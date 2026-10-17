@@ -91,7 +91,6 @@ const TimePicker = ({
           slotProps={{
             textField: {
               label: label,
-              value: valueTmp,
               onClick: () => setOpen(!open),
               error,
               helperText,

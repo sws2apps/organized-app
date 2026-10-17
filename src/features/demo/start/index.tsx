@@ -27,11 +27,21 @@ const DemoStartup = () => {
         <LottieLoader size={96} />
 
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-          <Typography className="h2" color="var(--black)">
+          <Typography
+            className="h2"
+            sx={{
+              color: 'var(--black)',
+            }}
+          >
             {t('tr_testAppMode')}
           </Typography>
 
-          <Typography className="body-small-regular" color="var(--grey-400)">
+          <Typography
+            className="body-small-regular"
+            sx={{
+              color: 'var(--grey-400)',
+            }}
+          >
             {t('tr_testAppWaitForData')}
           </Typography>
         </Box>

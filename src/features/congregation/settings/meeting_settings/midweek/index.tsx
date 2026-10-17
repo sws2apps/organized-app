@@ -17,7 +17,12 @@ const MidweekSettings = () => {
         {!isGroup && <AuxiliaryClassroom />}
 
         <Stack spacing="16px">
-          <Typography className="body-small-semibold" color="var(--grey-400)">
+          <Typography
+            className="body-small-semibold"
+            sx={{
+              color: 'var(--grey-400)',
+            }}
+          >
             {t('tr_linkedParts')}
           </Typography>
           <LinkedParts />

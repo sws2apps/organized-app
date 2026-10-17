@@ -29,7 +29,12 @@ const PublicWitnessingDefaultView = (props: PublicWitnessingViewProps) => {
               ))
             : null}
           {isContent && witnesses.length < needWitnesses ? (
-            <Stack direction={'row'} alignItems={'center'}>
+            <Stack
+              direction={'row'}
+              sx={{
+                alignItems: 'center',
+              }}
+            >
               <IconPersonSearch
                 color={'var(--orange-dark)'}
                 width={20}
@@ -37,7 +42,9 @@ const PublicWitnessingDefaultView = (props: PublicWitnessingViewProps) => {
               />
               <Typography
                 className={'label-small-medium'}
-                color="var(--orange-dark)"
+                sx={{
+                  color: 'var(--orange-dark)',
+                }}
               >
                 Partner needed
               </Typography>

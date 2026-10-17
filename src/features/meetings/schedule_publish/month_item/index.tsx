@@ -12,9 +12,11 @@ const MonthItem = ({ data, onChange }: MonthItemProps) => {
 
   return (
     <Stack
-      justifyContent="space-between"
-      alignItems="center"
-      flexDirection="row"
+      sx={{
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        flexDirection: 'row',
+      }}
     >
       <Checkbox
         label={monthName}

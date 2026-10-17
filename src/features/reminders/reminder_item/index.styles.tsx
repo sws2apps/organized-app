@@ -1,4 +1,5 @@
-import { Box, ListItem, styled } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { Box, ListItem } from '@mui/material';
 
 export const StyledReminderLi = styled(ListItem)({
   display: 'flex',
