@@ -54,6 +54,7 @@ const useMinistryTimer = () => {
   const [editorOpen, setEditorOpen] = useState(false);
   const [editorDate, setEditorDate] = useState('');
   const [sliderOpen, setSliderOpen] = useState(false);
+  const [rollDigits, setRollDigits] = useState(true);
 
   const timerState = timer.state;
 
@@ -106,6 +107,8 @@ const useMinistryTimer = () => {
 
   const handleStart = () => {
     lastSeen.current = Date.now();
+
+    setRollDigits(false);
 
     setTimer((prev) => {
       const newValue = structuredClone(prev);
@@ -258,6 +261,8 @@ const useMinistryTimer = () => {
 
     lastSeen.current = now;
 
+    setRollDigits(true);
+
     refreshTimer();
   }, [setTimer]);
 
@@ -303,6 +308,7 @@ const useMinistryTimer = () => {
     handleCloseSlider,
     handleTimeAdded,
     time,
+    rollDigits,
   };
 };
 

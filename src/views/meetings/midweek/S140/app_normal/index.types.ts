@@ -31,7 +31,6 @@ export type S140SongType = {
 export type S140PersonType = {
   primary: string;
   secondary?: string;
-  direction?: 'row' | 'column';
   lang: string;
 };
 

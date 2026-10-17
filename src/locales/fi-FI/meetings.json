@@ -53,7 +53,7 @@
   "tr_weekendScheduleSaved": "Viikonloppuaikataulu tallennettu",
   "tr_weekendScheduleSavedDesc": "Kun olet luonut haluamasi aikataulut, muista julkaista ne seurakunnalle.",
   "tr_personAlreadyAssignmentMeeting": "Tällä henkilöllä on jo tehtävä tässä kokouksessa",
-  "tr_personAssignedPreviousWeek": "This person had the same assignment in the previous week",
+  "tr_personAssignedPreviousWeek": "Henkilöllä oli sama tehtävä edellisellä viikolla",
   "tr_hostCongregation": "Isäntäseurakunta",
   "tr_kingdomHallAddress": "Valtakunnansalin osoite",
   "tr_clearAllAssignments": "Tyhjennä kaikki tehtävät",

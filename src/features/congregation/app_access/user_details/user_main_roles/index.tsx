@@ -23,7 +23,12 @@ const UserMainRoles = () => {
 
   return (
     <>
-      <Typography className="h4" color="var(--grey-400)">
+      <Typography
+        className="h4"
+        sx={{
+          color: 'var(--grey-400)',
+        }}
+      >
         {t('tr_roles')}
       </Typography>
 

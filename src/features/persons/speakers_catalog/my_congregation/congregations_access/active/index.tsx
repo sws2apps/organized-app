@@ -12,7 +12,11 @@ const OutgoingSpeakersListActive = ({
 
   return (
     <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
-      <Typography color="var(--grey-400)">
+      <Typography
+        sx={{
+          color: 'var(--grey-400)',
+        }}
+      >
         {t('tr_outgoingSpeakersAccessActiveDesc')}
       </Typography>
 

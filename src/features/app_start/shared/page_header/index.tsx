@@ -35,12 +35,22 @@ const PageHeader = ({
           </IconButton>
         )}
 
-        <Typography className="h1" color="var(--black)">
+        <Typography
+          className="h1"
+          sx={{
+            color: 'var(--black)',
+          }}
+        >
           {title}
         </Typography>
       </Box>
       {description && (
-        <Typography className="body-regular" color="var(--grey-400)">
+        <Typography
+          className="body-regular"
+          sx={{
+            color: 'var(--grey-400)',
+          }}
+        >
           {description}
         </Typography>
       )}

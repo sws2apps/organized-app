@@ -57,7 +57,12 @@ const MFAEnable = ({ open, onClose }: MFAEnableType) => {
           </Box>
         )}
         {!isLoading && (
-          <Typography className="body-regular" color="var(--grey-400)">
+          <Typography
+            className="body-regular"
+            sx={{
+              color: 'var(--grey-400)',
+            }}
+          >
             {t('tr_2FAStep1Desc')}
           </Typography>
         )}
@@ -79,7 +84,9 @@ const MFAEnable = ({ open, onClose }: MFAEnableType) => {
                     >
                       <Typography
                         className="body-regular"
-                        color="var(--grey-400)"
+                        sx={{
+                          color: 'var(--grey-400)',
+                        }}
                       >
                         {t('tr_2FAQuickSetupDesc')}
                       </Typography>
@@ -101,7 +108,9 @@ const MFAEnable = ({ open, onClose }: MFAEnableType) => {
                     >
                       <Typography
                         className="body-regular"
-                        color="var(--grey-400)"
+                        sx={{
+                          color: 'var(--grey-400)',
+                        }}
                       >
                         {t('tr_2FAQRCodeDesc')}
                       </Typography>
@@ -127,7 +136,9 @@ const MFAEnable = ({ open, onClose }: MFAEnableType) => {
                     >
                       <Typography
                         className="body-regular"
-                        color="var(--grey-400)"
+                        sx={{
+                          color: 'var(--grey-400)',
+                        }}
                       >
                         {t('tr_2FASetupKeyDesc')}
                       </Typography>
@@ -171,7 +182,9 @@ const MFAEnable = ({ open, onClose }: MFAEnableType) => {
             {codeError && (
               <Typography
                 className="body-small-regular"
-                color="var(--red-dark)"
+                sx={{
+                  color: 'var(--red-dark)',
+                }}
               >
                 {t('tr_2FATokenInvalidExpired')}
               </Typography>

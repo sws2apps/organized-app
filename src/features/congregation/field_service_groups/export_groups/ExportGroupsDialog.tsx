@@ -29,7 +29,12 @@ const ExportGroupsDialog = ({
       open={open}
       title={t('tr_exportSettings')}
       actions={
-        <Stack spacing="8px" width="100%">
+        <Stack
+          spacing="8px"
+          sx={{
+            width: '100%',
+          }}
+        >
           <Button
             variant="main"
             onClick={handleExport}
@@ -44,9 +49,19 @@ const ExportGroupsDialog = ({
         </Stack>
       }
     >
-      <Stack spacing="24px" width="100%">
+      <Stack
+        spacing="24px"
+        sx={{
+          width: '100%',
+        }}
+      >
         <Stack spacing="8px">
-          <Typography className="body-small-semibold" color="var(--grey-400)">
+          <Typography
+            className="body-small-semibold"
+            sx={{
+              color: 'var(--grey-400)',
+            }}
+          >
             {t('tr_orientation')}
           </Typography>
           <RadioGroup
@@ -70,7 +85,12 @@ const ExportGroupsDialog = ({
         </Stack>
 
         <Stack spacing="8px">
-          <Typography className="body-small-semibold" color="var(--grey-400)">
+          <Typography
+            className="body-small-semibold"
+            sx={{
+              color: 'var(--grey-400)',
+            }}
+          >
             {t('tr_fontSize')}
           </Typography>
           <RadioGroup

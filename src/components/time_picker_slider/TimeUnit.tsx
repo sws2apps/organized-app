@@ -1,87 +1,62 @@
-import { useEffect, useRef } from 'react';
+import { useMemo } from 'react';
 import { Box, IconButton } from '@mui/material';
+import { KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material';
 import { TimeUnitProps } from './index.types';
 import {
-  ActiveCaseFilter,
-  CaseContainerStyle,
-  DefaultCaseFilter,
   TimePickerArrowStyle,
   TimePickerSelectorStyle,
+  WheelHighlightStyle,
+  WheelScrollerStyle,
+  WheelStyle,
+  WheelTintStyle,
 } from './index.styles';
-import { useGestureControl } from './useGestureControl';
-import { KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material';
+import { formatTimeUnit } from './index.utils';
+import useLoopedScroll from './useLoopedScroll';
 import Typography from '@components/typography';
 
-const TimeUnit = ({
-  nextValue,
-  onDecrement,
-  onIncrement,
-  prevValue,
-  value,
-}: TimeUnitProps) => {
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
+const TimeUnit = ({ defaultValue, max, onChange }: TimeUnitProps) => {
+  const { ref, value, count, scrollToIndex, stepBy } = useLoopedScroll({
+    defaultValue,
+    max,
+    onChange,
+  });
 
-  const { handleWheel, handleTouchStart, handleTouchMove, handleTouchEnd } =
-    useGestureControl({
-      onIncrement,
-      onDecrement,
-    });
-
-  useEffect(() => {
-    const element = scrollContainerRef.current;
-    if (element) {
-      // Wheel events
-      element.addEventListener('wheel', handleWheel, { passive: false });
-
-      // Touch events
-      element.addEventListener('touchstart', handleTouchStart, {
-        passive: false,
-      });
-
-      element.addEventListener('touchmove', handleTouchMove, {
-        passive: false,
-      });
-
-      element.addEventListener('touchend', handleTouchEnd);
-
-      element.addEventListener('touchcancel', handleTouchEnd);
-
-      return () => {
-        element.removeEventListener('wheel', handleWheel);
-        element.removeEventListener('touchstart', handleTouchStart);
-        element.removeEventListener('touchmove', handleTouchMove);
-        element.removeEventListener('touchend', handleTouchEnd);
-        element.removeEventListener('touchcancel', handleTouchEnd);
-      };
-    }
-  }, [handleWheel, handleTouchStart, handleTouchMove, handleTouchEnd]);
+  const rows = useMemo(
+    () =>
+      Array.from({ length: count }, (_, row) => (
+        <div key={row} aria-hidden onClick={() => scrollToIndex(row)}>
+          <Typography className="h3">{formatTimeUnit(row % max)}</Typography>
+        </div>
+      )),
+    [count, max, scrollToIndex]
+  );
 
   return (
     <Box sx={TimePickerSelectorStyle}>
-      <IconButton onClick={onDecrement} style={TimePickerArrowStyle}>
+      <IconButton onClick={() => stepBy(-1)} style={TimePickerArrowStyle}>
         <KeyboardArrowUp />
       </IconButton>
 
-      <div ref={scrollContainerRef} style={CaseContainerStyle}>
-        <Box sx={DefaultCaseFilter}>
-          <Typography className="h3" color="var(--grey-200)">
-            {prevValue}
-          </Typography>
-        </Box>
-        <Box sx={ActiveCaseFilter}>
-          <Typography className="h3" color="var(--accent-main)">
-            {value}
-          </Typography>
+      <Box sx={WheelStyle}>
+        <Box sx={WheelHighlightStyle} />
+
+        <Box
+          ref={ref}
+          role="spinbutton"
+          tabIndex={0}
+          aria-valuemin={0}
+          aria-valuemax={max - 1}
+          aria-valuenow={value}
+          aria-valuetext={formatTimeUnit(value)}
+          sx={WheelScrollerStyle}
+        >
+          {rows}
         </Box>
 
-        <Box sx={DefaultCaseFilter}>
-          <Typography className="h3" color="var(--grey-200)">
-            {nextValue}
-          </Typography>
-        </Box>
-      </div>
+        <Box sx={WheelTintStyle} />
+      </Box>
 
-      <IconButton onClick={onIncrement} style={TimePickerArrowStyle}>
+      <IconButton onClick={() => stepBy(1)} style={TimePickerArrowStyle}>
         <KeyboardArrowDown />
       </IconButton>
     </Box>

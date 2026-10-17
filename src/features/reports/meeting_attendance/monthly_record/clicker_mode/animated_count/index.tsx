@@ -37,7 +37,13 @@ type DigitColumnProps = {
   spaceAfter?: boolean;
 };
 
-const DigitColumn = ({ digit, dir, collapsed, color, spaceAfter }: DigitColumnProps) => {
+const DigitColumn = ({
+  digit,
+  dir,
+  collapsed,
+  color,
+  spaceAfter,
+}: DigitColumnProps) => {
   const prevRef = useRef(digit);
   const [{ pos, animate }, setState] = useState(() => ({
     pos: baseIndex(digit),
@@ -210,7 +216,12 @@ const AnimatedCount = ({ value, label, shake = 0 }: AnimatedCountProps) => {
         userSelect: 'none',
       }}
     >
-      <Typography className="h4" color="var(--accent-350)">
+      <Typography
+        className="h4"
+        sx={{
+          color: 'var(--accent-350)',
+        }}
+      >
         {label}
       </Typography>
 
