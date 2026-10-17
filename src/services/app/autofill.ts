@@ -38,6 +38,7 @@ import {
 } from '@states/settings';
 import { sourcesState } from '@states/sources';
 import { formatDate } from '@utils/date';
+import { getAutofillRotationPoolSizes } from '@utils/autofill_rotation';
 import {
   getCorrespondingStudentOrAssistant,
   getRotationWeeks,
@@ -1901,6 +1902,15 @@ const processingTasks = ({
 }: ProcessingTasksParams): Map<string, number> => {
   const sortedTasks = getSortedTasks(tasks, checkAssignmentsSettingsResult);
   const assignedPersons = new Map<string, number>();
+  const selectablePersonUIDs = new Set(
+    persons
+      .filter((person) => !personSkipsAutofill(person))
+      .map((person) => person.person_uid)
+  );
+  const rotationPoolSizes = getAutofillRotationPoolSizes(
+    eligibilityMapView,
+    selectablePersonUIDs
+  );
 
   for (const task of sortedTasks) {
     if (
@@ -1924,7 +1934,7 @@ const processingTasks = ({
     );
 
     const rotationWeeks = getRotationWeeks(
-      eligibilityMapView.get(task.code)?.size ?? 0,
+      rotationPoolSizes.get(task.code) ?? 0,
       assignmentsMetrics.get(task.dataView)?.get(task.code)?.frequency ?? 0
     );
 
