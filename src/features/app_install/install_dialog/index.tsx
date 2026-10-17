@@ -36,7 +36,12 @@ const InstallDialog = ({ open, onClose, guide }: InstallDialogProps) => {
         </Button>
       }
     >
-      <Stack spacing="4px" width="100%">
+      <Stack
+        spacing="4px"
+        sx={{
+          width: '100%',
+        }}
+      >
         <TextMarkup
           content={t(GUIDE_TEXT[guide])}
           className="body-regular"

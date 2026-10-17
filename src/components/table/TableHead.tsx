@@ -62,7 +62,9 @@ const TableHead = (props: EnhancedTableProps) => {
             >
               <Typography
                 className={'body-small-regular'}
-                color={'var(--grey-350)'}
+                sx={{
+                  color: 'var(--grey-350)',
+                }}
               >
                 {headCell.label}
               </Typography>

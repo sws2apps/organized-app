@@ -29,7 +29,12 @@ const GroupDelete = (props: GroupDeleteProps) => {
         sx={{ gap: '16px' }}
         title={t('tr_languageGroupDelete', { languageGroup: group_name })}
       >
-        <Typography className="body-regular" color="var(--grey-400)">
+        <Typography
+          className="body-regular"
+          sx={{
+            color: 'var(--grey-400)',
+          }}
+        >
           {t('tr_languageGroupDeleteDesc')}
         </Typography>
         <DialogActions>

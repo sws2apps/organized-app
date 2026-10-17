@@ -3,38 +3,26 @@ import useDashboardSkeleton from './useDashboardSkeleton';
 import MinistryTimerSkeletonLoader from './components/ministry_header';
 import SkeletonLoaderCard from './components/skeleton_card';
 
+const lineSx = {
+  background: 'var(--accent-200)',
+  borderRadius: 'var(--radius-max)',
+};
+
 const DashboardSkeletonLoader = () => {
   const { cards } = useDashboardSkeleton();
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '12px',
-          maxWidth: '392px',
-          height: '52px',
-        }}
-      >
+      {/* the greeting and the assignments line, 52px tall like the real text */}
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+        <Skeleton variant="rounded" width={220} height={24} sx={lineSx} />
         <Skeleton
-          variant="rectangular"
-          sx={{
-            background: 'var(--accent-200)',
-            borderRadius: '30px',
-            width: '160px',
-            height: '20px',
-          }}
-        />
-        <Skeleton
-          variant="rectangular"
-          sx={{
-            background: 'var(--accent-200)',
-            borderRadius: '22.5px',
-            height: '16px',
-          }}
+          variant="rounded"
+          height={18}
+          sx={{ ...lineSx, maxWidth: '360px' }}
         />
       </Box>
+
       <Box
         sx={{
           display: 'grid',

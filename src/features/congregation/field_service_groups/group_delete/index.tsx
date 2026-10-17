@@ -18,7 +18,11 @@ const GroupDelete = (props: GroupDeleteProps) => {
           {t('tr_deleteServiceGroupTitle', { GroupNumber: props.index })}
         </Typography>
 
-        <Typography color="var(--grey-400)">
+        <Typography
+          sx={{
+            color: 'var(--grey-400)',
+          }}
+        >
           {t('tr_deleteServiceGroupDesc')}
         </Typography>
       </Stack>

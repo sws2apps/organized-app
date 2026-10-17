@@ -9,7 +9,12 @@ const AwaitingLabel = () => {
   return (
     <LabelContainer sx={{ backgroundColor: 'var(--accent-150)' }}>
       <IconLoadingHourglass color="var(--accent-350)" />
-      <Typography className="button-caps" color="var(--accent-350)">
+      <Typography
+        className="button-caps"
+        sx={{
+          color: 'var(--accent-350)',
+        }}
+      >
         {t('tr_awaiting')}
       </Typography>
     </LabelContainer>

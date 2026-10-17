@@ -137,5 +137,9 @@
   "tr_bibleStudiesMonthlyLess": "אינך יכול לקבוע את מספר שיעורי המקרא לפחות ממה שיש לך ברשומות היומיות שלך",
   "tr_hoursDecreaseError": "לא ניתן לשנות שעות",
   "tr_hoursDecreaseErrorDesc": "אינך יכול לקבוע את מספר השעות לפחות ממה שיש לך ברשומות היומיות שלך",
-  "tr_SCEL": "בית־הספר לזקני־קהילה"
+  "tr_SCEL": "בית־הספר לזקני־קהילה",
+  "tr_timerNothingToSave": "אין מה לשמור",
+  "tr_timerNothingToSaveDesc": "הסשן היה קצר מדקה, ולכן לא נוסף זמן לדוח.",
+  "tr_timerNoOpenMonth": "אין חודש להוסיף את הזמן",
+  "tr_timerNoOpenMonthDesc": "כל חודש מאז תחילת המחזור הזה כבר אושר. המחזור נותר מושהה."
 }
