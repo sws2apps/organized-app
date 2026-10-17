@@ -23,7 +23,12 @@ const EmptyAssignment = () => {
           cursor: 'default',
         }}
       >
-        <Typography className="body-regular" color="var(--accent-300)">
+        <Typography
+          className="body-regular"
+          sx={{
+            color: 'var(--accent-300)',
+          }}
+        >
           {t('tr_none')}
         </Typography>
       </Box>

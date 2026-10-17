@@ -31,8 +31,7 @@ const CardHeader = ({
       <StyledContentBox color={color} size={size}>
         <Typography
           className={className}
-          color={headerColor(color, size)}
-          sx={{ textAlign: 'left' }}
+          sx={{ color: headerColor(color, size), textAlign: 'left' }}
         >
           {header}
         </Typography>

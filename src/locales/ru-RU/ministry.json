@@ -137,5 +137,9 @@
   "tr_bibleStudiesMonthlyLess": "Ты не можешь установить изучений Библии меньше, чем общее количество из ежедневных твоих записей",
   "tr_hoursDecreaseError": "Нельзя изменить количество часов",
   "tr_hoursDecreaseErrorDesc": "Ты не можешь установить количество часов меньше, чем общее количество из ежедневных твоих записей",
-  "tr_SCEL": "Школа для старейшин собрания"
+  "tr_SCEL": "Школа для старейшин собрания",
+  "tr_timerNothingToSave": "Nothing to save",
+  "tr_timerNothingToSaveDesc": "The session was shorter than a minute, so no time was added to the report.",
+  "tr_timerNoOpenMonth": "No month to add the time to",
+  "tr_timerNoOpenMonthDesc": "Every month since this session started is already confirmed. The session stays paused."
 }

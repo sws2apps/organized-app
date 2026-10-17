@@ -24,7 +24,12 @@ const UserRights = () => {
         }}
       >
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-          <Typography className="h2" color={'var(--black)'}>
+          <Typography
+            className="h2"
+            sx={{
+              color: 'var(--black)',
+            }}
+          >
             {t('tr_userRights')}
           </Typography>
 

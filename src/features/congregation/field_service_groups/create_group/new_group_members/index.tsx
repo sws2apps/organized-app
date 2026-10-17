@@ -22,7 +22,11 @@ const NewGroupMembers = ({
             groupNumber: group.group_data.sort_index + 1,
           })}
         </Typography>
-        <Typography color="var(--grey-400)">
+        <Typography
+          sx={{
+            color: 'var(--grey-400)',
+          }}
+        >
           {t('tr_createNewGroupLastStep')}
         </Typography>
       </Box>

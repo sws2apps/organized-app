@@ -86,7 +86,12 @@ const StudentSelector = (props: PersonSelectorType) => {
         noOptionsText={
           isAssistant && (
             <Box sx={{ backgroundColor: 'var(--white)' }}>
-              <Typography className="body-regular" color="var(--grey-350)">
+              <Typography
+                className="body-regular"
+                sx={{
+                  color: 'var(--grey-350)',
+                }}
+              >
                 {t('tr_selectAStudentFirst')}
               </Typography>
             </Box>
@@ -143,13 +148,17 @@ const StudentSelector = (props: PersonSelectorType) => {
                     >
                       <Typography
                         className="body-small-regular"
-                        color="var(--grey-350)"
+                        sx={{
+                          color: 'var(--grey-350)',
+                        }}
                       >
                         {t('tr_assistant')}:
                       </Typography>
                       <Typography
                         className="body-small-regular"
-                        color="var(--grey-350)"
+                        sx={{
+                          color: 'var(--grey-350)',
+                        }}
                       >
                         {option.last_assistant}
                       </Typography>
@@ -161,18 +170,22 @@ const StudentSelector = (props: PersonSelectorType) => {
             <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <Typography
                 className="body-small-regular"
-                color="var(--grey-350)"
                 align="center"
-                sx={{ width: '85px' }}
+                sx={{
+                  color: 'var(--grey-350)',
+                  width: '85px',
+                }}
               >
                 {option.last_assignment}
               </Typography>
               {tabletUp && (
                 <Typography
                   className="body-small-regular"
-                  color="var(--grey-350)"
                   align="center"
-                  sx={{ width: '70px' }}
+                  sx={{
+                    color: 'var(--grey-350)',
+                    width: '70px',
+                  }}
                 >
                   {option.hall}
                 </Typography>
@@ -268,8 +281,10 @@ const StudentSelector = (props: PersonSelectorType) => {
             >
               <Typography
                 className="body-small-regular"
-                color="var(--grey-350)"
-                sx={{ width: '200px' }}
+                sx={{
+                  color: 'var(--grey-350)',
+                  width: '200px',
+                }}
               >
                 {t('tr_name')}
               </Typography>
@@ -277,9 +292,11 @@ const StudentSelector = (props: PersonSelectorType) => {
               <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <Typography
                   className="body-small-regular"
-                  color="var(--grey-350)"
                   align="center"
-                  sx={{ width: '85px' }}
+                  sx={{
+                    color: 'var(--grey-350)',
+                    width: '85px',
+                  }}
                 >
                   {t('tr_lastAssignment')}
                 </Typography>
@@ -287,9 +304,11 @@ const StudentSelector = (props: PersonSelectorType) => {
                 {tabletUp && (
                   <Typography
                     className="body-small-regular"
-                    color="var(--grey-350)"
                     align="center"
-                    sx={{ width: '70px' }}
+                    sx={{
+                      color: 'var(--grey-350)',
+                      width: '70px',
+                    }}
                   >
                     {t('tr_hall')}
                   </Typography>

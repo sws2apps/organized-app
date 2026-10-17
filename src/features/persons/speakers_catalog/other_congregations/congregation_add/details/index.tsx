@@ -30,7 +30,12 @@ const CongregationDetails = ({
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
       <Typography className="h2">{t('tr_congregationDetails')}</Typography>
-      <Typography color="var(--grey-400)" sx={{ marginBottom: '8px' }}>
+      <Typography
+        sx={{
+          color: 'var(--grey-400)',
+          marginBottom: '8px',
+        }}
+      >
         {t('tr_congregationDetailsDesc')}
       </Typography>
 

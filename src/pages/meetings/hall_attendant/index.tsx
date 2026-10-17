@@ -35,7 +35,7 @@ const HallAttendant = () => {
             <CardHeader className="h4" header={t('tr_hallGeneralInfo')} />
             <Box>
               <Typography className="h1">{time}</Typography>
-              <Typography color="var(--grey-400)">{date}</Typography>
+              <Typography sx={{ color: 'var(--grey-400)' }}>{date}</Typography>
             </Box>
           </Card>
         </Box>

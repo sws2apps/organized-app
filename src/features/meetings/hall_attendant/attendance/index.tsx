@@ -81,7 +81,7 @@ const HallAttendance = (props: WeekBoxProps & { dateLabel: string }) => {
             <Stack spacing="4px">
               <Typography
                 className="body-small-semibold"
-                color="var(--accent-dark)"
+                sx={{ color: 'var(--accent-dark)' }}
               >
                 {t('tr_hallMeetingSummary')}
               </Typography>
@@ -94,22 +94,24 @@ const HallAttendance = (props: WeekBoxProps & { dateLabel: string }) => {
                   gap: '16px',
                 }}
               >
-                <Stack flex={1} alignItems="center">
-                  <Typography color="var(--accent-dark)">{total}</Typography>
+                <Stack sx={{ flex: 1, alignItems: 'center' }}>
+                  <Typography sx={{ color: 'var(--accent-dark)' }}>
+                    {total}
+                  </Typography>
                   <Typography
                     className="label-small-regular"
-                    color="var(--accent-400)"
+                    sx={{ color: 'var(--accent-400)' }}
                   >
                     {t('tr_total')}
                   </Typography>
                 </Stack>
-                <Stack flex={1} alignItems="center">
-                  <Typography color="var(--accent-dark)">
+                <Stack sx={{ flex: 1, alignItems: 'center' }}>
+                  <Typography sx={{ color: 'var(--accent-dark)' }}>
                     {total ? Math.round((online / total) * 100) : 0}%
                   </Typography>
                   <Typography
                     className="label-small-regular"
-                    color="var(--accent-400)"
+                    sx={{ color: 'var(--accent-400)' }}
                   >
                     {t('tr_hallOnlineRatio')}
                   </Typography>

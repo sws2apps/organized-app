@@ -98,7 +98,9 @@ const HallEmergency = () => {
           <Typography id={deleteTitleId} className="h2">
             {t('tr_hallDeleteNumber')}
           </Typography>
-          <Typography color="var(--grey-400)" sx={{ overflowWrap: 'anywhere' }}>
+          <Typography
+            sx={{ color: 'var(--grey-400)', overflowWrap: 'anywhere' }}
+          >
             {t('tr_hallDeleteNumberDesc', {
               name:
                 contactToDelete?.title ||

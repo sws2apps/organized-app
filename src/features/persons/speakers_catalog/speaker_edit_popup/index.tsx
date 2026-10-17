@@ -76,7 +76,11 @@ const SpeakerEditPopup = (props: SpeakerEditPopupType) => {
         sx={{ padding: '16px', gap: '16px' }}
       >
         <Typography className="h2">{t('tr_unsavedChanges')}</Typography>
-        <Typography color="var(--grey-400)">
+        <Typography
+          sx={{
+            color: 'var(--grey-400)',
+          }}
+        >
           {t('tr_unsavedChangesDesc')}
         </Typography>
 
@@ -117,7 +121,12 @@ const SpeakerEditPopup = (props: SpeakerEditPopupType) => {
               : name}
           </Typography>
           {congregationName.length > 0 && (
-            <Typography className="body-small-regular" color="var(--grey-350)">
+            <Typography
+              className="body-small-regular"
+              sx={{
+                color: 'var(--grey-350)',
+              }}
+            >
               {congregationName}
             </Typography>
           )}

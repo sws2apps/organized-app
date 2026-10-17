@@ -1,5 +1,5 @@
+import { styled } from '@mui/material/styles';
 import { Box } from '@mui/material';
-import { styled } from '@mui/system';
 import { CardHeaderSizeType } from './index.types';
 
 /** A small header is tinted, a large one is filled with the colour itself. */

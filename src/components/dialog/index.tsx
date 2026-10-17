@@ -134,7 +134,13 @@ const Dialog = ({
         </Typography>
 
         {description && (
-          <Typography color="var(--grey-400)">{description}</Typography>
+          <Typography
+            sx={{
+              color: 'var(--grey-400)',
+            }}
+          >
+            {description}
+          </Typography>
         )}
       </Stack>
     );
@@ -194,24 +200,22 @@ const Dialog = ({
             : { mobile: '16px', tablet: '24px', desktop: '32px' },
         },
       }}
-      PaperProps={{
-        ...(PaperProps || {
-          className: 'pop-up-shadow',
-          style: {
-            maxWidth: fullScreen ? 'none' : '560px',
-            borderRadius: fullScreen ? 0 : 'var(--radius-xl)',
-            backgroundColor: 'var(--white)',
-          },
-        }),
-        ...(labelledBy
-          ? { 'aria-labelledby': labelledBy, 'aria-label': undefined }
-          : { 'aria-label': ariaLabel ?? PaperProps?.['aria-label'] }),
-      }}
       slotProps={{
         backdrop: {
-          style: {
-            backgroundColor: 'var(--accent-dark-overlay)',
-          },
+          style: { backgroundColor: 'var(--accent-dark-overlay)' },
+        },
+        paper: {
+          ...(PaperProps || {
+            className: 'pop-up-shadow',
+            style: {
+              maxWidth: fullScreen ? 'none' : '560px',
+              borderRadius: fullScreen ? 0 : 'var(--radius-xl)',
+              backgroundColor: 'var(--white)',
+            },
+          }),
+          ...(labelledBy
+            ? { 'aria-labelledby': labelledBy, 'aria-label': undefined }
+            : { 'aria-label': ariaLabel ?? PaperProps?.['aria-label'] }),
         },
       }}
     >
