@@ -1,5 +1,4 @@
 import { Box, FormControlLabel, RadioGroup } from '@mui/material';
-import { FullnameOption } from '@definition/settings';
 import { SpeakerInfoTabType } from './index.types';
 import { buildPersonFullname } from '@utils/common';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
@@ -16,6 +15,7 @@ const SpeakerInfoTab = ({
   fullnameOption,
   persons,
   onFirstnameChange,
+  onMiddlenameChange,
   onLastnameChange,
   onDisplayNameChange,
   onPrivilegeChange,
@@ -42,7 +42,8 @@ const SpeakerInfoTab = ({
                 {buildPersonFullname(
                   person.person_data.person_lastname.value,
                   person.person_data.person_firstname.value,
-                  fullnameOption
+                  fullnameOption,
+                  person.person_data.person_middlename?.value
                 )}
               </Typography>
             </MenuItem>
@@ -59,25 +60,26 @@ const SpeakerInfoTab = ({
           display: 'flex',
           gap: '16px',
           alignItems: 'center',
-          justifyContent: 'space-between',
-          flexDirection: tabletDown
-            ? fullnameOption === FullnameOption.FIRST_BEFORE_LAST
-              ? 'column'
-              : 'column-reverse'
-            : fullnameOption === FullnameOption.FIRST_BEFORE_LAST
-              ? 'row'
-              : 'row-reverse',
+          flexWrap: 'wrap',
         }}
       >
         <TextField
           label={t('tr_firstname')}
           value={draft.firstname}
           onChange={(e) => onFirstnameChange(e.target.value)}
+          sx={{ flex: '1 0 200px' }}
+        />
+        <TextField
+          label={t('tr_middlename')}
+          value={draft.middlename}
+          onChange={(e) => onMiddlenameChange(e.target.value)}
+          sx={{ flex: '1 0 200px' }}
         />
         <TextField
           label={t('tr_lastname')}
           value={draft.lastname}
           onChange={(e) => onLastnameChange(e.target.value)}
+          sx={{ flex: '1 0 200px' }}
         />
       </Box>
 

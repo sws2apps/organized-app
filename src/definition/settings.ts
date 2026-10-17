@@ -5,6 +5,10 @@ import { UpcomingEventDisplayType } from './upcoming_events';
 export enum FullnameOption {
   FIRST_BEFORE_LAST = 1,
   LAST_BEFORE_FIRST = 2,
+  FIRST_MIDDLE_LAST = 3,
+  LAST_FIRST_MIDDLE = 4,
+  LAST_COMMA_FIRST = 5,
+  LAST_COMMA_FIRST_MIDDLE = 6,
 }
 
 export type AccountTypeState = 'vip' | 'pocket';
@@ -153,6 +157,12 @@ export type SettingsType = {
       updatedAt: string;
       _deleted: boolean;
     }[];
+    print_fullname_option?: {
+      type: string;
+      value: FullnameOption;
+      updatedAt: string;
+      _deleted: boolean;
+    }[];
     short_date_format: {
       type: string;
       value: string;
@@ -229,6 +239,7 @@ export type SettingsType = {
     }[];
     circuit_overseer: {
       firstname: { value: string; updatedAt: string };
+      middlename?: { value: string; updatedAt: string };
       lastname: { value: string; updatedAt: string };
       display_name: { value: string; updatedAt: string };
       midweek_meeting_day: { value: number; updatedAt: string };
@@ -299,6 +310,7 @@ export type SettingsType = {
     user_local_uid: string;
     user_members_delegate: string[];
     firstname: { value: string; updatedAt: string };
+    middlename?: { value: string; updatedAt: string };
     lastname: { value: string; updatedAt: string };
     backup_automatic: {
       enabled: { value: boolean; updatedAt: string };

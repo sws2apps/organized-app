@@ -15,7 +15,8 @@ const useSpeakerRowEdit = (speaker: VisitingSpeakerType) => {
   const name = buildPersonFullname(
     speaker.speaker_data.person_lastname.value,
     speaker.speaker_data.person_firstname.value,
-    fullnameOption
+    fullnameOption,
+    speaker.speaker_data.person_middlename?.value
   );
 
   const note = speaker.speaker_data.person_notes.value;

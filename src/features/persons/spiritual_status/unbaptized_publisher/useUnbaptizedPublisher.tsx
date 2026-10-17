@@ -71,7 +71,8 @@ const useUnbaptizedPublisher = () => {
     const name = buildPersonFullname(
       findPerson.person_data.person_lastname.value,
       findPerson.person_data.person_firstname.value,
-      fullnameOption
+      fullnameOption,
+      findPerson.person_data.person_middlename?.value
     );
 
     return t('tr_groupWithOverseerName', { name });
