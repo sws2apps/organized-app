@@ -5,6 +5,13 @@ import {
   PublicWitnessingViewType,
 } from '@definition/public_witnessing';
 import { formatDate } from '@utils/date';
+import { settingsState, userLocalUIDState } from '@states/settings';
+import {
+  publicWitnessingDeleteLocation,
+  publicWitnessingReorderLocations,
+  publicWitnessingSaveArrangement,
+  publicWitnessingSaveLocation,
+} from '@services/app/public_witnessing';
 
 export const publicWitnessingLocationsDbState = atom<
   PublicWitnessingLocationType[]
@@ -55,3 +62,51 @@ export const publicWitnessingSelectedLocationRecordState = atom((get) => {
 
   return locations.find((record) => record.location_uid === selected) ?? null;
 });
+
+export const publicWitnessingWriteContextState = atom((get) => {
+  const settings = get(settingsState);
+  const userUID = get(userLocalUIDState);
+  const canManageLocations =
+    settings.user_settings.cong_role.some(
+      (role) =>
+        role === 'admin' || role === 'coordinator' || role === 'secretary'
+    ) ||
+    Boolean(
+      userUID && userUID === settings.cong_settings.responsabilities?.service
+    );
+
+  return { userUID, canManageLocations };
+});
+
+export const publicWitnessingSaveArrangementState = atom(
+  null,
+  (get, _set, arrangement: PublicWitnessingArrangementType) =>
+    publicWitnessingSaveArrangement(
+      arrangement,
+      get(publicWitnessingWriteContextState)
+    )
+);
+export const publicWitnessingSaveLocationState = atom(
+  null,
+  (get, _set, location: PublicWitnessingLocationType) =>
+    publicWitnessingSaveLocation(
+      location,
+      get(publicWitnessingWriteContextState)
+    )
+);
+export const publicWitnessingReorderLocationsState = atom(
+  null,
+  (get, _set, locations: PublicWitnessingLocationType[]) =>
+    publicWitnessingReorderLocations(
+      locations,
+      get(publicWitnessingWriteContextState)
+    )
+);
+export const publicWitnessingDeleteLocationState = atom(
+  null,
+  (get, _set, location: PublicWitnessingLocationType) =>
+    publicWitnessingDeleteLocation(
+      location,
+      get(publicWitnessingWriteContextState)
+    )
+);

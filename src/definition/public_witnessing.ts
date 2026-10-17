@@ -51,3 +51,8 @@ export type PublicWitnessingArrangementType = {
     publishers: PublicWitnessingPublisherType[];
   };
 };
+
+export type PublicWitnessingWriteContext = {
+  userUID: string;
+  canManageLocations: boolean;
+};

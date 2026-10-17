@@ -12,14 +12,19 @@ import Select from '@components/select';
 import Tabs from '@components/tabs';
 import Typography from '@components/typography';
 import useArrangementForm, { createPartnerName } from './useArrangementForm';
-import { ArrangementFormProps, PersonOption } from './index.types';
+import usePublicWitnessingPermissions from '../usePermissions';
+import {
+  ArrangementFormProps,
+  ArrangementEditorProps,
+  PersonOption,
+} from './index.types';
 
 const optionLabel = (option?: PersonOption | string | null) => {
   if (!option) return '';
   return typeof option === 'string' ? option : option.label;
 };
 
-const ArrangementForm = (props: ArrangementFormProps) => {
+const ArrangementEditor = (props: ArrangementEditorProps) => {
   const { t } = useAppTranslation();
   const { slot } = props;
 
@@ -83,10 +88,24 @@ const ArrangementForm = (props: ArrangementFormProps) => {
     }
   };
 
-  const updatePartnerName = (id: string, value: string) => {
-    setPartnerNames(
-      partnerNames.map((partner) =>
-        partner.id === id ? { ...partner, name: value } : partner
+  const updatePartnerName = (
+    id: string,
+    value?: PersonOption | string | null
+  ) => {
+    setPartnerNames((previous) =>
+      previous.map((partner) =>
+        partner.id === id
+          ? {
+              ...partner,
+              name: optionLabel(value),
+              person_uid:
+                value && typeof value !== 'string'
+                  ? value.id
+                  : typeof value === 'string' && value === partner.name
+                    ? partner.person_uid
+                    : undefined,
+            }
+          : partner
       )
     );
   };
@@ -108,14 +127,25 @@ const ArrangementForm = (props: ArrangementFormProps) => {
             autoSelect
             label={t('tr_name')}
             options={personOptions}
-            value={partner.name}
+            getOptionKey={(option) =>
+              typeof option === 'string' ? option : option.id
+            }
+            value={
+              partner.person_uid
+                ? (personOptions.find(
+                    (option) => option.id === partner.person_uid
+                  ) ?? partner.name)
+                : partner.name
+            }
             onChange={(_, value) => {
               const option = Array.isArray(value) ? value.at(0) : value;
-              updatePartnerName(partner.id, optionLabel(option));
+              updatePartnerName(partner.id, option);
             }}
             getOptionLabel={(option) => optionLabel(option)}
             isOptionEqualToValue={(option, value) =>
-              optionLabel(option) === optionLabel(value)
+              typeof option !== 'string' && typeof value !== 'string'
+                ? option.id === value.id
+                : option === value
             }
           />
         </Stack>
@@ -264,6 +294,31 @@ const ArrangementForm = (props: ArrangementFormProps) => {
               </Stack>
             </Stack>
 
+            {isAdmin && slot.arrangements.length > 1 && (
+              <Select
+                label={t('tr_selectArrangement')}
+                inputProps={{ 'aria-label': t('tr_selectArrangement') }}
+                value={props.selectedArrangementUID}
+                onChange={(event) =>
+                  props.onArrangementChange(String(event.target.value))
+                }
+                disabled={isSaving}
+              >
+                {slot.arrangements.map((arrangement) => (
+                  <MenuItem
+                    key={arrangement.arrangement_uid}
+                    value={arrangement.arrangement_uid}
+                  >
+                    <Typography>
+                      {arrangement.arrangement_data.publishers
+                        .map((publisher) => publisher.name)
+                        .join(', ')}
+                    </Typography>
+                  </MenuItem>
+                ))}
+              </Select>
+            )}
+
             {mode === 'join' && (
               <Typography className="body-regular">
                 {t('tr_arrangementWith', {
@@ -290,6 +345,28 @@ const ArrangementForm = (props: ArrangementFormProps) => {
         </>
       )}
     </Dialog>
+  );
+};
+
+const ArrangementForm = (props: ArrangementFormProps) => {
+  const { canManageLocations } = usePublicWitnessingPermissions();
+  const [selectedArrangementUID, setSelectedArrangementUID] = useState(
+    () => props.slot.arrangements[0]?.arrangement_uid ?? ''
+  );
+  const arrangement = canManageLocations
+    ? props.slot.arrangements.find(
+        (record) => record.arrangement_uid === selectedArrangementUID
+      )
+    : props.slot.myArrangement;
+
+  return (
+    <ArrangementEditor
+      key={arrangement?.arrangement_uid ?? 'new'}
+      {...props}
+      arrangement={arrangement}
+      selectedArrangementUID={selectedArrangementUID}
+      onArrangementChange={setSelectedArrangementUID}
+    />
   );
 };
 

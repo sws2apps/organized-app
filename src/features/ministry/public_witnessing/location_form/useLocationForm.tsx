@@ -1,12 +1,15 @@
 import { useMemo, useState } from 'react';
-import { useAtomValue } from 'jotai';
+import { useAtomValue, useSetAtom } from 'jotai';
 import {
   PublicWitnessingDayScheduleType,
   PublicWitnessingShiftType,
 } from '@definition/public_witnessing';
 import { publicWitnessingLocationsState } from '@states/public_witnessing';
-import { dbPublicWitnessingLocationsSave } from '@services/dexie/public_witnessing_locations';
-import { timeAddMinutes } from '@utils/date';
+import { publicWitnessingSaveLocationState } from '@states/public_witnessing';
+import {
+  publicWitnessingNextShift,
+  publicWitnessingShiftError,
+} from '@utils/public_witnessing';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode, getTranslation } from '@services/i18n/translation';
 import {
@@ -23,6 +26,8 @@ const toEditable = (shift: PublicWitnessingShiftType): EditableShiftType => ({
 });
 
 const useLocationForm = ({ location, onClose }: LocationFormProps) => {
+  const saveLocation = useSetAtom(publicWitnessingSaveLocationState);
+
   const locations = useAtomValue(publicWitnessingLocationsState);
 
   const [name, setName] = useState(location?.location_data.name ?? '');
@@ -148,11 +153,7 @@ const useLocationForm = ({ location, onClose }: LocationFormProps) => {
 
   const handleAddShift = () => {
     updateShifts((shifts) => {
-      const start_time = shifts.at(-1)?.end_time ?? '09:00';
-      return [
-        ...shifts,
-        toEditable({ start_time, end_time: timeAddMinutes(start_time, 60) }),
-      ];
+      return [...shifts, toEditable(publicWitnessingNextShift(shifts))];
     });
   };
 
@@ -200,21 +201,20 @@ const useLocationForm = ({ location, onClose }: LocationFormProps) => {
       return;
     }
 
-    // "HH:mm" compares as text, so a plain comparison catches shifts that end
-    // before they start — those would never show up as a slot.
-    const hasInvalidShift = approvedDays.some((weekday) =>
-      shiftsByDay[weekday].some((shift) => shift.end_time <= shift.start_time)
+    const invalidDay = approvedDays.find((weekday) =>
+      publicWitnessingShiftError(shiftsByDay[weekday])
     );
 
-    if (hasInvalidShift) {
+    if (invalidDay !== undefined) {
       setStep(1);
-
+      if (!isEveryDay) setSelectedDay(invalidDay);
       displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
-        message: getTranslation({ key: 'tr_shiftEndsBeforeStart' }),
+        message: getTranslation({
+          key: publicWitnessingShiftError(shiftsByDay[invalidDay]),
+        }),
         severity: 'error',
       });
-
       return;
     }
 
@@ -231,7 +231,7 @@ const useLocationForm = ({ location, onClose }: LocationFormProps) => {
     setIsSaving(true);
 
     try {
-      await dbPublicWitnessingLocationsSave({
+      await saveLocation({
         location_uid: location?.location_uid ?? crypto.randomUUID(),
         location_data: {
           _deleted: false,

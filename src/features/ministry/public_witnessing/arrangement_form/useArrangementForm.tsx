@@ -1,27 +1,32 @@
 import { useMemo, useState } from 'react';
-import { useAtomValue } from 'jotai';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { createEvent } from 'ics';
 import { saveAs } from 'file-saver';
 import { PublicWitnessingPublisherType } from '@definition/public_witnessing';
 import { ShiftSlotStatus } from '../shifts_card/index.types';
 import { personsActiveState } from '@states/persons';
 import { fullnameOptionState, userLocalUIDState } from '@states/settings';
-import { dbPublicWitnessingArrangementsSave } from '@services/dexie/public_witnessing_arrangements';
+import { publicWitnessingSaveArrangementState } from '@states/public_witnessing';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { buildPersonFullname } from '@utils/common';
 import { formatDate } from '@utils/date';
+import { publicWitnessingPublisherEntries } from '@utils/public_witnessing';
 import usePublicWitnessingPermissions from '../usePermissions';
 import {
-  ArrangementFormProps,
+  ArrangementEditorProps,
   ArrangementMode,
   PartnerNameType,
   PersonOption,
 } from './index.types';
 
-export const createPartnerName = (name = ''): PartnerNameType => ({
+export const createPartnerName = (
+  name = '',
+  person_uid?: string
+): PartnerNameType => ({
   id: crypto.randomUUID(),
   name,
+  person_uid,
 });
 
 const getMode = (
@@ -37,7 +42,10 @@ const useArrangementForm = ({
   location,
   slot,
   onClose,
-}: ArrangementFormProps) => {
+  arrangement,
+}: ArrangementEditorProps) => {
+  const saveArrangement = useSetAtom(publicWitnessingSaveArrangementState);
+
   const { canManageLocations } = usePublicWitnessingPermissions();
 
   const persons = useAtomValue(personsActiveState);
@@ -60,9 +68,7 @@ const useArrangementForm = ({
   const myName =
     personOptions.find((option) => option.id === userUID)?.label ?? '';
 
-  const existing =
-    slot.myArrangement ??
-    (canManageLocations ? slot.arrangements.at(0) : undefined);
+  const existing = canManageLocations ? arrangement : slot.myArrangement;
 
   const mode = getMode(Boolean(existing), slot.status);
 
@@ -75,7 +81,9 @@ const useArrangementForm = ({
   const [partnerNames, setPartnerNames] = useState<PartnerNameType[]>(() => {
     const others = (existing?.arrangement_data.publishers ?? [])
       .filter((publisher) => publisher.person_uid !== userUID)
-      .map((publisher) => createPartnerName(publisher.name));
+      .map((publisher) =>
+        createPartnerName(publisher.name, publisher.person_uid)
+      );
 
     return others.length > 0 ? others : [createPartnerName()];
   });
@@ -127,15 +135,7 @@ const useArrangementForm = ({
   };
 
   const buildPublishers = (): PublicWitnessingPublisherType[] => {
-    const toPublisher = (name: string): PublicWitnessingPublisherType => {
-      const match = personOptions.find((option) => option.label === name);
-      return match ? { name, person_uid: match.id } : { name };
-    };
-
-    const named = names
-      .map((partner) => partner.name.trim())
-      .filter((name) => name.length > 0)
-      .map(toPublisher);
+    const named = publicWitnessingPublisherEntries(names);
 
     if (forOthers) return named;
     if (partnerNeeded) return [{ name: myName, person_uid: userUID }];
@@ -148,7 +148,7 @@ const useArrangementForm = ({
     publishers: PublicWitnessingPublisherType[];
   }) => {
     try {
-      await dbPublicWitnessingArrangementsSave({
+      await saveArrangement({
         arrangement_uid: existing?.arrangement_uid ?? crypto.randomUUID(),
         arrangement_data: {
           _deleted: false,
@@ -207,7 +207,7 @@ const useArrangementForm = ({
       record.arrangement_data._deleted = true;
       record.arrangement_data.updatedAt = new Date().toISOString();
 
-      await dbPublicWitnessingArrangementsSave(record);
+      await saveArrangement(record);
 
       onClose();
     } catch (error) {

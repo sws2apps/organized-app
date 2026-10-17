@@ -1,6 +1,7 @@
+import { useSetAtom } from 'jotai';
 import { Stack } from '@mui/material';
 import { useAppTranslation } from '@hooks/index';
-import { dbPublicWitnessingLocationDelete } from '@services/dexie/public_witnessing_locations';
+import { publicWitnessingDeleteLocationState } from '@states/public_witnessing';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import Button from '@components/button';
@@ -10,10 +11,11 @@ import { LocationDeleteProps } from './index.types';
 
 const LocationDelete = ({ open, onClose, location }: LocationDeleteProps) => {
   const { t } = useAppTranslation();
+  const deleteLocation = useSetAtom(publicWitnessingDeleteLocationState);
 
   const handleDelete = async () => {
     try {
-      await dbPublicWitnessingLocationDelete(location);
+      await deleteLocation(location);
 
       onClose();
     } catch (error) {

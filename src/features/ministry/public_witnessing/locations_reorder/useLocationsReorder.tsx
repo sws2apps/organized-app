@@ -1,13 +1,15 @@
 import { useMemo, useState } from 'react';
-import { useAtomValue } from 'jotai';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { PublicWitnessingLocationType } from '@definition/public_witnessing';
 import { publicWitnessingLocationsState } from '@states/public_witnessing';
-import { dbPublicWitnessingLocationsBulkSave } from '@services/dexie/public_witnessing_locations';
+import { publicWitnessingReorderLocationsState } from '@states/public_witnessing';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { LocationItemType, LocationsReorderProps } from './index.types';
 
 const useLocationsReorder = ({ onClose }: LocationsReorderProps) => {
+  const reorderLocations = useSetAtom(publicWitnessingReorderLocationsState);
+
   const locationsList = useAtomValue(publicWitnessingLocationsState);
 
   const [locations, setLocations] = useState<LocationItemType[]>(() =>
@@ -47,7 +49,7 @@ const useLocationsReorder = ({ onClose }: LocationsReorderProps) => {
   const handleSaveChanges = async () => {
     try {
       if (locations_sorted.length > 0) {
-        await dbPublicWitnessingLocationsBulkSave(locations_sorted);
+        await reorderLocations(locations_sorted);
       }
 
       onClose();
