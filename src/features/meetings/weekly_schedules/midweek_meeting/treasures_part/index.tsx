@@ -119,7 +119,9 @@ const TreasuresPart = (props: TreasuresPartProps) => {
                   {showAuxClass && (
                     <Typography
                       className="body-small-semibold"
-                      color="var(--grey-350)"
+                      sx={{
+                        color: 'var(--grey-350)',
+                      }}
                     >
                       {t('tr_mainHall')}
                     </Typography>
@@ -136,7 +138,9 @@ const TreasuresPart = (props: TreasuresPartProps) => {
                   <Stack spacing="4px">
                     <Typography
                       className="body-small-semibold"
-                      color="var(--grey-350)"
+                      sx={{
+                        color: 'var(--grey-350)',
+                      }}
                     >
                       {t('tr_auxClassroom')}
                     </Typography>

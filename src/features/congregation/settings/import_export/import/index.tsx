@@ -42,14 +42,21 @@ const Import = (props: ImportType) => {
               }}
             >
               <IconImportJson color="var(--accent-dark)" />
-              <Typography className="button-caps" color="var(--accent-dark)">
+              <Typography
+                className="button-caps"
+                sx={{
+                  color: 'var(--accent-dark)',
+                }}
+              >
                 {t('tr_dragOrClick')}
               </Typography>
             </Box>
             <Typography
-              textAlign="center"
               className="label-small-regular"
-              color="var(--accent-400)"
+              sx={{
+                textAlign: 'center',
+                color: 'var(--accent-400)',
+              }}
             >
               {t('tr_uploadJsonFile')}
             </Typography>

@@ -1,21 +1,4 @@
 {
-  "2026-07-01T00:00": {
-    "images": {
-      "img_01": {
-        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-color-schemes.svg",
-        "tr_title": "Karazana loko vaovao",
-        "tr_desc": "Nampiana loko vaovao fanampiny azonao ampiasaina ato amin’ny Organized."
-      },
-      "img_02": {
-        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-homescreen-shortcuts.svg",
-        "tr_title": "Raccourci vaovao",
-        "tr_desc": "Afaka manokatra avy hatrany ireo pejy fampiasa matetika ianao, na mampiasa ordinatera na telefaonina."
-      }
-    },
-    "improvements": {
-      "tr_note_01": "Ora omena ho an’ny sekolin’ny anti-panahy"
-    }
-  },
   "2026-09-01T00:00": {
     "images": {
       "img_01": {
@@ -32,6 +15,15 @@
       "tr_note_05": "Fanendrena fianakaviana ho namana amin’ny fivoriana andavanandro",
       "tr_note_06": "Fanamarihana mpisava lalana efa osa ka tsy takiana ora isan-taona",
       "tr_note_07": "Fisafidianana ny endriky ny pejy sy haben’ny soratra rehefa maka ny lisitry ny andiam-pitory"
+    }
+  },
+  "2026-10-01T00:00": {
+    "images": {
+      "img_01": {
+        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-profile-pictures.svg",
+        "tr_title": "Sary vaovao ho an’ny kaontinao",
+        "tr_desc": "Misafidiana sary ho an’ny kaontinao: kisarisary avy ao amin’ny Baiboly, na sary hafa."
+      }
     }
   }
 }

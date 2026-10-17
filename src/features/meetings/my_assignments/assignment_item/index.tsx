@@ -48,8 +48,8 @@ const AssignmentItem = ({ history, onOpen }: AssignmentItemProps) => {
         <Typography
           key={detail}
           className="body-small-regular"
-          color="var(--grey-400)"
           sx={{
+            color: 'var(--grey-400)',
             display: '-webkit-box',
             WebkitLineClamp: 2,
             WebkitBoxOrient: 'vertical',

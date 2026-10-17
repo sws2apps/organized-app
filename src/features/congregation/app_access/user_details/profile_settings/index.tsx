@@ -36,7 +36,12 @@ const ProfileSettings = () => {
         }}
       >
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-          <Typography className="h2" color={'var(--black)'}>
+          <Typography
+            className="h2"
+            sx={{
+              color: 'var(--black)',
+            }}
+          >
             {t('tr_profileSettings')}
           </Typography>
           {isProcessing && <IconLoading color="var(--black)" />}
@@ -75,7 +80,11 @@ const ProfileSettings = () => {
           }}
         >
           <Typography className="h2">{t('tr_delegatePersons')}</Typography>
-          <Typography color="var(--grey-400)">
+          <Typography
+            sx={{
+              color: 'var(--grey-400)',
+            }}
+          >
             {t('tr_delegatePersonsDesc')}
           </Typography>
         </Box>
