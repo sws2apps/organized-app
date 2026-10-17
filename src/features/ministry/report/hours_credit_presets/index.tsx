@@ -57,9 +57,6 @@ const HoursCreditPresets = (props: HoursCreditPresetsProps) => {
               borderBottom: 'none',
             },
           }}
-          MenuListProps={{
-            'aria-labelledby': 'basic-button',
-          }}
           slotProps={{
             paper: {
               style: {
@@ -69,12 +66,18 @@ const HoursCreditPresets = (props: HoursCreditPresetsProps) => {
                 width: props.anchorEl.current.clientWidth,
               },
             },
+
+            list: {
+              'aria-labelledby': 'basic-button',
+            },
           }}
         >
           <Typography
             className="body-small-semibold"
-            color="var(--grey-400)"
-            sx={{ padding: '4px 16px' }}
+            sx={{
+              color: 'var(--grey-400)',
+              padding: '4px 16px',
+            }}
           >
             {t('tr_presets')}
           </Typography>

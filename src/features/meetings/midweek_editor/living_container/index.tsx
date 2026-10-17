@@ -42,7 +42,11 @@ const LivingContainer = (props: LivingContainerProps) => {
         <>
           <Divider color="var(--accent-200)" />
 
-          <Typography color="var(--grey-350)">
+          <Typography
+            sx={{
+              color: 'var(--grey-350)',
+            }}
+          >
             {t('tr_customMeetingPartDesc')}
           </Typography>
 

@@ -380,6 +380,7 @@
   "tr_congregationRequestRejectedDesc": "La congregación <strong>{{ congregationNameAndNumber }}</strong> rechazó tu solicitud para ver su lista de oradores salientes. Si es necesario, puedes contactarlos personalmente.",
   "tr_congregationAccessRevoke": "Revocar acceso para esta congregación",
   "tr_congregationAccessRevokeDesc": "¿Revocar acceso a tu lista de oradores para la congregación <strong>{{ congregationName }}</strong>? Ya no podrán verla, pero puedes compartirla con ellos nuevamente más tarde si hacen una nueva solicitud.",
+  "tr_withoutGroup": "Sin grupo",
   "tr_noGroupsYet": "Aún no tienes grupos de servicio de campo creados. Crea un grupo primero para comenzar a añadir publicadores y reordenar grupos.",
   "tr_coordinator": "Coordinador",
   "tr_secretary": "Secretario",
@@ -569,5 +570,5 @@
   "tr_error_app_data_no_valid_data_found": "No se encontraron datos válidos o no se seleccionó ningún orador.",
   "tr_infirmPioneer": "Precursor enfermo",
   "tr_infirmPioneerNoGoal": "Como precursor enfermo, puedes servir tanto como puedas sin una meta anual de horas.",
-  "tr_importCsvParseError": "The file could not be read. Please check the column structure and try again."
+  "tr_importCsvParseError": "No se pudo leer el archivo. Por favor, revisa la estructura de las columnas e inténtalo de nuevo."
 }

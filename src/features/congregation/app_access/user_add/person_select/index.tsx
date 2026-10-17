@@ -64,7 +64,11 @@ const PersonSelect = (props: PersonSelectType) => {
         </RadioGroup>
       )}
 
-      <Typography color={'var(--grey-400)'}>
+      <Typography
+        sx={{
+          color: 'var(--grey-400)',
+        }}
+      >
         {userType === 'baptized'
           ? searchStatus
             ? t('tr_userFoundSuccess')

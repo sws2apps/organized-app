@@ -7,7 +7,11 @@ import { IndicatorProps } from './index.types';
  * Indicator component used to display calculated values (like age or years)
  * next to input fields. Designed to fit content width and match parent height.
  */
-const Indicator = ({ children, tooltip, showTooltip = true }: IndicatorProps) => {
+const Indicator = ({
+  children,
+  tooltip,
+  showTooltip = true,
+}: IndicatorProps) => {
   return (
     <Tooltip title={tooltip} show={showTooltip && !!tooltip}>
       <Box
@@ -25,7 +29,12 @@ const Indicator = ({ children, tooltip, showTooltip = true }: IndicatorProps) =>
           userSelect: 'none',
         }}
       >
-        <Typography className="body-small-semibold" color="var(--accent-dark)">
+        <Typography
+          className="body-small-semibold"
+          sx={{
+            color: 'var(--accent-dark)',
+          }}
+        >
           {children}
         </Typography>
       </Box>

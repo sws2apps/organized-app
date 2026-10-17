@@ -16,7 +16,9 @@ const PublicWitnessingDayView = (props: PublicWitnessingViewProps) => {
     <Stack
       style={{ width: '100%' }}
       direction={'row'}
-      justifyContent={'space-between'}
+      sx={{
+        justifyContent: 'space-between',
+      }}
     >
       <Typography
         sx={{ marginRight: '15px', whiteSpace: 'nowrap' }}
@@ -28,8 +30,10 @@ const PublicWitnessingDayView = (props: PublicWitnessingViewProps) => {
       {witnesses ? (
         <Stack
           direction={'row'}
-          justifyContent={'space-between'}
           style={{ width: '100%' }}
+          sx={{
+            justifyContent: 'space-between',
+          }}
         >
           <Stack direction={'row'} spacing={1}>
             {witnesses
@@ -45,7 +49,12 @@ const PublicWitnessingDayView = (props: PublicWitnessingViewProps) => {
               : null}
           </Stack>
           {isContent && witnesses.length < needWitnesses ? (
-            <Stack direction={'row'} alignItems={'center'}>
+            <Stack
+              direction={'row'}
+              sx={{
+                alignItems: 'center',
+              }}
+            >
               <IconPersonSearch
                 color={'var(--orange-dark)'}
                 width={20}

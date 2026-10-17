@@ -37,7 +37,12 @@ const CongregationInfoView = ({ congregation }: CongregationInfoViewType) => {
             borderRadius: 'var(--radius-l)',
           }}
         >
-          <Typography className="label-small-regular" color="var(--accent-400)">
+          <Typography
+            className="label-small-regular"
+            sx={{
+              color: 'var(--accent-400)',
+            }}
+          >
             {t('tr_kingdomHallAddress')}
           </Typography>
           <Typography className="body-small-semibold">
@@ -68,7 +73,9 @@ const CongregationInfoView = ({ congregation }: CongregationInfoViewType) => {
           >
             <Typography
               className="label-small-regular"
-              color="var(--accent-400)"
+              sx={{
+                color: 'var(--accent-400)',
+              }}
             >
               {t('tr_circuitNumber')}
             </Typography>
@@ -91,7 +98,9 @@ const CongregationInfoView = ({ congregation }: CongregationInfoViewType) => {
           >
             <Typography
               className="label-small-regular"
-              color="var(--accent-400)"
+              sx={{
+                color: 'var(--accent-400)',
+              }}
             >
               {t('tr_midweekMeeting')}
             </Typography>
@@ -114,7 +123,9 @@ const CongregationInfoView = ({ congregation }: CongregationInfoViewType) => {
           >
             <Typography
               className="label-small-regular"
-              color="var(--accent-400)"
+              sx={{
+                color: 'var(--accent-400)',
+              }}
             >
               {t('tr_weekendMeeting')}
             </Typography>
@@ -144,7 +155,12 @@ const CongregationInfoView = ({ congregation }: CongregationInfoViewType) => {
             gap: '4px',
           }}
         >
-          <Typography className="label-small-regular" color="var(--accent-400)">
+          <Typography
+            className="label-small-regular"
+            sx={{
+              color: 'var(--accent-400)',
+            }}
+          >
             {t('tr_publicTalkCoordinator')}
           </Typography>
           <Typography className="body-small-semibold">
@@ -169,7 +185,9 @@ const CongregationInfoView = ({ congregation }: CongregationInfoViewType) => {
             >
               <Typography
                 className="body-small-semibold"
-                color="var(--accent-main)"
+                sx={{
+                  color: 'var(--accent-main)',
+                }}
               >
                 {congregation.cong_data.public_talk_coordinator.email.value}
               </Typography>
@@ -184,7 +202,9 @@ const CongregationInfoView = ({ congregation }: CongregationInfoViewType) => {
             >
               <Typography
                 className="body-small-semibold"
-                color="var(--accent-main)"
+                sx={{
+                  color: 'var(--accent-main)',
+                }}
               >
                 {congregation.cong_data.public_talk_coordinator.phone.value}
               </Typography>
@@ -211,7 +231,12 @@ const CongregationInfoView = ({ congregation }: CongregationInfoViewType) => {
             gap: '4px',
           }}
         >
-          <Typography className="label-small-regular" color="var(--accent-400)">
+          <Typography
+            className="label-small-regular"
+            sx={{
+              color: 'var(--accent-400)',
+            }}
+          >
             {t('tr_coordinator')}
           </Typography>
           <Typography className="body-small-semibold">
@@ -235,7 +260,9 @@ const CongregationInfoView = ({ congregation }: CongregationInfoViewType) => {
             >
               <Typography
                 className="body-small-semibold"
-                color="var(--accent-main)"
+                sx={{
+                  color: 'var(--accent-main)',
+                }}
               >
                 {congregation.cong_data.coordinator.email.value}
               </Typography>
@@ -249,7 +276,9 @@ const CongregationInfoView = ({ congregation }: CongregationInfoViewType) => {
             >
               <Typography
                 className="body-small-semibold"
-                color="var(--accent-main)"
+                sx={{
+                  color: 'var(--accent-main)',
+                }}
               >
                 {congregation.cong_data.coordinator.phone.value}
               </Typography>

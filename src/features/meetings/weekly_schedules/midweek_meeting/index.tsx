@@ -151,7 +151,9 @@ const MidweekMeeting = (props: MidweekMeetingProps) => {
                 >
                   <Typography
                     className="h4"
-                    color="var(--treasures-from-gods-word)"
+                    sx={{
+                      color: 'var(--treasures-from-gods-word)',
+                    }}
                   >
                     {`${t('tr_openingComments')} ${t('tr_partDuration', { time: 1 })}`}
                   </Typography>
