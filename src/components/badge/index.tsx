@@ -62,48 +62,43 @@ const BadgeTypography = ({
   );
 };
 
-const getColor = ({ filled, color, faded, size }: BadgePropsType) => {
-  if (filled) return `var(--always-white)`;
+type ColorProps = Pick<BadgePropsType, 'color' | 'filled' | 'faded' | 'size'> &
+  Pick<BadgePropsType, 'light'>;
 
-  if (color === 'grey') {
-    if (faded) {
-      return `var(--${color}-300)`;
-    }
+const resolveTextColor = ({ color, filled, faded, size }: ColorProps) => {
+  if (filled) return 'var(--always-white)';
+  if (color === 'transparent') return 'var(--accent-400)';
+  if (color === 'grey') return faded ? 'var(--grey-300)' : 'var(--grey-400)';
+  if (color === 'green') return 'var(--green-main)';
+  if (color === 'red' && size === 'big') return 'var(--red-main)';
 
-    return `var(--${color}-400)`;
-  } else if (color === 'green') {
-    return `var(--${color}-main)`;
-  } else if (color === 'transparent') return 'var(--accent-400)';
-  else {
-    if (size === 'big' && color === 'red') {
-      return `var(--${color}-main)`;
-    } else {
-      return `var(--${color}-dark)`;
-    }
-  }
+  return `var(--${color}-dark)`;
 };
 
-const getBackgroundColor = ({ filled, color, faded }: BadgePropsType) => {
-  if (color === 'transparent') return color;
+const resolveBackgroundColor = ({
+  color,
+  filled,
+  faded,
+  light,
+}: ColorProps) => {
+  if (color === 'transparent') return 'transparent';
   if (filled) {
-    if (color === 'grey') {
-      return `var(--${color}-400)`;
-    } else {
-      return `var(--${color}-main)`;
-    }
-  } else {
-    if (color === 'grey') {
-      if (faded) {
-        return `var(--${color}-100)`;
-      }
-
-      return `var(--${color}-150)`;
-    } else if (color === 'accent') {
-      return `var(--accent-150)`;
-    } else {
-      return `var(--${color}-secondary)`;
-    }
+    return color === 'grey' ? 'var(--grey-400)' : `var(--${color}-main)`;
   }
+  if (light) {
+    return color === 'accent' || color === 'grey'
+      ? `var(--${color}-150)`
+      : `var(--${color}-secondary)`;
+  }
+  if (color === 'grey') return faded ? 'var(--grey-100)' : 'var(--grey-150)';
+  if (color === 'accent') return 'var(--accent-150)';
+
+  return `var(--${color}-secondary)`;
+};
+
+const bigBadgeHeight = (multiLine?: boolean, filled?: boolean) => {
+  if (multiLine) return 'unset';
+  return filled ? '24px' : '28px';
 };
 
 const Badge = (props: BadgePropsType) => {
@@ -119,8 +114,8 @@ const Badge = (props: BadgePropsType) => {
     sx = {},
   } = props;
 
-  const textColor = getColor(props);
-  const backgroundColor = getBackgroundColor(props);
+  const textColor = resolveTextColor(props);
+  const backgroundColor = resolveBackgroundColor(props);
 
   return (
     <>
@@ -202,7 +197,7 @@ const Badge = (props: BadgePropsType) => {
           className={className ? undefined : 'label-large-medium'}
           sx={{
             border: '4px',
-            height: props.multiLine ? 'unset' : filled ? '24px' : '28px',
+            height: bigBadgeHeight(props.multiLine, filled),
             background: backgroundColor,
             display: 'flex',
             flexDirection: 'row',
