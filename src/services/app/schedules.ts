@@ -3678,11 +3678,10 @@ export const schedulesGetMeetingDate = ({
     locale = source.midweek_meeting.week_date_locale[lang] ?? '';
   }
 
-  // the duties are not a meeting of their own: they are held on the day after
-  // the week starts, since they follow whichever meetings that week has
+  // Duties span both meetings, so selectors group them by the schedule week.
   const meetingDate =
     meeting === 'duties'
-      ? addDays(week, 1)
+      ? addDays(week, 0)
       : schedulesResolveMeetingDate({
           settings,
           schedule,
