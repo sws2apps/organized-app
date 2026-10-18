@@ -40,11 +40,8 @@ const CheckMark = ({
     setSeen(state);
     setChanges(changes + 1);
   }
-  const color = disabled
-    ? 'var(--accent-300)'
-    : on
-      ? 'var(--accent-main)'
-      : 'var(--accent-350)';
+  const enabledColor = on ? 'var(--accent-main)' : 'var(--accent-350)';
+  const color = disabled ? 'var(--accent-300)' : enabledColor;
 
   const stroke = (shown: boolean) => ({
     fill: 'none',
