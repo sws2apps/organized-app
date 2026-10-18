@@ -62,7 +62,7 @@ const useBasicInfo = () => {
     setPersonCurrentDetails(newPerson);
   };
 
-  const handleChangeMiddlename = async (value: string) => {
+  const handleChangeMiddlename = (value: string) => {
     const newPerson = structuredClone(person);
 
     changeMiddlename(newPerson, value);

@@ -90,7 +90,7 @@ export const dbPersonsSave = async (person: PersonType, isNew?: boolean) => {
     // CHECK FOR EXISTING RECORD IF NEW
     if (isNew) {
       const personsActive = await dbPersonsGetActive();
-      const found = personsActive.find((record) =>
+      const found = personsActive.some((record) =>
         samePersonName(record.person_data, person.person_data)
       );
 

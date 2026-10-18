@@ -17,11 +17,12 @@ export const nameLayoutDocument = () => {
   return (
     <Document>
       <Page size="A4" style={{ padding: 30, fontFamily: 'Inter' }}>
-        {[DefaultPerson, NormalPerson].map((Person, index) => (
-          <View key={index} style={{ marginBottom: 30 }}>
-            <Text style={{ fontSize: 12, marginBottom: 12 }}>
-              {index === 0 ? 'Default S140' : 'Normal S140'}
-            </Text>
+        {[
+          { id: 'default', label: 'Default S140', Person: DefaultPerson },
+          { id: 'normal', label: 'Normal S140', Person: NormalPerson },
+        ].map(({ id, label, Person }) => (
+          <View key={id} style={{ marginBottom: 30 }}>
+            <Text style={{ fontSize: 12, marginBottom: 12 }}>{label}</Text>
             <Person
               primary="Alexandria María Elizabeth van der Westhuizen"
               secondary="Christopher Jean Baptiste García Fernández"

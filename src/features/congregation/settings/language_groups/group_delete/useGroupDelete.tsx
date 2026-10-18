@@ -10,6 +10,21 @@ import { languageGroupsState } from '@states/field_service_groups';
 import { dbFieldServiceGroupSave } from '@services/dexie/field_service_groups';
 import { settingSchema } from '@services/dexie/schema';
 
+const deleteGroupSetting = <
+  T extends { type: string; _deleted: boolean; updatedAt: string },
+>(
+  records: T[],
+  groupId: string
+): T[] => {
+  const updated = structuredClone(records);
+  const record = updated.find((item) => item.type === groupId);
+  if (record) {
+    record._deleted = true;
+    record.updatedAt = new Date().toISOString();
+  }
+  return updated;
+};
+
 const useGroupDelete = ({ group }: GroupDeleteProps) => {
   const { t } = useAppTranslation();
 
@@ -52,28 +67,15 @@ const useGroupDelete = ({ group }: GroupDeleteProps) => {
       findGroup.group_data._deleted = true;
       findGroup.group_data.updatedAt = new Date().toISOString();
 
-      const sourceLanguages = structuredClone(
-        settings.cong_settings.source_material.language
+      const sourceLanguages = deleteGroupSetting(
+        settings.cong_settings.source_material.language,
+        group.group_id
       );
 
-      const findSource = sourceLanguages.find(
-        (record) => record.type === group.group_id
+      const circuits = deleteGroupSetting(
+        settings.cong_settings.cong_circuit,
+        group.group_id
       );
-
-      if (findSource) {
-        findSource._deleted = true;
-        findSource.updatedAt = new Date().toISOString();
-      }
-
-      const circuits = structuredClone(settings.cong_settings.cong_circuit);
-      const findCircuit = circuits.find(
-        (record) => record.type === group.group_id
-      );
-
-      if (findCircuit) {
-        findCircuit._deleted = true;
-        findCircuit.updatedAt = new Date().toISOString();
-      }
 
       const displayName = structuredClone(
         settings.cong_settings.display_name_enabled

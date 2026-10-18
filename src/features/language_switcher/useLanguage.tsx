@@ -62,7 +62,7 @@ const useLanguage = () => {
       findLanguage?.fullnameOption || FullnameOption.FIRST_BEFORE_LAST;
 
     const nameOption = structuredClone(settings.cong_settings.fullname_option);
-    const current = nameOption.find((record) => record.type === dataView);
+    const current = nameOption.some((record) => record.type === dataView);
 
     if (!current) {
       nameOption.push({
