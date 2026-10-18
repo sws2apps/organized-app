@@ -1,3 +1,4 @@
+import type { PersonType } from '@definition/person';
 import {
   FullnameOption,
   NameFormatSelection,
@@ -111,3 +112,11 @@ export const speakerNameKey = (
       value.trim().normalize('NFC').toLowerCase()
     ),
   ]);
+
+export const personAccountNames = (person?: PersonType) => ({
+  user_firstname: person?.person_data.person_firstname.value ?? '',
+  user_lastname: person?.person_data.person_lastname.value ?? '',
+  user_middlename: person
+    ? (person.person_data.person_middlename?.value ?? '')
+    : undefined,
+});

@@ -16,7 +16,11 @@ export const loginMiddleName = (
           response.app_settings.cong_settings?.id ===
             local.cong_settings.cong_id
         );
-  const previous = sameAccount ? local.user_settings.middlename : undefined;
+  const personChanged =
+    remote.user_local_uid !== undefined &&
+    remote.user_local_uid !== local.user_settings.user_local_uid;
+  const previous =
+    sameAccount && !personChanged ? local.user_settings.middlename : undefined;
   if (!remote.middlename) return previous ?? { value: '', updatedAt: now };
   // An explicit empty field is a clear; it participates in normal timestamp ordering.
   return previous && previous.updatedAt > remote.middlename.updatedAt

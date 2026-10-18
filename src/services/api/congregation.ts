@@ -251,10 +251,12 @@ export const apiPocketUserCreate = async ({
   cong_person_uid,
   cong_role,
   user_firstname,
+  user_middlename,
   user_lastname,
   user_secret_code,
 }: {
   user_firstname: string;
+  user_middlename?: string;
   user_lastname: string;
   user_secret_code: string;
   cong_role: string[];
@@ -283,6 +285,7 @@ export const apiPocketUserCreate = async ({
           cong_person_uid,
           cong_role,
           user_firstname,
+          user_middlename,
           user_lastname,
           user_secret_code,
         }),
@@ -502,10 +505,12 @@ export const apiCreateUser = async ({
   cong_person_uid,
   cong_role,
   user_firstname,
+  user_middlename,
   user_lastname,
   user_id,
 }: {
   user_firstname: string;
+  user_middlename?: string;
   user_lastname: string;
   user_id: string;
   cong_role: string[];
@@ -534,6 +539,7 @@ export const apiCreateUser = async ({
           cong_person_uid,
           cong_role,
           user_firstname,
+          user_middlename,
           user_lastname,
           user_id,
         }),

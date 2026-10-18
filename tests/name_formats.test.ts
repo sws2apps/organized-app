@@ -443,3 +443,28 @@ test('middle names and context-specific print settings survive encrypted round t
     assert.deepEqual(data, original);
   }
 });
+
+test('account creation includes middle names and distinguishes an unlinked account from a blank middle name', async () => {
+  const { personAccountNames } = await import('@utils/name_format');
+  const person = { person_data: names('María Jean') } as PersonType;
+  assert.deepEqual(personAccountNames(person), {
+    user_firstname: 'Alice',
+    user_lastname: 'Jones',
+    user_middlename: 'María Jean',
+  });
+  delete person.person_data.person_middlename;
+  assert.equal(personAccountNames(person).user_middlename, '');
+  assert.equal(personAccountNames().user_middlename, undefined);
+});
+
+test('relinking the same account cannot retain the previous person middle name', () => {
+  const local = settingsFixture();
+  const response = responseFixture();
+  response.app_settings.user_settings.user_local_uid = 'different-person';
+  assert.equal(loginMiddleName(local, response, 'now').value, '');
+  response.app_settings.user_settings.middlename = field(
+    'New person',
+    '2020-01-01'
+  );
+  assert.equal(loginMiddleName(local, response, 'now').value, 'New person');
+});
