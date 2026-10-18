@@ -61,7 +61,13 @@ export const parseCsv = (text: string, preview?: number) => {
     transformHeader: (header) => header.trim(),
     preview,
   });
-  parsed.data = parsed.data.map(decodeRow);
+  parsed.data = parsed.data
+    .map(decodeRow)
+    .filter((row) =>
+      Object.values(row).some(
+        (value) => typeof value !== 'string' || value.trim() !== ''
+      )
+    );
   parsed.meta.fields = parsed.meta.fields?.filter(
     (field) => field !== ENCODING_COLUMN
   );

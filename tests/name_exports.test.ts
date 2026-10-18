@@ -106,10 +106,10 @@ test('person CSV cells are formula-safe and round trip every original character'
     '國際名字',
   ];
   const persons = values.map(
-    (value) =>
+    (value, index) =>
       ({
         person_data: {
-          person_firstname: field(value),
+          person_firstname: field(`CSV Test ${index}`),
           person_middlename: field(value),
           person_lastname: field(value),
           phone: field(value),
@@ -133,8 +133,25 @@ test('person CSV cells are formula-safe and round trip every original character'
   assert.equal(parsed.meta.fields?.length, 6);
   assert.equal(parsed.data.length, values.length);
   parsed.data.forEach((row, index) => {
-    assert.deepEqual(Object.values(row), Array(6).fill(values[index]));
+    assert.deepEqual(Object.values(row), [
+      `CSV Test ${index}`,
+      ...Array(5).fill(values[index]),
+    ]);
   });
+});
+
+test('CSV encoding metadata does not turn empty data rows into person records', () => {
+  const csv = exportCsv(
+    ['personalInfo.firstname', 'personalInfo.middlename'],
+    [
+      ['', ''],
+      ['   ', '\t'],
+      ['Alex', ''],
+    ]
+  );
+  assert.deepEqual(parseCsv(csv).data, [
+    { 'personalInfo.firstname': 'Alex', 'personalInfo.middlename': '' },
+  ]);
 });
 
 test('speaker CSV labels, delimiters, names and international phones round trip through import decoding', () => {
