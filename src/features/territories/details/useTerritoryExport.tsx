@@ -147,7 +147,7 @@ const useTerritoryExport = (territory: Territory) => {
       }
     };
 
-    render();
+    void render();
 
     return () => {
       cancelled = true;

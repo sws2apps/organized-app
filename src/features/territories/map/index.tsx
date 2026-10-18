@@ -86,6 +86,72 @@ const SWITCH_SHELL = {
   boxShadow: 'var(--hover-shadow)',
 };
 
+const MapPanel = ({
+  map,
+  compact,
+  onClose,
+}: {
+  map: TerritoriesMapState;
+  compact: boolean;
+  onClose: VoidFunction;
+}) => {
+  const { editor } = map;
+  return (
+    <Box
+      sx={{
+        position: 'absolute',
+        // on a phone it opens under the top row, which stays usable
+        top: compact ? '70px' : '12px',
+        left: '12px',
+        // leaves the corner below free for the attribution button
+        bottom: compact ? '12px' : '56px',
+        maxHeight: compact ? 'calc(100% - 82px)' : 'calc(100% - 68px)',
+        width: compact ? 'calc(100% - 24px)' : `${PANEL_WIDTH}px`,
+        zIndex: 3,
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '8px',
+        overflowY: 'auto',
+        pointerEvents: 'none',
+        '& > *': {
+          pointerEvents: 'auto',
+          boxShadow: 'var(--hover-shadow)',
+        },
+      }}
+    >
+      {editor.editing && (
+        <EditPanel editor={editor} territory={map.selected} onSave={map.save} />
+      )}
+
+      {!editor.editing && (
+        <>
+          <MapFilters
+            search={map.search}
+            onSearch={map.setSearch}
+            colorView={map.colorView}
+            onColorViewChange={map.setColorView}
+            heatmapYear={map.heatmapYear}
+            onHeatmapYearChange={map.setHeatmapYear}
+            onCollapse={onClose}
+          />
+
+          <Box sx={{ flex: '1 0 200px', minHeight: '200px' }}>
+            <TerritoryPicker
+              territories={map.territories}
+              selectedId={map.selectedId}
+              onSelect={(id) => {
+                map.pickTerritory(id);
+                if (compact) onClose();
+              }}
+              height="100%"
+            />
+          </Box>
+        </>
+      )}
+    </Box>
+  );
+};
+
 const TerritoriesMap = ({ map }: { map: TerritoriesMapState }) => {
   const navigate = useNavigate();
 
@@ -186,62 +252,11 @@ const TerritoriesMap = ({ map }: { map: TerritoriesMapState }) => {
         <Box ref={map.container} sx={{ height: '100%', width: '100%' }} />
 
         {showPanel && (
-          <Box
-            sx={{
-              position: 'absolute',
-              // on a phone it opens under the top row, which stays usable
-              top: compact ? '70px' : '12px',
-              left: '12px',
-              // leaves the corner below free for the attribution button
-              bottom: compact ? '12px' : '56px',
-              maxHeight: compact ? 'calc(100% - 82px)' : 'calc(100% - 68px)',
-              width: compact ? 'calc(100% - 24px)' : `${PANEL_WIDTH}px`,
-              zIndex: 3,
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '8px',
-              overflowY: 'auto',
-              pointerEvents: 'none',
-              '& > *': {
-                pointerEvents: 'auto',
-                boxShadow: 'var(--hover-shadow)',
-              },
-            }}
-          >
-            {editor.editing && (
-              <EditPanel
-                editor={editor}
-                territory={map.selected}
-                onSave={map.save}
-              />
-            )}
-
-            {!editor.editing && (
-              <>
-                <MapFilters
-                  search={map.search}
-                  onSearch={map.setSearch}
-                  colorView={map.colorView}
-                  onColorViewChange={map.setColorView}
-                  heatmapYear={map.heatmapYear}
-                  onHeatmapYearChange={map.setHeatmapYear}
-                  onCollapse={() => setPanelOpen(false)}
-                />
-
-                <Box sx={{ flex: '1 0 200px', minHeight: '200px' }}>
-                  <TerritoryPicker
-                    territories={map.territories}
-                    selectedId={map.selectedId}
-                    onSelect={(id) => {
-                      map.pickTerritory(id);
-                      if (!laptopUp) setPanelOpen(false);
-                    }}
-                    height="100%"
-                  />
-                </Box>
-              </>
-            )}
-          </Box>
+          <MapPanel
+            map={map}
+            compact={compact}
+            onClose={() => setPanelOpen(false)}
+          />
         )}
 
         <Stack

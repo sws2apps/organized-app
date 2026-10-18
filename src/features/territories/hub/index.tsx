@@ -184,6 +184,57 @@ const TabsRow = ({
   );
 };
 
+const TerritoryDialogs = ({ hub }: TerritoriesHubProps) => {
+  const {
+    assignTarget,
+    territories,
+    setAssignId,
+    handleAssign,
+    assignManyOpen,
+    assignableCount,
+    setAssignManyOpen,
+    assignMany,
+    returnTarget,
+    setReturnId,
+    handleReturn,
+  } = hub;
+  return (
+    <>
+      {/* both dialogs mount per territory so their fields start from it */}
+      {assignTarget && (
+        <AssignDialog
+          title={`Assign ${assignTarget.number}`}
+          subtitle={`${assignTarget.name} · ${assignTarget.city}`}
+          requestedBy={assignTarget.requestedBy}
+          territories={territories}
+          onClose={() => setAssignId(undefined)}
+          onAssign={(publisher, assignedOn) =>
+            handleAssign(assignTarget.id, publisher, assignedOn)
+          }
+        />
+      )}
+
+      {assignManyOpen && (
+        <AssignDialog
+          title={`Assign ${assignableCount} ${plural(assignableCount)}`}
+          territories={territories}
+          onClose={() => setAssignManyOpen(false)}
+          onAssign={assignMany}
+        />
+      )}
+
+      {returnTarget && (
+        <ReturnDialog
+          territory={returnTarget}
+          onClose={() => setReturnId(undefined)}
+          onReturn={handleReturn}
+          onAssignAgain={handleAssign}
+        />
+      )}
+    </>
+  );
+};
+
 const TerritoriesHub = ({ hub }: TerritoriesHubProps) => {
   const {
     tab,
@@ -199,21 +250,15 @@ const TerritoriesHub = ({ hub }: TerritoriesHubProps) => {
     checked,
     toggleCheck,
     toggleCheckMany,
-    assignMany,
     returnMany,
     handleAssign,
     handleDecline,
-    handleReturn,
     handleOpen,
     isBoard,
     showHouseholds,
     setReturnId,
-    returnTarget,
     setAssignId,
-    assignTarget,
-    assignManyOpen,
     setAssignManyOpen,
-    assignableCount,
     handleDrop,
     isBrowsing,
     isOwnTab: isMine,
@@ -355,37 +400,7 @@ const TerritoriesHub = ({ hub }: TerritoriesHubProps) => {
         alignItems: 'start',
       }}
     >
-      {/* both dialogs mount per territory so their fields start from it */}
-      {assignTarget && (
-        <AssignDialog
-          title={`Assign ${assignTarget.number}`}
-          subtitle={`${assignTarget.name} · ${assignTarget.city}`}
-          requestedBy={assignTarget.requestedBy}
-          territories={territories}
-          onClose={() => setAssignId(undefined)}
-          onAssign={(publisher, assignedOn) =>
-            handleAssign(assignTarget.id, publisher, assignedOn)
-          }
-        />
-      )}
-
-      {assignManyOpen && (
-        <AssignDialog
-          title={`Assign ${assignableCount} ${plural(assignableCount)}`}
-          territories={territories}
-          onClose={() => setAssignManyOpen(false)}
-          onAssign={assignMany}
-        />
-      )}
-
-      {returnTarget && (
-        <ReturnDialog
-          territory={returnTarget}
-          onClose={() => setReturnId(undefined)}
-          onReturn={handleReturn}
-          onAssignAgain={handleAssign}
-        />
-      )}
+      <TerritoryDialogs hub={hub} />
 
       {desktopUp || isBoard ? (
         listCard

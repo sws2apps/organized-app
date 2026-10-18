@@ -137,6 +137,7 @@ export const Gauge = ({ value, label }: { value: number; label: string }) => {
       }}
     >
       <svg
+        aria-hidden="true"
         width={size}
         height={size / 2 + 12}
         viewBox={`0 0 ${size} ${size / 2 + 12}`}
