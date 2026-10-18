@@ -28,3 +28,6 @@ jobs:
 
       - name: Check lint
         run: npm run lint
+
+      - name: Check name formatting and persistence regressions
+        run: npm run test:names

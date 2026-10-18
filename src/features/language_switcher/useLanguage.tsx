@@ -58,20 +58,17 @@ const useLanguage = () => {
       (record) => record.threeLettersCode === ui_lang
     );
 
-    const fullnameOption =
+    const languageOption =
       findLanguage?.fullnameOption || FullnameOption.FIRST_BEFORE_LAST;
 
     const nameOption = structuredClone(settings.cong_settings.fullname_option);
-    const current = nameOption.find((record) => record.type === dataView);
+    const current = nameOption.some((record) => record.type === dataView);
 
-    if (current) {
-      current.value = fullnameOption;
-      current.updatedAt = new Date().toISOString();
-    } else {
+    if (!current) {
       nameOption.push({
         _deleted: false,
         type: dataView,
-        value: fullnameOption,
+        value: languageOption,
         updatedAt: new Date().toISOString(),
       });
     }
@@ -92,7 +89,7 @@ const useLanguage = () => {
     }
 
     await dbAppSettingsUpdate({
-      'cong_settings.fullname_option': nameOption,
+      ...(!current ? { 'cong_settings.fullname_option': nameOption } : {}),
       'cong_settings.source_material.language': sourceLanguage,
     });
 

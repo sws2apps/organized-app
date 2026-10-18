@@ -1,3 +1,4 @@
+import { copyNameFields } from '@utils/name_format';
 /*
 This file holds the source of the truth from the table "visiting_speakers".
 */
@@ -55,14 +56,7 @@ export const outgoingSpeakersState = atom((get) => {
             value: findPerson?.person_data.person_display_name.value || '',
             updatedAt: '',
           },
-          person_firstname: {
-            value: findPerson?.person_data.person_firstname.value || '',
-            updatedAt: '',
-          },
-          person_lastname: {
-            value: findPerson?.person_data.person_lastname.value || '',
-            updatedAt: '',
-          },
+          ...copyNameFields(findPerson?.person_data),
           elder: {
             value: findPerson ? personIsElder(findPerson) : false,
             updatedAt: '',
@@ -106,14 +100,7 @@ export const localSpeakersState = atom((get) => {
             value: findPerson?.person_data.person_display_name.value || '',
             updatedAt: '',
           },
-          person_firstname: {
-            value: findPerson?.person_data.person_firstname.value || '',
-            updatedAt: '',
-          },
-          person_lastname: {
-            value: findPerson?.person_data.person_lastname.value || '',
-            updatedAt: '',
-          },
+          ...copyNameFields(findPerson?.person_data),
           elder: {
             value: findPerson ? personIsElder(findPerson) : false,
             updatedAt: '',

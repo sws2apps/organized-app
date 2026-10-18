@@ -2,7 +2,7 @@ import { useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router';
 import { useAtomValue } from 'jotai';
 import { fullnameOptionState } from '@states/settings';
-import { buildPersonFullname } from '@utils/common';
+import { accountProfileFullname } from '@utils/name_format';
 import { useAppTranslation } from '@hooks/index';
 import { AppRoleType } from '@definition/app';
 import { congregationsAppAdminState } from '@states/congregation';
@@ -44,11 +44,7 @@ const useCongregationAdmin = () => {
     return users.map((user) => {
       return {
         person_id: user.id,
-        person_name: buildPersonFullname(
-          user.profile.lastname.value,
-          user.profile.firstname.value,
-          fullnameOption
-        ),
+        person_name: accountProfileFullname(user.profile, fullnameOption),
         person_role: getUserMainRole(user.profile?.cong_role || []),
       };
     });

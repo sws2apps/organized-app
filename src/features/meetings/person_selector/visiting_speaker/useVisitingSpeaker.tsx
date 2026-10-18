@@ -1,3 +1,4 @@
+import { copyNameFields } from '@utils/name_format';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { AutocompleteInputChangeReason } from '@mui/material/Autocomplete';
@@ -64,10 +65,7 @@ const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
       const person: PersonOptionsType = structuredClone(personSchema);
 
       person.person_uid = speaker.person_uid;
-      person.person_data.person_lastname.value =
-        speaker.speaker_data.person_lastname.value;
-      person.person_data.person_firstname.value =
-        speaker.speaker_data.person_firstname.value;
+      Object.assign(person.person_data, copyNameFields(speaker.speaker_data));
       person.person_data.person_display_name.value =
         speaker.speaker_data.person_display_name.value;
       person.person_data.male.value = true;

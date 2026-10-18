@@ -7,6 +7,7 @@ import { AssignmentCode } from '@definition/assignment';
 import { ASSIGNMENT_SECTIONS } from '@features/persons/assignments/assignmentStructure';
 import {
   changeFirstname,
+  changeMiddlename,
   changeLastname,
   changeBirthDate,
   changeEmailAddress,
@@ -71,6 +72,14 @@ const usePersonsImportConfig = () => {
       groupLabel: 'tr_personalInfo',
       examples: ['Mike', 'Andry', 'Luana', 'Ava'],
       handler: (p, v) => changeFirstname(p, v),
+    },
+    {
+      key: 'personalInfo.middlename',
+      label: 'tr_middlename',
+      group: 'personalInfo',
+      groupLabel: 'tr_personalInfo',
+      examples: ['Robert', 'Herizo', 'Maria', 'Grace'],
+      handler: (p, v) => changeMiddlename(p, v),
     },
     {
       key: 'personalInfo.lastname',

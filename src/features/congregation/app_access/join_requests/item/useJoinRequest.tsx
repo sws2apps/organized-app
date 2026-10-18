@@ -34,7 +34,8 @@ const useJoinRequest = ({ request }: JoinRequestProps) => {
     return buildPersonFullname(
       request.lastname,
       request.firstname,
-      fullnameOption
+      fullnameOption,
+      request.middlename
     );
   }, [request, fullnameOption]);
 

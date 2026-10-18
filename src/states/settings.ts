@@ -1,3 +1,7 @@
+import {
+  getPrintNameSelection,
+  resolvePrintNamePolicy,
+} from '@utils/name_format';
 /*
 This file holds the source of the truth from the table "settings".
 Individual property are evaluated using recoil selector
@@ -12,6 +16,7 @@ import {
   AvatarType,
   FirstDayWeekOption,
   FullnameOption,
+  PrintNameContext,
   PublishersSortOption,
   SettingsType,
   SourceFrequency,
@@ -97,6 +102,36 @@ export const fullnameOptionState = atom((get) => {
   );
 });
 
+const printNamePolicyAtom = (
+  context: PrintNameContext,
+  inheritDisplayNames = context === 'schedule'
+) =>
+  atom((get) => {
+    const settings = get(settingsState);
+    const selection = getPrintNameSelection(
+      settings.cong_settings.print_fullname_option,
+      get(userDataViewState),
+      context
+    );
+    return resolvePrintNamePolicy(
+      selection,
+      get(fullnameOptionState),
+      inheritDisplayNames && get(displayNameMeetingsEnableState)
+    );
+  });
+
+export const schedulePrintNamePolicyState = printNamePolicyAtom('schedule');
+export const s89PrintNamePolicyState = printNamePolicyAtom('schedule', false);
+export const publisherPrintNamePolicyState =
+  printNamePolicyAtom('publisher_card');
+export const groupPrintNamePolicyState = printNamePolicyAtom('group_list');
+export const printFullnameOptionState = atom(
+  (get) => get(schedulePrintNamePolicyState).format
+);
+export const printDisplayNameState = atom(
+  (get) => get(schedulePrintNamePolicyState).displayName
+);
+
 export const shortDateFormatState = atom((get) => {
   const settings = get(settingsState);
   const dataView = get(userDataViewState);
@@ -136,6 +171,12 @@ export const COFirstnameState = atom((get) => {
   return settings.cong_settings.circuit_overseer.firstname.value;
 });
 
+export const COMiddlenameState = atom((get) => {
+  const settings = get(settingsState);
+
+  return settings.cong_settings.circuit_overseer.middlename?.value ?? '';
+});
+
 export const COLastnameState = atom((get) => {
   const settings = get(settingsState);
 
@@ -158,10 +199,16 @@ export const COMidweekMeetingDayState = atom((get) => {
 
 export const COFullnameState = atom((get) => {
   const firstname = get(COFirstnameState);
+  const middlename = get(COMiddlenameState);
   const lastname = get(COLastnameState);
   const fullnameOption = get(fullnameOptionState);
 
-  const fullname = buildPersonFullname(lastname, firstname, fullnameOption);
+  const fullname = buildPersonFullname(
+    lastname,
+    firstname,
+    fullnameOption,
+    middlename
+  );
 
   return fullname;
 });
@@ -174,6 +221,28 @@ export const COScheduleNameState = atom((get) => {
   const scheduleName = useDisplayName ? displayName : fullname;
 
   return scheduleName;
+});
+
+export const COPrintFullnameState = atom((get) => {
+  const firstname = get(COFirstnameState);
+  const middlename = get(COMiddlenameState);
+  const lastname = get(COLastnameState);
+  const fullnameOption = get(printFullnameOptionState);
+
+  const fullname = buildPersonFullname(
+    lastname,
+    firstname,
+    fullnameOption,
+    middlename
+  );
+
+  return fullname;
+});
+
+export const COPrintScheduleNameState = atom((get) => {
+  const fullname = get(COPrintFullnameState);
+  const displayName = get(CODisplayNameState);
+  return get(printDisplayNameState) && displayName ? displayName : fullname;
 });
 
 export const secretaryRoleState = atom((get) => {
@@ -580,6 +649,12 @@ export const firstnameState = atom((get) => {
   return settings.user_settings.firstname.value;
 });
 
+export const middlenameState = atom((get) => {
+  const settings = get(settingsState);
+
+  return settings.user_settings.middlename?.value || '';
+});
+
 export const lastnameState = atom((get) => {
   const settings = get(settingsState);
 
@@ -599,10 +674,16 @@ export const firstDayWeekState = atom((get) => {
 
 export const fullnameState = atom((get) => {
   const firstname = get(firstnameState);
+  const middlename = get(middlenameState);
   const lastname = get(lastnameState);
   const fullnameOption = get(fullnameOptionState);
 
-  const fullname = buildPersonFullname(lastname, firstname, fullnameOption);
+  const fullname = buildPersonFullname(
+    lastname,
+    firstname,
+    fullnameOption,
+    middlename
+  );
 
   return fullname;
 });
