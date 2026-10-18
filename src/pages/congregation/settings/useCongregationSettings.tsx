@@ -19,7 +19,7 @@ const useCongregationSettings = () => {
   const tabs = useSettingsTabs();
 
   const basePath = useMemo(
-    () => `/${location.pathname.split('/').filter(Boolean)[0] ?? ''}`,
+    () => `/${location.pathname.split('/').find(Boolean) ?? ''}`,
     [location.pathname]
   );
 

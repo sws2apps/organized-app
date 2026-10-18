@@ -43,7 +43,7 @@ export const dbFieldServiceGroupClear = async () => {
 };
 
 /** Save related settings and the group together, without restoring a tombstone. */
-export const dbFieldServiceGroupSaveWithSettings = async (
+export const dbFieldServiceGroupSaveWithSettings = (
   group: FieldServiceGroupType,
   changes: UpdateSpec<SettingsType>
 ) => {

@@ -21,6 +21,7 @@ const IconDoor = ({
       sx={{ width: `${width}px`, height: `${height}px`, ...sx }}
     >
       <svg
+        aria-hidden="true"
         width="24"
         height="24"
         viewBox="1659 -1677.97 24 24"
