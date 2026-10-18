@@ -51,10 +51,7 @@ const useAssignments = () => {
     ];
   }, [t]);
 
-  const handleClassroomsChange = (
-    code: AssignmentCode,
-    selected: string[]
-  ) => {
+  const handleClassroomsChange = (code: AssignmentCode, selected: string[]) => {
     const newPerson = structuredClone(person);
 
     let personAssignments = newPerson.person_data.assignments.find(
@@ -317,7 +314,7 @@ const useAssignments = () => {
     setPersonCurrentDetails(newPerson);
   };
 
-  const handleToggleAutofillSkipped = async (checked: boolean) => {
+  const handleToggleAutofillSkipped = (checked: boolean) => {
     const newPerson = structuredClone(person);
 
     newPerson.person_data.autofill_skipped = {
