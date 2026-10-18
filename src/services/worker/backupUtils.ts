@@ -1442,9 +1442,11 @@ const repairAYFPartTypes = (
       const label = ayfPart.title?.[language]?.replace(/^\s*\d+[.)]\s*/, '');
       const recognizedType = matchAYFType(lookup, label, source.weekOf);
       const localType = localItem?.midweek_meeting[part]?.type?.[language];
+      // Unknown labels preserve a local correction, but a local Discussion may
+      // itself be the stale fallback and must not replace a corrected backup.
       const type =
         recognizedType ??
-        (currentType === AssignmentCode.MM_Discussion
+        (localType !== undefined && localType !== AssignmentCode.MM_Discussion
           ? localType
           : currentType);
 

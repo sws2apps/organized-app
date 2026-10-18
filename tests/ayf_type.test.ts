@@ -100,6 +100,25 @@ test('uses the longest recognized prefix', () => {
   );
 });
 
+test('short aliases do not match the beginning of a longer word', () => {
+  for (const [language, alias, longerWord] of [
+    ['Z', 'Tal', 'Talar om något'],
+    ['BL', 'Доклад', 'Докладчикът говори'],
+  ]) {
+    const lookup = buildAYFLookup(getAYFAssignmentTypes([], language));
+    assert.equal(matchAYFType(lookup, longerWord, week), undefined);
+    assert.equal(matchAYFType(lookup, alias, week), AssignmentCode.MM_Talk);
+    assert.equal(
+      matchAYFType(lookup, `${alias} (5 min.)`, week),
+      AssignmentCode.MM_Talk
+    );
+    assert.equal(
+      matchAYFType(lookup, `${alias}: example`, week),
+      AssignmentCode.MM_Talk
+    );
+  }
+});
+
 test('splits translation variations and retains the English catalog fallback', () => {
   const lookup = buildAYFLookup(
     getAYFAssignmentTypes(
