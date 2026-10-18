@@ -1,6 +1,6 @@
 import { samePersonName, speakerNameKey } from '@utils/name_format';
 // src/features/persons/speakers_catalog/import_export/confirm_import/useCSVImport.tsx
-import Papa from 'papaparse';
+import { parseCsv } from '@utils/csv';
 import appDb from '@db/appDb';
 import {
   dbSpeakersCongregationsCreate,
@@ -83,22 +83,6 @@ const useCSVImport = () => {
   };
 
   /**
-   * Auto-detects the column delimiter of a CSV text by letting PapaParse
-   * inspect the first line.
-   *
-   * @param {string} csvText - The raw CSV file contents.
-   * @returns {string} The detected delimiter, falling back to ",".
-   */
-  const detectDelimiter = (csvText: string): string => {
-    const { meta } = Papa.parse<RowData>(csvText, {
-      preview: 1,
-      delimiter: '',
-      skipEmptyLines: 'greedy',
-    });
-    return meta.delimiter ?? ',';
-  };
-
-  /**
    * Detects and removes the optional second row of template files that
    * contains the translated column labels instead of actual data.
    *
@@ -150,12 +134,7 @@ const useCSVImport = () => {
    * @returns {RowData[]} The parsed data rows (empty lines are dropped).
    */
   const parseCSV = (csvText: string): RowData[] => {
-    const parsed = Papa.parse<RowData>(csvText, {
-      header: true,
-      skipEmptyLines: 'greedy',
-      delimiter: detectDelimiter(csvText),
-      transformHeader: (header: string) => header.trim(),
-    });
+    const parsed = parseCsv(csvText);
 
     const fatalErrors = parsed.errors.filter(
       (error) => error.code !== 'TooFewFields'
@@ -403,14 +382,7 @@ const useCSVImport = () => {
    * @returns {string[]} The trimmed column headers in file order.
    */
   const getCSVHeaders = (csvText: string): string[] => {
-    const parsed = Papa.parse<RowData>(csvText, {
-      header: true,
-      preview: 1,
-      delimiter: detectDelimiter(csvText),
-      skipEmptyLines: 'greedy',
-      transformHeader: (header: string) => header.trim(),
-    });
-    return parsed.meta.fields || [];
+    return parseCsv(csvText, 1).meta.fields || [];
   };
 
   // --- Import helpers -------------------------------------------------------
@@ -803,7 +775,6 @@ const useCSVImport = () => {
   };
 
   return {
-    detectDelimiter,
     getCSVHeaders,
     getSpeakerPaths,
     getSpeakerPathsTranslated,

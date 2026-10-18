@@ -32,12 +32,12 @@ import {
   updateSpeakerLastname,
 } from '@utils/speakers';
 import { personsToCsv } from '@utils/persons_csv';
+import { exportCsv, parseCsv } from '@utils/csv';
 import {
   changeFirstname,
   changeMiddlename,
   changeLastname,
 } from '@utils/person';
-import Papa from 'papaparse';
 import { encryptObject, decryptObject } from '@services/encryption';
 
 const field = (value: string, updatedAt = '2026-01-01') => ({
@@ -303,8 +303,9 @@ test('speaker CSV names round trip through production import setters and databas
     },
     'cong'
   );
-  const csv = Papa.unparse([speakerNameCells(original)]);
-  const row = Papa.parse<Record<string, string>>(csv, { header: true }).data[0];
+  const cells = speakerNameCells(original);
+  const csv = exportCsv(Object.keys(cells), [Object.values(cells)]);
+  const row = parseCsv(csv).data[0];
   const incoming = createEmptySpeaker();
   updateSpeakerFirstname(incoming, row['speaker.firstname']);
   updateSpeakerMiddlename(incoming, row['speaker.middlename']);
@@ -325,9 +326,7 @@ test('person CSV names round trip with machine headers, Unicode and delimiters',
       address: field('Line 1\nLine 2'),
     },
   } as PersonType;
-  const row = Papa.parse<Record<string, string>>(personsToCsv([person]), {
-    header: true,
-  }).data[0];
+  const row = parseCsv(personsToCsv([person])).data[0];
   const restored = structuredClone(person);
   restored.person_data.person_middlename = field('');
   changeFirstname(restored, row['personalInfo.firstname']);
