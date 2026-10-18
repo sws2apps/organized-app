@@ -93,20 +93,18 @@ const ArrangementEditor = (props: ArrangementEditorProps) => {
     value?: PersonOption | string | null
   ) => {
     setPartnerNames((previous) =>
-      previous.map((partner) =>
-        partner.id === id
-          ? {
-              ...partner,
-              name: optionLabel(value),
-              person_uid:
-                value && typeof value !== 'string'
-                  ? value.id
-                  : typeof value === 'string' && value === partner.name
-                    ? partner.person_uid
-                    : undefined,
-            }
-          : partner
-      )
+      previous.map((partner) => {
+        if (partner.id !== id) return partner;
+
+        let person_uid: string | undefined;
+        if (value && typeof value !== 'string') {
+          person_uid = value.id;
+        } else if (typeof value === 'string' && value === partner.name) {
+          person_uid = partner.person_uid;
+        }
+
+        return { ...partner, name: optionLabel(value), person_uid };
+      })
     );
   };
 

@@ -4,8 +4,10 @@ import {
   PublicWitnessingDayScheduleType,
   PublicWitnessingShiftType,
 } from '@definition/public_witnessing';
-import { publicWitnessingLocationsState } from '@states/public_witnessing';
-import { publicWitnessingSaveLocationState } from '@states/public_witnessing';
+import {
+  publicWitnessingLocationsState,
+  publicWitnessingSaveLocationState,
+} from '@states/public_witnessing';
 import {
   publicWitnessingNextShift,
   publicWitnessingShiftError,

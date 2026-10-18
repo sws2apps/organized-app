@@ -1,8 +1,10 @@
 import { useMemo, useState } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { PublicWitnessingLocationType } from '@definition/public_witnessing';
-import { publicWitnessingLocationsState } from '@states/public_witnessing';
-import { publicWitnessingReorderLocationsState } from '@states/public_witnessing';
+import {
+  publicWitnessingLocationsState,
+  publicWitnessingReorderLocationsState,
+} from '@states/public_witnessing';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { LocationItemType, LocationsReorderProps } from './index.types';
