@@ -1,5 +1,24 @@
-export enum DisplayRange {
-  MONTHS_3 = 12,
-  MONTHS_6 = 24,
-  MONTHS_12 = 48,
-}
+import { AssignmentHistoryType } from '@definition/schedules';
+
+export type AssignmentsDay = {
+  date: string;
+  assignments: AssignmentHistoryType[];
+};
+
+export type AssignmentsWeek = {
+  weekOf: string;
+  days: AssignmentsDay[];
+};
+
+export type AssignmentsMonth = {
+  month: string;
+  total: number;
+  weeks: AssignmentsWeek[];
+};
+
+export type PersonAssignments = {
+  byMonth: AssignmentsMonth[];
+  total: number;
+};
+
+export type OpenAssignment = (history: AssignmentHistoryType) => void;
