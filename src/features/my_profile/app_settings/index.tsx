@@ -1,5 +1,6 @@
 import { Box } from '@mui/material';
 import ColorSchemeSwitcher from '@features/color_scheme_selector';
+import FontSizeSelector from '@features/font_size_selector';
 import MenuItem from '@components/menuitem';
 import Select from '@components/select';
 import Switch from '@components/switch';
@@ -184,6 +185,8 @@ const AppSettings = () => {
 
           <ColorSchemeSwitcher />
         </Box>
+
+        <FontSizeSelector />
       </SettingWithBorderContainer>
     </ProfileItemContainer>
   );
