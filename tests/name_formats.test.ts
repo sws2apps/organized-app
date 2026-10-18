@@ -468,3 +468,34 @@ test('relinking the same account cannot retain the previous person middle name',
   );
   assert.equal(loginMiddleName(local, response, 'now').value, 'New person');
 });
+
+test('account names use all six selected formats and accept legacy profiles', async () => {
+  const { accountProfileFullname } = await import('@utils/name_format');
+  const profile = {
+    firstname: field('Alexandria'),
+    middlename: field('María Élodie'),
+    lastname: field('Westhuizen'),
+  } as import('@definition/api').CongregationUserType['profile'];
+  for (const format of [
+    F.FIRST_BEFORE_LAST,
+    F.LAST_BEFORE_FIRST,
+    F.FIRST_MIDDLE_LAST,
+    F.LAST_FIRST_MIDDLE,
+    F.LAST_COMMA_FIRST,
+    F.LAST_COMMA_FIRST_MIDDLE,
+  ]) {
+    assert.equal(
+      accountProfileFullname(profile, format),
+      buildPersonFullname('Westhuizen', 'Alexandria', format, 'María Élodie')
+    );
+  }
+  assert.equal(
+    accountProfileFullname(profile, F.FIRST_MIDDLE_LAST),
+    'Alexandria María Élodie Westhuizen'
+  );
+  delete profile.middlename;
+  assert.equal(
+    accountProfileFullname(profile, F.LAST_COMMA_FIRST_MIDDLE),
+    'Westhuizen, Alexandria'
+  );
+});

@@ -270,6 +270,7 @@ export type APFormIncoming = {
 };
 
 export type APIUserRequest = {
+  middlename?: string;
   user: string;
   request_date: string;
   firstname: string;

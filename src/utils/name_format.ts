@@ -1,3 +1,5 @@
+import type { CongregationUserType } from '@definition/api';
+import { buildPersonFullname } from '@utils/common';
 import type { PersonType } from '@definition/person';
 import {
   FullnameOption,
@@ -120,3 +122,14 @@ export const personAccountNames = (person?: PersonType) => ({
     ? (person.person_data.person_middlename?.value ?? '')
     : undefined,
 });
+
+export const accountProfileFullname = (
+  profile: CongregationUserType['profile'],
+  format: FullnameOption
+) =>
+  buildPersonFullname(
+    profile.lastname.value,
+    profile.firstname.value,
+    format,
+    profile.middlename?.value
+  );
