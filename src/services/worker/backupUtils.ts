@@ -37,6 +37,13 @@ import {
   meetingAttendanceSplitDeaf,
 } from '@utils/meeting_attendance';
 import { APP_READ_ONLY_ROLES } from '@constants/index';
+import { AssignmentCode, AssignmentType } from '@definition/assignment';
+import {
+  AYFLookup,
+  buildAYFLookup,
+  getAYFAssignmentTypes,
+  matchAYFType,
+} from '@services/app/ayf_type';
 
 const getErrorMessage = (error: unknown) => {
   if (error instanceof Error) {
@@ -1402,23 +1409,53 @@ const dbRestoreMeetingAttendance = async (
   }
 };
 
-const keepLocalAYFPartTypes = (
-  newItem: SourceWeekType,
-  localItem: SourceWeekType
+// MANUALLY ADDED: DO NOT REMOVE
+// Repair from recognized labels, without confusing an unknown label with Discussion.
+const repairAYFPartTypes = (
+  source: SourceWeekType,
+  localItem: SourceWeekType | undefined,
+  assignmentTypes: AssignmentType[],
+  lookups: Map<string, AYFLookup>
 ) => {
-  const ayfParts = ['ayf_part1', 'ayf_part2', 'ayf_part3', 'ayf_part4'] as const;
+  const ayfParts = [
+    'ayf_part1',
+    'ayf_part2',
+    'ayf_part3',
+    'ayf_part4',
+  ] as const;
+  let repaired = false;
 
   for (const part of ayfParts) {
-    const localType = localItem.midweek_meeting[part]?.type;
-    const mergedType = newItem.midweek_meeting[part]?.type;
+    const ayfPart = source.midweek_meeting[part];
+    if (!ayfPart?.type) continue;
 
-    if (!localType || !mergedType) continue;
+    for (const [language, currentType] of Object.entries(ayfPart.type)) {
+      let lookup = lookups.get(language);
+      if (!lookup) {
+        lookup = buildAYFLookup(
+          getAYFAssignmentTypes(assignmentTypes, language)
+        );
+        lookups.set(language, lookup);
+      }
 
-    newItem.midweek_meeting[part].type = {
-      ...mergedType,
-      ...localType,
-    };
+      // Stored titles include the part number; imported type labels do not.
+      const label = ayfPart.title?.[language]?.replace(/^\s*\d+[.)]\s*/, '');
+      const recognizedType = matchAYFType(lookup, label, source.weekOf);
+      const localType = localItem?.midweek_meeting[part]?.type?.[language];
+      const type =
+        recognizedType ??
+        (currentType === AssignmentCode.MM_Discussion
+          ? localType
+          : currentType);
+
+      if (type !== undefined && type !== currentType) {
+        ayfPart.type[language] = type;
+        repaired = true;
+      }
+    }
   }
+
+  return repaired;
 };
 
 const mergeLocalSource = (
@@ -1439,13 +1476,6 @@ const mergeLocalSource = (
   }
 
   syncFromRemote(newItem, remoteItem);
-
-  // Keep the locally imported AYF part types. The type map is a plain
-  // {[language]: code} map with no updatedAt, so syncFromRemote would
-  // otherwise overwrite a corrected import (for example 129) with the
-  // stale backup value (for example 127) on every sync, and the restore
-  // happens before the upload is built, so the backup never heals.
-  keepLocalAYFPartTypes(newItem, localItem);
 
   return newItem;
 };
@@ -1468,6 +1498,8 @@ const dbRestoreSources = async (
     });
 
     const localData = await appDb.sources.toArray();
+    const assignmentTypes = await appDb.assignment.toArray();
+    const lookups = new Map<string, AYFLookup>();
 
     const validRemoteData = remoteData.filter((record) =>
       isMondayDate(record.weekOf)
@@ -1500,19 +1532,20 @@ const dbRestoreSources = async (
     });
 
     const dataToUpdate: SourceWeekType[] = [];
+    let repaired = false;
 
     for (const remoteItem of validRemoteData) {
       const localItem = localData.find(
         (record) => record.weekOf === remoteItem.weekOf
       );
+      const source = localItem
+        ? mergeLocalSource(localItem, remoteItem)
+        : remoteItem;
 
-      if (!localItem) {
-        dataToUpdate.push(remoteItem);
-      }
-
-      if (localItem) {
-        dataToUpdate.push(mergeLocalSource(localItem, remoteItem));
-      }
+      repaired =
+        repairAYFPartTypes(source, localItem, assignmentTypes, lookups) ||
+        repaired;
+      dataToUpdate.push(source);
     }
 
     const invalidLocalData = localData.filter(
@@ -1526,6 +1559,16 @@ const dbRestoreSources = async (
 
     if (dataToUpdate.length > 0) {
       await appDb.sources.bulkPut(dataToUpdate);
+    }
+
+    // MANUALLY ADDED: DO NOT REMOVE
+    // Restore runs before export, so repaired types must reach the shared backup.
+    if (repaired) {
+      const metadata = await appDb.metadata.get(1);
+      if (metadata) {
+        metadata.metadata.sources.send_local = true;
+        await appDb.metadata.put(metadata);
+      }
     }
   } catch (error) {
     throw new Error(`sources: ${getErrorMessage(error)}`);
