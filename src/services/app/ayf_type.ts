@@ -98,8 +98,10 @@ export const matchAYFType = (
   const normalizedInput = normalizeAYFLabel(rawLabel);
   if (!normalizedInput) return;
 
-  const prefixMatch = lookup.prefixList.find((type) =>
-    normalizedInput.startsWith(type.normalized)
+  const prefixMatch = lookup.prefixList.find(
+    (type) =>
+      normalizedInput === type.normalized ||
+      normalizedInput.startsWith(`${type.normalized} `)
   );
   if (prefixMatch) return remapAssignmentType(weekOf, prefixMatch.value);
 };
