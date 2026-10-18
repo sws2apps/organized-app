@@ -146,7 +146,7 @@ const fetchWeeks = async (code: string) => {
 
   const data = (await res.json()) as IncomingWeek[];
   if (!Array.isArray(data)) {
-    throw new Error(`Materials API returned no list for ${code}`);
+    throw new TypeError(`Materials API returned no list for ${code}`);
   }
 
   return data.filter((record) => getWeekOf(record) && record.mwb_ayf_count);
@@ -297,7 +297,7 @@ const checkLanguage = (
 // Workbook text goes into an issue, so it must not break the table or mention anyone
 const escapeMarkdown = (text: string) =>
   text
-    .replaceAll('|', '\\|')
+    .replaceAll('|', String.raw`\|`)
     .replaceAll('`', '\\`')
     .replaceAll('<', '&lt;')
     .replaceAll('@', '&#64;');
