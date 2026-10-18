@@ -76,7 +76,14 @@ export const AssignmentCheckList = ({
     setCheckedMain(newCheckedState);
 
     onChange?.(newCheckedState);
-  }, [allChecked, checkedMain, children, onChange, checkedItems, mainChildrenIndices]);
+  }, [
+    allChecked,
+    checkedMain,
+    children,
+    onChange,
+    checkedItems,
+    mainChildrenIndices,
+  ]);
 
   const onChildCheckboxClick = (index) => {
     setCheckedItems({ ...checkedItems, [index]: !checkedItems[index] });
@@ -117,9 +124,7 @@ export const AssignmentCheckList = ({
       (index) => defaultValues[index]
     );
 
-    setCheckedMain(
-      mainChildrenIndices.length > 0 && mainItemsChecked ? true : false
-    );
+    setCheckedMain(mainChildrenIndices.length > 0 && mainItemsChecked);
   }, [children, mainChildrenIndices]);
 
   const calculateWidthForStyledContentBox = (): string => {
