@@ -235,6 +235,71 @@ const TerritoryDialogs = ({ hub }: TerritoriesHubProps) => {
   );
 };
 
+const TerritoryResults = ({
+  hub,
+  emptyMessage,
+}: TerritoriesHubProps & { emptyMessage: string }) => {
+  const {
+    isBoard,
+    boardTerritories,
+    handleOpen,
+    setAssignId,
+    handleAssign,
+    handleDecline,
+    setReturnId,
+    handleDrop,
+    showHouseholds,
+    visible,
+    checked,
+    toggleCheck,
+    toggleCheckMany,
+    tabId,
+    isTerritoryEditor,
+    isBrowsing,
+    selected,
+    setAssignManyOpen,
+    returnMany,
+  } = hub;
+  return isBoard ? (
+    <BoardView
+      territories={boardTerritories}
+      onOpen={handleOpen}
+      onOpenAssign={setAssignId}
+      onAssign={handleAssign}
+      onDecline={handleDecline}
+      onReturn={setReturnId}
+      onDrop={handleDrop}
+      showHouseholds={showHouseholds}
+      overdueMonths={hub.overdueMonths}
+    />
+  ) : (
+    <TerritoryTable
+      territories={visible}
+      checked={checked}
+      onCheck={toggleCheck}
+      onCheckMany={toggleCheckMany}
+      onOpen={handleOpen}
+      onOpenAssign={setAssignId}
+      onAssign={handleAssign}
+      onDecline={handleDecline}
+      onReturn={setReturnId}
+      showHouseholds={showHouseholds}
+      showRequested={tabId !== 'requests' && tabId !== 'requested'}
+      actions={isTerritoryEditor || (!isBrowsing && hub.canRequest)}
+      showHolder={isTerritoryEditor}
+      emptyMessage={emptyMessage}
+      title={`Territories: ${visible.length}`}
+      selectionBar={
+        <SelectionBar
+          selected={selected}
+          onAssignMany={() => setAssignManyOpen(true)}
+          onReturnMany={returnMany}
+        />
+      }
+    />
+  );
+};
+
 const TerritoriesHub = ({ hub }: TerritoriesHubProps) => {
   const {
     tab,
@@ -246,20 +311,7 @@ const TerritoriesHub = ({ hub }: TerritoriesHubProps) => {
     visible,
     boardTerritories,
     territories,
-    selected,
-    checked,
-    toggleCheck,
-    toggleCheckMany,
-    returnMany,
-    handleAssign,
-    handleDecline,
-    handleOpen,
     isBoard,
-    showHouseholds,
-    setReturnId,
-    setAssignId,
-    setAssignManyOpen,
-    handleDrop,
     isBrowsing,
     isOwnTab: isMine,
     isTerritoryEditor,
@@ -305,45 +357,6 @@ const TerritoriesHub = ({ hub }: TerritoriesHubProps) => {
 
   const inlineSwitch = tablet688Up ? layoutSwitch : undefined;
 
-  const content = isBoard ? (
-    <BoardView
-      territories={boardTerritories}
-      onOpen={handleOpen}
-      onOpenAssign={setAssignId}
-      onAssign={handleAssign}
-      onDecline={handleDecline}
-      onReturn={setReturnId}
-      onDrop={handleDrop}
-      showHouseholds={showHouseholds}
-      overdueMonths={hub.overdueMonths}
-    />
-  ) : (
-    <TerritoryTable
-      territories={visible}
-      checked={checked}
-      onCheck={toggleCheck}
-      onCheckMany={toggleCheckMany}
-      onOpen={handleOpen}
-      onOpenAssign={setAssignId}
-      onAssign={handleAssign}
-      onDecline={handleDecline}
-      onReturn={setReturnId}
-      showHouseholds={showHouseholds}
-      showRequested={tabId !== 'requests' && tabId !== 'requested'}
-      actions={isTerritoryEditor || (!isBrowsing && hub.canRequest)}
-      showHolder={isTerritoryEditor}
-      emptyMessage={emptyMessage}
-      title={`Territories: ${visible.length}`}
-      selectionBar={
-        <SelectionBar
-          selected={selected}
-          onAssignMany={() => setAssignManyOpen(true)}
-          onReturnMany={returnMany}
-        />
-      }
-    />
-  );
-
   const listCard = (
     <Card>
       {!tablet688Up && layoutSwitch}
@@ -385,7 +398,7 @@ const TerritoriesHub = ({ hub }: TerritoriesHubProps) => {
           </Stack>
         )}
 
-        {content}
+        <TerritoryResults hub={hub} emptyMessage={emptyMessage} />
       </Box>
     </Card>
   );
