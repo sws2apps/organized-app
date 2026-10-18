@@ -1,5 +1,6 @@
 import { ListItem } from '@mui/material';
 import {
+  IconCart,
   IconMinistryReport,
   IconPioneerForm,
   IconStatsYear,
@@ -38,6 +39,13 @@ const MinistryCard = () => {
           primaryText={t('tr_serviceYear')}
           badgeText={isPioneer && hours_balance}
           path="/service-year"
+        />
+      </ListItem>
+      <ListItem disablePadding>
+        <DashboardMenu
+          icon={<IconCart color="var(--black)" />}
+          primaryText={t('tr_PW')}
+          path="/public-witnessing"
         />
       </ListItem>
 
