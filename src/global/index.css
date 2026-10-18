@@ -34,8 +34,11 @@ html {
   --accent-gradient-top: rgb(84, 110, 237);
 }
 
+html body {
+  background-color: var(--accent-100);
+}
+
 body {
-  background-color: var(--accent-100) !important;
   margin: 0;
   -webkit-tap-highlight-color: transparent;
 }
@@ -150,9 +153,10 @@ span .text-markup:last-child {
   }
 }
 
-/* width */
+/* width, and the same size for horizontal bars */
 ::-webkit-scrollbar {
   width: 6px;
+  height: 6px;
 }
 
 /* Track */

@@ -48,14 +48,15 @@ const TabLabel = ({ label, badge, selected }: TabLabelProps) => {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            width: '24px',
-            height: '24px',
+            minWidth: '20px',
+            height: '20px',
+            padding: '0 5px',
             borderRadius: 'var(--radius-s)',
-            backgroundColor: 'var(--accent-150)',
+            backgroundColor: selected ? 'var(--accent-150)' : 'var(--grey-100)',
           }}
         >
           <Typography
-            className="body-small-semibold"
+            className="label-small-semibold"
             sx={{
               color: 'inherit',
             }}
