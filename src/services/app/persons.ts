@@ -486,6 +486,26 @@ export const personAssignmentHasClassroom = (
   code: AssignmentCode,
   classroom: string
 ) => {
+  const auxiliaryOnly = assignment?.values.includes(
+    AssignmentCode.MM_AuxiliaryClassroomOnly
+  );
+  const studentCodes = [
+    AssignmentCode.MM_BibleReading,
+    AssignmentCode.MM_StartingConversation,
+    AssignmentCode.MM_FollowingUp,
+    AssignmentCode.MM_MakingDisciples,
+    AssignmentCode.MM_ExplainingBeliefs,
+    AssignmentCode.MM_Talk,
+    AssignmentCode.MM_InitialCall,
+    AssignmentCode.MM_ReturnVisit,
+    AssignmentCode.MM_BibleStudy,
+    AssignmentCode.MM_AssistantOnly,
+  ];
+
+  if (classroom === '1' && auxiliaryOnly && studentCodes.includes(code)) {
+    return false;
+  }
+
   const enabled = store.get(midweekMeetingAuxClassQualificationsState);
   const classCount = store.get(midweekMeetingClassCountState);
 
