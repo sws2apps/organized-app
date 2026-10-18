@@ -1,4 +1,10 @@
-import { FieldServiceGroupMemberType } from '@definition/field_service_groups';
+import { UpdateSpec } from 'dexie';
+import {
+  FieldServiceGroupMemberType,
+  FieldServiceGroupType,
+} from '@definition/field_service_groups';
+import { SettingsType } from '@definition/settings';
+import { dbFieldServiceGroupSaveWithSettings } from '@services/dexie/field_service_groups';
 import { personGetFullname } from '@services/states/persons';
 
 export const fieldGroupsSortMembersByName = (
@@ -21,3 +27,8 @@ export const fieldGroupsSortMembersByName = (
 
   return [...overseers, ...group_members];
 };
+
+export const fieldGroupsSaveWithSettings = (
+  group: FieldServiceGroupType,
+  changes: UpdateSpec<SettingsType>
+) => dbFieldServiceGroupSaveWithSettings(group, changes);

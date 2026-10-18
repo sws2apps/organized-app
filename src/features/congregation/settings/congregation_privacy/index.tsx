@@ -8,7 +8,6 @@ import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import useCongregationPrivacy from './useCongregationPrivacy';
 import AccessCodeView from './access_code_view';
 import DataSharing from './data_sharing';
-import DeleteCongregation from './delete_congregation';
 import MasterKeyView from './master_key_view';
 import OutgoingTalkAccess from './outgoing_talk_access';
 import ShowAwayToAllChange from './time_away_visibility';
@@ -21,28 +20,34 @@ const CongregationPrivacy = () => {
   const { isConnected } = useCongregationPrivacy();
 
   return (
-    <CardSection>
-      <CardSectionHeader
-        title={t('tr_congregationPrivacy')}
-        description={t('tr_congregationSecurityDesc')}
-      />
+    <Stack spacing="16px">
+      <CardSection>
+        <CardSectionHeader
+          title={t('tr_congregationPrivacy')}
+          description={t('tr_congregationSecurityDesc')}
+        />
 
-      <CardSectionContent spacing="16px">
-        <Stack spacing="16px">
-          <DataSharing />
+        <CardSectionContent sx={{ '& > hr': { display: 'none' } }}>
+          <Stack spacing="16px">
+            <DataSharing />
+            <ShowAwayToAllChange />
+            <OutgoingTalkAccess />
+          </Stack>
+        </CardSectionContent>
+      </CardSection>
 
-          <ShowAwayToAllChange />
+      {isConnected && isAdmin && (
+        <CardSection>
+          <MasterKeyView />
+        </CardSection>
+      )}
 
-          <OutgoingTalkAccess />
-        </Stack>
-
-        {isConnected && isAdmin && <MasterKeyView />}
-
-        {isConnected && isAdmin && <AccessCodeView />}
-
-        {isConnected && isAdmin && <DeleteCongregation />}
-      </CardSectionContent>
-    </CardSection>
+      {isConnected && isAdmin && (
+        <CardSection>
+          <AccessCodeView />
+        </CardSection>
+      )}
+    </Stack>
   );
 };
 
