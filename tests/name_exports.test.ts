@@ -171,7 +171,11 @@ test('speaker CSV labels, delimiters, names and international phones round trip 
 
 test('legacy and unknown-version CSVs retain literal apostrophes; malformed marked rows report errors', () => {
   const legacy = Papa.unparse([{ 'personalInfo.middlename': "'=1+1" }]);
+  assert.deepEqual(parseCsv(legacy).errors, []);
   assert.equal(parseCsv(legacy).data[0]['personalInfo.middlename'], "'=1+1");
+  const singleColumn = parseCsv("speaker.lastname\nO'Neill");
+  assert.deepEqual(singleColumn.errors, []);
+  assert.equal(singleColumn.data[0]['speaker.lastname'], "O'Neill");
   const unknown = Papa.unparse([
     {
       name: "'=1+1",

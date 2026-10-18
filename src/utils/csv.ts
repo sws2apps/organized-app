@@ -12,7 +12,10 @@ const needsEscape = (value: string) =>
 const encodeCell = (value: string) =>
   needsEscape(value) ? `'${value}` : value;
 
-/** The marker makes formula escaping reversible without altering legacy CSVs. */
+/**
+ * The marker scopes decoding to our exports. Escaping literal leading
+ * apostrophes too makes the formula prefix reversible; legacy rows stay intact.
+ */
 export const exportCsv = (
   headers: string[],
   rows: string[][],
@@ -44,9 +47,16 @@ const decodeRow = (row: CsvRow): CsvRow => {
 };
 
 export const parseCsv = (text: string, preview?: number) => {
+  // Explicit fallback keeps a single-column legacy file from failing autodetection.
+  const delimiter =
+    Papa.parse(text, {
+      preview: 1,
+      delimiter: '',
+      skipEmptyLines: 'greedy',
+    }).meta.delimiter || ',';
   const parsed = Papa.parse<CsvRow>(text, {
     header: true,
-    delimiter: '',
+    delimiter,
     skipEmptyLines: 'greedy',
     transformHeader: (header) => header.trim(),
     preview,
