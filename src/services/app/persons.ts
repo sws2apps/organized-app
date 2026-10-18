@@ -999,6 +999,10 @@ export const personGetScheduleName = (person: PersonType) => {
   return result;
 };
 
+export const personSkipsAutofill = (person: PersonType) => {
+  return person.person_data.autofill_skipped?.value === true;
+};
+
 export const isPersonBlockedOnDate = (
   person: PersonType,
   targetDate: string
