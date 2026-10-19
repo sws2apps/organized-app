@@ -1450,7 +1450,7 @@ const repairAYFPartTypes = (
           ? localType
           : currentType);
 
-      if (type !== undefined && type !== currentType) {
+      if (type !== currentType) {
         ayfPart.type[language] = type;
         repaired = true;
       }
