@@ -6,6 +6,7 @@ import { personCurrentDetailsState } from '@states/persons';
 import { setPersonCurrentDetails } from '@services/states/persons';
 import { AssignmentCode } from '@definition/assignment';
 import {
+  dutiesSistersState,
   midweekMeetingAuxClassQualificationsState,
   midweekMeetingClassCountState,
   userDataViewState,
@@ -13,13 +14,13 @@ import {
 import { languageGroupsState } from '@states/field_service_groups';
 import { CLASSROOM_QUALIFICATIONS_ASSIGNMENT } from '@constants/index';
 import { clearClassroomQualification } from '@utils/assignments';
-import { primaryTranslation } from '@utils/i18n';
 
 const useAssignments = () => {
   const { t } = useAppTranslation();
 
   const person = useAtomValue(personCurrentDetailsState);
   const dataView = useAtomValue(userDataViewState);
+  const sistersDuties = useAtomValue(dutiesSistersState);
   const languageGroups = useAtomValue(languageGroupsState);
   const classCount = useAtomValue(midweekMeetingClassCountState);
   const auxClassQualifications = useAtomValue(
@@ -51,7 +52,10 @@ const useAssignments = () => {
     ];
   }, [t]);
 
-  const handleClassroomsChange = (code: AssignmentCode, selected: string[]) => {
+  const handleClassroomsChange = (
+    code: AssignmentCode,
+    selected: string[]
+  ) => {
     const newPerson = structuredClone(person);
 
     let personAssignments = newPerson.person_data.assignments.find(
@@ -136,30 +140,21 @@ const useAssignments = () => {
         color:
           'apply-yourself-to-the-field-ministry' as AssignmentCheckListColors,
         items: [
-          {
-            code: AssignmentCode.MM_Discussion,
-            name: primaryTranslation(t('tr_discussion')),
-          },
+          { code: AssignmentCode.MM_Discussion, name: t('tr_discussion') },
           {
             code: AssignmentCode.MM_StartingConversation,
-            name: primaryTranslation(t('tr_startingConversation')),
+            name: t('tr_startingConversation'),
           },
-          {
-            code: AssignmentCode.MM_FollowingUp,
-            name: primaryTranslation(t('tr_followingUp')),
-          },
+          { code: AssignmentCode.MM_FollowingUp, name: t('tr_followingUp') },
           {
             code: AssignmentCode.MM_MakingDisciples,
-            name: primaryTranslation(t('tr_makingDisciples')),
+            name: t('tr_makingDisciples'),
           },
           {
             code: AssignmentCode.MM_ExplainingBeliefs,
-            name: primaryTranslation(t('tr_explainingBeliefs')),
+            name: t('tr_explainingBeliefs'),
           },
-          {
-            code: AssignmentCode.MM_Talk,
-            name: primaryTranslation(t('tr_talk')),
-          },
+          { code: AssignmentCode.MM_Talk, name: t('tr_talk') },
           {
             code: AssignmentCode.MM_AssistantOnly,
             name: t('tr_assistantOnly'),
@@ -216,6 +211,65 @@ const useAssignments = () => {
           },
         ],
       },
+      {
+        header: t('tr_duties'),
+        id: 'duties',
+        color: 'duties' as AssignmentCheckListColors,
+        items: [
+          {
+            code: AssignmentCode.DUTIES_Audio,
+            name: t('tr_dutiesAudio'),
+          },
+          {
+            code: AssignmentCode.DUTIES_Video,
+            name: t('tr_dutiesVideo'),
+          },
+          {
+            code: AssignmentCode.DUTIES_Microphone,
+            name: t('tr_dutiesMicrophone'),
+          },
+          {
+            code: AssignmentCode.DUTIES_Stage,
+            name: t('tr_dutiesStage'),
+          },
+          {
+            code: AssignmentCode.DUTIES_EntranceAttendant,
+            name: t('tr_dutiesEntranceAttendant'),
+          },
+          {
+            code: AssignmentCode.DUTIES_AuditoriumAttendant,
+            name: t('tr_dutiesAuditoriumAttendant'),
+          },
+          {
+            code: AssignmentCode.DUTIES_Hospitality,
+            name: t('tr_dutiesHospitality'),
+          },
+          {
+            code: AssignmentCode.DUTIES_VideoconferenceHost,
+            name: t('tr_dutiesVideoconferenceHost'),
+          },
+          {
+            // one qualification covers every custom duty defined in settings
+            code: AssignmentCode.DUTIES_Custom,
+            name: t('tr_dutiesCustom'),
+          },
+        ],
+      },
+      {
+        header: t('tr_hallCleaning'),
+        id: 'hallCleaning',
+        color: 'duties' as AssignmentCheckListColors,
+        items: [
+          {
+            code: AssignmentCode.CLEANING_HallResponsible,
+            name: t('tr_hallCleaningResponsible'),
+          },
+          {
+            code: AssignmentCode.CLEANING_Hall,
+            name: t('tr_hallCleaning'),
+          },
+        ],
+      },
     ];
   }, [t]);
 
@@ -247,7 +301,7 @@ const useAssignments = () => {
   const handleToggleGroup = async (checked: boolean, id: string) => {
     const newPerson = structuredClone(person);
 
-    const items = assignments.find((group) => group.id === id)!.items;
+    const items = assignments.find((group) => group.id === id).items;
 
     if (checked) {
       const views: string[] = [];
@@ -266,7 +320,9 @@ const useAssignments = () => {
         if (!male) {
           if (
             item.code === AssignmentCode.MM_Discussion ||
-            item.code === AssignmentCode.MM_Talk
+            item.code === AssignmentCode.MM_Talk ||
+            item.code === AssignmentCode.CLEANING_HallResponsible ||
+            (id === 'duties' && !sistersDuties)
           ) {
             continue;
           }
@@ -308,7 +364,7 @@ const useAssignments = () => {
         } else {
           const personAssignments = newPerson.person_data.assignments.find(
             (a) => a.type === dataView
-          )!;
+          );
 
           personAssignments.updatedAt = new Date().toISOString();
           personAssignments.values = personAssignments.values.filter(
@@ -366,7 +422,7 @@ const useAssignments = () => {
             AssignmentCode.WM_SpeakerSymposium
           );
 
-          if (symposium && personAssignments) {
+          if (symposium) {
             personAssignments.updatedAt = new Date().toISOString();
             personAssignments.values = personAssignments.values.filter(
               (c) => c !== AssignmentCode.WM_SpeakerSymposium
@@ -377,7 +433,7 @@ const useAssignments = () => {
         if (code === AssignmentCode.WM_SpeakerSymposium) {
           const speaker = currentItems.includes(AssignmentCode.WM_Speaker);
 
-          if (speaker && personAssignments) {
+          if (speaker) {
             personAssignments.updatedAt = new Date().toISOString();
             personAssignments.values = personAssignments.values.filter(
               (c) => c !== AssignmentCode.WM_Speaker
@@ -396,7 +452,7 @@ const useAssignments = () => {
       } else {
         const personAssignments = newPerson.person_data.assignments.find(
           (a) => a.type === dataView
-        )!;
+        );
 
         personAssignments.updatedAt = new Date().toISOString();
         personAssignments.values = personAssignments.values.filter(

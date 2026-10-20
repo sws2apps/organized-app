@@ -1,9 +1,11 @@
-import { useCallback, useMemo, useState } from 'react';
+import { schedulesState } from '@states/schedules';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { WeekRangeSelectorType } from './index.types';
 import { sourcesState } from '@states/sources';
 import {
   addDays,
+  dateFormatFriendly,
   formatDate,
   getFirstWeekPreviousMonth,
   MAX_DATE,
@@ -18,17 +20,38 @@ import { schedulesGetMeetingDate } from '@services/app/schedules';
 
 const useWeekRangeSelector = (
   onStartChange: WeekRangeSelectorType['onStartChange'],
-  meeting: WeekRangeSelectorType['meeting']
+  meeting: WeekRangeSelectorType['meeting'],
+  controlledStart?: string
 ) => {
-  const sources = useAtomValue(sourcesState);
+  const sourceRecords = useAtomValue(sourcesState);
+  const schedules = useAtomValue(schedulesState);
+  const sources = useMemo(
+    () =>
+      meeting === 'cleaning'
+        ? ([
+            ...new Map(
+              [
+                ...sourceRecords,
+                ...schedules.filter((week) => !!week.hall_cleaning),
+              ].map((week) => [week.weekOf, week])
+            ).values(),
+          ] as typeof sourceRecords)
+        : sourceRecords,
+    [sourceRecords, schedules, meeting]
+  );
   const lang = useAtomValue(JWLangState);
   const meetingExactDate = useAtomValue(meetingExactDateState);
   const midweekDay = useAtomValue(midweekMeetingWeekdayState);
   const weekendDay = useAtomValue(weekendMeetingWeekdayState);
 
-  const [startWeek, setStartWeek] = useState('');
+  const [startWeek, setStartWeek] = useState(controlledStart ?? '');
+  useEffect(() => {
+    if (controlledStart !== undefined) setStartWeek(controlledStart);
+  }, [controlledStart]);
 
   const showDateLabel = useMemo(() => {
+    if (meeting === 'duties' || meeting === 'cleaning') return false;
+
     if (meeting === 'weekend') return true;
 
     if (!meetingExactDate) return false;
@@ -39,7 +62,7 @@ const useWeekRangeSelector = (
   const filterSources = useCallback(
     (startDate: string, endDate: string) => {
       return sources.filter((source) => {
-        let toAdd: number;
+        let toAdd = 0;
 
         if (meeting === 'midweek') {
           toAdd = meetingExactDate ? midweekDay : 0;
@@ -60,8 +83,9 @@ const useWeekRangeSelector = (
         if (
           meeting === 'midweek' &&
           !source.midweek_meeting.week_date_locale[lang]
-        )
+        ) {
           return false;
+        }
 
         return true;
       });
@@ -72,6 +96,13 @@ const useWeekRangeSelector = (
   const mapSourcesToOptions = useCallback(
     (sourceList: typeof sources) => {
       return sourceList.map((source) => {
+        if (meeting === 'duties' || meeting === 'cleaning') {
+          return {
+            value: source.weekOf,
+            label: dateFormatFriendly(source.weekOf),
+          };
+        }
+
         const meetingDate = schedulesGetMeetingDate({
           week: source.weekOf,
           meeting,
@@ -89,7 +120,7 @@ const useWeekRangeSelector = (
 
   const startWeekOptions = useMemo(() => {
     let startDate = formatDate(getFirstWeekPreviousMonth(), 'yyyy/MM/dd');
-    let endDate = formatDate(new Date(), 'yyyy/MM/dd');
+    let endDate = formatDate(addDays(new Date(), -1), 'yyyy/MM/dd');
 
     const pastSources = filterSources(startDate, endDate);
 

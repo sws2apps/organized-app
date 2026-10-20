@@ -6,6 +6,8 @@ import { assignmentsHistoryState, schedulesState } from '@states/schedules';
 import { SchedWeekType } from '@definition/schedules';
 import { AssignmentsDeleteType } from './index.types';
 import {
+  scheduleDeleteDutiesAssignments,
+  scheduleDeleteHallCleaningAssignments,
   scheduleDeleteMidweekWeekAssignments,
   scheduleDeleteWeekendAssignments,
   schedulesBuildHistoryList,
@@ -36,6 +38,14 @@ const useAssignmentsDelete = (
       if (meeting === 'weekend') {
         await scheduleDeleteWeekendAssignments(schedule);
       }
+
+      if (meeting === 'duties') {
+        await scheduleDeleteDutiesAssignments(schedule);
+      }
+
+      if (meeting === 'cleaning') {
+        await scheduleDeleteHallCleaningAssignments(schedule);
+      }
     }
 
     // load assignment history
@@ -65,7 +75,9 @@ const useAssignmentsDelete = (
 
       displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
-        message: getMessageByCode(error.message),
+        message: getMessageByCode(
+          error instanceof Error ? error.message : 'error_app_generic-desc'
+        ),
         severity: 'error',
       });
     }

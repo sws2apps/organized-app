@@ -20,7 +20,9 @@ const Select = ({ helperText, ...props }: SelectPropsType) => {
         className="body-regular"
         sx={{
           color: props.error ? 'var(--red-main)' : 'var(--accent-350)',
-          '&.Mui-focused': { color: 'var(--accent-main)' },
+          '&.Mui-focused': {
+            color: props.error ? 'var(--red-main)' : 'var(--accent-350)',
+          },
           '&[data-shrink=false]': {
             transform: 'translate(14px, 12px) scale(1)',
           },

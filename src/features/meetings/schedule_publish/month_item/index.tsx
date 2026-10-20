@@ -1,14 +1,18 @@
-import { Box, Stack } from '@mui/material';
-import { IconPublishedSchedule } from '@components/icons';
+import { ClickAwayListener, Stack } from '@mui/material';
+import Typography from '@components/typography';
 import { useAppTranslation } from '@hooks/index';
 import { MonthItemProps } from './index.types';
 import useMonthItem from './useMonthItem';
 import Checkbox from '@components/checkbox';
+import Tooltip from '@components/tooltip';
+import IconButton from '@components/icon_button';
+import { IconPublishedSchedule } from '@components/icons';
 
-const MonthItem = ({ data, onChange }: MonthItemProps) => {
+const MonthItem = ({ data, onChange, readOnly, disabled }: MonthItemProps) => {
   const { t } = useAppTranslation();
 
-  const { monthName } = useMonthItem(data.month);
+  const { monthName, publishedTooltipOpen, setPublishedTooltipOpen } =
+    useMonthItem(data.month);
 
   return (
     <Stack
@@ -16,24 +20,53 @@ const MonthItem = ({ data, onChange }: MonthItemProps) => {
         justifyContent: 'space-between',
         alignItems: 'center',
         flexDirection: 'row',
+        gap: '8px',
+        minHeight: '44px',
       }}
     >
-      <Checkbox
-        label={monthName}
-        checked={data.checked}
-        onChange={(e) => onChange(e.target.checked, data.month)}
-      />
-
-      {data.published && (
-        <Box
-          title={t('tr_published')}
+      {readOnly ? (
+        <Typography sx={{ flex: 1, minWidth: 0 }}>{monthName}</Typography>
+      ) : (
+        <Checkbox
+          label={monthName}
+          disabled={disabled}
           sx={{
-            display: 'flex',
-            alignItems: 'center',
+            flex: 1,
+            minWidth: 0,
+            marginLeft: '4px',
+            marginRight: 0,
+            '& .MuiFormControlLabel-label': { minWidth: 0 },
           }}
-        >
-          <IconPublishedSchedule color="var(--accent-main)" />
-        </Box>
+          checked={data.checked}
+          onChange={(e) => onChange(e.target.checked, data.month)}
+        />
+      )}
+
+      {data.status === 'published' && (
+        <ClickAwayListener onClickAway={() => setPublishedTooltipOpen(false)}>
+          <Tooltip
+            title={t('tr_published')}
+            open={publishedTooltipOpen}
+            onOpen={() => setPublishedTooltipOpen(true)}
+            onClose={() => setPublishedTooltipOpen(false)}
+            disableTouchListener
+          >
+            <IconButton
+              aria-label={t('tr_published')}
+              edge={false}
+              disableHover
+              disableRipple
+              onClick={() => setPublishedTooltipOpen((open) => !open)}
+              sx={{
+                width: '44px',
+                height: '44px',
+                borderRadius: 'var(--radius-l)',
+              }}
+            >
+              <IconPublishedSchedule color="var(--green-main)" />
+            </IconButton>
+          </Tooltip>
+        </ClickAwayListener>
       )}
     </Stack>
   );

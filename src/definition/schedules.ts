@@ -1,5 +1,7 @@
+import type { MajorCleaningEvent } from '@definition/hall_cleaning';
 import { AssignmentCode, AssignmentFieldType } from './assignment';
 import { Week } from './week_type';
+import type { SettingsType } from '@definition/settings';
 
 export type S140TemplateType = 'S140_default' | 'S140_app_normal';
 
@@ -77,8 +79,87 @@ export type OutgoingTalkExportScheduleType = OutgoingTalkScheduleType & {
   weekOf: string;
 };
 
+export type DutyPositionsType = {
+  position_1: AssignmentCongregation[];
+  position_2: AssignmentCongregation[];
+  position_3: AssignmentCongregation[];
+  position_4: AssignmentCongregation[];
+};
+
+/**
+ * A microphone section of one meeting of one week: the parts it covers and how
+ * many brothers serve it. Sections live with the week, not with the settings,
+ * because the parts of a meeting change from week to week.
+ */
+export type DutiesMeetingPartType = {
+  key: string;
+  label: string;
+};
+
+export type DutiesSectionType = {
+  id: string;
+  name: string;
+  // keys of the meeting parts this section covers, empty for a whole meeting
+  parts: string[];
+  amount: number;
+  _deleted: boolean;
+  updatedAt: string;
+};
+
+export type DutiesMeetingType = {
+  audio: DutyPositionsType;
+  video: DutyPositionsType;
+  // one brother covering both duties, kept apart from the split fields
+  audio_video: DutyPositionsType;
+  microphones: DutyPositionsType;
+  stage: DutyPositionsType;
+  entrance_attendant: DutyPositionsType;
+  auditorium_attendant: DutyPositionsType;
+  hospitality: DutyPositionsType;
+  videoconference_host: DutyPositionsType;
+  sections: DutiesSectionType[];
+  // `${sectionOrCustomId}_${position}` entries for sections and custom duties
+  dynamic: AssignmentCongregation[];
+};
+
+// value is a field service group id, or the name of a neighbouring congregation;
+// both lists are written one at a time, so either can be missing
+export type HallCleaningType = {
+  // Legacy first group has no id; additional group positions use ids 2–6.
+  group?: AssignmentCongregation[];
+  // position ids: '1' is the responsible publisher
+  persons?: AssignmentCongregation[];
+};
+
+export type HallCleaningYearlyType = HallCleaningType & {
+  // the day, as yyyy/MM/dd
+  date?: AssignmentCongregation[];
+};
+
 export type SchedWeekType = {
   weekOf: string;
+  duties?: {
+    midweek: DutiesMeetingType;
+    weekend: DutiesMeetingType;
+  };
+  hall_cleaning?: {
+    publication?: {
+      type: string;
+      slots: { slot: 'midweek' | 'weekend' | 'yearly'; date: string }[];
+      updatedAt: string;
+    }[];
+    events?: MajorCleaningEvent[];
+    configuration?: {
+      type: string;
+      value: NonNullable<
+        SettingsType['cong_settings']['hall_cleaning']
+      >[number];
+      updatedAt: string;
+    }[];
+    midweek: HallCleaningType;
+    weekend: HallCleaningType;
+    yearly: HallCleaningYearlyType;
+  };
   midweek_meeting: {
     chairman: {
       main_hall: AssignmentCongregation[];
@@ -319,3 +400,5 @@ export type OutgoingSpeakersScheduleItem = {
 };
 
 export type OutgoingSpeakersScheduleType = OutgoingSpeakersScheduleItem[];
+
+export type DutiesGender = 'male' | 'female';

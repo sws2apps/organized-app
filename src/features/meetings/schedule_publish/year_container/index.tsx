@@ -4,8 +4,14 @@ import useYearContainer from './useYearContainer';
 import Checkbox from '@components/checkbox';
 import Divider from '@components/divider';
 import MonthItem from '../month_item';
+import Typography from '@components/typography';
 
-const YearContainer = ({ data, onChange }: YearContainerProps) => {
+const YearContainer = ({
+  data,
+  onChange,
+  readOnly,
+  disabled,
+}: YearContainerProps) => {
   const { checked, indeterminate } = useYearContainer(data.months);
 
   return (
@@ -13,7 +19,8 @@ const YearContainer = ({ data, onChange }: YearContainerProps) => {
       spacing="8px"
       sx={{
         alignItems: 'flex-start',
-        minWidth: '230px',
+        minWidth: 0,
+        width: '100%',
         flex: 1,
       }}
     >
@@ -21,18 +28,25 @@ const YearContainer = ({ data, onChange }: YearContainerProps) => {
         sx={{
           padding: '8px',
           backgroundColor: 'var(--accent-150)',
-          borderRadius: '8px',
+          borderRadius: 'var(--radius-m)',
           width: '100%',
         }}
       >
-        <Checkbox
-          className="h4"
-          label={data.year}
-          sx={{ marginLeft: '4px' }}
-          checked={checked}
-          indeterminate={indeterminate}
-          onChange={(e) => onChange(e.target.checked, data.year)}
-        />
+        {readOnly ? (
+          <Typography className="h4" sx={{ padding: '4px 8px' }}>
+            {data.year}
+          </Typography>
+        ) : (
+          <Checkbox
+            className="h4"
+            label={data.year}
+            sx={{ marginLeft: '4px' }}
+            disabled={disabled}
+            checked={checked}
+            indeterminate={indeterminate}
+            onChange={(e) => onChange(e.target.checked, data.year)}
+          />
+        )}
       </Box>
 
       <Stack
@@ -40,11 +54,17 @@ const YearContainer = ({ data, onChange }: YearContainerProps) => {
         spacing="4px"
         sx={{
           width: '100%',
-          padding: '0px 4px 0px 16px',
+          padding: '0px 8px',
         }}
       >
         {data.months.map((record) => (
-          <MonthItem key={record.month} data={record} onChange={onChange} />
+          <MonthItem
+            key={record.month}
+            data={record}
+            onChange={onChange}
+            readOnly={readOnly}
+            disabled={disabled}
+          />
         ))}
       </Stack>
     </Stack>

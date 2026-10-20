@@ -1,5 +1,6 @@
-import { useEffect, useMemo, useState } from 'react';
+import { MouseEvent, useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'react-router';
+import { createFilterOptions, FilterOptionsState } from '@mui/material';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { IconError } from '@components/icons';
 import { PersonOptionsType, PersonSelectorType } from '../index.types';
@@ -13,7 +14,10 @@ import {
 import { personIsAway, personIsElder } from '@services/app/persons';
 import {
   displayNameMeetingsEnableState,
+  dutiesSistersState,
   fullnameOptionState,
+  hallCleaningState,
+  settingsState,
   JWLangLocaleState,
   JWLangState,
   midweekMeetingAuxCounselorDefaultEnabledState,
@@ -32,23 +36,43 @@ import {
 } from '@states/schedules';
 import { personGetDisplayName, speakerGetDisplayName } from '@utils/common';
 import {
+  schedulesDutyAllowedForPerson,
+  schedulesDutyPersonQualified,
   schedulesGetData,
   schedulesGetMeetingDate,
+  schedulesResolveMeetingDate,
   schedulesPersonHasConsecutiveAssignment,
   schedulesPersonHasMeetingConflict,
   schedulesSaveAssignment,
+  schedulesHallCleaningYearlyDate,
 } from '@services/app/schedules';
 import { ASSIGNMENT_PATH } from '@constants/index';
-import { AssignmentCongregation } from '@definition/schedules';
+import { AssignmentCongregation, DutiesGender } from '@definition/schedules';
 import { useAppTranslation } from '@hooks/index';
 import { incomingSpeakersState } from '@states/visiting_speakers';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { formatDate } from '@utils/date';
+import type { AssignmentConflict } from '@definition/assignment_conflicts';
+import { getAssignmentConflicts } from '@services/app/assignment_conflicts';
+import {
+  assignmentConflictGroup,
+  formatAssignmentConflict,
+} from '@utils/assignment_conflicts';
+import { resolveHallCleaningConfig } from '@utils/hall_cleaning';
 import { languageGroupsState } from '@states/field_service_groups';
 
-const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
+const defaultFilterOptions = createFilterOptions<PersonOptionsType>();
+
+const useBrotherSelector = ({
+  type,
+  week,
+  assignment,
+  schedule_id,
+  allowedPersons,
+}: PersonSelectorType) => {
   const location = useLocation();
+  const settings = useAtomValue(settingsState);
 
   const { t } = useAppTranslation();
 
@@ -87,10 +111,13 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
   const wmShowMonthlyWarning = useAtomValue(
     weekendMeetingShowMonthlyWarningState
   );
+  const sistersDuties = useAtomValue(dutiesSistersState);
+  const hallCleaningConfig = useAtomValue(hallCleaningState);
 
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
   const [isFreeSolo, setIsFreeSolo] = useState(false);
   const [inputValue, setInputValue] = useState('');
+  const [gender, setGender] = useState<DutiesGender>('male');
 
   const [isLinkedPart, setIsLinkedPart] = useState(false);
 
@@ -154,8 +181,60 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
     }
   }, [assignment, personsByView, talkType, persons, languageGroups]);
 
+  // a caller can narrow the list, e.g. to the members of one group
+  const candidates = useMemo(() => {
+    if (!allowedPersons) return personsList ?? [];
+
+    return (personsList ?? []).filter((record) =>
+      allowedPersons.includes(record.person_uid)
+    );
+  }, [personsList, allowedPersons]);
+
+  const isDutiesField = assignment.includes('_DUTIES_');
+
+  const isCleaningField = assignment.startsWith('HC_');
+
+  // duties and hall cleaning share the week-conflict list, not the gender toggle
+  const isWeekConflictField = isDutiesField || isCleaningField;
+
+  // in week mode the midweek slot stands for both meetings; the deep cleaning
+  // follows no meeting at all
+  const isWholeWeekCleaning =
+    assignment === 'HC_MM_Dynamic' &&
+    resolveHallCleaningConfig(schedule, hallCleaningConfig)?.period.value ===
+      'week';
+
+  const weekConflicts = useMemo(() => {
+    if (!isWeekConflictField || week.length === 0) {
+      return new Map<string, AssignmentConflict>();
+    }
+
+    return getAssignmentConflicts({
+      history: assignmentsHistory,
+      week,
+      dataView,
+      assignment,
+      scheduleId: schedule_id,
+      code: type,
+      schedule,
+      source: sources.find((record) => record.weekOf === week),
+      wholeWeek: isWholeWeekCleaning,
+    });
+  }, [
+    isWeekConflictField,
+    type,
+    isWholeWeekCleaning,
+    week,
+    dataView,
+    assignment,
+    schedule_id,
+    assignmentsHistory,
+    sources,
+    schedule,
+  ]);
+
   const options = useMemo(() => {
-    const filteredPersons = personsList.filter((record) => {
+    const filteredPersons = candidates.filter((record) => {
       const activeAssignments =
         record.person_data.assignments.find((a) => {
           if (
@@ -180,7 +259,10 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
         type !== AssignmentCode.MM_LCPart &&
         type !== AssignmentCode.WM_SpeakerSymposium
       ) {
-        return activeAssignments.includes(type);
+        return (
+          schedulesDutyPersonQualified(type, activeAssignments) &&
+          schedulesDutyAllowedForPerson(record, type, sistersDuties)
+        );
       }
 
       if (type === AssignmentCode.WM_SpeakerSymposium) {
@@ -202,17 +284,14 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
           const lcParts = ['MM_LCPart1', 'MM_LCPart2'];
 
           if (lcParts.includes(assignment)) {
-            const path = assignment
-              .replace('MM_', '')
-              .replace('LC', 'LC_')
-              .toLowerCase();
+            const path = assignment === 'MM_LCPart1' ? 'lc_part1' : 'lc_part2';
 
             const part = source.midweek_meeting[path];
 
             const { src, desc } = sourcesLCGet(part, dataView, lang);
             const isElder = sourcesCheckLCElderAssignment(
-              src,
-              desc,
+              src ?? '',
+              desc ?? '',
               sourceLocale
             );
 
@@ -228,8 +307,8 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
             )?.value;
 
             const isElder = sourcesCheckLCElderAssignment(
-              src,
-              desc,
+              src ?? '',
+              desc ?? '',
               sourceLocale
             );
             return isElder ? personIsElder(record) : true;
@@ -240,7 +319,7 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
       return false;
     });
 
-    const newPersons: PersonOptionsType[] = filteredPersons.map((record) => {
+    const newPersons = filteredPersons.map((record) => {
       const lastAssignment = assignmentsHistory.find((item) => {
         if (item.assignment.person !== record.person_uid) return false;
 
@@ -258,6 +337,8 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
         ? formatDate(new Date(lastAssignment.weekOf), shortDateFormat)
         : '';
 
+      const conflict = weekConflicts.get(record.person_uid);
+
       return {
         ...record,
         last_assignment: lastAssignmentFormat,
@@ -267,33 +348,40 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
           displayNameEnabled,
           fullnameOption
         ),
+        conflict,
       };
     });
 
     return newPersons.sort((a, b) => {
-      // If both 'weekOf' fields are empty, sort by name
+      // conflict-free persons first, so the group order stays stable
+      const aConflict = assignmentConflictGroup(a.conflict);
+      const bConflict = assignmentConflictGroup(b.conflict);
+
+      if (aConflict !== bConflict) {
+        return aConflict - bConflict;
+      }
+
+      const workload = (a.conflict?.penalty ?? 0) - (b.conflict?.penalty ?? 0);
+      if (workload !== 0) return workload;
+
       if (a.weekOf.length === 0 && b.weekOf.length === 0) {
         return a.person_name.localeCompare(b.person_name);
       }
 
-      // If 'weekOf' of 'a' is empty, 'a' should come first
       if (a.weekOf.length === 0) {
         return -1;
       }
 
-      // If 'weekOf' of 'b' is empty, 'b' should come first
       if (b.weekOf.length === 0) {
         return 1;
       }
-
-      // If both 'weekOf' fields are not empty, sort by date
 
       return new Date(a.weekOf)
         .toISOString()
         .localeCompare(new Date(b.weekOf).toISOString());
     });
   }, [
-    personsList,
+    candidates,
     type,
     sources,
     week,
@@ -306,12 +394,14 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
     fullnameOption,
     sourceLocale,
     talkType,
+    weekConflicts,
+    sistersDuties,
   ]);
 
   const value = useMemo(() => {
-    if (week.length === 0) return null;
+    if (week.length === 0 || !schedule) return null;
 
-    let linkedAssigment: AssignmentFieldType;
+    let linkedAssigment: AssignmentFieldType | undefined;
 
     if (assignment === 'MM_OpeningPrayer' && openingPrayerLinked !== '') {
       linkedAssigment = openingPrayerLinked;
@@ -326,15 +416,19 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
     if (!path) return null;
 
     const dataSchedule = schedulesGetData(schedule, path);
-    let assigned: AssignmentCongregation;
+    let assigned: AssignmentCongregation | undefined;
 
     if (Array.isArray(dataSchedule)) {
-      assigned = dataSchedule.find((record) => record.type === dataView);
+      assigned = schedule_id
+        ? dataSchedule.find(
+            (record) => record.id === schedule_id && record.type === dataView
+          )
+        : dataSchedule.find((record) => record.type === dataView);
     } else {
       assigned = dataSchedule;
     }
 
-    let person: PersonOptionsType;
+    let person: PersonOptionsType | undefined;
 
     person = options.find((record) => record.person_uid === assigned?.value);
 
@@ -361,7 +455,7 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
       if (!path) return null;
 
       const dataSchedule = schedulesGetData(schedule, path);
-      let assigned: AssignmentCongregation;
+      let assigned: AssignmentCongregation | undefined;
 
       if (Array.isArray(dataSchedule)) {
         assigned = dataSchedule.find((record) => record.type === dataView);
@@ -391,6 +485,7 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
     assignment,
     dataView,
     schedule,
+    schedule_id,
     options,
     defaultWTConductor,
     defaultAuxCounselor,
@@ -433,14 +528,42 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
   }, [value, assignmentsHistory, week, type, dataView]);
 
   const meetingDate = useMemo(() => {
-    const meeting = location.pathname.includes('midweek')
-      ? 'midweek'
-      : 'weekend';
+    if (assignment === 'HC_Yearly_Dynamic') {
+      return schedulesHallCleaningYearlyDate(
+        schedules.find((record) => record.weekOf === week)
+      );
+    }
 
+    let meeting: 'midweek' | 'weekend';
+
+    if (isDutiesField) {
+      meeting = assignment.startsWith('MM_DUTIES_') ? 'midweek' : 'weekend';
+    } else if (isCleaningField) {
+      meeting = assignment.startsWith('HC_MM_') ? 'midweek' : 'weekend';
+    } else {
+      meeting = location.pathname.includes('midweek') ? 'midweek' : 'weekend';
+    }
+
+    if (isCleaningField && schedule) {
+      return formatDate(
+        schedulesResolveMeetingDate({ settings, schedule, meeting, dataView }),
+        'yyyy/MM/dd'
+      );
+    }
     const date = schedulesGetMeetingDate({ week, meeting });
 
     return date.date;
-  }, [location.pathname, week]);
+  }, [
+    location.pathname,
+    week,
+    schedules,
+    isDutiesField,
+    isCleaningField,
+    assignment,
+    schedule,
+    settings,
+    dataView,
+  ]);
 
   const helperText = useMemo(() => {
     if (!value || week.length === 0) return '';
@@ -457,10 +580,20 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
       (record) => record.person_uid === value.person_uid
     );
 
-    const timeAwayNotice = personIsAway(person, meetingDate);
+    const timeAwayNotice = person ? personIsAway(person, meetingDate) : '';
 
     if (timeAwayNotice) {
       return timeAwayNotice;
+    }
+
+    if (isWeekConflictField) {
+      const conflict = weekConflicts.get(value.person_uid);
+
+      if (!conflict) return '';
+
+      return formatAssignmentConflict(conflict, (time) =>
+        t('tr_assignmentDurationShort', { time })
+      );
     }
 
     // check week assignments
@@ -498,14 +631,22 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
     isLinkedPart,
     persons,
     meetingDate,
+    isWeekConflictField,
+    weekConflicts,
     isMeetingConflict,
     isConsecutiveAssignment,
   ]);
 
+  const helperSeverity: 'error' | 'warning' = useMemo(() => {
+    if (!isDutiesField || !value) return 'warning';
+
+    return weekConflicts.get(value.person_uid)?.blocked ? 'error' : 'warning';
+  }, [isDutiesField, value, weekConflicts]);
+
   const defaultInputValue = useMemo(() => {
     if (week.length === 0) return '';
 
-    if (assignment !== 'WM_ClosingPrayer') return '';
+    if (assignment !== 'WM_ClosingPrayer' || !schedule) return '';
 
     if (
       talkType !== 'visitingSpeaker' &&
@@ -520,7 +661,7 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
     if (!path) return '';
 
     const dataSchedule = schedulesGetData(schedule, path);
-    let assigned: AssignmentCongregation;
+    let assigned: AssignmentCongregation | undefined;
 
     if (Array.isArray(dataSchedule)) {
       assigned = dataSchedule.find((record) => record.type === dataView);
@@ -563,9 +704,17 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
     persons,
   ]);
 
-  const handleSaveAssignment = async (value: PersonOptionsType) => {
+  const handleSaveAssignment = async (
+    value: PersonOptionsType | string | null
+  ) => {
+    if (!schedule) return;
     try {
-      await schedulesSaveAssignment(schedule, assignment, value);
+      await schedulesSaveAssignment(
+        schedule,
+        assignment,
+        value ?? '',
+        schedule_id
+      );
 
       if (assignment === 'WM_Speaker_Part1') {
         setLocalSongSelectorOpen(true);
@@ -575,7 +724,10 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
 
       displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
-        message: error.message,
+        message:
+          error instanceof Error
+            ? error.message
+            : getMessageByCode('error_app_generic-desc'),
         severity: 'error',
         icon: <IconError color="var(--white)" />,
       });
@@ -605,11 +757,46 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
     setInputValue(defaultInputValue);
   }, [defaultInputValue]);
 
+  const showGenderSelector = isDutiesField && sistersDuties;
+
+  // filtered at display time, so an assigned person of the other gender stays
+  // a valid value while the list shows the chosen side
+  const filterOptions = useMemo(() => {
+    if (!showGenderSelector) return undefined;
+
+    return (
+      list: PersonOptionsType[],
+      state: FilterOptionsState<PersonOptionsType>
+    ) =>
+      defaultFilterOptions(
+        list.filter(
+          (record) => record.person_data.male.value === (gender === 'male')
+        ),
+        state
+      );
+  }, [showGenderSelector, gender]);
+
+  const handleGenderChange = (
+    e: MouseEvent<HTMLLabelElement>,
+    value: DutiesGender
+  ) => {
+    // a click on the label would otherwise close the list
+    e.preventDefault();
+    setGender(value);
+  };
+
+  // the list follows the assigned person, and an empty field starts on brothers
+  useEffect(() => {
+    setGender(!value || value.person_data.male.value ? 'male' : 'female');
+  }, [value]);
+
   return {
     options,
     handleSaveAssignment,
     value,
     helperText,
+    helperSeverity,
+    isWeekConflictField,
     personHistory,
     isHistoryOpen,
     handleOpenHistory,
@@ -619,6 +806,10 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
     handleValueChange,
     isLinkedPart,
     isMeetingConflict,
+    showGenderSelector,
+    gender,
+    handleGenderChange,
+    filterOptions,
   };
 };
 

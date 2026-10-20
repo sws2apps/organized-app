@@ -22,6 +22,7 @@ import Toolbar from './slots/toolbar';
 
 const DatePicker = ({
   label,
+  ariaLabel,
   value,
   onChange,
   readOnly,
@@ -44,14 +45,14 @@ const DatePicker = ({
 
   const shortDateFormatLocale = shortDateFormat || shortDateFormatDefault;
 
-  const [height, setHeight] = useState(240); // Initial height
+  const [height, setHeight] = useState(240);
   const [open, setOpen] = useState(false);
   const [valueTmp, setValueTmp] = useState<Date | null>(value ?? null);
 
   const slotFieldProps =
     view === 'button' ? { field: ButtonField } : { textField: InputTextField };
 
-  const changeHeight = (event) => {
+  const changeHeight = (event: Date) => {
     if (getWeeksInMonth(new Date(event), { weekStartsOn: 0 }) === 6) {
       setHeight(290);
     } else {
@@ -75,13 +76,7 @@ const DatePicker = ({
   const handleValueChange = (newValue: Date | null) => {
     const isValidDate = newValue instanceof Date && isValid(newValue);
 
-    // Mirror every change locally so the controlled picker stays in sync
-    // with its own field state. Only settled values reach the parent:
-    // incomplete drafts and the low-year artifacts emitted while typing
-    // the year section (e.g. 0002 en route to 2026) must not propagate,
-    // since parents stringify and parse them back as a different date,
-    // which scrambles or wipes the entry. An explicit clear (null) is
-    // always forwarded.
+    // Keep partial input local until it is a valid, complete date.
     setValueTmp(newValue);
 
     if (!isValidDate && newValue !== null) return;
@@ -128,8 +123,8 @@ const DatePicker = ({
       <Box sx={{ width: '100%' }}>
         <DesktopDatePicker
           readOnly={readOnly}
-          minDate={minDate}
-          maxDate={maxDate}
+          minDate={minDate ?? undefined}
+          maxDate={maxDate ?? undefined}
           disablePast={disablePast}
           yearsPerRow={3}
           showDaysOutsideCurrentMonth={true}
@@ -187,6 +182,7 @@ const DatePicker = ({
               ref: poperRef,
               error,
               helperText,
+              slotProps: { input: { 'aria-label': ariaLabel } },
             },
           }}
         />

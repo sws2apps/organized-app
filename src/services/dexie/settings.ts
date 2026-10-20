@@ -143,9 +143,10 @@ export const dbAppSettingsBuildTest = async () => {
   };
   baseSettings.user_settings.cong_role = [
     'admin',
+    'secretary',
     'elder',
     'publisher',
-    'secretary',
+    'view_schedules',
   ];
   baseSettings.user_settings.account_type = 'vip';
   baseSettings.user_settings.hour_credits_enabled = {
@@ -342,4 +343,102 @@ export const dbAppSettingsUpdateCongNumber = async () => {
   await dbAppSettingsUpdate({
     'cong_settings.cong_number': cong_number,
   });
+};
+
+const meetingDutiesDefault = (type: string) => {
+  const updatedAt = new Date().toISOString();
+
+  return {
+    type,
+    _deleted: { value: false, updatedAt },
+    conflict_prevent: { value: false, updatedAt },
+    sisters_duties: { value: false, updatedAt },
+    mic_sections: { value: false, updatedAt },
+    av_combined: { value: false, updatedAt },
+    sections: [],
+    audio_amount: { value: 1, updatedAt },
+    video_amount: { value: 1, updatedAt },
+    mic_amount: { value: 2, updatedAt },
+    stage_amount: { value: 1, updatedAt },
+    entrance_attendant_amount: { value: 1, updatedAt },
+    auditorium_attendant_amount: { value: 1, updatedAt },
+    hospitality_amount: { value: 0, updatedAt },
+    videoconference_host_amount: { value: 0, updatedAt },
+    custom: [],
+  };
+};
+
+export const dbAppSettingsSetupMeetingDuties = async () => {
+  const settings = await appDb.app_settings.get(1);
+
+  if (!settings) return;
+
+  const meetingDuties = settings.cong_settings.meeting_duties ?? [];
+  const dataView = settings.user_settings.data_view.value;
+
+  const current = meetingDuties.find((duty) => duty.type === dataView);
+  const defaults = meetingDutiesDefault(dataView);
+
+  // records saved before a setting existed keep their values and get the rest
+  const isComplete =
+    current && Object.keys(defaults).every((key) => key in current);
+
+  if (isComplete) return;
+
+  const record = { ...defaults, ...current };
+
+  const updated = current
+    ? meetingDuties.map((duty) => (duty.type === dataView ? record : duty))
+    : [...meetingDuties, record];
+
+  await dbAppSettingsUpdate({ 'cong_settings.meeting_duties': updated });
+};
+
+// field service groups are the usual unit, cleaning after each meeting.
+// Defaults carry no date, so a setup already synced from another device
+// always wins over them
+const hallCleaningDefault = (type: string) => {
+  const updatedAt = '';
+
+  return {
+    type,
+    _deleted: { value: false, updatedAt },
+    // a language group has no field service groups of its own
+    assign_to: {
+      value: type === 'main' ? ('group' as const) : ('persons' as const),
+      updatedAt,
+    },
+    period: { value: 'meeting' as const, updatedAt },
+    amount: { value: 4, updatedAt },
+    group_amount: { value: 1, updatedAt },
+    rotation_groups: { value: [] as string[], updatedAt },
+    rotation_unit: { value: 'week' as const, updatedAt },
+    rotation_length: { value: 1, updatedAt },
+    rotation_start: { value: '', updatedAt },
+  };
+};
+
+export const dbAppSettingsSetupHallCleaning = async () => {
+  const settings = await appDb.app_settings.get(1);
+
+  if (!settings) return;
+
+  const hallCleaning = settings.cong_settings.hall_cleaning ?? [];
+  const dataView = settings.user_settings.data_view.value;
+
+  const current = hallCleaning.find((record) => record.type === dataView);
+  const defaults = hallCleaningDefault(dataView);
+
+  const isComplete =
+    current && Object.keys(defaults).every((key) => key in current);
+
+  if (isComplete) return;
+
+  const record = { ...defaults, ...current };
+
+  const updated = current
+    ? hallCleaning.map((item) => (item.type === dataView ? record : item))
+    : [...hallCleaning, record];
+
+  await dbAppSettingsUpdate({ 'cong_settings.hall_cleaning': updated });
 };

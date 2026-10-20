@@ -1,4 +1,21 @@
+import { hallCleaningPlanningWeeks } from '@utils/hall_cleaning_planning';
+import { scheduleSchema } from '@services/dexie/schema';
+import { dbHallCleaningWeeksUpdate } from '@services/dexie/hall_cleaning';
+import {
+  hallCleaningConfiguredGroupCount,
+  updateHallCleaningGroupEntry,
+  hallCleaningGroupEntries,
+  hallCleaningRotationOrder,
+  resolveHallCleaningGroups,
+} from '@utils/hall_cleaning_groups';
+import { runHallCleaningUpdate } from '@services/app/hall_cleaning_queue';
+import { activeMajorCleanings } from '@utils/major_cleaning';
 import { UpdateSpec } from 'dexie';
+import {
+  resolveHallCleaningConfig,
+  snapshotHallCleaningConfig,
+  mergeHallCleaningWeeks,
+} from '@utils/hall_cleaning';
 import { store } from '@states/index';
 import {
   CODisplayNameState,
@@ -25,6 +42,7 @@ import {
   meetingExactDateState,
   congNameState,
   weekendSchedulesSongsWeekend,
+  hallCleaningState,
 } from '@states/settings';
 import { sourcesState } from '@states/sources';
 import {
@@ -32,7 +50,12 @@ import {
   defaultWTStudyConductorNameState,
   schedulesState,
 } from '@states/schedules';
-import { AssignmentCode, AssignmentFieldType } from '@definition/assignment';
+import {
+  AssignmentCode,
+  AssignmentFieldHallCleaningType,
+  AssignmentFieldType,
+} from '@definition/assignment';
+import { SettingsType } from '@definition/settings';
 import {
   ApplyMinistryType,
   LivingAsChristiansType,
@@ -52,6 +75,8 @@ import {
 import {
   AssignmentCongregation,
   AssignmentHistoryType,
+  DutiesMeetingPartType,
+  DutiesSectionType,
   MidweekMeetingDataType,
   OutgoingSpeakersScheduleType,
   S89DataType,
@@ -77,23 +102,24 @@ import { assignmentState } from '@states/assignment';
 import { setAssignmentsHistory } from '@services/states/schedules';
 import { PersonType } from '@definition/person';
 import { Week } from '@definition/week_type';
-import { dbSchedUpdate } from '@services/dexie/schedules';
+import { dbSchedGet, dbSchedUpdate } from '@services/dexie/schedules';
 import {
   addDays,
   addWeeks,
   formatDate,
   formatDateShortMonthWithYear,
   generateDateFromTime,
+  getWeekDate,
   timeAddMinutes,
 } from '@utils/date';
 import { personsByViewState } from '@states/persons';
 import { personsStateFind } from '@services/states/persons';
+import { isPersonBlockedOnDate } from '@services/app/persons';
 import {
   buildPersonFullname,
   personGetDisplayName,
   speakerGetDetails,
 } from '@utils/common';
-import { primaryTranslation } from '@utils/i18n';
 import { sourcesFind } from '@services/states/sources';
 import { weekTypeLocaleState } from '@states/weekType';
 import { VisitingSpeakerType } from '@definition/visiting_speakers';
@@ -101,9 +127,13 @@ import { incomingSpeakersState } from '@states/visiting_speakers';
 import { speakersCongregationsState } from '@states/speakers_congregations';
 import { publicTalksState } from '@states/public_talks';
 import { PublicTalkType } from '@definition/public_talks';
-import { dbAppSettingsGet } from '@services/dexie/settings';
+import {
+  dbAppSettingsGet,
+  dbAppSettingsUpdate,
+} from '@services/dexie/settings';
 import {
   fieldGroupsState,
+  fieldServiceGroupsState,
   languageGroupsState,
 } from '@states/field_service_groups';
 import { monthNamesState, monthShortNamesState } from '@states/app';
@@ -112,11 +142,11 @@ import {
   getTranslation,
 } from '@services/i18n/translation';
 import { songsLocaleState } from '@states/songs';
-import { SettingsType } from '@definition/settings';
+import { ScheduleMeetingType } from '@definition/app';
 
 export const schedulesWeekAssignmentsInfo = (
   week: string,
-  meeting: 'midweek' | 'weekend'
+  meeting: ScheduleMeetingType
 ) => {
   let total = 0;
   let assigned = 0;
@@ -133,7 +163,1155 @@ export const schedulesWeekAssignmentsInfo = (
     assigned = data.assigned;
   }
 
+  if (meeting === 'duties') {
+    const midweek = schedulesDutiesMeetingInfo(week, 'midweek');
+    const weekend = schedulesDutiesMeetingInfo(week, 'weekend');
+    total = midweek.total + weekend.total;
+    assigned = midweek.assigned + weekend.assigned;
+  }
+
+  if (meeting === 'cleaning') {
+    const data = schedulesHallCleaningInfo(week);
+    total = data.total;
+    assigned = data.assigned;
+  }
+
   return { total, assigned };
+};
+
+export type MeetingDutiesConfigType =
+  SettingsType['cong_settings']['meeting_duties'][number];
+
+export type DutyFieldDefinitionType = {
+  assignment: AssignmentFieldType;
+  type: AssignmentCode;
+  schedule_id?: string;
+};
+
+export type HallCleaningConfigType = NonNullable<
+  SettingsType['cong_settings']['hall_cleaning']
+>[number];
+
+export type HallCleaningSlotType = 'midweek' | 'weekend' | 'yearly';
+
+// neighbouring congregations take a cleaning as a whole and name their own people
+export const HALL_CLEANING_CONGREGATION_PREFIX = 'cong:';
+
+const HALL_CLEANING_FIELD: Record<
+  HallCleaningSlotType,
+  AssignmentFieldHallCleaningType
+> = {
+  midweek: 'HC_MM_Dynamic',
+  weekend: 'HC_WM_Dynamic',
+  yearly: 'HC_Yearly_Dynamic',
+};
+
+export const schedulesHallCleaningYearlyDate = (
+  schedule: SchedWeekType | undefined,
+  dataView = store.get(userDataViewState)
+) => {
+  return (
+    schedule?.hall_cleaning?.yearly?.date?.find(
+      (record) => record.type === dataView
+    )?.value ?? ''
+  );
+};
+
+// with one assignee per week, the midweek slot stands for both meetings; the
+// settings belong to one data view, which decides the meetings held
+export const schedulesHallCleaningSlots = (
+  config?: HallCleaningConfigType,
+  schedule?: SchedWeekType
+): HallCleaningSlotType[] => {
+  config = resolveHallCleaningConfig(schedule, config);
+  if (!config) return [];
+
+  // in a joint week a language group meets with the host congregation,
+  // which then cleans the hall
+  const isJointWeek = (meeting: 'midweek' | 'weekend') => {
+    if (!schedule || config.type === 'main') return false;
+
+    const weekType =
+      schedule[`${meeting}_meeting`]?.week_type.find(
+        (record) => record.type === config.type
+      )?.value ?? Week.NORMAL;
+
+    return WEEK_TYPE_LANGUAGE_GROUPS.includes(weekType);
+  };
+
+  const held = (meeting: 'midweek' | 'weekend') =>
+    !schedule ||
+    (schedulesDutiesMeetingHeld(schedule, meeting, config.type, false) &&
+      !isJointWeek(meeting));
+
+  const slots: HallCleaningSlotType[] = [];
+
+  if (config.period.value === 'week') {
+    if (held('midweek') || held('weekend')) slots.push('midweek');
+  } else {
+    if (held('midweek')) slots.push('midweek');
+    if (held('weekend')) slots.push('weekend');
+  }
+
+  if (schedulesHallCleaningYearlyDate(schedule, config.type)) {
+    slots.push('yearly');
+  }
+
+  return slots;
+};
+
+const HALL_CLEANING_SLOT = Object.fromEntries(
+  Object.entries(HALL_CLEANING_FIELD).map(([slot, field]) => [field, slot])
+) as Record<AssignmentFieldHallCleaningType, HallCleaningSlotType>;
+
+export type HallCleaningModeType = HallCleaningConfigType['assign_to']['value'];
+
+// a whole group, publishers named from a group, or any publishers; a language
+// group has no field service groups of its own and always names publishers
+export const schedulesHallCleaningMode = (
+  config: HallCleaningConfigType
+): HallCleaningModeType =>
+  config.type === 'main' ? config.assign_to.value : 'persons';
+
+// a whole group brings its own people, so nobody is named
+export const schedulesHallCleaningPersons = (
+  slot: HallCleaningSlotType,
+  config: HallCleaningConfigType
+): DutyFieldDefinitionType[] => {
+  if (schedulesHallCleaningMode(config) === 'group') return [];
+
+  return Array.from({ length: config.amount.value }, (_, index) => ({
+    assignment: HALL_CLEANING_FIELD[slot],
+    type:
+      index === 0
+        ? AssignmentCode.CLEANING_HallResponsible
+        : AssignmentCode.CLEANING_Hall,
+    schedule_id: String(index + 1),
+  }));
+};
+
+// names kept from an earlier setup (more cleaners, a slot turned off) stay
+// stored but are neither shown, printed nor counted
+export const schedulesHallCleaningIsActive = (
+  config: HallCleaningConfigType | undefined,
+  schedule: SchedWeekType,
+  assignment: AssignmentFieldType,
+  id?: string,
+  dataView = config?.type
+) => {
+  config = resolveHallCleaningConfig(schedule, config, dataView);
+  const slot =
+    HALL_CLEANING_SLOT[assignment as AssignmentFieldHallCleaningType];
+
+  if (!config || !slot || !id) return false;
+
+  if (!schedulesHallCleaningSlots(config, schedule).includes(slot)) {
+    return false;
+  }
+
+  return Number(id) <= schedulesHallCleaningPersons(slot, config).length;
+};
+
+// monthly turns follow the real day of each cleaning, so a weekend meeting
+// early in a month belongs to that month's group, not the previous one
+const hallCleaningSlotDate = (
+  schedule: SchedWeekType,
+  slot: HallCleaningSlotType,
+  config: HallCleaningConfigType
+) => {
+  if (slot === 'yearly') {
+    return new Date(schedulesHallCleaningYearlyDate(schedule, config.type));
+  }
+
+  const meeting =
+    slot === 'weekend'
+      ? 'weekend'
+      : slot === 'midweek' && config.period.value === 'meeting'
+        ? 'midweek'
+        : undefined;
+
+  // a week belongs to the month of its Thursday
+  if (!meeting) return addDays(schedule.weekOf, 3);
+
+  return schedulesResolveMeetingDate({
+    settings: store.get(settingsState),
+    schedule,
+    meeting,
+    dataView: config.type,
+  });
+};
+
+const hallCleaningGroupExists = (groupId: string) =>
+  store.get(fieldGroupsState).some((group) => group.group_id === groupId);
+
+const hallCleaningRotationGroups = (
+  week: string,
+  config: HallCleaningConfigType,
+  date: Date
+) => {
+  const groups = config.rotation_groups?.value ?? [];
+  const start = config.rotation_start?.value ?? '';
+
+  if (groups.length === 0 || start.length === 0 || week < start) return [];
+
+  const length = Math.max(1, config.rotation_length.value);
+
+  let units: number;
+
+  if (config.rotation_unit.value === 'month') {
+    // the start week counts for the month of its Thursday; a meeting of that
+    // week still in the month before belongs to the first turn all the same
+    const startMonth = addDays(start, 3);
+
+    units = Math.max(
+      0,
+      (date.getFullYear() - startMonth.getFullYear()) * 12 +
+        (date.getMonth() - startMonth.getMonth())
+    );
+  } else {
+    // rounded, so a daylight saving change in between does not shift a week
+    units = Math.round(
+      (addDays(week, 1).getTime() - addDays(start, 1).getTime()) /
+        (7 * 24 * 60 * 60 * 1000)
+    );
+  }
+
+  return hallCleaningRotationOrder(
+    groups,
+    Math.floor(units / length),
+    hallCleaningConfiguredGroupCount(config)
+  );
+};
+
+export const schedulesHallCleaningGroups = (
+  schedule: SchedWeekType | undefined,
+  slot: HallCleaningSlotType,
+  config?: HallCleaningConfigType
+) => {
+  config = resolveHallCleaningConfig(
+    schedule,
+    config ?? store.get(hallCleaningState)
+  );
+  if (config && schedulesHallCleaningMode(config) === 'persons') return [];
+  const dataView = config?.type ?? store.get(userDataViewState);
+  const stored = hallCleaningGroupEntries(
+    schedule?.hall_cleaning?.[slot]?.group,
+    dataView,
+    hallCleaningConfiguredGroupCount(config)
+  );
+  const historical =
+    !!schedule &&
+    schedule.weekOf < formatDate(getWeekDate(), 'yyyy/MM/dd') &&
+    !!schedule.hall_cleaning?.configuration?.some(
+      (entry) => entry.type === dataView
+    );
+  const automatic =
+    schedule && config && slot !== 'yearly'
+      ? hallCleaningRotationGroups(
+          schedule.weekOf,
+          config,
+          hallCleaningSlotDate(schedule, slot, config)
+        )
+      : [];
+  const valid = (value: string) =>
+    value.startsWith(HALL_CLEANING_CONGREGATION_PREFIX) ||
+    historical ||
+    hallCleaningGroupExists(value);
+  if (stored[0]?.value.startsWith(HALL_CLEANING_CONGREGATION_PREFIX))
+    return [{ value: stored[0].value, manual: true }];
+  return resolveHallCleaningGroups(stored, automatic, valid);
+};
+
+// Retain the single-position API for existing callers and legacy schedules.
+export const schedulesHallCleaningGroup = (
+  schedule: SchedWeekType | undefined,
+  slot: HallCleaningSlotType,
+  config?: HallCleaningConfigType,
+  position = 1
+) =>
+  schedulesHallCleaningGroups(schedule, slot, config)[position - 1] ?? {
+    value: '',
+    manual: false,
+  };
+
+export const schedulesHallCleaningGroupName = (groupId: string) => {
+  const group = store
+    .get(fieldGroupsState)
+    .find((record) => record.group_id === groupId);
+
+  if (!group) return '';
+
+  if (group.group_data.name.length > 0) return group.group_data.name;
+
+  return getTranslation({
+    key: 'tr_groupNumber',
+    params: { groupNumber: group.group_data.sort_index + 1 },
+  });
+};
+
+// a copy with the rotation's groups written in, for readers without settings
+export const schedulesHallCleaningWithGroups = (
+  schedule: SchedWeekType,
+  fallback = store.get(hallCleaningState)
+) => {
+  const config = resolveHallCleaningConfig(schedule, fallback);
+  const dataView = config?.type ?? store.get(userDataViewState);
+
+  const result = structuredClone(schedule);
+
+  for (const slot of schedulesHallCleaningSlots(config, schedule)) {
+    const resolved = schedulesHallCleaningGroups(schedule, slot, config);
+    result.hall_cleaning = {
+      midweek: {},
+      weekend: {},
+      yearly: {},
+      ...result.hall_cleaning,
+    };
+    let entries = result.hall_cleaning[slot].group ?? [];
+    resolved.forEach((group, index) => {
+      const stored = hallCleaningGroupEntries(entries, dataView, index + 1)[
+        index
+      ];
+      entries = updateHallCleaningGroupEntry(
+        entries,
+        {
+          type: dataView,
+          value: group.value,
+          name:
+            (group.manual && stored?.name) ||
+            schedulesHallCleaningGroupName(group.value) ||
+            '',
+          updatedAt: new Date().toISOString(),
+        },
+        index + 1
+      );
+    });
+    result.hall_cleaning[slot] = {
+      ...result.hall_cleaning[slot],
+      group: entries,
+    };
+  }
+
+  return config
+    ? snapshotHallCleaningConfig(result, config, new Date().toISOString())
+    : result;
+};
+
+export const schedulesHallCleaningForPublish = (schedule: SchedWeekType) => {
+  const result = schedulesHallCleaningWithGroups(schedule);
+  const config = resolveHallCleaningConfig(
+    schedule,
+    store.get(hallCleaningState)
+  );
+  if (!config || !result.hall_cleaning) return result;
+  const slots = schedulesHallCleaningSlots(config, schedule).map((slot) => ({
+    slot,
+    date: formatDate(
+      slot === 'midweek' && config.period.value === 'week'
+        ? addDays(schedule.weekOf, 1)
+        : hallCleaningSlotDate(schedule, slot, config),
+      'yyyy/MM/dd'
+    ),
+  }));
+  result.hall_cleaning.publication = [
+    ...(result.hall_cleaning.publication ?? []).filter(
+      (entry) => entry.type !== config.type
+    ),
+    { type: config.type, slots, updatedAt: new Date().toISOString() },
+  ];
+  return result;
+};
+
+export const schedulesHallCleaningInfo = (
+  week: string,
+  fallback = store.get(hallCleaningState)
+) => {
+  let config = fallback;
+  const dataView = store.get(userDataViewState);
+  const schedules = store.get(schedulesState);
+
+  const schedule = schedules.find((record) => record.weekOf === week);
+  config = resolveHallCleaningConfig(schedule, config);
+
+  let total = 0;
+  let assigned = 0;
+
+  if (!config || !schedule) return { total, assigned };
+
+  for (const slot of schedulesHallCleaningSlots(config, schedule)) {
+    const data = schedule.hall_cleaning?.[slot];
+
+    const resolved = schedulesHallCleaningGroups(schedule, slot, config);
+    const group = resolved[0]?.value ?? '';
+
+    const isCongregation = group.startsWith(HALL_CLEANING_CONGREGATION_PREFIX);
+
+    const mode = schedulesHallCleaningMode(config);
+
+    // with named publishers a yearly cleaning may do without a group
+    const needsGroup =
+      mode === 'group' || (mode === 'group_persons' && slot !== 'yearly');
+
+    if (needsGroup || isCongregation) {
+      total += isCongregation ? 1 : resolved.length;
+      assigned += isCongregation
+        ? 1
+        : resolved.filter((entry) => entry.value).length;
+    }
+
+    if (isCongregation) continue;
+
+    for (const field of schedulesHallCleaningPersons(slot, config)) {
+      total++;
+
+      const person = data?.persons?.find(
+        (record) => record.type === dataView && record.id === field.schedule_id
+      );
+      if (person?.value) assigned++;
+    }
+  }
+
+  const events = activeMajorCleanings(schedule.hall_cleaning?.events, dataView);
+  total += events.length;
+  assigned += events.filter((event) => event.participants.length > 0).length;
+  return { total, assigned };
+};
+
+// which named publishers may stay with a group: its members, anyone when
+// publishers are named without a group, nobody for a neighbouring congregation
+const hallCleaningKeeps = (
+  config: HallCleaningConfigType,
+  groupIds: string[]
+) => {
+  if (
+    groupIds.some((group) =>
+      group.startsWith(HALL_CLEANING_CONGREGATION_PREFIX)
+    )
+  )
+    return () => false;
+
+  if (groupIds.length === 0) {
+    return () => schedulesHallCleaningMode(config) !== 'group';
+  }
+
+  const members = new Set(
+    store
+      .get(fieldGroupsState)
+      .filter((record) => groupIds.includes(record.group_id))
+      .flatMap((record) =>
+        record.group_data.members.map((member) => member.person_uid)
+      )
+  );
+
+  return (person: string) => members.has(person);
+};
+
+// names that do not fit the slot's group make room; true when any changed
+const hallCleaningFitPersons = (
+  week: SchedWeekType,
+  slot: HallCleaningSlotType,
+  keeps: (person: string) => boolean,
+  dataView = store.get(userDataViewState)
+) => {
+  const updatedAt = new Date().toISOString();
+
+  let changed = false;
+
+  for (const record of week.hall_cleaning?.[slot]?.persons ?? []) {
+    if (record.type !== dataView || !record.value || keeps(record.value)) {
+      continue;
+    }
+
+    record.value = '';
+    record.updatedAt = updatedAt;
+    changed = true;
+  }
+
+  return changed;
+};
+
+const hallCleaningEnsureSlot = (week: SchedWeekType) => {
+  week.hall_cleaning = {
+    midweek: {},
+    weekend: {},
+    yearly: {},
+    ...week.hall_cleaning,
+  };
+
+  return week.hall_cleaning;
+};
+
+// the group overseer, or else the assistant, who may lead and is not away
+const hallCleaningGroupLead = (groupId: string, date: string) => {
+  const dataView = store.get(userDataViewState);
+  const persons = store.get(personsByViewState);
+
+  const members =
+    store.get(fieldGroupsState).find((record) => record.group_id === groupId)
+      ?.group_data.members ?? [];
+
+  const canLead = (person_uid: string) => {
+    const person = persons.find((record) => record.person_uid === person_uid);
+
+    if (
+      !person?.person_data.male.value ||
+      person.person_data.disqualified.value
+    )
+      return false;
+
+    const codes =
+      person.person_data.assignments.find((record) => record.type === dataView)
+        ?.values ?? [];
+
+    return (
+      codes.includes(AssignmentCode.CLEANING_HallResponsible) &&
+      !isPersonBlockedOnDate(person, date)
+    );
+  };
+
+  return [
+    members.find((member) => member.isOverseer),
+    members.find((member) => member.isAssistant),
+  ].find((member) => member && canLead(member.person_uid))?.person_uid;
+};
+
+const hallCleaningSaveWeeks = async (weeks: SchedWeekType[]) => {
+  if (weeks.length === 0) return;
+
+  const saved = await dbHallCleaningWeeksUpdate(weeks);
+
+  store.set(schedulesState, (current) =>
+    mergeHallCleaningWeeks(current, saved)
+  );
+
+  store.set(assignmentsHistoryState, schedulesBuildHistoryList());
+};
+
+/**
+ * Sets the group of one cleaning, or clears it to follow the turns again. Its
+ * members keep their places, other names make room, and the group overseer
+ * or assistant takes the lead when nobody leads it yet.
+ */
+export const schedulesSetHallCleaningGroup = async (
+  weekOf: string,
+  slot: HallCleaningSlotType,
+  value: string,
+  name: string,
+  position = 1
+) => {
+  const dataView = store.get(userDataViewState);
+  return runHallCleaningUpdate(async () => {
+    if (store.get(userDataViewState) !== dataView)
+      throw new Error('error_app_generic-desc');
+
+    let config = store.get(hallCleaningState);
+
+    const schedule = store
+      .get(schedulesState)
+      .find((record) => record.weekOf === weekOf);
+
+    config = resolveHallCleaningConfig(schedule, config);
+    if (!schedule || !config) return;
+
+    const week = structuredClone(schedule);
+    const cleaning = hallCleaningEnsureSlot(week);
+    const updatedAt = new Date().toISOString();
+
+    if (
+      !Number.isInteger(position) ||
+      position < 1 ||
+      position > hallCleaningConfiguredGroupCount(config)
+    )
+      return;
+    const currentGroups = schedulesHallCleaningGroups(week, slot, config);
+    if (
+      value &&
+      currentGroups.some(
+        (group, index) =>
+          index !== position - 1 && group.manual && group.value === value
+      )
+    )
+      return;
+    const entries = updateHallCleaningGroupEntry(
+      cleaning[slot].group ?? [],
+      { type: dataView, value, name, updatedAt },
+      position
+    );
+    cleaning[slot] = { ...cleaning[slot], group: entries };
+    const groupIds = schedulesHallCleaningGroups(week, slot, config)
+      .map((group) => group.value)
+      .filter(Boolean);
+    hallCleaningFitPersons(week, slot, hallCleaningKeeps(config, groupIds));
+    const namesPublishers =
+      schedulesHallCleaningMode(config) === 'group_persons';
+    const lead = namesPublishers
+      ? groupIds
+          .map((group) =>
+            hallCleaningGroupLead(
+              group,
+              formatDate(hallCleaningSlotDate(week, slot, config), 'yyyy/MM/dd')
+            )
+          )
+          .find(Boolean)
+      : undefined;
+
+    const persons = [...(cleaning[slot].persons ?? [])];
+    const responsible = persons.find(
+      (record) => record.type === dataView && record.id === '1'
+    );
+
+    if (lead && !responsible?.value) {
+      // a lead already named further down moves up instead of showing twice
+      for (const record of persons) {
+        if (record.type === dataView && record.value === lead) {
+          record.value = '';
+          record.updatedAt = updatedAt;
+        }
+      }
+
+      if (responsible) {
+        responsible.value = lead;
+        responsible.updatedAt = updatedAt;
+      } else {
+        persons.push({
+          id: '1',
+          type: dataView,
+          name: '',
+          value: lead,
+          updatedAt,
+        });
+      }
+    }
+
+    cleaning[slot] = { ...cleaning[slot], persons };
+
+    await hallCleaningSaveWeeks([week]);
+  });
+};
+
+/**
+ * Plans the yearly cleaning on a day of the week, or removes it together with
+ * its group and names when the day is cleared.
+ */
+export const schedulesSetHallCleaningYearly = async (
+  weekOf: string,
+  date: string
+) => {
+  const dataView = store.get(userDataViewState);
+  return runHallCleaningUpdate(async () => {
+    if (store.get(userDataViewState) !== dataView)
+      throw new Error('error_app_generic-desc');
+
+    const schedule = store
+      .get(schedulesState)
+      .find((record) => record.weekOf === weekOf);
+
+    if (!schedule) return;
+
+    const week = structuredClone(schedule);
+    const yearly = hallCleaningEnsureSlot(week).yearly;
+    const updatedAt = new Date().toISOString();
+
+    const setValue = (list: AssignmentCongregation[] = [], value: string) => {
+      const entries = [...list];
+      const entry = entries.find((record) => record.type === dataView);
+
+      if (entry) {
+        entry.value = value;
+        entry.name = '';
+        entry.updatedAt = updatedAt;
+      } else if (value) {
+        entries.push({ type: dataView, value, name: '', updatedAt });
+      }
+
+      return entries;
+    };
+
+    yearly.date = setValue(yearly.date, date);
+
+    if (!date) {
+      yearly.group = setValue(yearly.group, '');
+
+      hallCleaningFitPersons(week, 'yearly', () => false);
+    }
+
+    await hallCleaningSaveWeeks([week]);
+  });
+};
+
+/**
+ * Turns are worked out from the settings, so a new order, start or length
+ * would rewrite the past and leave planned weeks with another group's names.
+ * Past weeks keep the group they had; coming weeks whose group changes keep
+ * only the names that fit it.
+ */
+export const schedulesHallCleaningApplyTurnChange = async (
+  next: HallCleaningConfigType
+) => {
+  const config = store
+    .get(settingsState)
+    .cong_settings.hall_cleaning?.find((record) => record.type === next.type);
+
+  if (!config) return [];
+
+  const currentWeek = formatDate(getWeekDate(), 'yyyy/MM/dd');
+  const updatedAt = new Date().toISOString();
+  const changed: SchedWeekType[] = [];
+
+  const schedules = new Map(
+    store.get(schedulesState).map((week) => [week.weekOf, week])
+  );
+  if (next.rotation_groups.value.length && next.assign_to.value !== 'persons') {
+    for (const weekOf of hallCleaningPlanningWeeks(next.rotation_start.value)) {
+      if (!schedules.has(weekOf)) {
+        const week = { ...structuredClone(scheduleSchema), weekOf };
+        const assigned = schedulesHallCleaningSlots(next, week).some((slot) =>
+          schedulesHallCleaningGroups(week, slot, next).some(
+            (group) => group.value
+          )
+        );
+        if (assigned) schedules.set(weekOf, week);
+      }
+    }
+  }
+
+  for (const schedule of schedules.values()) {
+    const previous = resolveHallCleaningConfig(schedule, config);
+    if (schedule.weekOf < currentWeek) {
+      if (
+        !schedule.hall_cleaning?.configuration?.some(
+          (entry) => entry.type === config.type
+        )
+      ) {
+        changed.push(schedulesHallCleaningWithGroups(schedule, config));
+      }
+      continue;
+    }
+
+    const week = snapshotHallCleaningConfig(schedule, next, updatedAt);
+    for (const slot of schedulesHallCleaningSlots(next, week)) {
+      const before = schedulesHallCleaningGroups(schedule, slot, previous)
+        .map((group) => group.value)
+        .filter(Boolean);
+      const after = schedulesHallCleaningGroups(week, slot, next)
+        .map((group) => group.value)
+        .filter(Boolean);
+      if (before.join() !== after.join()) {
+        hallCleaningFitPersons(
+          week,
+          slot,
+          hallCleaningKeeps(next, after),
+          next.type
+        );
+      }
+    }
+    changed.push(week);
+  }
+
+  return changed;
+};
+
+export const schedulesDutiesConfig = () => {
+  const dataView = store.get(userDataViewState);
+  const settings = store.get(settingsState);
+
+  return settings.cong_settings.meeting_duties?.find(
+    (record) => record.type === dataView && !record._deleted.value
+  );
+};
+
+export const schedulesDutiesExportSettingsSave = async (settings: {
+  orientation: 'portrait' | 'landscape';
+  fontSize: number;
+}) => {
+  const updatedAt = new Date().toISOString();
+
+  await dbAppSettingsUpdate({
+    'user_settings.meeting_duties_export': {
+      orientation: { value: settings.orientation, updatedAt },
+      font_size: { value: settings.fontSize, updatedAt },
+    },
+  });
+};
+
+// the combined A/V duty is done by one brother, so he covers both jobs and
+// needs both qualifications; every other duty maps to its own code
+export const schedulesDutyRequiredCodes = (
+  type?: AssignmentCode
+): AssignmentCode[] => {
+  if (type === AssignmentCode.DUTIES_AudioVideo) {
+    return [AssignmentCode.DUTIES_Audio, AssignmentCode.DUTIES_Video];
+  }
+
+  return type === undefined ? [] : [type];
+};
+
+export const schedulesIsDutyCode = (code?: AssignmentCode) =>
+  code !== undefined && Boolean(AssignmentCode[code]?.startsWith('DUTIES_'));
+
+// fields stored as id-keyed lists rather than a single value
+const schedulesIsDynamicField = (assignment: AssignmentFieldType) =>
+  assignment.includes('_DUTIES_Dynamic') || assignment.startsWith('HC_');
+
+/**
+ * Whether a person may take a duty at all. Duties are for brothers, unless the
+ * congregation includes sisters because there aren't enough brothers. A
+ * qualification kept from before sisters were excluded again does not count.
+ */
+export const schedulesDutyAllowedForPerson = (
+  person: PersonType,
+  type: AssignmentCode | undefined,
+  sistersDuties: boolean
+) => {
+  // the one leading a hall cleaning is always a brother
+  if (type === AssignmentCode.CLEANING_HallResponsible) {
+    return person.person_data.male.value;
+  }
+
+  if (!schedulesIsDutyCode(type) || person.person_data.male.value) return true;
+
+  return sistersDuties;
+};
+
+export const schedulesDutyPersonQualified = (
+  type: AssignmentCode | undefined,
+  assignments: AssignmentCode[]
+) => {
+  const required = schedulesDutyRequiredCodes(type);
+
+  if (required.length === 0) return false;
+
+  return required.every((code) => assignments.includes(code));
+};
+
+// single source of truth for duty fields — drives counts and autofill
+export const schedulesDutiesFieldList = (
+  meeting: 'midweek' | 'weekend',
+  config: MeetingDutiesConfigType,
+  sections: DutiesSectionType[] = []
+): DutyFieldDefinitionType[] => {
+  const prefix = meeting === 'midweek' ? 'MM' : 'WM';
+
+  const fields: DutyFieldDefinitionType[] = [];
+
+  const positioned = (
+    duty:
+      | 'Audio'
+      | 'Video'
+      | 'AudioVideo'
+      | 'Microphone'
+      | 'Stage'
+      | 'EntranceAttendant'
+      | 'AuditoriumAttendant'
+      | 'Hospitality'
+      | 'VideoconferenceHost',
+    type: AssignmentCode,
+    amount: number
+  ) => {
+    for (let index = 1; index <= Math.min(amount, 4); index++) {
+      fields.push({
+        assignment: `${prefix}_DUTIES_${duty}_${index}` as AssignmentFieldType,
+        type,
+      });
+    }
+  };
+
+  const dynamic = (
+    items: MeetingDutiesConfigType['custom'] | DutiesSectionType[] | undefined,
+    type: AssignmentCode
+  ) => {
+    const active = items?.filter((record) => !record._deleted) ?? [];
+
+    for (const item of active) {
+      for (let index = 1; index <= Math.min(item.amount, 4); index++) {
+        fields.push({
+          assignment: `${prefix}_DUTIES_Dynamic` as AssignmentFieldType,
+          type,
+          schedule_id: `${item.id}_${index}`,
+        });
+      }
+    }
+  };
+
+  // av_combined: one brother does both duties, so a single field replaces them
+  if (config.av_combined?.value) {
+    positioned(
+      'AudioVideo',
+      AssignmentCode.DUTIES_AudioVideo,
+      config.audio_amount.value
+    );
+  } else {
+    positioned('Audio', AssignmentCode.DUTIES_Audio, config.audio_amount.value);
+
+    positioned('Video', AssignmentCode.DUTIES_Video, config.video_amount.value);
+  }
+
+  if (config.mic_sections.value) {
+    dynamic(sections, AssignmentCode.DUTIES_Microphone);
+  } else {
+    positioned(
+      'Microphone',
+      AssignmentCode.DUTIES_Microphone,
+      config.mic_amount.value
+    );
+  }
+
+  positioned('Stage', AssignmentCode.DUTIES_Stage, config.stage_amount.value);
+
+  positioned(
+    'EntranceAttendant',
+    AssignmentCode.DUTIES_EntranceAttendant,
+    config.entrance_attendant_amount.value
+  );
+
+  positioned(
+    'AuditoriumAttendant',
+    AssignmentCode.DUTIES_AuditoriumAttendant,
+    config.auditorium_attendant_amount?.value ?? 1
+  );
+
+  positioned(
+    'Hospitality',
+    AssignmentCode.DUTIES_Hospitality,
+    config.hospitality_amount.value
+  );
+
+  positioned(
+    'VideoconferenceHost',
+    AssignmentCode.DUTIES_VideoconferenceHost,
+    config.videoconference_host_amount?.value ?? 0
+  );
+
+  dynamic(config.custom, AssignmentCode.DUTIES_Custom);
+
+  return fields;
+};
+
+export const schedulesDutiesGetFieldValue = (
+  schedule: SchedWeekType,
+  field: DutyFieldDefinitionType,
+  dataView: string
+) => {
+  const data = schedulesGetData(
+    schedule,
+    ASSIGNMENT_PATH[field.assignment]
+  ) as AssignmentCongregation[];
+
+  if (!Array.isArray(data)) return '';
+
+  const assigned = field.schedule_id
+    ? data.find(
+        (record) => record.id === field.schedule_id && record.type === dataView
+      )
+    : data.find((record) => record.type === dataView);
+
+  return assigned?.value ?? '';
+};
+
+/**
+ * The parts of one meeting of one week, as the source material describes them.
+ * A microphone section covers some of these, so the brothers know which part
+ * they serve and autofill has a real basis to work from.
+ */
+export const schedulesDutiesMeetingParts = (
+  week: string,
+  meeting: 'midweek' | 'weekend'
+): DutiesMeetingPartType[] => {
+  const source = sourcesFind(week);
+
+  if (!source) return [];
+
+  const lang = store.get(JWLangState);
+  const dataView = store.get(userDataViewState);
+
+  const parts: DutiesMeetingPartType[] = [];
+
+  const add = (key: string, fallback: string, title?: string) => {
+    parts.push({ key, label: title?.trim() || fallback });
+  };
+
+  if (meeting === 'midweek') {
+    const midweek = source.midweek_meeting;
+
+    add(
+      'tgw_talk',
+      getTranslation({ key: 'tr_treasuresPart' }),
+      midweek.tgw_talk?.src?.[lang]
+    );
+
+    add('tgw_gems', getTranslation({ key: 'tr_tgwGems' }));
+
+    add('tgw_bible_reading', getTranslation({ key: 'tr_bibleReading' }));
+
+    const ayfCount = midweek.ayf_count?.[lang] ?? 0;
+
+    for (let index = 1; index <= ayfCount; index++) {
+      const part = midweek[
+        `ayf_part${index}` as SourceAssignmentType
+      ] as ApplyMinistryType;
+
+      add(
+        `ayf_part${index}`,
+        getTranslation({ key: 'tr_lcPartNum', params: { partNumber: index } }),
+        part?.title?.[lang]
+      );
+    }
+
+    const lcCount = sourcesCountLC(source, dataView, lang);
+
+    for (let index = 1; index <= lcCount; index++) {
+      const part = midweek[
+        `lc_part${index}` as SourceAssignmentType
+      ] as LivingAsChristiansType;
+
+      add(
+        `lc_part${index}`,
+        getTranslation({ key: 'tr_lcPartNum', params: { partNumber: index } }),
+        part ? sourcesLCGetTitle(part, dataView, lang) : undefined
+      );
+    }
+
+    add(
+      'lc_cbs',
+      getTranslation({ key: 'tr_cbs' }),
+      midweek.lc_cbs?.title?.default?.[lang]
+    );
+
+    return parts;
+  }
+
+  add('public_talk', getTranslation({ key: 'tr_publicTalk' }));
+
+  // the study keeps its own name: the article title changes every week and
+  // says nothing about where a brother stands
+  add('w_study', getTranslation({ key: 'tr_watchtowerStudy' }));
+
+  return parts;
+};
+
+/**
+ * The section name followed by the parts it covers, for the schedule and for
+ * the assignment the brother sees.
+ */
+export const schedulesDutiesSectionTitle = (
+  section: DutiesSectionType,
+  week: string,
+  meeting: 'midweek' | 'weekend'
+) => {
+  if (section.parts.length === 0) return section.name;
+
+  const parts = schedulesDutiesMeetingParts(week, meeting);
+
+  const labels = section.parts
+    .map((key) => parts.find((part) => part.key === key)?.label)
+    .filter(Boolean);
+
+  const partsLabel = labels.join(', ');
+
+  // a section named after its only part says it once
+  if (labels.length === 0 || partsLabel === section.name) {
+    return section.name;
+  }
+
+  return `${section.name}: ${partsLabel}`;
+};
+
+/**
+ * Sections of one meeting of one week, oldest first, deleted ones removed.
+ */
+export const schedulesDutiesSections = (
+  week: string,
+  meeting: 'midweek' | 'weekend'
+): DutiesSectionType[] => {
+  const schedules = store.get(schedulesState);
+
+  const schedule = schedules.find((record) => record.weekOf === week);
+
+  return (
+    schedule?.duties?.[meeting].sections?.filter(
+      (record) => !record._deleted
+    ) ?? []
+  );
+};
+
+/**
+ * Whether a meeting of the week has duties to fill: it needs its source
+ * material, a week type that holds the meeting, and, for a language group
+ * view, a group that holds that meeting at all. The editor, its counters and
+ * autofill all go through this, so they never disagree.
+ */
+export const schedulesDutiesMeetingHeld = (
+  schedule: SchedWeekType,
+  meeting: 'midweek' | 'weekend',
+  dataView = store.get(userDataViewState),
+  requireSource = true
+) => {
+  const lang = store.get(JWLangState);
+
+  const source = store
+    .get(sourcesState)
+    .find((record) => record.weekOf === schedule.weekOf);
+
+  const hasSource =
+    meeting === 'midweek'
+      ? source?.midweek_meeting.week_date_locale[lang]
+      : source?.weekend_meeting.w_study[lang];
+
+  if (requireSource && !hasSource) return false;
+
+  const group = store
+    .get(fieldServiceGroupsState)
+    .find(
+      (record) =>
+        record.group_id === dataView &&
+        record.group_data.language_group &&
+        !record.group_data._deleted
+    );
+
+  const groupHoldsMeeting =
+    (meeting === 'midweek'
+      ? group?.group_data.midweek_meeting
+      : group?.group_data.weekend_meeting) ?? true;
+
+  if (!groupHoldsMeeting) return false;
+
+  // published weeks can arrive without the meeting, e.g. only the cleaning
+  const weekType =
+    schedule[`${meeting}_meeting`]?.week_type.find(
+      (record) => record.type === dataView
+    )?.value ?? Week.NORMAL;
+
+  return !WEEK_TYPE_NO_MEETING.includes(weekType);
+};
+
+export const schedulesDutiesMeetingInfo = (
+  week: string,
+  meeting: 'midweek' | 'weekend'
+) => {
+  const schedules = store.get(schedulesState);
+  const dataView = store.get(userDataViewState);
+
+  const schedule = schedules.find((record) => record.weekOf === week);
+  const config = schedulesDutiesConfig();
+
+  if (!schedule?.duties || !config) return { total: 0, assigned: 0 };
+
+  if (!schedulesDutiesMeetingHeld(schedule, meeting)) {
+    return { total: 0, assigned: 0 };
+  }
+
+  const fields = schedulesDutiesFieldList(
+    meeting,
+    config,
+    schedulesDutiesSections(week, meeting)
+  );
+
+  const assigned = fields.filter(
+    (field) =>
+      schedulesDutiesGetFieldValue(schedule, field, dataView).length > 0
+  ).length;
+
+  return { total: fields.length, assigned };
 };
 
 export const schedulesMidweekInfo = (week: string) => {
@@ -212,7 +1390,7 @@ export const schedulesMidweekInfo = (week: string) => {
       assignment = assignment.find((record) => record.type === dataView);
     }
 
-    if ((assignment?.value?.length ?? 0) > 0) {
+    if (assignment?.value.length > 0) {
       assigned = assigned + 1;
     } else {
       const defaultCounselorEnabled = store.get(
@@ -431,18 +1609,17 @@ export const schedulesMidweekInfo = (week: string) => {
       const lcPart: LivingAsChristiansType =
         source.midweek_meeting[`lc_part${a}`];
 
-      const titleOverride =
-        lcPart.title.override.find((record) => record.type === dataView)
-          ?.value ?? '';
-
+      const titleOverride = lcPart.title.override.find(
+        (record) => record.type === dataView
+      )?.value;
       const titleDefault = lcPart.title.default[lang];
-      const title = titleOverride.length > 0 ? titleOverride : titleDefault;
+      const title = titleOverride?.length > 0 ? titleOverride : titleDefault;
 
-      const descOverride =
-        lcPart.desc.override.find((record) => record.type === dataView)
-          ?.value ?? '';
+      const descOverride = lcPart.desc.override.find(
+        (record) => record.type === dataView
+      )?.value;
       const descDefault = lcPart.desc.default[lang];
-      const desc = descOverride.length > 0 ? descOverride : descDefault;
+      const desc = descOverride?.length > 0 ? descOverride : descDefault;
 
       if (title?.length > 0) {
         const noAssign = sourcesCheckLCAssignments(title, desc, sourceLocale);
@@ -608,7 +1785,7 @@ export const schedulesWeekendInfo = (week: string) => {
   const dataView = store.get(userDataViewState);
   const coName = store.get(COFullnameState);
 
-  const schedule = schedules.find((record) => record.weekOf === week)!;
+  const schedule = schedules.find((record) => record.weekOf === week);
 
   let total = 0;
   let assigned = 0;
@@ -624,7 +1801,7 @@ export const schedulesWeekendInfo = (week: string) => {
     return { total, assigned };
   }
 
-  let assignment: AssignmentCongregation | undefined = undefined;
+  let assignment: AssignmentCongregation;
 
   const isMainCOVisit =
     schedule.midweek_meeting.week_type.find((record) => record.type === 'main')
@@ -640,7 +1817,7 @@ export const schedulesWeekendInfo = (week: string) => {
       (record) => record.type === dataView
     );
 
-    if (assignment && assignment.value.length > 0) {
+    if (assignment?.value.length > 0) {
       assigned = assigned + 1;
     }
 
@@ -653,7 +1830,7 @@ export const schedulesWeekendInfo = (week: string) => {
         (record) => record.type === dataView
       );
 
-      if (assignment && assignment.value.length > 0) {
+      if (assignment?.value.length > 0) {
         assigned = assigned + 1;
       }
     }
@@ -667,7 +1844,7 @@ export const schedulesWeekendInfo = (week: string) => {
         (record) => record.type === dataView
       );
 
-      if (assignment && assignment.value.length > 0) {
+      if (assignment?.value.length > 0) {
         assigned = assigned + 1;
       }
 
@@ -676,7 +1853,7 @@ export const schedulesWeekendInfo = (week: string) => {
         (record) => record.type === dataView
       );
 
-      if (assignment && assignment.value.length > 0) {
+      if (assignment?.value.length > 0) {
         total = total + 1;
         assigned = assigned + 1;
       }
@@ -690,7 +1867,7 @@ export const schedulesWeekendInfo = (week: string) => {
       (record) => record.type === dataView
     );
 
-    if (assignment && assignment.value.length > 0) {
+    if (assignment?.value.length > 0) {
       assigned = assigned + 1;
     } else {
       const defaultConductor = store.get(
@@ -727,14 +1904,14 @@ export const schedulesWeekendInfo = (week: string) => {
       (record) => record.type === dataView
     );
 
-    if (assignment && assignment.value.length > 0) {
+    if (assignment?.value.length > 0) {
       assigned = assigned + 1;
     } else {
       const speaker = schedule.weekend_meeting.speaker.part_1.find(
         (record) => record.type === dataView
       );
 
-      if (speaker && speaker.value.length > 0) {
+      if (speaker?.value.length > 0) {
         assigned = assigned + 1;
       }
     }
@@ -813,7 +1990,7 @@ export const schedulesWeekGetAssigned = ({
 
   let result: string;
 
-  if (assigned && assigned.value.length > 0) {
+  if (assigned?.value?.length > 0) {
     const person = personsStateFind(assigned.value);
     if (person) {
       if (useDisplayName) {
@@ -836,7 +2013,7 @@ export const schedulesWeekGetAssigned = ({
     }
   }
 
-  return result!;
+  return result;
 };
 
 export const schedulesGetSpeakerDetails = (
@@ -888,6 +2065,7 @@ export const schedulesGetHistoryDetails = ({
   history.assignment.dataView = assigned.type;
   history.assignment.person = assigned.value;
   history.assignment.key = assignment;
+  history.assignment.schedule_id = schedule_id;
 
   if (assignment.endsWith('_A')) {
     history.assignment.classroom = '1';
@@ -943,7 +2121,7 @@ export const schedulesGetHistoryDetails = ({
   }
 
   if (assignment.includes('AYFPart')) {
-    const partNum = assignment.match(/\d+\.?\d*/g)!.at(0);
+    const partNum = assignment.match(/\d+\.?\d*/g).at(0);
     const code: AssignmentCode =
       source.midweek_meeting[`ayf_part${partNum}`].type[lang];
 
@@ -951,12 +2129,9 @@ export const schedulesGetHistoryDetails = ({
       const src: string =
         source.midweek_meeting[`ayf_part${partNum}`].src[lang];
 
-      // the stored translation may list every known wording for the
-      // assignment pipe-separated: only the primary one is displayed
-      const title = primaryTranslation(
+      const title =
         assignments.find((record) => record.code === code)
-          ?.assignment_type_name[lang]
-      );
+          ?.assignment_type_name[lang] ?? '';
 
       history.assignment.src = src;
       history.assignment.ayf = {};
@@ -1010,7 +2185,7 @@ export const schedulesGetHistoryDetails = ({
   }
 
   if (assignment.startsWith('MM_LCPart') && assignment !== 'MM_LCPart3') {
-    const partNum = assignment.match(/\d+\.?\d*/g)!.at(0);
+    const partNum = assignment.match(/\d+\.?\d*/g).at(0);
     const lcPartLabel = `lc_part${partNum}`;
 
     const lcPart: LivingAsChristiansType = source.midweek_meeting[lcPartLabel];
@@ -1132,6 +2307,99 @@ export const schedulesGetHistoryDetails = ({
     }
   }
 
+  if (assignment.includes('_DUTIES_')) {
+    const staticDuties: [string, AssignmentCode, string][] = [
+      [
+        '_DUTIES_AudioVideo_',
+        AssignmentCode.DUTIES_AudioVideo,
+        'tr_audioVideo',
+      ],
+      ['_DUTIES_Audio_', AssignmentCode.DUTIES_Audio, 'tr_dutiesAudio'],
+      ['_DUTIES_Video_', AssignmentCode.DUTIES_Video, 'tr_dutiesVideo'],
+      [
+        '_DUTIES_Microphone_',
+        AssignmentCode.DUTIES_Microphone,
+        'tr_dutiesMicrophone',
+      ],
+      ['_DUTIES_Stage_', AssignmentCode.DUTIES_Stage, 'tr_dutiesStage'],
+      [
+        '_DUTIES_EntranceAttendant_',
+        AssignmentCode.DUTIES_EntranceAttendant,
+        'tr_dutiesEntranceAttendant',
+      ],
+      [
+        '_DUTIES_AuditoriumAttendant_',
+        AssignmentCode.DUTIES_AuditoriumAttendant,
+        'tr_dutiesAuditoriumAttendant',
+      ],
+      [
+        '_DUTIES_Hospitality_',
+        AssignmentCode.DUTIES_Hospitality,
+        'tr_dutiesHospitality',
+      ],
+      [
+        '_DUTIES_VideoconferenceHost_',
+        AssignmentCode.DUTIES_VideoconferenceHost,
+        'tr_dutiesVideoconferenceHost',
+      ],
+    ];
+
+    const staticDuty = staticDuties.find(([match]) =>
+      assignment.includes(match)
+    );
+
+    if (staticDuty) {
+      history.assignment.code = staticDuty[1];
+      history.assignment.title = getTranslation({ key: staticDuty[2] });
+    }
+
+    if (assignment.includes('_DUTIES_Dynamic') && schedule_id) {
+      // dynamic ids are `${sectionOrCustomId}_${position}`
+      const sourceId = schedule_id.substring(0, schedule_id.lastIndexOf('_'));
+
+      const settings = store.get(settingsState);
+      const config = settings.cong_settings.meeting_duties?.find(
+        (record) => record.type === assigned.type
+      );
+
+      const meeting = assignment.startsWith('WM') ? 'weekend' : 'midweek';
+
+      const section = schedule.duties?.[meeting].sections?.find(
+        (record) => record.id === sourceId
+      );
+
+      if (section) {
+        history.assignment.code = AssignmentCode.DUTIES_Microphone;
+
+        // the parts tell the brother where he is expected to help
+        history.assignment.title = schedulesDutiesSectionTitle(
+          section,
+          schedule.weekOf,
+          meeting
+        );
+      }
+
+      const custom = config?.custom?.find((record) => record.id === sourceId);
+
+      if (custom) {
+        history.assignment.code = AssignmentCode.DUTIES_Custom;
+        history.assignment.title = custom.name;
+      }
+    }
+  }
+
+  if (assignment.startsWith('HC_')) {
+    const isResponsible = schedule_id === '1';
+
+    history.assignment.code = isResponsible
+      ? AssignmentCode.CLEANING_HallResponsible
+      : AssignmentCode.CLEANING_Hall;
+
+    history.assignment.title = getTranslation({
+      key: isResponsible ? 'tr_hallCleaningResponsible' : 'tr_hallCleaning',
+    });
+  }
+
   return history;
 };
 
@@ -1143,6 +2411,57 @@ export const schedulesBuildHistoryList = () => {
   const languages = store.get(sourceLanguagesState);
   const shortDateFormat = store.get(shortDateFormatState);
   const talks = store.get(publicTalksState);
+  const settings = store.get(settingsState);
+
+  // duty values hidden by the current config must not feed history/conflicts
+  const dutiesFieldsCache = new Map<string, Set<string>>();
+
+  // sections belong to a week, so the active fields are cached per week too
+  const isActiveDutyField = (
+    key: AssignmentFieldType,
+    assigned: AssignmentCongregation,
+    week: string
+  ) => {
+    if (!key.includes('_DUTIES_')) return true;
+
+    const cacheKey = `${assigned.type}_${week}`;
+
+    let fieldSet = dutiesFieldsCache.get(cacheKey);
+
+    if (!fieldSet) {
+      fieldSet = new Set();
+
+      const config = settings.cong_settings.meeting_duties?.find(
+        (record) => record.type === assigned.type && !record._deleted.value
+      );
+
+      if (config) {
+        for (const meeting of ['midweek', 'weekend'] as const) {
+          const fields = schedulesDutiesFieldList(
+            meeting,
+            config,
+            schedulesDutiesSections(week, meeting)
+          );
+
+          for (const field of fields) {
+            fieldSet.add(
+              field.schedule_id
+                ? `${field.assignment}:${field.schedule_id}`
+                : field.assignment
+            );
+          }
+        }
+      }
+
+      dutiesFieldsCache.set(cacheKey, fieldSet);
+    }
+
+    const lookup = key.includes('_DUTIES_Dynamic')
+      ? `${key}:${assigned.id}`
+      : key;
+
+    return fieldSet.has(lookup);
+  };
 
   for (const schedule of schedules) {
     const source = sources.find((record) => record.weekOf === schedule.weekOf);
@@ -1159,6 +2478,25 @@ export const schedulesBuildHistoryList = () => {
         if (assigned._deleted) continue;
 
         if (assigned.value === '') continue;
+
+        const isActive = key.startsWith('HC_')
+          ? schedulesHallCleaningIsActive(
+              settings.cong_settings.hall_cleaning?.find(
+                (record) =>
+                  record.type === assigned.type && !record._deleted.value
+              ),
+              schedule,
+              key as AssignmentFieldType,
+              assigned.id,
+              assigned.type
+            )
+          : isActiveDutyField(
+              key as AssignmentFieldType,
+              assigned,
+              schedule.weekOf
+            );
+
+        if (!isActive) continue;
 
         const lang =
           languages
@@ -1229,8 +2567,7 @@ export const schedulesUpdateHistory = (
 
     if (previousIndex !== -1) historyStale.splice(previousIndex, 1);
 
-    let assigned: AssignmentCongregation | undefined = undefined;
-
+    let assigned: AssignmentCongregation;
     const dataView = store.get(userDataViewState);
     const schedules = store.get(schedulesState);
     const schedule = schedules.find((record) => record.weekOf === week);
@@ -1247,7 +2584,21 @@ export const schedulesUpdateHistory = (
       }
     }
 
-    if (schedule_id) {
+    if (schedule_id && schedulesIsDynamicField(item)) {
+      const dataSchedule = structuredClone(
+        schedulesGetData(schedule, ASSIGNMENT_PATH[item])
+      ) as AssignmentCongregation[];
+
+      if (Array.isArray(dataSchedule)) {
+        const record = dataSchedule.find(
+          (record) => record.id === schedule_id && record.type === dataView
+        );
+
+        if (record) assigned = record;
+      }
+    }
+
+    if (schedule_id && !schedulesIsDynamicField(item)) {
       const talkSchedule = schedule.weekend_meeting.outgoing_talks.find(
         (record) => record.id === schedule_id
       );
@@ -1270,7 +2621,7 @@ export const schedulesUpdateHistory = (
 
       const shortDateFormat = store.get(shortDateFormatState);
 
-      const source = sources.find((record) => record.weekOf === week)!;
+      const source = sources.find((record) => record.weekOf === week);
 
       const lang =
         languages.find((l) => l.type === assigned.type)?.value.toUpperCase() ??
@@ -1301,85 +2652,172 @@ export const schedulesUpdateHistory = (
   setAssignmentsHistory(historyStale);
 };
 
+type AssignmentValue = PersonType | VisitingSpeakerType | string;
+
+const saveStandardAssignment = async (
+  schedule: SchedWeekType,
+  assignment: AssignmentFieldType,
+  value: AssignmentValue,
+  dataView: string
+) => {
+  const toSave = value
+    ? typeof value === 'string'
+      ? value
+      : value.person_uid
+    : '';
+  const solo = typeof value === 'string';
+
+  const path = ASSIGNMENT_PATH[assignment];
+  const fieldUpdate = structuredClone(schedulesGetData(schedule, path));
+
+  if (Array.isArray(fieldUpdate)) {
+    const assigned = fieldUpdate.find((record) => record.type === dataView);
+
+    if (assigned) {
+      assigned.value = toSave;
+      assigned.updatedAt = new Date().toISOString();
+      assigned.solo = solo;
+    } else {
+      fieldUpdate.push({
+        name: '',
+        type: dataView,
+        updatedAt: new Date().toISOString(),
+        value: toSave,
+        solo,
+      });
+    }
+  } else {
+    fieldUpdate.value = toSave;
+    fieldUpdate.updatedAt = new Date().toISOString();
+    fieldUpdate.solo = solo;
+  }
+
+  await dbSchedUpdate(schedule.weekOf, {
+    [path]: fieldUpdate,
+  } as unknown as UpdateSpec<SchedWeekType>);
+};
+
+const saveDynamicDuty = async (
+  schedule: SchedWeekType,
+  assignment: AssignmentFieldType,
+  value: AssignmentValue,
+  schedule_id: string,
+  dataView: string
+) => {
+  const path = ASSIGNMENT_PATH[assignment];
+
+  const entries = structuredClone(
+    (schedulesGetData(schedule, path) ?? []) as AssignmentCongregation[]
+  );
+
+  const toSave = typeof value === 'string' ? value : (value?.person_uid ?? '');
+
+  const entry = entries.find(
+    (record) => record.id === schedule_id && record.type === dataView
+  );
+
+  if (entry) {
+    entry.value = toSave;
+    entry.updatedAt = new Date().toISOString();
+  } else {
+    entries.push({
+      id: schedule_id,
+      type: dataView,
+      name: '',
+      value: toSave,
+      updatedAt: new Date().toISOString(),
+    });
+  }
+
+  await dbSchedUpdate(schedule.weekOf, {
+    [path]: entries,
+  } as unknown as UpdateSpec<SchedWeekType>);
+};
+
+const saveOutgoingTalk = async (
+  schedule: SchedWeekType,
+  value: AssignmentValue,
+  schedule_id: string,
+  dataView: string
+) => {
+  const schedules = store.get(schedulesState);
+  const newSchedule = schedules.find(
+    (record) => record.weekOf === schedule.weekOf
+  );
+
+  if (!newSchedule) return;
+
+  const outgoingTalks = structuredClone(
+    newSchedule.weekend_meeting.outgoing_talks
+  );
+
+  const outgoingSchedule = outgoingTalks.find(
+    (record) => record.id === schedule_id
+  );
+
+  if (!outgoingSchedule) return;
+
+  const speaker = value as PersonType;
+
+  outgoingSchedule.updatedAt = new Date().toISOString();
+  outgoingSchedule.value = speaker === null ? '' : speaker.person_uid;
+  outgoingSchedule.type = dataView;
+
+  await dbSchedUpdate(schedule.weekOf, {
+    'weekend_meeting.outgoing_talks': outgoingTalks,
+  });
+};
+
 export const schedulesSaveAssignment = async (
   schedule: SchedWeekType,
   assignment: AssignmentFieldType,
-  value: PersonType | VisitingSpeakerType | string,
+  value: AssignmentValue,
   schedule_id?: string
 ) => {
   const dataView = store.get(userDataViewState);
 
-  if (!schedule_id) {
-    const toSave = value
-      ? typeof value === 'string'
-        ? value
-        : value.person_uid
-      : '';
-
-    const path = ASSIGNMENT_PATH[assignment];
-    const fieldUpdate = structuredClone(schedulesGetData(schedule, path))!;
-
-    if (Array.isArray(fieldUpdate)) {
-      const assigned = fieldUpdate.find((record) => record.type === dataView);
-
-      if (assigned) {
-        assigned.value = toSave;
-        assigned.updatedAt = new Date().toISOString();
-        assigned.solo = typeof value === 'string';
-      } else {
-        fieldUpdate.push({
-          name: '',
-          type: dataView,
-          updatedAt: new Date().toISOString(),
-          value: toSave,
-          solo: typeof value === 'string',
-        });
-      }
+  const save = async () => {
+    const current = assignment.startsWith('HC_')
+      ? (store
+          .get(schedulesState)
+          .find((week) => week.weekOf === schedule.weekOf) ?? schedule)
+      : schedule;
+    if (
+      assignment.startsWith('HC_') &&
+      store.get(userDataViewState) !== dataView
+    )
+      throw new Error('error_app_generic-desc');
+    if (!schedule_id) {
+      await saveStandardAssignment(current, assignment, value, dataView);
+    } else if (schedulesIsDynamicField(assignment)) {
+      await saveDynamicDuty(current, assignment, value, schedule_id, dataView);
     } else {
-      fieldUpdate.value = toSave;
-      fieldUpdate.updatedAt = new Date().toISOString();
-      fieldUpdate.solo = typeof value === 'string';
+      await saveOutgoingTalk(current, value, schedule_id, dataView);
     }
 
-    const dataDb = {
-      [path]: fieldUpdate,
-    } as unknown as UpdateSpec<SchedWeekType>;
-
-    await dbSchedUpdate(schedule.weekOf, dataDb);
-  }
-
-  if (schedule_id) {
-    const schedules = store.get(schedulesState);
-    const newSchedule = schedules.find(
-      (record) => record.weekOf === schedule.weekOf
-    );
-    if (!newSchedule) return;
-
-    const outgoingTalks = structuredClone(
-      newSchedule.weekend_meeting.outgoing_talks
-    );
-
-    const outgoingSchedule = outgoingTalks.find(
-      (record) => record.id === schedule_id
-    );
-    if (!outgoingSchedule) return;
-
-    const speaker = value as PersonType;
-
-    outgoingSchedule.updatedAt = new Date().toISOString();
-    outgoingSchedule.value = speaker === null ? '' : speaker.person_uid;
-    outgoingSchedule.type = dataView;
-
-    await dbSchedUpdate(schedule.weekOf, {
-      'weekend_meeting.outgoing_talks': outgoingTalks,
-    });
-  }
-
-  // update history
-  schedulesUpdateHistory(schedule.weekOf, assignment, schedule_id);
+    if (assignment.startsWith('HC_')) {
+      const saved = await dbSchedGet(schedule.weekOf);
+      if (saved)
+        store.set(schedulesState, (weeks) =>
+          weeks.map((week) =>
+            week.weekOf === saved.weekOf
+              ? { ...week, hall_cleaning: saved.hall_cleaning }
+              : week
+          )
+        );
+    }
+    // update history
+    schedulesUpdateHistory(schedule.weekOf, assignment, schedule_id);
+  };
+  if (assignment.startsWith('HC_')) return runHallCleaningUpdate(save);
+  await save();
 };
 
+// duties run their own week-conflict check with duty/part severities,
+// so they neither raise nor receive the same-meeting conflict
 const isConflictExemptAssignment = (assignment: AssignmentFieldType) =>
+  assignment.includes('_DUTIES_') ||
+  assignment.startsWith('HC_') ||
   assignment.endsWith('OpeningPrayer') ||
   assignment.endsWith('ClosingPrayer') ||
   assignment.endsWith('CircuitOverseer') ||
@@ -1471,9 +2909,9 @@ export const schedulesRemoveAssignment = (
 ) => {
   const dataView = store.get(userDataViewState);
   const path = ASSIGNMENT_PATH[assignment];
-  const fieldUpdate = structuredClone(schedulesGetData(schedule, path))!;
+  const fieldUpdate = structuredClone(schedulesGetData(schedule, path));
 
-  let assigned: AssignmentCongregation | undefined = undefined;
+  let assigned: AssignmentCongregation;
 
   if (Array.isArray(fieldUpdate)) {
     assigned = fieldUpdate.find((record) => record.type === dataView);
@@ -1489,6 +2927,95 @@ export const schedulesRemoveAssignment = (
   }
 
   return fieldUpdate;
+};
+
+export const scheduleDeleteDutiesAssignments = async (
+  schedule: SchedWeekType
+) => {
+  if (!schedule.duties) return;
+
+  const dataView = store.get(userDataViewState);
+
+  const staticFields = Object.keys(ASSIGNMENT_PATH).filter(
+    (key) => key.includes('_DUTIES_') && !key.includes('_DUTIES_Dynamic')
+  ) as AssignmentFieldType[];
+
+  const dataDb = staticFields.reduce<Record<string, unknown>>(
+    (acc, assignment) => {
+      acc[ASSIGNMENT_PATH[assignment]] = schedulesRemoveAssignment(
+        schedule,
+        assignment
+      );
+
+      return acc;
+    },
+    {}
+  );
+
+  // dynamic entries hold one record per data view AND position
+  for (const meeting of ['midweek', 'weekend'] as const) {
+    const entries = structuredClone(schedule.duties[meeting].dynamic ?? []);
+
+    for (const record of entries) {
+      if (record.type === dataView && record.value.length > 0) {
+        record.value = '';
+        record.updatedAt = new Date().toISOString();
+      }
+    }
+
+    dataDb[`duties.${meeting}.dynamic`] = entries;
+  }
+
+  await dbSchedUpdate(
+    schedule.weekOf,
+    dataDb as unknown as UpdateSpec<SchedWeekType>
+  );
+};
+
+export const scheduleDeleteHallCleaningAssignments = async (
+  schedule: SchedWeekType
+) => {
+  if (!schedule.hall_cleaning) return;
+
+  const dataView = store.get(userDataViewState);
+
+  const dataDb: Record<string, AssignmentCongregation[]> = {};
+
+  for (const slot of ['midweek', 'weekend', 'yearly'] as const) {
+    // clearing the day removes the yearly cleaning itself
+    const fields =
+      slot === 'yearly' ? ['group', 'persons', 'date'] : ['group', 'persons'];
+
+    for (const field of fields) {
+      const lists = schedule.hall_cleaning[slot] as
+        | Record<string, AssignmentCongregation[] | undefined>
+        | undefined;
+
+      const entries = structuredClone(lists?.[field] ?? []);
+
+      for (const record of entries) {
+        if (record.type === dataView && record.value.length > 0) {
+          record.value = '';
+          record.name = '';
+          record.updatedAt = new Date().toISOString();
+        }
+      }
+
+      dataDb[`hall_cleaning.${slot}.${field}`] = entries;
+    }
+  }
+
+  const events = (schedule.hall_cleaning.events ?? []).map((event) =>
+    event.type === dataView
+      ? { ...event, deleted: true, updatedAt: new Date().toISOString() }
+      : event
+  );
+  await dbSchedUpdate(schedule.weekOf, { 'hall_cleaning.events': events });
+
+  await dbSchedUpdate(
+    schedule.weekOf,
+    dataDb as unknown as UpdateSpec<SchedWeekType>
+  );
 };
 
 export const scheduleDeleteMidweekWeekAssignments = async (
@@ -1621,7 +3148,7 @@ export const scheduleDeleteWeekendAssignments = async (
 ) => {
   const settings = await dbAppSettingsGet();
 
-  const userRole = settings!.user_settings.cong_role;
+  const userRole = settings.user_settings.cong_role;
 
   const adminRole = userRole.some(
     (role) => role === 'admin' || role === 'coordinator' || role === 'secretary'
@@ -1684,11 +3211,13 @@ export const schedulesAutofillUpdateHistory = ({
   assignment,
   assigned,
   history,
+  schedule_id,
 }: {
   schedule: SchedWeekType;
   assignment: AssignmentFieldType;
   assigned: AssignmentCongregation;
   history: AssignmentHistoryType[];
+  schedule_id?: string;
 }) => {
   const dataView = store.get(userDataViewState);
   // remove record from history
@@ -1696,7 +3225,8 @@ export const schedulesAutofillUpdateHistory = ({
     (record) =>
       record.weekOf === schedule.weekOf &&
       record.assignment.key === assignment &&
-      record.assignment.dataView === dataView
+      record.assignment.dataView === assigned.type &&
+      (!schedule_id || record.assignment.schedule_id === schedule_id)
   );
 
   if (previousIndex !== -1 && assigned.value === '') {
@@ -1719,6 +3249,7 @@ export const schedulesAutofillUpdateHistory = ({
       dataView,
       shortDateFormat,
       talks,
+      schedule_id: schedule_id ?? assigned.id,
     });
 
     if (previousIndex === -1) {
@@ -1734,22 +3265,28 @@ export const schedulesAutofillSaveAssignment = ({
   schedule,
   value,
   history,
+  schedule_id,
 }: {
   schedule: SchedWeekType;
   assignment: AssignmentFieldType;
   value: PersonType;
   history: AssignmentHistoryType[];
+  schedule_id?: string;
 }) => {
   const dataView = store.get(userDataViewState);
 
   const toSave = value ? value.person_uid : '';
   const path = ASSIGNMENT_PATH[assignment];
-  const fieldUpdate = schedulesGetData(schedule, path)!;
+  const fieldUpdate = schedulesGetData(schedule, path);
 
-  let assigned: AssignmentCongregation | undefined = undefined;
+  let assigned: AssignmentCongregation;
 
   if (Array.isArray(fieldUpdate)) {
-    assigned = fieldUpdate.find((record) => record.type === dataView);
+    assigned = schedule_id
+      ? fieldUpdate.find(
+          (record) => record.id === schedule_id && record.type === dataView
+        )
+      : fieldUpdate.find((record) => record.type === dataView);
 
     if (assigned) {
       assigned.value = toSave;
@@ -1760,6 +3297,7 @@ export const schedulesAutofillSaveAssignment = ({
         updatedAt: new Date().toISOString(),
         value: toSave,
         name: '',
+        ...(schedule_id && { id: schedule_id }),
       };
 
       fieldUpdate.push(assigned);
@@ -1776,6 +3314,7 @@ export const schedulesAutofillSaveAssignment = ({
     assignment,
     assigned,
     history,
+    schedule_id,
   });
 };
 
@@ -1866,7 +3405,7 @@ export const schedulesS89Data = (schedule: SchedWeekType, dataView: string) => {
         ) as AssignmentCongregation;
 
         if (assistantAssigned?.value.length > 0) {
-          const assistantPerson = personsStateFind(assistantAssigned.value)!;
+          const assistantPerson = personsStateFind(assistantAssigned.value);
 
           obj.assistant_name = buildPersonFullname(
             assistantPerson.person_data.person_lastname.value,
@@ -2049,7 +3588,7 @@ export const schedulesMidweekData = (
   dataView: string,
   lang: string
 ) => {
-  const source = sourcesFind(schedule.weekOf)!;
+  const source = sourcesFind(schedule.weekOf);
   const class_count = store.get(midweekMeetingClassCountState);
 
   const openingPrayerLinked = store.get(midweekMeetingOpeningPrayerLinkedState);
@@ -2155,7 +3694,7 @@ export const schedulesMidweekData = (
       const weekTypes = store.get(weekTypeLocaleState);
       const name = weekTypes.find(
         (record) => record.id === week_type
-      )!.week_type_name;
+      ).week_type_name;
 
       result.week_type_name = name;
     }
@@ -2498,7 +4037,7 @@ export const schedulesWeekendData = (
   schedule: SchedWeekType,
   dataView: string
 ) => {
-  const source = sourcesFind(schedule.weekOf)!;
+  const source = sourcesFind(schedule.weekOf);
   const talks = store.get(publicTalksState);
 
   const openingPrayerAuto = store.get(
@@ -2610,7 +4149,7 @@ export const schedulesWeekendData = (
       }
 
       if (typeof talk === 'number') {
-        const record = talks.find((data) => data.talk_number === talk)!;
+        const record = talks.find((data) => data.talk_number === talk);
         result.public_talk_number =
           getTranslation({ key: 'tr_shortNumberLabel' }) +
           ' ' +
@@ -2789,7 +4328,7 @@ export const scheduleOutgoingSpeakers = (
   for (const record of outgoingTalkSchedules) {
     const speaker = persons.find(
       (person) => person.person_uid === record.value
-    )!;
+    );
 
     const speakerName = personGetDisplayName(
       speaker,
@@ -2963,7 +4502,7 @@ export const schedulesGetMeetingDate = ({
   dataView,
 }: {
   week: string;
-  meeting: 'midweek' | 'weekend';
+  meeting: ScheduleMeetingType;
   forPrint?: boolean;
   key?: string;
   short?: boolean;
@@ -2986,18 +4525,28 @@ export const schedulesGetMeetingDate = ({
   const schedule = schedules.find((record) => record.weekOf === week);
   const source = sources.find((record) => record.weekOf === week);
 
-  if (!schedule) return { locale, date };
+  const wholeWeek = meeting === 'duties' || meeting === 'cleaning';
+  if (
+    (!wholeWeek && (!schedule || !source)) ||
+    !Number.isFinite(new Date(week).getTime())
+  )
+    return { locale, date };
 
   if (meeting === 'midweek' && forPrint && !useExact) {
     locale = source?.midweek_meeting.week_date_locale[lang] ?? '';
   }
 
-  const meetingDate = schedulesResolveMeetingDate({
-    settings,
-    schedule,
-    meeting,
-    dataView,
-  });
+  // the duties are not a meeting of their own: they are held on the day after
+  // the week starts, since they follow whichever meetings that week has
+  const meetingDate =
+    meeting === 'duties' || meeting === 'cleaning'
+      ? addDays(week, 1)
+      : schedulesResolveMeetingDate({
+          settings,
+          schedule: schedule!,
+          meeting,
+          dataView,
+        });
 
   const vardate = meetingDate.getDate();
   const month = meetingDate.getMonth();

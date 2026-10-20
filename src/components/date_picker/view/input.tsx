@@ -60,6 +60,10 @@ const InputTextField = forwardRef(function DatePickerInputField(
         '.MuiPickersOutlinedInput-root': {
           borderRadius: 'var(--radius-l)',
           color: 'var(--black)',
+          '&.Mui-disabled': {
+            color: 'var(--grey-350)',
+            WebkitTextFillColor: 'var(--grey-350)',
+          },
           '& svg': {
             boxSizing: 'content-box',
           },

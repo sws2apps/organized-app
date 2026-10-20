@@ -7,6 +7,13 @@ import Dialog from '@components/dialog';
 import DialogActions from '@components/dialog_actions';
 import WeekRangeSelector from '../week_range_selector';
 
+const TITLE_KEYS: Record<ScheduleAutofillType['meeting'], string> = {
+  midweek: 'tr_autofillMM',
+  weekend: 'tr_autofillWM',
+  duties: 'tr_autofillDuties',
+  cleaning: 'tr_autofillHallCleaning',
+};
+
 const ScheduleAutofillDialog = ({
   open,
   onClose,
@@ -15,6 +22,9 @@ const ScheduleAutofillDialog = ({
   const { t } = useAppTranslation();
 
   const {
+    startWeek,
+    endWeek,
+    canAutofill,
     handleSetEndWeek,
     handleSetStartWeek,
     handleStartAutoFill,
@@ -25,22 +35,24 @@ const ScheduleAutofillDialog = ({
     <Dialog
       onClose={onClose}
       open={open}
-      title={meeting === 'midweek' ? t('tr_autofillMM') : t('tr_autofillWM')}
+      title={t(TITLE_KEYS[meeting])}
       description={t('tr_autofillDesc')}
     >
       <WeekRangeSelector
         meeting={meeting}
+        startWeek={startWeek}
+        endWeek={endWeek}
         onStartChange={handleSetStartWeek}
         onEndChange={handleSetEndWeek}
       />
 
       <DialogActions>
-        <Button variant="secondary" onClick={onClose}>
+        <Button variant="secondary" disabled={isProcessing} onClick={onClose}>
           {t('tr_cancel')}
         </Button>
         <Button
           variant="main"
-          disabled={isProcessing}
+          disabled={!canAutofill}
           endIcon=<>{isProcessing && <IconLoading />}</>
           onClick={handleStartAutoFill}
         >

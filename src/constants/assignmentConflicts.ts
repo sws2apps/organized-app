@@ -81,3 +81,34 @@ export const ASSIGNMENT_CONFLICTS: Record<number, number[]> = {
     AssignmentCode.WM_SpeakerSymposium,
   ],
 };
+
+// Internal workload preferences, not rules for whether someone is qualified.
+export const ASSIGNMENT_WORKLOAD = {
+  wholeMeeting: 100,
+  unknownPart: 20,
+  overlap: 1000,
+};
+
+export const PART_DURATION_FALLBACKS: Record<string, number> = {
+  opening_prayer: 1,
+  closing_prayer: 1,
+  tgw_bible_reading: 4,
+  tgw_talk: 10,
+  tgw_gems: 10,
+  lc_cbs: 30,
+  public_talk: 30,
+  w_study: 60,
+  chairman: ASSIGNMENT_WORKLOAD.wholeMeeting,
+  aux_counselor: ASSIGNMENT_WORKLOAD.wholeMeeting,
+};
+
+// These roles need continuous coverage; no unrecorded substitute is assumed.
+export const CONTINUOUS_DUTIES: (AssignmentCode | undefined)[] = [
+  AssignmentCode.DUTIES_Audio,
+  AssignmentCode.DUTIES_Video,
+  AssignmentCode.DUTIES_AudioVideo,
+  AssignmentCode.DUTIES_Stage,
+  AssignmentCode.DUTIES_EntranceAttendant,
+  AssignmentCode.DUTIES_AuditoriumAttendant,
+  AssignmentCode.DUTIES_VideoconferenceHost,
+];

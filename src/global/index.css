@@ -206,6 +206,7 @@ body iframe {
 
 /* shared motion tokens */
 :root {
+  --motion-hover: 100ms;
   --motion-fast: 180ms;
   --motion-base: 240ms;
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);

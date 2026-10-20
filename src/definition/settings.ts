@@ -290,6 +290,49 @@ export type SettingsType = {
       updatedAt: string;
       value: boolean;
     }[];
+    meeting_duties: {
+      type: string;
+      _deleted: { value: boolean; updatedAt: string };
+      conflict_prevent: { value: boolean; updatedAt: string };
+      sisters_duties?: { value: boolean; updatedAt: string };
+      mic_sections: { value: boolean; updatedAt: string };
+      av_combined: { value: boolean; updatedAt: string };
+      audio_amount: { value: number; updatedAt: string };
+      video_amount: { value: number; updatedAt: string };
+      mic_amount: { value: number; updatedAt: string };
+      stage_amount: { value: number; updatedAt: string };
+      entrance_attendant_amount: { value: number; updatedAt: string };
+      auditorium_attendant_amount: { value: number; updatedAt: string };
+      hospitality_amount: { value: number; updatedAt: string };
+      videoconference_host_amount: { value: number; updatedAt: string };
+      custom: {
+        _deleted: boolean;
+        id: string;
+        name: string;
+        updatedAt: string;
+        amount: number;
+      }[];
+    }[];
+    hall_cleaning?: {
+      type: string;
+      _deleted: { value: boolean; updatedAt: string };
+      // whole groups, publishers of a group, or any publishers
+      assign_to: {
+        value: 'group' | 'group_persons' | 'persons';
+        updatedAt: string;
+      };
+      // 'week' keeps one assignee for both meetings of the week
+      period: { value: 'meeting' | 'week'; updatedAt: string };
+      amount: { value: number; updatedAt: string };
+      group_amount?: { value: number; updatedAt: string };
+      // groups take turns in this order; an empty list turns the rotation off
+      rotation_groups: { value: string[]; updatedAt: string };
+      rotation_unit: { value: 'week' | 'month'; updatedAt: string };
+      // weeks or months each group keeps its turn
+      rotation_length: { value: number; updatedAt: string };
+      // week the first group starts, as yyyy/MM/dd
+      rotation_start: { value: string; updatedAt: string };
+    }[];
   };
   user_settings: {
     id?: string;
@@ -307,6 +350,13 @@ export type SettingsType = {
     theme_follow_os_enabled: { value: boolean; updatedAt: string };
     haptics_enabled: { value: boolean; updatedAt: string };
     hour_credits_enabled: { value: boolean; updatedAt: string };
+    meeting_duties_export?: {
+      orientation: {
+        value: 'portrait' | 'landscape';
+        updatedAt: string;
+      };
+      font_size: { value: number; updatedAt: string };
+    };
     data_view: { value: string; updatedAt: string };
   };
 };
