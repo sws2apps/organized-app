@@ -3,9 +3,8 @@ import { useAtomValue } from 'jotai';
 import { Box } from '@mui/material';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { congAccountConnectedState } from '@states/app';
-import { IconGenerate, IconPrint, IconPublish } from '@components/icons';
+import { IconGenerate, IconPublish } from '@components/icons';
 import CleaningEditor from '@features/activities/hall_cleaning/cleaning_editor';
-import CleaningExport from '@features/activities/hall_cleaning/cleaning_export';
 import NavBarButton from '@components/nav_bar_button';
 import NavBarButtonGroup from '@components/nav_bar_button_group';
 import PageTitle from '@components/page_title';
@@ -24,7 +23,6 @@ const HallCleaning = () => {
   const [quickSettingsOpen, setQuickSettingsOpen] = useState(false);
   const [autofillOpen, setAutofillOpen] = useState(false);
   const [publishOpen, setPublishOpen] = useState(false);
-  const [exportOpen, setExportOpen] = useState(false);
 
   return (
     <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
@@ -43,13 +41,6 @@ const HallCleaning = () => {
         />
       )}
 
-      {exportOpen && (
-        <CleaningExport
-          open={exportOpen}
-          onClose={() => setExportOpen(false)}
-        />
-      )}
-
       {isConnected && publishOpen && (
         <SchedulePublish
           type="cleaning"
@@ -63,11 +54,6 @@ const HallCleaning = () => {
         quickSettings={() => setQuickSettingsOpen(true)}
         buttons={
           <NavBarButtonGroup>
-            <NavBarButton
-              text={t('tr_export')}
-              icon={<IconPrint />}
-              onClick={() => setExportOpen(true)}
-            />
             <NavBarButton
               text={t('tr_autofill')}
               icon={<IconGenerate />}

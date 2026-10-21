@@ -16,4 +16,3 @@ export { default as IconJwHome } from './IconJwHome';
 export { default as IconTranslate } from './IconTranslate';
 export { default as IconDiagnosis } from './IconDiagnosis';
 export { default as IconCalendarClock } from './IconCalendarClock';
-export { default as IconClean } from './IconClean';

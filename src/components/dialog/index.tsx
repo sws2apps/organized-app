@@ -86,7 +86,6 @@ const Dialog = ({
   title,
   description,
   closable,
-  disableEnforceFocus = false,
 }: DialogProps) => {
   const { t } = useAppTranslation();
 
@@ -166,7 +165,11 @@ const Dialog = ({
     </Box>
   );
 
-  const handleClose = (_: object, reason: string) => {
+  /**
+   * Handles the dialog close event.
+   * @param {string} reason - The reason for closing the dialog.
+   */
+  const handleClose = (_, reason) => {
     if (reason === 'clickaway' || reason === 'backdropClick') {
       return;
     }
@@ -176,7 +179,6 @@ const Dialog = ({
 
   return (
     <MUIDialog
-      disableEnforceFocus={disableEnforceFocus}
       fullWidth
       open={open}
       onClose={handleClose}
