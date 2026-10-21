@@ -332,6 +332,7 @@ export type SettingsType = {
       rotation_length: { value: number; updatedAt: string };
       // week the first group starts, as yyyy/MM/dd
       rotation_start: { value: string; updatedAt: string };
+      rotation_end?: { value: string; updatedAt: string };
     }[];
   };
   user_settings: {

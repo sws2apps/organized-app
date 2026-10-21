@@ -1,4 +1,7 @@
-import { hallCleaningPlanningWeeks } from '@utils/hall_cleaning_planning';
+import {
+  hallCleaningDefaultEndWeek,
+  hallCleaningPlanningWeeks,
+} from '@utils/hall_cleaning_planning';
 import { scheduleSchema } from '@services/dexie/schema';
 import { dbHallCleaningWeeksUpdate } from '@services/dexie/hall_cleaning';
 import {
@@ -352,7 +355,14 @@ const hallCleaningRotationGroups = (
   const groups = config.rotation_groups?.value ?? [];
   const start = config.rotation_start?.value ?? '';
 
-  if (groups.length === 0 || start.length === 0 || week < start) return [];
+  const end = config.rotation_end?.value;
+  if (
+    groups.length === 0 ||
+    start.length === 0 ||
+    week < start ||
+    (end && week > end)
+  )
+    return [];
 
   const length = Math.max(1, config.rotation_length.value);
 
@@ -861,8 +871,18 @@ export const schedulesHallCleaningApplyTurnChange = async (
   const schedules = new Map(
     store.get(schedulesState).map((week) => [week.weekOf, week])
   );
-  if (next.rotation_groups.value.length && next.assign_to.value !== 'persons') {
-    for (const weekOf of hallCleaningPlanningWeeks(next.rotation_start.value)) {
+  const planningWeeks = new Set(
+    hallCleaningPlanningWeeks(
+      next.rotation_start.value,
+      new Date(),
+      next.rotation_end?.value ||
+        hallCleaningDefaultEndWeek(next.rotation_start.value)
+    )
+  );
+  const automatic =
+    next.rotation_groups.value.length > 0 && next.assign_to.value !== 'persons';
+  if (automatic) {
+    for (const weekOf of planningWeeks) {
       if (!schedules.has(weekOf)) {
         const week = { ...structuredClone(scheduleSchema), weekOf };
         const assigned = schedulesHallCleaningSlots(next, week).some((slot) =>
@@ -877,13 +897,22 @@ export const schedulesHallCleaningApplyTurnChange = async (
 
   for (const schedule of schedules.values()) {
     const previous = resolveHallCleaningConfig(schedule, config);
-    if (schedule.weekOf < currentWeek) {
+    if (
+      schedule.weekOf < currentWeek ||
+      (automatic && !planningWeeks.has(schedule.weekOf))
+    ) {
       if (
         !schedule.hall_cleaning?.configuration?.some(
           (entry) => entry.type === config.type
         )
       ) {
-        changed.push(schedulesHallCleaningWithGroups(schedule, config));
+        changed.push(
+          snapshotHallCleaningConfig(
+            schedulesHallCleaningWithGroups(schedule, config),
+            config,
+            updatedAt
+          )
+        );
       }
       continue;
     }

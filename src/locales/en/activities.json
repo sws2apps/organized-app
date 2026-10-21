@@ -11,7 +11,7 @@
   "tr_hallCleaningRotationDesc": "Assign groups automatically using the order and turn duration below.",
   "tr_hallCleaningTurnLength": "Each turn lasts",
   "tr_hallCleaningTurnOrder": "Group order",
-  "tr_hallCleaningTurnsChangeDesc": "Only coming weeks change. Publishers outside the new group are unassigned.",
+  "tr_hallCleaningTurnsChangeDesc": "Only future weeks in this period change. Publishers outside the new group are unassigned.",
   "tr_hallCleaningBackToTurns": "Reset to automatic assignment",
   "tr_hallCleaningFromTurns": "Assigned automatically",
   "tr_hallCleaningSetForWeek": "Changed manually",

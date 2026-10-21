@@ -415,6 +415,7 @@ const hallCleaningDefault = (type: string) => {
     rotation_unit: { value: 'week' as const, updatedAt },
     rotation_length: { value: 1, updatedAt },
     rotation_start: { value: '', updatedAt },
+    rotation_end: { value: '', updatedAt },
   };
 };
 

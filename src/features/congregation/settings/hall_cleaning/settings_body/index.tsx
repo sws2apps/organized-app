@@ -14,6 +14,7 @@ import {
   schedulesHallCleaningMode,
 } from '@services/app/schedules';
 import { formatDate, getWeekDate } from '@utils/date';
+import { hallCleaningDefaultEndWeek } from '@utils/hall_cleaning_planning';
 import useHallCleaningSettings from '../useHallCleaningSettings';
 import useGroupSelector from '@features/congregation/field_service_groups/group_selector/useGroupSelector';
 import RotationOrder from '../rotation_order';
@@ -35,7 +36,7 @@ type HallCleaningUnit = HallCleaningConfigType['rotation_unit']['value'];
 const HallCleaningSettingsBody = () => {
   const { t } = useAppTranslation();
 
-  const { laptopUp } = useBreakpoints();
+  const { laptopUp, tablet600Up } = useBreakpoints();
 
   const { isGroup } = useCurrentUser();
 
@@ -55,6 +56,10 @@ const HallCleaningSettingsBody = () => {
   const rotationGroups = config.rotation_groups.value;
   const isRotation = rotationGroups.length > 0;
   const groupOrder = groupOptions.map((option) => option.value);
+  const startWeek =
+    config.rotation_start.value || formatDate(getWeekDate(), 'yyyy/MM/dd');
+  const endWeek =
+    config.rotation_end?.value || hallCleaningDefaultEndWeek(startWeek);
 
   const handleToggleRotation = (enabled: boolean) => {
     if (!enabled) {
@@ -62,10 +67,11 @@ const HallCleaningSettingsBody = () => {
       return;
     }
 
-    const start =
-      config.rotation_start.value || formatDate(getWeekDate(), 'yyyy/MM/dd');
-
-    handleChange({ rotation_groups: groupOrder, rotation_start: start });
+    handleChange({
+      rotation_groups: groupOrder,
+      rotation_start: startWeek,
+      rotation_end: endWeek,
+    });
   };
 
   const unitLabel = (unit: HallCleaningUnit) => {
@@ -239,24 +245,37 @@ const HallCleaningSettingsBody = () => {
               </Stack>
 
               <Stack spacing="8px" sx={{ width: '100%', minWidth: 0 }}>
-                <DatePicker
-                  label={t('tr_startWeek')}
-                  value={
-                    config.rotation_start.value
-                      ? new Date(config.rotation_start.value)
-                      : null
-                  }
-                  onChange={(date) => {
-                    if (!date) return;
-
-                    handleChange({
-                      rotation_start: formatDate(
-                        getWeekDate(date),
-                        'yyyy/MM/dd'
-                      ),
-                    });
-                  }}
-                />
+                <Stack
+                  direction={tablet600Up ? 'row' : 'column'}
+                  spacing="16px"
+                  sx={{ '& > *': { flex: 1, minWidth: 0 } }}
+                >
+                  <DatePicker
+                    label={t('tr_startWeek')}
+                    value={new Date(startWeek)}
+                    maxDate={new Date(endWeek)}
+                    onChange={(date) => {
+                      if (!date) return;
+                      const value = formatDate(getWeekDate(date), 'yyyy/MM/dd');
+                      if (value > endWeek) return;
+                      handleChange({
+                        rotation_start: value,
+                        rotation_end: endWeek,
+                      });
+                    }}
+                  />
+                  <DatePicker
+                    label={t('tr_endWeek')}
+                    value={new Date(endWeek)}
+                    minDate={new Date(startWeek)}
+                    onChange={(date) => {
+                      if (!date) return;
+                      const value = formatDate(getWeekDate(date), 'yyyy/MM/dd');
+                      if (value < startWeek) return;
+                      handleChange({ rotation_end: value });
+                    }}
+                  />
+                </Stack>
                 <Typography
                   className="label-small-regular"
                   color="var(--grey-400)"

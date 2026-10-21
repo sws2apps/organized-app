@@ -336,3 +336,16 @@ test('published dates and cancellations are meaningful publication changes', () 
     'changes'
   );
 });
+
+test('a saved future week retains its planning period when the global end is shortened', () => {
+  const original = { ...config, rotation_end: field('2027/12/27') };
+  const saved = snapshotHallCleaningConfig(
+    { ...structuredClone(week), weekOf: '2027/02/01' },
+    original,
+    '2026-10-21'
+  );
+  const shortened = { ...original, rotation_end: field('2026/11/02') };
+  assert.deepEqual(resolveHallCleaningConfig(saved, shortened), original);
+  assert.deepEqual(saved.hall_cleaning?.midweek, week.hall_cleaning?.midweek);
+  assert.equal(shortened.rotation_start.value, original.rotation_start.value);
+});
