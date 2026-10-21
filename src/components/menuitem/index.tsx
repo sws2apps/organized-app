@@ -30,10 +30,10 @@ const MenuItem: FC<MenuItemProps> = (props) => {
             backgroundColor: 'var(--accent-100) !important',
           },
           '& p': {
-            color: 'var(--accent-dark)',
+            color: 'var(--accent-main)',
           },
           '& svg, & svg g, & svg g path': {
-            fill: 'var(--accent-dark)',
+            fill: 'var(--accent-main)',
           },
         },
         ...props.sx,
