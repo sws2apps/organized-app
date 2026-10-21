@@ -29,6 +29,15 @@ const publicationYears = (
     .filter((schedule) => schedule.months.length > 0);
 };
 
+const publicationDescription = (
+  schedules: ScheduleListType[],
+  reviewing: boolean,
+  t: ReturnType<typeof useAppTranslation>['t']
+) => {
+  if (!reviewing) return t('tr_scheduleChooseMonths');
+  return t('tr_scheduleMonthsSelected', { count: selectedMonths(schedules) });
+};
+
 const SchedulePublish = (props: SchedulePublishProps) => {
   const { t } = useAppTranslation();
   const { tablet500Down } = useBreakpoints();
@@ -50,13 +59,7 @@ const SchedulePublish = (props: SchedulePublishProps) => {
       onClose={props.onClose}
       open={props.open}
       title={t(reviewing ? 'tr_scheduleReviewTitle' : 'tr_publishSchedules')}
-      description={
-        reviewing
-          ? t('tr_scheduleMonthsSelected', {
-              count: selectedMonths(schedulesList),
-            })
-          : t('tr_scheduleChooseMonths')
-      }
+      description={publicationDescription(schedulesList, reviewing, t)}
       actions={
         <DialogActions>
           <Button
