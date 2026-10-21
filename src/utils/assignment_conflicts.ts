@@ -92,7 +92,30 @@ const assessesHeld = (
   return { penalty, blocked, isDuty: heldDuty };
 };
 
-// Shared by the cleaning picker and autofill so warnings and workload agree.
+const relevantConflict = (
+  entry: AssignmentHistoryType,
+  context: AssignmentConflictContext,
+  prefixes: string[]
+) => {
+  const { weekOf, assignment: held } = entry;
+  const key = held.key ?? '';
+  if (weekOf !== context.week || !held.person) return false;
+  if (
+    !prefixes.some((prefix) => key.startsWith(prefix)) &&
+    key !== context.assignment
+  )
+    return false;
+  if (
+    held.dataView === context.dataView &&
+    key === context.assignment &&
+    held.schedule_id === context.scheduleId
+  )
+    return false;
+  return (
+    context.assignment !== 'HC_Yearly_Dynamic' || key === context.assignment
+  );
+};
+
 export const collectAssignmentConflicts = (
   context: AssignmentConflictContext
 ) => {
@@ -107,25 +130,11 @@ export const collectAssignmentConflicts = (
     context.assignment.startsWith('HC_') && context.wholeWeek
       ? ['MM_', 'WM_']
       : [meetingOf(context.assignment)];
-  for (const { weekOf, assignment: held } of context.history) {
+  const relevant = context.history.filter((entry) =>
+    relevantConflict(entry, context, prefixes)
+  );
+  for (const { assignment: held } of relevant) {
     const key = held.key ?? '';
-    if (weekOf !== context.week || !held.person) continue;
-    if (
-      !prefixes.some((prefix) => key.startsWith(prefix)) &&
-      key !== context.assignment
-    )
-      continue;
-    if (
-      held.dataView === context.dataView &&
-      key === context.assignment &&
-      held.schedule_id === context.scheduleId
-    )
-      continue;
-    if (
-      context.assignment === 'HC_Yearly_Dynamic' &&
-      key !== context.assignment
-    )
-      continue;
     const assessment = assessesHeld(held, context);
     const previous = result.get(held.person);
     const personTitles = titles.get(held.person) ?? new Set<string>();

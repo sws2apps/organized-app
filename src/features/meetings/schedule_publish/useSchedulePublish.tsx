@@ -292,6 +292,37 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
   }, [sourcesList]);
 
   const schedulesList = useMemo(() => {
+    const project = (
+      month: string,
+      weeks: SchedWeekType[],
+      material: SourceWeekType[],
+      local: boolean
+    ) =>
+      projectScheduleMonth(
+        weeks.filter((week) => sourcesList.includes(week.weekOf)),
+        material,
+        month,
+        section,
+        local && type === 'cleaning'
+          ? schedulesHallCleaningForPublish
+          : undefined
+      );
+
+    const monthStatus = (month: string) => {
+      const remote = project(
+        month,
+        data?.schedules ?? [],
+        data?.sources ?? [],
+        false
+      );
+      return schedulePublicationState(
+        project(month, schedules, sources, true),
+        remote.length ? remote : undefined,
+        dataView,
+        publicationAvailable
+      );
+    };
+
     const result: ScheduleListType[] = baseList.map((record) => {
       return {
         year: record.year,
@@ -299,33 +330,7 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
           return {
             month,
             checked: checkedItems.includes(month),
-            status: (() => {
-              const project = (
-                weeks: SchedWeekType[],
-                material: SourceWeekType[],
-                local: boolean
-              ) =>
-                projectScheduleMonth(
-                  weeks.filter((week) => sourcesList.includes(week.weekOf)),
-                  material,
-                  month,
-                  section,
-                  local && type === 'cleaning'
-                    ? (week) => schedulesHallCleaningForPublish(week)
-                    : undefined
-                );
-              const remote = project(
-                data?.schedules ?? [],
-                data?.sources ?? [],
-                false
-              );
-              return schedulePublicationState(
-                project(schedules, sources, true),
-                remote.length ? remote : undefined,
-                dataView,
-                publicationAvailable
-              );
-            })(),
+            status: monthStatus(month),
           };
         }),
       };

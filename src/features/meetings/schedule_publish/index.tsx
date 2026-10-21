@@ -1,13 +1,20 @@
 import { Stack } from '@mui/material';
 import IconLoading from '@components/icon_loading';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
-import { SchedulePublishProps } from './index.types';
+import { ScheduleListType, SchedulePublishProps } from './index.types';
 import useSchedulePublish from './useSchedulePublish';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
 import DialogActions from '@components/dialog_actions';
 import InfoNote from '@components/info_note';
 import YearContainer from './year_container';
+
+const selectedMonths = (schedules: ScheduleListType[]) =>
+  schedules.reduce(
+    (total, year) =>
+      total + year.months.filter((month) => month.checked).length,
+    0
+  );
 
 const SchedulePublish = (props: SchedulePublishProps) => {
   const { t } = useAppTranslation();
@@ -33,11 +40,7 @@ const SchedulePublish = (props: SchedulePublishProps) => {
       description={
         reviewing
           ? t('tr_scheduleMonthsSelected', {
-              count: schedulesList.reduce(
-                (total, year) =>
-                  total + year.months.filter((month) => month.checked).length,
-                0
-              ),
+              count: selectedMonths(schedulesList),
             })
           : t('tr_scheduleChooseMonths')
       }
