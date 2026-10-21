@@ -1,11 +1,12 @@
 import { PropsWithChildren, ReactNode } from 'react';
-import { DialogProps as MUIDialogProps, SxProps, Theme } from '@mui/material';
+import { PaperProps as MUIPaperProps, SxProps, Theme } from '@mui/material';
 
 export type DialogProps = PropsWithChildren & {
   open: boolean;
+  disableEnforceFocus?: boolean;
   onClose: VoidFunction;
   sx?: SxProps<Theme>;
-  PaperProps?: MUIDialogProps['PaperProps'];
+  PaperProps?: Partial<MUIPaperProps>;
 
   title?: string;
 

@@ -4,7 +4,7 @@ export default generateSW({
   swDest: 'dist/service-worker.js',
   globDirectory: 'dist/',
   globPatterns: [
-    '**/*.{ico,json,png,html,js,css,webmanifest,pdf,svg,woff,woff2,ttf}',
+    '**/*.{ico,json,png,webp,html,js,css,webmanifest,pdf,svg,woff,woff2,ttf}',
   ],
   ignoreURLParametersMatching: [/^utm_/, /^fbclid$/, /^v$/],
   maximumFileSizeToCacheInBytes: 12582912,
