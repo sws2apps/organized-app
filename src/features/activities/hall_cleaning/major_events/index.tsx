@@ -18,7 +18,7 @@ import TextField from '@components/textfield';
 import Typography from '@components/typography';
 import useMajorEvents from '@features/activities/hall_cleaning/major_events/useMajorEvents';
 
-export default function MajorEvents({ week }: { week: string }) {
+export default function MajorEvents({ week }: Readonly<{ week: string }>) {
   const { t } = useAppTranslation();
   const { laptopDown } = useBreakpoints();
   const {

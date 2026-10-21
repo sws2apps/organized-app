@@ -125,7 +125,7 @@ const useWeekSelector = () => {
           .map((week) => week.weekOf),
       ]),
     ]
-      .sort()
+      .sort((a, b) => a.localeCompare(b))
       .map((weekOf) => ({ weekOf }));
     return {
       weeksExact,

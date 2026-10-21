@@ -110,6 +110,10 @@ const BrotherGroup = ({
 }) => {
   const { t } = useAppTranslation();
 
+  let groupLabel = 'tr_withDuties';
+  if (group === '0') groupLabel = 'tr_noOtherAssignments';
+  if (group === '1') groupLabel = 'tr_withMeetingParts';
+
   return (
     <>
       <Typography
@@ -117,11 +121,7 @@ const BrotherGroup = ({
         color="var(--accent-main)"
         sx={{ padding: '8px 12px 4px 16px' }}
       >
-        {group === '0'
-          ? t('tr_noOtherAssignments')
-          : group === '1'
-            ? t('tr_withMeetingParts')
-            : t('tr_withDuties')}
+        {t(groupLabel)}
       </Typography>
       <ul style={{ padding: 0, margin: 0 }}>{children}</ul>
     </>

@@ -31,10 +31,10 @@ import {
 import useGroupSelector from '@features/congregation/field_service_groups/group_selector/useGroupSelector';
 import { hallCleaningSlotLabel } from '../shared';
 
-const CLEANING_CODES = [
+const CLEANING_CODES = new Set([
   AssignmentCode.CLEANING_Hall,
   AssignmentCode.CLEANING_HallResponsible,
-];
+]);
 
 const useCleaningEditor = () => {
   const { t } = useAppTranslation();
@@ -89,7 +89,7 @@ const useCleaningEditor = () => {
     return persons.some((person) =>
       person.person_data.assignments
         .find((record) => record.type === dataView)
-        ?.values.some((code) => CLEANING_CODES.includes(code))
+        ?.values.some((code) => CLEANING_CODES.has(code))
     );
   }, [persons, dataView]);
 

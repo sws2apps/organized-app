@@ -1,8 +1,8 @@
 import type { HallCleaningLayoutType } from '@views/activities/hall_cleaning/index.types';
 
-export type CleaningLayoutPreviewProps = {
+export type CleaningLayoutPreviewProps = Readonly<{
   onPreviewChange: (open: boolean) => void;
   layouts: { value: HallCleaningLayoutType; label: string }[];
   value: HallCleaningLayoutType;
   onChange: (value: HallCleaningLayoutType) => void;
-};
+}>;

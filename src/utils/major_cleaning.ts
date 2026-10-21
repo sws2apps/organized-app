@@ -6,10 +6,10 @@ import type {
 import type { SchedWeekType } from '@definition/schedules';
 
 export const activeMajorCleanings = (
-  events: MajorCleaningEvent[] = [],
+  events: MajorCleaningEvent[] | undefined,
   type: string
 ) =>
-  events
+  (events ?? [])
     .filter((event) => event.type === type && !event.deleted)
     .sort((a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id));
 

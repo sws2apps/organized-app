@@ -29,6 +29,40 @@ export const cleaningYearRange = (
   };
 };
 
+const appendWeeklyRotation = (
+  result: CleaningRotationRange[],
+  week: CleaningRotationWeek,
+  groups: string[],
+  first: string,
+  last: string
+) => {
+  const start = week.week < first ? first : week.week;
+  const end = format(
+    new Date(
+      Math.min(
+        addDays(new Date(week.week), 6).getTime(),
+        new Date(last).getTime()
+      )
+    ),
+    'yyyy/MM/dd'
+  );
+  if (start > end) return;
+  const previous = result.at(-1);
+  const consecutive =
+    previous &&
+    format(addDays(new Date(previous.end), 1), 'yyyy/MM/dd') === start;
+  if (
+    previous &&
+    !previous.meeting &&
+    previous.groups.join() === groups.join() &&
+    consecutive
+  ) {
+    previous.end = end;
+    return;
+  }
+  result.push({ id: week.week, start, end, groups });
+};
+
 // Keep different meetings separate; a union would falsely assign both groups to both meetings.
 export const cleaningRotationRanges = (
   weeks: CleaningRotationWeek[],
@@ -41,26 +75,14 @@ export const cleaningRotationRanges = (
   for (const week of weeks) {
     const slots = week.slots.map((slot) => ({
       ...slot,
-      groups: [...new Set(slot.groups)].sort(),
+      groups: [...new Set(slot.groups)].sort((a, b) => a.localeCompare(b)),
     }));
     if (!slots.length) continue;
     const same = slots.every(
       (slot) => slot.groups.join() === slots[0].groups.join()
     );
     if (same && slots[0].groups.length) {
-      const start = week.week < first ? first : week.week;
-      const weekEnd = format(addDays(new Date(week.week), 6), 'yyyy/MM/dd');
-      const end = weekEnd > last ? last : weekEnd;
-      if (start > end) continue;
-      const previous = result.at(-1);
-      if (
-        previous &&
-        !previous.meeting &&
-        previous.groups.join() === slots[0].groups.join() &&
-        format(addDays(new Date(previous.end), 1), 'yyyy/MM/dd') === start
-      )
-        previous.end = end;
-      else result.push({ id: week.week, start, end, groups: slots[0].groups });
+      appendWeeklyRotation(result, week, slots[0].groups, first, last);
     } else {
       for (const slot of slots) {
         if (!slot.groups.length || slot.date < first || slot.date > last)

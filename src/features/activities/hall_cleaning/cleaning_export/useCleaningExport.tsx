@@ -134,7 +134,7 @@ const useCleaningExport = (onClose: VoidFunction) => {
       new Date(currentWeek).getFullYear() + 1,
       ...schedules.map((week) => new Date(week.weekOf).getFullYear()),
     ]),
-  ].sort();
+  ].sort((a, b) => a - b);
   const [isProcessing, setIsProcessing] = useState(false);
 
   const personName = (uid: string) => {
@@ -204,9 +204,9 @@ const useCleaningExport = (onClose: VoidFunction) => {
     };
   };
 
-  const weeksInRange = (
-    range: CleaningExportRange = { start: startWeek, end: endWeek }
-  ) => hallCleaningExportWeeks(schedules, range);
+  const selectedRange: CleaningExportRange = { start: startWeek, end: endWeek };
+  const weeksInRange = (range: CleaningExportRange = selectedRange) =>
+    hallCleaningExportWeeks(schedules, range);
   const exportSlots = (schedule: SchedWeekType) =>
     hallCleaningExportSlots(schedule, config);
 
@@ -264,7 +264,7 @@ const useCleaningExport = (onClose: VoidFunction) => {
   };
 
   const cleaningRows = (
-    range: CleaningExportRange = { start: startWeek, end: endWeek }
+    range: CleaningExportRange = selectedRange
   ): HallCleaningExportRowType[] => {
     const rows = weeksInRange(range).flatMap((schedule) =>
       ALL_SLOTS.filter((slot) => exportSlots(schedule).includes(slot)).flatMap(

@@ -16,8 +16,7 @@ import {
 export const saveHallCleaningSettings = (
   dataView: string,
   changes:
-    | HallCleaningChanges
-    | ((current: HallCleaningConfig) => HallCleaningChanges)
+    HallCleaningChanges | ((current: HallCleaningConfig) => HallCleaningChanges)
 ) => {
   return runHallCleaningUpdate(async () => {
     if (store.get(userDataViewState) !== dataView)
@@ -31,7 +30,7 @@ export const saveHallCleaningSettings = (
     for (const [key, value] of Object.entries(patch)) {
       Object.assign(record, { [key]: { value, updatedAt } });
     }
-    const weeks = await schedulesHallCleaningApplyTurnChange(record);
+    const weeks = schedulesHallCleaningApplyTurnChange(record);
     const saved = await dbHallCleaningSettingsUpdate(weeks, records);
     store.set(schedulesState, (current) =>
       mergeHallCleaningWeeks(current, saved)

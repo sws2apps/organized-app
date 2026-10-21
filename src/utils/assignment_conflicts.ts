@@ -21,9 +21,9 @@ export const assignmentPartKey = (key: string): string | undefined => {
   if (key === 'MM_TGWTalk') return 'tgw_talk';
   if (key === 'MM_TGWGems') return 'tgw_gems';
   if (key.startsWith('MM_TGWBibleReading')) return 'tgw_bible_reading';
-  const student = key.match(/^MM_AYFPart(\d)_/);
+  const student = /^MM_AYFPart(\d)_/.exec(key);
   if (student) return `ayf_part${student[1]}`;
-  const living = key.match(/^MM_LCPart(\d)$/);
+  const living = /^MM_LCPart(\d)$/.exec(key);
   if (living) return `lc_part${living[1]}`;
   if (key.startsWith('MM_LCCBS')) return 'lc_cbs';
   if (key.startsWith('WM_Speaker_Part')) return 'public_talk';
@@ -155,5 +155,7 @@ export const collectAssignmentConflicts = (
   return result;
 };
 
-export const assignmentConflictGroup = (conflict?: AssignmentConflict) =>
-  !conflict ? 0 : conflict.isDuty ? 2 : 1;
+export const assignmentConflictGroup = (conflict?: AssignmentConflict) => {
+  if (!conflict) return 0;
+  return conflict.isDuty ? 2 : 1;
+};

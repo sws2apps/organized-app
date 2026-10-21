@@ -808,8 +808,11 @@ export const schedulesSetHallCleaningYearly = async (
     const yearly = hallCleaningEnsureSlot(week).yearly;
     const updatedAt = new Date().toISOString();
 
-    const setValue = (list: AssignmentCongregation[] = [], value: string) => {
-      const entries = [...list];
+    const setValue = (
+      list: AssignmentCongregation[] | undefined,
+      value: string
+    ) => {
+      const entries = [...(list ?? [])];
       const entry = entries.find((record) => record.type === dataView);
 
       if (entry) {
@@ -841,7 +844,7 @@ export const schedulesSetHallCleaningYearly = async (
  * Past weeks keep the group they had; coming weeks whose group changes keep
  * only the names that fit it.
  */
-export const schedulesHallCleaningApplyTurnChange = async (
+export const schedulesHallCleaningApplyTurnChange = (
   next: HallCleaningConfigType
 ) => {
   const config = store

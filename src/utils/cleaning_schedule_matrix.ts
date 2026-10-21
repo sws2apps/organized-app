@@ -9,11 +9,8 @@ export const cleaningScheduleMatrix = (rows: HallCleaningExportRowType[]) => {
   const turns: HallCleaningTurnType[] = [];
 
   for (const row of rows) {
-    const badges = row.groups?.length
-      ? row.groups
-      : row.group
-        ? [row.group]
-        : [];
+    let badges = row.groups ?? [];
+    if (!badges.length && row.group) badges = [row.group];
     const leaders = [row.responsible, ...row.persons].filter(
       (name): name is string => !!name
     );

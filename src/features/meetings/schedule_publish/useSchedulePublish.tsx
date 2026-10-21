@@ -257,7 +257,7 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
           .map((week) => week.weekOf)
       );
     }
-    return [...new Set(weeks)].sort();
+    return [...new Set(weeks)].sort((a, b) => a.localeCompare(b));
   }, [
     sources,
     schedules,

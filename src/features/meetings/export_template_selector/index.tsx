@@ -9,6 +9,18 @@ import Typography from '@components/typography';
 import FullscreenButton from '@features/meetings/midweek_export/fullscreen_button';
 import { ExportTemplateSelectorProps } from './index.types';
 
+const previewToolbar = (onClose: VoidFunction, label: string) => (
+  <Box
+    ref={(node: HTMLDivElement | null) =>
+      node?.querySelector('button')?.focus()
+    }
+  >
+    <Button variant="secondary" onClick={onClose}>
+      {label}
+    </Button>
+  </Box>
+);
+
 const ExportTemplateSelector = <T extends string>({
   images,
   selected,
@@ -19,11 +31,9 @@ const ExportTemplateSelector = <T extends string>({
 }: ExportTemplateSelectorProps<T>) => {
   const { t } = useAppTranslation();
   const { mobile400Down, tablet500Down } = useBreakpoints();
-  const columns = mobile400Down
-    ? 1
-    : tablet500Down
-      ? Math.min(2, images.length)
-      : images.length;
+  let columns = images.length;
+  if (tablet500Down) columns = Math.min(2, images.length);
+  if (mobile400Down) columns = 1;
   const name = useId();
   const trigger = useRef<HTMLElement | null>(null);
   const [preview, setPreview] = useState<number | null>(null);
@@ -156,17 +166,9 @@ const ExportTemplateSelector = <T extends string>({
           onPreviewChange?.(false);
           trigger.current?.focus();
         }}
-        toolbarRender={() => (
-          <Box
-            ref={(node: HTMLDivElement | null) =>
-              node?.querySelector('button')?.focus()
-            }
-          >
-            <Button variant="secondary" onClick={() => setPreview(null)}>
-              {t('tr_close')}
-            </Button>
-          </Box>
-        )}
+        toolbarRender={() =>
+          previewToolbar(() => setPreview(null), t('tr_close'))
+        }
         maskClosable={false}
         maskOpacity={0.5}
       />

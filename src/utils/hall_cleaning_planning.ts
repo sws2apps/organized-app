@@ -29,7 +29,9 @@ export const hallCleaningPlanningWeeks = (
   const end = parse(endWeek, 'yyyy/MM/dd', today);
   if (!isValid(rotationStart) || !isValid(end)) return [];
   const currentWeek = startOfWeek(today, { weekStartsOn: 1 });
-  const first = rotationStart > currentWeek ? rotationStart : currentWeek;
+  const first = new Date(
+    Math.max(rotationStart.getTime(), currentWeek.getTime())
+  );
   if (end < first) return [];
   return eachWeekOfInterval({ start: first, end }, { weekStartsOn: 1 }).map(
     (week) => format(week, 'yyyy/MM/dd')

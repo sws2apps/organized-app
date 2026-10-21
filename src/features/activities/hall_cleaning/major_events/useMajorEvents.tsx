@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import type { MajorCleaningEvent } from '@definition/hall_cleaning';
 import { monthShortNamesState } from '@states/app';
@@ -59,7 +59,7 @@ export default function useMajorEvents(week: string) {
   );
   const [date, setDate] = useState(() => events[0]?.date ?? week);
   const drafts = useRef<Record<string, MajorCleaningEvent>>({});
-  const [, redraw] = useState(0);
+  const [, redraw] = useReducer((revision: number) => revision + 1, 0);
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [rows, setRows] = useState<
     Record<string, MajorCleaningEvent['participants']>
@@ -87,7 +87,7 @@ export default function useMajorEvents(week: string) {
   }, [date, event, visibleEvents]);
   const persist = async (next: MajorCleaningEvent) => {
     drafts.current[next.id] = next;
-    redraw((value) => value + 1);
+    redraw();
     setPending((value) => value + 1);
     setErrors((value) => ({ ...value, [next.date]: '' }));
     try {
@@ -95,7 +95,7 @@ export default function useMajorEvents(week: string) {
       if (drafts.current[next.id] === next) {
         setErrors((value) => ({ ...value, [next.date]: '' }));
         delete drafts.current[next.id];
-        redraw((value) => value + 1);
+        redraw();
       }
     } catch (error) {
       setErrors((value) => ({

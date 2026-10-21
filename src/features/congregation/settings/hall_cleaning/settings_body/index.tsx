@@ -63,11 +63,11 @@ const HallCleaningSettingsBody = () => {
 
   const handleToggleRotation = (enabled: boolean) => {
     if (!enabled) {
-      handleChange({ rotation_groups: [] });
+      void handleChange({ rotation_groups: [] });
       return;
     }
 
-    handleChange({
+    void handleChange({
       rotation_groups: groupOrder,
       rotation_start: startWeek,
       rotation_end: endWeek,
@@ -220,7 +220,7 @@ const HallCleaningSettingsBody = () => {
                     sx={{ flex: 2, minWidth: 0 }}
                     value={config.rotation_unit.value}
                     onChange={(e) =>
-                      handleChange({
+                      void handleChange({
                         rotation_unit: e.target.value as HallCleaningUnit,
                       })
                     }
@@ -272,7 +272,7 @@ const HallCleaningSettingsBody = () => {
                       if (!date) return;
                       const value = formatDate(getWeekDate(date), 'yyyy/MM/dd');
                       if (value < startWeek) return;
-                      handleChange({ rotation_end: value });
+                      void handleChange({ rotation_end: value });
                     }}
                   />
                 </Stack>

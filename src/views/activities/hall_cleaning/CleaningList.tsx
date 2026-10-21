@@ -62,9 +62,9 @@ const rowBadges = (row: HallCleaningExportRowType, hasNames: boolean) => {
         flexShrink: 1,
       }}
     >
-      {groups.map((group, index) => (
+      {groups.map((group) => (
         <Text
-          key={index}
+          key={`${group.name}:${group.color}`}
           style={{
             ...styles.badge,
             backgroundColor: group.color,

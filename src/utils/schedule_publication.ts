@@ -83,14 +83,12 @@ export const projectScheduleMonth = (
     .sort((a, b) => a.weekOf.localeCompare(b.weekOf))
     .map((week) => {
       const source = sources.find((item) => item.weekOf === week.weekOf);
+      let material;
+      if (section === 'midweek_meeting') material = source?.midweek_meeting;
+      if (section === 'weekend_meeting') material = source?.weekend_meeting;
       return {
         weekOf: week.weekOf,
         schedule: week[section],
-        source:
-          section === 'midweek_meeting'
-            ? source?.midweek_meeting
-            : section === 'weekend_meeting'
-              ? source?.weekend_meeting
-              : undefined,
+        source: material,
       };
     });

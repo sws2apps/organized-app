@@ -19,12 +19,12 @@ export const hallCleaningGroupPosition = (entry: AssignmentCongregation) =>
 // The existing first entry has no id. Additional positions use ids 2–6.
 // Reading fewer positions never changes or removes stored assignments.
 export const hallCleaningGroupEntries = (
-  entries: AssignmentCongregation[] = [],
+  entries: AssignmentCongregation[] | undefined,
   dataView: string,
   count: number
 ) =>
   Array.from({ length: count }, (_, index) =>
-    entries.find(
+    entries?.find(
       (entry) =>
         entry.type === dataView &&
         hallCleaningGroupPosition(entry) === index + 1
