@@ -120,15 +120,35 @@ const CleaningRotation = ({ groups, turns, rows }: CleaningMonthCardsProps) => {
                   ...frameStyle,
                 }}
               >
-                <View style={{ flexDirection: 'row', alignItems: 'stretch' }}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'stretch',
+                    padding: inlineTurn ? 8 : 0,
+                    gap: inlineTurn ? 8 : 0,
+                  }}
+                >
+                  {inlineTurn && (
+                    <View
+                      style={{
+                        position: 'absolute',
+                        top: 0,
+                        bottom: 0,
+                        left: 0,
+                        width: DATE_WIDTH + 8,
+                        backgroundColor: styles.listDate.backgroundColor,
+                      }}
+                    />
+                  )}
                   <View
                     style={{
                       flexDirection: 'row',
                       alignItems: 'flex-start',
                       gap: 8,
-                      padding: '8px',
+                      padding: inlineTurn ? 0 : 8,
                       backgroundColor: styles.listDate.backgroundColor,
-                      width: inlineTurn ? DATE_WIDTH + 8 : '100%',
+                      width: inlineTurn ? DATE_WIDTH : '100%',
+                      flexShrink: 0,
                     }}
                   >
                     <Text
@@ -147,7 +167,7 @@ const CleaningRotation = ({ groups, turns, rows }: CleaningMonthCardsProps) => {
                       style={{
                         flex: 1,
                         justifyContent: 'flex-start',
-                        padding: 8,
+                        minWidth: 0,
                       }}
                     >
                       <RotationGroups
