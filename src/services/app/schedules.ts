@@ -1724,7 +1724,7 @@ export const schedulesGetHistoryDetails = ({
   schedule_id,
 }: {
   schedule: SchedWeekType;
-  source: SourceWeekType;
+  source: SourceWeekType | undefined;
   assigned: AssignmentCongregation;
   assignment: AssignmentFieldType;
   lang: string;
@@ -1750,6 +1750,19 @@ export const schedulesGetHistoryDetails = ({
   history.assignment.person = assigned.value;
   history.assignment.key = assignment;
   history.assignment.schedule_id = schedule_id;
+
+  if (assignment.startsWith('HC_')) {
+    const isResponsible = schedule_id === '1';
+    history.assignment.code = isResponsible
+      ? AssignmentCode.CLEANING_HallResponsible
+      : AssignmentCode.CLEANING_Hall;
+    history.assignment.title = getTranslation({
+      key: isResponsible ? 'tr_hallCleaningResponsible' : 'tr_hallCleaning',
+    });
+    return history;
+  }
+
+  if (!source) return;
 
   if (assignment.endsWith('_A')) {
     history.assignment.classroom = '1';
@@ -1994,18 +2007,6 @@ export const schedulesGetHistoryDetails = ({
     }
   }
 
-  if (assignment.startsWith('HC_')) {
-    const isResponsible = schedule_id === '1';
-
-    history.assignment.code = isResponsible
-      ? AssignmentCode.CLEANING_HallResponsible
-      : AssignmentCode.CLEANING_Hall;
-
-    history.assignment.title = getTranslation({
-      key: isResponsible ? 'tr_hallCleaningResponsible' : 'tr_hallCleaning',
-    });
-  }
-
   return history;
 };
 
@@ -2022,9 +2023,8 @@ export const schedulesBuildHistoryList = () => {
   for (const schedule of schedules) {
     const source = sources.find((record) => record.weekOf === schedule.weekOf);
 
-    if (!source) continue;
-
     for (const [key, value] of Object.entries(ASSIGNMENT_PATH)) {
+      if (!source && !key.startsWith('HC_')) continue;
       const record = schedulesGetData(schedule, value);
       const assignments = Array.isArray(record) ? record : [record];
 
@@ -2067,7 +2067,7 @@ export const schedulesBuildHistoryList = () => {
           schedule_id: assigned.id,
         });
 
-        result.push(history);
+        if (history) result.push(history);
       }
     }
   }
@@ -2181,7 +2181,7 @@ export const schedulesUpdateHistory = (
         schedule_id: assigned.id,
       });
 
-      historyStale.push(historyDetails);
+      if (historyDetails) historyStale.push(historyDetails);
     }
   }
 
@@ -2754,6 +2754,8 @@ export const schedulesAutofillUpdateHistory = ({
       talks,
       schedule_id: schedule_id ?? assigned.id,
     });
+
+    if (!historyDetails) return;
 
     if (previousIndex === -1) {
       history.push(historyDetails);
