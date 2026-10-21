@@ -16,6 +16,19 @@ const selectedMonths = (schedules: ScheduleListType[]) =>
     0
   );
 
+const publicationYears = (
+  schedules: ScheduleListType[],
+  reviewing: boolean
+) => {
+  if (!reviewing) return schedules;
+  return schedules
+    .map((schedule) => ({
+      ...schedule,
+      months: schedule.months.filter((month) => month.checked),
+    }))
+    .filter((schedule) => schedule.months.length > 0);
+};
+
 const SchedulePublish = (props: SchedulePublishProps) => {
   const { t } = useAppTranslation();
   const { tablet500Down } = useBreakpoints();
@@ -81,29 +94,15 @@ const SchedulePublish = (props: SchedulePublishProps) => {
           spacing="24px"
           sx={{ width: '100%', alignItems: 'flex-start' }}
         >
-          {schedulesList
-            .filter(
-              (schedule) =>
-                !reviewing || schedule.months.some((month) => month.checked)
-            )
-            .map((schedule) => (
-              <YearContainer
-                key={schedule.year}
-                data={
-                  reviewing
-                    ? {
-                        ...schedule,
-                        months: schedule.months.filter(
-                          (month) => month.checked
-                        ),
-                      }
-                    : schedule
-                }
-                readOnly={reviewing}
-                disabled={isProcessing}
-                onChange={handleCheckedChange}
-              />
-            ))}
+          {publicationYears(schedulesList, reviewing).map((schedule) => (
+            <YearContainer
+              key={schedule.year}
+              data={schedule}
+              readOnly={reviewing}
+              disabled={isProcessing}
+              onChange={handleCheckedChange}
+            />
+          ))}
         </Stack>
       </Stack>
     </Dialog>
