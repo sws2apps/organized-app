@@ -62,7 +62,7 @@ const useMidweekContainer = () => {
     const assignments = Object.entries(ASSIGNMENT_PATH);
     const midweekAssignments = assignments.filter(
       (record) =>
-        record[0].includes('MM_') && record[0] !== 'MM_CircuitOverseer'
+        record[0].startsWith('MM_') && record[0] !== 'MM_CircuitOverseer'
     );
 
     const dates: string[] = [];

@@ -120,7 +120,7 @@ const useWeekendMeeting = ({
     const assignments = Object.entries(ASSIGNMENT_PATH);
     const weekendAssignments = assignments.filter(
       (record) =>
-        record[0].includes('WM_') && record[0] !== 'WM_CircuitOverseer'
+        record[0].startsWith('WM_') && record[0] !== 'WM_CircuitOverseer'
     );
 
     const dates: string[] = [];
@@ -159,7 +159,7 @@ const useWeekendMeeting = ({
 
     const assignments = Object.entries(ASSIGNMENT_PATH);
     const weekendAssignments = assignments.filter((record) =>
-      record[0].includes('WM_')
+      record[0].startsWith('WM_')
     );
 
     let cn = 0;

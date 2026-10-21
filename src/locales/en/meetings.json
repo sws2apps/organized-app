@@ -193,5 +193,11 @@
   "tr_meetingPortion": "Meeting portion",
   "tr_specialTalkOnly": "Special talk only",
   "tr_hostCongregationShort": "Host",
-  "tr_outgoingSpeakersSchedule": "Outgoing speakers schedule"
+  "tr_outgoingSpeakersSchedule": "Outgoing speakers schedule",
+  "tr_responsible": "Responsible",
+  "tr_hasAnotherAssignment": "Has another assignment: {{ assignment }}",
+  "tr_noOtherAssignments": "No other assignments",
+  "tr_withMeetingParts": "With meeting parts",
+  "tr_withDuties": "With duties",
+  "tr_assignmentDurationShort": "({{ time }} min)"
 }

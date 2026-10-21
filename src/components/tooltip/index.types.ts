@@ -4,7 +4,10 @@ import { SxProps, Theme, TooltipProps } from '@mui/material';
 /**
  * Props for the CustomTooltip component.
  */
-export type CustomTooltipProps = {
+export type CustomTooltipProps = Pick<
+  TooltipProps,
+  'open' | 'onOpen' | 'onClose' | 'disableTouchListener'
+> & {
   children?: ReactElement;
   title: ReactNode;
   followCursor?: boolean;

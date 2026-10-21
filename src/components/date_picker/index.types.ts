@@ -7,9 +7,9 @@ export type CustomDatePickerView = 'button' | 'input';
  * Props for the CustomDatePicker component.
  */
 export interface CustomDatePickerProps {
- /**
-  * The selected date value.
-  */
+  /**
+   * The selected date value.
+   */
   value?: Date | null;
 
   /**
@@ -21,6 +21,9 @@ export interface CustomDatePickerProps {
    * The label for the date picker.
    */
   label?: string;
+
+  /** Accessible name when the visible label is provided outside the field. */
+  ariaLabel?: string;
 
   /**
    * Whether to limit the year range.
@@ -40,7 +43,7 @@ export interface CustomDatePickerProps {
   /**
    * Function called when the selected date changes.
    * @param value - The new selected date value.
-  */
+   */
   onChange?: (value: Date | null) => void | Promise<void>;
 
   /**

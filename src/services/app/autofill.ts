@@ -73,6 +73,7 @@ import {
   sourcesCheckLCAssignments,
   sourcesCheckLCElderAssignment,
 } from './sources';
+import { hallCleaningStartAutofill } from './hall_cleaning_autofill';
 import { fieldServiceGroupsState } from '@states/field_service_groups';
 
 /**
@@ -1979,10 +1980,15 @@ const processingTasks = ({
 export const schedulesStartAutofill = async (
   start: string,
   end: string,
-  meeting: 'midweek' | 'weekend'
+  meeting: 'midweek' | 'weekend' | 'cleaning'
 ): Promise<number> => {
   try {
     if (start.length === 0 || end.length === 0) return 0;
+
+    // cleaning only names people from the group already on turn
+    if (meeting === 'cleaning') {
+      return await hallCleaningStartAutofill(start, end);
+    }
 
     const { modifiedWeeks, updatedSchedules } = handleDynamicAssignmentAutofill(
       start,
