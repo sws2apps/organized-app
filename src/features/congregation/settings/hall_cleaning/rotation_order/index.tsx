@@ -49,11 +49,14 @@ const RotationOrder = ({ groups, rotation, onChange }: RotationOrderProps) => {
   };
 
   const move = (id: string, direction: -1 | 1) => {
-    const index = rotation.indexOf(id);
+    const visible = items
+      .filter((item) => item.included)
+      .map((item) => item.id);
+    const index = visible.indexOf(id);
     const target = index + direction;
-    if (index < 0 || target < 0 || target >= rotation.length) return;
+    if (index < 0 || target < 0 || target >= visible.length) return;
 
-    const next = [...rotation];
+    const next = [...visible];
     [next[index], next[target]] = [next[target], next[index]];
     onChange(next);
   };
