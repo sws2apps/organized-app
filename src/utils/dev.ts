@@ -703,6 +703,20 @@ export const importDummyPersons = async (showLoading?: boolean) => {
           person.person_data.assignments.at(0).updatedAt =
             new Date().toISOString();
         }
+
+        if (
+          maleStatus === 'baptized' ||
+          maleStatus === 'FR' ||
+          maleStatus === 'minServ'
+        ) {
+          const assignments = person.person_data.assignments.at(0);
+
+          if (assignments) {
+            assignments.values.push();
+
+            assignments.updatedAt = new Date().toISOString();
+          }
+        }
       }
     }
 

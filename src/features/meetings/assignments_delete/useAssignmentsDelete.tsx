@@ -6,7 +6,6 @@ import { assignmentsHistoryState, schedulesState } from '@states/schedules';
 import { SchedWeekType } from '@definition/schedules';
 import { AssignmentsDeleteType } from './index.types';
 import {
-  scheduleDeleteDutiesAssignments,
   scheduleDeleteHallCleaningAssignments,
   scheduleDeleteMidweekWeekAssignments,
   scheduleDeleteWeekendAssignments,
@@ -37,10 +36,6 @@ const useAssignmentsDelete = (
 
       if (meeting === 'weekend') {
         await scheduleDeleteWeekendAssignments(schedule);
-      }
-
-      if (meeting === 'duties') {
-        await scheduleDeleteDutiesAssignments(schedule);
       }
 
       if (meeting === 'cleaning') {

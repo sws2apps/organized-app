@@ -7,7 +7,6 @@ import { schedulesWeekAssignmentsInfo } from '@services/app/schedules';
 import { schedulesState, selectedWeekState } from '@states/schedules';
 import {
   hallCleaningState,
-  meetingDutiesState,
   meetingExactDateState,
   midweekMeetingWeekdayState,
   weekendMeetingWeekdayState,
@@ -30,15 +29,12 @@ const useMonthItem = ({
   const meetingExactDate = useAtomValue(meetingExactDateState);
   const midweekDay = useAtomValue(midweekMeetingWeekdayState);
   const weekendDay = useAtomValue(weekendMeetingWeekdayState);
-  const dutiesConfig = useAtomValue(meetingDutiesState);
   const hallCleaningConfig = useAtomValue(hallCleaningState);
 
   const [total, setTotal] = useState(0);
   const [assigned, setAssigned] = useState(0);
 
   const meeting: ScheduleMeetingType = useMemo(() => {
-    if (location.pathname === '/meeting-duties') return 'duties';
-
     if (location.pathname === '/activities/hall-cleaning') return 'cleaning';
 
     return location.pathname === '/midweek-meeting' ? 'midweek' : 'weekend';
@@ -102,7 +98,7 @@ const useMonthItem = ({
 
     return { total, assigned };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [weeks, schedules, meeting, dutiesConfig, hallCleaningConfig]);
+  }, [weeks, schedules, meeting, hallCleaningConfig]);
 
   const handleToggleExpand = () => {
     if (currentExpanded === month) {

@@ -50,7 +50,7 @@ const useWeekRangeSelector = (
   }, [controlledStart]);
 
   const showDateLabel = useMemo(() => {
-    if (meeting === 'duties' || meeting === 'cleaning') return false;
+    if (meeting === 'cleaning') return false;
 
     if (meeting === 'weekend') return true;
 
@@ -96,7 +96,7 @@ const useWeekRangeSelector = (
   const mapSourcesToOptions = useCallback(
     (sourceList: typeof sources) => {
       return sourceList.map((source) => {
-        if (meeting === 'duties' || meeting === 'cleaning') {
+        if (meeting === 'cleaning') {
           return {
             value: source.weekOf,
             label: dateFormatFriendly(source.weekOf),

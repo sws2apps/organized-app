@@ -29,7 +29,6 @@ import {
 import { AppRoleType, LanguageItem } from '@definition/app';
 import {
   AssignmentCode,
-  AssignmentFieldDutiesType,
   AssignmentFieldHallCleaningType,
 } from '@definition/assignment';
 import { FullnameOption } from '@definition/settings';
@@ -694,57 +693,14 @@ const extractConfigs = <
   return result;
 };
 
-/**
- * The paths of the meeting duties.
- *
- * They are generated rather than listed one by one: every duty exists in both
- * meetings and in four positions, next to a dynamic section per meeting that
- * holds the sections a congregation defines itself.
- */
-const extractDutiesPaths = () => {
-  const paths = {} as Record<AssignmentFieldDutiesType, string>;
-
-  const meetings = [
-    ['MM', 'midweek'],
-    ['WM', 'weekend'],
-  ] as const;
-
-  const positioned = [
-    ['Audio', 'audio'],
-    ['Video', 'video'],
-    ['AudioVideo', 'audio_video'],
-    ['Microphone', 'microphones'],
-    ['Stage', 'stage'],
-    ['EntranceAttendant', 'entrance_attendant'],
-    ['AuditoriumAttendant', 'auditorium_attendant'],
-    ['Hospitality', 'hospitality'],
-    ['VideoconferenceHost', 'videoconference_host'],
-  ] as const;
-
-  for (const [prefix, meeting] of meetings) {
-    paths[`${prefix}_DUTIES_Dynamic`] = `duties.${meeting}.dynamic`;
-
-    for (const [duty, field] of positioned) {
-      for (const pos of [1, 2, 3, 4] as const) {
-        paths[`${prefix}_DUTIES_${duty}_${pos}`] =
-          `duties.${meeting}.${field}.position_${pos}`;
-      }
-    }
-  }
-
-  return paths;
-};
-
 const HALL_CLEANING_PATHS: Record<AssignmentFieldHallCleaningType, string> = {
   HC_MM_Dynamic: 'hall_cleaning.midweek.persons',
   HC_WM_Dynamic: 'hall_cleaning.weekend.persons',
   HC_Yearly_Dynamic: 'hall_cleaning.yearly.persons',
 };
 
-// the duties keep their own generated paths beside the assignments above
 export const ASSIGNMENT_PATH = {
   ...extractPaths(ASSIGNMENT_PATHS_SECTIONS),
-  ...extractDutiesPaths(),
   ...HALL_CLEANING_PATHS,
 };
 
@@ -903,16 +859,6 @@ export const BROTHER_ASSIGNMENT = [
   AssignmentCode.WM_SpeakerSymposium,
   AssignmentCode.WM_WTStudyConductor,
   AssignmentCode.WM_WTStudyReader,
-  AssignmentCode.DUTIES_Audio,
-  AssignmentCode.DUTIES_AudioVideo,
-  AssignmentCode.DUTIES_AuditoriumAttendant,
-  AssignmentCode.DUTIES_Custom,
-  AssignmentCode.DUTIES_EntranceAttendant,
-  AssignmentCode.DUTIES_Hospitality,
-  AssignmentCode.DUTIES_Microphone,
-  AssignmentCode.DUTIES_Stage,
-  AssignmentCode.DUTIES_Video,
-  AssignmentCode.DUTIES_VideoconferenceHost,
   AssignmentCode.CLEANING_Hall,
   AssignmentCode.CLEANING_HallResponsible,
 ];

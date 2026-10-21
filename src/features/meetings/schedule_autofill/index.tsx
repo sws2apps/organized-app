@@ -10,7 +10,6 @@ import WeekRangeSelector from '../week_range_selector';
 const TITLE_KEYS: Record<ScheduleAutofillType['meeting'], string> = {
   midweek: 'tr_autofillMM',
   weekend: 'tr_autofillWM',
-  duties: 'tr_autofillDuties',
   cleaning: 'tr_autofillHallCleaning',
 };
 

@@ -2,7 +2,6 @@ import type { AssignmentConflictContext } from '@definition/assignment_conflicts
 import type { SchedWeekType } from '@definition/schedules';
 import type { SourceAssignmentType, SourceWeekType } from '@definition/sources';
 import { store } from '@states/index';
-import { schedulesState } from '@states/schedules';
 import { sourcesState } from '@states/sources';
 import { JWLangState } from '@states/settings';
 import { sourcesPartTiming } from '@services/app/sources';
@@ -10,14 +9,11 @@ import { getTranslation } from '@services/i18n/translation';
 import { collectAssignmentConflicts } from '@utils/assignment_conflicts';
 
 export const getAssignmentConflicts = (
-  options: Omit<AssignmentConflictContext, 'sections' | 'minutes'> & {
+  options: Omit<AssignmentConflictContext, 'minutes'> & {
     schedule?: SchedWeekType;
     source?: SourceWeekType;
   }
 ) => {
-  const schedule =
-    options.schedule ??
-    store.get(schedulesState).find((week) => week.weekOf === options.week);
   const source =
     options.source ??
     store.get(sourcesState).find((week) => week.weekOf === options.week);
@@ -38,7 +34,7 @@ export const getAssignmentConflicts = (
     ] as SourceAssignmentType[]) {
       if (!source.midweek_meeting[key]) continue;
       const value = sourcesPartTiming(source, key, options.dataView, lang);
-      if (value > 0) minutes[key] = value;
+      if (value !== undefined && value > 0) minutes[key] = value;
     }
   }
   return collectAssignmentConflicts({
@@ -57,9 +53,5 @@ export const getAssignmentConflicts = (
         : entry
     ),
     minutes,
-    sections: {
-      midweek: schedule?.duties?.midweek?.sections ?? [],
-      weekend: schedule?.duties?.weekend?.sections ?? [],
-    },
   });
 };

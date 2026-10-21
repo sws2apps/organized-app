@@ -1,20 +1,20 @@
 import { ReactElement, ReactNode } from 'react';
 import { AssignmentCode, AssignmentFieldType } from '@definition/assignment';
 
-export type DutyFieldType = {
+export type CleaningFieldType = {
   assignment: AssignmentFieldType;
   type: AssignmentCode;
   label: string;
   schedule_id?: string;
 };
 
-export type DutyRowProps = {
+export type CleaningRowProps = {
   duty: string;
   icon: ReactElement;
   week: string;
-  fields?: DutyFieldType[];
+  fields?: CleaningFieldType[];
   /** one entry per duty column; its fields stack vertically */
-  columns?: DutyFieldType[][];
+  columns?: CleaningFieldType[][];
   // shown above the person fields, e.g. the group a cleaning goes to
   children?: ReactNode;
   allowedPersons?: string[];

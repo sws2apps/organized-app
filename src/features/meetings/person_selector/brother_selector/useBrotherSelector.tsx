@@ -1,6 +1,5 @@
-import { MouseEvent, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'react-router';
-import { createFilterOptions, FilterOptionsState } from '@mui/material';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { IconError } from '@components/icons';
 import { PersonOptionsType, PersonSelectorType } from '../index.types';
@@ -14,7 +13,6 @@ import {
 import { personIsAway, personIsElder } from '@services/app/persons';
 import {
   displayNameMeetingsEnableState,
-  dutiesSistersState,
   fullnameOptionState,
   hallCleaningState,
   settingsState,
@@ -36,8 +34,8 @@ import {
 } from '@states/schedules';
 import { personGetDisplayName, speakerGetDisplayName } from '@utils/common';
 import {
-  schedulesDutyAllowedForPerson,
-  schedulesDutyPersonQualified,
+  schedulesCleaningPersonAllowed,
+  schedulesPersonQualified,
   schedulesGetData,
   schedulesGetMeetingDate,
   schedulesResolveMeetingDate,
@@ -47,7 +45,7 @@ import {
   schedulesHallCleaningYearlyDate,
 } from '@services/app/schedules';
 import { ASSIGNMENT_PATH } from '@constants/index';
-import { AssignmentCongregation, DutiesGender } from '@definition/schedules';
+import { AssignmentCongregation } from '@definition/schedules';
 import { useAppTranslation } from '@hooks/index';
 import { incomingSpeakersState } from '@states/visiting_speakers';
 import { displaySnackNotification } from '@services/states/app';
@@ -61,8 +59,6 @@ import {
 } from '@utils/assignment_conflicts';
 import { resolveHallCleaningConfig } from '@utils/hall_cleaning';
 import { languageGroupsState } from '@states/field_service_groups';
-
-const defaultFilterOptions = createFilterOptions<PersonOptionsType>();
 
 const useBrotherSelector = ({
   type,
@@ -111,13 +107,11 @@ const useBrotherSelector = ({
   const wmShowMonthlyWarning = useAtomValue(
     weekendMeetingShowMonthlyWarningState
   );
-  const sistersDuties = useAtomValue(dutiesSistersState);
   const hallCleaningConfig = useAtomValue(hallCleaningState);
 
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
   const [isFreeSolo, setIsFreeSolo] = useState(false);
   const [inputValue, setInputValue] = useState('');
-  const [gender, setGender] = useState<DutiesGender>('male');
 
   const [isLinkedPart, setIsLinkedPart] = useState(false);
 
@@ -190,12 +184,9 @@ const useBrotherSelector = ({
     );
   }, [personsList, allowedPersons]);
 
-  const isDutiesField = assignment.includes('_DUTIES_');
-
   const isCleaningField = assignment.startsWith('HC_');
 
-  // duties and hall cleaning share the week-conflict list, not the gender toggle
-  const isWeekConflictField = isDutiesField || isCleaningField;
+  const isWeekConflictField = isCleaningField;
 
   // in week mode the midweek slot stands for both meetings; the deep cleaning
   // follows no meeting at all
@@ -260,8 +251,8 @@ const useBrotherSelector = ({
         type !== AssignmentCode.WM_SpeakerSymposium
       ) {
         return (
-          schedulesDutyPersonQualified(type, activeAssignments) &&
-          schedulesDutyAllowedForPerson(record, type, sistersDuties)
+          schedulesPersonQualified(type, activeAssignments) &&
+          schedulesCleaningPersonAllowed(record, type)
         );
       }
 
@@ -395,7 +386,6 @@ const useBrotherSelector = ({
     sourceLocale,
     talkType,
     weekConflicts,
-    sistersDuties,
   ]);
 
   const value = useMemo(() => {
@@ -536,9 +526,7 @@ const useBrotherSelector = ({
 
     let meeting: 'midweek' | 'weekend';
 
-    if (isDutiesField) {
-      meeting = assignment.startsWith('MM_DUTIES_') ? 'midweek' : 'weekend';
-    } else if (isCleaningField) {
+    if (isCleaningField) {
       meeting = assignment.startsWith('HC_MM_') ? 'midweek' : 'weekend';
     } else {
       meeting = location.pathname.includes('midweek') ? 'midweek' : 'weekend';
@@ -557,7 +545,6 @@ const useBrotherSelector = ({
     location.pathname,
     week,
     schedules,
-    isDutiesField,
     isCleaningField,
     assignment,
     schedule,
@@ -638,10 +625,10 @@ const useBrotherSelector = ({
   ]);
 
   const helperSeverity: 'error' | 'warning' = useMemo(() => {
-    if (!isDutiesField || !value) return 'warning';
+    if (!isCleaningField || !value) return 'warning';
 
     return weekConflicts.get(value.person_uid)?.blocked ? 'error' : 'warning';
-  }, [isDutiesField, value, weekConflicts]);
+  }, [isCleaningField, value, weekConflicts]);
 
   const defaultInputValue = useMemo(() => {
     if (week.length === 0) return '';
@@ -757,39 +744,6 @@ const useBrotherSelector = ({
     setInputValue(defaultInputValue);
   }, [defaultInputValue]);
 
-  const showGenderSelector = isDutiesField && sistersDuties;
-
-  // filtered at display time, so an assigned person of the other gender stays
-  // a valid value while the list shows the chosen side
-  const filterOptions = useMemo(() => {
-    if (!showGenderSelector) return undefined;
-
-    return (
-      list: PersonOptionsType[],
-      state: FilterOptionsState<PersonOptionsType>
-    ) =>
-      defaultFilterOptions(
-        list.filter(
-          (record) => record.person_data.male.value === (gender === 'male')
-        ),
-        state
-      );
-  }, [showGenderSelector, gender]);
-
-  const handleGenderChange = (
-    e: MouseEvent<HTMLLabelElement>,
-    value: DutiesGender
-  ) => {
-    // a click on the label would otherwise close the list
-    e.preventDefault();
-    setGender(value);
-  };
-
-  // the list follows the assigned person, and an empty field starts on brothers
-  useEffect(() => {
-    setGender(!value || value.person_data.male.value ? 'male' : 'female');
-  }, [value]);
-
   return {
     options,
     handleSaveAssignment,
@@ -806,10 +760,6 @@ const useBrotherSelector = ({
     handleValueChange,
     isLinkedPart,
     isMeetingConflict,
-    showGenderSelector,
-    gender,
-    handleGenderChange,
-    filterOptions,
   };
 };
 

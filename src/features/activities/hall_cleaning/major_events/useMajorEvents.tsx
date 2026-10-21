@@ -13,8 +13,8 @@ import { personsByViewState } from '@states/persons';
 import { AssignmentCode } from '@definition/assignment';
 import { personGetDisplayName } from '@utils/common';
 import {
-  schedulesDutyAllowedForPerson,
-  schedulesDutyPersonQualified,
+  schedulesCleaningPersonAllowed,
+  schedulesPersonQualified,
 } from '@services/app/schedules';
 import { saveMajorCleanings } from '@services/app/major_cleaning';
 import {
@@ -39,8 +39,8 @@ export default function useMajorEvents(week: string) {
       .filter(
         (person) =>
           !person.person_data.disqualified.value &&
-          schedulesDutyAllowedForPerson(person, code, false) &&
-          schedulesDutyPersonQualified(
+          schedulesCleaningPersonAllowed(person, code) &&
+          schedulesPersonQualified(
             code,
             person.person_data.assignments.find(
               (record) => record.type === type

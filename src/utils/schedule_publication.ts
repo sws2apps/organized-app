@@ -73,7 +73,7 @@ export const projectScheduleMonth = (
   weeks: SchedWeekType[],
   sources: SourceWeekType[],
   month: string,
-  section: 'midweek_meeting' | 'weekend_meeting' | 'duties' | 'hall_cleaning',
+  section: 'midweek_meeting' | 'weekend_meeting' | 'hall_cleaning',
   resolve: (week: SchedWeekType) => SchedWeekType = (week) => week
 ) =>
   weeks

@@ -3,13 +3,7 @@ import { FullnameOption } from './settings';
 import { ReactNode } from 'react';
 
 export type ColorSchemeType =
-  | 'blue'
-  | 'green'
-  | 'purple'
-  | 'orange'
-  | 'teal'
-  | 'rose'
-  | 'slate';
+  'blue' | 'green' | 'purple' | 'orange' | 'teal' | 'rose' | 'slate';
 
 export type SnackBarSeverityType = 'success' | 'error' | 'message-with-button';
 
@@ -54,16 +48,11 @@ export type AssignmentCheckListColors =
   | 'duties';
 
 export type BadgeColor =
-  | 'red'
-  | 'grey'
-  | 'green'
-  | 'orange'
-  | 'accent'
-  | 'transparent';
+  'red' | 'grey' | 'green' | 'orange' | 'accent' | 'transparent';
 
 export type MeetingType = 'midweek' | 'weekend';
 
-export type ScheduleMeetingType = MeetingType | 'duties' | 'cleaning';
+export type ScheduleMeetingType = MeetingType | 'cleaning';
 
 export type AppRoleType =
   | 'admin'

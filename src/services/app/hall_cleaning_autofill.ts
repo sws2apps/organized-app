@@ -37,11 +37,11 @@ import { getEligiblePersonsPerDataViewAndCode } from './assignments_with_stats';
 import { isPersonBlockedOnDate } from './persons';
 import {
   HALL_CLEANING_CONGREGATION_PREFIX,
-  type DutyFieldDefinitionType,
+  type CleaningFieldDefinitionType,
   HallCleaningSlotType,
   schedulesBuildHistoryList,
-  schedulesDutyAllowedForPerson,
-  schedulesDutiesMeetingHeld,
+  schedulesCleaningPersonAllowed,
+  schedulesCleaningMeetingHeld,
   schedulesResolveMeetingDate,
   schedulesHallCleaningGroups,
   schedulesHallCleaningGroupName,
@@ -214,7 +214,7 @@ export const hallCleaningStartAutofill = async (start: string, end: string) => {
         : undefined;
 
       const meetings = slotMeetings(slot, wholeWeek).filter((meeting) =>
-        schedulesDutiesMeetingHeld(week, meeting, dataView, false)
+        schedulesCleaningMeetingHeld(week, meeting, dataView, false)
       );
 
       const meetingDates = meetings.map((meeting) =>
@@ -239,7 +239,7 @@ export const hallCleaningStartAutofill = async (start: string, end: string) => {
         dataView
       );
 
-      const fillField = (field: DutyFieldDefinitionType) => {
+      const fillField = (field: CleaningFieldDefinitionType) => {
         const current = entries.find(
           (entry) => entry.type === dataView && entry.id === field.schedule_id
         );
@@ -251,10 +251,7 @@ export const hallCleaningStartAutofill = async (start: string, end: string) => {
 
           const person = personsById.get(uid);
 
-          if (
-            !person ||
-            !schedulesDutyAllowedForPerson(person, field.type, true)
-          ) {
+          if (!person || !schedulesCleaningPersonAllowed(person, field.type)) {
             return false;
           }
 

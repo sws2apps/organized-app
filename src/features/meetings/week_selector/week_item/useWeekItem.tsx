@@ -11,7 +11,6 @@ import {
 } from '@services/app/schedules';
 import {
   hallCleaningState,
-  meetingDutiesState,
   userDataViewState,
   weekendMeetingOpeningPrayerAutoAssignState,
   shortDateFormatState,
@@ -28,7 +27,6 @@ const useWeekItem = (week: string) => {
   const prayerAutoAssign = useAtomValue(
     weekendMeetingOpeningPrayerAutoAssignState
   );
-  const dutiesConfig = useAtomValue(meetingDutiesState);
   const hallCleaningConfig = useAtomValue(hallCleaningState);
   const shortDateFormat = useAtomValue(shortDateFormatState);
 
@@ -37,8 +35,6 @@ const useWeekItem = (week: string) => {
   }, [schedules, week]);
 
   const meeting: ScheduleMeetingType = useMemo(() => {
-    if (location.pathname === '/meeting-duties') return 'duties';
-
     if (location.pathname === '/activities/hall-cleaning') return 'cleaning';
 
     return location.pathname === '/midweek-meeting' ? 'midweek' : 'weekend';
@@ -49,7 +45,7 @@ const useWeekItem = (week: string) => {
   }, [week, selectedWeek]);
 
   const weekType = useMemo(() => {
-    if (!schedule || meeting === 'duties' || meeting === 'cleaning') {
+    if (!schedule || meeting === 'cleaning') {
       return Week.NORMAL;
     }
 
@@ -62,7 +58,7 @@ const useWeekItem = (week: string) => {
   }, [schedule, dataView, meeting]);
 
   const weekDateLocale = useMemo(() => {
-    if (meeting === 'duties' || meeting === 'cleaning') {
+    if (meeting === 'cleaning') {
       return formatMediumDateWithFullMonth(week);
     }
 
@@ -86,7 +82,7 @@ const useWeekItem = (week: string) => {
 
     return values;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [schedule, meeting, prayerAutoAssign, dutiesConfig, hallCleaningConfig]);
+  }, [schedule, meeting, prayerAutoAssign, hallCleaningConfig]);
 
   const handleSelectWeek = (value: string) => {
     setSelectedWeek(value);

@@ -1,8 +1,5 @@
 import type { AssignmentCode } from '@definition/assignment';
-import type {
-  AssignmentHistoryType,
-  DutiesSectionType,
-} from '@definition/schedules';
+import type { AssignmentHistoryType } from '@definition/schedules';
 
 export type AssignmentConflict = {
   title: string;
@@ -20,6 +17,5 @@ export type AssignmentConflictContext = {
   scheduleId?: string;
   wholeWeek?: boolean;
   history: AssignmentHistoryType[];
-  sections: { midweek: DutiesSectionType[]; weekend: DutiesSectionType[] };
   minutes: Record<string, number>;
 };

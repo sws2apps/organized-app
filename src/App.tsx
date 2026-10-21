@@ -38,7 +38,6 @@ const MeetingAttendance = lazy(
 const FieldServiceReportsPage = lazy(
   () => import('@pages/reports/field_service')
 );
-const MeetingDuties = lazy(() => import('@pages/meetings/duties'));
 const MidweekMeeting = lazy(() => import('@pages/meetings/midweek'));
 const MinistryReport = lazy(() => import('@pages/ministry/ministry_report'));
 const ServiceYear = lazy(() => import('@pages/ministry/service_year'));
@@ -97,7 +96,7 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
     isServiceCommittee,
     isGroup,
     isLanguageGroupOverseer,
-    isDutiesEditor,
+    isCleaningEditor,
   } = useCurrentUser();
 
   const [adapterLocale, setAdapterLocale] = useAtom(appLocaleState);
@@ -230,11 +229,10 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
               ],
             },
 
-            // meeting duties editor routes
+            // hall cleaning editor route
             {
-              element: <RouteProtected allowed={isDutiesEditor} />,
+              element: <RouteProtected allowed={isCleaningEditor} />,
               children: [
-                { path: '/meeting-duties', element: <MeetingDuties /> },
                 {
                   path: '/activities/hall-cleaning',
                   element: <HallCleaning />,

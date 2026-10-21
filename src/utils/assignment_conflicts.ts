@@ -1,4 +1,3 @@
-import { AssignmentCode } from '@definition/assignment';
 import type {
   AssignmentConflict,
   AssignmentConflictContext,
@@ -6,12 +5,10 @@ import type {
 import type { AssignmentHistoryType } from '@definition/schedules';
 import {
   ASSIGNMENT_WORKLOAD,
-  CONTINUOUS_DUTIES,
   PART_DURATION_FALLBACKS,
 } from '@constants/assignmentConflicts';
 
-const isDuty = (key: string) =>
-  key.includes('_DUTIES_') || key.startsWith('HC_');
+const isDuty = (key: string) => key.startsWith('HC_');
 const meetingOf = (key: string) =>
   key.startsWith('HC_') ? key.slice(3, 6) : key.slice(0, 3);
 
@@ -62,26 +59,6 @@ export const formatAssignmentConflict = (
     )
     .join(' · ');
 
-const sectionParts = (
-  key: string,
-  id: string | undefined,
-  context: AssignmentConflictContext
-) => {
-  if (!key.includes('_DUTIES_Dynamic') || !id) return [];
-  const sourceId = id.slice(0, id.lastIndexOf('_'));
-  const meeting = meetingOf(key) === 'WM_' ? 'weekend' : 'midweek';
-  return (
-    context.sections[meeting].find(
-      (section) => section.id === sourceId && !section._deleted
-    )?.parts ?? []
-  );
-};
-
-const overlaps = (first: string[], second: string[]) =>
-  first.length === 0 ||
-  second.length === 0 ||
-  first.some((part) => second.includes(part));
-
 const partLoad = (
   phase: string | undefined,
   context: AssignmentConflictContext
@@ -92,37 +69,16 @@ const partLoad = (
       ASSIGNMENT_WORKLOAD.unknownPart)
     : ASSIGNMENT_WORKLOAD.unknownPart;
 
-const dutyLoad = (parts: string[], context: AssignmentConflictContext) =>
-  parts.length
-    ? parts.reduce((sum, part) => sum + partLoad(part, context), 0)
-    : ASSIGNMENT_WORKLOAD.wholeMeeting;
-
-const isDiscussion = (phase: string | undefined, code: AssignmentCode) =>
-  phase === 'tgw_gems' ||
-  phase === 'lc_cbs' ||
-  phase === 'w_study' ||
-  code === AssignmentCode.MM_Discussion ||
-  // LC formats are not structured in the source. They may need audience mics.
-  phase?.startsWith('lc_part') ||
-  !phase;
-
 const assessesHeld = (
   held: AssignmentHistoryType['assignment'],
   context: AssignmentConflictContext
 ) => {
   const key = held.key ?? '';
   const targetCleaning = context.assignment.startsWith('HC_');
-  const targetDuty = context.assignment.includes('_DUTIES_');
   const heldDuty = isDuty(key);
   const phase = assignmentPartKey(key);
-  const heldParts = sectionParts(key, held.schedule_id, context);
-  const targetParts = sectionParts(
-    context.assignment,
-    context.scheduleId,
-    context
-  );
   let penalty = heldDuty
-    ? dutyLoad(heldParts, context)
+    ? ASSIGNMENT_WORKLOAD.wholeMeeting
     : partLoad(phase, context);
   let blocked = false;
 
@@ -131,30 +87,12 @@ const assessesHeld = (
     // not happen at the same time. Two positions in that cleaning do overlap.
     blocked =
       key === context.assignment && held.schedule_id !== context.scheduleId;
-  } else if (targetDuty) {
-    if (heldDuty) {
-      blocked = !key.startsWith('HC_') && overlaps(targetParts, heldParts);
-    } else if (phase === 'chairman' || phase === 'aux_counselor') {
-      blocked = true;
-    } else if (
-      !phase?.endsWith('_prayer') &&
-      overlaps(targetParts, phase ? [phase] : [])
-    ) {
-      blocked =
-        context.code === AssignmentCode.DUTIES_Microphone
-          ? Boolean(isDiscussion(phase, held.code)) || key.endsWith('_B')
-          : CONTINUOUS_DUTIES.includes(context.code) ||
-            context.code === AssignmentCode.DUTIES_Custom;
-    }
-    if (held.dataView !== context.dataView) blocked = true;
   }
   if (blocked) penalty += ASSIGNMENT_WORKLOAD.overlap;
   return { penalty, blocked, isDuty: heldDuty };
 };
 
-// Shared by the picker and both autofill engines, so their warnings and order
-// describe the same decisions. A person with duties stays in the duties group
-// even when they also have a meeting part; every distinct title remains shown.
+// Shared by the cleaning picker and autofill so warnings and workload agree.
 export const collectAssignmentConflicts = (
   context: AssignmentConflictContext
 ) => {

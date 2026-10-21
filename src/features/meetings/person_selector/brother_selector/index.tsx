@@ -1,17 +1,10 @@
-import { HTMLAttributes, Key, MouseEvent, ReactNode } from 'react';
-import {
-  AutocompleteRenderGroupParams,
-  Box,
-  FormControlLabel,
-  Popper,
-  RadioGroup,
-} from '@mui/material';
+import { HTMLAttributes, Key, ReactNode } from 'react';
+import { AutocompleteRenderGroupParams, Box, Popper } from '@mui/material';
 import { PersonOptionsType, PersonSelectorType } from '../index.types';
 import {
   assignmentConflictGroup,
   formatAssignmentConflict,
 } from '@utils/assignment_conflicts';
-import { DutiesGender } from '@definition/schedules';
 import {
   IconAssignmetHistory,
   IconClose,
@@ -24,7 +17,6 @@ import useBrotherSelector from './useBrotherSelector';
 import AutoComplete from '@components/autocomplete';
 import AssignmentsHistoryDialog from '@features/meetings/assignments_history_dialog';
 import IconButton from '@components/icon_button';
-import Radio from '@components/radio';
 import Typography from '@components/typography';
 
 const dutiesGroupBy = (option: PersonOptionsType) =>
@@ -187,42 +179,6 @@ const BrothersHeader = () => {
   );
 };
 
-const DutiesGenderHeader = ({
-  gender,
-  onChange,
-}: {
-  gender: DutiesGender;
-  onChange: (e: MouseEvent<HTMLLabelElement>, value: DutiesGender) => void;
-}) => {
-  const { t } = useAppTranslation();
-
-  return (
-    <RadioGroup
-      sx={{
-        flexDirection: 'row',
-        padding: '8px 0 8px 8px',
-        width: '100%',
-        gap: '16px',
-        flexWrap: 'wrap',
-      }}
-      value={gender}
-    >
-      <FormControlLabel
-        value="male"
-        control={<Radio />}
-        label={<Typography>{t('tr_male')}</Typography>}
-        onClick={(e) => onChange(e, 'male')}
-      />
-      <FormControlLabel
-        value="female"
-        control={<Radio />}
-        label={<Typography>{t('tr_female')}</Typography>}
-        onClick={(e) => onChange(e, 'female')}
-      />
-    </RadioGroup>
-  );
-};
-
 const SelectorAdornments = ({
   showAssignmentsHistory,
   hasValue,
@@ -304,19 +260,13 @@ const BrotherSelector = (props: PersonSelectorType) => {
     handleValueChange,
     isLinkedPart,
     isMeetingConflict,
-    showGenderSelector,
-    gender,
-    handleGenderChange,
-    filterOptions,
     options,
   } = useBrotherSelector(props);
 
   let optionsHeader: ReactNode = <BrothersHeader />;
 
   if (isWeekConflictField) {
-    optionsHeader = showGenderSelector ? (
-      <DutiesGenderHeader gender={gender} onChange={handleGenderChange} />
-    ) : null;
+    optionsHeader = null;
   }
 
   const valueIcon =
@@ -354,7 +304,6 @@ const BrotherSelector = (props: PersonSelectorType) => {
           typeof option === 'string' ? option : (option.person_name ?? '')
         }
         options={options}
-        filterOptions={filterOptions}
         value={value}
         endIcon={props.endIcon}
         inputValue={inputValue}

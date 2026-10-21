@@ -7,15 +7,13 @@ import {
   personIsPublisher,
 } from '@services/app/persons';
 import { personCurrentDetailsState } from '@states/persons';
-import { dutiesSistersState, userDataViewState } from '@states/settings';
-import { schedulesIsDutyCode } from '@services/app/schedules';
+import { userDataViewState } from '@states/settings';
 
 const useAssignmentGroup = (male: boolean) => {
   const { t } = useAppTranslation();
 
   const person = useAtomValue(personCurrentDetailsState);
   const dataView = useAtomValue(userDataViewState);
-  const sistersDuties = useAtomValue(dutiesSistersState);
 
   const checkGroupDisabled = (id: string) => {
     let isDisabled = true;
@@ -36,8 +34,6 @@ const useAssignmentGroup = (male: boolean) => {
 
     if (!male) {
       if (id === 'applyFieldMinistryPart') isDisabled = false;
-
-      if (id === 'duties' && sistersDuties) isDisabled = false;
 
       if (id === 'hallCleaning') isDisabled = false;
     }
@@ -95,10 +91,6 @@ const useAssignmentGroup = (male: boolean) => {
       if (code === AssignmentCode.MM_ExplainingBeliefs) isDisabled = false;
       if (code === AssignmentCode.MM_AssistantOnly) isDisabled = false;
 
-      if (schedulesIsDutyCode(code) && sistersDuties) {
-        isDisabled = false;
-      }
-
       if (code === AssignmentCode.CLEANING_Hall) isDisabled = false;
     }
     return isDisabled;
@@ -117,8 +109,7 @@ const useAssignmentGroup = (male: boolean) => {
       !male &&
       id !== 'applyFieldMinistryPart' &&
       id !== 'ministry' &&
-      id !== 'hallCleaning' &&
-      (id !== 'duties' || !sistersDuties)
+      id !== 'hallCleaning'
     );
   };
 

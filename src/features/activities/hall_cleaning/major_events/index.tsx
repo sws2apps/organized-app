@@ -1,7 +1,7 @@
 import { Box, Stack, FormControlLabel } from '@mui/material';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { addDays, formatDate } from '@utils/date';
-import { DUTY_NAME_WIDTH } from '@features/meetings/duties_schedule/shared';
+import { CLEANING_NAME_WIDTH } from '@features/activities/hall_cleaning/row_layout';
 import { IconAdd, IconDelete } from '@components/icons';
 import type { CleaningActivity } from '@definition/hall_cleaning';
 import { cleaningActivityLabelKey } from '@utils/major_cleaning';
@@ -124,7 +124,7 @@ export default function MajorEvents({ week }: { week: string }) {
               display: 'grid',
               gridTemplateColumns: laptopDown
                 ? 'minmax(0, 1fr)'
-                : `${DUTY_NAME_WIDTH}px minmax(0, 1fr)`,
+                : `${CLEANING_NAME_WIDTH}px minmax(0, 1fr)`,
               columnGap: '8px',
               rowGap: '16px',
               alignItems: 'start',

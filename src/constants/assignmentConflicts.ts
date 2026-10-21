@@ -101,14 +101,3 @@ export const PART_DURATION_FALLBACKS: Record<string, number> = {
   chairman: ASSIGNMENT_WORKLOAD.wholeMeeting,
   aux_counselor: ASSIGNMENT_WORKLOAD.wholeMeeting,
 };
-
-// These roles need continuous coverage; no unrecorded substitute is assumed.
-export const CONTINUOUS_DUTIES: (AssignmentCode | undefined)[] = [
-  AssignmentCode.DUTIES_Audio,
-  AssignmentCode.DUTIES_Video,
-  AssignmentCode.DUTIES_AudioVideo,
-  AssignmentCode.DUTIES_Stage,
-  AssignmentCode.DUTIES_EntranceAttendant,
-  AssignmentCode.DUTIES_AuditoriumAttendant,
-  AssignmentCode.DUTIES_VideoconferenceHost,
-];

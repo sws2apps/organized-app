@@ -13,7 +13,11 @@ import {
   generateMonthShortNames,
   getTranslation,
 } from '@services/i18n/translation';
-import { dayNamesShortState, monthShortNamesState } from '@states/app';
+import {
+  dayNamesShortState,
+  monthNamesState,
+  monthShortNamesState,
+} from '@states/app';
 import { FirstDayWeekOption } from '@definition/settings';
 
 export const MAX_DATE = new Date(9999, 11, 31);
@@ -489,6 +493,15 @@ export const formatLongDateWithShortVars = (date: Date | string) => {
   return getTranslation({
     key: 'tr_longDateWithYearAndDayLocale',
     params: { day: dayV, date: dateV, month: monthV, year },
+  });
+};
+
+export const formatMediumDateWithFullMonth = (date: Date | string) => {
+  const value = new Date(date);
+  const months = store.get(monthNamesState);
+  return getTranslation({
+    key: 'tr_longDateNoYearLocale',
+    params: { date: value.getDate(), month: months[value.getMonth()] },
   });
 };
 

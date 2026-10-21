@@ -8,14 +8,13 @@ import useSharedHook from '../useSharedHook';
 const ActivitiesCard = () => {
   const { t } = useAppTranslation();
 
-  const { isDutiesEditor } = useCurrentUser();
+  const { isCleaningEditor } = useCurrentUser();
 
-  // like the duties, only where a meeting is held to clean up after
-  const { showDuties } = useSharedHook();
+  const { showMidweek, showWeekend } = useSharedHook();
 
   return (
     <DashboardCard header={t('tr_activitiesCard')}>
-      {isDutiesEditor && showDuties && (
+      {isCleaningEditor && (showMidweek || showWeekend) && (
         <ListItem disablePadding>
           <DashboardMenu
             icon={<IconClean color="var(--black)" />}

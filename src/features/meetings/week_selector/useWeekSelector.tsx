@@ -39,8 +39,6 @@ const useWeekSelector = () => {
   const [initialSelectDone, setInitialSelectDone] = useState(false);
 
   const meeting: ScheduleMeetingType = useMemo(() => {
-    if (location.pathname === '/meeting-duties') return 'duties';
-
     if (location.pathname === '/activities/hall-cleaning') return 'cleaning';
 
     return location.pathname === '/midweek-meeting' ? 'midweek' : 'weekend';

@@ -86,11 +86,7 @@ export type AvatarIconName = (typeof AVATAR_ICON_NAMES)[number];
  * initials, and `default` the generic silhouette used as fallback.
  */
 export type AvatarType =
-  | 'google'
-  | 'initials'
-  | 'default'
-  | AvatarIconName
-  | AvatarImageName;
+  'google' | 'initials' | 'default' | AvatarIconName | AvatarImageName;
 
 export enum SourceFrequency {
   WEEKLY = 1,
@@ -290,29 +286,6 @@ export type SettingsType = {
       updatedAt: string;
       value: boolean;
     }[];
-    meeting_duties: {
-      type: string;
-      _deleted: { value: boolean; updatedAt: string };
-      conflict_prevent: { value: boolean; updatedAt: string };
-      sisters_duties?: { value: boolean; updatedAt: string };
-      mic_sections: { value: boolean; updatedAt: string };
-      av_combined: { value: boolean; updatedAt: string };
-      audio_amount: { value: number; updatedAt: string };
-      video_amount: { value: number; updatedAt: string };
-      mic_amount: { value: number; updatedAt: string };
-      stage_amount: { value: number; updatedAt: string };
-      entrance_attendant_amount: { value: number; updatedAt: string };
-      auditorium_attendant_amount: { value: number; updatedAt: string };
-      hospitality_amount: { value: number; updatedAt: string };
-      videoconference_host_amount: { value: number; updatedAt: string };
-      custom: {
-        _deleted: boolean;
-        id: string;
-        name: string;
-        updatedAt: string;
-        amount: number;
-      }[];
-    }[];
     hall_cleaning?: {
       type: string;
       _deleted: { value: boolean; updatedAt: string };
@@ -351,13 +324,6 @@ export type SettingsType = {
     theme_follow_os_enabled: { value: boolean; updatedAt: string };
     haptics_enabled: { value: boolean; updatedAt: string };
     hour_credits_enabled: { value: boolean; updatedAt: string };
-    meeting_duties_export?: {
-      orientation: {
-        value: 'portrait' | 'landscape';
-        updatedAt: string;
-      };
-      font_size: { value: number; updatedAt: string };
-    };
     data_view: { value: string; updatedAt: string };
   };
 };

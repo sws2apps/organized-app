@@ -3,7 +3,6 @@ import { useAtomValue, useSetAtom } from 'jotai';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import {
   dbAppSettingsSetupHallCleaning,
-  dbAppSettingsSetupMeetingDuties,
   dbAppSettingsUpdate,
 } from '@services/dexie/settings';
 import {
@@ -93,7 +92,6 @@ const useGroupLanguageSelector = () => {
 
     await refreshLocaleDerivedData();
 
-    await dbAppSettingsSetupMeetingDuties();
     await dbAppSettingsSetupHallCleaning();
 
     // load assignment history

@@ -297,6 +297,12 @@ const useCurrentUser = () => {
     return false;
   }, [isGroup, isAdmin, isLanguageGroupOverseer]);
 
+  const isCleaningEditor = useMemo(() => {
+    if (isAdmin) return true;
+    if (isGroup && user_in_group && isLanguageGroupOverseer) return true;
+    return userRole.includes('duties_schedule') && (!isGroup || user_in_group);
+  }, [isAdmin, isGroup, user_in_group, isLanguageGroupOverseer, userRole]);
+
   return {
     person,
     first_report,
@@ -321,6 +327,7 @@ const useCurrentUser = () => {
     languageGroup,
     isLanguageGroupOverseer,
     isSettingsEditor,
+    isCleaningEditor,
   };
 };
 

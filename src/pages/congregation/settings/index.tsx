@@ -12,7 +12,6 @@ import CongregationPrivacy from '@features/congregation/settings/congregation_pr
 import HallCleaningSettings from '@features/congregation/settings/hall_cleaning';
 import ImportExport from '@features/congregation/settings/import_export';
 import LanguageGroups from '@features/congregation/settings/language_groups';
-import MeetingDutiesSettings from '@features/congregation/settings/meeting_duties';
 import MeetingForms from '@features/congregation/settings/meeting_forms';
 import MinistrySettings from '@features/congregation/settings/ministry_settings';
 import PageTitle from '@components/page_title';
@@ -24,7 +23,7 @@ const CongregationSettings = () => {
 
   const { desktopUp, tablet688Up } = useBreakpoints();
 
-  const { isGroup, isAdmin, isDutiesEditor } = useCurrentUser();
+  const { isGroup, isAdmin, isCleaningEditor } = useCurrentUser();
 
   const { handleCloseExchange, isDataExchangeOpen, handleOpenExchange } =
     useCongregationSettings();
@@ -90,9 +89,7 @@ const CongregationSettings = () => {
           >
             <MeetingForms />
 
-            {isDutiesEditor && <MeetingDutiesSettings />}
-
-            {isDutiesEditor && <HallCleaningSettings />}
+            {isCleaningEditor && <HallCleaningSettings />}
 
             {!isGroup && (
               <>
@@ -111,9 +108,7 @@ const CongregationSettings = () => {
           <CongregationBasic />
           <MeetingForms />
 
-          {isDutiesEditor && <MeetingDutiesSettings />}
-
-          {isDutiesEditor && <HallCleaningSettings />}
+          {isCleaningEditor && <HallCleaningSettings />}
 
           {!isGroup && (
             <>

@@ -45,10 +45,10 @@ import {
 import { speakersCongregationsState } from '@states/speakers_congregations';
 import { getUserDataView } from '@services/app';
 
-// dynamic duty slots of one data view all share the same type, and
+// Cleaning positions of one data view share the same type, and
 // updateObject matches array entries by type before id, so it would fold
 // every slot into the first remote one: merge them by id here instead
-const mergeDynamicDuties = (
+const mergeCleaningAssignments = (
   remote: AssignmentCongregation[] | undefined,
   local: AssignmentCongregation[]
 ) => {
@@ -69,8 +69,7 @@ const mergeDynamicDuties = (
   return merged;
 };
 
-type ScheduleWithDuties = {
-  duties?: SchedWeekType['duties'];
+type ScheduleWithCleaning = {
   hall_cleaning?: SchedWeekType['hall_cleaning'];
 };
 
@@ -94,31 +93,13 @@ const mergeScheduleIntoRemote = <T extends { weekOf: string }>(
   ).midweek_meeting;
   if (typeof legacyMidweek?.aux_fsg === 'string') delete legacyMidweek.aux_fsg;
 
-  const localItem = structuredClone(item) as T & ScheduleWithDuties;
-  const remoteSchedule = remoteItem as T & ScheduleWithDuties;
-
-  const dynamicMerged: Partial<
-    Record<'midweek' | 'weekend', AssignmentCongregation[]>
-  > = {};
-
-  for (const meeting of ['midweek', 'weekend'] as const) {
-    const localMeeting = localItem.duties?.[meeting];
-
-    if (!localMeeting?.dynamic) continue;
-
-    dynamicMerged[meeting] = mergeDynamicDuties(
-      remoteSchedule.duties?.[meeting]?.dynamic,
-      localMeeting.dynamic
-    );
-
-    delete (localMeeting as Partial<typeof localMeeting>).dynamic;
-  }
+  const localItem = structuredClone(item) as T & ScheduleWithCleaning;
+  const remoteSchedule = remoteItem as T & ScheduleWithCleaning;
 
   // hall cleaning keeps a group per data view and publishers per position
   const cleaningMerged = HALL_CLEANING_LISTS.flatMap(({ slot, field }) => {
     const localSlot = localItem.hall_cleaning?.[slot] as
-      | HallCleaningLists
-      | undefined;
+      HallCleaningLists | undefined;
     const local = localSlot?.[field];
 
     if (!localSlot || !local) return [];
@@ -126,11 +107,14 @@ const mergeScheduleIntoRemote = <T extends { weekOf: string }>(
     delete localSlot[field];
 
     const remoteSlot = remoteSchedule.hall_cleaning?.[slot] as
-      | HallCleaningLists
-      | undefined;
+      HallCleaningLists | undefined;
 
     return [
-      { slot, field, list: mergeDynamicDuties(remoteSlot?.[field], local) },
+      {
+        slot,
+        field,
+        list: mergeCleaningAssignments(remoteSlot?.[field], local),
+      },
     ];
   });
 
@@ -151,13 +135,6 @@ const mergeScheduleIntoRemote = <T extends { weekOf: string }>(
   updateObject(remoteItem, localItem);
   if (localEvents && remoteSchedule.hall_cleaning)
     remoteSchedule.hall_cleaning.events = [...events.values()];
-
-  for (const meeting of ['midweek', 'weekend'] as const) {
-    const merged = dynamicMerged[meeting];
-    const remoteMeeting = remoteSchedule.duties?.[meeting];
-
-    if (merged && remoteMeeting) remoteMeeting.dynamic = merged;
-  }
 
   for (const { slot, field, list } of cleaningMerged) {
     remoteSchedule.hall_cleaning = {
@@ -210,7 +187,6 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
     {
       midweek: 'midweek_meeting',
       weekend: 'weekend_meeting',
-      duties: 'duties',
       cleaning: 'hall_cleaning',
     } as const
   )[type];
@@ -237,8 +213,8 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
       );
     }
 
-    // duties and cleaning weeks qualify when either meeting exists
-    if (type === 'duties' || type === 'cleaning') {
+    // Cleaning weeks qualify when either meeting exists.
+    if (type === 'cleaning') {
       base = base.filter(
         (record) =>
           record.midweek_meeting.weekly_bible_reading[lang]?.length > 0 ||
@@ -612,19 +588,16 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
 
       const months = checkedItems.toSorted();
 
-      // each publish carries only its own sections; duties keeps the meeting
-      // sources so week dates stay resolvable
+      // Each publish carries its own sections and the sources needed for dates.
       const scheduleKeysToDelete = {
-        midweek: ['weekend_meeting', 'duties', 'hall_cleaning'],
-        weekend: ['midweek_meeting', 'duties', 'hall_cleaning'],
-        duties: ['midweek_meeting', 'weekend_meeting', 'hall_cleaning'],
-        cleaning: ['midweek_meeting', 'weekend_meeting', 'duties'],
+        midweek: ['weekend_meeting', 'hall_cleaning'],
+        weekend: ['midweek_meeting', 'hall_cleaning'],
+        cleaning: ['midweek_meeting', 'weekend_meeting'],
       }[type];
 
       const sourceKeysToDelete = {
         midweek: ['weekend_meeting'],
         weekend: ['midweek_meeting'],
-        duties: [],
         cleaning: [],
       }[type];
 

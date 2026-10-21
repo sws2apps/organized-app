@@ -1,23 +1,23 @@
-import { DUTY_NAME_WIDTH } from '@features/meetings/duties_schedule/shared';
+import { CLEANING_NAME_WIDTH } from '@features/activities/hall_cleaning/row_layout';
 import { Box } from '@mui/material';
 import { useBreakpoints } from '@hooks/index';
-import { DutyNameProps } from './index.types';
+import { CleaningNameProps } from './index.types';
 import Typography from '@components/typography';
 
-const DutyName = ({ icon, duty, sx }: DutyNameProps) => {
+const CleaningName = ({ icon, duty, sx }: CleaningNameProps) => {
   const { laptopDown } = useBreakpoints();
 
   return (
     <Box
       sx={{
-        minWidth: DUTY_NAME_WIDTH,
+        minWidth: CLEANING_NAME_WIDTH,
         borderRadius: 'var(--radius-l)',
         padding: '4px 8px',
         display: 'flex',
         alignItems: 'center',
         gap: '8px',
         backgroundColor: 'var(--accent-150)',
-        width: laptopDown ? '100%' : DUTY_NAME_WIDTH,
+        width: laptopDown ? '100%' : CLEANING_NAME_WIDTH,
         // desktop matches the 44px person field beside it
         height: laptopDown ? '40px' : '44px',
         ...sx,
@@ -35,4 +35,4 @@ const DutyName = ({ icon, duty, sx }: DutyNameProps) => {
   );
 };
 
-export default DutyName;
+export default CleaningName;

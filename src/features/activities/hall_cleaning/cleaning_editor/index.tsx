@@ -3,7 +3,7 @@ import { CLEANING_FIELD_MIN_WIDTH } from '@features/activities/hall_cleaning/sha
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Box, Stack } from '@mui/material';
-import { dutyFieldColumns } from '@features/meetings/duties_schedule/shared';
+import { cleaningFieldColumns } from '@features/activities/hall_cleaning/row_layout';
 import {
   IconClean,
   IconDelete,
@@ -19,7 +19,7 @@ import Button from '@components/button';
 import DatePicker from '@components/date_picker';
 import Dialog from '@components/dialog';
 import Divider from '@components/divider';
-import DutyRow from '@features/meetings/duties_schedule/duty_row';
+import DutyRow from '@features/activities/hall_cleaning/assignment_row';
 import Autocomplete from '@components/autocomplete';
 import DateNavigator from '@components/date_navigator';
 import IconButton from '@components/icon_button';
@@ -192,7 +192,7 @@ const CleaningEditor = () => {
                           },
                         [`@container (min-width: ${CLEANING_FIELD_MIN_WIDTH * 3 + 16}px)`]:
                           {
-                            gridTemplateColumns: `repeat(${12 / dutyFieldColumns(row.groupFields.length)}, minmax(0, 1fr))`,
+                            gridTemplateColumns: `repeat(${12 / cleaningFieldColumns(row.groupFields.length)}, minmax(0, 1fr))`,
                           },
                       }}
                     >

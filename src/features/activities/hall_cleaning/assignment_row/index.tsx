@@ -1,11 +1,11 @@
 import { Box, Grid, Stack } from '@mui/material';
 import { useBreakpoints } from '@hooks/index';
-import { DutyFieldType, DutyRowProps } from './index.types';
-import DutyName from '../duty_name';
+import { CleaningFieldType, CleaningRowProps } from './index.types';
+import CleaningName from '../assignment_name';
 import PersonSelector from '@features/meetings/person_selector';
-import { DUTY_NAME_WIDTH, dutyFieldColumns } from '../shared';
+import { CLEANING_NAME_WIDTH, cleaningFieldColumns } from '../row_layout';
 
-const DutyRow = ({
+const CleaningRow = ({
   duty,
   icon,
   week,
@@ -14,7 +14,7 @@ const DutyRow = ({
   children,
   allowedPersons,
   minFieldWidth,
-}: DutyRowProps) => {
+}: CleaningRowProps) => {
   const { laptopDown } = useBreakpoints();
 
   // a column holds one duty: its fields stack, so audio and video stay apart
@@ -23,9 +23,9 @@ const DutyRow = ({
     (group) => group.length > 0
   );
 
-  const size = dutyFieldColumns(groups.length);
+  const size = cleaningFieldColumns(groups.length);
 
-  const renderFields = (group: DutyFieldType[]) => (
+  const renderFields = (group: CleaningFieldType[]) => (
     <Stack spacing="16px" sx={{ minWidth: 0 }}>
       {group.map((field) => (
         <PersonSelector
@@ -98,7 +98,7 @@ const DutyRow = ({
       <Box
         sx={{
           containerType: 'inline-size',
-          containerName: 'duty-row',
+          containerName: 'cleaning-row',
           width: '100%',
         }}
       >
@@ -109,13 +109,13 @@ const DutyRow = ({
             rowGap: '12px',
             columnGap: '8px',
             alignItems: 'start',
-            [`@container duty-row (min-width: ${DUTY_NAME_WIDTH + minFieldWidth * 2 + 16}px)`]:
+            [`@container cleaning-row (min-width: ${CLEANING_NAME_WIDTH + minFieldWidth * 2 + 16}px)`]:
               {
-                gridTemplateColumns: `${DUTY_NAME_WIDTH}px minmax(0, 1fr)`,
+                gridTemplateColumns: `${CLEANING_NAME_WIDTH}px minmax(0, 1fr)`,
               },
           }}
         >
-          <DutyName
+          <CleaningName
             duty={duty}
             icon={icon}
             sx={{ width: '100%', minWidth: 0 }}
@@ -132,10 +132,10 @@ const DutyRow = ({
       direction={laptopDown ? 'column' : 'row'}
       sx={{ alignItems: 'flex-start' }}
     >
-      <DutyName duty={duty} icon={icon} />
+      <CleaningName duty={duty} icon={icon} />
       {content}
     </Stack>
   );
 };
 
-export default DutyRow;
+export default CleaningRow;
