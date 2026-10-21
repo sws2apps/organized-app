@@ -172,22 +172,19 @@ const CleaningTurns = ({
                       {name}
                     </Text>
                   ))}
-                  {group.leaders.map((name, position) => (
-                    <Text
-                      key={name}
-                      style={
-                        (
-                          group.badges
-                            ? name === group.responsible
-                            : position === 0
-                        )
-                          ? styles.responsible
-                          : styles.leader
-                      }
-                    >
-                      {name}
-                    </Text>
-                  ))}
+                  {group.leaders.map((name, position) => {
+                    const responsible = group.badges
+                      ? name === group.responsible
+                      : position === 0;
+                    return (
+                      <Text
+                        key={name}
+                        style={responsible ? styles.responsible : styles.leader}
+                      >
+                        {name}
+                      </Text>
+                    );
+                  })}
                 </View>
 
                 {table.map((turn) => (
