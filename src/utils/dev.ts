@@ -45,7 +45,6 @@ import { languageGroupsState } from '@states/field_service_groups';
 import { dbSourcesBulkPut } from '@services/dexie/sources';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import PERSON_MOCK from '@constants/person_mock';
-import { dbPersonsBulkSave } from '@services/dexie/persons';
 import appDb from '@db/appDb';
 import { assignmentsHistoryState, schedulesState } from '@states/schedules';
 import { Week } from '@definition/week_type';
@@ -703,36 +702,10 @@ export const importDummyPersons = async (showLoading?: boolean) => {
           person.person_data.assignments.at(0).updatedAt =
             new Date().toISOString();
         }
-
-        if (
-          maleStatus === 'baptized' ||
-          maleStatus === 'FR' ||
-          maleStatus === 'minServ'
-        ) {
-          const assignments = person.person_data.assignments.at(0);
-
-          if (assignments) {
-            assignments.values.push();
-
-            assignments.updatedAt = new Date().toISOString();
-          }
-        }
       }
     }
 
-    for (const person of formattedData) {
-      if (!personIsPublisher(person)) continue;
-      const assignments = person.person_data.assignments.find(
-        (record) => record.type === 'main'
-      );
-      if (!assignments) continue;
-      assignments.values.push(AssignmentCode.CLEANING_Hall);
-      if (person.person_data.male.value && personIsBaptizedPublisher(person)) {
-        assignments.values.push(AssignmentCode.CLEANING_HallResponsible);
-      }
-      assignments.updatedAt = new Date().toISOString();
-    }
-    await dbPersonsBulkSave(formattedData);
+    await appDb.persons.bulkPut(formattedData);
 
     if (showProgress) store.set(rootModalOpenState, false);
   } catch (err) {

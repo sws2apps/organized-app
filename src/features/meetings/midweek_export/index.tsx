@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Box, Stack } from '@mui/material';
 import IconLoading from '@components/icon_loading';
 import { useAppTranslation } from '@hooks/index';
@@ -9,13 +8,13 @@ import Checkbox from '@components/checkbox';
 import Dialog from '@components/dialog';
 import DialogActions from '@components/dialog_actions';
 import Tabs from '@components/tabs';
+import Typography from '@components/typography';
 import S89TemplateSelector from './S89TemplateSelector';
 import S140TemplateSelector from './S140TemplateSelector';
 import WeekRangeSelector from '../week_range_selector';
 
 const MidweekExport = ({ open, onClose }: MidweekExportType) => {
   const { t } = useAppTranslation();
-  const [previewOpen, setPreviewOpen] = useState(false);
 
   const {
     isProcessing,
@@ -33,21 +32,28 @@ const MidweekExport = ({ open, onClose }: MidweekExportType) => {
   } = useMidweekExport(onClose);
 
   return (
-    <Dialog
-      onClose={onClose}
-      open={open}
-      disableEnforceFocus={previewOpen}
-      title={t('tr_exportMidweekMeeting')}
-      description={t('tr_exportMidweekMeetinDesc')}
-    >
+    <Dialog onClose={onClose} open={open} sx={{ position: 'relative' }}>
       <Box
         sx={{
           display: 'flex',
           gap: '24px',
           flexDirection: 'column',
           width: '100%',
+          marginBottom: '110px',
+          overflow: 'auto',
         }}
       >
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <Typography className="h2">{t('tr_exportMidweekMeeting')}</Typography>
+          <Typography
+            sx={{
+              color: 'var(--grey-400)',
+            }}
+          >
+            {t('tr_exportMidweekMeetinDesc')}
+          </Typography>
+        </Box>
+
         <WeekRangeSelector
           meeting="midweek"
           onStartChange={handleSetStartWeek}
@@ -74,7 +80,6 @@ const MidweekExport = ({ open, onClose }: MidweekExportType) => {
               Component: (
                 <S140TemplateSelector
                   selected={S140Template}
-                  onPreviewChange={setPreviewOpen}
                   onChange={(value) => handleSelectS140Template(value)}
                 />
               ),
@@ -84,7 +89,6 @@ const MidweekExport = ({ open, onClose }: MidweekExportType) => {
               Component: (
                 <S89TemplateSelector
                   selected={S89Template}
-                  onPreviewChange={setPreviewOpen}
                   onChange={(value) => handleSelectS89Template(value)}
                 />
               ),
@@ -93,13 +97,19 @@ const MidweekExport = ({ open, onClose }: MidweekExportType) => {
         />
       </Box>
 
-      <DialogActions>
-        <Button variant="secondary" disabled={isProcessing} onClick={onClose}>
+      <DialogActions
+        sx={{
+          position: 'absolute',
+          bottom: 0,
+          right: 0,
+          padding: '24px',
+        }}
+      >
+        <Button variant="secondary" onClick={onClose}>
           {t('tr_cancel')}
         </Button>
         <Button
           variant="main"
-          disabled={isProcessing}
           endIcon={isProcessing && <IconLoading />}
           onClick={handleExportSchedule}
         >
