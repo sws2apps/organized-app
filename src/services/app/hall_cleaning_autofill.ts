@@ -61,6 +61,28 @@ const slotMeetings = (
   return wholeWeek ? ['midweek', 'weekend'] : ['midweek'];
 };
 
+const cleaningHistoryLoad = (
+  history: AssignmentHistoryType[],
+  dataView: string
+) => {
+  const personLoad: HallCleaningLoad = new Map();
+  const historyByWeek = new Map<string, AssignmentHistoryType[]>();
+  for (const entry of history) {
+    const weekEntries = historyByWeek.get(entry.weekOf) ?? [];
+    weekEntries.push(entry);
+    historyByWeek.set(entry.weekOf, weekEntries);
+    const { key, person } = entry.assignment;
+    if (
+      key?.startsWith('HC_') &&
+      entry.assignment.dataView === dataView &&
+      person
+    ) {
+      addHallCleaningLoad(personLoad, person, entry.weekOf);
+    }
+  }
+  return { personLoad, historyByWeek };
+};
+
 export const hallCleaningStartAutofill = async (start: string, end: string) => {
   const requestedView = store.get(userDataViewState);
   return runHallCleaningUpdate(async () => {
@@ -90,21 +112,10 @@ export const hallCleaningStartAutofill = async (start: string, end: string) => {
         dataView
       ) ?? new Map<AssignmentCode, Set<string>>();
 
-    const personLoad: HallCleaningLoad = new Map();
-    const historyByWeek = new Map<string, AssignmentHistoryType[]>();
-
-    for (const entry of history) {
-      const weekEntries = historyByWeek.get(entry.weekOf) ?? [];
-      weekEntries.push(entry);
-      historyByWeek.set(entry.weekOf, weekEntries);
-      const { key, person } = entry.assignment;
-
-      if (!key?.startsWith('HC_') || entry.assignment.dataView !== dataView) {
-        continue;
-      }
-
-      if (person) addHallCleaningLoad(personLoad, person, entry.weekOf);
-    }
+    const { personLoad, historyByWeek } = cleaningHistoryLoad(
+      history,
+      dataView
+    );
 
     const knownGroups = new Set(groups.map((group) => group.group_id));
 
@@ -239,6 +250,16 @@ export const hallCleaningStartAutofill = async (start: string, end: string) => {
         dataView
       );
 
+      const isAvailablePublisher = (uid: string, code: AssignmentCode) => {
+        if ((members && !members.has(uid)) || used.has(uid)) return false;
+        const person = personsById.get(uid);
+        if (!person || !schedulesCleaningPersonAllowed(person, code))
+          return false;
+        return !meetingDates.some(
+          (date) => date && isPersonBlockedOnDate(person, date)
+        );
+      };
+
       const fillField = (field: CleaningFieldDefinitionType) => {
         const current = entries.find(
           (entry) => entry.type === dataView && entry.id === field.schedule_id
@@ -246,19 +267,9 @@ export const hallCleaningStartAutofill = async (start: string, end: string) => {
 
         if (current?.value) return false;
 
-        const pool = [...(eligibility.get(field.type) ?? [])].filter((uid) => {
-          if ((members && !members.has(uid)) || used.has(uid)) return false;
-
-          const person = personsById.get(uid);
-
-          if (!person || !schedulesCleaningPersonAllowed(person, field.type)) {
-            return false;
-          }
-
-          return !meetingDates.some(
-            (date) => date && isPersonBlockedOnDate(person, date)
-          );
-        });
+        const pool = [...(eligibility.get(field.type) ?? [])].filter((uid) =>
+          isAvailablePublisher(uid, field.type)
+        );
 
         if (pool.length === 0) return false;
 

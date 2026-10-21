@@ -312,12 +312,11 @@ const hallCleaningSlotDate = (
     return new Date(schedulesHallCleaningYearlyDate(schedule, config.type));
   }
 
-  const meeting =
-    slot === 'weekend'
-      ? 'weekend'
-      : slot === 'midweek' && config.period.value === 'meeting'
-        ? 'midweek'
-        : undefined;
+  let meeting: 'midweek' | 'weekend' | undefined;
+  if (slot === 'weekend') meeting = 'weekend';
+  if (slot === 'midweek' && config.period.value === 'meeting') {
+    meeting = 'midweek';
+  }
 
   // a week belongs to the month of its Thursday
   if (!meeting) return addDays(schedule.weekOf, 3);
@@ -683,11 +682,32 @@ const hallCleaningSaveWeeks = async (weeks: SchedWeekType[]) => {
   store.set(assignmentsHistoryState, schedulesBuildHistoryList());
 };
 
-/**
- * Sets the group of one cleaning, or clears it to follow the turns again. Its
- * members keep their places, other names make room, and the group overseer
- * or assistant takes the lead when nobody leads it yet.
- */
+const promoteCleaningLead = (
+  persons: AssignmentCongregation[],
+  lead: string | undefined,
+  dataView: string,
+  updatedAt: string
+) => {
+  const responsible = persons.find(
+    (record) => record.type === dataView && record.id === '1'
+  );
+  if (!lead || responsible?.value) return;
+
+  for (const record of persons) {
+    if (record.type === dataView && record.value === lead) {
+      record.value = '';
+      record.updatedAt = updatedAt;
+    }
+  }
+
+  if (responsible) {
+    responsible.value = lead;
+    responsible.updatedAt = updatedAt;
+  } else {
+    persons.push({ id: '1', type: dataView, name: '', value: lead, updatedAt });
+  }
+};
+
 export const schedulesSetHallCleaningGroup = async (
   weekOf: string,
   slot: HallCleaningSlotType,
@@ -752,32 +772,7 @@ export const schedulesSetHallCleaningGroup = async (
       : undefined;
 
     const persons = [...(cleaning[slot].persons ?? [])];
-    const responsible = persons.find(
-      (record) => record.type === dataView && record.id === '1'
-    );
-
-    if (lead && !responsible?.value) {
-      // a lead already named further down moves up instead of showing twice
-      for (const record of persons) {
-        if (record.type === dataView && record.value === lead) {
-          record.value = '';
-          record.updatedAt = updatedAt;
-        }
-      }
-
-      if (responsible) {
-        responsible.value = lead;
-        responsible.updatedAt = updatedAt;
-      } else {
-        persons.push({
-          id: '1',
-          type: dataView,
-          name: '',
-          value: lead,
-          updatedAt,
-        });
-      }
-    }
+    promoteCleaningLead(persons, lead, dataView, updatedAt);
 
     cleaning[slot] = { ...cleaning[slot], persons };
 
@@ -2084,6 +2079,36 @@ export const schedulesBuildHistoryList = () => {
   );
 };
 
+const historyAssignment = (
+  schedule: SchedWeekType,
+  assignment: AssignmentFieldType,
+  dataView: string,
+  scheduleId?: string
+): AssignmentCongregation | undefined => {
+  if (scheduleId && !schedulesIsDynamicField(assignment)) {
+    const talk = schedule.weekend_meeting.outgoing_talks.find(
+      (record) => record.id === scheduleId
+    );
+    if (!talk) return;
+    return {
+      name: '',
+      type: 'main',
+      updatedAt: talk.updatedAt,
+      value: talk.value,
+      id: scheduleId,
+    };
+  }
+
+  const assigned = structuredClone(
+    schedulesGetData(schedule, ASSIGNMENT_PATH[assignment])
+  );
+  if (!Array.isArray(assigned)) return scheduleId ? undefined : assigned;
+  return assigned.find(
+    (record) =>
+      record.type === dataView && (!scheduleId || record.id === scheduleId)
+  );
+};
+
 export const schedulesUpdateHistory = (
   week: string,
   assignment: AssignmentFieldType,
@@ -2124,53 +2149,12 @@ export const schedulesUpdateHistory = (
 
     if (previousIndex !== -1) historyStale.splice(previousIndex, 1);
 
-    let assigned: AssignmentCongregation | undefined = undefined;
-
     const dataView = store.get(userDataViewState);
     const schedules = store.get(schedulesState);
     const schedule = schedules.find((record) => record.weekOf === week);
     if (!schedule) return;
 
-    if (!schedule_id) {
-      const path = ASSIGNMENT_PATH[item];
-      const dataSchedule = structuredClone(schedulesGetData(schedule, path));
-
-      if (Array.isArray(dataSchedule)) {
-        assigned = dataSchedule.find((record) => record.type === dataView);
-      } else {
-        assigned = dataSchedule;
-      }
-    }
-
-    if (schedule_id && schedulesIsDynamicField(item)) {
-      const dataSchedule = structuredClone(
-        schedulesGetData(schedule, ASSIGNMENT_PATH[item])
-      ) as AssignmentCongregation[];
-
-      if (Array.isArray(dataSchedule)) {
-        const record = dataSchedule.find(
-          (record) => record.id === schedule_id && record.type === dataView
-        );
-
-        if (record) assigned = record;
-      }
-    }
-
-    if (schedule_id && !schedulesIsDynamicField(item)) {
-      const talkSchedule = schedule.weekend_meeting.outgoing_talks.find(
-        (record) => record.id === schedule_id
-      );
-
-      if (talkSchedule) {
-        assigned = {
-          name: '',
-          type: 'main',
-          updatedAt: talkSchedule.updatedAt,
-          value: talkSchedule.value,
-          id: schedule_id,
-        };
-      }
-    }
+    const assigned = historyAssignment(schedule, item, dataView, schedule_id);
 
     if (assigned && assigned.value !== '') {
       const sources = store.get(sourcesState);

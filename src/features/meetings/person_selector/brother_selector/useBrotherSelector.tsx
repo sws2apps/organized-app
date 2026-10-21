@@ -231,44 +231,41 @@ const useBrotherSelector = ({
     ) => {
       const lcType = activeAssignments.includes(AssignmentCode.MM_LCPart);
 
-      if (lcType) {
-        const source = sources.find((record) => record.weekOf === week);
-        if (source) {
-          const lcParts = ['MM_LCPart1', 'MM_LCPart2'];
+      if (!lcType) return false;
+      const source = sources.find((record) => record.weekOf === week);
+      if (!source) return false;
+      const lcParts = ['MM_LCPart1', 'MM_LCPart2'];
 
-          if (lcParts.includes(assignment)) {
-            const path = assignment === 'MM_LCPart1' ? 'lc_part1' : 'lc_part2';
+      if (lcParts.includes(assignment)) {
+        const path = assignment === 'MM_LCPart1' ? 'lc_part1' : 'lc_part2';
 
-            const part = source.midweek_meeting[path];
+        const part = source.midweek_meeting[path];
 
-            const { src, desc } = sourcesLCGet(part, dataView, lang);
-            const isElder = sourcesCheckLCElderAssignment(
-              src ?? '',
-              desc ?? '',
-              sourceLocale
-            );
+        const { src, desc } = sourcesLCGet(part, dataView, lang);
+        const isElder = sourcesCheckLCElderAssignment(
+          src ?? '',
+          desc ?? '',
+          sourceLocale
+        );
 
-            return isElder ? personIsElder(record) : true;
-          }
-
-          if (assignment === 'MM_LCPart3') {
-            const src = source.midweek_meeting.lc_part3.title.find(
-              (record) => record.type === dataView
-            )?.value;
-            const desc = source.midweek_meeting.lc_part3.desc.find(
-              (record) => record.type === dataView
-            )?.value;
-
-            const isElder = sourcesCheckLCElderAssignment(
-              src ?? '',
-              desc ?? '',
-              sourceLocale
-            );
-            return isElder ? personIsElder(record) : true;
-          }
-        }
+        return isElder ? personIsElder(record) : true;
       }
 
+      if (assignment === 'MM_LCPart3') {
+        const src = source.midweek_meeting.lc_part3.title.find(
+          (record) => record.type === dataView
+        )?.value;
+        const desc = source.midweek_meeting.lc_part3.desc.find(
+          (record) => record.type === dataView
+        )?.value;
+
+        const isElder = sourcesCheckLCElderAssignment(
+          src ?? '',
+          desc ?? '',
+          sourceLocale
+        );
+        return isElder ? personIsElder(record) : true;
+      }
       return false;
     };
 
