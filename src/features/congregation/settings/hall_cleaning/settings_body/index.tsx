@@ -258,7 +258,7 @@ const HallCleaningSettingsBody = () => {
                       if (!date) return;
                       const value = formatDate(getWeekDate(date), 'yyyy/MM/dd');
                       if (value > endWeek) return;
-                      handleChange({
+                      void handleChange({
                         rotation_start: value,
                         rotation_end: endWeek,
                       });
