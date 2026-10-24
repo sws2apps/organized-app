@@ -1,12 +1,17 @@
 import { useMemo } from 'react';
 import { Box, Link } from '@mui/material';
 import { useAtomValue } from 'jotai';
-import { IconAddMonth, IconEdit } from '@components/icons';
-import Button from '@components/button';
+import {
+  IconAddMonth,
+  IconContactUs,
+  IconEdit,
+  IconPerson,
+} from '@components/icons';
 import Card from '@components/card';
 import IconButton from '@components/icon_button';
 import GroupBadge from '@components/group_badge';
 import Badge from '@components/badge';
+import Tooltip from '@components/tooltip';
 import Typography from '@components/typography';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import {
@@ -20,9 +25,22 @@ import { MeetingItemProps } from '@features/congregation/field_service_meetings/
 import { getLocationIcon } from '@features/congregation/field_service_meetings/location_icons';
 import { resolveGroupBadgeColor } from '@features/congregation/field_service_meetings/group_badge_color';
 
+const detailRowSx = {
+  display: 'grid',
+  gridTemplateColumns: 'auto minmax(0, 1fr)',
+  alignItems: 'start',
+  gap: '8px',
+  minWidth: 0,
+  overflowWrap: 'anywhere',
+} as const;
+
+const actionButtonSx = {
+  '@media (pointer: coarse)': { minWidth: '44px', minHeight: '44px' },
+} as const;
+
 const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
   const { t } = useAppTranslation();
-  const { desktopUp, tabletUp } = useBreakpoints();
+  const { tabletUp } = useBreakpoints();
   const groups = useAtomValue(fieldWithLanguageGroupsState);
 
   const locationIcon = getLocationIcon(meeting.location, 'var(--grey-400)');
@@ -38,232 +56,193 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
   return (
     <Card
       className="meeting-item"
-      sx={{
-        gap: '12px',
-        padding: '16px',
-        minWidth: 0,
-      }}
+      sx={{ gap: '12px', padding: '16px', minWidth: 0 }}
     >
       <Box
         sx={{
           display: 'flex',
-          alignItems: 'center',
+          alignItems: 'flex-start',
           justifyContent: 'space-between',
           gap: '8px',
-          flexWrap: 'wrap',
         }}
       >
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            minWidth: 0,
-            flex: '1 1 auto',
-          }}
+        <Typography
+          className="h4"
+          sx={{ flex: 1, minWidth: 0, overflowWrap: 'anywhere' }}
         >
-          <Typography
-            className="h4"
-            sx={{
-              overflowWrap: 'anywhere',
-            }}
-          >
-            {t(
-              FIELD_SERVICE_MEETING_CATEGORY_TRANSLATION_KEYS[meeting.category]
-            )}
-          </Typography>
-          {canEdit && (
-            <Box
-              className="edit-button"
-              sx={{
-                flexShrink: 0,
-              }}
-            >
-              <IconButton
-                aria-label={t('tr_edit')}
-                sx={{ marginLeft: '8px' }}
-                onClick={onEdit}
-              >
-                <IconEdit color="var(--accent-main)" />
-              </IconButton>
-            </Box>
-          )}
-        </Box>
-
+          {t(FIELD_SERVICE_MEETING_CATEGORY_TRANSLATION_KEYS[meeting.category])}
+        </Typography>
         <Box
           sx={{
             display: 'flex',
             alignItems: 'center',
             gap: '8px',
-            flexWrap: 'wrap',
-            minWidth: 0,
-            maxWidth: '100%',
+            flexShrink: 0,
           }}
         >
-          {meeting.groupName && (
-            <GroupBadge
-              label={meeting.groupName}
-              color={groupBadgeColor}
-              variant="outlined"
-            />
+          {canEdit && (
+            <Tooltip title={t('tr_edit')}>
+              <IconButton
+                className="edit-button"
+                aria-label={t('tr_edit')}
+                edge={false}
+                sx={actionButtonSx}
+                onClick={onEdit}
+              >
+                <IconEdit color="var(--accent-main)" />
+              </IconButton>
+            </Tooltip>
           )}
-          {meeting.category === FieldServiceMeetingCategory.JointMeeting && (
-            <GroupBadge
-              label={t('tr_fieldServiceMeetingCategory_joint')}
-              color="accent-main"
-              variant="outlined"
-            />
-          )}
-          {meeting.category ===
-            FieldServiceMeetingCategory.ServiceOverseerMeeting && (
-            <Badge
-              text={t('tr_fieldServiceMeetingCategory_serviceOverseer')}
-              size="big"
-              color="accent"
-            />
-          )}
+          <Tooltip title={t('tr_addToCalendar')}>
+            <IconButton
+              className="add-to-calendar"
+              aria-label={t('tr_addToCalendar')}
+              edge={false}
+              sx={actionButtonSx}
+              onClick={() => fieldServiceMeetingCalendarExport(meeting, t)}
+            >
+              <IconAddMonth color="var(--accent-main)" />
+            </IconButton>
+          </Tooltip>
         </Box>
       </Box>
 
       <Box
         sx={{
           display: 'flex',
-          flexDirection: desktopUp ? 'row' : 'column',
+          alignItems: 'center',
+          gap: '8px',
+          flexWrap: 'wrap',
+          minWidth: 0,
+          maxWidth: '100%',
+        }}
+      >
+        {meeting.groupName && (
+          <GroupBadge
+            label={meeting.groupName}
+            color={groupBadgeColor}
+            variant="outlined"
+          />
+        )}
+        {meeting.category === FieldServiceMeetingCategory.JointMeeting && (
+          <GroupBadge
+            label={t('tr_fieldServiceMeetingCategory_joint')}
+            color="accent-main"
+            variant="outlined"
+          />
+        )}
+        {meeting.category ===
+          FieldServiceMeetingCategory.ServiceOverseerMeeting && (
+          <Badge
+            text={t('tr_fieldServiceMeetingCategory_serviceOverseer')}
+            size="big"
+            color="accent"
+          />
+        )}
+      </Box>
+
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'flex-start',
           gap: '12px',
+          minWidth: 0,
         }}
       >
         <Box
           sx={{
+            backgroundColor: 'var(--accent-150)',
+            padding: tabletUp ? '8px 16px' : '6px 10px',
+            borderRadius: 'var(--radius-l)',
             display: 'flex',
-            flexDirection: 'row',
-            flex: 1,
-            alignItems: 'flex-start',
-            gap: '12px',
-          }}
-        >
-          <Box
-            sx={{
-              backgroundColor: 'var(--accent-150)',
-              padding: tabletUp ? '8px 16px' : '6px 10px',
-              borderRadius: 'var(--radius-l)',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '2px',
-              flexShrink: 0,
-            }}
-          >
-            <Typography
-              className="body-small-regular"
-              color="var(--accent-dark)"
-              sx={{ whiteSpace: 'nowrap' }}
-            >
-              {meeting.datesRange || meeting.date}
-            </Typography>
-            <Typography className="h4" color="var(--accent-dark)">
-              {meeting.time}
-            </Typography>
-          </Box>
-
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              flex: 1,
-              // Let long links wrap instead of widening the row.
-              minWidth: 0,
-              gap: '4px',
-            }}
-          >
-            <Typography
-              className="body-regular"
-              sx={{ overflowWrap: 'anywhere' }}
-            >
-              {meeting.conductor}
-            </Typography>
-            <Typography
-              className={tabletUp ? 'body-regular' : 'body-small-regular'}
-              color="var(--grey-400)"
-              sx={{ overflowWrap: 'anywhere' }}
-            >
-              <Box
-                component="span"
-                sx={{
-                  display: 'flex',
-                  alignItems: 'flex-start',
-                  gap: '4px',
-                  minWidth: 0,
-                  '& svg': { flexShrink: 0 },
-                }}
-              >
-                {locationIcon}
-                <Box component="span" sx={{ flex: 1, minWidth: 0 }}>
-                  {isWebAddress ? (
-                    <Link
-                      href={meeting.address}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      title={meeting.address}
-                      sx={{
-                        display: '-webkit-box',
-                        WebkitBoxOrient: 'vertical',
-                        WebkitLineClamp: 2,
-                        overflow: 'hidden',
-                        overflowWrap: 'anywhere',
-                        textOverflow: 'ellipsis',
-                        color: 'var(--accent-main)',
-                        textDecorationColor: 'var(--accent-main)',
-                        '&:hover': { color: 'var(--accent-dark)' },
-                      }}
-                    >
-                      {meeting.address}
-                    </Link>
-                  ) : (
-                    meeting.address ||
-                    t(
-                      FIELD_SERVICE_MEETING_LOCATION_TRANSLATION_KEYS[
-                        meeting.location
-                      ]
-                    )
-                  )}
-                </Box>
-              </Box>
-            </Typography>
-            {meeting.additionalInfo && (
-              <Typography
-                className="body-small-regular"
-                color="var(--grey-400)"
-                sx={{ whiteSpace: 'pre-wrap', overflowWrap: 'anywhere' }}
-              >
-                {meeting.additionalInfo}
-              </Typography>
-            )}
-          </Box>
-        </Box>
-
-        {/* Actions stay visible on pointer, touch and keyboard devices. */}
-        <Box
-          className="add-to-calendar"
-          sx={{
-            display: 'flex',
+            flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
-            flex: '0 0 auto',
-            width: desktopUp ? 'auto' : '100%',
+            gap: '2px',
+            flexShrink: 0,
           }}
         >
-          <Button
-            variant="small"
-            startIcon={<IconAddMonth />}
-            disableAutoStretch={desktopUp}
-            onClick={() => fieldServiceMeetingCalendarExport(meeting, t)}
-            sx={{
-              whiteSpace: 'normal',
-              width: desktopUp ? 'auto' : '100%',
-            }}
+          <Typography
+            className="body-small-regular"
+            color="var(--accent-dark)"
+            sx={{ whiteSpace: 'nowrap' }}
           >
-            {t('tr_addToCalendar')}
-          </Button>
+            {meeting.datesRange || meeting.date}
+          </Typography>
+          <Typography className="h4" color="var(--accent-dark)">
+            {meeting.time}
+          </Typography>
+        </Box>
+
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            flex: 1,
+            minWidth: 0,
+            gap: '4px',
+          }}
+        >
+          <Typography component="div" className="body-regular" sx={detailRowSx}>
+            <IconPerson color="var(--grey-400)" />
+            <Box component="span" sx={{ minWidth: 0 }}>
+              {meeting.conductor}
+            </Box>
+          </Typography>
+          <Typography
+            component="div"
+            className={tabletUp ? 'body-regular' : 'body-small-regular'}
+            color="var(--grey-400)"
+            sx={detailRowSx}
+          >
+            {locationIcon}
+            <Box component="span" sx={{ minWidth: 0 }}>
+              {isWebAddress ? (
+                <Link
+                  href={meeting.address}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title={meeting.address}
+                  sx={{
+                    display: '-webkit-box',
+                    WebkitBoxOrient: 'vertical',
+                    WebkitLineClamp: 2,
+                    overflow: 'hidden',
+                    overflowWrap: 'anywhere',
+                    textOverflow: 'ellipsis',
+                    color: 'var(--accent-main)',
+                    textDecorationColor: 'var(--accent-main)',
+                    '&:hover': { color: 'var(--accent-dark)' },
+                  }}
+                >
+                  {meeting.address}
+                </Link>
+              ) : (
+                meeting.address ||
+                t(
+                  FIELD_SERVICE_MEETING_LOCATION_TRANSLATION_KEYS[
+                    meeting.location
+                  ]
+                )
+              )}
+            </Box>
+          </Typography>
+          {meeting.additionalInfo && (
+            <Typography
+              component="div"
+              className="body-small-regular"
+              color="var(--grey-400)"
+              sx={detailRowSx}
+            >
+              <IconContactUs color="var(--grey-400)" />
+              <Box
+                component="span"
+                sx={{ minWidth: 0, whiteSpace: 'pre-wrap' }}
+              >
+                {meeting.additionalInfo}
+              </Box>
+            </Typography>
+          )}
         </Box>
       </Box>
     </Card>
