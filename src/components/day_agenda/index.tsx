@@ -83,6 +83,8 @@ const DayAgenda = ({ title, subtitle, slots }: DayAgendaProps) => {
                 alignItems: 'flex-start',
                 gap: '4px',
                 paddingInlineEnd: '12px',
+                paddingBlockStart: '8px',
+                '@media (pointer: coarse)': { paddingBlockStart: '12px' },
                 minWidth: 0,
               }}
             >

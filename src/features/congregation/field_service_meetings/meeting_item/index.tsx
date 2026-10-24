@@ -68,6 +68,8 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
           gap: tabletUp ? '8px 16px' : '8px',
           gridColumn: 1,
           alignSelf: 'start',
+          paddingBlockStart: '8px',
+          '@media (pointer: coarse)': { paddingBlockStart: '12px' },
           minWidth: 0,
         }}
       >
@@ -148,20 +150,17 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
         </Box>
       </Box>
       <Box
+        className="meeting-actions"
         sx={{
-          display: 'flex',
+          display: 'inline-flex',
           alignItems: 'center',
           gap: '8px',
           flexShrink: 0,
           gridColumn: 2,
           gridRow: hasAdditionalInfo ? '1 / 3' : 1,
           alignSelf: 'start',
-          marginBlockStart:
-            'calc((var(--icon-size-small) - var(--touch-target-size)) / 2)',
-          '& button': {
-            minWidth: 'var(--touch-target-size)',
-            minHeight: 'var(--touch-target-size)',
-          },
+          justifySelf: 'end',
+          '& > div': { display: 'flex' },
           '& button > svg': {
             width: 'var(--icon-size-small)',
             height: 'var(--icon-size-small)',
