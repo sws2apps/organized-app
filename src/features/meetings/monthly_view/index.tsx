@@ -108,6 +108,7 @@ const MonthlyView = () => {
             return (
               <WeekBadge
                 key={index}
+                week={value}
                 text={getWeekLocale(new Date(value).getDate(), monthName)}
               />
             );
@@ -118,8 +119,10 @@ const MonthlyView = () => {
           <StyledMonthlyViewTitleBox>
             <Typography
               className="h4"
-              color={'var(--black)'}
-              width={`${196}px`}
+              sx={{
+                color: 'var(--black)',
+                width: `${196}px`,
+              }}
             >
               {t('tr_chairman')}
             </Typography>
@@ -146,8 +149,10 @@ const MonthlyView = () => {
               <StyledMonthlyViewTitleBox>
                 <Typography
                   className="h4"
-                  color={'var(--black)'}
-                  width={`${196}px`}
+                  sx={{
+                    color: 'var(--black)',
+                    width: `${196}px`,
+                  }}
                 >
                   {t('tr_auxClassCounselor')}
                 </Typography>
@@ -165,7 +170,12 @@ const MonthlyView = () => {
                     readOnly={false}
                   />
                 ) : (
-                  <Box flex={1} key={index}></Box>
+                  <Box
+                    key={index}
+                    sx={{
+                      flex: 1,
+                    }}
+                  ></Box>
                 );
               })}
             </StyledMonthlyViewRow>
@@ -177,8 +187,10 @@ const MonthlyView = () => {
           <StyledMonthlyViewTitleBox>
             <Typography
               className="h4"
-              color={'var(--black)'}
-              width={`${196}px`}
+              sx={{
+                color: 'var(--black)',
+                width: `${196}px`,
+              }}
             >
               {t('tr_openingPrayer')}
             </Typography>
@@ -226,8 +238,10 @@ const MonthlyView = () => {
               <StyledMonthlyViewTitleBox>
                 <Typography
                   className="h4"
-                  color={'var(--text-treasures-from-gods-word)'}
-                  width={`${196}px`}
+                  sx={{
+                    color: 'var(--text-treasures-from-gods-word)',
+                    width: `${196}px`,
+                  }}
                 >
                   {t('tr_tgwTalk')}
                 </Typography>
@@ -260,8 +274,10 @@ const MonthlyView = () => {
               <StyledMonthlyViewTitleBox>
                 <Typography
                   className="h4"
-                  color={'var(--text-treasures-from-gods-word)'}
-                  width={`${196}px`}
+                  sx={{
+                    color: 'var(--text-treasures-from-gods-word)',
+                    width: `${196}px`,
+                  }}
                 >
                   {t('tr_tgwGems')}
                 </Typography>
@@ -292,10 +308,16 @@ const MonthlyView = () => {
           <>
             {classCount == 2 && (
               <StyledMonthlyViewRow>
-                <Box width={'196px'}></Box>
+                <Box
+                  sx={{
+                    width: '196px',
+                  }}
+                ></Box>
                 <Typography
                   className="body-small-semibold"
-                  color={'var(--grey-350)'}
+                  sx={{
+                    color: 'var(--grey-350)',
+                  }}
                 >
                   {t('tr_mainHall')}
                 </Typography>
@@ -305,8 +327,10 @@ const MonthlyView = () => {
               <StyledMonthlyViewTitleBox>
                 <Typography
                   className="h4"
-                  color={'var(--text-treasures-from-gods-word)'}
-                  width={`${196}px`}
+                  sx={{
+                    color: 'var(--text-treasures-from-gods-word)',
+                    width: `${196}px`,
+                  }}
                 >
                   {t('tr_bibleReading')}
                 </Typography>
@@ -334,16 +358,26 @@ const MonthlyView = () => {
             {classCount === 2 && (
               <>
                 <StyledMonthlyViewRow>
-                  <Box width={'196px'}></Box>
+                  <Box
+                    sx={{
+                      width: '196px',
+                    }}
+                  ></Box>
                   <Typography
                     className="body-small-semibold"
-                    color={'var(--grey-350)'}
+                    sx={{
+                      color: 'var(--grey-350)',
+                    }}
                   >
                     {t('tr_auxClassroom')}
                   </Typography>
                 </StyledMonthlyViewRow>
                 <StyledMonthlyViewRow>
-                  <Box width={'196px'}></Box>
+                  <Box
+                    sx={{
+                      width: '196px',
+                    }}
+                  ></Box>
                   {selectedWeeks.map((value, index) => {
                     return showDoublePerson[index] ? (
                       <WeekHoverBox
@@ -362,7 +396,12 @@ const MonthlyView = () => {
                         />
                       </WeekHoverBox>
                     ) : (
-                      <Box flex={1} key={index} />
+                      <Box
+                        key={index}
+                        sx={{
+                          flex: 1,
+                        }}
+                      />
                     );
                   })}
                 </StyledMonthlyViewRow>
@@ -382,10 +421,16 @@ const MonthlyView = () => {
           <>
             {classCount == 2 && (
               <StyledMonthlyViewRow>
-                <Box width={'196px'}></Box>
+                <Box
+                  sx={{
+                    width: '196px',
+                  }}
+                ></Box>
                 <Typography
                   className="body-small-semibold"
-                  color={'var(--grey-350)'}
+                  sx={{
+                    color: 'var(--grey-350)',
+                  }}
                 >
                   {t('tr_mainHall')}
                 </Typography>
@@ -395,8 +440,10 @@ const MonthlyView = () => {
               <StyledMonthlyViewTitleBox>
                 <Typography
                   className="h4"
-                  color={'var(--apply-yourself-to-the-field-ministry)'}
-                  width={'196px'}
+                  sx={{
+                    color: 'var(--apply-yourself-to-the-field-ministry)',
+                    width: '196px',
+                  }}
                 >
                   {t('tr_ayfAssignment', { assignmentNumber: '1' })}
                 </Typography>
@@ -408,7 +455,7 @@ const MonthlyView = () => {
                     type="ayf_part1"
                     key={`ayf-part1-${index}`}
                   >
-                    <StyledMonthlyViewColumn flex={1}>
+                    <StyledMonthlyViewColumn sx={{ flex: 1 }}>
                       <PersonSelector
                         week={value}
                         showIcon={false}
@@ -433,7 +480,11 @@ const MonthlyView = () => {
                           readOnly={false}
                         />
                       ) : (
-                        <Box height={44} />
+                        <Box
+                          sx={{
+                            height: 44,
+                          }}
+                        />
                       )}
                     </StyledMonthlyViewColumn>
                   </WeekHoverBox>
@@ -443,21 +494,31 @@ const MonthlyView = () => {
             {classCount === 2 && (
               <>
                 <StyledMonthlyViewRow>
-                  <Box width={'196px'}></Box>
+                  <Box
+                    sx={{
+                      width: '196px',
+                    }}
+                  ></Box>
                   <Typography
                     className="body-small-semibold"
-                    color={'var(--grey-350)'}
+                    sx={{
+                      color: 'var(--grey-350)',
+                    }}
                   >
                     {t('tr_auxClassroom')}
                   </Typography>
                 </StyledMonthlyViewRow>
                 <StyledMonthlyViewRow>
-                  <Box width={'196px'} />
+                  <Box
+                    sx={{
+                      width: '196px',
+                    }}
+                  />
                   {selectedWeeks.map((value, index) => {
                     return (
                       showAYFParts1DoublePerson && (
                         <StyledMonthlyViewColumn
-                          flex={1}
+                          sx={{ flex: 1 }}
                           key={`ayf-part1-aux-classroom-${index}`}
                         >
                           <PersonSelector
@@ -480,7 +541,11 @@ const MonthlyView = () => {
                               readOnly={false}
                             />
                           ) : (
-                            <Box height={44} />
+                            <Box
+                              sx={{
+                                height: 44,
+                              }}
+                            />
                           )}
                         </StyledMonthlyViewColumn>
                       )
@@ -495,10 +560,16 @@ const MonthlyView = () => {
           <>
             {classCount == 2 && (
               <StyledMonthlyViewRow>
-                <Box width={'196px'}></Box>
+                <Box
+                  sx={{
+                    width: '196px',
+                  }}
+                ></Box>
                 <Typography
                   className="body-small-semibold"
-                  color={'var(--grey-350)'}
+                  sx={{
+                    color: 'var(--grey-350)',
+                  }}
                 >
                   {t('tr_mainHall')}
                 </Typography>
@@ -508,8 +579,10 @@ const MonthlyView = () => {
               <StyledMonthlyViewTitleBox>
                 <Typography
                   className="h4"
-                  color={'var(--apply-yourself-to-the-field-ministry)'}
-                  width={'196px'}
+                  sx={{
+                    color: 'var(--apply-yourself-to-the-field-ministry)',
+                    width: '196px',
+                  }}
                 >
                   {t('tr_ayfAssignment', { assignmentNumber: '2' })}
                 </Typography>
@@ -521,7 +594,7 @@ const MonthlyView = () => {
                     type="ayf_part2"
                     key={`ayf-part2-${index}`}
                   >
-                    <StyledMonthlyViewColumn flex={1}>
+                    <StyledMonthlyViewColumn sx={{ flex: 1 }}>
                       <PersonSelector
                         week={value}
                         label={
@@ -546,32 +619,51 @@ const MonthlyView = () => {
                           readOnly={false}
                         />
                       ) : (
-                        <Box height={44} />
+                        <Box
+                          sx={{
+                            height: 44,
+                          }}
+                        />
                       )}
                     </StyledMonthlyViewColumn>
                   </WeekHoverBox>
                 ) : (
-                  <Box flex={1} key={index} />
+                  <Box
+                    key={index}
+                    sx={{
+                      flex: 1,
+                    }}
+                  />
                 );
               })}
             </StyledMonthlyViewRow>
             {classCount === 2 && (
               <>
                 <StyledMonthlyViewRow>
-                  <Box width={'196px'}></Box>
+                  <Box
+                    sx={{
+                      width: '196px',
+                    }}
+                  ></Box>
                   <Typography
                     className="body-small-semibold"
-                    color={'var(--grey-350)'}
+                    sx={{
+                      color: 'var(--grey-350)',
+                    }}
                   >
                     {t('tr_auxClassroom')}
                   </Typography>
                 </StyledMonthlyViewRow>
                 <StyledMonthlyViewRow>
-                  <Box width={'196px'} />
+                  <Box
+                    sx={{
+                      width: '196px',
+                    }}
+                  />
                   {selectedWeeks.map((value, index) => {
                     return ayfCount[index] > 1 && showAYFParts2DoublePerson ? (
                       <StyledMonthlyViewColumn
-                        flex={1}
+                        sx={{ flex: 1 }}
                         key={`ayf-part2-aux-classroom-${index}`}
                       >
                         <PersonSelector
@@ -594,11 +686,20 @@ const MonthlyView = () => {
                             readOnly={false}
                           />
                         ) : (
-                          <Box height={44} />
+                          <Box
+                            sx={{
+                              height: 44,
+                            }}
+                          />
                         )}
                       </StyledMonthlyViewColumn>
                     ) : (
-                      <Box flex={1} key={index} />
+                      <Box
+                        key={index}
+                        sx={{
+                          flex: 1,
+                        }}
+                      />
                     );
                   })}
                 </StyledMonthlyViewRow>
@@ -610,10 +711,16 @@ const MonthlyView = () => {
           <>
             {classCount == 2 && (
               <StyledMonthlyViewRow>
-                <Box width={'196px'}></Box>
+                <Box
+                  sx={{
+                    width: '196px',
+                  }}
+                ></Box>
                 <Typography
                   className="body-small-semibold"
-                  color={'var(--grey-350)'}
+                  sx={{
+                    color: 'var(--grey-350)',
+                  }}
                 >
                   {t('tr_mainHall')}
                 </Typography>
@@ -623,8 +730,10 @@ const MonthlyView = () => {
               <StyledMonthlyViewTitleBox>
                 <Typography
                   className="h4"
-                  color={'var(--apply-yourself-to-the-field-ministry)'}
-                  width={'196px'}
+                  sx={{
+                    color: 'var(--apply-yourself-to-the-field-ministry)',
+                    width: '196px',
+                  }}
                 >
                   {t('tr_ayfAssignment', { assignmentNumber: '3' })}
                 </Typography>
@@ -636,7 +745,7 @@ const MonthlyView = () => {
                     type="ayf_part3"
                     key={`ayf-part3-${index}`}
                   >
-                    <StyledMonthlyViewColumn flex={1}>
+                    <StyledMonthlyViewColumn sx={{ flex: 1 }}>
                       <PersonSelector
                         week={value}
                         showIcon={false}
@@ -661,32 +770,51 @@ const MonthlyView = () => {
                           readOnly={false}
                         />
                       ) : (
-                        <Box height={44} />
+                        <Box
+                          sx={{
+                            height: 44,
+                          }}
+                        />
                       )}
                     </StyledMonthlyViewColumn>
                   </WeekHoverBox>
                 ) : (
-                  <Box flex={1} key={index} />
+                  <Box
+                    key={index}
+                    sx={{
+                      flex: 1,
+                    }}
+                  />
                 );
               })}
             </StyledMonthlyViewRow>
             {classCount === 2 && (
               <>
                 <StyledMonthlyViewRow>
-                  <Box width={'196px'}></Box>
+                  <Box
+                    sx={{
+                      width: '196px',
+                    }}
+                  ></Box>
                   <Typography
                     className="body-small-semibold"
-                    color={'var(--grey-350)'}
+                    sx={{
+                      color: 'var(--grey-350)',
+                    }}
                   >
                     {t('tr_auxClassroom')}
                   </Typography>
                 </StyledMonthlyViewRow>
                 <StyledMonthlyViewRow>
-                  <Box width={'196px'} />
+                  <Box
+                    sx={{
+                      width: '196px',
+                    }}
+                  />
                   {selectedWeeks.map((value, index) => {
                     return ayfCount[index] > 2 && showAYFParts3DoublePerson ? (
                       <StyledMonthlyViewColumn
-                        flex={1}
+                        sx={{ flex: 1 }}
                         key={`ayf-part3-aux-classroom-${index}`}
                       >
                         <PersonSelector
@@ -709,11 +837,20 @@ const MonthlyView = () => {
                             readOnly={false}
                           />
                         ) : (
-                          <Box height={44} />
+                          <Box
+                            sx={{
+                              height: 44,
+                            }}
+                          />
                         )}
                       </StyledMonthlyViewColumn>
                     ) : (
-                      <Box flex={1} key={index} />
+                      <Box
+                        key={index}
+                        sx={{
+                          flex: 1,
+                        }}
+                      />
                     );
                   })}
                 </StyledMonthlyViewRow>
@@ -726,10 +863,16 @@ const MonthlyView = () => {
             <>
               {classCount == 2 && (
                 <StyledMonthlyViewRow>
-                  <Box width={'196px'}></Box>
+                  <Box
+                    sx={{
+                      width: '196px',
+                    }}
+                  ></Box>
                   <Typography
                     className="body-small-semibold"
-                    color={'var(--grey-350)'}
+                    sx={{
+                      color: 'var(--grey-350)',
+                    }}
                   >
                     {t('tr_mainHall')}
                   </Typography>
@@ -739,8 +882,10 @@ const MonthlyView = () => {
                 <StyledMonthlyViewTitleBox>
                   <Typography
                     className="h4"
-                    color={'var(--apply-yourself-to-the-field-ministry)'}
-                    width={'196px'}
+                    sx={{
+                      color: 'var(--apply-yourself-to-the-field-ministry)',
+                      width: '196px',
+                    }}
                   >
                     {t('tr_ayfAssignment', { assignmentNumber: '4' })}
                   </Typography>
@@ -752,7 +897,7 @@ const MonthlyView = () => {
                       week={value}
                       key={`ayf-part4-${index}`}
                     >
-                      <StyledMonthlyViewColumn flex={1}>
+                      <StyledMonthlyViewColumn sx={{ flex: 1 }}>
                         <PersonSelector
                           week={value}
                           showIcon={false}
@@ -777,28 +922,47 @@ const MonthlyView = () => {
                             readOnly={false}
                           />
                         ) : (
-                          <Box height={44} />
+                          <Box
+                            sx={{
+                              height: 44,
+                            }}
+                          />
                         )}
                       </StyledMonthlyViewColumn>
                     </WeekHoverBox>
                   ) : (
-                    <Box flex={1} key={index} />
+                    <Box
+                      key={index}
+                      sx={{
+                        flex: 1,
+                      }}
+                    />
                   );
                 })}
               </StyledMonthlyViewRow>
               {classCount === 2 && (
                 <>
                   <StyledMonthlyViewRow>
-                    <Box width={'196px'}></Box>
+                    <Box
+                      sx={{
+                        width: '196px',
+                      }}
+                    ></Box>
                     <Typography
                       className="body-small-semibold"
-                      color={'var(--grey-350)'}
+                      sx={{
+                        color: 'var(--grey-350)',
+                      }}
                     >
                       {t('tr_auxClassroom')}
                     </Typography>
                   </StyledMonthlyViewRow>
                   <StyledMonthlyViewRow>
-                    <Box width={'196px'} />
+                    <Box
+                      sx={{
+                        width: '196px',
+                      }}
+                    />
                     {selectedWeeks.map((value, index) => {
                       return ayfCount[index] > 3 &&
                         showAYFParts4DoublePerson ? (
@@ -826,11 +990,20 @@ const MonthlyView = () => {
                               readOnly={false}
                             />
                           ) : (
-                            <Box height={44} />
+                            <Box
+                              sx={{
+                                height: 44,
+                              }}
+                            />
                           )}
                         </StyledMonthlyViewColumn>
                       ) : (
-                        <Box flex={1} key={index} />
+                        <Box
+                          key={index}
+                          sx={{
+                            flex: 1,
+                          }}
+                        />
                       );
                     })}
                   </StyledMonthlyViewRow>
@@ -853,8 +1026,10 @@ const MonthlyView = () => {
               <StyledMonthlyViewTitleBox>
                 <Typography
                   className="h4"
-                  color={'var(--living-as-christians)'}
-                  width={`${196}px`}
+                  sx={{
+                    color: 'var(--living-as-christians)',
+                    width: `${196}px`,
+                  }}
                 >
                   {t('tr_lcPartNum', { partNumber: '1' })}
                 </Typography>
@@ -902,7 +1077,9 @@ const MonthlyView = () => {
                     >
                       <Typography
                         className="label-small-regular"
-                        color="var(--grey-350)"
+                        sx={{
+                          color: 'var(--grey-350)',
+                        }}
                       >
                         {t('tr_preAssignedToTheChairman')}
                       </Typography>
@@ -920,8 +1097,10 @@ const MonthlyView = () => {
                 <StyledMonthlyViewTitleBox>
                   <Typography
                     className="h4"
-                    color={'var(--living-as-christians)'}
-                    width={`${196}px`}
+                    sx={{
+                      color: 'var(--living-as-christians)',
+                      width: `${196}px`,
+                    }}
                   >
                     {t('tr_lcPartNum', { partNumber: '2' })}
                   </Typography>
@@ -966,13 +1145,17 @@ const MonthlyView = () => {
                 >
                   <Typography
                     className="h4"
-                    color={'var(--living-as-christians)'}
+                    sx={{
+                      color: 'var(--living-as-christians)',
+                    }}
                   >
                     {t('tr_customPart')}
                   </Typography>
                   <Typography
                     className="body-small-regular"
-                    color="var(--grey-350)"
+                    sx={{
+                      color: 'var(--grey-350)',
+                    }}
                   >
                     {t('tr_optional')}
                   </Typography>
@@ -1030,8 +1213,10 @@ const MonthlyView = () => {
               <StyledMonthlyViewTitleBox>
                 <Typography
                   className="h4"
-                  color={'var(--living-as-christians)'}
-                  width={`${196}px`}
+                  sx={{
+                    color: 'var(--living-as-christians)',
+                    width: `${196}px`,
+                  }}
                 >
                   {t('tr_cbs')}
                 </Typography>
@@ -1043,7 +1228,7 @@ const MonthlyView = () => {
                     week={value}
                     key={`lc-cbs-${index}`}
                   >
-                    <StyledMonthlyViewColumn flex={1}>
+                    <StyledMonthlyViewColumn sx={{ flex: 1 }}>
                       <PersonSelector
                         week={value}
                         label={t('tr_cbsConductor')}
@@ -1075,8 +1260,10 @@ const MonthlyView = () => {
             <StyledMonthlyViewTitleBox>
               <Typography
                 className="h4"
-                color={'var(--living-as-christians)'}
-                width={`${196}px`}
+                sx={{
+                  color: 'var(--living-as-christians)',
+                  width: `${196}px`,
+                }}
               >
                 {t('tr_closingPrayer')}
               </Typography>

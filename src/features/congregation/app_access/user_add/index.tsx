@@ -8,7 +8,7 @@ const UserAdd = ({ open, onClose }: UserAddType) => {
   const { currentStep, user, handleMoveStep, handleSetUser } = useUserAdd();
 
   return (
-    <Dialog onClose={onClose} open={open} sx={{ padding: '24px' }}>
+    <Dialog onClose={onClose} open={open}>
       {currentStep === 'select' && (
         <PersonSelect
           onClose={onClose}

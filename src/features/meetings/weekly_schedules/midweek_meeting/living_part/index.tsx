@@ -115,7 +115,9 @@ const LivingPart = (props: LivingPartProps) => {
               >
                 <Typography
                   className="h4"
-                  color="var(--living-as-christians)"
+                  sx={{
+                    color: 'var(--living-as-christians)',
+                  }}
                 >
                   {`${t('tr_concludingComments')} ${t('tr_partDuration', { time: 3 })}`}
                 </Typography>

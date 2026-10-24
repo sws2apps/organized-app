@@ -21,7 +21,12 @@ const LanguageGroupMembers = (props: LanguageGroupMembersProps) => {
   } = useLanguageGroupMembers(props);
 
   return (
-    <Stack spacing="16px" width="100%">
+    <Stack
+      spacing="16px"
+      sx={{
+        width: '100%',
+      }}
+    >
       <AutocompleteMultiple
         filterSelectedOptions
         readOnly={props.readOnly}

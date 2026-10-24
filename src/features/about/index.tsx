@@ -1,5 +1,5 @@
 import { Box, Link } from '@mui/material';
-import { IconClose, IconInfo, IconLogo, IconRestart } from '@icons/index';
+import { IconLogo, IconRestart } from '@icons/index';
 import { useAppTranslation } from '@hooks/index';
 import { AboutProps } from './index.types';
 import useAbout from './useAbout';
@@ -24,32 +24,7 @@ const About = (props: AboutProps) => {
   const { t } = useAppTranslation();
 
   return (
-    <Dialog open={isOpen} onClose={handleClose}>
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'flex-start',
-          gap: '8px',
-          width: '100%',
-        }}
-      >
-        <IconInfo color="var(--black)" />
-        <Box
-          sx={{
-            display: 'flex',
-            padding: 'var(--radius-none)',
-            justifyContent: 'space-between',
-            alignItems: 'flex-start',
-            flex: '1 0 0',
-          }}
-        >
-          <Typography className="h2">{t('tr_about')}</Typography>
-          <IconButton onClick={handleClose}>
-            <IconClose color="var(--black)" />
-          </IconButton>
-        </Box>
-      </Box>
-
+    <Dialog open={isOpen} onClose={handleClose} title={t('tr_about')} closable>
       <Box
         sx={{
           display: 'flex',
@@ -69,7 +44,12 @@ const About = (props: AboutProps) => {
           <IconLogo width={40} height={40} />
           <Box>
             <Typography className="h3">Organized</Typography>
-            <Typography className="body-regular" color="var(--grey-350)">
+            <Typography
+              className="body-regular"
+              sx={{
+                color: 'var(--grey-350)',
+              }}
+            >
               {import.meta.env.PACKAGE_VERSION}
             </Typography>
           </Box>
@@ -101,7 +81,12 @@ const About = (props: AboutProps) => {
         </Button>
       </Box>
 
-      <Typography className="body-small-regular" color="var(--grey-350)">
+      <Typography
+        className="body-small-regular"
+        sx={{
+          color: 'var(--grey-350)',
+        }}
+      >
         © {currentYear} Organized (sws2apps) |{' '}
         <Link
           className="body-small-semibold"

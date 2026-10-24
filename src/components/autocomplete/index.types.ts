@@ -46,6 +46,8 @@ export type AutocompletePropsType<T> = Omit<
 
   decorator?: boolean;
 
+  decoratorColor?: string;
+
   variant?: TextFieldProps['variant'];
 
   /** Show the field in error state (red border + helper text). */
@@ -56,5 +58,5 @@ export type AutocompletePropsType<T> = Omit<
 };
 
 export type CustomPaperType = PaperProps & {
-  optionsHeader: ReactNode;
+  optionsHeader?: ReactNode;
 };

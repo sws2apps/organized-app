@@ -15,24 +15,16 @@ const SpecificRecords = (props: SpecificRecordsProps) => {
       <Stack spacing="16px">
         <Typography className="h2">{t('tr_S21CardTitle')}</Typography>
 
-        <Typography color="var(--grey-400)">
+        <Typography
+          sx={{
+            color: 'var(--grey-400)',
+          }}
+        >
           {t('tr_S21ExportMultipleDesc')}
         </Typography>
       </Stack>
 
-      <ScrollableTabs
-        tabs={tabs}
-        value={0}
-        indicatorMode
-        sx={{
-          '& button.Mui-selected': {
-            color: 'var(--accent-main)',
-            background: 'unset',
-            borderRadius: 'unset',
-          },
-          '& span.MuiTouchRipple-root': { borderRadius: 'unset' },
-        }}
-      />
+      <ScrollableTabs appearance="plain" tabs={tabs} value={0} />
     </>
   );
 };

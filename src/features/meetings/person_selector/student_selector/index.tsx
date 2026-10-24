@@ -55,7 +55,12 @@ const StudentSelector = (props: PersonSelectorType) => {
     showGroupToggle,
     mainStudentGender,
     showFamilyFilter,
+    isMeetingConflict,
   } = useStudentSelector(props);
+
+  const helperColor = isMeetingConflict
+    ? 'var(--red-main)'
+    : 'var(--orange-dark)';
 
   return (
     <Box sx={{ position: 'relative' }}>
@@ -81,7 +86,12 @@ const StudentSelector = (props: PersonSelectorType) => {
         noOptionsText={
           isAssistant && (
             <Box sx={{ backgroundColor: 'var(--white)' }}>
-              <Typography className="body-regular" color="var(--grey-350)">
+              <Typography
+                className="body-regular"
+                sx={{
+                  color: 'var(--grey-350)',
+                }}
+              >
                 {t('tr_selectAStudentFirst')}
               </Typography>
             </Box>
@@ -138,13 +148,17 @@ const StudentSelector = (props: PersonSelectorType) => {
                     >
                       <Typography
                         className="body-small-regular"
-                        color="var(--grey-350)"
+                        sx={{
+                          color: 'var(--grey-350)',
+                        }}
                       >
                         {t('tr_assistant')}:
                       </Typography>
                       <Typography
                         className="body-small-regular"
-                        color="var(--grey-350)"
+                        sx={{
+                          color: 'var(--grey-350)',
+                        }}
                       >
                         {option.last_assistant}
                       </Typography>
@@ -156,18 +170,22 @@ const StudentSelector = (props: PersonSelectorType) => {
             <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <Typography
                 className="body-small-regular"
-                color="var(--grey-350)"
                 align="center"
-                sx={{ width: '85px' }}
+                sx={{
+                  color: 'var(--grey-350)',
+                  width: '85px',
+                }}
               >
                 {option.last_assignment}
               </Typography>
               {tabletUp && (
                 <Typography
                   className="body-small-regular"
-                  color="var(--grey-350)"
                   align="center"
-                  sx={{ width: '70px' }}
+                  sx={{
+                    color: 'var(--grey-350)',
+                    width: '70px',
+                  }}
                 >
                   {option.hall}
                 </Typography>
@@ -233,12 +251,8 @@ const StudentSelector = (props: PersonSelectorType) => {
                           <FormControlLabel
                             value="family"
                             control={<Radio />}
-                            label={
-                              <Typography>{t('tr_family')}</Typography>
-                            }
-                            onClick={(e) =>
-                              handleGenderChange(e, 'family')
-                            }
+                            label={<Typography>{t('tr_family')}</Typography>}
+                            onClick={(e) => handleGenderChange(e, 'family')}
                           />
                         )}
                       </>
@@ -267,8 +281,10 @@ const StudentSelector = (props: PersonSelectorType) => {
             >
               <Typography
                 className="body-small-regular"
-                color="var(--grey-350)"
-                sx={{ width: '200px' }}
+                sx={{
+                  color: 'var(--grey-350)',
+                  width: '200px',
+                }}
               >
                 {t('tr_name')}
               </Typography>
@@ -276,9 +292,11 @@ const StudentSelector = (props: PersonSelectorType) => {
               <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <Typography
                   className="body-small-regular"
-                  color="var(--grey-350)"
                   align="center"
-                  sx={{ width: '85px' }}
+                  sx={{
+                    color: 'var(--grey-350)',
+                    width: '85px',
+                  }}
                 >
                   {t('tr_lastAssignment')}
                 </Typography>
@@ -286,9 +304,11 @@ const StudentSelector = (props: PersonSelectorType) => {
                 {tabletUp && (
                   <Typography
                     className="body-small-regular"
-                    color="var(--grey-350)"
                     align="center"
-                    sx={{ width: '70px' }}
+                    sx={{
+                      color: 'var(--grey-350)',
+                      width: '70px',
+                    }}
                   >
                     {t('tr_hall')}
                   </Typography>
@@ -302,11 +322,9 @@ const StudentSelector = (props: PersonSelectorType) => {
           showIcon ? <StudentIcon type={props.type} value={value} /> : null
         }
         decorator={helperText.length > 0}
+        decoratorColor={isMeetingConflict ? 'var(--red-main)' : undefined}
         clearIcon={<IconClose width={20} height={20} />}
         sx={{
-          '& .MuiInputLabel-root': {
-            top: '-5px !important',
-          },
           '& .MuiOutlinedInput-root': {
             height: '44px !important',
           },
@@ -326,11 +344,7 @@ const StudentSelector = (props: PersonSelectorType) => {
           onClick={handleOpenHistory}
         >
           <IconAssignmetHistory
-            color={
-              helperText.length > 0
-                ? 'var(--orange-dark)'
-                : 'var(--accent-main)'
-            }
+            color={helperText.length > 0 ? helperColor : 'var(--accent-main)'}
           />
         </IconButton>
       )}
@@ -338,7 +352,7 @@ const StudentSelector = (props: PersonSelectorType) => {
       {helperText.length > 0 && (
         <Typography
           className="label-small-regular"
-          color="var(--orange-dark)"
+          color={helperColor}
           sx={{
             padding: '4px 16px 0 16px',
             maxWidth: desktopUp ? '350px' : '100%',

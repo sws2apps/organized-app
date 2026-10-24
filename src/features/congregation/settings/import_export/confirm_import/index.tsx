@@ -41,20 +41,31 @@ const ConfirmImport = (props: ConfirmImportProps) => {
     <Stack spacing="16px">
       <Typography className="h2">{t('tr_importDataConfirm')}</Typography>
 
-      <Typography color="var(--grey-400)">
+      <Typography
+        sx={{
+          color: 'var(--grey-400)',
+        }}
+      >
         {t('tr_importDataConfirmDesc')}
       </Typography>
 
       <Stack
         spacing="16px"
-        padding="16px"
-        borderRadius="var(--radius-m)"
-        bgcolor="var(--accent-150)"
         divider={<Divider color="var(--accent-200)" />}
+        sx={{
+          padding: '16px',
+          borderRadius: 'var(--radius-m)',
+          bgcolor: 'var(--accent-150)',
+        }}
       >
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <IconImportJson color="var(--accent-dark)" />
-          <Typography className="h4" color="var(--accent-dark)">
+          <Typography
+            className="h4"
+            sx={{
+              color: 'var(--accent-dark)',
+            }}
+          >
             {filename}
           </Typography>
         </Box>
@@ -67,7 +78,9 @@ const ConfirmImport = (props: ConfirmImportProps) => {
             label={
               <Typography
                 className="body-small-semibold"
-                color="var(--accent-dark)"
+                sx={{
+                  color: 'var(--accent-dark)',
+                }}
               >
                 {t('tr_selectAll')}
               </Typography>
@@ -87,7 +100,9 @@ const ConfirmImport = (props: ConfirmImportProps) => {
                 label={
                   <Typography
                     className="body-small-regular"
-                    color="var(--accent-dark)"
+                    sx={{
+                      color: 'var(--accent-dark)',
+                    }}
                   >
                     {t('tr_persons')}
                   </Typography>
@@ -103,7 +118,9 @@ const ConfirmImport = (props: ConfirmImportProps) => {
                 label={
                   <Typography
                     className="body-small-regular"
-                    color="var(--accent-dark)"
+                    sx={{
+                      color: 'var(--accent-dark)',
+                    }}
                   >
                     {t('tr_fieldServiceGroups')}
                   </Typography>
@@ -119,7 +136,9 @@ const ConfirmImport = (props: ConfirmImportProps) => {
                 label={
                   <Typography
                     className="body-small-regular"
-                    color="var(--accent-dark)"
+                    sx={{
+                      color: 'var(--accent-dark)',
+                    }}
                   >
                     {t('tr_visitingSpeakers')}
                   </Typography>
@@ -135,7 +154,9 @@ const ConfirmImport = (props: ConfirmImportProps) => {
                 label={
                   <Typography
                     className="body-small-regular"
-                    color="var(--accent-dark)"
+                    sx={{
+                      color: 'var(--accent-dark)',
+                    }}
                   >
                     {t('tr_ministryReports')}
                   </Typography>
@@ -151,7 +172,9 @@ const ConfirmImport = (props: ConfirmImportProps) => {
                 label={
                   <Typography
                     className="body-small-regular"
-                    color="var(--accent-dark)"
+                    sx={{
+                      color: 'var(--accent-dark)',
+                    }}
                   >
                     {t('tr_congregationReports')}
                   </Typography>
@@ -167,7 +190,9 @@ const ConfirmImport = (props: ConfirmImportProps) => {
                 label={
                   <Typography
                     className="body-small-regular"
-                    color="var(--accent-dark)"
+                    sx={{
+                      color: 'var(--accent-dark)',
+                    }}
                   >
                     {t('tr_recordAttendance')}
                   </Typography>
@@ -185,7 +210,9 @@ const ConfirmImport = (props: ConfirmImportProps) => {
                 label={
                   <Typography
                     className="body-small-regular"
-                    color="var(--accent-dark)"
+                    sx={{
+                      color: 'var(--accent-dark)',
+                    }}
                   >
                     {t('tr_midweekMeetingHistory')}
                   </Typography>
@@ -201,7 +228,9 @@ const ConfirmImport = (props: ConfirmImportProps) => {
                 label={
                   <Typography
                     className="body-small-regular"
-                    color="var(--accent-dark)"
+                    sx={{
+                      color: 'var(--accent-dark)',
+                    }}
                   >
                     {t('tr_weekendMeetingHistory')}
                   </Typography>
@@ -217,7 +246,9 @@ const ConfirmImport = (props: ConfirmImportProps) => {
                 label={
                   <Typography
                     className="body-small-regular"
-                    color="var(--accent-dark)"
+                    sx={{
+                      color: 'var(--accent-dark)',
+                    }}
                   >
                     {t('tr_upcomingEvents')}
                   </Typography>
@@ -249,7 +280,9 @@ const ConfirmImport = (props: ConfirmImportProps) => {
                 label={
                   <Typography
                     className="body-small-regular"
-                    color="var(--accent-dark)"
+                    sx={{
+                      color: 'var(--accent-dark)',
+                    }}
                   >
                     {t('tr_congregationSettings')}
                   </Typography>
@@ -265,7 +298,9 @@ const ConfirmImport = (props: ConfirmImportProps) => {
                 label={
                   <Typography
                     className="body-small-regular"
-                    color="var(--accent-dark)"
+                    sx={{
+                      color: 'var(--accent-dark)',
+                    }}
                   >
                     {t('tr_userSettings')}
                   </Typography>

@@ -74,8 +74,8 @@ const HoursFields = (props: FormS4Props) => {
               {goal && (
                 <Typography
                   className="body-small-semibold"
-                  color="var(--accent-dark)"
                   sx={{
+                    color: 'var(--accent-dark)',
                     borderRadius: 'var(--radius-s)',
                     padding: '2px 8px',
                     backgroundColor: 'var(--accent-150)',
@@ -89,7 +89,9 @@ const HoursFields = (props: FormS4Props) => {
             {hours_credit_enabled && (
               <Typography
                 className="body-small-regular"
-                color="var(--grey-350)"
+                sx={{
+                  color: 'var(--grey-350)',
+                }}
               >
                 {t('tr_includesServiceAndCredit')}
               </Typography>

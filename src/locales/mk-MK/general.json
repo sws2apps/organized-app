@@ -36,6 +36,8 @@
   "tr_december": "Декември",
   "tr_longDateFormat": "EEE, MMM dd, yyyy",
   "tr_delete": "Избриши",
+  "tr_continueEditing": "Continue editing",
+  "tr_discardChanges": "Discard changes",
   "tr_add": "Додај",
   "tr_pickerSelectTime": "Избери време",
   "tr_pickerSelectDate": "Избери датум",
@@ -129,12 +131,12 @@
   "tr_appliesOnlyToBrothers": "Applies only to brothers",
   "tr_circuit": "Circuit: {{ circuitNumber }}",
   "tr_ageInYearsAndMonths": "{{ years }} years, {{months}} months",
-  "tr_personHasNoAssignmentHistory": "This person has no assignment history yet",
+  "tr_personHasNoAssignmentHistory": "No assignment history yet",
   "tr_appUserProfile": "App user account",
   "tr_appUserProfileNotRegisteredDesc": "This person isn't using the app yet. You can create an Organized account for this person on the 'User accounts' page.",
   "tr_appUserProfileRegisteredDesc": "This person is already using the Organized. Last time online: <span class='h4'>{{ lastTimeOnline }}</span>. Edit other rights and settings on the 'User accounts' page.",
   "tr_notYet": "Not yet",
-  "tr_manageUserProfileSettings": "Manage user account settings",
+  "tr_manageUserProfileSettings": "Manage user account",
   "tr_createUserProfile": "Create user account",
   "tr_download": "Download",
   "tr_import": "Import",
@@ -176,5 +178,7 @@
   "tr_fontSize": "Font size",
   "tr_small": "Small",
   "tr_normal": "Normal",
-  "tr_large": "Large"
+  "tr_large": "Large",
+  "tr_chooseFields": "Choose export fields",
+  "tr_chooseFieldsDesc": "Please select the fields you want to include in the export file."
 }

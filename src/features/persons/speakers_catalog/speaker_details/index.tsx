@@ -79,15 +79,15 @@ const SpeakerDetails = ({ open, onClose, speaker }: SpeakerDetailsType) => {
         <Tabs
           tabs={[
             {
-              label: t('tr_speakerTalksSongs'),
-              Component: (
-                <SpeakerTalksSongs speaker={speaker} onClose={onClose} />
-              ),
-            },
-            {
               label: t('tr_contactInfo'),
               Component: (
                 <SpeakerContactInfo speaker={speaker} onClose={onClose} />
+              ),
+            },
+            {
+              label: t('tr_speakerTalksSongs'),
+              Component: (
+                <SpeakerTalksSongs speaker={speaker} onClose={onClose} />
               ),
             },
           ]}

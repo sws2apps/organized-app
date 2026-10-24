@@ -25,6 +25,8 @@ import {
 } from 'react';
 import { useAtomValue } from 'jotai';
 
+const DEFAULT_AYF_COUNT = 3;
+
 const useMonthlyView = () => {
   const { t } = useAppTranslation();
 
@@ -249,7 +251,7 @@ const useMonthlyView = () => {
     selectedWeeks.forEach((value, index) => {
       const schedule = schedules.find((record) => record.weekOf === value);
 
-      if (!schedule) {
+      if (!schedule?.midweek_meeting) {
         changeValueInArrayState(setWeeksTypes, index, { value: Week.NORMAL });
         return;
       }
@@ -280,7 +282,7 @@ const useMonthlyView = () => {
     selectedWeeks.forEach((value, index) => {
       const source = sources.find((record) => record.weekOf === value);
 
-      if (!source) {
+      if (!source?.midweek_meeting) {
         changeValueInArrayState(setAyfCount, index, 1);
 
         ayfPartsSetters.forEach((setter) =>
@@ -297,19 +299,20 @@ const useMonthlyView = () => {
       changeValueInArrayState(
         setAyfCount,
         index,
-        source.midweek_meeting.ayf_count[lang]
+        source?.midweek_meeting?.ayf_count?.[lang] ?? DEFAULT_AYF_COUNT
       );
 
       ayfPartsSetters.forEach((setter, setterIndex) => {
-        const ayfPart = source.midweek_meeting[`ayf_part${setterIndex + 1}`];
+        const ayfPart = source?.midweek_meeting?.[`ayf_part${setterIndex + 1}`];
 
-        changeValueInArrayState(setter, index, ayfPart.type[lang]);
+        const partType = ayfPart?.type?.[lang] ?? AssignmentCode.MM_Discussion;
+        changeValueInArrayState(setter, index, partType);
 
-        if (ayfPart.type[lang] === AssignmentCode.MM_ExplainingBeliefs) {
+        if (partType === AssignmentCode.MM_ExplainingBeliefs) {
           changeValueInArrayState(
             isTalkAYFPartsSetters[setterIndex],
             index,
-            sourcesCheckAYFExplainBeliefsAssignment(ayfPart.src[lang], lang)
+            sourcesCheckAYFExplainBeliefsAssignment(ayfPart?.src?.[lang], lang)
           );
         }
       });
@@ -327,7 +330,8 @@ const useMonthlyView = () => {
     selectedWeeks.forEach((value, index) => {
       const source = sources.find((record) => record.weekOf === value);
 
-      if (!source) {
+      // the material of a week can be filed without its midweek part
+      if (!source?.midweek_meeting) {
         changeValueInArrayState(setLcCount, index, 1);
         changeValueInArrayState(setCustomPartEnabled, index, false);
         changeValueInArrayState(setHasCustomPart, index, false);

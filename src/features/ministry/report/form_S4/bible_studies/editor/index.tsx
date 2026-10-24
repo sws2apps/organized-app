@@ -1,13 +1,9 @@
-import { Box } from '@mui/material';
-import { IconClose } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import { BibleStudyEditorProps } from './index.types';
 import useBibleStudy from './useBibleStudy';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
 import DialogActions from '@components/dialog_actions';
-import IconButton from '@components/icon_button';
-import Typography from '@components/typography';
 import TextField from '@components/textfield';
 
 const BibleStudyEditor = (props: BibleStudyEditorProps) => {
@@ -21,22 +17,9 @@ const BibleStudyEditor = (props: BibleStudyEditorProps) => {
       open={props.open}
       onClose={props.onClose}
       sx={{ padding: '12px 24px', alignItems: 'stretch' }}
+      title={props.bibleStudy ? t('tr_editBibleStudy') : t('tr_addNewStudy')}
+      closable
     >
-      <Box
-        sx={{
-          alignItems: 'center',
-          display: 'flex',
-          justifyContent: 'space-between',
-        }}
-      >
-        <Typography className="h2">
-          {props.bibleStudy ? t('tr_editBibleStudy') : t('tr_addNewStudy')}
-        </Typography>
-        <IconButton onClick={props.onClose}>
-          <IconClose color="var(--black)" />
-        </IconButton>
-      </Box>
-
       <TextField
         label={t('tr_name')}
         value={value}

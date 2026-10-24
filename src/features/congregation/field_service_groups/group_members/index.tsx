@@ -1,4 +1,5 @@
 import { Box, Stack } from '@mui/material';
+import ScrollArea from '@components/scroll_area';
 import { ReactSortable } from 'react-sortablejs';
 import { useAppTranslation } from '@hooks/index';
 import { GroupMembersProps, UsersOption } from './index.types';
@@ -21,8 +22,13 @@ const GroupMembers = (props: GroupMembersProps) => {
   } = useGroupMembers(props);
 
   return (
-    <Stack spacing="8px" width="100%">
-      <Box sx={{ maxHeight: '300px', overflow: 'auto' }}>
+    <Stack
+      spacing="8px"
+      sx={{
+        width: '100%',
+      }}
+    >
+      <ScrollArea sx={{ maxHeight: '300px' }}>
         {members.length > 0 && (
           <ReactSortable
             list={members}
@@ -38,7 +44,7 @@ const GroupMembers = (props: GroupMembersProps) => {
             ))}
           </ReactSortable>
         )}
-      </Box>
+      </ScrollArea>
 
       <Autocomplete
         variant="standard"

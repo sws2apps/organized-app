@@ -32,6 +32,21 @@ export const dbUserFieldServiceReportsSave = async (
   await dbUpdateUserFieldServiceReportsMetadata();
 };
 
+/**
+ * Runs a read and the writes that depend on it as one unit, including the
+ * metadata update the save helpers make.
+ */
+export const dbUserFieldServiceReportsTransaction = <T>(
+  callback: () => Promise<T>
+) => {
+  return appDb.transaction(
+    'rw',
+    appDb.user_field_service_reports,
+    appDb.metadata,
+    callback
+  );
+};
+
 export const dbUserFieldServiceReportsBulkSave = async (
   reports: UserFieldServiceReportType[]
 ) => {

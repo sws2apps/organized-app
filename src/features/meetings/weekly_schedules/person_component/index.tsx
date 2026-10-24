@@ -7,6 +7,8 @@ import Typography from '@components/typography';
 const PersonComponent = (props: PersonComponentProps) => {
   const { personData } = usePersonComponent(props);
 
+  if (!personData?.name) return null;
+
   return (
     <Box
       sx={{
@@ -18,8 +20,10 @@ const PersonComponent = (props: PersonComponentProps) => {
     >
       <Typography
         className="body-small-regular"
-        color="var(--grey-350)"
-        sx={{ flex: 1 }}
+        sx={{
+          color: 'var(--grey-350)',
+          flex: 1,
+        }}
       >
         {props.label}
       </Typography>

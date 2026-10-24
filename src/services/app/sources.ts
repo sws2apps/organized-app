@@ -8,7 +8,7 @@ import {
   SourceWeekIncomingType,
   SourceWeekType,
 } from '@definition/sources';
-import { AssignmentAYFOnlyType } from '@definition/assignment';
+import { AssignmentAYFOnlyType, AssignmentCode } from '@definition/assignment';
 import { assignmentState } from '@states/assignment';
 import { dbSourcesSave } from '@services/dexie/sources';
 import { dbSchedCheck } from '@services/dexie/schedules';
@@ -21,9 +21,13 @@ import {
   sourcesJWAutoImportState,
 } from '@states/settings';
 import { addWeeks, formatDate, getWeekDate } from '@utils/date';
+import { splitTranslationVariations } from '@utils/i18n';
 import { STORAGE_KEY } from '@constants/index';
+import logger from '@services/logger';
 
-export const sourcesImportEPUB = async (fileEPUB) => {
+export const sourcesImportEPUB = async (
+  fileEPUB: File | Blob | { url: string }
+) => {
   const data = await loadPub(fileEPUB);
   await sourcesFormatAndSaveData(data);
 };
@@ -66,16 +70,19 @@ const getAYFAssignmentTypes = (sourceLanguage: string) => {
 
   const result: AssignmentAYFOnlyType[] = assignmentTypes
     .filter((record) => record.type === 'ayf')
-    .map((record) => {
-      return {
-        label:
-          record.assignment_type_name[sourceLanguage] ??
-          record.assignment_type_name.E ??
-          '',
+    .flatMap((record) => {
+      const label =
+        record.assignment_type_name[sourceLanguage] ??
+        record.assignment_type_name.E ??
+        '';
+
+      // a translation may list every known wording for a given assignment,
+      // pipe-separated: each variation is a distinct label to match against
+      return splitTranslationVariations(label).map((variation) => ({
+        label: variation,
         value: record.code,
-      };
+      }));
     })
-    .filter((record) => record.label.length > 0)
     .sort((a, b) => {
       return a.value > b.value ? 1 : -1;
     });
@@ -83,16 +90,89 @@ const getAYFAssignmentTypes = (sourceLanguage: string) => {
   return result;
 };
 
+const stripZeroWidthSpaces = (label: string) =>
+  label.replaceAll('\u200B', '').trim();
+
+const normalizeAYFLabel = (label: string) =>
+  label
+    .replaceAll('\u200B', '')
+    .replace(/\([^)]{0,1000}\)/g, '')
+    .replace(/[^\p{L}\p{N}\s]/gu, '')
+    .replace(/\s+/g, ' ')
+    .toLowerCase()
+    .trim();
+
+type NormalizedAYFType = {
+  normalized: string;
+  value: number;
+};
+
+const buildAYFLookup = (assTypeList: AssignmentAYFOnlyType[]) => {
+  const exactMap = new Map<string, number>();
+  for (const type of assTypeList) {
+    const key = stripZeroWidthSpaces(type.label).toLowerCase();
+    if (key.length > 0) {
+      exactMap.set(key, type.value);
+    }
+  }
+
+  const prefixList: NormalizedAYFType[] = assTypeList
+    .map((type) => ({
+      normalized: normalizeAYFLabel(type.label),
+      value: type.value,
+    }))
+    .filter((entry) => entry.normalized.length > 0)
+    .sort((a, b) => b.normalized.length - a.normalized.length);
+
+  return { exactMap, prefixList };
+};
+
+type AYFLookup = ReturnType<typeof buildAYFLookup>;
+
+const inferAYFTypeFromLabel = (
+  rawLabel: string | undefined | null,
+  lookup: AYFLookup
+): number => {
+  if (!rawLabel?.trim()) {
+    logger.warn(
+      'sources',
+      'AYF type label is empty or missing, falling back to MM_Discussion'
+    );
+    return AssignmentCode.MM_Discussion;
+  }
+
+  const exactKey = stripZeroWidthSpaces(rawLabel).toLowerCase();
+  const exactValue = lookup.exactMap.get(exactKey);
+  if (exactValue !== undefined) return exactValue;
+
+  const normalizedInput = normalizeAYFLabel(rawLabel);
+
+  if (!normalizedInput) {
+    logger.warn(
+      'sources',
+      `AYF type label reduced to empty after normalization, falling back to MM_Discussion: "${rawLabel.slice(0, 100)}"`
+    );
+    return AssignmentCode.MM_Discussion;
+  }
+
+  const prefixMatch = lookup.prefixList.find((type) =>
+    normalizedInput.startsWith(type.normalized)
+  );
+  if (prefixMatch) return prefixMatch.value;
+
+  logger.warn(
+    'sources',
+    `AYF type label not recognized, falling back to MM_Discussion: "${rawLabel.slice(0, 100)}"`
+  );
+  return AssignmentCode.MM_Discussion;
+};
+
 const getAssType = (
-  assTypeList: AssignmentAYFOnlyType[],
-  label: string,
+  lookup: AYFLookup,
+  label: string | undefined,
   weekOf: string
 ) => {
-  const assType =
-    assTypeList.find(
-      (type) =>
-        type.label.replaceAll('\u200B', '') === label.replaceAll('\u200B', '')
-    )?.value || 127;
+  const assType = inferAYFTypeFromLabel(label, lookup);
 
   return remapAssignmentType(weekOf, assType);
 };
@@ -100,7 +180,7 @@ const getAssType = (
 const parseMidweekMeeting = (
   src: SourceWeekIncomingType,
   source_lang: string,
-  assTypeList: AssignmentAYFOnlyType[],
+  ayfLookup: AYFLookup,
   weekOf: string
 ) => {
   const midweek_meeting = {} as SourceWeekType['midweek_meeting'];
@@ -135,7 +215,7 @@ const parseMidweekMeeting = (
     time: { [source_lang]: src.mwb_ayf_part1_time },
     title: { [source_lang]: src.mwb_ayf_part1_title },
     type: {
-      [source_lang]: getAssType(assTypeList, src.mwb_ayf_part1_type, weekOf),
+      [source_lang]: getAssType(ayfLookup, src.mwb_ayf_part1_type, weekOf),
     },
   };
 
@@ -145,29 +225,29 @@ const parseMidweekMeeting = (
       time: { [source_lang]: src.mwb_ayf_part2_time },
       title: { [source_lang]: src.mwb_ayf_part2_title },
       type: {
-        [source_lang]: getAssType(assTypeList, src.mwb_ayf_part2_type, weekOf),
+        [source_lang]: getAssType(ayfLookup, src.mwb_ayf_part2_type, weekOf),
       },
     };
   }
 
   if (cnAYF > 2) {
     midweek_meeting.ayf_part3 = {
-      src: { [source_lang]: src.mwb_ayf_part3 },
-      time: { [source_lang]: src.mwb_ayf_part3_time },
-      title: { [source_lang]: src.mwb_ayf_part3_title },
+      src: { [source_lang]: src.mwb_ayf_part3 ?? '' },
+      time: { [source_lang]: src.mwb_ayf_part3_time ?? 0 },
+      title: { [source_lang]: src.mwb_ayf_part3_title ?? '' },
       type: {
-        [source_lang]: getAssType(assTypeList, src.mwb_ayf_part3_type, weekOf),
+        [source_lang]: getAssType(ayfLookup, src.mwb_ayf_part3_type, weekOf),
       },
     };
   }
 
   if (cnAYF > 3) {
     midweek_meeting.ayf_part4 = {
-      src: { [source_lang]: src.mwb_ayf_part4 },
-      time: { [source_lang]: src.mwb_ayf_part4_time },
-      title: { [source_lang]: src.mwb_ayf_part4_title },
+      src: { [source_lang]: src.mwb_ayf_part4 ?? '' },
+      time: { [source_lang]: src.mwb_ayf_part4_time ?? 0 },
+      title: { [source_lang]: src.mwb_ayf_part4_title ?? '' },
       type: {
-        [source_lang]: getAssType(assTypeList, src.mwb_ayf_part4_type, weekOf),
+        [source_lang]: getAssType(ayfLookup, src.mwb_ayf_part4_type, weekOf),
       },
     };
   }
@@ -197,15 +277,15 @@ const parseMidweekMeeting = (
   if (src.mwb_lc_count > 1) {
     midweek_meeting.lc_part2 = {
       title: {
-        default: { [source_lang]: src.mwb_lc_part2_title },
+        default: { [source_lang]: src.mwb_lc_part2_title ?? '' },
         override: [],
       },
       time: {
-        default: { [source_lang]: src.mwb_lc_part2_time },
+        default: { [source_lang]: src.mwb_lc_part2_time ?? 0 },
         override: [],
       },
       desc: {
-        default: { [source_lang]: src.mwb_lc_part2_content },
+        default: { [source_lang]: src.mwb_lc_part2_content ?? '' },
         override: [],
       },
     };
@@ -240,11 +320,11 @@ const parseWeekendMeeting = (
     service: { src: '', updatedAt: '' },
   };
   weekend_meeting.song_middle = {
-    [source_lang]: src.w_study_opening_song.toString(),
+    [source_lang]: String(src.w_study_opening_song ?? ''),
   };
-  weekend_meeting.w_study = { [source_lang]: src.w_study_title };
+  weekend_meeting.w_study = { [source_lang]: src.w_study_title ?? '' };
   weekend_meeting.song_conclude = {
-    default: { [source_lang]: src.w_study_concluding_song.toString() },
+    default: { [source_lang]: String(src.w_study_concluding_song ?? '') },
     override: [],
   };
 
@@ -257,6 +337,15 @@ const sourcesFormatAndSaveData = async (
 ) => {
   const source_lang = (sourceLanguage || store.get(JWLangState)).toUpperCase();
   const assTypeList = getAYFAssignmentTypes(source_lang);
+
+  if (assTypeList.length === 0) {
+    logger.warn(
+      'sources',
+      'AYF assignment type list is empty — type inference will default to MM_Discussion for all parts'
+    );
+  }
+
+  const ayfLookup = buildAYFLookup(assTypeList);
 
   for await (const src of data) {
     const obj = {} as SourceWeekType;
@@ -276,7 +365,7 @@ const sourcesFormatAndSaveData = async (
         obj.midweek_meeting = parseMidweekMeeting(
           src,
           source_lang,
-          assTypeList,
+          ayfLookup,
           obj.weekOf
         );
       }
@@ -293,23 +382,40 @@ const sourcesFormatAndSaveData = async (
   }
 };
 
+const escapeRegExp = (value: string) =>
+  value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
 export const sourcesCheckAYFExplainBeliefsAssignment = (
   source: string,
   language: string
 ) => {
   if (source) {
-    const boundary = '(?:^|\\s|$)';
-    const talk = getTranslation({ key: 'tr_talk', language });
-    const demonstration = getTranslation({ key: 'tr_demonstration', language });
-    const searchKey = `${boundary}${talk}|${boundary}${demonstration}`;
-    const regex = new RegExp(searchKey, 'i');
-    const result = source.match(regex);
+    // every known wording for a given marker is listed pipe-separated in the
+    // translation, so each one has to become its own escaped alternative
+    const talkVariations = splitTranslationVariations(
+      getTranslation({ key: 'tr_talk', language })
+    ).map((variation) => escapeRegExp(variation));
 
-    if (result?.length > 0) {
-      const isTalk = result[0].toLowerCase() === talk.toLowerCase();
+    const demonstrationVariations = splitTranslationVariations(
+      getTranslation({ key: 'tr_demonstration', language })
+    ).map((variation) => escapeRegExp(variation));
 
-      return isTalk;
-    }
+    const searchKey = [...talkVariations, ...demonstrationVariations].join('|');
+
+    if (!searchKey) return false;
+
+    // the marker appearing first in the source decides whether the part is a
+    // talk or a demonstration, hence the single alternation over both groups
+    const match = new RegExp(
+      String.raw`(?:^|\s)(${searchKey})`,
+      'i'
+    ).exec(source);
+
+    if (!match) return false;
+
+    return talkVariations.some((variation) =>
+      new RegExp(`^${variation}$`, 'i').test(match[1])
+    );
   }
 
   return false;
@@ -414,7 +520,10 @@ export const sourcesPartTiming = (
     const part = source.midweek_meeting.lc_part1;
     const timeOverride =
       part.time.override.find((record) => record.type === dataView)?.value || 0;
-    const timeDefault = part.time.default[lang];
+    const timeDefault =
+      typeof part.time.default === 'number'
+        ? part.time.default
+        : part.time.default[lang];
     const time = timeOverride > 0 ? timeOverride : timeDefault;
 
     return time;
@@ -424,7 +533,10 @@ export const sourcesPartTiming = (
     const part = source.midweek_meeting.lc_part2;
     const timeOverride =
       part.time.override.find((record) => record.type === dataView)?.value || 0;
-    const timeDefault = part.time.default[lang];
+    const timeDefault =
+      typeof part.time.default === 'number'
+        ? part.time.default
+        : part.time.default[lang];
     const time = timeOverride > 0 ? timeOverride : timeDefault;
 
     return time;
@@ -512,7 +624,7 @@ export const sourcesSongConclude = ({
   dataView: string;
   lang: string;
 }) => {
-  let song: string;
+  let song: string | undefined;
 
   if (meeting === 'midweek') {
     const songDefault = source.midweek_meeting.song_conclude.default[lang];
@@ -542,20 +654,17 @@ export const sourcesLCGet = (
   dataView: string,
   lang: string
 ) => {
-  const srcOverride = part.title.override.find(
-    (record) => record.type === dataView
-  );
+  const srcOverride =
+    part.title.override.find((record) => record.type === dataView)?.value || '';
 
   const srcDefault = part.title.default[lang];
-  const src = srcOverride?.value.length > 0 ? srcOverride.value : srcDefault;
+  const src = srcOverride.length > 0 ? srcOverride : srcDefault;
 
-  const descOverride = part.desc.override.find(
-    (record) => record.type === dataView
-  );
+  const descOverride =
+    part.desc.override.find((record) => record.type === dataView)?.value || '';
 
   const descDefault = part.desc.default[lang];
-  const desc =
-    descOverride?.value.length > 0 ? descOverride.value : descDefault;
+  const desc = descOverride.length > 0 ? descOverride : descDefault;
 
   return { src, desc };
 };

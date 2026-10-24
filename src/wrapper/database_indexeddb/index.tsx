@@ -28,6 +28,7 @@ const DatabaseWrapper = ({ children }: PropsWithChildren) => {
     loadUpcomingEvents,
     loadPublicTalks,
     loadSongs,
+    loadAppLocals,
   } = useIndexedDb();
 
   useEffect(() => {
@@ -53,6 +54,7 @@ const DatabaseWrapper = ({ children }: PropsWithChildren) => {
       loadDbNotifications();
       loadDbDelegatedReports();
       loadUpcomingEvents();
+      loadAppLocals();
     };
 
     refreshData();
@@ -78,6 +80,7 @@ const DatabaseWrapper = ({ children }: PropsWithChildren) => {
     loadUpcomingEvents,
     loadPublicTalks,
     loadSongs,
+    loadAppLocals,
   ]);
 
   return children;

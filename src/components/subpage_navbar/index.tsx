@@ -1,7 +1,7 @@
-import { Box, useTheme } from '@mui/material';
+import { Box } from '@mui/material';
 import { useAtomValue } from 'jotai';
 import { navBarOptionsState } from '@states/app';
-import { IconArrowBack } from '@components/icons';
+import { IconNavigateLeft } from '@components/icons';
 import IconButton from '@components/icon_button';
 import Typography from '@components/typography';
 import { SubpageNavbarProps } from './index.types';
@@ -14,8 +14,6 @@ const SubpageNavbar = ({
   backLabel,
   trailing,
 }: SubpageNavbarProps) => {
-  const theme = useTheme();
-
   const navBarOptions = useAtomValue(navBarOptionsState);
   const subtitle = secondaryTitle ?? navBarOptions.title;
 
@@ -40,24 +38,16 @@ const SubpageNavbar = ({
       }}
     >
       <IconButton
+        className="back-arrow-button"
         aria-label={backLabel}
         onClick={onBack}
         sx={{
           flexShrink: 0,
           marginLeft: '-10px',
-          '&:hover': {
-            backgroundColor: 'var(--accent-200)',
-            '& svg': {
-              transform:
-                theme.direction === 'rtl'
-                  ? 'translateX(-4px) scaleX(-1)'
-                  : 'translateX(4px)',
-            },
-          },
-          '& svg': { transition: 'transform 0.2s ease-in-out' },
+          '&:hover': { backgroundColor: 'var(--accent-200)' },
         }}
       >
-        <IconArrowBack color="var(--black)" />
+        <IconNavigateLeft color="var(--black)" />
       </IconButton>
 
       <Box
@@ -73,14 +63,26 @@ const SubpageNavbar = ({
           textAlign: { mobile: 'center', tablet688: 'left' },
         }}
       >
-        <Typography className="h3" color="var(--black)" sx={ellipsis}>
+        <Typography
+          className="h3"
+          sx={[
+            {
+              color: 'var(--black)',
+            },
+            ...(Array.isArray(ellipsis) ? ellipsis : [ellipsis]),
+          ]}
+        >
           {title}
         </Typography>
         {subtitle && (
           <Typography
             className="label-small-regular"
-            color="var(--accent-400)"
-            sx={ellipsis}
+            sx={[
+              {
+                color: 'var(--accent-400)',
+              },
+              ...(Array.isArray(ellipsis) ? ellipsis : [ellipsis]),
+            ]}
           >
             {subtitle}
           </Typography>

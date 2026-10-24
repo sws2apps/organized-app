@@ -9,6 +9,7 @@ import {
 import useReminders from './useReminders';
 import Button from '@components/button';
 import Typography from '@components/typography';
+import { EASING } from '@constants/index';
 import Divider from '@components/divider';
 import ReminderItem from './reminder_item';
 
@@ -17,14 +18,21 @@ const AppReminders = () => {
 
   const { tablet688Up } = useBreakpoints();
 
-  const { reminders, reminderMeTomorrow } = useReminders();
+  const { reminders, isOpen, reminderMeTomorrow, handleRemindersHidden } =
+    useReminders();
 
   return (
     <Slide
       direction="left"
-      in={reminders.length > 0}
+      in={isOpen}
+      onExited={handleRemindersHidden}
       mountOnEnter
       unmountOnExit
+      easing={{
+        enter: EASING.expoOut,
+        exit: 'cubic-bezier(0.7, 0, 0.84, 0)',
+      }}
+      timeout={{ enter: 400, exit: 300 }}
     >
       <StyledRemindersCard
         className="warning-glow"
@@ -43,7 +51,12 @@ const AppReminders = () => {
             }}
           >
             <IconReminder color="var(--always-white)" />
-            <Typography className="h4" color="var(--always-white)">
+            <Typography
+              className="h4"
+              sx={{
+                color: 'var(--always-white)',
+              }}
+            >
               {t('tr_reminders')}
             </Typography>
           </Box>

@@ -1,94 +1,176 @@
 import { Box } from '@mui/material';
-import { IconClose, IconComputer, IconPhone } from '@components/icons';
+import {
+  IconClock,
+  IconClose,
+  IconComputer,
+  IconCopy,
+  IconLocation,
+  IconPhone,
+} from '@components/icons';
 import IconLoading from '@components/icon_loading';
 import { useAppTranslation } from '@hooks/index';
 import { SessionItemType } from './index.types';
 import useSessionItem from './useSessionItem';
+import Badge from '@components/badge';
 import Button from '@components/button';
+import Tooltip from '@components/tooltip';
 import Typography from '@components/typography';
+
+const shortenAddress = (value: string) => {
+  if (value.length <= 24) return value;
+
+  return `${value.slice(0, 12)}…${value.slice(-9)}`;
+};
 
 const SessionItem = (props: SessionItemType) => {
   const { t } = useAppTranslation();
 
   const {
     isProcessing,
+    handleCopyAddress,
     handleTerminate,
     isCurrent,
     browser,
     lastSeen,
-    location,
+    country,
+    ip,
   } = useSessionItem(props);
 
   return (
     <Box
       sx={{
         display: 'flex',
-        alignItems: 'center',
-        gap: '16px',
+        alignItems: 'flex-start',
         flexWrap: 'wrap',
-        justifyContent: 'space-between',
+        gap: '8px 12px',
       }}
     >
       <Box
         sx={{
           display: 'flex',
-          alignItems: 'center',
-          gap: '16px',
+          alignItems: 'flex-start',
+          gap: '12px',
           flexGrow: 1,
           minWidth: 0,
+          flexBasis: { mobile: '100%', tablet: 0 },
         }}
       >
         <Box
           sx={{
-            padding: '8px',
+            width: '44px',
+            height: '44px',
             borderRadius: 'var(--radius-l)',
             backgroundColor: 'var(--accent-150)',
             display: 'flex',
-            boxSizing: 'content-box',
+            alignItems: 'center',
+            justifyContent: 'center',
             flexShrink: 0,
           }}
         >
           {props.session.device.isMobile && (
-            <IconPhone height={40} width={40} color="var(--accent-dark)" />
+            <IconPhone height={24} width={24} color="var(--accent-dark)" />
           )}
           {!props.session.device.isMobile && (
-            <IconComputer height={40} width={40} color="var(--accent-dark)" />
+            <IconComputer height={24} width={24} color="var(--accent-dark)" />
           )}
         </Box>
+
         <Box
           sx={{
             display: 'flex',
             flexDirection: 'column',
-            gap: '4px',
-            flexGrow: 1,
+            gap: '6px',
             minWidth: 0,
           }}
         >
-          <Typography
-            className="body-small-regular"
-            color="var(--accent-400)"
-            sx={{ wordBreak: 'break-word' }}
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              flexWrap: 'wrap',
+              gap: '8px',
+            }}
           >
-            {location}
-          </Typography>
-          <Typography className="body-small-regular" color="var(--accent-400)">
-            {browser}
-          </Typography>
-          <Typography className="body-small-regular" color="var(--accent-400)">
-            {lastSeen}
-          </Typography>
+            <Typography className="body-small-semibold">{browser}</Typography>
+
+            {isCurrent && (
+              <Badge
+                size="small"
+                color="green"
+                text={t('tr_currentSession')}
+                className="body-small-regular"
+              />
+            )}
+          </Box>
+
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              flexWrap: 'wrap',
+              gap: '6px',
+            }}
+          >
+            {country.length > 0 && (
+              <Badge
+                size="small"
+                color="grey"
+                text={country}
+                icon={<IconLocation />}
+                className="body-small-regular"
+              />
+            )}
+
+            {lastSeen.length > 0 && (
+              <Badge
+                size="small"
+                color="grey"
+                text={lastSeen}
+                icon={<IconClock />}
+                className="body-small-regular"
+              />
+            )}
+
+            <Tooltip title={ip} placement="top">
+              <Button
+                variant="small"
+                disableAutoStretch
+                minHeight={20}
+                ariaLabel={`${t('tr_copy')}: ${ip}`}
+                endIcon={<IconCopy />}
+                onClick={handleCopyAddress}
+                sx={{
+                  padding: '2px 6px',
+                  borderRadius: 'var(--radius-xs)',
+                  backgroundColor: 'var(--grey-150)',
+                  color: 'var(--grey-400)',
+                  fontWeight: 400,
+                  '& .MuiButton-endIcon': { marginLeft: '4px' },
+                  '& svg': { height: '14px', width: '14px' },
+                  '& svg, & svg g, & svg g path': { fill: 'var(--grey-400)' },
+                  '&:hover': { backgroundColor: 'var(--accent-200)' },
+                }}
+              >
+                {shortenAddress(ip)}
+              </Button>
+            </Tooltip>
+          </Box>
         </Box>
       </Box>
-      <Button
-        variant="secondary"
-        color={isCurrent ? 'green' : 'red'}
-        startIcon={
-          isCurrent ? null : isProcessing ? <IconLoading /> : <IconClose />
-        }
-        onClick={isCurrent ? null : handleTerminate}
-      >
-        {isCurrent ? t('tr_currentSession') : t('tr_terminate')}
-      </Button>
+
+      {!isCurrent && (
+        <Button
+          variant="small"
+          color="red"
+          disableAutoStretch
+          minHeight={28}
+          startIcon={isProcessing ? <IconLoading /> : <IconClose />}
+          onClick={handleTerminate}
+          sx={{ flexShrink: 0, marginLeft: 'auto' }}
+        >
+          {t('tr_terminate')}
+        </Button>
+      )}
     </Box>
   );
 };

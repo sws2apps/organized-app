@@ -5,7 +5,7 @@ import {
   setCurrentProvider,
 } from '@services/states/app';
 import { getTranslation } from '@services/i18n/translation';
-import { dbAppSettingsSaveProfilePic } from '@services/dexie/settings';
+import { saveProfilePicture } from '@services/app/settings';
 import worker from '@services/worker/backupWorker';
 
 const useFirebaseAuth = () => {
@@ -42,7 +42,7 @@ const useFirebaseAuth = () => {
           setCurrentProvider(provider);
 
           const photoURL = user.providerData[0]?.photoURL;
-          dbAppSettingsSaveProfilePic(photoURL, provider);
+          saveProfilePicture(photoURL, provider);
           setIsAuthenticated(true);
         } else {
           setIsAuthenticated(false);

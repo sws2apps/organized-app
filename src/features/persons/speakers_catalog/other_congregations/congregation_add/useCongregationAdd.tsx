@@ -159,7 +159,9 @@ const useCongregationAdd = (onClose: VoidFunction) => {
         id: crypto.randomUUID(),
         cong_data: {
           cong_number: {
-            value: isLocalCong ? localCongNumber : '',
+            value: isLocalCong
+              ? localCongNumber
+              : incomingCongregation.cong_number || '',
             updatedAt: new Date().toISOString(),
           },
           cong_id: incomingCongregation.cong_id || '',

@@ -103,7 +103,6 @@ const TimePicker = ({
             textField: {
               label: label,
               sx,
-              value: valueTmp,
               onClick: () => setOpen(!open),
               error,
               helperText,
