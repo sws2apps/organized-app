@@ -19,13 +19,14 @@ const DayAgenda = ({ title, subtitle, countLabel, slots }: DayAgendaProps) => {
     >
       <Card sx={{ padding: 0, gap: 0, minWidth: 0, overflow: 'hidden' }}>
         <Box
+          className="day-agenda-header"
           sx={{
             display: 'flex',
-            alignItems: 'flex-start',
+            alignItems: 'center',
             justifyContent: 'space-between',
             flexWrap: 'wrap',
             gap: '8px 16px',
-            padding: tabletUp ? '20px 24px' : '16px',
+            padding: tabletUp ? '8px 24px' : '8px 16px',
             backgroundColor: 'var(--accent-150)',
           }}
         >
@@ -70,7 +71,7 @@ const DayAgenda = ({ title, subtitle, countLabel, slots }: DayAgendaProps) => {
                 : tabletUp
                   ? '80px minmax(0, 1fr)'
                   : '56px minmax(0, 1fr)',
-              gap: tabletUp ? '20px' : '12px',
+              gap: mobile400Down ? '12px' : 0,
               padding: tabletUp ? '20px 24px' : '16px',
               minWidth: 0,
               '& + &': { borderTop: '1px solid var(--accent-200)' },
@@ -107,7 +108,16 @@ const DayAgenda = ({ title, subtitle, countLabel, slots }: DayAgendaProps) => {
                 </Typography>
               )}
             </Box>
-            <Box sx={{ minWidth: 0 }}>{slot.content}</Box>
+            <Box
+              className="day-agenda-content"
+              sx={{
+                minWidth: 0,
+                borderInlineStart: '1px solid var(--accent-200)',
+                paddingInlineStart: tabletUp ? '20px' : '12px',
+              }}
+            >
+              {slot.content}
+            </Box>
           </Box>
         ))}
       </Card>
