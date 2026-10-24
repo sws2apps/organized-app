@@ -6,7 +6,7 @@ import { DayAgendaProps } from '@components/day_agenda/index.types';
 import { useBreakpoints } from '@hooks/index';
 
 /** A shared date header and time rail for a day's scheduled activities. */
-const DayAgenda = ({ title, subtitle, countLabel, slots }: DayAgendaProps) => {
+const DayAgenda = ({ title, subtitle, slots }: DayAgendaProps) => {
   const headingId = useId();
   const { tabletUp } = useBreakpoints();
 
@@ -59,15 +59,6 @@ const DayAgenda = ({ title, subtitle, countLabel, slots }: DayAgendaProps) => {
               </Typography>
             )}
           </Box>
-          {countLabel && (
-            <Typography
-              className="body-small-regular"
-              color="var(--accent-dark)"
-              sx={{ overflowWrap: 'anywhere' }}
-            >
-              {countLabel}
-            </Typography>
-          )}
         </Box>
         {slots.map((slot) => (
           <Box
@@ -92,7 +83,7 @@ const DayAgenda = ({ title, subtitle, countLabel, slots }: DayAgendaProps) => {
                 alignItems: 'flex-start',
                 gap: '4px',
                 paddingInlineEnd: '12px',
-                paddingBlockStart: '12px',
+                paddingBlockStart: '4px',
                 minWidth: 0,
               }}
             >
@@ -123,14 +114,6 @@ const DayAgenda = ({ title, subtitle, countLabel, slots }: DayAgendaProps) => {
               }}
             >
               {slot.content}
-              {slot.countLabel && (
-                <Typography
-                  className="label-small-regular"
-                  color="var(--grey-400)"
-                >
-                  {slot.countLabel}
-                </Typography>
-              )}
             </Box>
           </Box>
         ))}

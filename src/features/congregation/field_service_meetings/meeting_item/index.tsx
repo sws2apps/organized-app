@@ -9,7 +9,7 @@ import {
 } from '@components/icons';
 import DetailRow from '@components/detail_row';
 import IconButton from '@components/icon_button';
-import GroupTitle from '@components/group_title';
+import GroupBadge from '@components/group_badge';
 import Tooltip from '@components/tooltip';
 import Typography from '@components/typography';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
@@ -29,6 +29,7 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
   const { tabletUp } = useBreakpoints();
   const groups = useAtomValue(fieldWithLanguageGroupsState);
   const locationIcon = getLocationIcon(meeting.location, 'var(--grey-400)');
+  const hasAdditionalInfo = Boolean(meeting.additionalInfo?.trim());
   const isWebAddress = /^https?:\/\//i.test(meeting.address ?? '');
   const categoryLabel = t(
     FIELD_SERVICE_MEETING_CATEGORY_TRANSLATION_KEYS[meeting.category]
@@ -46,35 +47,52 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
         .filter(Boolean)
         .join(' · ')}
       sx={{
-        display: 'flex',
-        flexDirection: 'column',
+        display: 'grid',
+        gridTemplateColumns: 'minmax(0, 1fr) max-content',
         gap: '8px',
         minWidth: 0,
       }}
     >
       <Box
         sx={{
-          display: 'flex',
-          alignItems: 'flex-start',
-          justifyContent: 'space-between',
-          gap: '8px',
-          minWidth: 0,
+          display: 'contents',
         }}
       >
         <Box
           sx={{
             display: 'flex',
             flexDirection: 'column',
-            paddingBlockStart: '12px',
-            flex: 1,
+            gridColumn: 1,
+            gridRow: 1,
             minWidth: 0,
             gap: '4px',
           }}
         >
-          <GroupTitle
-            label={meeting.groupName || categoryLabel}
-            color={groupBadgeColor}
-          />
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              flexWrap: 'wrap',
+              gap: '8px',
+              minWidth: 0,
+            }}
+          >
+            <GroupBadge
+              label={meeting.groupName || categoryLabel}
+              color={groupBadgeColor}
+              variant="outlined"
+              size="small"
+            />
+            <Box sx={{ minWidth: 0, flex: '0 1 auto' }}>
+              <DetailRow
+                label={t('tr_conductor')}
+                icon={<IconPerson color="var(--grey-400)" />}
+                className="body-small-regular"
+              >
+                {meeting.conductor}
+              </DetailRow>
+            </Box>
+          </Box>
           {meeting.groupName &&
             meeting.category !== FieldServiceMeetingCategory.RegularMeeting && (
               <Typography
@@ -91,6 +109,9 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
             alignItems: 'center',
             gap: '8px',
             flexShrink: 0,
+            gridColumn: 2,
+            gridRow: '1 / 3',
+            alignSelf: 'start',
             '& button': {
               minWidth: 'var(--touch-target-size)',
               minHeight: 'var(--touch-target-size)',
@@ -101,6 +122,16 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
             },
           }}
         >
+          <Tooltip title={t('tr_addToCalendar')}>
+            <IconButton
+              className="add-to-calendar"
+              aria-label={t('tr_addToCalendar')}
+              edge={false}
+              onClick={() => fieldServiceMeetingCalendarExport(meeting, t)}
+            >
+              <IconAddMonth color="var(--accent-main)" />
+            </IconButton>
+          </Tooltip>
           {canEdit && (
             <Tooltip title={t('tr_edit')}>
               <IconButton
@@ -113,16 +144,6 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
               </IconButton>
             </Tooltip>
           )}
-          <Tooltip title={t('tr_addToCalendar')}>
-            <IconButton
-              className="add-to-calendar"
-              aria-label={t('tr_addToCalendar')}
-              edge={false}
-              onClick={() => fieldServiceMeetingCalendarExport(meeting, t)}
-            >
-              <IconAddMonth color="var(--accent-main)" />
-            </IconButton>
-          </Tooltip>
         </Box>
       </Box>
       <Box
@@ -131,14 +152,10 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
           flexDirection: 'column',
           gap: '4px',
           minWidth: 0,
+          gridColumn: 1,
+          gridRow: 2,
         }}
       >
-        <DetailRow
-          label={t('tr_conductor')}
-          icon={<IconPerson color="var(--grey-400)" />}
-        >
-          {meeting.conductor}
-        </DetailRow>
         <DetailRow
           label={t('tr_location')}
           icon={locationIcon}
@@ -170,7 +187,7 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
             t(FIELD_SERVICE_MEETING_LOCATION_TRANSLATION_KEYS[meeting.location])
           )}
         </DetailRow>
-        {meeting.additionalInfo && (
+        {hasAdditionalInfo && (
           <DetailRow
             label={t('tr_comments')}
             icon={<IconContactUs color="var(--grey-400)" />}

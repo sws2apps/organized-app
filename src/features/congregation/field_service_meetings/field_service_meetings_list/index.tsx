@@ -3,7 +3,6 @@ import DayAgenda from '@components/day_agenda';
 import MeetingItem from '@features/congregation/field_service_meetings/meeting_item';
 import { FieldServiceMeetingsListProps } from '@features/congregation/field_service_meetings/field_service_meetings_list/index.types';
 import useFieldServiceMeetingsList from '@features/congregation/field_service_meetings/field_service_meetings_list/useFieldServiceMeetingsList';
-import { useAppTranslation } from '@hooks/index';
 import { formatLongDateWithShortVars } from '@utils/date';
 
 const FieldServiceMeetingsList = ({
@@ -11,7 +10,6 @@ const FieldServiceMeetingsList = ({
   canEditMeeting,
   onEditMeeting,
 }: FieldServiceMeetingsListProps) => {
-  const { t } = useAppTranslation();
   const { days } = useFieldServiceMeetingsList(meetings);
 
   return (
@@ -31,12 +29,6 @@ const FieldServiceMeetingsList = ({
             key: slot.key,
             time: slot.time,
             dateTime: `${day.date.replaceAll('/', '-')}T${slot.key}`,
-            countLabel:
-              slot.meetings.length > 1
-                ? t('tr_fieldServiceMeetingSlotCount', {
-                    count: slot.meetings.length,
-                  })
-                : undefined,
             content: (
               <Box
                 sx={{

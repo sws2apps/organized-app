@@ -6,10 +6,11 @@ import DateNavigator from '@components/date_navigator';
 import IconButton from '@components/icon_button';
 import Tooltip from '@components/tooltip';
 import useCalendarNavigation from '@features/congregation/field_service_meetings/calendar_navigation/useCalendarNavigation';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useBreakpoints } from '@hooks/index';
 
 const CalendarNavigation = () => {
   const { t } = useAppTranslation();
+  const { tabletUp } = useBreakpoints();
   const {
     periodLabel,
     viewMode,
@@ -36,7 +37,7 @@ const CalendarNavigation = () => {
           display: 'flex',
           flexWrap: 'wrap',
           alignItems: 'center',
-          justifyContent: 'space-between',
+          justifyContent: 'flex-start',
           gap: '16px',
         }}
       >
@@ -47,7 +48,7 @@ const CalendarNavigation = () => {
             gap: '8px',
             minWidth: 0,
             maxWidth: '100%',
-            flex: '1 1 auto',
+            flex: tabletUp ? '0 1 auto' : '1 1 auto',
           }}
         >
           <DateNavigator
@@ -57,7 +58,7 @@ const CalendarNavigation = () => {
             sx={{
               minWidth: 0,
               maxWidth: '100%',
-              flex: 1,
+              flex: tabletUp ? '0 1 auto' : 1,
               '& .MuiIconButton-root': { minWidth: '44px', minHeight: '44px' },
               '& .MuiTypography-root': {
                 whiteSpace: 'normal',
@@ -97,7 +98,11 @@ const CalendarNavigation = () => {
           ]}
           sx={{
             minWidth: 0,
-            width: '100%',
+            display: tabletUp ? 'inline-grid' : 'flex',
+            gridAutoFlow: 'column',
+            gridAutoColumns: 'minmax(max-content, 1fr)',
+            width: tabletUp ? 'auto' : '100%',
+            maxWidth: '100%',
           }}
         />
       </Box>

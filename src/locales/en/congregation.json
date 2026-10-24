@@ -612,7 +612,6 @@
   "tr_fieldServiceMeetingChanged": "This meeting has changed on another device. Your draft is still here. Close it and reopen the meeting to load the latest version.",
   "tr_fieldServiceMeetingInvalid": "Enter a valid date, time, and conductor before continuing.",
   "tr_fieldServiceMeetingWeeks": "Meeting weeks",
-  "tr_fieldServiceMeetingSlotCount": "Meetings: {{count}}",
   "tr_fieldServiceMeetingCount": "{{count}} meeting",
   "tr_fieldServiceMeetingCount_other": "{{count}} meetings",
   "tr_fieldServiceMeetingEmptyFiltered": "No meetings match these filters for this period.",
