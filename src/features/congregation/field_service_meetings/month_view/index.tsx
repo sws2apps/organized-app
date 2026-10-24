@@ -1,10 +1,15 @@
+import { formatLongDateWithShortVars } from '@utils/date';
 import { Box } from '@mui/material';
 import { type KeyboardEvent } from 'react';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import Typography from '@components/typography';
 import GroupBadge from '@components/group_badge';
-import { MonthBadge, MonthDayCell, MonthViewProps } from './index.types';
-import useMonthView from './useMonthView';
+import {
+  MonthBadge,
+  MonthDayCell,
+  MonthViewProps,
+} from '@features/congregation/field_service_meetings/month_view/index.types';
+import useMonthView from '@features/congregation/field_service_meetings/month_view/useMonthView';
 
 const DESKTOP_MAX_BADGES = 2;
 const LINE = '1px solid var(--accent-200)';
@@ -105,16 +110,14 @@ const DayCell = ({ cell, borderSx, onSelectDay }: DayCellProps) => {
   const hasMeetings = cell.badges.length > 0;
   const dotSize = tabletUp ? '12px' : '8px';
 
-  const interactiveProps = hasMeetings
-    ? {
-        role: 'button',
-        tabIndex: 0,
-        onClick: () => onSelectDay(cell.date),
-        onKeyDown: (e: KeyboardEvent<HTMLDivElement>) =>
-          handleDayCellKeyDown(e, onSelectDay, cell.date),
-        'aria-label': `${cell.dayNumber} – ${t('tr_meetings')}: ${cell.badges.length}`,
-      }
-    : {};
+  const interactiveProps = {
+    role: 'button',
+    tabIndex: 0,
+    onClick: () => onSelectDay(cell.date),
+    onKeyDown: (e: KeyboardEvent<HTMLDivElement>) =>
+      handleDayCellKeyDown(e, onSelectDay, cell.date),
+    'aria-label': `${formatLongDateWithShortVars(cell.date)}, ${t('tr_fieldServiceMeetingCount', { count: cell.badges.length })}`,
+  };
 
   return (
     <Box
@@ -130,12 +133,12 @@ const DayCell = ({ cell, borderSx, onSelectDay }: DayCellProps) => {
         backgroundColor: cell.isWeekend
           ? 'rgba(var(--accent-main-base), 0.04)'
           : 'var(--white)',
-        ...(hasMeetings
-          ? {
-              cursor: 'pointer',
-              '&:hover': { backgroundColor: 'var(--accent-100)' },
-            }
-          : { cursor: 'default' }),
+        cursor: 'pointer',
+        '&:hover': { backgroundColor: 'var(--accent-100)' },
+        '&:focus-visible': {
+          outline: '2px solid var(--accent-main)',
+          outlineOffset: '-2px',
+        },
       }}
     >
       <Box
@@ -211,7 +214,7 @@ const MonthView = ({ meetings, onSelectDay }: MonthViewProps) => {
       <Box
         sx={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(7, 1fr)',
+          gridTemplateColumns: 'repeat(7, minmax(0, 1fr))',
           backgroundColor: 'var(--white)',
           border: '1px solid var(--accent-200)',
         }}
@@ -232,7 +235,10 @@ const MonthView = ({ meetings, onSelectDay }: MonthViewProps) => {
       {weeks.map((week, weekIndex) => (
         <Box
           key={week[0].dateStr}
-          sx={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)' }}
+          sx={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(7, minmax(0, 1fr))',
+          }}
         >
           {week.map((cell, dayIndex) => {
             // Trailing blanks render empty — grid outline steps away at the end.

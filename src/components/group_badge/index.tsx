@@ -18,6 +18,8 @@ const GroupBadge = ({
   return (
     <Box
       sx={{
+        maxWidth: '100%',
+        minWidth: 0,
         display: 'flex',
         alignItems: 'center',
         justifyContent: align === 'center' ? 'center' : 'flex-start',
@@ -35,7 +37,8 @@ const GroupBadge = ({
         color="inherit"
         noWrap={fullWidth}
         sx={{
-          ...(fullWidth ? { minWidth: 0 } : {}),
+          minWidth: 0,
+          overflowWrap: 'anywhere',
           ...(align === 'center' ? { textAlign: 'center' } : {}),
         }}
       >

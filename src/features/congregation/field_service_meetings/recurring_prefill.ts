@@ -1,8 +1,10 @@
+import { FIELD_SERVICE_MEETING_DURATION_MINUTES } from '@constants/index';
 import { FieldServiceMeetingType } from '@definition/field_service_meetings';
 import { SettingsType } from '@definition/settings';
-import { formatDate } from '@utils/date';
+import { formatDate, getWeekDate } from '@utils/date';
 
-const MEETING_DEFAULT_DURATION_MS = 60 * 60 * 1000;
+const MEETING_DEFAULT_DURATION_MS =
+  FIELD_SERVICE_MEETING_DURATION_MINUTES * 60 * 1000;
 
 /** Weeks to scan for a free date before using the first candidate anyway. */
 const MAX_WEEKS_LOOKAHEAD = 12;
@@ -51,7 +53,8 @@ export const nextUnscheduledStart = (
 export const getGroupRecurringStart = (
   settings: SettingsType,
   groupId: string | undefined,
-  existing: FieldServiceMeetingType[]
+  existing: FieldServiceMeetingType[],
+  referenceDate?: Date
 ): { start: Date; end: Date } | null => {
   if (!groupId) return null;
 
@@ -63,12 +66,19 @@ export const getGroupRecurringStart = (
     return null;
   }
 
-  const start = nextUnscheduledStart(
-    recurring.weekday.value,
-    recurring.time.value,
-    groupId,
-    existing
-  );
+  const start = referenceDate
+    ? getWeekDate(new Date(referenceDate))
+    : nextUnscheduledStart(
+        recurring.weekday.value,
+        recurring.time.value,
+        groupId,
+        existing
+      );
+  if (referenceDate) {
+    const [hours, minutes] = recurring.time.value.split(':').map(Number);
+    start.setDate(start.getDate() + recurring.weekday.value);
+    start.setHours(hours ?? 0, minutes ?? 0, 0, 0);
+  }
   const end = new Date(start.getTime() + MEETING_DEFAULT_DURATION_MS);
 
   return { start, end };

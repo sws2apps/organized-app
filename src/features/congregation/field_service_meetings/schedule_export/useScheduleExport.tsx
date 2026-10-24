@@ -8,7 +8,10 @@ import {
   FieldServiceMeetingFormattedType,
   FieldServiceMeetingType,
 } from '@definition/field_service_meetings';
-import { ScheduleExportScope, ScheduleExportType } from './index.types';
+import {
+  ScheduleExportScope,
+  ScheduleExportType,
+} from '@features/congregation/field_service_meetings/schedule_export/index.types';
 import { displaySnackNotification } from '@services/states/app';
 import {
   generateMonthNames,
@@ -16,14 +19,21 @@ import {
   getTranslation,
 } from '@services/i18n/translation';
 import { useAppTranslation } from '@hooks/index';
-import { fieldServiceMeetingsState } from '@states/field_service_meetings';
+import {
+  fieldServiceMeetingsState,
+  fieldServiceMeetingsWeekRangeState,
+} from '@states/field_service_meetings';
 import { fieldServiceMeetingData } from '@services/app/field_service_meetings';
 import { JWLangLocaleState, userDataViewState } from '@states/settings';
 import { headerForScheduleState } from '@states/field_service_groups';
-import { formatDate, getWeekDate } from '@utils/date';
+import { formatDate, weeksInMonth } from '@utils/date';
 import { TemplateFieldServiceMeetings } from '@views/index';
 import { FieldServiceMeetingTemplateMonth } from '@views/meetings/field_service/index.types';
-import { filterMeetingsByDataView } from '../filter_meetings_by_data_view';
+import {
+  fieldServiceMeetingOverlapsRange,
+  fieldServiceMeetingWeek,
+} from '@utils/field_service_meetings';
+import { filterMeetingsByDataView } from '@features/congregation/field_service_meetings/filter_meetings_by_data_view';
 
 /** Group name for a regular meeting, the category otherwise. */
 const groupLabelForMeeting = (
@@ -49,7 +59,9 @@ const groupLabelForMeeting = (
 
 const createTemplateMonths = (
   meetings: FieldServiceMeetingType[],
-  lng: string
+  lng: string,
+  startDate: string,
+  endDate: string
 ): FieldServiceMeetingTemplateMonth[] => {
   const monthNames = generateMonthNames(lng);
 
@@ -76,9 +88,10 @@ const createTemplateMonths = (
   >();
 
   meetings.forEach((meeting) => {
-    const formatted = fieldServiceMeetingData(meeting);
+    const formatted = fieldServiceMeetingData(meeting, lng);
 
     formatted.dates.forEach((dateEntry, index) => {
+      if (dateEntry.date < startDate || dateEntry.date > endDate) return;
       const currentDate = new Date(dateEntry.date);
       const monthIndex = currentDate.getMonth();
       // The meeting's own year is its start year, which a multi-day meeting
@@ -160,6 +173,7 @@ const useScheduleExport = (
 
   // All meetings (not only upcoming) so past week ranges can be exported too.
   const fieldServiceMeetings = useAtomValue(fieldServiceMeetingsState);
+  const referenceDate = useAtomValue(fieldServiceMeetingsWeekRangeState);
   const dataView = useAtomValue(userDataViewState);
   const lng = useAtomValue(JWLangLocaleState);
   const headerName = useAtomValue(headerForScheduleState);
@@ -169,14 +183,19 @@ const useScheduleExport = (
     [fieldServiceMeetings, dataView]
   );
 
-  const [startWeek, setStartWeek] = useState('');
-  const [endWeek, setEndWeek] = useState('');
+  const [startWeek, setStartWeek] = useState(
+    fieldServiceMeetingWeek(referenceDate)
+  );
+  const [endWeek, setEndWeek] = useState(
+    fieldServiceMeetingWeek(referenceDate)
+  );
   const [isProcessing, setIsProcessing] = useState(false);
   const [showValidationErrors, setShowValidationErrors] = useState(false);
 
   const isStartWeekMissing = startWeek.length === 0;
   const isEndWeekMissing = endWeek.length === 0;
-  const isValid = !isStartWeekMissing && !isEndWeekMissing;
+  const isValid =
+    !isStartWeekMissing && !isEndWeekMissing && startWeek <= endWeek;
 
   const handleSetStartWeek = (value: string) => {
     setStartWeek(value);
@@ -211,14 +230,32 @@ const useScheduleExport = (
     return true;
   };
 
-  const filterByWeekRange = (meeting: FieldServiceMeetingType) => {
-    const weekOfMeeting = formatDate(
-      getWeekDate(new Date(meeting.meeting_data.start)),
-      'yyyy/MM/dd'
-    );
-
-    return weekOfMeeting >= startWeek && weekOfMeeting <= endWeek;
-  };
+  const rangeEnd = new Date(endWeek);
+  rangeEnd.setDate(rangeEnd.getDate() + 6);
+  const endDate = endWeek ? formatDate(rangeEnd, 'yyyy/MM/dd') : '';
+  const filterByWeekRange = (meeting: FieldServiceMeetingType) =>
+    fieldServiceMeetingOverlapsRange(meeting, startWeek, endDate);
+  const availableWeeks = useMemo(() => {
+    const currentYear = new Date().getFullYear();
+    const years = new Set([currentYear - 1, currentYear, currentYear + 1]);
+    for (const meeting of meetings) {
+      for (const date of [
+        meeting.meeting_data.start,
+        meeting.meeting_data.end,
+      ]) {
+        const value = new Date(date);
+        if (Number.isFinite(value.getTime())) years.add(value.getFullYear());
+      }
+    }
+    const weeks = new Set([startWeek, endWeek].filter(Boolean));
+    for (const year of years)
+      for (let month = 1; month <= 12; month++)
+        for (const week of weeksInMonth(
+          `${year}/${String(month).padStart(2, '0')}`
+        ))
+          weeks.add(week);
+    return [...weeks].sort();
+  }, [meetings, startWeek, endWeek]);
 
   const handleExportSchedule = async () => {
     if (isProcessing) return;
@@ -251,7 +288,12 @@ const useScheduleExport = (
         return;
       }
 
-      const months = createTemplateMonths(meetingsToExport, lng);
+      const months = createTemplateMonths(
+        meetingsToExport,
+        lng,
+        startWeek,
+        endDate
+      );
       const pdfGroupLabel =
         dataView === 'main'
           ? t('tr_allGroups', { lng })
@@ -309,6 +351,7 @@ const useScheduleExport = (
     isEndWeekMissing,
     startWeek,
     endWeek,
+    availableWeeks,
   };
 };
 

@@ -1,19 +1,10 @@
-import { useCallback, useEffect, useState } from 'react';
-import { useSetAtom } from 'jotai';
+import { useCallback, useState } from 'react';
 import { useCurrentUser } from '@hooks/index';
-import { fieldServiceMeetingsEditingIdState } from '@states/field_service_meetings';
 import useFieldServiceMeetingsPermissions from '@features/congregation/field_service_meetings/usePermissions';
 
 const useFieldServiceMeetings = () => {
   const { isSecretary, isGroup } = useCurrentUser();
   const { canCreate, canEditGroupTimes } = useFieldServiceMeetingsPermissions();
-
-  const setEditingMeetingId = useSetAtom(fieldServiceMeetingsEditingIdState);
-
-  // The editing id is a shared atom: drop it so no form reopens on return.
-  useEffect(() => {
-    return () => setEditingMeetingId(null);
-  }, [setEditingMeetingId]);
 
   const [exportOpen, setExportOpen] = useState(false);
   const [quickSettingsOpen, setQuickSettingsOpen] = useState(false);

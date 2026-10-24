@@ -1,3 +1,18 @@
+import { dbAppSettingsUpdateFieldServiceMeetingTime } from '@services/dexie/settings';
+import {
+  FIELD_SERVICE_MEETING_CATEGORIES,
+  FIELD_SERVICE_MEETING_LOCATIONS,
+} from '@definition/field_service_meetings';
+import { settingsState } from '@states/settings';
+import {
+  dbFieldServiceMeetingsGet,
+  dbFieldServiceMeetingsSave,
+} from '@services/dexie/field_service_meetings';
+import {
+  fieldServiceMeetingPermissions,
+  fieldServiceMeetingDraftScope,
+} from '@utils/field_service_meetings';
+import { getTranslation as translate } from '@services/i18n/translation';
 import {
   FieldServiceMeetingCategory,
   FieldServiceMeetingFormattedType,
@@ -19,11 +34,14 @@ import {
 import { personsState } from '@states/persons';
 import { fieldWithLanguageGroupsState } from '@states/field_service_groups';
 
-export const fieldServiceMeetingData = (meeting: FieldServiceMeetingType) => {
+export const fieldServiceMeetingData = (
+  meeting: FieldServiceMeetingType,
+  language?: string
+) => {
   const hour24 = store.get(hour24FormatState);
 
-  const months = generateMonthShortNames();
-  const weekdays = generateWeekday();
+  const months = generateMonthShortNames(language);
+  const weekdays = generateWeekday(language);
 
   const result = {} as FieldServiceMeetingFormattedType;
 
@@ -53,7 +71,7 @@ export const fieldServiceMeetingData = (meeting: FieldServiceMeetingType) => {
     meeting.meeting_data.category ===
     FieldServiceMeetingCategory.ServiceOverseerMeeting
   ) {
-    result.conductor = getTranslation({ key: 'tr_serviceOverseer' });
+    result.conductor = getTranslation({ key: 'tr_serviceOverseer', language });
   } else {
     result.conductor = conductorUid ?? '';
   }
@@ -70,7 +88,7 @@ export const fieldServiceMeetingData = (meeting: FieldServiceMeetingType) => {
   // The "Group N – Name" compound form is kept only for form dropdowns.
   result.groupName = groupData
     ? groupData.group_data.name?.trim() ||
-      `${getTranslation({ key: 'tr_group' })} ${groupData.group_data.sort_index + 1}`
+      `${getTranslation({ key: 'tr_group', language })} ${groupData.group_data.sort_index + 1}`
     : undefined;
   result.address = meeting.meeting_data.address;
   result.additionalInfo = meeting.meeting_data.additionalInfo;
@@ -85,6 +103,7 @@ export const fieldServiceMeetingData = (meeting: FieldServiceMeetingType) => {
   result.start = formatDate(start, 'yyyy/MM/dd');
   result.date = getTranslation({
     key: 'tr_longDateNoYearLocale',
+    language,
     params: { month, date },
   });
 
@@ -107,6 +126,7 @@ export const fieldServiceMeetingData = (meeting: FieldServiceMeetingType) => {
       day: weekdays[dayIndex === 0 ? 6 : dayIndex - 1],
       dateFormatted: getTranslation({
         key: 'tr_longDateNoYearLocale',
+        language,
         params: { month, date: dateV },
       }),
     };
@@ -119,12 +139,12 @@ export const fieldServiceMeetingData = (meeting: FieldServiceMeetingType) => {
       FieldServiceMeetingCategory.JointMeeting &&
     meetingDates.length > 1
   ) {
-    const startDate = meetingDates.at(0);
+    const startDate = meetingDates[0]!;
     const startDateV = startDate.getDate();
     const startMonthIndex = startDate.getMonth();
     const startMonth = months[startMonthIndex];
 
-    const endDate = meetingDates.at(-1);
+    const endDate = meetingDates[meetingDates.length - 1]!;
     const endDateV = endDate.getDate();
     const endMonthIndex = endDate.getMonth();
     const endMonth = months[endMonthIndex];
@@ -132,6 +152,7 @@ export const fieldServiceMeetingData = (meeting: FieldServiceMeetingType) => {
     if (startMonthIndex !== endMonthIndex) {
       const startDateFormatted = getTranslation({
         key: 'tr_longDateNoYearLocale',
+        language,
         params: {
           month: startMonth,
           date: startDateV,
@@ -140,6 +161,7 @@ export const fieldServiceMeetingData = (meeting: FieldServiceMeetingType) => {
 
       const endDateFormatted = getTranslation({
         key: 'tr_longDateNoYearLocale',
+        language,
         params: {
           month: endMonth,
           date: endDateV,
@@ -148,6 +170,7 @@ export const fieldServiceMeetingData = (meeting: FieldServiceMeetingType) => {
 
       result.datesRange = getTranslation({
         key: 'tr_dateRangeNoYear',
+        language,
         params: {
           startDate: startDateFormatted,
           endDate: endDateFormatted,
@@ -158,6 +181,7 @@ export const fieldServiceMeetingData = (meeting: FieldServiceMeetingType) => {
     if (startMonthIndex === endMonthIndex) {
       const dateRanges = getTranslation({
         key: 'tr_dateRangeNoYear',
+        language,
         params: {
           startDate: startDateV,
           endDate: endDateV,
@@ -166,6 +190,7 @@ export const fieldServiceMeetingData = (meeting: FieldServiceMeetingType) => {
 
       result.datesRange = getTranslation({
         key: 'tr_longDateNoYearLocale',
+        language,
         params: {
           month: startMonth,
           date: dateRanges,
@@ -180,4 +205,87 @@ export const fieldServiceMeetingData = (meeting: FieldServiceMeetingType) => {
   );
 
   return result;
+};
+
+export const fieldServiceMeetingsSave = async (
+  meeting: FieldServiceMeetingType,
+  deleting = false,
+  expectedScope?: string
+) => {
+  const current = await dbFieldServiceMeetingsGet(meeting.meeting_uid);
+  if (
+    expectedScope &&
+    expectedScope !== fieldServiceMeetingDraftScope(store.get(settingsState))
+  ) {
+    throw new Error(translate({ key: 'tr_fieldServiceMeetingNotAllowed' }));
+  }
+  const permissions = fieldServiceMeetingPermissions(
+    store.get(settingsState),
+    store.get(fieldWithLanguageGroupsState)
+  );
+  const target = meeting.meeting_data;
+  const changingToVisit =
+    target.category === FieldServiceMeetingCategory.ServiceOverseerMeeting &&
+    current?.meeting_data.category !== target.category;
+  if (
+    !permissions.canCreate ||
+    !permissions.canManageMeeting(target.category, target.group_id) ||
+    (current &&
+      !permissions.canManageMeeting(
+        current.meeting_data.category,
+        current.meeting_data.group_id
+      )) ||
+    (changingToVisit && !permissions.isAdmin && !permissions.isServiceOverseer)
+  ) {
+    throw new Error(translate({ key: 'tr_fieldServiceMeetingNotAllowed' }));
+  }
+  if (
+    current &&
+    (current.meeting_data._deleted ||
+      current.meeting_data.updatedAt !== target.updatedAt)
+  ) {
+    throw new Error(translate({ key: 'tr_fieldServiceMeetingChanged' }));
+  }
+  if (deleting && !current)
+    throw new Error(translate({ key: 'tr_fieldServiceMeetingChanged' }));
+  const start = new Date(target.start).getTime();
+  const end = new Date(target.end).getTime();
+  if (
+    !deleting &&
+    (!Number.isFinite(start) ||
+      !Number.isFinite(end) ||
+      end <= start ||
+      !target.conductor.trim() ||
+      !FIELD_SERVICE_MEETING_CATEGORIES.includes(target.category) ||
+      !FIELD_SERVICE_MEETING_LOCATIONS.includes(target.location))
+  ) {
+    throw new Error(translate({ key: 'tr_fieldServiceMeetingInvalid' }));
+  }
+  await dbFieldServiceMeetingsSave({
+    ...meeting,
+    meeting_data: {
+      ...target,
+      _deleted: deleting,
+      updatedAt: new Date().toISOString(),
+    },
+  });
+};
+
+export const fieldServiceMeetingTimeSave = async (
+  groupId: string,
+  value: { weekday?: number; time?: string }
+) => {
+  const permissions = fieldServiceMeetingPermissions(
+    store.get(settingsState),
+    store.get(fieldWithLanguageGroupsState)
+  );
+  if (!permissions.canEditGroupTimes())
+    throw new Error(translate({ key: 'tr_fieldServiceMeetingNotAllowed' }));
+  await dbAppSettingsUpdateFieldServiceMeetingTime(groupId, (record) => {
+    const now = new Date().toISOString();
+    if (value.weekday !== undefined)
+      record.weekday = { value: value.weekday, updatedAt: now };
+    if (value.time !== undefined)
+      record.time = { value: value.time, updatedAt: now };
+  });
 };

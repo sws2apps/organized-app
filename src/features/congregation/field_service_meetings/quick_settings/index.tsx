@@ -3,7 +3,7 @@ import { useAppTranslation } from '@hooks/index';
 import Typography from '@components/typography';
 import QuickSettings from '@features/quick_settings';
 import RecurringTimes from '@features/congregation/settings/field_service_meeting_settings/recurring_times';
-import { QuickSettingsFieldServiceMeetingsProps } from './index.types';
+import { QuickSettingsFieldServiceMeetingsProps } from '@features/congregation/field_service_meetings/quick_settings/index.types';
 
 const QuickSettingsFieldServiceMeetings = ({
   open,
@@ -17,7 +17,7 @@ const QuickSettingsFieldServiceMeetings = ({
       open={open}
       onClose={onClose}
     >
-      <Stack spacing="16px" width="100%">
+      <Stack spacing="16px" sx={{ width: '100%' }}>
         <Stack spacing="4px">
           <Typography className="h4">
             {t('tr_recurringMeetingTimes')}

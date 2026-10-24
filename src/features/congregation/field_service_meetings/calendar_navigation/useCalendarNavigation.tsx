@@ -86,7 +86,10 @@ const useCalendarNavigation = () => {
     [months, currentDate]
   );
 
-  const periodLabel = viewMode === 'month' ? monthLabel : weekRangeLabel;
+  const periodLabel =
+    viewMode === 'month'
+      ? monthLabel
+      : `${weekRangeLabel}, ${firstDayOfWeek.getFullYear() === lastDayOfWeek.getFullYear() ? lastDayOfWeek.getFullYear() : `${firstDayOfWeek.getFullYear()}–${lastDayOfWeek.getFullYear()}`}`;
 
   const visibleFilters = useMemo(
     () => [

@@ -97,4 +97,8 @@ export type ButtonPropsType = {
    * sufficient accessible name.
    */
   ariaLabel?: string;
+
+  'aria-pressed'?: boolean;
+
+  type?: 'button' | 'submit' | 'reset';
 };

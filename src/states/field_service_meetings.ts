@@ -1,5 +1,12 @@
+import {
+  fieldServiceMeetingsSave,
+  fieldServiceMeetingTimeSave,
+} from '@services/app/field_service_meetings';
 import { atom } from 'jotai';
-import { FieldServiceMeetingType } from '@definition/field_service_meetings';
+import {
+  FieldServiceMeetingType,
+  FieldServiceMeetingDraft,
+} from '@definition/field_service_meetings';
 import { formatDate } from '@utils/date';
 
 export const fieldServiceMeetingsDbState = atom<FieldServiceMeetingType[]>([]);
@@ -9,12 +16,6 @@ export const fieldServiceMeetingsFilterState = atom<string>('all');
 export const fieldServiceMeetingsWeekRangeState = atom<Date>(new Date());
 
 export const fieldServiceMeetingsViewModeState = atom<'week' | 'month'>('week');
-
-// uid of the meeting being edited, 'new' while creating, or null when closed.
-// Shared so the page (add flow) and the container (edit flow) stay in sync.
-// (Cast instead of atom<string | null>(null): with strict mode off, a bare
-// null matches jotai's read-only overload and the atom loses its setter.)
-export const fieldServiceMeetingsEditingIdState = atom(null as string | null);
 
 export const fieldServiceMeetingsState = atom((get) => {
   const meetings = get(fieldServiceMeetingsDbState);
@@ -35,3 +36,36 @@ export const fieldServiceMeetingsActiveState = atom((get) => {
     return startDate >= today || endDate >= today;
   });
 });
+
+export const fieldServiceMeetingsDraftState =
+  atom<FieldServiceMeetingDraft | null>(null);
+
+export const fieldServiceMeetingsSaveState = atom(
+  null,
+  async (
+    _get,
+    _set,
+    payload: {
+      meeting: FieldServiceMeetingType;
+      deleting?: boolean;
+      scope: string;
+    }
+  ) => {
+    await fieldServiceMeetingsSave(
+      payload.meeting,
+      payload.deleting,
+      payload.scope
+    );
+  }
+);
+
+export const fieldServiceMeetingTimeSaveState = atom(
+  null,
+  async (
+    _get,
+    _set,
+    payload: { groupId: string; weekday?: number; time?: string }
+  ) => {
+    await fieldServiceMeetingTimeSave(payload.groupId, payload);
+  }
+);

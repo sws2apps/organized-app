@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Box } from '@mui/material';
 import { useAtomValue } from 'jotai';
+import { FIELD_SERVICE_MEETING_FIELD_MIN_WIDTH } from '@constants/index';
 import { hour24FormatState } from '@states/settings';
 import {
   IconCheck,
@@ -19,10 +20,12 @@ import TimePicker from '@components/time_picker';
 import Divider from '@components/divider';
 import TextField from '@components/textfield';
 import Dialog from '@components/dialog';
-import { useAppTranslation, useBreakpoints } from '@hooks/index';
+import IconLoading from '@components/icon_loading';
+import InfoNote from '@components/info_note';
+import { useAppTranslation } from '@hooks/index';
 import { FIELD_SERVICE_MEETING_CATEGORY_TRANSLATION_KEYS } from '@definition/field_service_meetings';
-import { MeetingFormProps } from './index.types';
-import useMeetingForm from './useMeetingForm';
+import { MeetingFormProps } from '@features/congregation/field_service_meetings/meeting_form/index.types';
+import useMeetingForm from '@features/congregation/field_service_meetings/meeting_form/useMeetingForm';
 
 const MeetingForm = ({
   meeting,
@@ -32,8 +35,8 @@ const MeetingForm = ({
   onDelete,
 }: MeetingFormProps) => {
   const { t } = useAppTranslation();
-  const { tabletUp, laptopUp } = useBreakpoints();
   const hour24 = useAtomValue(hour24FormatState);
+  const formRef = useRef<HTMLFormElement>(null);
   const [similarConfirmOpen, setSimilarConfirmOpen] = useState(false);
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
   const [deleting, setDeleting] = useState(false);
@@ -53,6 +56,7 @@ const MeetingForm = ({
     isSimilarMeeting,
     conductorValue,
     conductorError,
+    dateError,
     updateMeetingData,
     handleDateChange,
     handleTimeChange,
@@ -81,7 +85,15 @@ const MeetingForm = ({
 
   // Validate (shows inline errors), warn about duplicates, then save.
   const handleDone = () => {
-    if (!validate()) return;
+    if (saving || deleting) return;
+    if (!validate()) {
+      requestAnimationFrame(() =>
+        formRef.current
+          ?.querySelector<HTMLElement>('[aria-invalid="true"]')
+          ?.focus()
+      );
+      return;
+    }
     if (isSimilarMeeting) {
       setSimilarConfirmOpen(true);
       return;
@@ -96,297 +108,293 @@ const MeetingForm = ({
 
   return (
     <Card
-      role="form"
-      aria-label={t(
-        mode === 'add'
-          ? 'tr_addFieldServiceMeeting'
-          : 'tr_editFieldServiceMeeting'
-      )}
       sx={{
-        padding: '24px',
-        // MUI's hardcoded faded black doesn't work in the dark theme.
+        minWidth: 0,
         '& .MuiInputBase-input.Mui-disabled': {
           WebkitTextFillColor: 'var(--accent-350)',
         },
       }}
     >
-      <Typography className="h3" color="var(--black)">
-        {mode === 'add'
-          ? t('tr_addFieldServiceMeeting')
-          : t('tr_editFieldServiceMeeting')}
-      </Typography>
-
-      {/* Desktop: three columns. Mobile: Type spans the row above the rest. */}
       <Box
-        sx={{
-          display: 'grid',
-          gap: '16px',
-          gridTemplateColumns: tabletUp ? '1fr 1fr 1fr' : '1fr 1fr',
+        component="form"
+        ref={formRef}
+        onSubmit={(event) => {
+          event.preventDefault();
+          handleDone();
         }}
-      >
-        <Autocomplete
-          sx={{ width: '100%', gridColumn: tabletUp ? 'auto' : '1 / -1' }}
-          label={t('tr_type')}
-          value={formData.meeting_data.category}
-          options={categoryOptions}
-          onChange={handleCategoryChange}
-          getOptionLabel={(option) =>
-            t(FIELD_SERVICE_MEETING_CATEGORY_TRANSLATION_KEYS[option])
-          }
-          isOptionEqualToValue={(option, value) => option === value}
-          renderOption={(props, option) => (
-            <Box component="li" {...props}>
-              {t(FIELD_SERVICE_MEETING_CATEGORY_TRANSLATION_KEYS[option])}
-            </Box>
-          )}
-        />
-        <Autocomplete
-          sx={{ width: '100%' }}
-          label={t('tr_group')}
-          options={groupOptions}
-          value={selectedGroup}
-          onChange={handleGroupChange}
-          isOptionEqualToValue={(option, value) => option.id === value.id}
-          getOptionLabel={(option) =>
-            typeof option === 'string' ? option : option.label
-          }
-          disabled={isJointMeeting}
-        />
-        <Autocomplete
-          sx={{ width: '100%' }}
-          label={t('tr_conductor')}
-          freeSolo
-          autoSelect
-          options={conductorOptions}
-          value={conductorValue}
-          onChange={(_, value) => {
-            const option = Array.isArray(value) ? value.at(0) : value;
-            const conductor =
-              typeof option === 'string' ? option.trim() : (option?.id ?? '');
-            updateMeetingData({ conductor });
-          }}
-          isOptionEqualToValue={(option, value) =>
-            (typeof option === 'string' ? option : option.id) ===
-            (typeof value === 'string' ? value : value.id)
-          }
-          getOptionLabel={(option) =>
-            typeof option === 'string' ? option : option.label
-          }
-          endIcon={<IconSearch />}
-          error={conductorError}
-          helperText={conductorError ? t('tr_fillRequiredField') : undefined}
-        />
-      </Box>
-
-      <Divider color="var(--accent-200)" />
-      <Typography className="h4" color="var(--grey-400)">
-        {t('tr_details')}
-      </Typography>
-
-      {/*
-        Laptop+: [Date + time] | [Location] | [Address]. Below: a 2×2 grid —
-        a 3-column layout leaves the first column too narrow for both pickers.
-      */}
-      <Box
-        sx={{
-          display: 'grid',
-          gap: '16px',
-          gridTemplateColumns: laptopUp ? '1fr 1fr 1fr' : '1fr 1fr',
-        }}
-      >
-        {laptopUp ? (
-          /* Laptop+: Date and Time share the first column. */
-          <Box sx={{ display: 'flex', gap: '16px' }}>
-            <DatePicker
-              sx={{ flex: 1, minWidth: 0, height: '48px' }}
-              label={t('tr_date')}
-              value={startDate}
-              onChange={handleDateChange}
-            />
-            <TimePicker
-              sx={{ flex: 1, height: '48px' }}
-              label={t('tr_startTime')}
-              ampm={!hour24}
-              value={startDate}
-              onChange={handleTimeChange}
-            />
-          </Box>
-        ) : (
-          /* Below 768 px: Date and Time as separate grid cells. */
-          <>
-            <DatePicker
-              sx={{ height: '48px' }}
-              label={t('tr_date')}
-              value={startDate}
-              onChange={handleDateChange}
-            />
-            <TimePicker
-              sx={{ height: '48px' }}
-              label={t('tr_startTime')}
-              ampm={!hour24}
-              value={startDate}
-              onChange={handleTimeChange}
-            />
-          </>
+        aria-label={t(
+          mode === 'add'
+            ? 'tr_addFieldServiceMeeting'
+            : 'tr_editFieldServiceMeeting'
         )}
-        <Select
-          sx={{ width: '100%', height: '48px' }}
-          label={t('tr_location')}
-          value={selectedLocation?.value ?? ''}
-          onChange={(e) => {
-            const nextValue = e.target.value;
-            const found = locationOptions.find(
-              (opt) => opt.value === nextValue
-            );
-            handleLocationChange(e, found ?? null);
-          }}
-        >
-          {locationOptions.map((option) => (
-            <MenuItem key={option.value} value={option.value}>
-              <Box display="flex" alignItems="center" gap="8px">
-                {option.icon}
-                <Typography className="body-regular">{option.label}</Typography>
-              </Box>
-            </MenuItem>
-          ))}
-        </Select>
-        <TextField
-          label={locationFieldLabel}
-          value={formData.meeting_data.address ?? ''}
-          onChange={(event) =>
-            updateMeetingData({ address: event.target.value })
-          }
-          height={48}
-          sx={{ width: '100%' }}
-        />
-      </Box>
-
-      <TextField
-        label={t('tr_additionalInfo')}
-        value={formData.meeting_data.additionalInfo ?? ''}
-        onChange={(event) =>
-          updateMeetingData({ additionalInfo: event.target.value })
-        }
-        height={48}
-        multiline
-      />
-      <Box
         sx={{
           display: 'flex',
-          justifyContent: 'flex-end',
-          alignItems: 'center',
+          flexDirection: 'column',
           gap: '16px',
-          flexWrap: 'wrap',
+          minWidth: 0,
         }}
       >
-        {/* Delete, when deleting is possible at all */}
-        {mode === 'edit' && onDelete && (
-          <Button
-            variant="secondary"
-            color="red"
-            startIcon={<IconDelete />}
-            onClick={handleDeleteClick}
-            disabled={saving || deleting}
+        <Typography className="h4" color="var(--black)">
+          {mode === 'add'
+            ? t('tr_addFieldServiceMeeting')
+            : t('tr_editFieldServiceMeeting')}
+        </Typography>
+
+        <InfoNote message={t('tr_fieldServiceMeetingDraft')} />
+        <Box
+          component="fieldset"
+          disabled={saving || deleting}
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '16px',
+            minWidth: 0,
+            padding: 0,
+            margin: 0,
+            border: 0,
+          }}
+        >
+          {/* Columns follow the editor's available width, including its sidebar. */}
+          <Box
+            sx={{
+              display: 'grid',
+              gap: '16px',
+              gridTemplateColumns: `repeat(auto-fit, minmax(min(100%, ${FIELD_SERVICE_MEETING_FIELD_MIN_WIDTH}px), 1fr))`,
+            }}
           >
-            {t('tr_delete')}
-          </Button>
-        )}
-
-        <Button
-          variant="secondary"
-          startIcon={<IconClose />}
-          onClick={onClose}
-          disabled={saving}
-        >
-          {t('tr_cancel')}
-        </Button>
-
-        {/* Always clickable: missing fields are marked inline on click. */}
-        <Button
-          variant="secondary"
-          startIcon={<IconCheck />}
-          onClick={handleDone}
-          disabled={saving}
-        >
-          {t('tr_done')}
-        </Button>
-      </Box>
-
-      {similarConfirmOpen && (
-        <Dialog
-          open={similarConfirmOpen}
-          onClose={() => setSimilarConfirmOpen(false)}
-          sx={{ padding: '24px' }}
-        >
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            <Typography className="h3">
-              {t('tr_similarMeetingFound')}
-            </Typography>
-            <Typography color="var(--grey-400)">
-              {t('tr_similarMeetingFoundDesc')}
-            </Typography>
+            <Autocomplete
+              sx={{ width: '100%', minWidth: 0 }}
+              label={t('tr_type')}
+              value={formData.meeting_data.category}
+              options={categoryOptions}
+              disableClearable
+              onChange={(_, value) => {
+                if (typeof value === 'number') handleCategoryChange(_, value);
+              }}
+              getOptionLabel={(option) =>
+                typeof option === 'number'
+                  ? t(FIELD_SERVICE_MEETING_CATEGORY_TRANSLATION_KEYS[option])
+                  : option
+              }
+              isOptionEqualToValue={(option, value) => option === value}
+              renderOption={(props, option) => (
+                <Box component="li" {...props}>
+                  {typeof option === 'number'
+                    ? t(FIELD_SERVICE_MEETING_CATEGORY_TRANSLATION_KEYS[option])
+                    : option}
+                </Box>
+              )}
+            />
+            <Autocomplete
+              sx={{ width: '100%', minWidth: 0 }}
+              label={t('tr_group')}
+              options={groupOptions}
+              value={selectedGroup}
+              disableClearable
+              onChange={(_, value) => {
+                if (value && typeof value !== 'string' && !Array.isArray(value))
+                  handleGroupChange(_, value);
+              }}
+              isOptionEqualToValue={(option, value) =>
+                typeof value !== 'string' && option.id === value.id
+              }
+              getOptionLabel={(option) =>
+                typeof option === 'string' ? option : option.label
+              }
+              disabled={isJointMeeting}
+            />
+            <Autocomplete
+              sx={{ width: '100%', minWidth: 0 }}
+              label={t('tr_conductor')}
+              freeSolo
+              autoSelect
+              options={conductorOptions}
+              value={conductorValue}
+              onChange={(_, value) => {
+                const option = Array.isArray(value) ? value.at(0) : value;
+                const conductor =
+                  typeof option === 'string'
+                    ? option.trim()
+                    : (option?.id ?? '');
+                updateMeetingData({ conductor });
+              }}
+              isOptionEqualToValue={(option, value) =>
+                (typeof option === 'string' ? option : option.id) ===
+                (typeof value === 'string' ? value : value.id)
+              }
+              getOptionLabel={(option) =>
+                typeof option === 'string' ? option : option.label
+              }
+              endIcon={<IconSearch />}
+              error={conductorError}
+              helperText={
+                conductorError ? t('tr_fillRequiredField') : undefined
+              }
+            />
           </Box>
+
+          <Divider color="var(--accent-200)" />
+          <Typography className="h4" color="var(--grey-400)">
+            {t('tr_details')}
+          </Typography>
 
           <Box
             sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '8px',
-              width: '100%',
+              display: 'grid',
+              gap: '16px',
+              gridTemplateColumns: `repeat(auto-fit, minmax(min(100%, ${FIELD_SERVICE_MEETING_FIELD_MIN_WIDTH}px), 1fr))`,
             }}
           >
-            <Button variant="main" onClick={handleConfirmSimilar}>
-              {t('tr_addAnyway')}
-            </Button>
-            <Button
-              variant="secondary"
-              onClick={() => setSimilarConfirmOpen(false)}
+            <DatePicker
+              label={t('tr_date')}
+              value={startDate}
+              onChange={handleDateChange}
+              error={dateError}
+              helperText={
+                dateError ? t('tr_fieldServiceMeetingDateError') : undefined
+              }
+            />
+            <TimePicker
+              label={t('tr_startTime')}
+              ampm={!hour24}
+              value={startDate}
+              onChange={handleTimeChange}
+              error={dateError}
+            />
+            <Select
+              sx={{ width: '100%', minWidth: 0 }}
+              label={t('tr_location')}
+              value={selectedLocation?.value ?? ''}
+              onChange={(e) => {
+                const nextValue = e.target.value;
+                const found = locationOptions.find(
+                  (opt) => opt.value === nextValue
+                );
+                handleLocationChange(e, found ?? null);
+              }}
             >
-              {t('tr_cancel')}
-            </Button>
+              {locationOptions.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  <Box
+                    sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}
+                  >
+                    {option.icon}
+                    <Typography className="body-regular">
+                      {option.label}
+                    </Typography>
+                  </Box>
+                </MenuItem>
+              ))}
+            </Select>
+            <TextField
+              label={locationFieldLabel}
+              value={formData.meeting_data.address ?? ''}
+              onChange={(event) =>
+                updateMeetingData({ address: event.target.value })
+              }
+              sx={{ width: '100%', minWidth: 0 }}
+            />
           </Box>
-        </Dialog>
-      )}
 
-      {deleteConfirmOpen && (
-        <Dialog
-          open={deleteConfirmOpen}
-          onClose={() => setDeleteConfirmOpen(false)}
-          sx={{ padding: '24px' }}
+          <TextField
+            label={t('tr_additionalInfo')}
+            value={formData.meeting_data.additionalInfo ?? ''}
+            onChange={(event) =>
+              updateMeetingData({ additionalInfo: event.target.value })
+            }
+            multiline
+          />
+        </Box>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            alignItems: 'center',
+            gap: '16px',
+            flexWrap: 'wrap',
+          }}
         >
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            <Typography className="h3">{t('tr_deleteMeeting')}</Typography>
-            <Typography color="var(--grey-400)">
-              {t('tr_deleteMeetingDesc')}
-            </Typography>
-          </Box>
-
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '8px',
-              width: '100%',
-            }}
-          >
+          {/* Delete, when deleting is possible at all */}
+          {mode === 'edit' && onDelete && (
             <Button
               variant="secondary"
               color="red"
-              onClick={handleConfirmDelete}
+              startIcon={<IconDelete />}
+              onClick={handleDeleteClick}
+              disabled={saving || deleting}
             >
               {t('tr_delete')}
             </Button>
-            <Button
-              variant="secondary"
-              onClick={() => setDeleteConfirmOpen(false)}
-            >
-              {t('tr_cancel')}
-            </Button>
-          </Box>
-        </Dialog>
-      )}
+          )}
+
+          <Button
+            variant="secondary"
+            startIcon={<IconClose />}
+            onClick={onClose}
+            disabled={saving || deleting}
+          >
+            {t('tr_cancel')}
+          </Button>
+
+          {/* Always clickable: missing fields are marked inline on click. */}
+          <Button
+            variant="main"
+            type="submit"
+            startIcon={saving ? <IconLoading /> : <IconCheck />}
+            disabled={saving || deleting}
+          >
+            {t('tr_done')}
+          </Button>
+        </Box>
+
+        {similarConfirmOpen && (
+          <Dialog
+            open
+            onClose={() => setSimilarConfirmOpen(false)}
+            title={t('tr_similarMeetingFound')}
+            description={t('tr_similarMeetingFoundDesc')}
+            actions={
+              <>
+                <Button variant="main" onClick={handleConfirmSimilar}>
+                  {t(mode === 'add' ? 'tr_addAnyway' : 'tr_done')}
+                </Button>
+                <Button
+                  variant="secondary"
+                  onClick={() => setSimilarConfirmOpen(false)}
+                >
+                  {t('tr_cancel')}
+                </Button>
+              </>
+            }
+          />
+        )}
+        {deleteConfirmOpen && (
+          <Dialog
+            open
+            onClose={() => setDeleteConfirmOpen(false)}
+            title={t('tr_deleteMeeting')}
+            description={t('tr_deleteMeetingDesc')}
+            actions={
+              <>
+                <Button
+                  variant="main"
+                  color="red"
+                  onClick={handleConfirmDelete}
+                >
+                  {t('tr_delete')}
+                </Button>
+                <Button
+                  variant="secondary"
+                  onClick={() => setDeleteConfirmOpen(false)}
+                >
+                  {t('tr_cancel')}
+                </Button>
+              </>
+            }
+          />
+        )}
+      </Box>
     </Card>
   );
 };
-
 export default MeetingForm;

@@ -1,11 +1,15 @@
-import { useCallback, useEffect, useMemo, useState, useRef } from 'react';
-import { useAtomValue } from 'jotai';
+import { FIELD_SERVICE_MEETING_DURATION_MINUTES } from '@constants/index';
+import { useCallback, useMemo, useState } from 'react';
+import { useAtom, useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import {
   fieldServiceGroupsState,
   fieldWithLanguageGroupsState,
 } from '@states/field_service_groups';
-import { fieldServiceMeetingsActiveState } from '@states/field_service_meetings';
+import {
+  fieldServiceMeetingsActiveState,
+  fieldServiceMeetingsDraftState,
+} from '@states/field_service_meetings';
 import { personsByViewState, personsState } from '@states/persons';
 import { formatDate } from '@utils/date';
 import {
@@ -27,13 +31,15 @@ import {
   FIELD_SERVICE_MEETING_LOCATIONS,
   FIELD_SERVICE_MEETING_LOCATION_TRANSLATION_KEYS,
 } from '@definition/field_service_meetings';
-import { ConductorOption, GroupOption, LocationOption } from './index.types';
-import { locationIconMap } from '../location_icons';
-import useFieldServiceMeetingsPermissions from '../usePermissions';
-import { getGroupRecurringStart } from '../recurring_prefill';
+import {
+  ConductorOption,
+  GroupOption,
+  LocationOption,
+} from '@features/congregation/field_service_meetings/meeting_form/index.types';
+import { locationIconMap } from '@features/congregation/field_service_meetings/location_icons';
+import useFieldServiceMeetingsPermissions from '@features/congregation/field_service_meetings/usePermissions';
 
-const DEFAULT_DURATION_MINUTES = 60;
-const DEFAULT_DURATION_MS = DEFAULT_DURATION_MINUTES * 60 * 1000;
+const defaultDurationMs = FIELD_SERVICE_MEETING_DURATION_MINUTES * 60 * 1000;
 
 const useMeetingForm = (
   meeting: FieldServiceMeetingType,
@@ -49,45 +55,41 @@ const useMeetingForm = (
   const fullnameOption = useAtomValue(fullnameOptionState);
   const settings = useAtomValue(settingsState);
   const congAddress = useAtomValue(congAddressState);
-  const { isAdmin, isServiceOverseer } = useFieldServiceMeetingsPermissions();
+  const { isAdmin, isServiceOverseer, canManageMeeting } =
+    useFieldServiceMeetingsPermissions();
 
   const serviceOverseerUid =
     settings.cong_settings.responsabilities?.service ?? '';
 
-  const [formData, setFormData] = useState<FieldServiceMeetingType>(() =>
-    structuredClone(meeting)
-  );
+  const [draft, setDraft] = useAtom(fieldServiceMeetingsDraftState);
+  const formData =
+    draft?.meeting.meeting_uid === meeting.meeting_uid
+      ? draft.meeting
+      : meeting;
   const [saving, setSaving] = useState(false);
   const [attempted, setAttempted] = useState(false);
-  const lastMeetingUidRef = useRef(meeting.meeting_uid);
-
-  // Only sync on a different uid: resetting on every new object with the same
-  // uid would wipe in-progress edits.
-  useEffect(() => {
-    if (lastMeetingUidRef.current !== meeting.meeting_uid) {
-      lastMeetingUidRef.current = meeting.meeting_uid;
-      setFormData(structuredClone(meeting));
-      setAttempted(false);
-    }
-  }, [meeting]);
 
   const meetingDuration = useMemo(() => {
     const start = new Date(formData.meeting_data.start).getTime();
     const end = new Date(formData.meeting_data.end).getTime();
     return Number.isFinite(start) && Number.isFinite(end) && end > start
       ? end - start
-      : DEFAULT_DURATION_MS;
+      : defaultDurationMs;
   }, [formData.meeting_data.end, formData.meeting_data.start]);
 
-  const startDate = useMemo(
-    () => new Date(formData.meeting_data.start),
-    [formData.meeting_data.start]
-  );
+  const startDate = useMemo(() => {
+    const date = new Date(formData.meeting_data.start);
+    return Number.isFinite(date.getTime()) ? date : null;
+  }, [formData.meeting_data.start]);
 
   const groupOptions = useMemo<GroupOption[]>(() => {
     const base = t('tr_group');
     const availableGroups = groups
-      .filter((group) => !group.group_data._deleted)
+      .filter(
+        (group) =>
+          !group.group_data._deleted &&
+          canManageMeeting(formData.meeting_data.category, group.group_id)
+      )
       .map((group) => ({
         id: group.group_id,
         label: buildFieldServiceGroupLabel(
@@ -125,7 +127,14 @@ const useMeetingForm = (
       { id: 'main', label: t('tr_fieldServiceMeetingCategory_joint') },
       ...availableGroups,
     ];
-  }, [groups, allGroups, meeting.meeting_data.group_id, t]);
+  }, [
+    groups,
+    allGroups,
+    meeting.meeting_data.group_id,
+    formData.meeting_data.category,
+    canManageMeeting,
+    t,
+  ]);
 
   const locationOptions = useMemo<LocationOption[]>(() => {
     return FIELD_SERVICE_MEETING_LOCATIONS.map((location) => ({
@@ -231,9 +240,16 @@ const useMeetingForm = (
 
   const canSubmit = useMemo(
     () =>
-      Boolean(formData.meeting_data.start) &&
+      Number.isFinite(new Date(formData.meeting_data.start).getTime()) &&
+      Number.isFinite(new Date(formData.meeting_data.end).getTime()) &&
+      new Date(formData.meeting_data.end) >
+        new Date(formData.meeting_data.start) &&
       formData.meeting_data.conductor.trim().length > 0,
-    [formData.meeting_data.start, formData.meeting_data.conductor]
+    [
+      formData.meeting_data.start,
+      formData.meeting_data.end,
+      formData.meeting_data.conductor,
+    ]
   );
 
   // Another meeting at the same group, day and time — warns before saving.
@@ -264,15 +280,19 @@ const useMeetingForm = (
 
   const updateMeetingData = useCallback(
     (payload: Partial<FieldServiceMeetingType['meeting_data']>) => {
-      setFormData((prev) => ({
-        ...prev,
-        meeting_data: {
-          ...prev.meeting_data,
-          ...payload,
-        },
-      }));
+      setDraft((previous) =>
+        previous?.meeting.meeting_uid === meeting.meeting_uid
+          ? {
+              ...previous,
+              meeting: {
+                ...previous.meeting,
+                meeting_data: { ...previous.meeting.meeting_data, ...payload },
+              },
+            }
+          : previous
+      );
     },
-    []
+    [setDraft, meeting.meeting_uid]
   );
 
   const updateStartPreservingDuration = useCallback(
@@ -295,22 +315,28 @@ const useMeetingForm = (
 
   const handleDateChange = useCallback(
     (value: Date | null) => {
-      if (!value) return;
+      if (!value) {
+        updateMeetingData({ start: '', end: '' });
+        return;
+      }
       updateStartPreservingDuration((d) => {
         d.setFullYear(value.getFullYear(), value.getMonth(), value.getDate());
       });
     },
-    [updateStartPreservingDuration]
+    [updateStartPreservingDuration, updateMeetingData]
   );
 
   const handleTimeChange = useCallback(
     (value: Date | null) => {
-      if (!value) return;
+      if (!value) {
+        updateMeetingData({ start: '', end: '' });
+        return;
+      }
       updateStartPreservingDuration((d) => {
         d.setHours(value.getHours(), value.getMinutes(), 0, 0);
       });
     },
-    [updateStartPreservingDuration]
+    [updateStartPreservingDuration, updateMeetingData]
   );
 
   const handleGroupChange = useCallback(
@@ -323,21 +349,9 @@ const useMeetingForm = (
         group_id: groupId,
       };
 
-      // Dynamically pre-fill date & time from the selected group's recurring
-      // meeting time so scheduling is faster.
-      const recurring = getGroupRecurringStart(
-        settings,
-        groupId,
-        existingMeetings
-      );
-      if (recurring) {
-        payload.start = recurring.start.toISOString();
-        payload.end = recurring.end.toISOString();
-      }
-
       updateMeetingData(payload);
     },
-    [updateMeetingData, settings, existingMeetings]
+    [updateMeetingData]
   );
 
   const handleLocationChange = useCallback(
@@ -420,6 +434,7 @@ const useMeetingForm = (
     isSimilarMeeting,
     conductorValue,
     conductorError,
+    dateError: attempted && !startDate,
     updateMeetingData,
     handleDateChange,
     handleTimeChange,

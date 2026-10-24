@@ -4,6 +4,9 @@ import {
   FieldServiceMeetingType,
 } from '@definition/field_service_meetings';
 
+export const dbFieldServiceMeetingsGet = (uid: string) =>
+  appDb.field_service_meetings.get(uid);
+
 const dbUpdateFieldServiceMeetingsMetadata = async () => {
   const metadata = await appDb.metadata.get(1);
   if (!metadata) return;
@@ -62,7 +65,7 @@ export const dbFieldServiceMeetingsCleanup = async () => {
       // would overwrite state that has since synced from another device.
       if (meeting.updatedAt) {
         if (meeting.updatedAt > meeting.meeting_data.updatedAt) {
-          meeting.meeting_data._deleted = meeting._deleted;
+          meeting.meeting_data._deleted = meeting._deleted ?? false;
           meeting.meeting_data.updatedAt = meeting.updatedAt;
         }
         delete meeting._deleted;

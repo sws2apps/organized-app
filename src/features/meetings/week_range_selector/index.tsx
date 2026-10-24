@@ -12,6 +12,7 @@ const WeekRangeSelector = ({
   onEndChange,
   onStartChange,
   meeting,
+  weeks,
   startWeek,
   endWeek,
   startWeekError,
@@ -29,7 +30,7 @@ const WeekRangeSelector = ({
     handleStartWeekChange,
     startWeek: selectedStartWeek,
     showDateLabel,
-  } = useWeekRangeSelector(onStartChange, meeting, startWeek);
+  } = useWeekRangeSelector(onStartChange, meeting, startWeek, weeks);
 
   // Controlled by the parent when start/end values are provided, otherwise
   // the Select manages its own selection (default for most usages).

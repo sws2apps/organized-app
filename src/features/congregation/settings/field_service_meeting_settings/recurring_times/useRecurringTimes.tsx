@@ -1,7 +1,9 @@
-import { useAtomValue } from 'jotai';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { settingsState } from '@states/settings';
 import { fieldWithLanguageGroupsState } from '@states/field_service_groups';
-import { dbAppSettingsUpdateFieldServiceMeetingTime } from '@services/dexie/settings';
+import { fieldServiceMeetingTimeSaveState } from '@states/field_service_meetings';
+import { displaySnackNotification } from '@services/states/app';
+import { getMessageByCode } from '@services/i18n/translation';
 import { formatDate, generateDateFromTime } from '@utils/date';
 import { buildFieldServiceGroupLabel } from '@utils/common';
 import { useAppTranslation } from '@hooks/index';
@@ -17,6 +19,7 @@ export type RecurringTimeRow = {
 
 const useRecurringTimes = () => {
   const { t } = useAppTranslation();
+  const saveTime = useSetAtom(fieldServiceMeetingTimeSaveState);
   const settings = useAtomValue(settingsState);
   const groups = useAtomValue(fieldWithLanguageGroupsState);
   const { canEditGroupTimes } = useFieldServiceMeetingsPermissions();
@@ -44,18 +47,28 @@ const useRecurringTimes = () => {
     });
 
   const handleDayChange = async (groupId: string, value: number) => {
-    await dbAppSettingsUpdateFieldServiceMeetingTime(groupId, (record) => {
-      record.weekday.value = value;
-      record.weekday.updatedAt = new Date().toISOString();
-    });
+    try {
+      await saveTime({ groupId, weekday: value });
+    } catch (error) {
+      displaySnackNotification({
+        header: getMessageByCode('error_app_generic-title'),
+        message: error instanceof Error ? error.message : String(error),
+        severity: 'error',
+      });
+    }
   };
 
   const handleTimeChange = async (groupId: string, value: Date | null) => {
     const time = value ? formatDate(value, 'HH:mm') : '';
-    await dbAppSettingsUpdateFieldServiceMeetingTime(groupId, (record) => {
-      record.time.value = time;
-      record.time.updatedAt = new Date().toISOString();
-    });
+    try {
+      await saveTime({ groupId, time });
+    } catch (error) {
+      displaySnackNotification({
+        header: getMessageByCode('error_app_generic-title'),
+        message: error instanceof Error ? error.message : String(error),
+        severity: 'error',
+      });
+    }
   };
 
   return { rows, handleDayChange, handleTimeChange };

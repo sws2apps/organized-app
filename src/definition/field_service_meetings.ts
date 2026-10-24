@@ -90,3 +90,9 @@ export type FieldServiceMeetingFormattedType = {
   day: string;
   datesRange?: string;
 };
+
+export type FieldServiceMeetingDraft = {
+  scope: string;
+  isNew: boolean;
+  meeting: FieldServiceMeetingType;
+};

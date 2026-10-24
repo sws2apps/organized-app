@@ -11,16 +11,14 @@ import Typography from '@components/typography';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import {
   FIELD_SERVICE_MEETING_CATEGORY_TRANSLATION_KEYS,
+  FIELD_SERVICE_MEETING_LOCATION_TRANSLATION_KEYS,
   FieldServiceMeetingCategory,
 } from '@definition/field_service_meetings';
-import { createEvent, EventAttributes } from 'ics';
-import { saveAs } from 'file-saver';
-import { displaySnackNotification } from '@services/states/app';
-import { getMessageByCode } from '@services/i18n/translation';
+import { fieldServiceMeetingCalendarExport } from '@services/app/field_service_meeting_calendar';
 import { fieldWithLanguageGroupsState } from '@states/field_service_groups';
-import { MeetingItemProps } from './index.types';
-import { getLocationIcon } from '../location_icons';
-import { resolveGroupBadgeColor } from '../group_badge_color';
+import { MeetingItemProps } from '@features/congregation/field_service_meetings/meeting_item/index.types';
+import { getLocationIcon } from '@features/congregation/field_service_meetings/location_icons';
+import { resolveGroupBadgeColor } from '@features/congregation/field_service_meetings/group_badge_color';
 
 const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
   const { t } = useAppTranslation();
@@ -37,74 +35,13 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
     [groups, meeting.group_id]
   );
 
-  const handleAddToCalendar = () => {
-    const summary = t(
-      FIELD_SERVICE_MEETING_CATEGORY_TRANSLATION_KEYS[meeting.category]
-    );
-
-    const descriptionParts: string[] = [];
-    if (meeting.conductor) {
-      descriptionParts.push(`${t('tr_conductor')}: ${meeting.conductor}`);
-    }
-    if (meeting.additionalInfo) descriptionParts.push(meeting.additionalInfo);
-
-    const startDate = new Date(meeting.startISO);
-    const endDate = new Date(meeting.endISO);
-
-    const eventDetails: EventAttributes = {
-      title: summary,
-      description: descriptionParts.join('\n'),
-      location: meeting.address,
-      start: [
-        startDate.getFullYear(),
-        startDate.getMonth() + 1,
-        startDate.getDate(),
-        startDate.getHours(),
-        startDate.getMinutes(),
-      ],
-      end: [
-        endDate.getFullYear(),
-        endDate.getMonth() + 1,
-        endDate.getDate(),
-        endDate.getHours(),
-        endDate.getMinutes(),
-      ],
-    };
-
-    createEvent(eventDetails, (error, value) => {
-      if (error) {
-        console.error(error);
-
-        displaySnackNotification({
-          header: getMessageByCode('error_app_generic-title'),
-          message: getMessageByCode(error.message),
-          severity: 'error',
-        });
-
-        return;
-      }
-
-      const blob = new Blob([value], { type: 'text/calendar' });
-      saveAs(blob, 'field-service-meeting.ics');
-    });
-  };
-
   return (
     <Card
       className="meeting-item"
       sx={{
-        // Reveal both controls on hover, where hovering exists.
-        '&:hover .add-to-calendar, &:hover .edit-button': {
-          '@media (hover: hover) and (pointer: fine)': {
-            opacity: 1,
-          },
-        },
-        // Keyboard users never trigger :hover, so reveal on focus too.
-        '&:focus-within .add-to-calendar, &:focus-within .edit-button': {
-          opacity: 1,
-        },
         gap: '12px',
-        padding: tabletUp ? '24px' : '16px',
+        padding: '16px',
+        minWidth: 0,
       }}
     >
       <Box
@@ -113,15 +50,21 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
           alignItems: 'center',
           justifyContent: 'space-between',
           gap: '8px',
+          flexWrap: 'wrap',
         }}
       >
-        <Box display="flex" alignItems="center" sx={{ minWidth: 0 }}>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            minWidth: 0,
+            flex: '1 1 auto',
+          }}
+        >
           <Typography
-            className={tabletUp ? 'h3' : 'h4'}
+            className="h4"
             sx={{
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              whiteSpace: 'nowrap',
+              overflowWrap: 'anywhere',
             }}
           >
             {t(
@@ -132,13 +75,6 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
             <Box
               className="edit-button"
               sx={{
-                // Hide only where hover exists: a desktop-width touch device
-                // never fires :hover and would keep the button invisible.
-                opacity: 1,
-                '@media (hover: hover) and (pointer: fine)': {
-                  opacity: desktopUp ? 0 : 1,
-                },
-                transition: 'opacity 0.15s ease-in-out',
                 flexShrink: 0,
               }}
             >
@@ -154,10 +90,14 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
         </Box>
 
         <Box
-          display="flex"
-          alignItems="center"
-          gap="8px"
-          sx={{ flexShrink: 0 }}
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            flexWrap: 'wrap',
+            minWidth: 0,
+            maxWidth: '100%',
+          }}
         >
           {meeting.groupName && (
             <GroupBadge
@@ -235,42 +175,65 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
               gap: '4px',
             }}
           >
-            <Typography className="h4">{meeting.conductor}</Typography>
+            <Typography
+              className="body-regular"
+              sx={{ overflowWrap: 'anywhere' }}
+            >
+              {meeting.conductor}
+            </Typography>
             <Typography
               className={tabletUp ? 'body-regular' : 'body-small-regular'}
               color="var(--grey-400)"
-              sx={{ overflowWrap: 'break-word' }}
+              sx={{ overflowWrap: 'anywhere' }}
             >
               <Box
                 component="span"
-                display="flex"
-                alignItems="center"
-                gap="4px"
-                sx={{ minWidth: 0 }}
+                sx={{
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  gap: '4px',
+                  minWidth: 0,
+                  '& svg': { flexShrink: 0 },
+                }}
               >
                 {locationIcon}
-                {isWebAddress ? (
-                  <Link
-                    href={meeting.address}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    sx={{
-                      color: 'var(--accent-main)',
-                      textDecorationColor: 'var(--accent-main)',
-                      '&:hover': { color: 'var(--accent-dark)' },
-                    }}
-                  >
-                    {meeting.address}
-                  </Link>
-                ) : (
-                  meeting.address
-                )}
+                <Box component="span" sx={{ flex: 1, minWidth: 0 }}>
+                  {isWebAddress ? (
+                    <Link
+                      href={meeting.address}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      title={meeting.address}
+                      sx={{
+                        display: '-webkit-box',
+                        WebkitBoxOrient: 'vertical',
+                        WebkitLineClamp: 2,
+                        overflow: 'hidden',
+                        overflowWrap: 'anywhere',
+                        textOverflow: 'ellipsis',
+                        color: 'var(--accent-main)',
+                        textDecorationColor: 'var(--accent-main)',
+                        '&:hover': { color: 'var(--accent-dark)' },
+                      }}
+                    >
+                      {meeting.address}
+                    </Link>
+                  ) : (
+                    meeting.address ||
+                    t(
+                      FIELD_SERVICE_MEETING_LOCATION_TRANSLATION_KEYS[
+                        meeting.location
+                      ]
+                    )
+                  )}
+                </Box>
               </Box>
             </Typography>
             {meeting.additionalInfo && (
               <Typography
                 className="body-small-regular"
                 color="var(--grey-400)"
+                sx={{ whiteSpace: 'pre-wrap', overflowWrap: 'anywhere' }}
               >
                 {meeting.additionalInfo}
               </Typography>
@@ -278,7 +241,7 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
           </Box>
         </Box>
 
-        {/* Desktop: inline, hidden until hover. Below: full-width button. */}
+        {/* Actions stay visible on pointer, touch and keyboard devices. */}
         <Box
           className="add-to-calendar"
           sx={{
@@ -287,20 +250,15 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
             justifyContent: 'center',
             flex: '0 0 auto',
             width: desktopUp ? 'auto' : '100%',
-            opacity: 1,
-            '@media (hover: hover) and (pointer: fine)': {
-              opacity: desktopUp ? 0 : 1,
-            },
-            transition: 'opacity 0.15s ease-in-out',
           }}
         >
           <Button
             variant="small"
             startIcon={<IconAddMonth />}
             disableAutoStretch={desktopUp}
-            onClick={handleAddToCalendar}
+            onClick={() => fieldServiceMeetingCalendarExport(meeting, t)}
             sx={{
-              whiteSpace: 'nowrap',
+              whiteSpace: 'normal',
               width: desktopUp ? 'auto' : '100%',
             }}
           >

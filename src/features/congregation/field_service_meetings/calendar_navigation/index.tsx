@@ -1,28 +1,15 @@
-import { Box, SxProps } from '@mui/material';
-import {
-  IconNavigateLeft,
-  IconNavigateRight,
-  IconDate,
-} from '@components/icons';
-import { ButtonGroup, FilterChip, Typography } from '@components/index';
-import Card from '@components/card';
+import { Box } from '@mui/material';
+import { IconDate } from '@components/icons';
+import { FilterChip } from '@components/index';
+import TabSwitcher from '@components/tab_switcher';
+import DateNavigator from '@components/date_navigator';
 import IconButton from '@components/icon_button';
 import Tooltip from '@components/tooltip';
-import useCalendarNavigation from './useCalendarNavigation';
-import { useAppTranslation, useBreakpoints } from '@hooks/index';
-
-// Round hover target for the previous/next arrows.
-const arrowButtonStyles: SxProps = {
-  padding: '8px',
-  borderRadius: '50%',
-  '&:hover': { backgroundColor: 'var(--accent-150)' },
-  '& svg': { width: '24px', height: '24px' },
-};
+import useCalendarNavigation from '@features/congregation/field_service_meetings/calendar_navigation/useCalendarNavigation';
+import { useAppTranslation } from '@hooks/index';
 
 const CalendarNavigation = () => {
   const { t } = useAppTranslation();
-  const { tabletUp } = useBreakpoints();
-
   const {
     periodLabel,
     viewMode,
@@ -35,100 +22,86 @@ const CalendarNavigation = () => {
     handleFilterChange,
     goToToday,
   } = useCalendarNavigation();
-
   return (
-    <Card>
-      {/* Tablet+: [← label →] and the toggle share a row; mobile stacks. */}
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '16px',
+        minWidth: 0,
+      }}
+    >
       <Box
         sx={{
           display: 'flex',
-          flexDirection: tabletUp ? 'row' : 'column',
-          justifyContent: tabletUp ? 'space-between' : 'flex-start',
-          alignItems: tabletUp ? 'center' : 'stretch',
-          gap: '12px',
+          flexWrap: 'wrap',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: '16px',
         }}
       >
         <Box
           sx={{
             display: 'flex',
-            flexDirection: 'row',
-            // On mobile: push arrows to the edges so the label stays centred.
-            justifyContent: tabletUp ? 'flex-start' : 'space-between',
             alignItems: 'center',
-            gap: tabletUp ? '16px' : 0,
+            gap: '8px',
+            minWidth: 0,
+            maxWidth: '100%',
+            flex: '1 1 auto',
           }}
         >
-          <IconButton
-            aria-label={t('tr_previousPeriod')}
-            onClick={handleNavigatePrevious}
-            sx={arrowButtonStyles}
-          >
-            <IconNavigateLeft color="var(--black)" />
-          </IconButton>
-
-          <Box display="flex" alignItems="center">
-            <Typography
-              className="h2"
-              sx={{ textAlign: 'center', minWidth: '180px' }}
-            >
-              {periodLabel}
-            </Typography>
-            {/* Always reserves its slot so the label never shifts. */}
+          <DateNavigator
+            value={periodLabel}
+            onBack={handleNavigatePrevious}
+            onNext={handleNavigateNext}
+            sx={{
+              minWidth: 0,
+              maxWidth: '100%',
+              flex: 1,
+              '& .MuiIconButton-root': { minWidth: '44px', minHeight: '44px' },
+              '& .MuiTypography-root': {
+                whiteSpace: 'normal',
+                overflowWrap: 'anywhere',
+              },
+            }}
+          />
+          {!isCurrentPeriod && (
             <Tooltip
-              show={!isCurrentPeriod}
-              title={
+              title={t(
                 viewMode === 'week'
-                  ? t('tr_openCurrentWeek')
-                  : t('tr_openCurrentMonth')
-              }
+                  ? 'tr_openCurrentWeek'
+                  : 'tr_openCurrentMonth'
+              )}
             >
               <IconButton
+                edge={false}
+                aria-label={t(
+                  viewMode === 'week'
+                    ? 'tr_openCurrentWeek'
+                    : 'tr_openCurrentMonth'
+                )}
                 onClick={goToToday}
-                aria-hidden={isCurrentPeriod}
-                tabIndex={isCurrentPeriod ? -1 : 0}
-                sx={{
-                  marginLeft: '16px',
-                  padding: '4px',
-                  visibility: isCurrentPeriod ? 'hidden' : 'visible',
-                  pointerEvents: isCurrentPeriod ? 'none' : 'auto',
-                }}
               >
                 <IconDate color="var(--black)" />
               </IconButton>
             </Tooltip>
-          </Box>
-
-          <IconButton
-            aria-label={t('tr_nextPeriod')}
-            onClick={handleNavigateNext}
-            sx={arrowButtonStyles}
-          >
-            <IconNavigateRight color="var(--black)" />
-          </IconButton>
+          )}
         </Box>
-
-        {/* Week / Month toggle — full width on mobile */}
-        <Box sx={{ alignSelf: tabletUp ? 'center' : 'stretch' }}>
-          <ButtonGroup
-            fullWidth={!tabletUp}
-            buttons={[
-              {
-                className: viewMode === 'week' ? 'active' : '',
-                variant: 'outlined',
-                children: t('tr_week'),
-                onClick: () => handleViewModeChange('week'),
-              },
-              {
-                className: viewMode === 'month' ? 'active' : '',
-                variant: 'outlined',
-                children: t('tr_month'),
-                onClick: () => handleViewModeChange('month'),
-              },
-            ]}
-          />
-        </Box>
+        <TabSwitcher<'week' | 'month'>
+          value={viewMode}
+          onChange={handleViewModeChange}
+          ariaLabel={t('tr_fieldServiceMeetings')}
+          options={[
+            { value: 'week', label: t('tr_week') },
+            { value: 'month', label: t('tr_month') },
+          ]}
+          sx={{
+            minWidth: 0,
+            width: '100%',
+            '& [role="tab"]': { minHeight: '44px' },
+          }}
+        />
       </Box>
-
       <Box
         sx={{
           display: 'flex',
@@ -146,8 +119,7 @@ const CalendarNavigation = () => {
           />
         ))}
       </Box>
-    </Card>
+    </Box>
   );
 };
-
 export default CalendarNavigation;

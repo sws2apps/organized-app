@@ -244,6 +244,8 @@ const Button: FC<ButtonPropsType> = (props) => {
       startIcon={props.startIcon}
       endIcon={props.endIcon}
       aria-label={ariaLabel}
+      aria-pressed={props['aria-pressed']}
+      type={props.type ?? 'button'}
       variant={internalVariant}
       onClick={props.onClick}
       disableRipple

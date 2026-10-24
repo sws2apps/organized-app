@@ -1555,6 +1555,7 @@ const dbSchedulesFillOutgoingTalks = async (start: string, end: string) => {
 export const dbFieldServiceMeetingsDummy = async () => {
   const groups = await appDb.field_service_groups.toArray();
   const settings = await appDb.app_settings.get(1);
+  if (!settings) return;
   const userLocalUid = settings.user_settings.user_local_uid;
   const serviceOverseerUid =
     settings.cong_settings.responsabilities?.service || userLocalUid;

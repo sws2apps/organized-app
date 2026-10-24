@@ -1,15 +1,13 @@
 import { Box } from '@mui/material';
 import { useAtom, useSetAtom } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
-import useFieldServiceMeetings from './useFieldServiceMeetings';
-import useFieldServiceMeetingsPermissions from './usePermissions';
-import FieldServiceMeetingsList from './field_service_meetings_list';
-import MeetingForm from './meeting_form';
-import MonthView from './month_view';
+import useFieldServiceMeetings from '@features/congregation/field_service_meetings/useFieldServiceMeetings';
+import usePermissions from '@features/congregation/field_service_meetings/usePermissions';
+import FieldServiceMeetingsList from '@features/congregation/field_service_meetings/field_service_meetings_list';
+import MonthView from '@features/congregation/field_service_meetings/month_view';
 import Typography from '@components/typography';
-import InfoTip from '@components/info_tip';
-import { IconInfo } from '@components/icons';
-import { FieldServiceMeetingFormattedType } from '@definition/field_service_meetings';
+import PaneSwitcher from '@components/pane_switcher';
+import InfoNote from '@components/info_note';
 import {
   fieldServiceMeetingsViewModeState,
   fieldServiceMeetingsWeekRangeState,
@@ -17,106 +15,82 @@ import {
 
 const FieldServiceMeetingsContainer = () => {
   const { t } = useAppTranslation();
-
   const {
     midweekMeetings,
     weekendMeetings,
     monthMeetings,
-    isCreating,
     handleEditMeeting,
-    handleCancelEdit,
-    handleSaveMeeting,
-    handleDeleteMeeting,
     editingMeeting,
   } = useFieldServiceMeetings();
-
-  const { canManageMeeting } = useFieldServiceMeetingsPermissions();
-
+  const { canManageMeeting } = usePermissions();
   const [viewMode, setViewMode] = useAtom(fieldServiceMeetingsViewModeState);
-  const setWeekRange = useSetAtom(fieldServiceMeetingsWeekRangeState);
-
-  // From the month grid, open a specific day in the week view.
-  const handleSelectDay = (date: Date) => {
-    setWeekRange(date);
-    setViewMode('week');
-  };
-
-  const canEditMeeting = (meeting: FieldServiceMeetingFormattedType) =>
-    canManageMeeting(meeting.category, meeting.group_id);
-
-  const hasNoMeetings =
-    !isCreating && midweekMeetings.length === 0 && weekendMeetings.length === 0;
-
-  const editingMeetingUid =
-    editingMeeting && !isCreating ? editingMeeting.meeting_uid : undefined;
-
-  const formComponent =
-    editingMeeting && !isCreating ? (
-      <MeetingForm
-        meeting={editingMeeting}
-        mode="edit"
-        onSave={handleSaveMeeting}
-        onClose={handleCancelEdit}
-        onDelete={handleDeleteMeeting}
-      />
-    ) : undefined;
-
-  if (viewMode === 'month') {
-    return <MonthView meetings={monthMeetings} onSelectDay={handleSelectDay} />;
-  }
-
-  return (
-    <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
-      {hasNoMeetings && (
-        <InfoTip
-          isBig={false}
-          icon={<IconInfo />}
-          color="blue"
-          text={t('tr_noFieldServiceMeetings')}
-        />
-      )}
-
-      {midweekMeetings.length > 0 && (
-        <>
-          <Typography
-            className="h4"
-            color="var(--accent-400)"
-            sx={{ marginTop: '8px' }}
-          >
-            {t('tr_midweek')}
-          </Typography>
-
-          <FieldServiceMeetingsList
-            meetings={midweekMeetings}
-            canEditMeeting={canEditMeeting}
-            onEditMeeting={handleEditMeeting}
-            editingMeetingUid={editingMeetingUid}
-            formComponent={formComponent}
-          />
-        </>
-      )}
-
-      {weekendMeetings.length > 0 && (
-        <>
-          <Typography
-            className="h4"
-            color="var(--accent-400)"
-            sx={{ marginTop: '8px' }}
-          >
-            {t('tr_weekend')}
-          </Typography>
-
-          <FieldServiceMeetingsList
-            meetings={weekendMeetings}
-            canEditMeeting={canEditMeeting}
-            onEditMeeting={handleEditMeeting}
-            editingMeetingUid={editingMeetingUid}
-            formComponent={formComponent}
-          />
-        </>
+  const setDate = useSetAtom(fieldServiceMeetingsWeekRangeState);
+  const weekContent = (
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '16px',
+        minWidth: 0,
+      }}
+    >
+      {!editingMeeting &&
+        midweekMeetings.length + weekendMeetings.length === 0 && (
+          <InfoNote message={t('tr_fieldServiceMeetingEmptyFiltered')} />
+        )}
+      {[
+        {
+          label: 'tr_midweek',
+          meetings: midweekMeetings.filter(
+            (meeting) => meeting.uid !== editingMeeting?.meeting_uid
+          ),
+        },
+        {
+          label: 'tr_weekend',
+          meetings: weekendMeetings.filter(
+            (meeting) => meeting.uid !== editingMeeting?.meeting_uid
+          ),
+        },
+      ].map(
+        (section) =>
+          section.meetings.length > 0 && (
+            <Box
+              key={section.label}
+              sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}
+            >
+              <Typography className="h4">{t(section.label)}</Typography>
+              <FieldServiceMeetingsList
+                meetings={section.meetings}
+                canEditMeeting={(meeting) =>
+                  !editingMeeting &&
+                  canManageMeeting(meeting.category, meeting.group_id)
+                }
+                onEditMeeting={handleEditMeeting}
+              />
+            </Box>
+          )
       )}
     </Box>
   );
+  return (
+    <PaneSwitcher
+      value={viewMode === 'week' ? 0 : 1}
+      panes={[
+        { key: 'week', content: weekContent },
+        {
+          key: 'month',
+          content: (
+            <MonthView
+              meetings={monthMeetings}
+              onSelectDay={(date) => {
+                setDate(date);
+                setViewMode('week');
+              }}
+            />
+          ),
+        },
+      ]}
+    />
+  );
 };
-
 export default FieldServiceMeetingsContainer;

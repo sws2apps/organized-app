@@ -10,8 +10,11 @@ import { GroupBadgeProps } from '@components/group_badge/index.types';
 import { generateWeekday } from '@services/i18n/translation';
 import { formatDate } from '@utils/date';
 import { useAppTranslation } from '@hooks/index';
-import { resolveGroupBadgeColor } from '../group_badge_color';
-import { MonthBadge, MonthDayCell } from './index.types';
+import { resolveGroupBadgeColor } from '@features/congregation/field_service_meetings/group_badge_color';
+import {
+  MonthBadge,
+  MonthDayCell,
+} from '@features/congregation/field_service_meetings/month_view/index.types';
 
 const useMonthView = (meetings: FieldServiceMeetingFormattedType[]) => {
   const { t } = useAppTranslation();

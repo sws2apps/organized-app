@@ -4,9 +4,8 @@ import { useAppTranslation } from '@hooks/index';
 import Typography from '@components/typography';
 import DaySelector from '@components/day_selector';
 import TimePicker from '@components/time_picker';
-import { TwoColumnsRow } from '@features/congregation/settings/shared_styles';
 import { hour24FormatState } from '@states/settings';
-import useRecurringTimes from './useRecurringTimes';
+import useRecurringTimes from '@features/congregation/settings/field_service_meeting_settings/recurring_times/useRecurringTimes';
 
 /**
  * Per-group editor for the recurring meeting day & time, shown both in the
@@ -19,11 +18,11 @@ const RecurringTimes = () => {
   const { rows, handleDayChange, handleTimeChange } = useRecurringTimes();
 
   return (
-    <Stack spacing="16px" width="100%">
+    <Stack spacing="16px" sx={{ width: '100%' }}>
       {rows.map((row) => (
         <Stack key={row.groupId} spacing="8px">
           <Typography className="h4">{row.label}</Typography>
-          <TwoColumnsRow>
+          <Stack spacing="16px" sx={{ width: '100%', minWidth: 0 }}>
             <DaySelector
               label={t('tr_meetingDay')}
               value={row.weekday}
@@ -37,7 +36,7 @@ const RecurringTimes = () => {
               onChange={(time) => handleTimeChange(row.groupId, time)}
               readOnly={row.readOnly}
             />
-          </TwoColumnsRow>
+          </Stack>
         </Stack>
       ))}
     </Stack>

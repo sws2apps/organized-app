@@ -7,14 +7,13 @@ import Dialog from '@components/dialog';
 import { useAppTranslation } from '@hooks/index';
 import Typography from '@components/typography';
 import WeekRangeSelector from '@features/meetings/week_range_selector';
-import { ScheduleExportScope, ScheduleExportType } from './index.types';
-import useScheduleExport from './useScheduleExport';
+import {
+  ScheduleExportScope,
+  ScheduleExportType,
+} from '@features/congregation/field_service_meetings/schedule_export/index.types';
+import useScheduleExport from '@features/congregation/field_service_meetings/schedule_export/useScheduleExport';
 
-const ScheduleExport = ({
-  open,
-  onClose,
-  meeting = 'midweek',
-}: ScheduleExportType) => {
+const ScheduleExport = ({ open, onClose }: ScheduleExportType) => {
   const { t } = useAppTranslation();
   const [selectedOption, setSelectedOption] =
     useState<ScheduleExportScope>('all');
@@ -29,13 +28,40 @@ const ScheduleExport = ({
     isEndWeekMissing,
     startWeek,
     endWeek,
+    availableWeeks,
   } = useScheduleExport(onClose, selectedOption);
 
   return (
     <Dialog
-      onClose={onClose}
+      onClose={() => {
+        if (!isProcessing) onClose();
+      }}
       open={open}
-      sx={{ padding: '32px', position: 'relative' }}
+      title={t('tr_exportSchedule')}
+      description={t('tr_selectScheduleToExport')}
+      actions={
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '8px',
+            width: '100%',
+          }}
+        >
+          <Button
+            variant="main"
+            endIcon={isProcessing ? <IconLoading /> : undefined}
+            onClick={handleExportSchedule}
+            // Clicking with no range marks the missing fields, so stay enabled.
+            disabled={isProcessing}
+          >
+            {t('tr_next')}
+          </Button>
+          <Button variant="secondary" onClick={onClose} disabled={isProcessing}>
+            {t('tr_cancel')}
+          </Button>
+        </Box>
+      }
     >
       <Box
         sx={{
@@ -45,13 +71,6 @@ const ScheduleExport = ({
           width: '100%',
         }}
       >
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-          <Typography className="h2">{t('tr_exportSchedule')}</Typography>
-          <Typography color="var(--grey-400)">
-            {t('tr_selectScheduleToExport')}
-          </Typography>
-        </Box>
-
         <Stack spacing="8px">
           <RadioGroup
             value={selectedOption}
@@ -81,7 +100,8 @@ const ScheduleExport = ({
           </RadioGroup>
         </Stack>
         <WeekRangeSelector
-          meeting={meeting}
+          meeting="midweek"
+          weeks={availableWeeks}
           onStartChange={handleSetStartWeek}
           onEndChange={handleSetEndWeek}
           startWeekError={showValidationErrors && isStartWeekMissing}
@@ -99,28 +119,6 @@ const ScheduleExport = ({
           startWeek={startWeek}
           endWeek={endWeek}
         />
-      </Box>
-
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '8px',
-          width: '100%',
-        }}
-      >
-        <Button
-          variant="main"
-          endIcon={isProcessing ? <IconLoading /> : undefined}
-          onClick={handleExportSchedule}
-          // Clicking with no range marks the missing fields, so stay enabled.
-          disabled={isProcessing}
-        >
-          {t('tr_next')}
-        </Button>
-        <Button variant="secondary" onClick={onClose}>
-          {t('tr_cancel')}
-        </Button>
       </Box>
     </Dialog>
   );
