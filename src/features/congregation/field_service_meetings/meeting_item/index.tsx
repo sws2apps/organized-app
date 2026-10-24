@@ -1,16 +1,12 @@
 import { useMemo } from 'react';
 import { Box, Link } from '@mui/material';
 import { useAtomValue } from 'jotai';
-import {
-  IconAddMonth,
-  IconNote,
-  IconEdit,
-  IconPerson,
-} from '@components/icons';
+import { IconAddMonth, IconEdit, IconPerson } from '@components/icons';
 import DetailRow from '@components/detail_row';
 import IconButton from '@components/icon_button';
 import GroupBadge from '@components/group_badge';
 import Tooltip from '@components/tooltip';
+import Typography from '@components/typography';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import {
   FIELD_SERVICE_MEETING_CATEGORY_TRANSLATION_KEYS,
@@ -75,12 +71,28 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
           minWidth: 0,
         }}
       >
-        <GroupBadge
-          label={groupLabel}
-          color={groupBadgeColor}
-          variant="outlined"
-          size="small"
-        />
+        <Box
+          className="meeting-badges"
+          sx={{
+            display: 'flex',
+            alignItems: 'flex-start',
+            flexWrap: 'wrap',
+            gap: '8px',
+            minWidth: 0,
+            maxWidth: '100%',
+            flex: '0 1 auto',
+          }}
+        >
+          <GroupBadge
+            label={groupLabel}
+            color={groupBadgeColor}
+            variant="outlined"
+            size="small"
+          />
+          {showCategoryBadge && (
+            <GroupBadge label={categoryLabel} variant="outlined" size="small" />
+          )}
+        </Box>
         <Box sx={{ minWidth: 0, maxWidth: '100%', flex: '0 1 auto' }}>
           <DetailRow
             label={t('tr_conductor')}
@@ -134,9 +146,6 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
             )}
           </DetailRow>
         </Box>
-        {showCategoryBadge && (
-          <GroupBadge label={categoryLabel} variant="outlined" size="small" />
-        )}
       </Box>
       <Box
         sx={{
@@ -183,17 +192,21 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
         )}
       </Box>
       {hasAdditionalInfo && (
-        <Box sx={{ gridColumn: 1, minWidth: 0 }}>
-          <DetailRow
-            label={t('tr_comments')}
-            icon={<IconNote color="var(--grey-400)" />}
-            className="body-small-regular"
-            color="var(--grey-400)"
-            preserveWhitespace
-          >
-            {meeting.additionalInfo}
-          </DetailRow>
-        </Box>
+        <Typography
+          component="div"
+          role="group"
+          aria-label={t('tr_comments')}
+          className="body-small-regular"
+          color="var(--text-muted)"
+          sx={{
+            gridColumn: 1,
+            minWidth: 0,
+            overflowWrap: 'anywhere',
+            whiteSpace: 'pre-wrap',
+          }}
+        >
+          {meeting.additionalInfo}
+        </Typography>
       )}
     </Box>
   );

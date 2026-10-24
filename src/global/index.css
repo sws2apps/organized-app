@@ -2,6 +2,7 @@
   --icon-size: 24px;
   --icon-size-small: 20px;
   --touch-target-size: 44px;
+  --text-muted: color-mix(in srgb, var(--grey-350), var(--grey-400));
 
   --dashed-border-width: 1px;
   --dashed-border-pattern: 10 7;
