@@ -1,5 +1,6 @@
 :root {
   --icon-size: 24px;
+  --icon-size-small: 20px;
   --touch-target-size: 44px;
 
   --dashed-border-width: 1px;

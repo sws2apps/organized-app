@@ -6,7 +6,7 @@ import { GroupTitleProps } from '@components/group_title/index.types';
 const GroupTitle = ({ label, color = 'accent-main' }: GroupTitleProps) => (
   <Typography
     component="h4"
-    className="h3"
+    className="body-small-semibold"
     sx={{ display: 'flex', alignItems: 'flex-start', gap: '8px', minWidth: 0 }}
   >
     <Box

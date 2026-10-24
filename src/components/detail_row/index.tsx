@@ -17,7 +17,7 @@ const DetailRow = ({
     aria-label={label}
     sx={{
       display: 'grid',
-      gridTemplateColumns: 'var(--icon-size) minmax(0, 1fr)',
+      gridTemplateColumns: 'var(--icon-size-small) minmax(0, 1fr)',
       alignItems: 'start',
       gap: '8px',
       minWidth: 0,
@@ -28,7 +28,10 @@ const DetailRow = ({
       sx={{
         display: 'flex',
         color: 'var(--grey-400)',
-        '& > svg': { width: 'var(--icon-size)', height: 'var(--icon-size)' },
+        '& > svg': {
+          width: 'var(--icon-size-small)',
+          height: 'var(--icon-size-small)',
+        },
       }}
     >
       {icon}

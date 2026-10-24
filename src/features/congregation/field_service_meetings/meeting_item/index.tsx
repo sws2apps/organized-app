@@ -65,7 +65,7 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
           sx={{
             display: 'flex',
             flexDirection: 'column',
-            alignSelf: 'center',
+            paddingBlockStart: '12px',
             flex: 1,
             minWidth: 0,
             gap: '4px',
@@ -91,6 +91,14 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
             alignItems: 'center',
             gap: '8px',
             flexShrink: 0,
+            '& button': {
+              minWidth: 'var(--touch-target-size)',
+              minHeight: 'var(--touch-target-size)',
+            },
+            '& button > svg': {
+              width: 'var(--icon-size-small)',
+              height: 'var(--icon-size-small)',
+            },
           }}
         >
           {canEdit && (
