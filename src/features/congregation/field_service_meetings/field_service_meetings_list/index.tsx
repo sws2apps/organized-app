@@ -19,7 +19,7 @@ const FieldServiceMeetingsList = ({
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        gap: '16px',
+        gap: '12px',
         minWidth: 0,
       }}
     >
@@ -27,26 +27,26 @@ const FieldServiceMeetingsList = ({
         <DayAgenda
           key={day.date}
           title={formatLongDateWithShortVars(day.date)}
-          countLabel={t('tr_fieldServiceMeetingCount', {
-            count: day.slots.reduce(
-              (total, slot) => total + slot.meetings.length,
-              0
-            ),
-          })}
           slots={day.slots.map((slot) => ({
             key: slot.key,
             time: slot.time,
             dateTime: `${day.date.replaceAll('/', '-')}T${slot.key}`,
+            countLabel:
+              slot.meetings.length > 1
+                ? t('tr_fieldServiceMeetingSlotCount', {
+                    count: slot.meetings.length,
+                  })
+                : undefined,
             content: (
               <Box
                 sx={{
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: '16px',
+                  gap: '12px',
                   minWidth: 0,
                   '& > * + *': {
                     borderTop: '1px solid var(--accent-200)',
-                    paddingTop: '16px',
+                    paddingTop: '12px',
                   },
                 }}
               >

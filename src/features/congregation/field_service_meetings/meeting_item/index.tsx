@@ -48,7 +48,7 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        gap: '12px',
+        gap: '8px',
         minWidth: 0,
       }}
     >

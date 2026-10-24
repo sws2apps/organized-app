@@ -8,7 +8,7 @@ import { useBreakpoints } from '@hooks/index';
 /** A shared date header and time rail for a day's scheduled activities. */
 const DayAgenda = ({ title, subtitle, countLabel, slots }: DayAgendaProps) => {
   const headingId = useId();
-  const { tabletUp, mobile400Down } = useBreakpoints();
+  const { mobile400Down } = useBreakpoints();
 
   return (
     <Box
@@ -17,7 +17,18 @@ const DayAgenda = ({ title, subtitle, countLabel, slots }: DayAgendaProps) => {
       className="day-agenda"
       sx={{ minWidth: 0 }}
     >
-      <Card sx={{ padding: 0, gap: 0, minWidth: 0, overflow: 'hidden' }}>
+      <Card
+        sx={{
+          padding: 0,
+          gap: 0,
+          minWidth: 0,
+          overflow: 'hidden',
+          display: mobile400Down ? 'flex' : 'grid',
+          gridTemplateColumns: mobile400Down
+            ? undefined
+            : 'max-content minmax(0, 1fr)',
+        }}
+      >
         <Box
           className="day-agenda-header"
           sx={{
@@ -26,7 +37,8 @@ const DayAgenda = ({ title, subtitle, countLabel, slots }: DayAgendaProps) => {
             justifyContent: 'space-between',
             flexWrap: 'wrap',
             gap: '8px 16px',
-            padding: tabletUp ? '8px 24px' : '8px 16px',
+            padding: '8px',
+            gridColumn: '1 / -1',
             backgroundColor: 'var(--accent-150)',
           }}
         >
@@ -66,13 +78,10 @@ const DayAgenda = ({ title, subtitle, countLabel, slots }: DayAgendaProps) => {
             className="day-agenda-slot"
             sx={{
               display: 'grid',
-              gridTemplateColumns: mobile400Down
-                ? 'minmax(0, 1fr)'
-                : tabletUp
-                  ? '80px minmax(0, 1fr)'
-                  : '56px minmax(0, 1fr)',
+              gridColumn: '1 / -1',
+              gridTemplateColumns: mobile400Down ? 'minmax(0, 1fr)' : 'subgrid',
               gap: mobile400Down ? '12px' : 0,
-              padding: tabletUp ? '20px 24px' : '16px',
+              padding: '12px 8px',
               minWidth: 0,
               '& + &': { borderTop: '1px solid var(--accent-200)' },
             }}
@@ -84,6 +93,7 @@ const DayAgenda = ({ title, subtitle, countLabel, slots }: DayAgendaProps) => {
                 alignItems: mobile400Down ? 'center' : 'flex-start',
                 justifyContent: mobile400Down ? 'space-between' : undefined,
                 gap: '4px',
+                paddingInlineEnd: mobile400Down ? 0 : '12px',
                 minWidth: 0,
               }}
             >
@@ -93,13 +103,13 @@ const DayAgenda = ({ title, subtitle, countLabel, slots }: DayAgendaProps) => {
                   color="var(--accent-dark)"
                   sx={{
                     fontVariantNumeric: 'tabular-nums',
-                    overflowWrap: 'anywhere',
+                    whiteSpace: 'nowrap',
                   }}
                 >
                   {slot.time}
                 </Typography>
               </Box>
-              {slot.countLabel && (
+              {mobile400Down && slot.countLabel && (
                 <Typography
                   className="label-small-regular"
                   color="var(--grey-400)"
@@ -113,9 +123,20 @@ const DayAgenda = ({ title, subtitle, countLabel, slots }: DayAgendaProps) => {
               sx={{
                 minWidth: 0,
                 borderInlineStart: '1px solid var(--accent-200)',
-                paddingInlineStart: tabletUp ? '20px' : '12px',
+                paddingInlineStart: '12px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '8px',
               }}
             >
+              {!mobile400Down && slot.countLabel && (
+                <Typography
+                  className="label-small-regular"
+                  color="var(--grey-400)"
+                >
+                  {slot.countLabel}
+                </Typography>
+              )}
               {slot.content}
             </Box>
           </Box>
