@@ -27,7 +27,6 @@ const FieldServiceMeetingsList = ({
         <DayAgenda
           key={day.date}
           title={formatLongDateWithShortVars(day.date)}
-          subtitle={t('tr_fieldServiceMeetings')}
           countLabel={t('tr_fieldServiceMeetingCount', {
             count: day.slots.reduce(
               (total, slot) => total + slot.meetings.length,
@@ -38,12 +37,6 @@ const FieldServiceMeetingsList = ({
             key: slot.key,
             time: slot.time,
             dateTime: `${day.date.replaceAll('/', '-')}T${slot.key}`,
-            countLabel:
-              slot.meetings.length > 1
-                ? t('tr_fieldServiceMeetingCount', {
-                    count: slot.meetings.length,
-                  })
-                : undefined,
             content: (
               <Box
                 sx={{
