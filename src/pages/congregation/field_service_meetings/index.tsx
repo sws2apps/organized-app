@@ -16,7 +16,7 @@ import NavBarButton from '@components/nav_bar_button';
 
 const FieldServiceMeetings = () => {
   const { t } = useAppTranslation();
-  const { desktopUp, laptopDown } = useBreakpoints();
+  const { desktopUp, laptopDown, tablet500Down } = useBreakpoints();
 
   const {
     exportOpen,
@@ -40,7 +40,7 @@ const FieldServiceMeetings = () => {
   } = useFieldServiceMeetingsFeature();
 
   const actionButtons =
-    canExport || canManageMeetings ? (
+    !(tablet500Down && editingMeeting) && (canExport || canManageMeetings) ? (
       <NavBarButtonGroup>
         {canExport && (
           <NavBarButton
@@ -67,7 +67,7 @@ const FieldServiceMeetings = () => {
         display: 'flex',
         gap: '16px',
         flexDirection: 'column',
-        paddingBottom: laptopDown ? '96px' : 0,
+        paddingBottom: laptopDown && actionButtons ? '96px' : 0,
       }}
     >
       {/* Communicates title + buttons to the fixed NavBar via Jotai atom */}

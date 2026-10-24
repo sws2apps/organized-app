@@ -22,7 +22,7 @@ import TextField from '@components/textfield';
 import Dialog from '@components/dialog';
 import IconLoading from '@components/icon_loading';
 import InfoNote from '@components/info_note';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { FIELD_SERVICE_MEETING_CATEGORY_TRANSLATION_KEYS } from '@definition/field_service_meetings';
 import { MeetingFormProps } from '@features/congregation/field_service_meetings/meeting_form/index.types';
 import useMeetingForm from '@features/congregation/field_service_meetings/meeting_form/useMeetingForm';
@@ -35,6 +35,7 @@ const MeetingForm = ({
   onDelete,
 }: MeetingFormProps) => {
   const { t } = useAppTranslation();
+  const { tablet500Down } = useBreakpoints();
   const hour24 = useAtomValue(hour24FormatState);
   const formRef = useRef<HTMLFormElement>(null);
   const [similarConfirmOpen, setSimilarConfirmOpen] = useState(false);
@@ -306,45 +307,78 @@ const MeetingForm = ({
           />
         </Box>
         <Box
+          component="footer"
+          className="meeting-form-actions"
           sx={{
             display: 'flex',
-            justifyContent: 'flex-end',
+            justifyContent: 'space-between',
             alignItems: 'center',
             gap: '16px',
             flexWrap: 'wrap',
+            '& button': { minHeight: 'var(--touch-target-size)' },
           }}
         >
-          {/* Delete, when deleting is possible at all */}
           {mode === 'edit' && onDelete && (
             <Button
               variant="secondary"
               color="red"
+              disableAutoStretch
               startIcon={<IconDelete />}
               onClick={handleDeleteClick}
               disabled={saving || deleting}
+              sx={{ marginInlineEnd: 'auto' }}
             >
               {t('tr_delete')}
             </Button>
           )}
 
-          <Button
-            variant="secondary"
-            startIcon={<IconClose />}
-            onClick={onClose}
-            disabled={saving || deleting}
+          <Box
+            className="meeting-form-primary-actions"
+            sx={{
+              display: tablet500Down ? 'grid' : 'flex',
+              gridTemplateColumns: tablet500Down
+                ? 'repeat(2, minmax(0, 1fr))'
+                : undefined,
+              alignItems: 'stretch',
+              justifyContent: 'flex-end',
+              gap: tablet500Down ? '8px' : '16px',
+              width: tablet500Down ? '100%' : 'auto',
+              marginInlineStart: tablet500Down ? 0 : 'auto',
+              minWidth: 0,
+              '& button': {
+                minWidth: 0,
+                whiteSpace: 'normal',
+                overflowWrap: 'anywhere',
+              },
+            }}
           >
-            {t('tr_cancel')}
-          </Button>
+            <Button
+              variant="secondary"
+              disableAutoStretch
+              startIcon={tablet500Down ? undefined : <IconClose />}
+              onClick={onClose}
+              disabled={saving || deleting}
+            >
+              {t('tr_cancel')}
+            </Button>
 
-          {/* Always clickable: missing fields are marked inline on click. */}
-          <Button
-            variant="main"
-            type="submit"
-            startIcon={saving ? <IconLoading /> : <IconCheck />}
-            disabled={saving || deleting}
-          >
-            {t('tr_done')}
-          </Button>
+            {/* Always clickable: missing fields are marked inline on click. */}
+            <Button
+              variant="main"
+              type="submit"
+              disableAutoStretch
+              startIcon={
+                saving ? (
+                  <IconLoading />
+                ) : tablet500Down ? undefined : (
+                  <IconCheck />
+                )
+              }
+              disabled={saving || deleting}
+            >
+              {t('tr_done')}
+            </Button>
+          </Box>
         </Box>
 
         {similarConfirmOpen && (
