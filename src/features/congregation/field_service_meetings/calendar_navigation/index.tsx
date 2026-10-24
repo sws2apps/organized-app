@@ -98,7 +98,6 @@ const CalendarNavigation = () => {
           sx={{
             minWidth: 0,
             width: '100%',
-            '& [role="tab"]': { minHeight: '44px' },
           }}
         />
       </Box>
