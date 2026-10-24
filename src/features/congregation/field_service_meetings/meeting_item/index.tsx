@@ -71,6 +71,7 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
           flexWrap: 'wrap',
           gap: tabletUp ? '8px 16px' : '8px',
           gridColumn: 1,
+          alignSelf: 'start',
           minWidth: 0,
         }}
       >
@@ -146,6 +147,8 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
           gridColumn: 2,
           gridRow: hasAdditionalInfo ? '1 / 3' : 1,
           alignSelf: 'start',
+          marginBlockStart:
+            'calc((var(--icon-size-small) - var(--touch-target-size)) / 2)',
           '& button': {
             minWidth: 'var(--touch-target-size)',
             minHeight: 'var(--touch-target-size)',

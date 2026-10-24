@@ -35,7 +35,7 @@ const DayAgenda = ({ title, subtitle, slots }: DayAgendaProps) => {
             justifyContent: 'space-between',
             flexWrap: 'wrap',
             gap: '8px 16px',
-            padding: '8px',
+            padding: '8px 12px',
             gridColumn: '1 / -1',
             backgroundColor: 'var(--accent-150)',
           }}
@@ -71,7 +71,7 @@ const DayAgenda = ({ title, subtitle, slots }: DayAgendaProps) => {
               gridColumn: '1 / -1',
               gridTemplateColumns: 'subgrid',
               gap: 0,
-              padding: '12px 8px',
+              padding: '12px',
               minWidth: 0,
               '& + &': { borderTop: '1px solid var(--accent-200)' },
             }}
@@ -83,7 +83,6 @@ const DayAgenda = ({ title, subtitle, slots }: DayAgendaProps) => {
                 alignItems: 'flex-start',
                 gap: '4px',
                 paddingInlineEnd: '12px',
-                paddingBlockStart: '4px',
                 minWidth: 0,
               }}
             >

@@ -472,7 +472,10 @@ export const getDatesBetweenDates = (
   return dates;
 };
 
-export const formatLongDateWithShortVars = (date: Date | string) => {
+export const formatLongDateWithShortVars = (
+  date: Date | string,
+  includeYear = true
+) => {
   date = new Date(date);
 
   const month = date.getMonth();
@@ -487,7 +490,9 @@ export const formatLongDateWithShortVars = (date: Date | string) => {
   const dayV = dayNames[day];
 
   return getTranslation({
-    key: 'tr_longDateWithYearAndDayLocale',
+    key: includeYear
+      ? 'tr_longDateWithYearAndDayLocale'
+      : 'tr_longDateWithDayLocale',
     params: { day: dayV, date: dateV, month: monthV, year },
   });
 };

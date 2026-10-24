@@ -24,7 +24,7 @@ const FieldServiceMeetingsList = ({
       {days.map((day) => (
         <DayAgenda
           key={day.date}
-          title={formatLongDateWithShortVars(day.date)}
+          title={formatLongDateWithShortVars(day.date, false)}
           slots={day.slots.map((slot) => ({
             key: slot.key,
             time: slot.time,
