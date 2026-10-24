@@ -3,7 +3,7 @@ import { Box, Link } from '@mui/material';
 import { useAtomValue } from 'jotai';
 import {
   IconAddMonth,
-  IconContactUs,
+  IconNote,
   IconEdit,
   IconPerson,
 } from '@components/icons';
@@ -190,7 +190,7 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
         {hasAdditionalInfo && (
           <DetailRow
             label={t('tr_comments')}
-            icon={<IconContactUs color="var(--grey-400)" />}
+            icon={<IconNote color="var(--grey-400)" />}
             className="body-small-regular"
             color="var(--grey-400)"
             preserveWhitespace
