@@ -9,7 +9,7 @@ import {
 } from '@components/icons';
 import DetailRow from '@components/detail_row';
 import IconButton from '@components/icon_button';
-import GroupBadge from '@components/group_badge';
+import GroupTitle from '@components/group_title';
 import Tooltip from '@components/tooltip';
 import Typography from '@components/typography';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
@@ -64,30 +64,23 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
         <Box
           sx={{
             display: 'flex',
-            alignItems: 'center',
-            flexWrap: 'wrap',
+            flexDirection: 'column',
+            alignSelf: 'center',
             flex: 1,
             minWidth: 0,
-            gap: '8px',
+            gap: '4px',
           }}
         >
-          {meeting.groupName && (
-            <GroupBadge
-              label={meeting.groupName}
-              color={groupBadgeColor}
-              variant="outlined"
-            />
-          )}
-          {meeting.category !== FieldServiceMeetingCategory.RegularMeeting && (
-            <GroupBadge
-              label={categoryLabel}
-              color="accent-main"
-              variant="outlined"
-            />
-          )}
-          {!meeting.groupName &&
-            meeting.category === FieldServiceMeetingCategory.RegularMeeting && (
-              <Typography className="h4" sx={{ overflowWrap: 'anywhere' }}>
+          <GroupTitle
+            label={meeting.groupName || categoryLabel}
+            color={groupBadgeColor}
+          />
+          {meeting.groupName &&
+            meeting.category !== FieldServiceMeetingCategory.RegularMeeting && (
+              <Typography
+                className="body-small-regular"
+                color="var(--grey-400)"
+              >
                 {categoryLabel}
               </Typography>
             )}
