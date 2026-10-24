@@ -24,7 +24,7 @@ const useMonthView = (meetings: FieldServiceMeetingFormattedType[]) => {
   // Not memoized: the labels must follow the app language.
   const weekdayLabels = generateWeekday();
 
-  // Badge label: `groupName`, or the category for joint / overseer meetings.
+  // Keep the group scope visible alongside the visit category.
   const labelForMeeting = useMemo(() => {
     return (meeting: FieldServiceMeetingFormattedType): string => {
       if (meeting.category === FieldServiceMeetingCategory.JointMeeting) {
@@ -33,7 +33,10 @@ const useMonthView = (meetings: FieldServiceMeetingFormattedType[]) => {
       if (
         meeting.category === FieldServiceMeetingCategory.ServiceOverseerMeeting
       ) {
-        return t('tr_fieldServiceMeetingCategory_serviceOverseer');
+        const groupLabel =
+          meeting.groupName ||
+          t(meeting.group_id ? 'tr_group' : 'tr_allGroups');
+        return `${groupLabel} · ${t('tr_fieldServiceMeetingCategory_serviceOverseer')}`;
       }
       return meeting.groupName ?? '';
     };
@@ -42,10 +45,10 @@ const useMonthView = (meetings: FieldServiceMeetingFormattedType[]) => {
   const meetingsByDay = useMemo(() => {
     const map = new Map<string, MonthBadge[]>();
     for (const meeting of meetings) {
-      const color: GroupBadgeProps['color'] =
-        meeting.category === FieldServiceMeetingCategory.RegularMeeting
-          ? resolveGroupBadgeColor(groups, meeting.group_id)
-          : 'accent-main';
+      const color: GroupBadgeProps['color'] = resolveGroupBadgeColor(
+        groups,
+        meeting.group_id
+      );
 
       // A meeting can span days, and `dates` holds every one of them.
       const dates = meeting.dates?.length
