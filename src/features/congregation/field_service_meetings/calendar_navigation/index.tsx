@@ -10,7 +10,7 @@ import { useAppTranslation, useBreakpoints } from '@hooks/index';
 
 const CalendarNavigation = () => {
   const { t } = useAppTranslation();
-  const { tabletUp } = useBreakpoints();
+  const { tablet500Down } = useBreakpoints();
   const {
     periodLabel,
     viewMode,
@@ -37,7 +37,7 @@ const CalendarNavigation = () => {
           display: 'flex',
           flexWrap: 'wrap',
           alignItems: 'center',
-          justifyContent: 'flex-start',
+          justifyContent: 'space-between',
           gap: '16px',
         }}
       >
@@ -48,22 +48,21 @@ const CalendarNavigation = () => {
             gap: '8px',
             minWidth: 0,
             maxWidth: '100%',
-            flex: tabletUp ? '0 1 auto' : '1 1 auto',
+            flex: tablet500Down ? '1 1 auto' : '0 1 auto',
           }}
         >
           <DateNavigator
             value={periodLabel}
             onBack={handleNavigatePrevious}
             onNext={handleNavigateNext}
+            labelMinWidth={tablet500Down ? undefined : '140px'}
+            badgeText={t('tr_today')}
+            badgeVisible={isCurrentPeriod}
             sx={{
+              width: tablet500Down ? '100%' : 'auto',
               minWidth: 0,
               maxWidth: '100%',
-              flex: tabletUp ? '0 1 auto' : 1,
-              '& .MuiIconButton-root': { minWidth: '44px', minHeight: '44px' },
-              '& .MuiTypography-root': {
-                whiteSpace: 'normal',
-                overflowWrap: 'anywhere',
-              },
+              alignSelf: 'flex-start',
             }}
           />
           {!isCurrentPeriod && (
@@ -98,10 +97,11 @@ const CalendarNavigation = () => {
           ]}
           sx={{
             minWidth: 0,
-            display: tabletUp ? 'inline-grid' : 'flex',
+            display: tablet500Down ? 'flex' : 'inline-grid',
             gridAutoFlow: 'column',
             gridAutoColumns: 'minmax(max-content, 1fr)',
-            width: tabletUp ? 'auto' : '100%',
+            width: tablet500Down ? '100%' : 'auto',
+            marginInlineStart: tablet500Down ? 0 : 'auto',
             maxWidth: '100%',
           }}
         />
