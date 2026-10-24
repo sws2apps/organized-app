@@ -1,5 +1,8 @@
 import {
   FieldServiceMeetingCategory,
+  FieldServiceMeetingFormattedType,
+  FieldServiceMeetingAgendaDay,
+  FieldServiceMeetingAgendaSlot,
   FieldServiceMeetingType,
 } from '@definition/field_service_meetings';
 import { FieldServiceGroupType } from '@definition/field_service_groups';
@@ -90,4 +93,49 @@ export const fieldServiceMeetingWeek = (date: Date) =>
 export const fieldServiceMeetingDraftScope = (settings: SettingsType) => {
   const view = settings.user_settings.data_view;
   return `${settings.cong_settings.cong_id}:${settings.user_settings.user_local_uid}:${typeof view === 'string' ? view : view.value}`;
+};
+
+/** Group displayed occurrences by local date and clock time, within the selected period. */
+export const fieldServiceMeetingAgenda = (
+  meetings: FieldServiceMeetingFormattedType[],
+  rangeStart: string,
+  rangeEnd: string
+): FieldServiceMeetingAgendaDay[] => {
+  const days = new Map<string, Map<string, FieldServiceMeetingAgendaSlot>>();
+
+  for (const meeting of meetings) {
+    const start = new Date(meeting.startISO);
+    if (!Number.isFinite(start.getTime())) continue;
+    const timeKey = formatDate(start, 'HH:mm');
+    const dates = new Set(
+      meeting.dates.length
+        ? meeting.dates.map((entry) => entry.date)
+        : [formatDate(start, 'yyyy/MM/dd')]
+    );
+
+    for (const date of dates) {
+      if (date < rangeStart || date > rangeEnd) continue;
+      const slots =
+        days.get(date) ?? new Map<string, FieldServiceMeetingAgendaSlot>();
+      const slot = slots.get(timeKey) ?? {
+        key: timeKey,
+        time: meeting.time,
+        meetings: [],
+      };
+      if (!slot.meetings.some((entry) => entry.uid === meeting.uid)) {
+        slot.meetings.push(meeting);
+      }
+      slots.set(timeKey, slot);
+      days.set(date, slots);
+    }
+  }
+
+  return [...days.entries()]
+    .sort(([left], [right]) => left.localeCompare(right))
+    .map(([date, slots]) => ({
+      date,
+      slots: [...slots.values()].sort((left, right) =>
+        left.key.localeCompare(right.key)
+      ),
+    }));
 };

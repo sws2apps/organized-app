@@ -218,14 +218,7 @@ const useFieldServiceMeetings = () => {
     [saveMeeting, setDraft, scope, t]
   );
   return {
-    midweekMeetings: filteredMeetings.filter((meeting) => {
-      const day = new Date(meeting.startISO).getDay();
-      return day >= 1 && day <= 5;
-    }),
-    weekendMeetings: filteredMeetings.filter((meeting) => {
-      const day = new Date(meeting.startISO).getDay();
-      return day === 0 || day === 6;
-    }),
+    weekMeetings: filteredMeetings,
     monthMeetings,
     editingMeeting: currentDraft?.meeting ?? null,
     isCreating: currentDraft?.isNew ?? false,

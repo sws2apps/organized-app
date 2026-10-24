@@ -5,7 +5,6 @@ import useFieldServiceMeetings from '@features/congregation/field_service_meetin
 import usePermissions from '@features/congregation/field_service_meetings/usePermissions';
 import FieldServiceMeetingsList from '@features/congregation/field_service_meetings/field_service_meetings_list';
 import MonthView from '@features/congregation/field_service_meetings/month_view';
-import Typography from '@components/typography';
 import PaneSwitcher from '@components/pane_switcher';
 import InfoNote from '@components/info_note';
 import {
@@ -15,13 +14,8 @@ import {
 
 const FieldServiceMeetingsContainer = () => {
   const { t } = useAppTranslation();
-  const {
-    midweekMeetings,
-    weekendMeetings,
-    monthMeetings,
-    handleEditMeeting,
-    editingMeeting,
-  } = useFieldServiceMeetings();
+  const { weekMeetings, monthMeetings, handleEditMeeting, editingMeeting } =
+    useFieldServiceMeetings();
   const { canManageMeeting } = usePermissions();
   const [viewMode, setViewMode] = useAtom(fieldServiceMeetingsViewModeState);
   const setDate = useSetAtom(fieldServiceMeetingsWeekRangeState);
@@ -34,42 +28,19 @@ const FieldServiceMeetingsContainer = () => {
         minWidth: 0,
       }}
     >
-      {!editingMeeting &&
-        midweekMeetings.length + weekendMeetings.length === 0 && (
-          <InfoNote message={t('tr_fieldServiceMeetingEmptyFiltered')} />
-        )}
-      {[
-        {
-          label: 'tr_midweek',
-          meetings: midweekMeetings.filter(
-            (meeting) => meeting.uid !== editingMeeting?.meeting_uid
-          ),
-        },
-        {
-          label: 'tr_weekend',
-          meetings: weekendMeetings.filter(
-            (meeting) => meeting.uid !== editingMeeting?.meeting_uid
-          ),
-        },
-      ].map(
-        (section) =>
-          section.meetings.length > 0 && (
-            <Box
-              key={section.label}
-              sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}
-            >
-              <Typography className="h4">{t(section.label)}</Typography>
-              <FieldServiceMeetingsList
-                meetings={section.meetings}
-                canEditMeeting={(meeting) =>
-                  !editingMeeting &&
-                  canManageMeeting(meeting.category, meeting.group_id)
-                }
-                onEditMeeting={handleEditMeeting}
-              />
-            </Box>
-          )
+      {!editingMeeting && weekMeetings.length === 0 && (
+        <InfoNote message={t('tr_fieldServiceMeetingEmptyFiltered')} />
       )}
+      <FieldServiceMeetingsList
+        meetings={weekMeetings.filter(
+          (meeting) => meeting.uid !== editingMeeting?.meeting_uid
+        )}
+        canEditMeeting={(meeting) =>
+          !editingMeeting &&
+          canManageMeeting(meeting.category, meeting.group_id)
+        }
+        onEditMeeting={handleEditMeeting}
+      />
     </Box>
   );
   return (

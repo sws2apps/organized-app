@@ -96,3 +96,14 @@ export type FieldServiceMeetingDraft = {
   isNew: boolean;
   meeting: FieldServiceMeetingType;
 };
+
+export type FieldServiceMeetingAgendaSlot = {
+  key: string;
+  time: string;
+  meetings: FieldServiceMeetingFormattedType[];
+};
+
+export type FieldServiceMeetingAgendaDay = {
+  date: string;
+  slots: FieldServiceMeetingAgendaSlot[];
+};

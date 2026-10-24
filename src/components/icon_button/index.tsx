@@ -71,6 +71,11 @@ const IconButton: FC<CustomIconButtonProps> = (props) => {
                 },
               }),
 
+          '@media (pointer: coarse)': {
+            minWidth: 'var(--touch-target-size)',
+            minHeight: 'var(--touch-target-size)',
+          },
+
           '@media (hover: none)': {
             '&:hover': {
               backgroundColor: 'transparent',
