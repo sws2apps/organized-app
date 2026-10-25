@@ -187,11 +187,22 @@ const getCellBorderSx = (
 ): Record<string, string> => {
   const leftInBlock = inBlock(week[dayIndex - 1], weekIndex);
   const topInBlock = inBlock(weeks[weekIndex - 1]?.[dayIndex], weekIndex - 1);
+  const rightInBlock = inBlock(week[dayIndex + 1], weekIndex);
+  const bottomInBlock = inBlock(
+    weeks[weekIndex + 1]?.[dayIndex],
+    weekIndex + 1
+  );
   return {
     borderRight: LINE,
     borderBottom: LINE,
     ...(leftInBlock ? {} : { borderLeft: LINE }),
     ...(weekIndex > 0 && !topInBlock ? { borderTop: LINE } : {}),
+    ...(!leftInBlock && !bottomInBlock
+      ? { borderBottomLeftRadius: 'var(--radius-xl)' }
+      : {}),
+    ...(!rightInBlock && !bottomInBlock
+      ? { borderBottomRightRadius: 'var(--radius-xl)' }
+      : {}),
   };
 };
 
@@ -210,13 +221,15 @@ const MonthView = ({ meetings, onSelectDay }: MonthViewProps) => {
     cell !== undefined && (cell.inMonth || week === 0);
 
   return (
-    <Box sx={{ borderRadius: 'var(--radius-xl)', overflow: 'hidden' }}>
+    <Box>
       <Box
         sx={{
           display: 'grid',
           gridTemplateColumns: 'repeat(7, minmax(0, 1fr))',
           backgroundColor: 'var(--white)',
-          border: '1px solid var(--accent-200)',
+          border: LINE,
+          borderStartStartRadius: 'var(--radius-xl)',
+          borderStartEndRadius: 'var(--radius-xl)',
         }}
       >
         {weekdayLabels.map((label) => (
