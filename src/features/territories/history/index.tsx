@@ -20,12 +20,18 @@ const TerritoriesHistory = () => {
 
   const { laptopUp } = useBreakpoints();
 
-  const { editor, publisher, publisherId } = useTerritoryAccess();
+  const { editor, publisher, publisherId, legacyIdentitySafe } =
+    useTerritoryAccess();
   const [allTerritories, setTerritories] = useAtom(territoriesState);
 
   const territories = editor
     ? allTerritories
-    : territoryHistoryForPublisher(allTerritories, publisher, publisherId);
+    : territoryHistoryForPublisher(
+        allTerritories,
+        publisher,
+        publisherId,
+        legacyIdentitySafe
+      );
 
   const onChange = editor
     ? (next: Territory) =>
