@@ -68,6 +68,7 @@ export const getGroupRecurringStart = (
   const weekday = recurring?.weekday?.value;
   const time = recurring?.time?.value;
   if (
+    typeof weekday !== 'number' ||
     !Number.isInteger(weekday) ||
     weekday < 0 ||
     weekday > 6 ||
