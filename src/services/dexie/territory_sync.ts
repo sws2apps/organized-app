@@ -2,8 +2,6 @@ import { mergeTerritorySettings } from '@utils/territory_policy';
 import type {
   TerritoryPendingReview,
   TerritorySettingsUpdate,
-} from '@definition/territory_sync';
-import type {
   TerritoryGrant,
   TerritoryPendingChange,
   TerritoryBatch,
@@ -160,18 +158,19 @@ export const dbTerritorySyncApply = async (
 export const dbTerritorySettingsSave = async (
   scope: string,
   settings: TerritorySharedSettings,
-  options: TerritorySettingsUpdate = { dirty: true }
+  options?: TerritorySettingsUpdate
 ) => {
+  const dirty = options?.dirty ?? true;
   await appDb.transaction('rw', appDb.metadata, async () => {
     const metadata = await appDb.metadata.get(1);
     const state = metadata?.territorySync ?? { scope, queue: [], revision: 0 };
     assertScope(state, scope);
     if (
-      !options.dirty &&
+      !dirty &&
       state.settingsDirty &&
       JSON.stringify(state.settings) !== JSON.stringify(settings)
     ) {
-      if (!options.sent || !state.settings) return;
+      if (!options?.sent || !state.settings) return;
       const rebased = mergeTerritorySettings(
         options.sent,
         state.settings,
@@ -185,9 +184,9 @@ export const dbTerritorySettingsSave = async (
     } else
       Object.assign(state, {
         settings,
-        settingsDirty: options.dirty,
-        settingsBaseline: options.dirty
-          ? (state.settingsBaseline ?? options.baseline)
+        settingsDirty: dirty,
+        settingsBaseline: dirty
+          ? (state.settingsBaseline ?? options?.baseline)
           : undefined,
       });
     await appDb.metadata.put({
