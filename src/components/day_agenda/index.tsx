@@ -72,22 +72,23 @@ const DayAgenda = ({ title, subtitle, slots }: DayAgendaProps) => {
               display: 'grid',
               gridColumn: '1 / -1',
               gridTemplateColumns: 'subgrid',
-              gap: tabletUp ? 0 : '8px',
-              padding: '12px',
+              gap: 0,
               minWidth: 0,
               '& + &': { borderTop: '1px solid var(--accent-200)' },
             }}
           >
             <Box
+              className="day-agenda-time"
               sx={{
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'flex-start',
                 gap: '4px',
-                paddingInlineEnd: tabletUp ? '12px' : 0,
-                paddingBlockStart: tabletUp ? '8px' : 0,
+                backgroundColor:
+                  'color-mix(in srgb, var(--accent-150) 50%, var(--white))',
+                padding: tabletUp ? '20px 12px 12px' : '8px 12px',
                 '@media (pointer: coarse)': {
-                  paddingBlockStart: tabletUp ? '12px' : 0,
+                  paddingBlockStart: tabletUp ? '24px' : '8px',
                 },
                 minWidth: 0,
               }}
@@ -112,7 +113,7 @@ const DayAgenda = ({ title, subtitle, slots }: DayAgendaProps) => {
                 borderInlineStart: tabletUp
                   ? '1px solid var(--accent-200)'
                   : undefined,
-                paddingInlineStart: tabletUp ? '12px' : 0,
+                padding: '12px',
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '8px',
