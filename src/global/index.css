@@ -8,6 +8,11 @@
   --agenda-group-rail-width: 3px;
   --agenda-group-rail-gap: 12px;
   --agenda-entry-header-height: 24px;
+  --detail-label-gap: 4px;
+  --detail-column-gap: 24px;
+  --detail-row-gap: 12px;
+  --note-padding: 8px 12px;
+  --note-background: var(--grey-100);
   --agenda-detail-columns: minmax(0, 1fr) minmax(0, 1.4fr);
   --accent-text: color-mix(in srgb, var(--accent-dark) 80%, var(--black));
   --text-muted: color-mix(in srgb, var(--grey-350), var(--grey-400));

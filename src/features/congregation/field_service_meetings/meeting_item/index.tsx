@@ -1,8 +1,9 @@
 import { useMemo } from 'react';
 import { Box, Link } from '@mui/material';
 import { useAtomValue } from 'jotai';
-import { IconEdit, IconInfo, IconPerson } from '@components/icons';
-import DetailRow from '@components/detail_row';
+import { IconEdit } from '@components/icons';
+import LabeledDetail from '@components/labeled_detail';
+import InfoNote from '@components/info_note';
 import IconButton from '@components/icon_button';
 import GroupBadge from '@components/group_badge';
 import Tooltip from '@components/tooltip';
@@ -50,7 +51,7 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
         position: 'relative',
         display: 'grid',
         gridTemplateColumns: canEdit ? 'minmax(0, 1fr) auto' : 'minmax(0, 1fr)',
-        gap: '8px 12px',
+        gap: 'var(--detail-row-gap) var(--agenda-group-rail-gap)',
         minWidth: 0,
         paddingInlineStart:
           'calc(var(--agenda-group-rail-width) + var(--agenda-group-rail-gap))',
@@ -105,10 +106,11 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
           className="meeting-actions day-agenda-actions"
           sx={{
             display: 'inline-flex',
-            alignItems: 'flex-start',
+            alignItems: 'center',
             alignSelf: 'start',
+            height: 'var(--agenda-entry-header-height)',
             gridColumn: 2,
-            gridRow: '1 / span 2',
+            gridRow: 1,
             gap: '4px',
             flexShrink: 0,
             marginInlineEnd: '-4px',
@@ -135,27 +137,21 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
         className="meeting-details"
         sx={{
           display: 'grid',
-          gridColumn: 1,
+          gridColumn: '1 / -1',
           gridTemplateColumns: tablet600Up
             ? 'var(--agenda-detail-columns)'
             : 'minmax(0, 1fr)',
           alignItems: 'start',
-          gap: '8px 24px',
+          gap: 'var(--detail-row-gap) var(--detail-column-gap)',
           minWidth: 0,
         }}
       >
-        <DetailRow
-          label={t('tr_conductor')}
-          icon={<IconPerson color="var(--grey-400)" />}
-          className="body-small-regular"
-        >
+        <LabeledDetail label={t('tr_conductor')}>
           {meeting.conductor}
-        </DetailRow>
-        <DetailRow
+        </LabeledDetail>
+        <LabeledDetail
           label={t('tr_location')}
           icon={getLocationIcon(meeting.location, 'var(--grey-400)')}
-          className="body-small-regular"
-          color="var(--grey-400)"
         >
           {isWebAddress ? (
             <Link
@@ -180,21 +176,19 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
             meeting.address ||
             t(FIELD_SERVICE_MEETING_LOCATION_TRANSLATION_KEYS[meeting.location])
           )}
-        </DetailRow>
+        </LabeledDetail>
         {hasAdditionalInfo && (
           <Box
             className="meeting-note"
             sx={{ gridColumn: '1 / -1', minWidth: 0 }}
           >
-            <DetailRow
+            <InfoNote
+              variant="subtle"
+              showIcon={false}
               label={t('tr_comments')}
-              icon={<IconInfo color="var(--text-muted)" />}
-              className="body-small-regular"
-              color="var(--text-muted)"
+              message={meeting.additionalInfo}
               preserveWhitespace
-            >
-              {meeting.additionalInfo}
-            </DetailRow>
+            />
           </Box>
         )}
       </Box>

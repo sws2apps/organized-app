@@ -7,10 +7,15 @@ const InfoNote = ({
   message,
   children,
   variant = 'inline',
+  showIcon = true,
+  label,
+  preserveWhitespace = false,
   icon,
   sx,
 }: InfoNoteProps) => {
-  const iconElement = (
+  const color =
+    variant === 'subtle' ? 'var(--text-muted)' : 'var(--accent-400)';
+  const iconElement = showIcon ? (
     <Box
       component="span"
       sx={{
@@ -22,13 +27,16 @@ const InfoNote = ({
     >
       {icon ?? <IconInfo color="var(--accent-400)" />}
     </Box>
-  );
+  ) : null;
 
   const content =
     message === undefined ? (
       <Box
         sx={{
-          color: 'var(--accent-400)',
+          color,
+          minWidth: 0,
+          overflowWrap: 'anywhere',
+          whiteSpace: preserveWhitespace ? 'pre-wrap' : undefined,
           // Ensure nested paragraphs (e.g., from <Markup>) display inline
           '& p': {
             display: 'inline',
@@ -44,7 +52,10 @@ const InfoNote = ({
       <Typography
         className="body-small-regular"
         sx={{
-          color: 'var(--accent-400)',
+          color,
+          minWidth: 0,
+          overflowWrap: 'anywhere',
+          whiteSpace: preserveWhitespace ? 'pre-wrap' : undefined,
           letterSpacing: '0px !important',
         }}
       >
@@ -52,6 +63,26 @@ const InfoNote = ({
         {message}
       </Typography>
     );
+
+  if (variant === 'subtle') {
+    return (
+      <Box
+        role="note"
+        aria-label={label}
+        sx={[
+          {
+            minWidth: 0,
+            padding: 'var(--note-padding)',
+            backgroundColor: 'var(--note-background)',
+            borderRadius: 'var(--radius-l)',
+          },
+          ...(Array.isArray(sx) ? sx : [sx]),
+        ]}
+      >
+        {content}
+      </Box>
+    );
+  }
 
   if (variant === 'card') {
     return (

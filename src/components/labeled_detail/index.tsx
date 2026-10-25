@@ -1,0 +1,48 @@
+import { useId } from 'react';
+import { Box } from '@mui/material';
+import DetailRow from '@components/detail_row';
+import Typography from '@components/typography';
+import { LabeledDetailProps } from '@components/labeled_detail/index.types';
+
+/** A visible label above flexible read-only content, with an optional icon. */
+const LabeledDetail = ({ label, children, icon }: LabeledDetailProps) => {
+  const labelId = useId();
+
+  return (
+    <Box
+      role="group"
+      aria-labelledby={labelId}
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 'var(--detail-label-gap)',
+        minWidth: 0,
+      }}
+    >
+      <Typography
+        id={labelId}
+        component="div"
+        className="label-small-regular"
+        color="var(--text-muted)"
+        sx={{ overflowWrap: 'anywhere' }}
+      >
+        {label}
+      </Typography>
+      {icon ? (
+        <DetailRow icon={icon} className="body-small-regular">
+          {children}
+        </DetailRow>
+      ) : (
+        <Typography
+          component="div"
+          className="body-small-regular"
+          sx={{ minWidth: 0, overflowWrap: 'anywhere' }}
+        >
+          {children}
+        </Typography>
+      )}
+    </Box>
+  );
+};
+
+export default LabeledDetail;
