@@ -12,7 +12,7 @@ const DetailRow = ({
   preserveWhitespace = false,
 }: DetailRowProps) => (
   <Box
-    className="detail-row"
+    className={`detail-row ${className}`}
     role={label ? 'group' : undefined}
     aria-label={label}
     sx={{
@@ -27,6 +27,7 @@ const DetailRow = ({
       aria-hidden
       sx={{
         display: 'flex',
+        paddingBlockStart: 'max(0px, calc((1lh - var(--icon-size-small)) / 2))',
         color: 'var(--grey-400)',
         '& > svg': {
           width: 'var(--icon-size-small)',
@@ -42,6 +43,7 @@ const DetailRow = ({
       color={color}
       sx={{
         minWidth: 0,
+        paddingBlockStart: 'max(0px, calc((var(--icon-size-small) - 1lh) / 2))',
         overflowWrap: 'anywhere',
         whiteSpace: preserveWhitespace ? 'pre-wrap' : 'normal',
       }}
