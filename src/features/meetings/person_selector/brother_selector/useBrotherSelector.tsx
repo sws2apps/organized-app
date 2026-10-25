@@ -61,6 +61,13 @@ import { languageGroupsState } from '@states/field_service_groups';
 
 import { assignmentConflictGroup } from '@utils/assignment_conflicts';
 
+const hasRepeatedMonthlyAssignment = (
+  history: AssignmentHistoryType[],
+  week: string
+) =>
+  history.filter((record) => record.weekOf.slice(0, 7) === week.slice(0, 7))
+    .length > 1;
+
 const defaultFilterOptions = createFilterOptions<PersonOptionsType>();
 
 type WeekConflict = NonNullable<PersonOptionsType['conflict']>;
@@ -650,18 +657,12 @@ const useBrotherSelector = ({
     }
 
     // check monthly assignments
-    if (assignment.startsWith('WM_') && wmShowMonthlyWarning) {
-      const [currentYear, currentMonth] = week.split('/');
-
-      const monthAssignments = personHistory.filter((record) => {
-        const [tmpYear, tmpMonth] = record.weekOf.split('/');
-        return tmpYear === currentYear && currentMonth === tmpMonth;
-      });
-
-      if (monthAssignments.length > 1) {
-        return t('tr_repeatedMonthlyWarningDesc');
-      }
-    }
+    if (
+      assignment.startsWith('WM_') &&
+      wmShowMonthlyWarning &&
+      hasRepeatedMonthlyAssignment(personHistory, week)
+    )
+      return t('tr_repeatedMonthlyWarningDesc');
 
     // check if part is linked to another part
     if (isLinkedPart) {

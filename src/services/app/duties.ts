@@ -217,8 +217,10 @@ const findSection = (
   return section;
 };
 
+type SectionValues = Pick<DutiesSectionType, 'name' | 'amount' | 'parts'>;
+
 const validateSection = (
-  section: Pick<DutiesSectionType, 'name' | 'amount' | 'parts'>,
+  section: SectionValues,
   sections: DutiesSectionType[],
   id?: string
 ) => {
@@ -235,17 +237,19 @@ const validateSection = (
 export const dutiesSectionAdd = (
   week: string,
   meeting: DutiesMeetingValue,
-  section: Pick<DutiesSectionType, 'name' | 'amount' | 'parts'>
+  section: SectionValues
 ) =>
   mutateSections(week, meeting, (sections, _, dataView) => {
     const active = sectionsForView(sections, dataView);
     if (active.length >= DUTIES_SECTIONS_MAX)
       throw new Error('tr_sectionsLimitReached');
     validateSection(section, active);
-    const validParts = schedulesDutiesMeetingParts(week, meeting, dataView).map(
-      (part) => part.key
+    const validParts = new Set(
+      schedulesDutiesMeetingParts(week, meeting, dataView).map(
+        (part) => part.key
+      )
     );
-    if (section.parts.some((key) => !validParts.includes(key)))
+    if (section.parts.some((key) => !validParts.has(key)))
       throw new Error('tr_sectionPartsChanged');
     sections.push({
       ...section,
@@ -262,7 +266,7 @@ export const dutiesSectionUpdate = (
   week: string,
   meeting: DutiesMeetingValue,
   id: string,
-  changes: Pick<DutiesSectionType, 'name' | 'amount' | 'parts'>,
+  changes: SectionValues,
   expectedUpdatedAt?: string
 ) =>
   mutateSections(
@@ -271,12 +275,12 @@ export const dutiesSectionUpdate = (
     (sections, dynamic, dataView) => {
       const section = findSection(sections, id, dataView);
       validateSection(changes, sectionsForView(sections, dataView), section.id);
-      const validParts = schedulesDutiesMeetingParts(
-        week,
-        meeting,
-        dataView
-      ).map((part) => part.key);
-      if (changes.parts.some((key) => !validParts.includes(key)))
+      const validParts = new Set(
+        schedulesDutiesMeetingParts(week, meeting, dataView).map(
+          (part) => part.key
+        )
+      );
+      if (changes.parts.some((key) => !validParts.has(key)))
         throw new Error('tr_sectionPartsChanged');
       Object.assign(section, changes, {
         name: changes.name.trim(),
@@ -465,11 +469,52 @@ const DUTY_AMOUNT_KEYS = {
   videoconference_host_amount: ['videoconference_host'],
 } satisfies Record<string, DutiesStaticKey[]>;
 
+type DutySettings = SettingsType['cong_settings']['meeting_duties'];
+type DutyConfig = DutySettings[number];
+
+const validateCustomDutyChanges = (config: DutyConfig, before?: DutyConfig) => {
+  for (const duty of config.custom ?? []) {
+    const old = before?.custom?.find((item) => item.id === duty.id);
+    if (
+      duty._deleted ||
+      (old && old.name === duty.name && old.amount === duty.amount)
+    )
+      continue;
+    const error = validateDutyName(duty.name, config.custom, duty.id);
+    if (error) throw new Error(error);
+    if (!Number.isInteger(duty.amount) || duty.amount < 0 || duty.amount > 4)
+      throw new Error('tr_dutyInvalidAmount');
+  }
+};
+
+const reducedPositions = (
+  config: DutyConfig,
+  before: DutyConfig
+): ReleasePositionsParams[] => {
+  const staticChanges = (
+    Object.keys(DUTY_AMOUNT_KEYS) as (keyof typeof DUTY_AMOUNT_KEYS)[]
+  )
+    .filter((key) => config[key].value < before[key].value)
+    .map((key) => ({
+      dataView: config.type,
+      amount: config[key].value,
+      keys: DUTY_AMOUNT_KEYS[key],
+    }));
+  const customChanges = (config.custom ?? []).flatMap((custom) => {
+    const old = before.custom?.find((record) => record.id === custom.id);
+    const amount = custom._deleted ? 0 : custom.amount;
+    return old && amount < old.amount
+      ? [{ dataView: config.type, amount, customId: custom.id }]
+      : [];
+  });
+  return [...staticChanges, ...customChanges];
+};
+
 // Serialize settings writes so two quick changes cannot replace each other's
-// newer fields. The existing timestamp merge also preserves other data views.
+// newer fields. Position releases use the same order and read each preceding result.
 let settingsWrite: Promise<void> = Promise.resolve();
 export const dutiesSaveSettings = (
-  incoming: SettingsType['cong_settings']['meeting_duties'],
+  incoming: DutySettings,
   validate?: () => void
 ) => {
   const save = async () => {
@@ -480,57 +525,22 @@ export const dutiesSaveSettings = (
       { meeting_duties: structuredClone(previous) },
       { meeting_duties: incoming }
     ).meeting_duties;
+    const releases: ReleasePositionsParams[] = [];
     for (const config of merged) {
       const before = previous.find((item) => item.type === config.type);
-      for (const duty of config.custom ?? []) {
-        const old = before?.custom?.find((item) => item.id === duty.id);
-        if (
-          duty._deleted ||
-          (old && old.name === duty.name && old.amount === duty.amount)
-        )
-          continue;
-        const error = validateDutyName(duty.name, config.custom, duty.id);
-        if (error) throw new Error(error);
-        if (
-          !Number.isInteger(duty.amount) ||
-          duty.amount < 0 ||
-          duty.amount > 4
-        )
-          throw new Error('tr_dutyInvalidAmount');
-      }
+      validateCustomDutyChanges(config, before);
+      if (before) releases.push(...reducedPositions(config, before));
     }
     await dbAppSettingsUpdate({ 'cong_settings.meeting_duties': merged });
     store.set(settingsState, (current) => ({
       ...current,
       cong_settings: { ...current.cong_settings, meeting_duties: merged },
     }));
-
-    for (const config of merged) {
-      const before = previous.find((record) => record.type === config.type);
-      if (!before) continue;
-      for (const key of Object.keys(
-        DUTY_AMOUNT_KEYS
-      ) as (keyof typeof DUTY_AMOUNT_KEYS)[]) {
-        if (config[key].value < before[key].value) {
-          await dutiesReleasePositions({
-            dataView: config.type,
-            amount: config[key].value,
-            keys: DUTY_AMOUNT_KEYS[key],
-          });
-        }
-      }
-      for (const custom of config.custom ?? []) {
-        const old = before.custom?.find((record) => record.id === custom.id);
-        const amount = custom._deleted ? 0 : custom.amount;
-        if (old && amount < old.amount) {
-          await dutiesReleasePositions({
-            dataView: config.type,
-            amount,
-            customId: custom.id,
-          });
-        }
-      }
-    }
+    // Releasing positions mutates shared week records, so preserve write order.
+    await releases.reduce(
+      (pending, params) => pending.then(() => dutiesReleasePositions(params)),
+      Promise.resolve()
+    );
     store.set(assignmentsHistoryState, schedulesBuildHistoryList());
   };
   const pending = settingsWrite.then(save);

@@ -16,7 +16,7 @@ export type SectionEditProps = {
   availableParts?: DutiesMeetingPartType[];
   onSave?: (
     values: Pick<DutiesSectionType, 'name' | 'amount' | 'parts'>
-  ) => Promise<void>;
+  ) => void | Promise<void>;
   recurring?: boolean;
   open: boolean;
   onClose: VoidFunction;

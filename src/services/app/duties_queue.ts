@@ -8,7 +8,9 @@ export const queueDutyWeeks = <T>(
   weeks: string[],
   write: () => Promise<T>
 ): Promise<T> => {
-  const keys = [...new Set(weeks)].sort();
+  const keys = [...new Set(weeks)].sort((first, second) =>
+    first.localeCompare(second)
+  );
   const next = (index: number): Promise<T> =>
     index === keys.length
       ? write()

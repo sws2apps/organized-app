@@ -78,7 +78,7 @@ const useSectionTemplates = (
     key,
     label: t(labels[key]),
   }));
-  const update = async (
+  const update = (
     values: Pick<DutiesSectionType, 'name' | 'amount' | 'parts'>
   ) => {
     setError('');
@@ -107,7 +107,9 @@ const useSectionTemplates = (
       for (const kind of ['midweek', 'weekend'] as const) {
         if (JSON.stringify(drafts[kind]) === initialSections.current[kind])
           continue;
+        // Each save merges the latest settings; the next meeting must read that result.
         const saved = await dutiesSaveSectionTemplate(
+          // NOSONAR -- Ordered settings revisions must not run concurrently.
           kind,
           drafts[kind],
           initial.current[kind],

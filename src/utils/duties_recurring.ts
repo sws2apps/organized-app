@@ -95,13 +95,11 @@ export const resolveRecurringSections = ({
     DUTY_SECTION_RULES[meeting]
   ).flatMap((section, order) => {
     const parts = partKeys.filter((key) =>
-      section.parts.some((rule) =>
-        rule === 'ayf_all'
-          ? /^ayf_part\d+$/.test(key)
-          : rule === 'lc_all'
-            ? /^lc_part\d+$/.test(key)
-            : rule === key
-      )
+      section.parts.some((rule) => {
+        if (rule === 'ayf_all') return /^ayf_part\d+$/.test(key);
+        if (rule === 'lc_all') return /^lc_part\d+$/.test(key);
+        return rule === key;
+      })
     );
     // A linked shift with no matching part is absent, never a whole-meeting shift.
     if (section.parts.length && !parts.length) return [];

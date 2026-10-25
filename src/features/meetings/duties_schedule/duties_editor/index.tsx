@@ -240,11 +240,6 @@ const DutiesEditor = () => {
     >
       {!selectedWeek ? (
         <InfoNote message={t('tr_infoPlanMeetingDuties')} />
-      ) : weekly ? (
-        <Stack spacing="24px">
-          {dateNavigator}
-          {meetingPanel(activeMeeting)}
-        </Stack>
       ) : (
         <Stack spacing="24px">
           <Box
@@ -257,39 +252,41 @@ const DutiesEditor = () => {
             }}
           >
             {dateNavigator}
-            <TabSwitcher<DutiesMeetingValue>
-              id={tabsId}
-              ariaLabel={t('tr_meetings')}
-              surface="light"
-              wrapLabels
-              value={activeMeeting}
-              onChange={handleChangeMeeting}
-              options={[
-                {
-                  value: 'midweek',
-                  label: t('tr_midweek'),
-                  panelId: `${tabsId}-panel`,
-                },
-                {
-                  value: 'weekend',
-                  label: t('tr_weekend'),
-                  panelId: `${tabsId}-panel`,
-                },
-              ]}
-              sx={{
-                width: tablet500Down
-                  ? '100%'
-                  : 'var(--duties-meeting-switch-width)',
-                flexShrink: 0,
-                marginInlineStart: 'auto',
-                maxWidth: '100%',
-              }}
-            />
+            {!weekly && (
+              <TabSwitcher<DutiesMeetingValue>
+                id={tabsId}
+                ariaLabel={t('tr_meetings')}
+                surface="light"
+                wrapLabels
+                value={activeMeeting}
+                onChange={handleChangeMeeting}
+                options={[
+                  {
+                    value: 'midweek',
+                    label: t('tr_midweek'),
+                    panelId: `${tabsId}-panel`,
+                  },
+                  {
+                    value: 'weekend',
+                    label: t('tr_weekend'),
+                    panelId: `${tabsId}-panel`,
+                  },
+                ]}
+                sx={{
+                  width: tablet500Down
+                    ? '100%'
+                    : 'var(--duties-meeting-switch-width)',
+                  flexShrink: 0,
+                  marginInlineStart: 'auto',
+                  maxWidth: '100%',
+                }}
+              />
+            )}
           </Box>
           <Box
-            role="tabpanel"
-            id={`${tabsId}-panel`}
-            aria-labelledby={`${tabsId}-${activeMeeting}`}
+            role={weekly ? undefined : 'tabpanel'}
+            id={weekly ? undefined : `${tabsId}-panel`}
+            aria-labelledby={weekly ? undefined : `${tabsId}-${activeMeeting}`}
           >
             {meetingPanel(activeMeeting)}
           </Box>

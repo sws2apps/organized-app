@@ -18,21 +18,23 @@ const SwitchWithLabel = ({
   const id = useId();
   const { tablet500Down, laptopUp } = useBreakpoints();
 
+  let gridTemplateColumns = 'minmax(0, 1fr) auto auto';
+  let gridTemplateAreas = '"content action switch"';
+  if (tablet500Down) {
+    gridTemplateColumns = 'minmax(0, 1fr) auto';
+    gridTemplateAreas = '"content switch" "action action"';
+  } else if (laptopUp) {
+    gridTemplateColumns = 'auto minmax(0, 1fr) auto';
+    gridTemplateAreas = '"switch content action"';
+  }
+
   return (
     <SwitcherContainer
       {...(action && {
         sx: {
           display: 'grid',
-          gridTemplateColumns: tablet500Down
-            ? 'minmax(0, 1fr) auto'
-            : laptopUp
-              ? 'auto minmax(0, 1fr) auto'
-              : 'minmax(0, 1fr) auto auto',
-          gridTemplateAreas: tablet500Down
-            ? '"content switch" "action action"'
-            : laptopUp
-              ? '"switch content action"'
-              : '"content action switch"',
+          gridTemplateColumns,
+          gridTemplateAreas,
           alignItems: 'center',
           columnGap: 'var(--dialog-gap-mobile)',
           rowGap: 'var(--dialog-header-gap)',

@@ -78,13 +78,10 @@ const useDutiesEditor = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedWeek, schedules, sources, dataView, lang, groups]);
 
-  const activeMeeting = weekly
-    ? meetingStatus.midweek === 'held'
-      ? 'midweek'
-      : meetingStatus.weekend === 'held'
-        ? 'weekend'
-        : selectedMeeting
-    : selectedMeeting;
+  let activeMeeting = selectedMeeting;
+  if (weekly && meetingStatus.midweek === 'held') activeMeeting = 'midweek';
+  else if (weekly && meetingStatus.weekend === 'held')
+    activeMeeting = 'weekend';
 
   const schedule = schedules.find((record) => record.weekOf === selectedWeek);
   const headerDate =

@@ -52,6 +52,8 @@ export interface CustomTabProps extends TabOwnProps {
    * An array of tabs containing label and corresponding component.
    */
   tabs: {
+    /** Stable identity for tabs with a non-text label. */
+    id?: string;
     /**
      * The label of the tab.
      */

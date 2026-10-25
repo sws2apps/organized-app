@@ -152,7 +152,7 @@ const Tabs = ({
           <CustomTabPanel
             value={valueOfActivePanel}
             index={i}
-            key={i}
+            key={tab.id ?? (typeof tab.label === 'string' ? tab.label : i)} // NOSONAR -- Legacy non-text tabs have a fixed positional contract.
             idPrefix={idPrefix}
           >
             {tab.Component}

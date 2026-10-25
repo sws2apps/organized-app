@@ -98,19 +98,18 @@ const BrotherGroup = ({
 }) => {
   const { t } = useAppTranslation();
 
+  const groupLabels: Record<string, string> = {
+    '0': 'tr_noOtherAssignments',
+    '1': 'tr_withMeetingParts',
+  };
+
   return (
     <>
       <Typography
         className="body-small-semibold"
         sx={{ color: 'var(--accent-main)', padding: '8px 12px 4px 16px' }}
       >
-        {t(
-          group === '0'
-            ? 'tr_noOtherAssignments'
-            : group === '1'
-              ? 'tr_withMeetingParts'
-              : 'tr_withDuties'
-        )}
+        {t(groupLabels[group] ?? 'tr_withDuties')}
       </Typography>
       <ul style={{ padding: 0, margin: 0 }}>{children}</ul>
     </>

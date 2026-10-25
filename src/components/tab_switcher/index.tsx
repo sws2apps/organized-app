@@ -97,6 +97,9 @@ const TabSwitcher = <T extends string = string>({
 
       {options.map((option: TabSwitcherOption<T>, index) => {
         const isActive = option.value === value;
+        const activeClass = surface === 'light' ? 'body-small-semibold' : 'h4';
+        const inactiveClass =
+          surface === 'light' ? 'body-small-regular' : 'body-regular';
 
         return (
           <ButtonBase
@@ -109,15 +112,7 @@ const TabSwitcher = <T extends string = string>({
               buttons.current[index] = node;
             }}
             onKeyDown={(event) => handleKeyDown(event, index)}
-            className={
-              surface === 'light'
-                ? isActive
-                  ? 'body-small-semibold'
-                  : 'body-small-regular'
-                : isActive
-                  ? 'h4'
-                  : 'body-regular'
-            }
+            className={isActive ? activeClass : inactiveClass}
             aria-selected={isActive}
             disabled={option.disabled}
             disableRipple

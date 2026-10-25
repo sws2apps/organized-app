@@ -1915,6 +1915,7 @@ const saveStandardAssignment = async (
 
   const path = ASSIGNMENT_PATH[assignment];
   const fieldUpdate = structuredClone(schedulesGetData(schedule, path));
+  if (!fieldUpdate) throw new Error('error_app_generic-title');
 
   if (Array.isArray(fieldUpdate)) {
     const assigned = fieldUpdate.find((record) => record.type === dataView);
@@ -1977,6 +1978,128 @@ const saveOutgoingTalk = async (
   });
 };
 
+type DutyAssignmentParams = {
+  latest: SchedWeekType;
+  assignment: AssignmentFieldType;
+  toSave: string;
+  dataView: string;
+  updatedAt: string;
+  weekly: boolean;
+  meeting: 'midweek' | 'weekend';
+  schedule_id?: string;
+};
+
+const dutyAssignmentChanges = ({
+  latest,
+  assignment,
+  toSave,
+  dataView,
+  updatedAt,
+  weekly,
+  meeting,
+  schedule_id,
+}: DutyAssignmentParams) => {
+  const changes: Record<string, unknown> = {};
+  const duties = latest.duties;
+  if (!duties) return changes;
+  const resolvedSections = schedulesDutiesSections(
+    latest.weekOf,
+    meeting,
+    dataView
+  );
+  if (!weekly) {
+    const snapshot = snapshotRecurringSections(
+      duties[meeting],
+      resolvedSections,
+      dataView,
+      updatedAt
+    );
+    if (snapshot !== duties[meeting]) {
+      changes[`duties.${meeting}.sections`] = snapshot.sections;
+      changes[`duties.${meeting}.section_overrides`] =
+        snapshot.section_overrides;
+    }
+  }
+  const field = dutyAssignmentForMeeting(assignment, meeting);
+  const path = ASSIGNMENT_PATH[field];
+  const records = (schedulesGetData(latest, path) ??
+    []) as AssignmentCongregation[];
+  const slot = resolveSectionSlot(
+    duties[meeting].sections ?? [],
+    dataView,
+    schedule_id
+  );
+  if (slot) {
+    const config = store
+      .get(settingsState)
+      .cong_settings.meeting_duties?.find((item) => item.type === dataView);
+    const fields = config
+      ? schedulesDutiesFieldList(meeting, config, resolvedSections)
+      : [];
+    if (!fields.some((item) => item.schedule_id === slot))
+      throw new Error('tr_sectionUnavailable');
+  }
+  changes[path] = dutiesAssignRecords(
+    records,
+    toSave,
+    dataView,
+    updatedAt,
+    slot
+  );
+  return changes;
+};
+
+const saveDutyAssignment = (
+  schedule: SchedWeekType,
+  assignment: AssignmentFieldType,
+  value: AssignmentValue,
+  dataView: string,
+  schedule_id?: string
+) => {
+  const weekly = schedulesDutiesConfig()?.schedule_weekly?.value ?? false;
+  const selectedMeeting = assignment.startsWith('MM_') ? 'midweek' : 'weekend';
+  return queueDutyWrite(schedule.weekOf, async () => {
+    const latest = store
+      .get(schedulesState)
+      .find((item) => item.weekOf === schedule.weekOf);
+    if (!latest?.duties) return;
+    const changes: Record<string, unknown> = {};
+    const updatedAt = new Date().toISOString();
+    const toSave =
+      typeof value === 'string' ? value : (value?.person_uid ?? '');
+    for (const meeting of ['midweek', 'weekend'] as const) {
+      if (!weekly && meeting !== selectedMeeting) continue;
+      if (!schedulesDutiesMeetingHeld(latest, meeting, dataView)) continue;
+      Object.assign(
+        changes,
+        dutyAssignmentChanges({
+          latest,
+          assignment,
+          toSave,
+          dataView,
+          updatedAt,
+          weekly,
+          meeting,
+          schedule_id,
+        })
+      );
+    }
+    if (Object.keys(changes).length === 0) return;
+    await dbSchedUpdate(
+      schedule.weekOf,
+      changes as unknown as UpdateSpec<SchedWeekType>
+    );
+    store.set(schedulesState, (current) =>
+      current.map((item) =>
+        item.weekOf === schedule.weekOf
+          ? dutiesPatchSchedule(item, changes)
+          : item
+      )
+    );
+    store.set(assignmentsHistoryState, schedulesBuildHistoryList());
+  });
+};
+
 export const schedulesSaveAssignment = async (
   schedule: SchedWeekType,
   assignment: AssignmentFieldType,
@@ -1985,85 +2108,14 @@ export const schedulesSaveAssignment = async (
 ) => {
   const dataView = store.get(userDataViewState);
 
-  if (assignment.includes('_DUTIES_')) {
-    const weekly = schedulesDutiesConfig()?.schedule_weekly?.value ?? false;
-    const selectedMeeting = assignment.startsWith('MM_')
-      ? 'midweek'
-      : 'weekend';
-    return queueDutyWrite(schedule.weekOf, async () => {
-      const latest = store
-        .get(schedulesState)
-        .find((item) => item.weekOf === schedule.weekOf);
-      if (!latest?.duties) return;
-      const changes: Record<string, unknown> = {};
-      const updatedAt = new Date().toISOString();
-      const toSave =
-        typeof value === 'string' ? value : (value?.person_uid ?? '');
-      for (const meeting of ['midweek', 'weekend'] as const) {
-        if (!weekly && meeting !== selectedMeeting) continue;
-        if (!schedulesDutiesMeetingHeld(latest, meeting, dataView)) continue;
-        const resolvedSections = schedulesDutiesSections(
-          schedule.weekOf,
-          meeting,
-          dataView
-        );
-        if (!weekly) {
-          const snapshot = snapshotRecurringSections(
-            latest.duties[meeting],
-            resolvedSections,
-            dataView,
-            updatedAt
-          );
-          if (snapshot !== latest.duties[meeting]) {
-            changes[`duties.${meeting}.sections`] = snapshot.sections;
-            changes[`duties.${meeting}.section_overrides`] =
-              snapshot.section_overrides;
-          }
-        }
-        const field = dutyAssignmentForMeeting(assignment, meeting);
-        const path = ASSIGNMENT_PATH[field];
-        const records = (schedulesGetData(latest, path) ??
-          []) as AssignmentCongregation[];
-        const slot = resolveSectionSlot(
-          latest.duties[meeting].sections ?? [],
-          dataView,
-          schedule_id
-        );
-        if (slot) {
-          const config = store
-            .get(settingsState)
-            .cong_settings.meeting_duties?.find(
-              (item) => item.type === dataView
-            );
-          const fields = config
-            ? schedulesDutiesFieldList(meeting, config, resolvedSections)
-            : [];
-          if (!fields.some((item) => item.schedule_id === slot))
-            throw new Error('tr_sectionUnavailable');
-        }
-        changes[path] = dutiesAssignRecords(
-          records,
-          toSave,
-          dataView,
-          updatedAt,
-          slot
-        );
-      }
-      if (Object.keys(changes).length === 0) return;
-      await dbSchedUpdate(
-        schedule.weekOf,
-        changes as unknown as UpdateSpec<SchedWeekType>
-      );
-      store.set(schedulesState, (current) =>
-        current.map((item) =>
-          item.weekOf === schedule.weekOf
-            ? dutiesPatchSchedule(item, changes)
-            : item
-        )
-      );
-      store.set(assignmentsHistoryState, schedulesBuildHistoryList());
-    });
-  }
+  if (assignment.includes('_DUTIES_'))
+    return saveDutyAssignment(
+      schedule,
+      assignment,
+      value,
+      dataView,
+      schedule_id
+    );
 
   if (!schedule_id) {
     await saveStandardAssignment(schedule, assignment, value, dataView);
