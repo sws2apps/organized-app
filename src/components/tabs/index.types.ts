@@ -41,6 +41,8 @@ export type TabsLayout = 'auto' | 'stretch';
  * Custom props for the Tab component.
  */
 export interface CustomTabProps extends TabOwnProps {
+  'aria-label'?: string;
+
   /**
    * The look of the tabs. (Default: chip)
    */

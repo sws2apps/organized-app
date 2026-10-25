@@ -40,7 +40,7 @@ export const dutiesAssignRecords = (
 /** Apply only the saved paths, retaining concurrent edits to other duties. */
 export const dutiesPatchSchedule = (
   schedule: SchedWeekType,
-  changes: Record<string, AssignmentCongregation[]>
+  changes: Record<string, unknown>
 ): SchedWeekType => {
   const next = structuredClone(schedule);
   for (const [path, value] of Object.entries(changes)) {

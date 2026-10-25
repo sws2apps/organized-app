@@ -1,3 +1,4 @@
+import { DutiesSectionTemplateType } from '@definition/schedules';
 import { AppRoleType } from './app';
 import { AssignmentFieldType } from './assignment';
 import { UpcomingEventDisplayType } from './upcoming_events';
@@ -297,6 +298,7 @@ export type SettingsType = {
       conflict_prevent: { value: boolean; updatedAt: string };
       sisters_duties?: { value: boolean; updatedAt: string };
       mic_sections: { value: boolean; updatedAt: string };
+      section_templates?: DutiesSectionTemplateType[];
       av_combined: { value: boolean; updatedAt: string };
       audio_amount: { value: number; updatedAt: string };
       video_amount: { value: number; updatedAt: string };

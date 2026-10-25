@@ -13,6 +13,7 @@ const DutyName = ({ icon, duty }: DutyNameProps) => {
         flexShrink: 0,
         borderRadius: 'var(--radius-l)',
         padding: '4px 8px',
+        paddingInlineStart: 'var(--radius-xl)',
         display: 'flex',
         alignItems: 'center',
         gap: '8px',

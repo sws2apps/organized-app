@@ -1,9 +1,11 @@
+import { useId } from 'react';
 import { FormControl, FormHelperText, InputLabel, Theme } from '@mui/material';
 import { useAppTranslation } from '@hooks/index';
 import { SelectStyled } from './index.styles';
 import { SelectPropsType } from './index.types';
 import MenuItem from '@components/menuitem';
 import Typography from '@components/typography';
+import { centeredFieldLabel } from '@components/textfield/index.styles';
 
 /**
  * Custom select component.
@@ -13,17 +15,22 @@ import Typography from '@components/typography';
  */
 const Select = ({ helperText, ...props }: SelectPropsType) => {
   const { t } = useAppTranslation();
+  const id = useId();
+  const labelId = props.labelId ?? `${id}-label`;
+  const helperId = `${id}-helper`;
 
   return (
     <FormControl fullWidth sx={props.sx} disabled={props.disabled ?? false}>
       <InputLabel
+        id={labelId}
         className="body-regular"
         sx={{
           color: props.error ? 'var(--red-main)' : 'var(--accent-350)',
           '&.Mui-focused': { color: 'var(--accent-main)' },
-          '&[data-shrink=false]': {
-            transform: 'translate(14px, 12px) scale(1)',
-          },
+          '&[data-shrink=false]': centeredFieldLabel(
+            44,
+            'var(--select-content-inset)'
+          ),
           '&.Mui-disabled': { color: 'var(--accent-200)' },
         }}
       >
@@ -31,9 +38,11 @@ const Select = ({ helperText, ...props }: SelectPropsType) => {
       </InputLabel>
       <SelectStyled
         {...props}
+        labelId={props.inputProps?.['aria-label'] ? undefined : labelId}
         size="small"
         fullWidth
         inputProps={{
+          'aria-describedby': helperText ? helperId : undefined,
           ...props.inputProps,
         }}
         MenuProps={{
@@ -96,6 +105,7 @@ const Select = ({ helperText, ...props }: SelectPropsType) => {
       </SelectStyled>
       {helperText && (
         <FormHelperText
+          id={helperId}
           className="label-small-regular"
           sx={{
             color: props.error ? 'var(--red-main)' : 'var(--grey-350)',

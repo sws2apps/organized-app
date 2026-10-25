@@ -1,5 +1,16 @@
+import {
+  resolveRecurringSections,
+  snapshotRecurringSections,
+} from '@utils/duties_recurring';
+import { queueDutyWrite } from '@services/app/duties_queue';
+import {
+  isolateLegacySections,
+  sectionsForView,
+  validateDutyName,
+  uniqueDutyName,
+} from '@utils/duties_sections';
 import { SettingsType } from '@definition/settings';
-import { settingsState } from '@states/settings';
+import { settingsState, userDataViewState } from '@states/settings';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { updateObject } from '@utils/common';
 import { UpdateSpec } from 'dexie';
@@ -11,8 +22,12 @@ import {
   SchedWeekType,
 } from '@definition/schedules';
 import { assignmentsHistoryState, schedulesState } from '@states/schedules';
-import { dbSchedBulkUpdate, dbSchedUpdate } from '@services/dexie/schedules';
-import { schedulesBuildHistoryList } from '@services/app/schedules';
+import { dbSchedUpdate } from '@services/dexie/schedules';
+import {
+  schedulesBuildHistoryList,
+  schedulesDutiesMeetingParts,
+  schedulesDutiesSections,
+} from '@services/app/schedules';
 import { formatDate, getWeekDate } from '@utils/date';
 
 export type DutiesMeetingValue = 'midweek' | 'weekend';
@@ -40,9 +55,15 @@ const dutiesSlotPosition = (scheduleId: string) =>
  */
 export const dutiesSectionsShareTime = (
   first: DutiesSectionType,
-  second: DutiesSectionType
+  second: DutiesSectionType,
+  validParts?: string[]
 ) => {
   if (first.id === second.id) return true;
+  if (
+    validParts &&
+    [...first.parts, ...second.parts].some((part) => !validParts.includes(part))
+  )
+    return true;
 
   if (first.parts.length === 0 || second.parts.length === 0) return true;
 
@@ -96,10 +117,14 @@ const saveSections = async (
   week: string,
   meeting: DutiesMeetingValue,
   sections: DutiesSectionType[],
-  dynamic?: AssignmentCongregation[]
+  dynamic?: AssignmentCongregation[],
+  overrides?: DutiesMeetingType['section_overrides']
 ) => {
   const changes: Record<string, unknown> = {
     [`duties.${meeting}.sections`]: sections,
+    ...(overrides
+      ? { [`duties.${meeting}.section_overrides`]: overrides }
+      : {}),
   };
 
   if (dynamic) {
@@ -118,6 +143,7 @@ const saveSections = async (
           [meeting]: {
             ...schedule.duties[meeting],
             sections,
+            ...(overrides ? { section_overrides: overrides } : {}),
             ...(dynamic ? { dynamic } : {}),
           },
         },
@@ -127,79 +153,210 @@ const saveSections = async (
   store.set(assignmentsHistoryState, schedulesBuildHistoryList());
 };
 
-export const dutiesSectionAdd = async (
+const mutateSections = (
   week: string,
   meeting: DutiesMeetingValue,
-  section: Omit<DutiesSectionType, 'id' | '_deleted' | 'updatedAt'>
+  mutate: (
+    sections: DutiesSectionType[],
+    dynamic: AssignmentCongregation[],
+    dataView: string
+  ) => void,
+  expected?: Pick<DutiesSectionType, 'id' | 'updatedAt'>
 ) => {
-  const sections = sectionsOf(week, meeting);
-
-  const active = sections.filter((record) => !record._deleted);
-
-  if (active.length >= DUTIES_SECTIONS_MAX) return;
-
-  sections.push({
-    ...section,
-    id: crypto.randomUUID(),
-    _deleted: false,
-    updatedAt: new Date().toISOString(),
+  const dataView = store.get(userDataViewState);
+  return queueDutyWrite(week, async () => {
+    const schedule = scheduleOf(week);
+    if (!schedule?.duties) throw new Error('tr_sectionUnavailable');
+    if (expected) {
+      const current = schedulesDutiesSections(week, meeting, dataView).find(
+        (section) =>
+          section.id === expected.id || section.legacyId === expected.id
+      );
+      if (!current) throw new Error('tr_sectionUnavailable');
+      if (current.updatedAt !== expected.updatedAt)
+        throw new Error('tr_sectionChanged');
+    }
+    const views =
+      store
+        .get(settingsState)
+        .cong_settings.meeting_duties?.map((config) => config.type) ?? [];
+    const snapshot = snapshotRecurringSections(
+      schedule.duties[meeting],
+      schedulesDutiesSections(week, meeting, dataView),
+      dataView,
+      new Date().toISOString()
+    );
+    const { sections, dynamic } = isolateLegacySections(
+      snapshot.sections,
+      dynamicOf(week, meeting),
+      [...views, dataView]
+    );
+    mutate(sections, dynamic, dataView);
+    await saveSections(
+      week,
+      meeting,
+      sections,
+      dynamic,
+      snapshot.section_overrides
+    );
   });
-
-  await saveSections(week, meeting, sections);
 };
 
-export const dutiesSectionUpdate = async (
+const findSection = (
+  sections: DutiesSectionType[],
+  id: string,
+  dataView: string
+) => {
+  const section = sections.find(
+    (record) =>
+      record.dataView === dataView &&
+      !record._deleted &&
+      (record.id === id || record.legacyId === id)
+  );
+  if (!section) throw new Error('tr_sectionUnavailable');
+  return section;
+};
+
+const validateSection = (
+  section: Pick<DutiesSectionType, 'name' | 'amount' | 'parts'>,
+  sections: DutiesSectionType[],
+  id?: string
+) => {
+  const error = validateDutyName(section.name, sections, id);
+  if (error) throw new Error(error);
+  if (
+    !Number.isInteger(section.amount) ||
+    section.amount < 1 ||
+    section.amount > 4
+  )
+    throw new Error('tr_dutyInvalidAmount');
+};
+
+export const dutiesSectionAdd = (
+  week: string,
+  meeting: DutiesMeetingValue,
+  section: Pick<DutiesSectionType, 'name' | 'amount' | 'parts'>
+) =>
+  mutateSections(week, meeting, (sections, _, dataView) => {
+    const active = sectionsForView(sections, dataView);
+    if (active.length >= DUTIES_SECTIONS_MAX)
+      throw new Error('tr_sectionsLimitReached');
+    validateSection(section, active);
+    const validParts = schedulesDutiesMeetingParts(week, meeting, dataView).map(
+      (part) => part.key
+    );
+    if (section.parts.some((key) => !validParts.includes(key)))
+      throw new Error('tr_sectionPartsChanged');
+    sections.push({
+      ...section,
+      name: section.name.trim(),
+      id: crypto.randomUUID(),
+      dataView,
+      order: Math.max(-1, ...active.map((item) => item.order ?? 0)) + 1,
+      _deleted: false,
+      updatedAt: new Date().toISOString(),
+    });
+  });
+
+export const dutiesSectionUpdate = (
   week: string,
   meeting: DutiesMeetingValue,
   id: string,
-  changes: Partial<Omit<DutiesSectionType, 'id'>>
-) => {
-  const sections = sectionsOf(week, meeting);
-
-  const section = sections.find((record) => record.id === id);
-
-  if (!section) return;
-
-  Object.assign(section, changes, { updatedAt: new Date().toISOString() });
-
-  // a smaller section must not keep the brothers of the slots it dropped, or
-  // making it larger again would bring them back
-  const dynamic = dynamicOf(week, meeting);
-
-  const released = releaseSlots(
-    dynamic,
-    (sectionId, position) => sectionId === id && position > section.amount
+  changes: Pick<DutiesSectionType, 'name' | 'amount' | 'parts'>,
+  expectedUpdatedAt?: string
+) =>
+  mutateSections(
+    week,
+    meeting,
+    (sections, dynamic, dataView) => {
+      const section = findSection(sections, id, dataView);
+      validateSection(changes, sectionsForView(sections, dataView), section.id);
+      const validParts = schedulesDutiesMeetingParts(
+        week,
+        meeting,
+        dataView
+      ).map((part) => part.key);
+      if (changes.parts.some((key) => !validParts.includes(key)))
+        throw new Error('tr_sectionPartsChanged');
+      Object.assign(section, changes, {
+        name: changes.name.trim(),
+        updatedAt: new Date().toISOString(),
+      });
+      releaseSlots(
+        dynamic.filter((entry) => entry.type === dataView),
+        (sectionId, position) =>
+          sectionId === section.id && position > section.amount
+      );
+    },
+    expectedUpdatedAt ? { id, updatedAt: expectedUpdatedAt } : undefined
   );
 
-  await saveSections(week, meeting, sections, released ? dynamic : undefined);
-};
-
-export const dutiesSectionDelete = async (
+export const dutiesSectionDelete = (
   week: string,
   meeting: DutiesMeetingValue,
   id: string
-) => {
-  const sections = sectionsOf(week, meeting);
+) =>
+  mutateSections(week, meeting, (sections, dynamic, dataView) => {
+    const section = findSection(sections, id, dataView);
+    section._deleted = true;
+    section.updatedAt = new Date().toISOString();
+    releaseSlots(
+      dynamic.filter((entry) => entry.type === dataView),
+      (sectionId) => sectionId === section.id
+    );
+  });
 
-  const section = sections.find((record) => record.id === id);
+export const dutiesSectionMove = (
+  week: string,
+  meeting: DutiesMeetingValue,
+  id: string,
+  direction: -1 | 1
+) =>
+  mutateSections(week, meeting, (sections, _, dataView) => {
+    const section = findSection(sections, id, dataView);
+    const active = sectionsForView(sections, dataView);
+    const index = active.indexOf(section);
+    const target = index + direction;
+    if (target < 0 || target >= active.length) return;
+    [active[index], active[target]] = [active[target], active[index]];
+    const updatedAt = new Date().toISOString();
+    active.forEach((record, order) =>
+      Object.assign(record, { order, updatedAt })
+    );
+  });
 
-  if (!section) return;
-
-  section._deleted = true;
-  section.updatedAt = new Date().toISOString();
-
-  // the brothers of a deleted section are released with it: nothing is left
-  // behind to reappear if a section with the same name is created later
-  const dynamic = dynamicOf(week, meeting);
-
-  const released = releaseSlots(dynamic, (sectionId) => sectionId === id);
-
-  await saveSections(week, meeting, sections, released ? dynamic : undefined);
-};
+/** Copy structure only; existing target sections and assignments are never replaced. */
+export const dutiesSectionsCopy = (
+  week: string,
+  meeting: DutiesMeetingValue,
+  fromWeek: string
+) =>
+  mutateSections(week, meeting, (sections, _, dataView) => {
+    const source = sectionsForView(sectionsOf(fromWeek, meeting), dataView);
+    const active = sectionsForView(sections, dataView);
+    if (!source.length) throw new Error('tr_sectionsNothingToCopy');
+    if (source.length + active.length > DUTIES_SECTIONS_MAX)
+      throw new Error('tr_sectionsLimitReached');
+    let order = Math.max(-1, ...active.map((record) => record.order ?? 0));
+    for (const section of source) {
+      const name = uniqueDutyName(section.name, active);
+      const copy = {
+        ...structuredClone(section),
+        id: crypto.randomUUID(),
+        legacyId: undefined,
+        dataView,
+        name,
+        order: ++order,
+        updatedAt: new Date().toISOString(),
+      };
+      sections.push(copy);
+      active.push(copy);
+    }
+  });
 
 export type DutiesStaticKey = Exclude<
   keyof DutiesMeetingType,
-  'sections' | 'dynamic'
+  'sections' | 'dynamic' | 'section_overrides'
 >;
 
 type ReleasePositionsParams = {
@@ -258,45 +415,42 @@ export const dutiesReleasePositions = async (
   params: ReleasePositionsParams
 ) => {
   const currentWeek = formatDate(getWeekDate(), 'yyyy/MM/dd');
-  const now = new Date().toISOString();
-
-  const changed: SchedWeekType[] = [];
-
-  for (const schedule of store.get(schedulesState)) {
-    if (schedule.weekOf < currentWeek || !schedule.duties) continue;
-
-    const updated = structuredClone(schedule);
-
-    let released = false;
-
-    for (const meeting of ['midweek', 'weekend'] as const) {
-      const duties = updated.duties?.[meeting];
-
-      if (!duties) continue;
-
-      const staticReleased = releaseStaticPositions(duties, params, now);
-      const customReleased = releaseCustomPositions(duties, params);
-
-      released = staticReleased || customReleased || released;
-    }
-
-    if (released) changed.push(updated);
-  }
-
-  if (changed.length === 0) return;
-
-  await dbSchedBulkUpdate(changed);
-
-  // keep the editor and the history in step without waiting for the live query
-  const updatedWeeks = new Map(changed.map((week) => [week.weekOf, week]));
-
-  store.set(
-    schedulesState,
-    store
-      .get(schedulesState)
-      .map((schedule) => updatedWeeks.get(schedule.weekOf) ?? schedule)
+  const weeks = store
+    .get(schedulesState)
+    .filter((schedule) => schedule.weekOf >= currentWeek && schedule.duties)
+    .map((schedule) => schedule.weekOf);
+  await Promise.all(
+    weeks.map((week) =>
+      queueDutyWrite(week, async () => {
+        const latest = scheduleOf(week);
+        if (!latest?.duties) return;
+        const updated = structuredClone(latest.duties);
+        const now = new Date().toISOString();
+        let released = false;
+        for (const meeting of ['midweek', 'weekend'] as const) {
+          const staticReleased = releaseStaticPositions(
+            updated[meeting],
+            params,
+            now
+          );
+          const customReleased = releaseCustomPositions(
+            updated[meeting],
+            params
+          );
+          released = staticReleased || customReleased || released;
+        }
+        if (!released) return;
+        await dbSchedUpdate(week, { duties: updated });
+        store.set(schedulesState, (current) =>
+          current.map((schedule) =>
+            schedule.weekOf === week
+              ? { ...schedule, duties: updated }
+              : schedule
+          )
+        );
+      })
+    )
   );
-
   store.set(assignmentsHistoryState, schedulesBuildHistoryList());
 };
 
@@ -315,15 +469,36 @@ const DUTY_AMOUNT_KEYS = {
 // newer fields. The existing timestamp merge also preserves other data views.
 let settingsWrite: Promise<void> = Promise.resolve();
 export const dutiesSaveSettings = (
-  incoming: SettingsType['cong_settings']['meeting_duties']
+  incoming: SettingsType['cong_settings']['meeting_duties'],
+  validate?: () => void
 ) => {
   const save = async () => {
+    validate?.();
     const previous =
       store.get(settingsState).cong_settings.meeting_duties ?? [];
     const merged = updateObject(
       { meeting_duties: structuredClone(previous) },
       { meeting_duties: incoming }
     ).meeting_duties;
+    for (const config of merged) {
+      const before = previous.find((item) => item.type === config.type);
+      for (const duty of config.custom ?? []) {
+        const old = before?.custom?.find((item) => item.id === duty.id);
+        if (
+          duty._deleted ||
+          (old && old.name === duty.name && old.amount === duty.amount)
+        )
+          continue;
+        const error = validateDutyName(duty.name, config.custom, duty.id);
+        if (error) throw new Error(error);
+        if (
+          !Number.isInteger(duty.amount) ||
+          duty.amount < 0 ||
+          duty.amount > 4
+        )
+          throw new Error('tr_dutyInvalidAmount');
+      }
+    }
     await dbAppSettingsUpdate({ 'cong_settings.meeting_duties': merged });
     store.set(settingsState, (current) => ({
       ...current,
@@ -362,3 +537,41 @@ export const dutiesSaveSettings = (
   settingsWrite = pending.catch(() => undefined);
   return pending;
 };
+
+/** Replace only this view's section layout; retain clears for removed assignments. */
+export const dutiesSectionsRestore = (
+  week: string,
+  meeting: DutiesMeetingValue
+) =>
+  mutateSections(week, meeting, (sections, dynamic, dataView) => {
+    const config = store
+      .get(settingsState)
+      .cong_settings.meeting_duties?.find((item) => item.type === dataView);
+    const active = sectionsForView(sections, dataView);
+    const ids = new Set(active.map((section) => section.id));
+    const updatedAt = new Date().toISOString();
+    for (const section of active) {
+      section._deleted = true;
+      section.updatedAt = updatedAt;
+    }
+    releaseSlots(
+      dynamic.filter((entry) => entry.type === dataView),
+      (id) => ids.has(id)
+    );
+    const defaults = resolveRecurringSections({
+      duties: { sections: [] },
+      templates: config?.section_templates ?? [],
+      meeting,
+      dataView,
+      partKeys: schedulesDutiesMeetingParts(week, meeting, dataView).map(
+        (part) => part.key
+      ),
+    });
+    sections.push(
+      ...defaults.map((section) => ({
+        ...section,
+        id: crypto.randomUUID(),
+        updatedAt,
+      }))
+    );
+  });

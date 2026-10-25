@@ -1,13 +1,22 @@
-import { Stack } from '@mui/material';
+import { useAtomValue } from 'jotai';
+import { userDataViewState } from '@states/settings';
+import { Box, Stack } from '@mui/material';
 import { IconAdd } from '@components/icons';
-import { useAppTranslation } from '@hooks/index';
+import {
+  useAppTranslation,
+  useBreakpoints,
+  useCurrentUser,
+} from '@hooks/index';
 import useCustomDuties from './useCustomDuties';
 import Button from '@components/button';
 import DutyEdit from './duty_edit';
 import DutyItem from './duty_item';
 
 const CustomDuties = () => {
+  const dataView = useAtomValue(userDataViewState);
   const { t } = useAppTranslation();
+  const { isDutiesEditor } = useCurrentUser();
+  const { mobile400Down } = useBreakpoints();
 
   const { formOpen, handleCloseForm, handleOpenForm, customDuties } =
     useCustomDuties();
@@ -15,17 +24,32 @@ const CustomDuties = () => {
   return (
     <Stack spacing="8px">
       {formOpen && (
-        <DutyEdit type="add" open={formOpen} onClose={handleCloseForm} />
+        <DutyEdit
+          key={dataView}
+          type="add"
+          open={formOpen}
+          onClose={handleCloseForm}
+        />
       )}
 
-      <Stack spacing="16px">
+      <Box
+        sx={{
+          display: 'grid',
+          gridTemplateColumns: mobile400Down
+            ? 'minmax(0, 1fr)'
+            : 'repeat(2, minmax(0, 1fr))',
+          gap: 'var(--dialog-gap) var(--dialog-gap-mobile)',
+        }}
+      >
         {customDuties.map((duty) => (
-          <DutyItem key={duty.id} {...duty} />
+          <DutyItem key={`${dataView}:${duty.id}`} {...duty} />
         ))}
-      </Stack>
+      </Box>
 
       <Button
         variant="small"
+        disableAutoStretch
+        disabled={!isDutiesEditor}
         onClick={handleOpenForm}
         startIcon={<IconAdd />}
         sx={{

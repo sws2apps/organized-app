@@ -13,6 +13,7 @@ const TabSwitcher = <T extends string = string>({
   ariaLabel,
   id,
   wrapLabels = false,
+  surface = 'tinted',
   sx,
 }: TabSwitcherProps<T>) => {
   const generatedId = useId();
@@ -69,7 +70,8 @@ const TabSwitcher = <T extends string = string>({
         gap: `${gap}px`,
         padding: '4px',
         borderRadius: 'var(--radius-l)',
-        backgroundColor: 'var(--accent-150)',
+        backgroundColor:
+          surface === 'light' ? 'var(--accent-100)' : 'var(--accent-150)',
         border: '1px solid var(--accent-200)',
         ...sx,
       }}
@@ -83,8 +85,9 @@ const TabSwitcher = <T extends string = string>({
           insetInlineStart: '4px',
           width: `calc((100% - ${(options.length - 1) * gap + 8}px) / ${options.length})`,
           borderRadius: 'var(--radius-m)',
-          backgroundColor: 'var(--accent-200)',
-          border: '1px solid var(--accent-main)',
+          backgroundColor:
+            surface === 'light' ? 'var(--accent-150)' : 'var(--accent-200)',
+          border: `1px solid ${surface === 'light' ? 'var(--accent-300)' : 'var(--accent-main)'}`,
           transform: `translateX(calc(${(direction === 'rtl' ? -1 : 1) * Math.max(activeIndex, 0)} * (100% + ${gap}px)))`,
           transition: 'transform 0.2s cubic-bezier(0.22, 1, 0.36, 1)',
           opacity: activeIndex === -1 ? 0 : 1,
@@ -106,7 +109,15 @@ const TabSwitcher = <T extends string = string>({
               buttons.current[index] = node;
             }}
             onKeyDown={(event) => handleKeyDown(event, index)}
-            className={isActive ? 'h4' : 'body-regular'}
+            className={
+              surface === 'light'
+                ? isActive
+                  ? 'body-small-semibold'
+                  : 'body-small-regular'
+                : isActive
+                  ? 'h4'
+                  : 'body-regular'
+            }
             aria-selected={isActive}
             disabled={option.disabled}
             disableRipple
@@ -120,7 +131,7 @@ const TabSwitcher = <T extends string = string>({
               alignItems: 'center',
               justifyContent: 'center',
               gap: '8px',
-              padding: '4px 16px',
+              padding: surface === 'light' ? '4px 12px' : '4px 16px',
               minHeight: '28px',
               borderRadius: 'var(--radius-m)',
               fontFamily: 'inherit',

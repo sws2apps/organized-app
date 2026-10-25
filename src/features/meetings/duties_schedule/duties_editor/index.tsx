@@ -1,3 +1,4 @@
+import { useId } from 'react';
 import { Box, Stack } from '@mui/material';
 import {
   IconAtHome,
@@ -17,15 +18,17 @@ import DutyRow from '@features/meetings/duties_schedule/duty_row';
 import DateNavigator from '@components/date_navigator';
 import InfoNote from '@components/info_note';
 import MicSections from '@features/meetings/duties_schedule/mic_sections';
-import Tabs from '@components/tabs';
+import TabSwitcher from '@components/tab_switcher';
 import Typography from '@components/typography';
 
 const DutiesEditor = () => {
   const { t } = useAppTranslation();
+  const tabsId = useId();
 
   const { tablet500Down, laptopDown } = useBreakpoints();
 
   const {
+    dataView,
     weekly,
     weekDateLocale,
     isCurrentWeek,
@@ -82,6 +85,7 @@ const DutiesEditor = () => {
                 week={selectedWeek}
               >
                 <MicSections
+                  key={`${selectedWeek}:${meeting}:${dataView}`}
                   week={selectedWeek}
                   prefix={activePrefix}
                   meeting={meeting}
@@ -204,6 +208,9 @@ const DutiesEditor = () => {
   const dateNavigator = (
     <DateNavigator
       value={weekDateLocale}
+      labelMinWidth={
+        tablet500Down ? undefined : 'var(--date-navigator-label-min-width)'
+      }
       onBack={handleChangeWeekBack}
       onNext={handleChangeWeekNext}
       disableBack={!showWeekNav.back}
@@ -211,7 +218,8 @@ const DutiesEditor = () => {
       badgeText={t('tr_today')}
       badgeVisible={isCurrentWeek}
       sx={{
-        width: tablet500Down ? '100%' : 'auto',
+        width: tablet500Down ? '100%' : 'fit-content',
+        alignSelf: 'flex-start',
         minWidth: 0,
         maxWidth: '100%',
       }}
@@ -238,19 +246,54 @@ const DutiesEditor = () => {
           {meetingPanel(activeMeeting)}
         </Stack>
       ) : (
-        <Tabs
-          fullWidth
-          value={activeMeeting === 'midweek' ? 0 : 1}
-          onChange={(index) =>
-            handleChangeMeeting(index === 0 ? 'midweek' : 'weekend')
-          }
-          tabs={[
-            { label: t('tr_midweek'), Component: meetingPanel('midweek') },
-            { label: t('tr_weekend'), Component: meetingPanel('weekend') },
-          ]}
-          actionPosition="start"
-          actionComponent={dateNavigator}
-        />
+        <Stack spacing="24px">
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              flexWrap: 'wrap',
+              gap: 'var(--dialog-gap-mobile)',
+            }}
+          >
+            {dateNavigator}
+            <TabSwitcher<DutiesMeetingValue>
+              id={tabsId}
+              ariaLabel={t('tr_meetings')}
+              surface="light"
+              wrapLabels
+              value={activeMeeting}
+              onChange={handleChangeMeeting}
+              options={[
+                {
+                  value: 'midweek',
+                  label: t('tr_midweek'),
+                  panelId: `${tabsId}-panel`,
+                },
+                {
+                  value: 'weekend',
+                  label: t('tr_weekend'),
+                  panelId: `${tabsId}-panel`,
+                },
+              ]}
+              sx={{
+                width: tablet500Down
+                  ? '100%'
+                  : 'var(--duties-meeting-switch-width)',
+                flexShrink: 0,
+                marginInlineStart: 'auto',
+                maxWidth: '100%',
+              }}
+            />
+          </Box>
+          <Box
+            role="tabpanel"
+            id={`${tabsId}-panel`}
+            aria-labelledby={`${tabsId}-${activeMeeting}`}
+          >
+            {meetingPanel(activeMeeting)}
+          </Box>
+        </Stack>
       )}
     </Box>
   );

@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useRef, useState } from 'react';
 import { SelectChangeEvent } from '@mui/material';
 import { useAtomValue } from 'jotai';
-import { useBreakpoints } from '@hooks/index';
 import { settingsState, userDataViewState } from '@states/settings';
 import { dutiesSaveSettings } from '@services/app/duties';
 import { displaySnackNotification } from '@services/states/app';
@@ -9,27 +8,30 @@ import { getMessageByCode } from '@services/i18n/translation';
 import { DutyItemProps } from './index.types';
 
 const useDutyItem = ({ id }: DutyItemProps) => {
-  const { laptopDown } = useBreakpoints();
-
   const settings = useAtomValue(settingsState);
   const dataView = useAtomValue(userDataViewState);
 
   const [formOpen, setFormOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
-  const [showEdit, setShowEdit] = useState(false);
+  const [isBusy, setIsBusy] = useState(false);
+  const busy = useRef(false);
 
   const handleOpenForm = () => setFormOpen(true);
 
   const handleCloseForm = () => setFormOpen(false);
 
   const handleAskDelete = () => {
-    setFormOpen(false);
     setDeleteOpen(true);
   };
 
-  const handleCloseDelete = () => setDeleteOpen(false);
+  const handleCloseDelete = () => {
+    if (!busy.current) setDeleteOpen(false);
+  };
 
   const handleDelete = async () => {
+    if (busy.current) return;
+    busy.current = true;
+    setIsBusy(true);
     try {
       const meetingDuties = structuredClone(
         settings.cong_settings.meeting_duties
@@ -57,22 +59,16 @@ const useDutyItem = ({ id }: DutyItemProps) => {
         ),
         severity: 'error',
       });
+    } finally {
+      busy.current = false;
+      setIsBusy(false);
     }
   };
 
-  const handleHover = () => {
-    if (laptopDown) return;
-
-    setShowEdit(true);
-  };
-
-  const handleUnhover = () => {
-    if (laptopDown) return;
-
-    setShowEdit(false);
-  };
-
   const handleAmountChange = async (e: SelectChangeEvent<unknown>) => {
+    if (busy.current) return;
+    busy.current = true;
+    setIsBusy(true);
     const value = Number(e.target.value);
 
     try {
@@ -100,16 +96,11 @@ const useDutyItem = ({ id }: DutyItemProps) => {
         ),
         severity: 'error',
       });
+    } finally {
+      busy.current = false;
+      setIsBusy(false);
     }
   };
-
-  useEffect(() => {
-    if (laptopDown) {
-      setShowEdit(true);
-    } else {
-      setShowEdit(false);
-    }
-  }, [laptopDown]);
 
   return {
     formOpen,
@@ -119,9 +110,7 @@ const useDutyItem = ({ id }: DutyItemProps) => {
     handleAskDelete,
     handleCloseDelete,
     handleDelete,
-    showEdit,
-    handleHover,
-    handleUnhover,
+    isBusy,
     handleAmountChange,
   };
 };

@@ -20,6 +20,8 @@ const QuickSettingsMeetingDuties = ({
   return (
     <QuickSettings
       title={t('tr_meetingDutiesSchedules')}
+      description={t('tr_dutiesQuickSettingsDesc')}
+      showCancel={false}
       open={open}
       onClose={onClose}
     >

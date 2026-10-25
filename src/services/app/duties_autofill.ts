@@ -1,3 +1,5 @@
+import { snapshotRecurringSections } from '@utils/duties_recurring';
+import { queueDutyWeeks } from '@services/app/duties_queue';
 import { AssignmentCode } from '@definition/assignment';
 import { PersonType } from '@definition/person';
 import {
@@ -7,7 +9,7 @@ import {
   SchedWeekType,
 } from '@definition/schedules';
 import { SettingsType } from '@definition/settings';
-import { dbSchedBulkUpdate } from '@services/dexie/schedules';
+import { dbSchedUpdate } from '@services/dexie/schedules';
 import { fieldServiceGroupsState } from '@states/field_service_groups';
 import { store } from '@states/index';
 import { personsActiveState } from '@states/persons';
@@ -25,6 +27,7 @@ import {
   schedulesBuildHistoryList,
   schedulesDutiesConfig,
   schedulesDutiesFieldList,
+  schedulesDutiesMeetingParts,
   schedulesDutiesGetFieldValue,
   schedulesDutiesMeetingHeld,
   schedulesDutiesSections,
@@ -165,6 +168,14 @@ const buildDutyTasks = ({
       : heldMeetings;
     for (const meeting of meetings) {
       const sections = schedulesDutiesSections(schedule.weekOf, meeting);
+      if (!config.schedule_weekly?.value) {
+        schedule.duties[meeting] = snapshotRecurringSections(
+          schedule.duties[meeting],
+          sections,
+          dataView,
+          new Date().toISOString()
+        );
+      }
       const fields = schedulesDutiesFieldList(meeting, config, sections);
 
       const targetDate = formatDate(
@@ -264,7 +275,13 @@ const servedTogether = (
   const secondSection = sectionOf(second.schedule_id);
 
   if (firstSection && secondSection) {
-    return dutiesSectionsShareTime(firstSection, secondSection);
+    return dutiesSectionsShareTime(
+      firstSection,
+      secondSection,
+      schedulesDutiesMeetingParts(task.schedule.weekOf, task.meeting).map(
+        (part) => part.key
+      )
+    );
   }
 
   return (
@@ -510,7 +527,7 @@ const autofillDutyTasks = (
  *
  * @returns the number of weeks processed
  */
-export const dutiesStartAutofill = async (start: string, end: string) => {
+const runDutiesAutofill = async (start: string, end: string) => {
   const config = schedulesDutiesConfig();
 
   if (!config) return 0;
@@ -581,18 +598,33 @@ export const dutiesStartAutofill = async (start: string, end: string) => {
     expectedByCode,
   });
 
-  await dbSchedBulkUpdate(weeks);
+  await Promise.all(
+    weeks.map((week) => dbSchedUpdate(week.weekOf, { duties: week.duties }))
+  );
 
   const updatedWeeks = new Map(weeks.map((week) => [week.weekOf, week]));
 
   store.set(
     schedulesState,
-    store
-      .get(schedulesState)
-      .map((schedule) => updatedWeeks.get(schedule.weekOf) ?? schedule)
+    store.get(schedulesState).map((schedule) => {
+      const updated = updatedWeeks.get(schedule.weekOf);
+      return updated ? { ...schedule, duties: updated.duties } : schedule;
+    })
   );
 
   store.set(assignmentsHistoryState, schedulesBuildHistoryList());
 
   return weeks.length;
+};
+
+export const dutiesStartAutofill = (start: string, end: string) => {
+  const dataView = store.get(userDataViewState);
+  return queueDutyWeeks(
+    dutiesWeeksList(start, end).map((week) => week.weekOf),
+    () => {
+      if (store.get(userDataViewState) !== dataView)
+        throw new Error('tr_sectionViewChanged');
+      return runDutiesAutofill(start, end);
+    }
+  );
 };

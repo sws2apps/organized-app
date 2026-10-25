@@ -1,4 +1,6 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { validateDutyName } from '@utils/duties_sections';
+import { useAppTranslation } from '@hooks/index';
+import { ChangeEvent, useRef, useState } from 'react';
 import { SelectChangeEvent } from '@mui/material';
 import { useAtomValue } from 'jotai';
 import {
@@ -12,15 +14,22 @@ import { dutiesSaveSettings } from '@services/app/duties';
 import { DutyEditProps } from './index.types';
 
 const useDutyEdit = ({ id, onClose, type }: DutyEditProps) => {
+  const { t } = useAppTranslation();
   const settings = useAtomValue(settingsState);
   const dataView = useAtomValue(userDataViewState);
   const duties = useAtomValue(dutiesCustomState);
 
-  const [name, setName] = useState('');
-  const [amount, setAmount] = useState(0);
+  const duty = duties.find((item) => item.id === id);
+  const [name, setName] = useState(duty?.name ?? '');
+  const [amount, setAmount] = useState(duty?.amount ?? 1);
+  const [nameError, setNameError] = useState<string>();
+  const [isSaving, setIsSaving] = useState(false);
+  const saving = useRef(false);
+  const unavailable = type === 'edit' && !duty;
 
   const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
+    setNameError(undefined);
     setName(value);
   };
 
@@ -31,7 +40,12 @@ const useDutyEdit = ({ id, onClose, type }: DutyEditProps) => {
   const handleSave = async () => {
     const dutyName = name.trim();
 
-    if (dutyName.length === 0) return;
+    if (saving.current || unavailable) return;
+    const error = validateDutyName(dutyName, duties, id);
+    setNameError(error);
+    if (error) return;
+    saving.current = true;
+    setIsSaving(true);
 
     try {
       const meetingDuties = structuredClone(
@@ -68,26 +82,25 @@ const useDutyEdit = ({ id, onClose, type }: DutyEditProps) => {
 
       displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
-        message: getMessageByCode(
-          error instanceof Error ? error.message : String(error)
-        ),
+        message: t(error instanceof Error ? error.message : String(error)),
         severity: 'error',
       });
+    } finally {
+      saving.current = false;
+      setIsSaving(false);
     }
   };
 
-  useEffect(() => {
-    if (!id) return;
-
-    const duty = duties.find((duty) => duty.id === id);
-
-    if (!duty) return;
-
-    setName(duty.name);
-    setAmount(duty.amount);
-  }, [id, duties]);
-
-  return { name, amount, handleNameChange, handleAmountChange, handleSave };
+  return {
+    name,
+    amount,
+    nameError,
+    isSaving,
+    unavailable,
+    handleNameChange,
+    handleAmountChange,
+    handleSave,
+  };
 };
 
 export default useDutyEdit;

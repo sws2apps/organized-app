@@ -33,6 +33,8 @@ const DutyRow = ({
       }}
     >
       <Box
+        role="group"
+        aria-label={duty}
         sx={{
           display: 'grid',
           gridTemplateColumns: 'minmax(0, 1fr)',

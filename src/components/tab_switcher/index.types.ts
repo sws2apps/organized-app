@@ -17,5 +17,6 @@ export type TabSwitcherProps<T extends string = string> = {
   ariaLabel?: string;
   id?: string;
   wrapLabels?: boolean;
+  surface?: 'tinted' | 'light';
   sx?: SxProps<Theme>;
 };

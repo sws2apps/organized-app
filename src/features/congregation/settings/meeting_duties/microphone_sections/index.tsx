@@ -2,6 +2,7 @@ import { useAtomValue } from 'jotai';
 import { dutiesScheduleWeeklyState } from '@states/settings';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import useMicrophoneSections from './useMicrophoneSections';
+import SectionsSettings from '@features/congregation/settings/meeting_duties/sections_settings';
 import SwitchWithLabel from '@components/switch_with_label';
 
 const MicrophoneSections = () => {
@@ -15,6 +16,7 @@ const MicrophoneSections = () => {
   return (
     <SwitchWithLabel
       label={t('tr_dutiesMicrophoneSections')}
+      action={value && !weekly ? <SectionsSettings /> : undefined}
       helper={t(
         weekly
           ? 'tr_dutiesWeeklyMicrophonesDesc'
@@ -22,7 +24,8 @@ const MicrophoneSections = () => {
       )}
       checked={value}
       onChange={handleValueChange}
-      readOnly={!isDutiesEditor || weekly}
+      readOnly={!isDutiesEditor}
+      disabled={weekly}
     />
   );
 };

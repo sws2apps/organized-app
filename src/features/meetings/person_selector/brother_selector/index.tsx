@@ -22,9 +22,10 @@ import AssignmentsHistoryDialog from '@features/meetings/assignments_history_dia
 import IconButton from '@components/icon_button';
 import Radio from '@components/radio';
 import Typography from '@components/typography';
+import { assignmentConflictGroup } from '@utils/assignment_conflicts';
 
 const dutiesGroupBy = (option: PersonOptionsType) =>
-  option.conflict ? 'conflict' : 'free';
+  String(assignmentConflictGroup(option.conflict));
 
 const BrotherOption = ({
   optionProps,
@@ -103,9 +104,13 @@ const BrotherGroup = ({
         className="body-small-semibold"
         sx={{ color: 'var(--accent-main)', padding: '8px 12px 4px 16px' }}
       >
-        {group === 'free'
-          ? t('tr_noOtherAssignments')
-          : t('tr_withOtherAssignments')}
+        {t(
+          group === '0'
+            ? 'tr_noOtherAssignments'
+            : group === '1'
+              ? 'tr_withMeetingParts'
+              : 'tr_withDuties'
+        )}
       </Typography>
       <ul style={{ padding: 0, margin: 0 }}>{children}</ul>
     </>
@@ -312,11 +317,17 @@ const BrotherSelector = (props: PersonSelectorType) => {
       )}
 
       <AutoComplete
+        height={44}
         freeSolo={isFreeSolo}
         readOnly={props.readOnly}
         label={props.label}
         isOptionEqualToValue={(option, value) =>
           option.person_uid === value.person_uid
+        }
+        getOptionKey={(option) =>
+          typeof option === 'string'
+            ? option
+            : (option.person_uid ?? option.person_name ?? '')
         }
         getOptionLabel={(option: PersonOptionsType) => option.person_name}
         options={options}
@@ -334,15 +345,16 @@ const BrotherSelector = (props: PersonSelectorType) => {
             return (
               <Popper
                 {...props}
-                style={{ minWidth: 320 }}
+                style={{ ...props.style, minWidth: isDutiesField ? 0 : 320 }}
+                sx={{ zIndex: (theme) => theme.zIndex.modal }}
                 placement="bottom-start"
               />
             );
           },
         }}
-        renderOption={(optionProps, option) => (
+        renderOption={({ key, ...optionProps }, option) => (
           <BrotherOption
-            key={option.person_uid}
+            key={key}
             optionProps={optionProps}
             option={option}
             showIcon={showIcon}
@@ -360,9 +372,6 @@ const BrotherSelector = (props: PersonSelectorType) => {
         }
         clearIcon={<IconClose width={20} height={20} />}
         sx={{
-          '& .MuiOutlinedInput-root': {
-            height: '44px !important',
-          },
           '& .MuiOutlinedInput-input': {
             paddingRight: props.endIcon ? '10px !important' : '80px !important',
           },

@@ -1,6 +1,6 @@
-import { useAppTranslation, useBreakpoints } from '@hooks/index';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { DUTIES_MAX } from '../../shared/constants';
-import { TwoColumnsRow } from '@features/congregation/settings/shared_styles';
+import { Stack } from '@mui/material';
 import { DutyItemProps } from './index.types';
 import useDutyItem from './useDutyItem';
 import MenuItem from '@components/menuitem';
@@ -9,22 +9,26 @@ import Typography from '@components/typography';
 
 const DutyItem = (props: DutyItemProps) => {
   const { t } = useAppTranslation();
-
-  const { laptopUp } = useBreakpoints();
+  const { isDutiesEditor } = useCurrentUser();
 
   const { value, handleAmountChange } = useDutyItem(props);
 
   return (
-    <TwoColumnsRow
+    <Stack
       sx={{
-        flexDirection: laptopUp ? 'row' : 'column',
-        alignItems: laptopUp ? 'center' : 'unset',
+        minWidth: 0,
+        justifyContent: 'space-between',
+        gap: 'var(--dialog-gap-mobile)',
       }}
     >
-      <Typography>{t(props.duty)}</Typography>
+      <Typography sx={{ overflowWrap: 'anywhere' }}>{t(props.duty)}</Typography>
 
       <Select
-        label={t('tr_amountLabel')}
+        label={t('tr_dutyPeopleNeeded')}
+        inputProps={{
+          'aria-label': t('tr_dutyPeopleNeededFor', { duty: t(props.duty) }),
+        }}
+        readOnly={!isDutiesEditor}
         value={value}
         onChange={handleAmountChange}
       >
@@ -38,7 +42,7 @@ const DutyItem = (props: DutyItemProps) => {
           </MenuItem>
         ))}
       </Select>
-    </TwoColumnsRow>
+    </Stack>
   );
 };
 

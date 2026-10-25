@@ -96,12 +96,23 @@ export type DutiesMeetingPartType = {
 
 export type DutiesSectionType = {
   id: string;
+  /** Missing only on legacy shared sections. */
+  dataView?: string;
+  legacyId?: string;
+  order?: number;
   name: string;
   // keys of the meeting parts this section covers, empty for a whole meeting
   parts: string[];
   amount: number;
   _deleted: boolean;
   updatedAt: string;
+};
+
+export type DutiesSectionTemplateType = {
+  id: string;
+  meeting: 'midweek' | 'weekend';
+  updatedAt: string;
+  sections: Pick<DutiesSectionType, 'id' | 'name' | 'amount' | 'parts'>[];
 };
 
 export type DutiesMeetingType = {
@@ -116,6 +127,7 @@ export type DutiesMeetingType = {
   hospitality: DutyPositionsType;
   videoconference_host: DutyPositionsType;
   sections: DutiesSectionType[];
+  section_overrides?: { type: string; updatedAt: string }[];
   // `${sectionOrCustomId}_${position}` entries for sections and custom duties
   dynamic: AssignmentCongregation[];
 };

@@ -1,7 +1,13 @@
-import { ChangeEvent, useEffect, useMemo, useState } from 'react';
+import { ChangeEvent, useMemo, useRef, useState } from 'react';
 import { SelectChangeEvent } from '@mui/material';
 import { useAtomValue } from 'jotai';
-import { meetingDutiesState } from '@states/settings';
+import {
+  meetingDutiesState,
+  userDataViewState,
+  JWLangState,
+} from '@states/settings';
+import { schedulesState } from '@states/schedules';
+import { sourcesState } from '@states/sources';
 import {
   schedulesDutiesMeetingParts,
   schedulesDutiesSections,
@@ -10,7 +16,8 @@ import { dutiesSectionAdd, dutiesSectionUpdate } from '@services/app/duties';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { useAppTranslation } from '@hooks/index';
-import { SectionEditProps, SectionNameError } from '../index.types';
+import { validateDutyName, uniqueDutyName } from '@utils/duties_sections';
+import { SectionEditProps } from '@features/meetings/duties_schedule/mic_sections/index.types';
 
 const useSectionEdit = ({
   id,
@@ -18,128 +25,132 @@ const useSectionEdit = ({
   onClose,
   type,
   week,
+  availableSections,
+  availableParts,
+  onSave,
 }: SectionEditProps) => {
   const { t } = useAppTranslation();
-
-  const dutiesConfig = useAtomValue(meetingDutiesState);
-
+  const config = useAtomValue(meetingDutiesState);
+  const schedules = useAtomValue(schedulesState);
+  const sources = useAtomValue(sourcesState);
+  const dataView = useAtomValue(userDataViewState);
+  const lang = useAtomValue(JWLangState);
   const sections = useMemo(
-    () => schedulesDutiesSections(week, meeting),
-    [week, meeting]
+    () => availableSections ?? schedulesDutiesSections(week, meeting, dataView),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [
+      week,
+      meeting,
+      dataView,
+      schedules,
+      config,
+      sources,
+      lang,
+      availableSections,
+    ]
   );
-
   const parts = useMemo(
-    () => schedulesDutiesMeetingParts(week, meeting),
-    [week, meeting]
+    () => availableParts ?? schedulesDutiesMeetingParts(week, meeting),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [week, meeting, schedules, sources, dataView, lang, availableParts]
   );
-
-  const [name, setName] = useState('');
-  const [amount, setAmount] = useState(2);
-  const [selectedParts, setSelectedParts] = useState<string[]>([]);
-  const [nameError, setNameError] = useState<SectionNameError>(undefined);
-
-  const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const section =
+    type === 'edit' && id
+      ? sections.find((record) => record.id === id || record.legacyId === id)
+      : undefined;
+  const initialUpdatedAt = useRef(section?.updatedAt);
+  const changed =
+    type === 'edit' &&
+    section &&
+    section.updatedAt !== initialUpdatedAt.current;
+  const [name, setName] = useState(() => {
+    if (section) return section.name;
+    let index = 1;
+    while (
+      validateDutyName(t('tr_sectionDefaultName', { index }), sections) ===
+      'tr_sectionNameTaken'
+    )
+      index++;
+    return uniqueDutyName(t('tr_sectionDefaultName', { index }), sections);
+  });
+  const [amount, setAmount] = useState(
+    section?.amount ?? (config?.mic_amount.value || 2)
+  );
+  const [selectedParts, setSelectedParts] = useState<string[]>(
+    section?.parts ?? []
+  );
+  const [nameError, setNameError] = useState<string>();
+  const [isSaving, setIsSaving] = useState(false);
+  const saving = useRef(false);
+  const missingParts = selectedParts.filter(
+    (key) => !parts.some((part) => part.key === key)
+  );
+  const unavailable = type === 'edit' && !section;
+  const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
     setNameError(undefined);
-    setName(e.target.value);
+    setName(event.target.value);
   };
-
-  const handleAmountChange = (e: SelectChangeEvent<unknown>) => {
-    setAmount(Number(e.target.value));
-  };
-
-  const handleTogglePart = (key: string) => {
-    setSelectedParts((prev) =>
-      prev.includes(key)
-        ? prev.filter((record) => record !== key)
-        : // keep the order of the meeting, not the order of the clicks
-          parts
-            .map((part) => part.key)
-            .filter((part) => part === key || prev.includes(part))
+  const handleAmountChange = (event: SelectChangeEvent<unknown>) =>
+    setAmount(Number(event.target.value));
+  const handleTogglePart = (key: string) =>
+    setSelectedParts((previous) =>
+      previous.includes(key)
+        ? previous.filter((part) => part !== key)
+        : [...previous, key]
     );
-  };
-
   const handleSave = async () => {
-    const sectionName = name.trim();
-
-    if (sectionName.length === 0) {
-      setNameError('required');
-      return;
-    }
-
-    // the name is what tells two sections apart on the sheet and in the
-    // assignment a brother reads, so it has to be his alone
-    const nameTaken = sections.some(
-      (record) =>
-        record.id !== id &&
-        record.name.trim().toLowerCase() === sectionName.toLowerCase()
-    );
-
-    if (nameTaken) {
-      setNameError('duplicate');
-      return;
-    }
-
+    if (saving.current || unavailable || changed || missingParts.length) return;
+    const error = validateDutyName(name, sections, section?.id);
+    setNameError(error);
+    if (error) return;
+    saving.current = true;
+    setIsSaving(true);
     try {
-      if (type === 'add') {
-        await dutiesSectionAdd(week, meeting, {
-          name: sectionName,
-          amount,
-          parts: selectedParts,
-        });
-      }
-
-      if (type === 'edit' && id) {
-        await dutiesSectionUpdate(week, meeting, id, {
-          name: sectionName,
-          amount,
-          parts: selectedParts,
-        });
-      }
-
+      const values = {
+        name: name.trim(),
+        amount,
+        parts: parts
+          .map((part) => part.key)
+          .filter((key) => selectedParts.includes(key)),
+      };
+      if (onSave) await onSave(values);
+      else if (type === 'add') await dutiesSectionAdd(week, meeting, values);
+      else if (id)
+        await dutiesSectionUpdate(
+          week,
+          meeting,
+          id,
+          values,
+          initialUpdatedAt.current
+        );
       onClose();
     } catch (error) {
-      console.error(error);
-
       displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
-        message: getMessageByCode(
-          error instanceof Error ? error.message : String(error)
+        message: t(
+          error instanceof Error ? error.message : 'error_app_generic-title'
         ),
         severity: 'error',
       });
+    } finally {
+      saving.current = false;
+      setIsSaving(false);
     }
   };
-
-  useEffect(() => {
-    if (type === 'add') {
-      setName(t('tr_sectionDefaultName', { index: sections.length + 1 }));
-
-      // mic amount = default persons per section
-      setAmount(dutiesConfig?.mic_amount.value || 2);
-      setSelectedParts([]);
-      return;
-    }
-
-    const section = sections.find((record) => record.id === id);
-
-    if (!section) return;
-
-    setName(section.name);
-    setAmount(section.amount);
-    setSelectedParts(section.parts ?? []);
-  }, [id, type, sections, t, dutiesConfig]);
-
   return {
     name,
     amount,
     parts,
     selectedParts,
+    missingParts,
+    unavailable,
+    changed,
     nameError,
+    isSaving,
     handleNameChange,
     handleAmountChange,
     handleTogglePart,
     handleSave,
   };
 };
-
 export default useSectionEdit;

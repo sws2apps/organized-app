@@ -1,3 +1,5 @@
+import { schedulesDutiesSections } from '@services/app/schedules';
+import { snapshotRecurringSections } from '@utils/duties_recurring';
 import { useEffect, useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { useQuery } from '@tanstack/react-query';
@@ -34,6 +36,7 @@ import {
 } from '@services/api/schedule';
 import { speakersCongregationsState } from '@states/speakers_congregations';
 import { getUserDataView } from '@services/app';
+import { filterScheduleByDataView } from '@utils/schedule_publish';
 
 // dynamic duty slots of one data view all share the same type, and
 // updateObject matches array entries by type before id, so it would fold
@@ -84,6 +87,21 @@ const mergeScheduleIntoRemote = <T extends { weekOf: string }>(
   for (const meeting of ['midweek', 'weekend'] as const) {
     const localMeeting = localItem.duties?.[meeting];
 
+    if (localMeeting?.sections && remoteSchedule.duties?.[meeting]) {
+      const migrated = new Set(
+        localMeeting.sections
+          .filter(
+            (section) =>
+              section.dataView &&
+              section.legacyId &&
+              section.legacyId !== section.id
+          )
+          .map((section) => section.legacyId)
+      );
+      remoteSchedule.duties[meeting].sections = (
+        remoteSchedule.duties[meeting].sections ?? []
+      ).filter((section) => section.dataView || !migrated.has(section.id));
+    }
     if (!localMeeting?.dynamic) continue;
 
     dynamicMerged[meeting] = mergeDynamicDuties(
@@ -256,34 +274,6 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
     }
   };
 
-  const filterArraysByDataView = <T extends object>(
-    obj: T,
-    parentKey?: string
-  ): T => {
-    if (Array.isArray(obj)) {
-      // Skip filtering if the parent key is "outgoing_talks"
-      if (parentKey === 'outgoing_talks') {
-        return obj;
-      }
-
-      return obj
-        .filter((item) => typeof item === 'object' && item !== null)
-        .filter((item) => !('type' in item) || item.type === dataView)
-        .map((item) => filterArraysByDataView(item)) as T;
-    } else if (typeof obj === 'object' && obj !== null) {
-      const result = {} as T;
-
-      for (const key in obj) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        result[key] = filterArraysByDataView(obj[key] as any, key);
-      }
-
-      return result;
-    }
-
-    return obj;
-  };
-
   const handleGetMaterials = <T extends SchedWeekType | SourceWeekType>(
     data: T[],
     months: string[],
@@ -300,7 +290,7 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
     }
 
     const finalData = result.map((record) => {
-      const item = filterArraysByDataView(record);
+      const item = filterScheduleByDataView(record, dataView);
 
       for (const key of keysToDelete) {
         delete item[key as keyof T];
@@ -469,8 +459,24 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
         months,
         sourceKeysToDelete
       );
+      const schedulesToPublish =
+        type === 'duties'
+          ? schedules.map((schedule) => {
+              if (!schedule.duties) return schedule;
+              const duties = { ...schedule.duties };
+              for (const meeting of ['midweek', 'weekend'] as const) {
+                duties[meeting] = snapshotRecurringSections(
+                  duties[meeting],
+                  schedulesDutiesSections(schedule.weekOf, meeting, dataView),
+                  dataView,
+                  new Date().toISOString()
+                );
+              }
+              return { ...schedule, duties };
+            })
+          : schedules;
       const schedulesLocalPublish = handleGetMaterials(
-        schedules,
+        schedulesToPublish,
         months,
         scheduleKeysToDelete
       );

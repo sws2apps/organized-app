@@ -59,9 +59,11 @@ import { getMessageByCode } from '@services/i18n/translation';
 import { formatDate } from '@utils/date';
 import { languageGroupsState } from '@states/field_service_groups';
 
+import { assignmentConflictGroup } from '@utils/assignment_conflicts';
+
 const defaultFilterOptions = createFilterOptions<PersonOptionsType>();
 
-type WeekConflict = { title: string; isDuty: boolean };
+type WeekConflict = NonNullable<PersonOptionsType['conflict']>;
 
 // person_uid -> another assignment they hold in the same meeting
 const collectWeekConflicts = ({
@@ -406,14 +408,14 @@ const useBrotherSelector = ({
           displayNameEnabled,
           fullnameOption
         ),
-        conflict: conflict ? { title: conflict.title } : undefined,
+        conflict,
       };
     });
 
     return newPersons.sort((a, b) => {
       // conflict-free persons first, so the group order stays stable
-      const aConflict = a.conflict ? 1 : 0;
-      const bConflict = b.conflict ? 1 : 0;
+      const aConflict = assignmentConflictGroup(a.conflict);
+      const bConflict = assignmentConflictGroup(b.conflict);
 
       if (aConflict !== bConflict) {
         return aConflict - bConflict;

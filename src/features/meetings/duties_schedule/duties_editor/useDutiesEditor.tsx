@@ -1,14 +1,19 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { useAtom, useAtomValue } from 'jotai';
 import {
   AssignmentCode,
   DutiesMeetingPrefixType,
 } from '@definition/assignment';
-import { schedulesState, selectedWeekState } from '@states/schedules';
+import {
+  schedulesState,
+  selectedWeekState,
+  dutiesSelectedMeetingState,
+} from '@states/schedules';
 import {
   dutiesCustomState,
   dutiesScheduleWeeklyState,
   meetingDutiesState,
+  settingsState,
   userDataViewState,
   JWLangState,
 } from '@states/settings';
@@ -18,6 +23,7 @@ import {
   schedulesDutiesFieldList,
   schedulesDutiesMeetingStatus,
   schedulesDutiesSections,
+  schedulesResolveMeetingDate,
 } from '@services/app/schedules';
 import {
   formatMediumDateWithFullMonth,
@@ -40,6 +46,7 @@ const useDutiesEditor = () => {
   const [selectedWeek, setSelectedWeek] = useAtom(selectedWeekState);
 
   const schedules = useAtomValue(schedulesState);
+  const settings = useAtomValue(settingsState);
   const weekly = useAtomValue(dutiesScheduleWeeklyState);
   const dutiesConfig = useAtomValue(meetingDutiesState);
   const customDuties = useAtomValue(dutiesCustomState);
@@ -48,17 +55,12 @@ const useDutiesEditor = () => {
   const lang = useAtomValue(JWLangState);
   const groups = useAtomValue(fieldServiceGroupsState);
 
-  const [selectedMeeting, setActiveMeeting] =
-    useState<DutiesMeetingValue>('midweek');
+  const [selectedMeeting, setActiveMeeting] = useAtom(
+    dutiesSelectedMeetingState
+  );
 
   const { handleChangeWeekBack, handleChangeWeekNext, showWeekArrows } =
     useWeekNavigation(selectedWeek, setSelectedWeek);
-
-  const weekDateLocale = useMemo(() => {
-    if (selectedWeek.length === 0) return '';
-
-    return formatMediumDateWithFullMonth(selectedWeek);
-  }, [selectedWeek]);
 
   // a cancelled meeting or one without material has no duties to fill
   const meetingStatus = useMemo(() => {
@@ -83,6 +85,20 @@ const useDutiesEditor = () => {
         ? 'weekend'
         : selectedMeeting
     : selectedMeeting;
+
+  const schedule = schedules.find((record) => record.weekOf === selectedWeek);
+  const headerDate =
+    !weekly && schedule
+      ? schedulesResolveMeetingDate({
+          settings,
+          schedule,
+          meeting: activeMeeting,
+          dataView,
+        })
+      : selectedWeek;
+  const weekDateLocale = selectedWeek
+    ? formatMediumDateWithFullMonth(headerDate)
+    : '';
 
   // rendered fields come from the same list that drives counters and autofill
   const dutyRows = useMemo(() => {
@@ -152,6 +168,7 @@ const useDutiesEditor = () => {
   const handleChangeMeeting = setActiveMeeting;
 
   return {
+    dataView,
     weekly,
     weekDateLocale,
     isCurrentWeek: selectedWeek === formatDate(getWeekDate(), 'yyyy/MM/dd'),

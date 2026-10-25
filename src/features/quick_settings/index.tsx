@@ -9,6 +9,8 @@ const QuickSettings = ({
   onClose,
   title,
   children,
+  description,
+  showCancel = true,
 }: QuickSettingsProps) => {
   const { t } = useAppTranslation();
 
@@ -17,14 +19,16 @@ const QuickSettings = ({
       onClose={onClose}
       open={open}
       title={`${t('tr_quickSettings')} – ${title}`}
-      description={t('tr_quickSettingsDesc')}
+      description={description ?? t('tr_quickSettingsDesc')}
     >
       {children}
 
       <DialogActions>
-        <Button variant="secondary" onClick={onClose}>
-          {t('tr_cancel')}
-        </Button>
+        {showCancel && (
+          <Button variant="secondary" onClick={onClose}>
+            {t('tr_cancel')}
+          </Button>
+        )}
         <Button variant="main" onClick={onClose}>
           {t('tr_done')}
         </Button>

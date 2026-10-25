@@ -1,8 +1,8 @@
+import DialogActions from '@components/dialog_actions';
 import { Stack } from '@mui/material';
 import { IconEdit } from '@components/icons';
-import { useAppTranslation, useBreakpoints } from '@hooks/index';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { DUTIES_MAX } from '../../shared/constants';
-import { TwoColumnsRow } from '@features/congregation/settings/shared_styles';
 import { DutyItemProps } from './index.types';
 import useDutyItem from './useDutyItem';
 import Button from '@components/button';
@@ -15,8 +15,7 @@ import Typography from '@components/typography';
 
 const DutyItem = (props: DutyItemProps) => {
   const { t } = useAppTranslation();
-
-  const { laptopUp } = useBreakpoints();
+  const { isDutiesEditor } = useCurrentUser();
 
   const {
     formOpen,
@@ -26,68 +25,78 @@ const DutyItem = (props: DutyItemProps) => {
     handleAskDelete,
     handleCloseDelete,
     handleDelete,
-    handleHover,
-    handleUnhover,
-    showEdit,
+    isBusy,
     handleAmountChange,
   } = useDutyItem(props);
 
   return (
-    <TwoColumnsRow
+    <Stack
       sx={{
-        flexDirection: laptopUp ? 'row' : 'column',
-        alignItems: laptopUp ? 'center' : 'unset',
+        minWidth: 0,
+        justifyContent: 'space-between',
+        gap: 'var(--dialog-gap-mobile)',
       }}
     >
       {formOpen && (
         <DutyEdit
           type="edit"
           id={props.id}
-          open={formOpen}
+          open={formOpen && !deleteOpen}
           onClose={handleCloseForm}
           onDelete={handleAskDelete}
         />
       )}
 
       {deleteOpen && (
-        <Dialog onClose={handleCloseDelete} open={deleteOpen}>
-          <Stack spacing="24px" sx={{ width: '100%' }}>
-            <Typography className="h2">{t('tr_dutiesCustomDelete')}</Typography>
-            <Typography sx={{ color: 'var(--grey-400)' }}>
-              {t('tr_dutiesCustomDeleteDesc')}
-            </Typography>
-            <Stack spacing="8px">
-              <Button variant="main" color="red" onClick={handleDelete}>
-                {t('tr_delete')}
-              </Button>
-              <Button variant="secondary" onClick={handleCloseDelete}>
+        <Dialog
+          onClose={handleCloseDelete}
+          open={deleteOpen}
+          title={t('tr_dutiesCustomDelete')}
+          description={t('tr_dutiesCustomDeleteDesc')}
+          actions={
+            <DialogActions>
+              <Button
+                variant="secondary"
+                disabled={isBusy || !isDutiesEditor}
+                onClick={handleCloseDelete}
+              >
                 {t('tr_cancel')}
               </Button>
-            </Stack>
-          </Stack>
-        </Dialog>
+              <Button
+                variant="main"
+                color="red"
+                disabled={isBusy || !isDutiesEditor}
+                onClick={handleDelete}
+              >
+                {t('tr_delete')}
+              </Button>
+            </DialogActions>
+          }
+        />
       )}
 
-      <Stack
-        spacing="4px"
-        direction="row"
-        onMouseEnter={handleHover}
-        onMouseLeave={handleUnhover}
-        sx={{ alignItems: 'center' }}
-      >
-        <Typography>{props.name}</Typography>
+      <Stack spacing="4px" direction="row" sx={{ alignItems: 'center' }}>
+        <Typography sx={{ minWidth: 0, overflowWrap: 'anywhere' }}>
+          {props.name}
+        </Typography>
 
-        {showEdit && (
-          <IconButton sx={{ padding: 0 }} onClick={handleOpenForm}>
-            <IconEdit height={20} width={20} color="var(--accent-main)" />
-          </IconButton>
-        )}
+        <IconButton
+          aria-label={t('tr_dutyEditNamed', { duty: props.name })}
+          disabled={isBusy || !isDutiesEditor}
+          onClick={handleOpenForm}
+        >
+          <IconEdit height={20} width={20} color="var(--accent-main)" />
+        </IconButton>
       </Stack>
 
       <Select
-        label={t('tr_amountLabel')}
+        label={t('tr_dutyPeopleNeeded')}
+        inputProps={{
+          'aria-label': t('tr_dutyPeopleNeededFor', { duty: props.name }),
+        }}
         value={props.amount}
         onChange={handleAmountChange}
+        disabled={isBusy || !isDutiesEditor}
       >
         <MenuItem value={0}>
           <Typography>{t('tr_disabledLabel')}</Typography>
@@ -99,7 +108,7 @@ const DutyItem = (props: DutyItemProps) => {
           </MenuItem>
         ))}
       </Select>
-    </TwoColumnsRow>
+    </Stack>
   );
 };
 
