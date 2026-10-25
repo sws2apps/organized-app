@@ -47,3 +47,38 @@ test('duration units and plurals follow the app language', () => {
   assert.equal(formatElapsedDuration(3, 0, 'deu'), '3 Monate');
   assert.equal(formatElapsedDuration(0, 1, 'deu'), '1 Tag');
 });
+
+test('same-day assignment ties select the later entry consistently', async () => {
+  const { withAssignments } = await import('../src/utils/territory_dates');
+  const base = {
+    assignedOn: '25.10.2026',
+    serviceYear: 2027,
+    months: 1,
+    startMonth: 1,
+    endMonth: 1,
+  };
+  const assignments = [
+    { ...base, id: 'first', publisher: 'First', publisherId: 'first' },
+    {
+      ...base,
+      id: 'second',
+      publisher: 'Second',
+      publisherId: 'second',
+      groupId: 'group',
+    },
+  ];
+  const card = {
+    id: 'a',
+    status: 'in_work',
+    daysSinceCovered: 0,
+    assignments,
+  } as import('../src/definition/territory').Territory;
+  const current = withAssignments(
+    card,
+    assignments,
+    new Date(2026, 9, 25, 23, 59)
+  );
+  assert.equal(current.holderId, 'second');
+  assert.equal(current.holderGroupId, 'group');
+  assert.equal(current.daysOut, 0);
+});

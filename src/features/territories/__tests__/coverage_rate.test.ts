@@ -3,6 +3,7 @@ import { test } from 'node:test';
 import type { Territory, TerritoryAssignment } from '@definition/territory';
 import {
   coverageRate,
+  coveredDays,
   isCoverage,
   returnedWithin,
 } from '@features/territories/coverage_rate';
@@ -105,4 +106,13 @@ test('no territories is nothing covered, not a division by zero', () => {
     covered: 0,
     total: 0,
   });
+});
+
+test('coverage age counts local calendar days throughout the day', () => {
+  const card = territory('a', [
+    { assignedOn: '01.10.2026', returnedOn: '25.10.2026' },
+  ]);
+  assert.equal(coveredDays(card, new Date(2026, 9, 25, 23, 59)), 0);
+  assert.equal(coveredDays(card, new Date(2026, 9, 26, 0, 1)), 1);
+  assert.equal(coveredDays(card, new Date(2026, 9, 24)), 0);
 });
