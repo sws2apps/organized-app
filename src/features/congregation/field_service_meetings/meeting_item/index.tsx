@@ -226,6 +226,8 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
             sx={{
               flex: '0 1 auto',
               minWidth: 0,
+              paddingBlockStart:
+                'max(0px, calc((var(--icon-size-small) - 1lh) / 2))',
               overflowWrap: 'anywhere',
               whiteSpace: 'pre-wrap',
             }}
