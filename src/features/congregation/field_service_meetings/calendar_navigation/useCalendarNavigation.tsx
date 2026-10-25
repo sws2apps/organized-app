@@ -7,9 +7,10 @@ import {
 } from '@states/field_service_meetings';
 import { formatDate, getWeekDate } from '@utils/date';
 import { monthNamesState } from '@states/app';
-import { getTranslation } from '@services/i18n/translation';
+import { useAppTranslation } from '@hooks/index';
 
 const useCalendarNavigation = () => {
+  const { t } = useAppTranslation();
   const [currentDate, setCurrentDate] = useAtom(
     fieldServiceMeetingsWeekRangeState
   );
@@ -23,73 +24,21 @@ const useCalendarNavigation = () => {
     [currentDate]
   );
 
-  const lastDayOfWeek = useMemo(() => {
-    const lastDay = new Date(firstDayOfWeek);
-    lastDay.setDate(firstDayOfWeek.getDate() + 6);
-    return lastDay;
-  }, [firstDayOfWeek]);
+  const weekLabel = useMemo(
+    () =>
+      t('tr_longDateNoYearLocale', {
+        month: months[firstDayOfWeek.getMonth()],
+        date: firstDayOfWeek.getDate(),
+      }),
+    [firstDayOfWeek, months, t]
+  );
 
-  const weekRangeLabel = useMemo(() => {
-    const startDay = firstDayOfWeek.getDate();
-    const endDay = lastDayOfWeek.getDate();
-    const startMonthIndex = firstDayOfWeek.getMonth();
-    const endMonthIndex = lastDayOfWeek.getMonth();
-    const startMonth = months[startMonthIndex];
-    const endMonth = months[endMonthIndex];
-
-    if (startMonthIndex === endMonthIndex) {
-      const dateRange = getTranslation({
-        key: 'tr_dateRangeNoYear',
-        params: {
-          startDate: startDay,
-          endDate: endDay,
-        },
-      });
-
-      return getTranslation({
-        key: 'tr_longDateNoYearLocale',
-        params: {
-          month: startMonth,
-          date: dateRange,
-        },
-      });
-    }
-
-    const startDateFormatted = getTranslation({
-      key: 'tr_longDateNoYearLocale',
-      params: {
-        month: startMonth,
-        date: startDay,
-      },
-    });
-
-    const endDateFormatted = getTranslation({
-      key: 'tr_longDateNoYearLocale',
-      params: {
-        month: endMonth,
-        date: endDay,
-      },
-    });
-
-    return getTranslation({
-      key: 'tr_dateRangeNoYear',
-      params: {
-        startDate: startDateFormatted,
-        endDate: endDateFormatted,
-      },
-    });
-  }, [firstDayOfWeek, lastDayOfWeek, months]);
-
-  // In month view show the month (and year); in week view the week range.
   const monthLabel = useMemo(
     () => `${months[currentDate.getMonth()]} ${currentDate.getFullYear()}`,
     [months, currentDate]
   );
 
-  const periodLabel =
-    viewMode === 'month'
-      ? monthLabel
-      : `${weekRangeLabel}, ${firstDayOfWeek.getFullYear() === lastDayOfWeek.getFullYear() ? lastDayOfWeek.getFullYear() : `${firstDayOfWeek.getFullYear()}–${lastDayOfWeek.getFullYear()}`}`;
+  const periodLabel = viewMode === 'month' ? monthLabel : weekLabel;
 
   const visibleFilters = useMemo(
     () => [
