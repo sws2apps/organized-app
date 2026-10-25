@@ -487,6 +487,16 @@ const validateCustomDutyChanges = (config: DutyConfig, before?: DutyConfig) => {
   }
 };
 
+// Match the optional-field defaults used when generating duty fields.
+const DUTY_AMOUNT_DEFAULTS: Partial<
+  Record<keyof typeof DUTY_AMOUNT_KEYS, number>
+> = {
+  auditorium_attendant_amount: 1,
+  videoconference_host_amount: 0,
+};
+const dutyAmountOf = (config: DutyConfig, key: keyof typeof DUTY_AMOUNT_KEYS) =>
+  config[key]?.value ?? DUTY_AMOUNT_DEFAULTS[key] ?? 0;
+
 const reducedPositions = (
   config: DutyConfig,
   before: DutyConfig
@@ -494,10 +504,10 @@ const reducedPositions = (
   const staticChanges = (
     Object.keys(DUTY_AMOUNT_KEYS) as (keyof typeof DUTY_AMOUNT_KEYS)[]
   )
-    .filter((key) => config[key].value < before[key].value)
+    .filter((key) => dutyAmountOf(config, key) < dutyAmountOf(before, key))
     .map((key) => ({
       dataView: config.type,
-      amount: config[key].value,
+      amount: dutyAmountOf(config, key),
       keys: DUTY_AMOUNT_KEYS[key],
     }));
   const customChanges = (config.custom ?? []).flatMap((custom) => {

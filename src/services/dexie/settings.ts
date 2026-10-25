@@ -4,7 +4,7 @@ import {
   PublishersSortOption,
   SettingsType,
 } from '@definition/settings';
-import { settingSchema } from './schema';
+import { meetingDutiesDefault, settingSchema } from './schema';
 import { AssignmentCode } from '@definition/assignment';
 import { getRandomArrayItem } from '@utils/common';
 import { LANGUAGE_LIST } from '@constants/index';
@@ -343,28 +343,6 @@ export const dbAppSettingsUpdateCongNumber = async () => {
   await dbAppSettingsUpdate({
     'cong_settings.cong_number': cong_number,
   });
-};
-
-const meetingDutiesDefault = (type: string) => {
-  const updatedAt = new Date().toISOString();
-
-  return {
-    type,
-    _deleted: { value: false, updatedAt },
-    conflict_prevent: { value: false, updatedAt },
-    sisters_duties: { value: false, updatedAt },
-    mic_sections: { value: false, updatedAt },
-    av_combined: { value: false, updatedAt },
-    audio_amount: { value: 1, updatedAt },
-    video_amount: { value: 1, updatedAt },
-    mic_amount: { value: 2, updatedAt },
-    stage_amount: { value: 1, updatedAt },
-    entrance_attendant_amount: { value: 1, updatedAt },
-    auditorium_attendant_amount: { value: 1, updatedAt },
-    hospitality_amount: { value: 0, updatedAt },
-    videoconference_host_amount: { value: 0, updatedAt },
-    custom: [],
-  };
 };
 
 export const dbAppSettingsSetupMeetingDuties = async () => {
