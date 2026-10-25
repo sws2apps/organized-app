@@ -1,3 +1,4 @@
+import { paintMapAttribution } from '@services/maps/attribution';
 import { useAppTranslation } from '@hooks/index';
 import { useState } from 'react';
 import { useAtomValue } from 'jotai';
@@ -215,7 +216,26 @@ const captureOverview = (
       window.clearTimeout(timeout);
       let image: string | undefined;
       try {
-        if (capture) image = map.getCanvas().toDataURL('image/jpeg', 0.92);
+        if (capture) {
+          const source = map.getCanvas();
+          const canvas = document.createElement('canvas');
+          canvas.width = source.width;
+          canvas.height = source.height;
+          try {
+            const context = canvas.getContext('2d');
+            if (context) {
+              context.drawImage(source, 0, 0);
+              paintMapAttribution(
+                canvas,
+                Math.max(paper.width, paper.height) * POINTS_PER_MM
+              );
+              image = canvas.toDataURL('image/jpeg', 0.92);
+            }
+          } finally {
+            canvas.width = 0;
+            canvas.height = 0;
+          }
+        }
       } catch {
         image = undefined;
       } finally {
