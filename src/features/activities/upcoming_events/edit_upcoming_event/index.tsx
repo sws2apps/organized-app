@@ -292,7 +292,6 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
       >
         <Button
           variant="secondary"
-          color="red"
           startIcon={<IconClose />}
           onClick={props.onCancel}
         >

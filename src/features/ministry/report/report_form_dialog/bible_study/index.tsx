@@ -47,7 +47,7 @@ const BibleStudy = () => {
       <DialogActions>
         <Button
           variant="secondary"
-          color="red"
+          color={bibleStudy ? 'red' : undefined}
           onClick={bibleStudy ? handleDelete : handleCloseEditor}
         >
           {bibleStudy ? t('tr_deleteStudy') : t('tr_cancel')}

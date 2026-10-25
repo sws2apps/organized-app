@@ -29,7 +29,7 @@ const BibleStudyEditor = (props: BibleStudyEditorProps) => {
       <DialogActions>
         <Button
           variant="secondary"
-          color="red"
+          color={props.bibleStudy ? 'red' : undefined}
           onClick={props.bibleStudy ? handleDelete : props.onClose}
         >
           {props.bibleStudy ? t('tr_deleteStudy') : t('tr_cancel')}
