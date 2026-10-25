@@ -172,3 +172,11 @@ test('campaignOverlaps shares at least a day', () => {
     true
   );
 });
+
+test('campaign choices clamp the leap-day cutoff to the previous February', () => {
+  const edge = campaign('edge', '2023-02-01', '2023-02-28');
+  const old = campaign('old', '2023-02-01', '2023-02-27');
+  assert.deepEqual(ids(campaignChoices([edge, old], new Date(2024, 1, 29))), [
+    'edge',
+  ]);
+});

@@ -201,3 +201,31 @@ test('an unfinished cut inside the territory must reach the other edge', () => {
     { error: 'cross' }
   );
 });
+
+test('an outside line cannot split a territory through an invisible endpoint extension', () => {
+  for (const line of [
+    [
+      [6.02, 51.005],
+      [6.03, 51.005],
+    ],
+    [
+      [6.03, 51.005],
+      [6.02, 51.005],
+    ],
+    [
+      [5.98, 51.005],
+      [5.99, 51.005],
+    ],
+    [
+      [6.005, 51.02],
+      [6.005, 51.03],
+    ],
+    [
+      [6.005, 50.98],
+      [6.005, 50.99],
+    ],
+  ] as [[number, number], [number, number]][])
+    assert.deepEqual(splitTerritoryBoundary(boundary, line), {
+      error: 'cross',
+    });
+});

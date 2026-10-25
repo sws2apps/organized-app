@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import {
   compareTerritoryNumbers,
+  isDoNotCallNumber,
   suggestSplitTerritoryNumber,
 } from '../src/utils/territory';
 
@@ -126,6 +127,7 @@ test('synced assignment and request flags block restructuring without visible na
   const created = { ...card(), id: 'b', number: 'M22A' };
   for (const extra of [
     { requestPending: true },
+    { requestedById: 'publisher' },
     { holderId: 'publisher' },
     { holderGroupId: 'group' },
     { assignedElsewhere: true },
@@ -139,4 +141,29 @@ test('synced assignment and request flags block restructuring without visible na
       undefined
     );
   }
+});
+
+test('split suggestions normalize and reserve the original number even when omitted from taken', () => {
+  assert.equal(suggestSplitTerritoryNumber('Ｍ０２２Ｂ', ['M022A']), 'M022C');
+  assert.equal(suggestSplitTerritoryNumber('M22A', []), 'M22B');
+  assert.equal(suggestSplitTerritoryNumber(' m22a ', ['Ｍ２２Ｂ']), 'M22C');
+});
+
+test('a territory cannot be combined with itself', () => {
+  const card = {
+    id: 'a',
+    number: 'M22',
+    assignments: [],
+  } as unknown as Territory;
+  assert.equal(territoryRestructureIssue([card], 'a', ['a'], []), 'changed');
+});
+
+test('do-not-call phone matching requires digits and accepts formatted numbers', () => {
+  const card = {
+    doNotCalls: [{ address: 'Main Street' }, { address: '+49 123-456' }],
+  } as Territory;
+  for (const value of ['', ' ', 'No number', '+'])
+    assert.equal(isDoNotCallNumber(card, value), false);
+  assert.equal(isDoNotCallNumber(card, '+49 (123) 456'), true);
+  assert.equal(isDoNotCallNumber(card, '999'), false);
 });

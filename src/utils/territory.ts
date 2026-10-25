@@ -13,10 +13,13 @@ export const suggestSplitTerritoryNumber = (
   number: string,
   taken: string[]
 ) => {
-  const base = number.trim().replace(/^(.*\d)[A-Z]+$/i, '$1');
+  const base = territoryNumberKey(number).replace(/^(.*\d)[A-Z]+$/, '$1');
   if (!base) return '';
 
-  const used = new Set(taken.map(territoryNumberKey));
+  const used = new Set([
+    territoryNumberKey(number),
+    ...taken.map(territoryNumberKey),
+  ]);
   for (let index = 1; ; index++) {
     let value = index;
     let suffix = '';
@@ -40,11 +43,17 @@ export const territoryRestructureIssue = (
 ): 'changed' | 'number' | undefined => {
   const original = territories.find((item) => item.id === id);
   const absorbed = territories.filter((item) => mergedIds.includes(item.id));
-  if (!original || absorbed.length !== mergedIds.length) return 'changed';
+  if (
+    !original ||
+    mergedIds.includes(id) ||
+    absorbed.length !== mergedIds.length
+  )
+    return 'changed';
   const restructuring = created.length > 0 || mergedIds.length > 0;
   const assigned = [original, ...absorbed].some(
     (item) =>
       item.requestedBy ||
+      item.requestedById ||
       item.requestPending ||
       item.holder ||
       item.holderId ||
@@ -66,4 +75,14 @@ export const territoryRestructureIssue = (
     if (!key || used.has(key)) return 'number';
     used.add(key);
   }
+};
+
+export const phoneDigits = (value: string) => value.replace(/\D/g, '');
+
+export const isDoNotCallNumber = (territory: Territory, number: string) => {
+  const digits = phoneDigits(number);
+  return (
+    !!digits &&
+    territory.doNotCalls.some((entry) => phoneDigits(entry.address) === digits)
+  );
 };
