@@ -4,9 +4,13 @@ import type { Territory } from '@definition/territory';
 const FIELDS = [
   'status',
   'holder',
+  'holderId',
   'holderGroup',
+  'holderGroupId',
   'daysOut',
   'requestedBy',
+  'requestedById',
+  'requestPending',
   'daysSinceCovered',
   'reviewNeeded',
   'households',
@@ -48,5 +52,24 @@ export const revertAssignment = (
     assignments: current.assignments
       .filter((item) => !added.includes(item.id))
       .map((item) => reopened.get(item.id) ?? item),
+  };
+};
+
+export const revertDeclinedRequest = (
+  current: Territory,
+  request: Pick<Territory, 'requestedBy' | 'requestedById' | 'requestPending'>
+): Partial<Territory> => {
+  if (
+    current.status !== 'available' ||
+    current.requestedBy ||
+    current.requestedById ||
+    current.requestPending
+  )
+    return {};
+
+  return {
+    requestedBy: request.requestedBy,
+    requestedById: request.requestedById,
+    requestPending: request.requestPending,
   };
 };
