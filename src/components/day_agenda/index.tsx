@@ -39,7 +39,7 @@ const DayAgenda = ({ title, subtitle, slots }: DayAgendaProps) => {
             gap: '8px 16px',
             padding: '8px 12px',
             gridColumn: '1 / -1',
-            backgroundColor: 'var(--accent-150)',
+            backgroundColor: 'var(--accent-200)',
           }}
         >
           <Box sx={{ minWidth: 0, flex: '1 1 auto' }}>
