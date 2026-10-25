@@ -1,5 +1,5 @@
 import { elapsedCalendarDuration } from '@utils/territory_dates';
-import { millisecondsInDay } from 'date-fns/constants';
+import { differenceInCalendarDays } from 'date-fns';
 import type { Territory } from '@definition/territory';
 
 // dd.mm.yyyy, as stored; kept here so the counts have no app imports
@@ -51,11 +51,9 @@ const lastCoveredTime = (territory: Territory) =>
       .map((item) => dayOf(item.returnedOn)?.getTime() ?? 0)
   );
 
-export const coveredDays = (territory: Territory) => {
+export const coveredDays = (territory: Territory, now = new Date()) => {
   const last = lastCoveredTime(territory);
-  return last
-    ? Math.max(0, Math.round((Date.now() - last) / millisecondsInDay))
-    : null;
+  return last ? Math.max(0, differenceInCalendarDays(now, last)) : null;
 };
 
 export const coveredDuration = (territory: Territory) => {

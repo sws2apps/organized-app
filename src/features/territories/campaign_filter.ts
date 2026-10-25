@@ -1,3 +1,4 @@
+import { subMonths } from 'date-fns';
 import type {
   Territory,
   TerritoryAssignment,
@@ -109,9 +110,7 @@ export const currentCampaign = (
   if (running) return running;
 
   const day = dayOf(today);
-  const oldest = new Date(today);
-  oldest.setMonth(oldest.getMonth() - 2);
-  const oldestDay = dayOf(oldest);
+  const oldestDay = dayOf(subMonths(today, 2));
 
   return campaigns
     .filter((campaign) => campaign.end < day && campaign.end >= oldestDay)

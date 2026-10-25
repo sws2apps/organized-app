@@ -182,3 +182,15 @@ test('currentCampaign: running first, else the last to end within two months', (
     'trolley'
   );
 });
+
+test('current campaign clamps a January month-end cutoff to November 30', () => {
+  const edge = {
+    id: 'edge',
+    name: 'Edge',
+    start: '2025-11-01',
+    end: '2025-11-30',
+  };
+  const old = { ...edge, id: 'old', end: '2025-11-29' };
+  assert.equal(currentCampaign([edge, old], new Date(2026, 0, 31))?.id, 'edge');
+  assert.equal(currentCampaign([old], new Date(2026, 0, 31)), undefined);
+});
