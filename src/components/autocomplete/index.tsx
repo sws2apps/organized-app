@@ -79,6 +79,8 @@ const Autocomplete = <T,>(props: AutocompletePropsType<T>) => {
     endIcon,
     label,
     optionsHeader,
+    placeholder,
+    autoFocus,
     styleIcon,
     decorator,
     decoratorColor,
@@ -139,6 +141,8 @@ const Autocomplete = <T,>(props: AutocompletePropsType<T>) => {
           {...params}
           variant={variant || 'outlined'}
           label={label}
+          placeholder={placeholder}
+          autoFocus={autoFocus}
           slotProps={{
             input: params.slotProps.input,
             htmlInput: params.slotProps.htmlInput,
