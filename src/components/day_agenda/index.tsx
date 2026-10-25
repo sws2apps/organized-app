@@ -117,11 +117,6 @@ const DayAgenda = ({ title, subtitle, slots }: DayAgendaProps) => {
                   minHeight: tabletUp
                     ? 'var(--agenda-entry-header-height)'
                     : undefined,
-                  '@media (pointer: coarse)': {
-                    minHeight: tabletUp
-                      ? 'var(--touch-target-size)'
-                      : undefined,
-                  },
                 }}
               >
                 <Typography

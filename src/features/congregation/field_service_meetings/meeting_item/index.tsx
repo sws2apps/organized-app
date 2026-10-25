@@ -1,12 +1,7 @@
 import { useMemo } from 'react';
 import { Box, Link } from '@mui/material';
 import { useAtomValue } from 'jotai';
-import {
-  IconAddMonth,
-  IconEdit,
-  IconInfo,
-  IconPerson,
-} from '@components/icons';
+import { IconEdit, IconInfo, IconPerson } from '@components/icons';
 import DetailRow from '@components/detail_row';
 import IconButton from '@components/icon_button';
 import GroupBadge from '@components/group_badge';
@@ -18,7 +13,6 @@ import {
   FIELD_SERVICE_MEETING_LOCATION_TRANSLATION_KEYS,
   FieldServiceMeetingCategory,
 } from '@definition/field_service_meetings';
-import { fieldServiceMeetingCalendarExport } from '@services/app/field_service_meeting_calendar';
 import { fieldWithLanguageGroupsState } from '@states/field_service_groups';
 import { MeetingItemProps } from '@features/congregation/field_service_meetings/meeting_item/index.types';
 import { getLocationIcon } from '@features/congregation/field_service_meetings/location_icons';
@@ -54,9 +48,9 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
       aria-label={[...new Set([groupLabel, categoryLabel])].join(' · ')}
       sx={{
         position: 'relative',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '8px',
+        display: 'grid',
+        gridTemplateColumns: canEdit ? 'minmax(0, 1fr) auto' : 'minmax(0, 1fr)',
+        gap: '8px 12px',
         minWidth: 0,
         paddingInlineStart:
           'calc(var(--agenda-group-rail-width) + var(--agenda-group-rail-gap))',
@@ -75,13 +69,11 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
         className="meeting-heading"
         sx={{
           display: 'flex',
-          alignItems: 'flex-start',
+          alignItems: 'center',
           gap: '12px',
           minWidth: 0,
           minHeight: 'var(--agenda-entry-header-height)',
-          '@media (pointer: coarse)': {
-            minHeight: 'var(--touch-target-size)',
-          },
+          gridColumn: 1,
         }}
       >
         <Box
@@ -93,7 +85,6 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
             flexWrap: 'wrap',
             alignItems: 'center',
             alignContent: 'center',
-            alignSelf: 'stretch',
             gap: '4px 8px',
           }}
         >
@@ -108,49 +99,43 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
             <GroupBadge label={categoryLabel} variant="outlined" size="small" />
           )}
         </Box>
-        {canEdit && (
-          <Box
-            className="meeting-actions day-agenda-actions"
-            sx={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '4px',
-              flexShrink: 0,
-              marginInlineEnd: '-4px',
-              '& > div': { display: 'flex' },
-              '& button > svg': {
-                width: 'var(--icon-size-small)',
-                height: 'var(--icon-size-small)',
-              },
-            }}
-          >
-            <Tooltip title={t('tr_addToCalendar')}>
-              <IconButton
-                className="add-to-calendar"
-                aria-label={t('tr_addToCalendar')}
-                edge={false}
-                onClick={() => fieldServiceMeetingCalendarExport(meeting, t)}
-              >
-                <IconAddMonth color="var(--accent-dark)" />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title={t('tr_edit')}>
-              <IconButton
-                className="edit-button"
-                aria-label={t('tr_edit')}
-                edge={false}
-                onClick={onEdit}
-              >
-                <IconEdit color="var(--accent-dark)" />
-              </IconButton>
-            </Tooltip>
-          </Box>
-        )}
       </Box>
+      {canEdit && (
+        <Box
+          className="meeting-actions day-agenda-actions"
+          sx={{
+            display: 'inline-flex',
+            alignItems: 'flex-start',
+            alignSelf: 'start',
+            gridColumn: 2,
+            gridRow: '1 / span 2',
+            gap: '4px',
+            flexShrink: 0,
+            marginInlineEnd: '-4px',
+            '& > div': { display: 'flex' },
+            '& button > svg': {
+              width: 'var(--icon-size-small)',
+              height: 'var(--icon-size-small)',
+            },
+          }}
+        >
+          <Tooltip title={t('tr_edit')}>
+            <IconButton
+              className="edit-button"
+              aria-label={t('tr_edit')}
+              edge={false}
+              onClick={onEdit}
+            >
+              <IconEdit color="var(--accent-dark)" />
+            </IconButton>
+          </Tooltip>
+        </Box>
+      )}
       <Box
         className="meeting-details"
         sx={{
           display: 'grid',
+          gridColumn: 1,
           gridTemplateColumns: tablet600Up
             ? 'var(--agenda-detail-columns)'
             : 'minmax(0, 1fr)',

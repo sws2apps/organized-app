@@ -7,7 +7,7 @@
   --group-badge-color-weight: 60%;
   --agenda-group-rail-width: 3px;
   --agenda-group-rail-gap: 12px;
-  --agenda-entry-header-height: 36px;
+  --agenda-entry-header-height: 24px;
   --agenda-detail-columns: minmax(0, 1fr) minmax(0, 1.4fr);
   --accent-text: color-mix(in srgb, var(--accent-dark) 80%, var(--black));
   --text-muted: color-mix(in srgb, var(--grey-350), var(--grey-400));
