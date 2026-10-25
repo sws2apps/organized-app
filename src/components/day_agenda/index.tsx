@@ -86,10 +86,7 @@ const DayAgenda = ({ title, subtitle, slots }: DayAgendaProps) => {
                 gap: '4px',
                 backgroundColor:
                   'color-mix(in srgb, var(--accent-150) 50%, var(--white))',
-                padding: tabletUp ? '20px 12px 12px' : '8px 12px',
-                '@media (pointer: coarse)': {
-                  paddingBlockStart: tabletUp ? '24px' : '8px',
-                },
+                padding: tabletUp ? '12px' : '8px 12px',
                 minWidth: 0,
               }}
             >

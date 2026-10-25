@@ -68,8 +68,6 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
           gap: tabletUp ? '8px 16px' : '8px',
           gridColumn: 1,
           alignSelf: 'start',
-          paddingBlockStart: '8px',
-          '@media (pointer: coarse)': { paddingBlockStart: '12px' },
           minWidth: 0,
         }}
       >
@@ -85,10 +83,6 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
             flex: '0 1 auto',
             gridColumn: 1,
             gridRow: 1,
-            paddingBlockStart: tabletUp ? 0 : '8px',
-            '@media (pointer: coarse)': {
-              paddingBlockStart: tabletUp ? 0 : '12px',
-            },
           }}
         >
           <GroupBadge
@@ -159,6 +153,9 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
           gridRow: tabletUp ? '1 / 3' : 1,
           alignSelf: 'start',
           justifySelf: 'end',
+          // Align the icons with the badge while preserving shared button hit areas.
+          height: 'var(--icon-size-small)',
+          marginBlockEnd: '8px',
           '& > div': { display: 'flex' },
           '& button > svg': {
             width: 'var(--icon-size-small)',
