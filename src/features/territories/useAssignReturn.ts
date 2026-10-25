@@ -1,4 +1,5 @@
 import useTerritoryAccess from '@features/territories/useTerritoryAccess';
+import { displaySnackNotification } from '@services/states/app';
 import { territoryPermissions } from '@services/app/territory_access';
 import {
   territoryAssignmentDateError,
@@ -20,7 +21,10 @@ import {
 import { assignmentFromDates, parseDate } from '@features/territories/helpers';
 import { savedCard } from '@features/territories/card_choice';
 import { isCoverage } from '@features/territories/coverage_rate';
-import { revertAssignment } from '@features/territories/assignment_undo';
+import {
+  revertAssignment,
+  revertDeclinedRequest,
+} from '@features/territories/assignment_undo';
 import { holderOf, holderText } from '@features/territories/group_holder';
 import { offerUndo } from '@features/territories/undo';
 
@@ -85,6 +89,14 @@ const useAssignReturn = () => {
   // the territories as they were, and the assignments it added
   const remember = (ids: string[], text: string, added: string[] = []) => {
     if (ids.length === 0) return;
+    if (!context.editor) {
+      displaySnackNotification({
+        severity: 'success',
+        header: text,
+        message: '',
+      });
+      return;
+    }
 
     const before = new Map(
       territories
@@ -302,22 +314,24 @@ const useAssignReturn = () => {
 
   const handleDecline = (id: string) => {
     if (!context.editor) return;
-    const requestedBy = territories.find(
-      (territory) => territory.id === id
-    )?.requestedBy;
-    if (!requestedBy) return;
+    const requested = territories.find((territory) => territory.id === id);
+    if (!requested?.requestedBy) return;
+    const { requestedBy, requestedById } = requested;
 
     patch(id, (territory) =>
-      territory.requestedBy === requestedBy ? { requestedBy: undefined, requestedById: undefined, requestPending: false } : {}
+      territory.requestedBy === requestedBy &&
+      territory.requestedById === requestedById
+        ? {
+            requestedBy: undefined,
+            requestedById: undefined,
+            requestPending: false,
+          }
+        : {}
     );
     offerUndo({
       text: t('tr_territoryRequestFromDeclined', { name: requestedBy }),
       revert: () =>
-        patch(id, (territory) =>
-          territory.status === 'available' && !territory.requestedBy
-            ? { requestedBy }
-            : {}
-        ),
+        patch(id, (territory) => revertDeclinedRequest(territory, requested)),
     });
   };
 
