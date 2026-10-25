@@ -388,3 +388,6 @@ export const updatedAtOverride = <T extends object>(object: T): T => {
 
   return object;
 };
+
+export const systemBarInset = (side: 'top' | 'right' | 'bottom' | 'left') =>
+  `var(--organized-inset-${side}, 0px)`;
