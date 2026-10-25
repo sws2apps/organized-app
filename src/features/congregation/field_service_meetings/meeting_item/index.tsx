@@ -62,7 +62,7 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
       <Box
         className="meeting-summary"
         sx={{
-          display: 'flex',
+          display: tabletUp ? 'flex' : 'contents',
           alignItems: 'center',
           flexWrap: 'wrap',
           gap: tabletUp ? '8px 16px' : '8px',
@@ -83,6 +83,12 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
             minWidth: 0,
             maxWidth: '100%',
             flex: '0 1 auto',
+            gridColumn: 1,
+            gridRow: 1,
+            paddingBlockStart: tabletUp ? 0 : '8px',
+            '@media (pointer: coarse)': {
+              paddingBlockStart: tabletUp ? 0 : '12px',
+            },
           }}
         >
           <GroupBadge
@@ -95,7 +101,15 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
             <GroupBadge label={categoryLabel} variant="outlined" size="small" />
           )}
         </Box>
-        <Box sx={{ minWidth: 0, maxWidth: '100%', flex: '0 1 auto' }}>
+        <Box
+          sx={{
+            minWidth: 0,
+            maxWidth: '100%',
+            flex: '0 1 auto',
+            gridColumn: '1 / -1',
+            gridRow: 2,
+          }}
+        >
           <DetailRow
             label={t('tr_conductor')}
             icon={<IconPerson color="var(--grey-400)" />}
@@ -108,6 +122,8 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
           sx={{
             minWidth: 0,
             maxWidth: '100%',
+            gridColumn: '1 / -1',
+            gridRow: 3,
             width: tabletUp ? 'max-content' : '100%',
             flex: '0 1 auto',
           }}
@@ -157,7 +173,7 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
           gap: '8px',
           flexShrink: 0,
           gridColumn: 2,
-          gridRow: hasAdditionalInfo ? '1 / 3' : 1,
+          gridRow: tabletUp && hasAdditionalInfo ? '1 / 3' : 1,
           alignSelf: 'start',
           justifySelf: 'end',
           '& > div': { display: 'flex' },
@@ -198,7 +214,7 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
           className="body-small-regular"
           color="var(--text-muted)"
           sx={{
-            gridColumn: 1,
+            gridColumn: tabletUp ? 1 : '1 / -1',
             minWidth: 0,
             overflowWrap: 'anywhere',
             whiteSpace: 'pre-wrap',
