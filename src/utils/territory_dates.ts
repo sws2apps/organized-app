@@ -5,7 +5,6 @@ import {
   startOfDay,
 } from 'date-fns';
 import type { Territory, TerritoryAssignment } from '@definition/territory';
-import { millisecondsInDay as DAY } from 'date-fns/constants';
 import { isTerritoryCoverage as isCoverage } from '@utils/territory_coverage';
 const serviceYear = (date: Date) =>
   date.getMonth() >= 8 ? date.getFullYear() + 1 : date.getFullYear();
@@ -59,11 +58,12 @@ export const assignmentFromDates = (
 
 export const withAssignments = (
   territory: Territory,
-  assignments: TerritoryAssignment[]
+  assignments: TerritoryAssignment[],
+  now = new Date()
 ): Territory => {
   const time = (value?: string) => parseDate(value)?.getTime() ?? 0;
   const daysAgo = (value: number) =>
-    Math.max(0, Math.round((Date.now() - value) / DAY));
+    Math.max(0, differenceInCalendarDays(now, value));
 
   const lastReturned = Math.max(
     0,
@@ -75,9 +75,13 @@ export const withAssignments = (
     : territory.daysSinceCovered;
 
   const open = assignments
-    .filter((item) => !item.returnedOn)
-    .sort((a, b) => time(b.assignedOn) - time(a.assignedOn))
-    .at(0);
+    .map((item, index) => ({ item, index }))
+    .filter(({ item }) => !item.returnedOn)
+    .sort(
+      (a, b) =>
+        time(b.item.assignedOn) - time(a.item.assignedOn) || b.index - a.index
+    )
+    .at(0)?.item;
 
   if (!open) {
     return {
@@ -102,7 +106,7 @@ export const withAssignments = (
     holderId: open.publisherId,
     holderGroupId: open.groupId,
     holderGroup: open.group,
-    daysOut: daysAgo(time(open.assignedOn) || Date.now()),
+    daysOut: daysAgo(time(open.assignedOn) || now.getTime()),
   };
 };
 

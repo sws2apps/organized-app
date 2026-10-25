@@ -52,15 +52,6 @@ export const startsBeforeOpen = (
   );
 };
 
-// blank keeps the count it had; null is a count that can't be right
-export const parseHouseholds = (text: string, fallback: number) => {
-  if (!text.trim()) return fallback;
-
-  const value = Number(text);
-
-  return Number.isInteger(value) && value >= 0 ? value : null;
-};
-
 // two devices apart can each hand out the same territory, and a sync keeps both;
 // these are the open ones besides the newest, which is the one that counts
 export const olderOpenAssignments = <

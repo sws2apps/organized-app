@@ -272,3 +272,73 @@ test('an online permission snapshot removes cached manager and group permissions
   assert.equal(current.groupHolder, undefined);
   assert.deepEqual(current.restricted.types, ['phone']);
 });
+
+test('ambiguous or blank legacy names cannot grant do-not-call ownership', () => {
+  const legacy = {
+    id: 'legacy',
+    address: 'Private address',
+    addedBy: 'Publisher A',
+    date: '25.10.2026',
+  };
+  const own = { ...legacy, id: 'own', addedById: 'alice' };
+  const current = territory({ holderId: 'alice', doNotCalls: [legacy, own] });
+  const identity = context({ publisherId: 'alice', legacyIdentitySafe: false });
+  const next = {
+    ...current,
+    doNotCalls: [
+      { ...legacy, address: 'Changed address' },
+      { ...own, address: 'Own edit' },
+    ],
+  };
+  assert.deepEqual(
+    publisherTerritoryChanges(current, next, identity).doNotCalls,
+    [legacy, { ...own, address: 'Own edit' }]
+  );
+  assert.deepEqual(
+    publisherTerritoryChanges(current, { ...current, doNotCalls: [] }, identity)
+      .doNotCalls,
+    [legacy]
+  );
+  const unnamed = { ...legacy, addedBy: '' };
+  const blank = territory({ holderId: 'alice', doNotCalls: [unnamed] });
+  assert.deepEqual(
+    publisherTerritoryChanges(
+      blank,
+      { ...blank, doNotCalls: [] },
+      context({ publisherId: 'alice', publisher: '' })
+    ).doNotCalls,
+    [unnamed]
+  );
+});
+
+test('history uses stable IDs and rejects unsafe or blank legacy name matching', () => {
+  const base = {
+    serviceYear: 2027,
+    months: 1,
+    startMonth: 1,
+    endMonth: 1,
+    assignedOn: '01.10.2026',
+  };
+  const record = territory({
+    assignments: [
+      { ...base, id: 'own', publisher: 'Publisher A', publisherId: 'alice' },
+      { ...base, id: 'legacy', publisher: 'Publisher A' },
+      { ...base, id: 'blank', publisher: '' },
+    ],
+  });
+  assert.deepEqual(
+    territoryHistoryForPublisher(
+      [record],
+      'Publisher A',
+      'alice',
+      false
+    )[0].assignments.map((item) => item.id),
+    ['own']
+  );
+  assert.deepEqual(
+    territoryHistoryForPublisher([record], '', 'alice')[0].assignments.map(
+      (item) => item.id
+    ),
+    ['own']
+  );
+});
