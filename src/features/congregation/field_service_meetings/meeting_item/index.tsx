@@ -156,6 +156,7 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
           // Align the icons with the badge while preserving shared button hit areas.
           height: 'var(--icon-size-small)',
           marginBlockEnd: '8px',
+          marginInlineEnd: '-8px',
           '& > div': { display: 'flex' },
           '& button > svg': {
             width: 'var(--icon-size-small)',
