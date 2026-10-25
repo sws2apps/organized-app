@@ -28,19 +28,9 @@ const LabeledDetail = ({ label, children, icon }: LabeledDetailProps) => {
       >
         {label}
       </Typography>
-      {icon ? (
-        <DetailRow icon={icon} className="body-small-regular">
-          {children}
-        </DetailRow>
-      ) : (
-        <Typography
-          component="div"
-          className="body-small-regular"
-          sx={{ minWidth: 0, overflowWrap: 'anywhere' }}
-        >
-          {children}
-        </Typography>
-      )}
+      <DetailRow icon={icon} className="body-small-regular">
+        {children}
+      </DetailRow>
     </Box>
   );
 };

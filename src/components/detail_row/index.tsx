@@ -2,7 +2,7 @@ import { Box } from '@mui/material';
 import Typography from '@components/typography';
 import { DetailRowProps } from '@components/detail_row/index.types';
 
-/** Aligned icon and flexible content, including wrapped names, links and notes. */
+/** One shared first-line alignment for values with or without an icon. */
 const DetailRow = ({
   icon,
   label,
@@ -17,26 +17,32 @@ const DetailRow = ({
     aria-label={label}
     sx={{
       display: 'grid',
-      gridTemplateColumns: 'var(--icon-size-small) minmax(0, 1fr)',
+      gridTemplateColumns: icon
+        ? 'var(--icon-size-small) minmax(0, 1fr)'
+        : 'minmax(0, 1fr)',
       alignItems: 'start',
       gap: '8px',
       minWidth: 0,
+      minHeight: 'max(1lh, var(--icon-size-small))',
     }}
   >
-    <Box
-      aria-hidden
-      sx={{
-        display: 'flex',
-        paddingBlockStart: 'max(0px, calc((1lh - var(--icon-size-small)) / 2))',
-        color: 'var(--grey-400)',
-        '& > svg': {
-          width: 'var(--icon-size-small)',
-          height: 'var(--icon-size-small)',
-        },
-      }}
-    >
-      {icon}
-    </Box>
+    {icon && (
+      <Box
+        aria-hidden
+        sx={{
+          display: 'flex',
+          paddingBlockStart:
+            'max(0px, calc((1lh - var(--icon-size-small)) / 2))',
+          color: 'var(--grey-400)',
+          '& > svg': {
+            width: 'var(--icon-size-small)',
+            height: 'var(--icon-size-small)',
+          },
+        }}
+      >
+        {icon}
+      </Box>
+    )}
     <Typography
       component="div"
       className={className}
