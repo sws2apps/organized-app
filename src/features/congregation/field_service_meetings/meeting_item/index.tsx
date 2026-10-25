@@ -1,7 +1,12 @@
 import { useMemo } from 'react';
 import { Box, Link } from '@mui/material';
 import { useAtomValue } from 'jotai';
-import { IconAddMonth, IconEdit, IconPerson } from '@components/icons';
+import {
+  IconAddMonth,
+  IconEdit,
+  IconInfo,
+  IconPerson,
+} from '@components/icons';
 import DetailRow from '@components/detail_row';
 import IconButton from '@components/icon_button';
 import GroupBadge from '@components/group_badge';
@@ -21,9 +26,8 @@ import { resolveGroupBadgeColor } from '@features/congregation/field_service_mee
 
 const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
   const { t } = useAppTranslation();
-  const { tabletUp } = useBreakpoints();
+  const { tablet600Up } = useBreakpoints();
   const groups = useAtomValue(fieldWithLanguageGroupsState);
-  const locationIcon = getLocationIcon(meeting.location, 'var(--grey-400)');
   const hasAdditionalInfo = Boolean(meeting.additionalInfo?.trim());
   const isWebAddress = /^https?:\/\//i.test(meeting.address ?? '');
   const categoryLabel = t(
@@ -38,11 +42,7 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
       : isOverseerVisit
         ? t('tr_allGroups')
         : categoryLabel);
-  const showCategoryBadge =
-    isOverseerVisit ||
-    (Boolean(meeting.groupName) &&
-      meeting.category !== FieldServiceMeetingCategory.RegularMeeting);
-  const groupBadgeColor = useMemo(
+  const groupColor = useMemo(
     () => resolveGroupBadgeColor(groups, meeting.group_id),
     [groups, meeting.group_id]
   );
@@ -53,187 +53,164 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
       className="meeting-item"
       aria-label={[...new Set([groupLabel, categoryLabel])].join(' · ')}
       sx={{
-        display: 'grid',
-        gridTemplateColumns: 'minmax(0, 1fr) max-content',
+        position: 'relative',
+        display: 'flex',
+        flexDirection: 'column',
         gap: '8px',
         minWidth: 0,
+        paddingInlineStart:
+          'calc(var(--agenda-group-rail-width) + var(--agenda-group-rail-gap))',
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          insetBlock: 0,
+          insetInlineStart: 0,
+          width: 'var(--agenda-group-rail-width)',
+          borderRadius: 'var(--radius-max)',
+          backgroundColor: `var(--${groupColor})`,
+        },
       }}
     >
       <Box
-        className="meeting-summary"
+        className="meeting-heading"
         sx={{
-          display: tabletUp ? 'flex' : 'contents',
-          alignItems: 'center',
-          flexWrap: 'wrap',
-          gap: tabletUp ? '8px 16px' : '8px',
-          gridColumn: 1,
-          alignSelf: 'start',
+          display: 'flex',
+          alignItems: 'flex-start',
+          gap: '12px',
           minWidth: 0,
-        }}
-      >
-        <Box
-          className="meeting-badges"
-          sx={{
-            display: 'flex',
-            alignItems: 'flex-start',
-            flexWrap: 'wrap',
-            gap: '8px',
-            minWidth: 0,
-            maxWidth: '100%',
-            flex: '0 1 auto',
-            gridColumn: 1,
-            gridRow: 1,
-          }}
-        >
-          <GroupBadge
-            label={groupLabel}
-            color={groupBadgeColor}
-            variant="outlined"
-            size="small"
-          />
-          {showCategoryBadge && (
-            <GroupBadge label={categoryLabel} variant="outlined" size="small" />
-          )}
-        </Box>
-        <Box
-          sx={{
-            minWidth: 0,
-            maxWidth: '100%',
-            gridColumn: '1 / -1',
-            gridRow: 2,
-            width: tabletUp ? 'max-content' : '100%',
-            flex: '0 1 auto',
-          }}
-        >
-          <DetailRow
-            label={t('tr_location')}
-            icon={locationIcon}
-            className="body-small-regular"
-            color="var(--grey-400)"
-          >
-            {isWebAddress ? (
-              <Link
-                href={meeting.address}
-                target="_blank"
-                rel="noopener noreferrer"
-                title={meeting.address}
-                sx={{
-                  display: '-webkit-box',
-                  WebkitBoxOrient: 'vertical',
-                  WebkitLineClamp: 2,
-                  overflow: 'hidden',
-                  overflowWrap: 'anywhere',
-                  textOverflow: 'ellipsis',
-                  color: 'var(--accent-text)',
-                  textDecorationColor: 'currentColor',
-                  '&:hover': { color: 'var(--accent-dark)' },
-                }}
-              >
-                {meeting.address}
-              </Link>
-            ) : (
-              meeting.address ||
-              t(
-                FIELD_SERVICE_MEETING_LOCATION_TRANSLATION_KEYS[
-                  meeting.location
-                ]
-              )
-            )}
-          </DetailRow>
-        </Box>
-      </Box>
-      <Box
-        className="meeting-actions"
-        sx={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: '4px',
-          flexShrink: 0,
-          gridColumn: 2,
-          gridRow: tabletUp ? '1 / 3' : 1,
-          alignSelf: 'start',
-          justifySelf: 'end',
-          // Align the icons with the badge while preserving shared button hit areas.
-          height: 'var(--icon-size-small)',
-          marginBlockEnd: '8px',
-          marginInlineEnd: '-8px',
-          '& > div': { display: 'flex' },
-          '& button > svg': {
-            width: 'var(--icon-size-small)',
-            height: 'var(--icon-size-small)',
+          minHeight: 'var(--agenda-entry-header-height)',
+          '@media (pointer: coarse)': {
+            minHeight: 'var(--touch-target-size)',
           },
         }}
       >
-        <Tooltip title={t('tr_addToCalendar')}>
-          <IconButton
-            className="add-to-calendar"
-            aria-label={t('tr_addToCalendar')}
-            edge={false}
-            onClick={() => fieldServiceMeetingCalendarExport(meeting, t)}
+        <Box
+          className="meeting-identity"
+          sx={{
+            flex: 1,
+            minWidth: 0,
+            display: 'flex',
+            flexWrap: 'wrap',
+            alignItems: 'center',
+            alignContent: 'center',
+            alignSelf: 'stretch',
+            gap: '4px 8px',
+          }}
+        >
+          <Typography
+            component="h4"
+            className="body-small-semibold"
+            sx={{ minWidth: 0, overflowWrap: 'anywhere' }}
           >
-            <IconAddMonth color="var(--accent-dark)" />
-          </IconButton>
-        </Tooltip>
+            {groupLabel}
+          </Typography>
+          {isOverseerVisit && (
+            <GroupBadge label={categoryLabel} variant="outlined" size="small" />
+          )}
+        </Box>
         {canEdit && (
-          <Tooltip title={t('tr_edit')}>
-            <IconButton
-              className="edit-button"
-              aria-label={t('tr_edit')}
-              edge={false}
-              onClick={onEdit}
-            >
-              <IconEdit color="var(--accent-dark)" />
-            </IconButton>
-          </Tooltip>
+          <Box
+            className="meeting-actions day-agenda-actions"
+            sx={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '4px',
+              flexShrink: 0,
+              marginInlineEnd: '-4px',
+              '& > div': { display: 'flex' },
+              '& button > svg': {
+                width: 'var(--icon-size-small)',
+                height: 'var(--icon-size-small)',
+              },
+            }}
+          >
+            <Tooltip title={t('tr_addToCalendar')}>
+              <IconButton
+                className="add-to-calendar"
+                aria-label={t('tr_addToCalendar')}
+                edge={false}
+                onClick={() => fieldServiceMeetingCalendarExport(meeting, t)}
+              >
+                <IconAddMonth color="var(--accent-dark)" />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title={t('tr_edit')}>
+              <IconButton
+                className="edit-button"
+                aria-label={t('tr_edit')}
+                edge={false}
+                onClick={onEdit}
+              >
+                <IconEdit color="var(--accent-dark)" />
+              </IconButton>
+            </Tooltip>
+          </Box>
         )}
       </Box>
       <Box
-        className="meeting-secondary"
+        className="meeting-details"
         sx={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          alignItems: 'flex-start',
-          gap: '8px 16px',
-          gridColumn: tabletUp ? 1 : '1 / -1',
-          gridRow: tabletUp ? 2 : 3,
+          display: 'grid',
+          gridTemplateColumns: tablet600Up
+            ? 'var(--agenda-detail-columns)'
+            : 'minmax(0, 1fr)',
+          alignItems: 'start',
+          gap: '8px 24px',
           minWidth: 0,
         }}
       >
-        <Box
-          sx={{
-            minWidth: 0,
-            maxWidth: '100%',
-            flex: '0 1 auto',
-            gridColumn: '1 / -1',
-            gridRow: 3,
-          }}
+        <DetailRow
+          label={t('tr_conductor')}
+          icon={<IconPerson color="var(--grey-400)" />}
+          className="body-small-regular"
         >
-          <DetailRow
-            label={t('tr_conductor')}
-            icon={<IconPerson color="var(--grey-400)" />}
-            className="body-small-regular"
-          >
-            {meeting.conductor}
-          </DetailRow>
-        </Box>
+          {meeting.conductor}
+        </DetailRow>
+        <DetailRow
+          label={t('tr_location')}
+          icon={getLocationIcon(meeting.location, 'var(--grey-400)')}
+          className="body-small-regular"
+          color="var(--grey-400)"
+        >
+          {isWebAddress ? (
+            <Link
+              href={meeting.address}
+              target="_blank"
+              rel="noopener noreferrer"
+              title={meeting.address}
+              sx={{
+                display: '-webkit-box',
+                WebkitBoxOrient: 'vertical',
+                WebkitLineClamp: 2,
+                overflow: 'hidden',
+                overflowWrap: 'anywhere',
+                textOverflow: 'ellipsis',
+                color: 'var(--accent-text)',
+                textDecorationColor: 'currentColor',
+              }}
+            >
+              {meeting.address}
+            </Link>
+          ) : (
+            meeting.address ||
+            t(FIELD_SERVICE_MEETING_LOCATION_TRANSLATION_KEYS[meeting.location])
+          )}
+        </DetailRow>
         {hasAdditionalInfo && (
-          <Typography
-            component="div"
-            role="group"
-            aria-label={t('tr_comments')}
-            className="body-small-regular"
-            color="var(--text-muted)"
-            sx={{
-              flex: '0 1 auto',
-              minWidth: 0,
-              paddingBlockStart:
-                'max(0px, calc((var(--icon-size-small) - 1lh) / 2))',
-              overflowWrap: 'anywhere',
-              whiteSpace: 'pre-wrap',
-            }}
+          <Box
+            className="meeting-note"
+            sx={{ gridColumn: '1 / -1', minWidth: 0 }}
           >
-            {meeting.additionalInfo}
-          </Typography>
+            <DetailRow
+              label={t('tr_comments')}
+              icon={<IconInfo color="var(--text-muted)" />}
+              className="body-small-regular"
+              color="var(--text-muted)"
+              preserveWhitespace
+            >
+              {meeting.additionalInfo}
+            </DetailRow>
+          </Box>
         )}
       </Box>
     </Box>

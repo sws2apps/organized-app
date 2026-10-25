@@ -1,4 +1,6 @@
+import { Fragment } from 'react';
 import { Box } from '@mui/material';
+import Divider from '@components/divider';
 import DayAgenda from '@components/day_agenda';
 import MeetingItem from '@features/congregation/field_service_meetings/meeting_item';
 import { FieldServiceMeetingsListProps } from '@features/congregation/field_service_meetings/field_service_meetings_list/index.types';
@@ -34,21 +36,19 @@ const FieldServiceMeetingsList = ({
                 sx={{
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: '12px',
+                  gap: '16px',
                   minWidth: 0,
-                  '& > * + *': {
-                    borderTop: '1px solid var(--accent-200)',
-                    paddingTop: '12px',
-                  },
                 }}
               >
-                {slot.meetings.map((meeting) => (
-                  <MeetingItem
-                    key={meeting.uid}
-                    meeting={meeting}
-                    canEdit={canEditMeeting?.(meeting) ?? false}
-                    onEdit={() => onEditMeeting?.(meeting.uid)}
-                  />
+                {slot.meetings.map((meeting, index) => (
+                  <Fragment key={meeting.uid}>
+                    {index > 0 && <Divider dashed color="var(--accent-200)" />}
+                    <MeetingItem
+                      meeting={meeting}
+                      canEdit={canEditMeeting?.(meeting) ?? false}
+                      onEdit={() => onEditMeeting?.(meeting.uid)}
+                    />
+                  </Fragment>
                 ))}
               </Box>
             ),

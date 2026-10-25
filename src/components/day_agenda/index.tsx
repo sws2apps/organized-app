@@ -15,7 +15,25 @@ const DayAgenda = ({ title, subtitle, slots }: DayAgendaProps) => {
       component="section"
       aria-labelledby={headingId}
       className="day-agenda"
-      sx={{ minWidth: 0 }}
+      sx={{
+        minWidth: 0,
+        '& .day-agenda-actions': {
+          transition: 'opacity var(--motion-fast) var(--ease-standard)',
+        },
+        '@media (hover: hover) and (pointer: fine)': {
+          '& .day-agenda-actions': {
+            opacity: tabletUp ? 0 : 1,
+            pointerEvents: tabletUp ? 'none' : 'auto',
+          },
+          '&:hover .day-agenda-actions, &:focus-within .day-agenda-actions': {
+            opacity: 1,
+            pointerEvents: 'auto',
+          },
+        },
+        '@media (prefers-reduced-motion: reduce)': {
+          '& .day-agenda-actions': { transition: 'none' },
+        },
+      }}
     >
       <Card
         sx={{
@@ -90,7 +108,22 @@ const DayAgenda = ({ title, subtitle, slots }: DayAgendaProps) => {
                 minWidth: 0,
               }}
             >
-              <Box component="time" dateTime={slot.dateTime}>
+              <Box
+                component="time"
+                dateTime={slot.dateTime}
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  minHeight: tabletUp
+                    ? 'var(--agenda-entry-header-height)'
+                    : undefined,
+                  '@media (pointer: coarse)': {
+                    minHeight: tabletUp
+                      ? 'var(--touch-target-size)'
+                      : undefined,
+                  },
+                }}
+              >
                 <Typography
                   className="h4"
                   color="var(--accent-dark)"
@@ -107,9 +140,6 @@ const DayAgenda = ({ title, subtitle, slots }: DayAgendaProps) => {
               className="day-agenda-content"
               sx={{
                 minWidth: 0,
-                borderInlineStart: tabletUp
-                  ? '1px solid var(--accent-200)'
-                  : undefined,
                 padding: '12px',
                 display: 'flex',
                 flexDirection: 'column',

@@ -2,24 +2,26 @@ import { GroupBadgeProps } from '@components/group_badge/index.types';
 import { FieldServiceGroupType } from '@definition/field_service_groups';
 
 /**
- * Badge color token for a group's `sort_index`, cycling `group-1 … group-10`
+ * Color token for a group's displayed position, cycling `group-1 … group-10`
  * so any number of groups stays within the palette.
  */
 export const getGroupBadgeColor = (
-  sortIndex: number
+  groupIndex: number
 ): GroupBadgeProps['color'] =>
-  `group-${(sortIndex % 10) + 1}` as GroupBadgeProps['color'];
+  `group-${(groupIndex % 10) + 1}` as GroupBadgeProps['color'];
 
 /** The group's color, or `accent-main` for a meeting without a group. */
 export const resolveGroupBadgeColor = (
   groups: FieldServiceGroupType[],
   groupId?: string
 ): GroupBadgeProps['color'] => {
-  const group = groupId
-    ? groups.find((record) => record.group_id === groupId)
-    : undefined;
+  // Match the Groups page: deleted groups do not occupy a displayed color slot.
+  const index = groupId
+    ? groups
+        .filter((group) => !group.group_data._deleted)
+        .toSorted((a, b) => a.group_data.sort_index - b.group_data.sort_index)
+        .findIndex((group) => group.group_id === groupId)
+    : -1;
 
-  return group
-    ? getGroupBadgeColor(group.group_data.sort_index)
-    : 'accent-main';
+  return index >= 0 ? getGroupBadgeColor(index) : 'accent-main';
 };
