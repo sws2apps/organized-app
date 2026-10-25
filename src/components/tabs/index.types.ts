@@ -5,6 +5,7 @@ import { SxProps, TabOwnProps, Theme } from '@mui/material';
  * Props for the TabsPanel component.
  */
 export type TabsPanelProps = {
+  idPrefix?: string;
   /**
    * The content of the tab panel.
    */

@@ -718,6 +718,10 @@ export const meetingDutiesState = atom((get) => {
   );
 });
 
+export const dutiesScheduleWeeklyState = atom(
+  (get) => get(meetingDutiesState)?.schedule_weekly?.value ?? false
+);
+
 export const dutiesSistersState = atom((get) => {
   const duties = get(meetingDutiesState);
 
@@ -757,7 +761,9 @@ export const dutiesMicrophoneSectionsState = atom((get) => {
 
   if (!duties) return false;
 
-  return duties.mic_sections?.value ?? false;
+  return (
+    !duties.schedule_weekly?.value && (duties.mic_sections?.value ?? false)
+  );
 });
 
 export const dutiesCustomState = atom((get) => {

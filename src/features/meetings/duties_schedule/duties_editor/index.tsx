@@ -1,4 +1,3 @@
-import { useId } from 'react';
 import { Box, Stack } from '@mui/material';
 import {
   IconAtHome,
@@ -15,20 +14,19 @@ import useDutiesEditor from '@features/meetings/duties_schedule/duties_editor/us
 import { DutiesMeetingValue } from '@services/app/duties';
 import Divider from '@components/divider';
 import DutyRow from '@features/meetings/duties_schedule/duty_row';
-import Badge from '@components/badge';
 import DateNavigator from '@components/date_navigator';
 import InfoNote from '@components/info_note';
 import MicSections from '@features/meetings/duties_schedule/mic_sections';
-import TabSwitcher from '@components/tab_switcher';
+import Tabs from '@components/tabs';
 import Typography from '@components/typography';
 
 const DutiesEditor = () => {
   const { t } = useAppTranslation();
-  const tabId = useId();
 
   const { tablet500Down, laptopDown } = useBreakpoints();
 
   const {
+    weekly,
     weekDateLocale,
     isCurrentWeek,
     activeMeeting,
@@ -36,7 +34,6 @@ const DutiesEditor = () => {
     showWeekNav,
     activePrefix,
     micSectionsEnabled,
-    meetingsInfo,
     meetingStatus,
     dutyRows,
     handleChangeMeeting,
@@ -185,8 +182,41 @@ const DutiesEditor = () => {
     </Stack>
   );
 
-  const panelId = `${tabId}-panel`;
-  const status = meetingStatus[activeMeeting];
+  const meetingPanel = (meeting: DutiesMeetingValue) => {
+    const status = meetingStatus[meeting];
+    if (status !== 'held') {
+      return (
+        <InfoNote
+          message={t(
+            status === 'missing-materials'
+              ? 'tr_dutiesMaterialsRequired'
+              : 'tr_noMeeting'
+          )}
+        />
+      );
+    }
+    if (!hasAudio && !hasHall && !hasOther) {
+      return <InfoNote message={t('tr_dutiesNoSlots')} />;
+    }
+    return dutiesPanel(meeting);
+  };
+
+  const dateNavigator = (
+    <DateNavigator
+      value={weekDateLocale}
+      onBack={handleChangeWeekBack}
+      onNext={handleChangeWeekNext}
+      disableBack={!showWeekNav.back}
+      disableNext={!showWeekNav.next}
+      badgeText={t('tr_today')}
+      badgeVisible={isCurrentWeek}
+      sx={{
+        width: tablet500Down ? '100%' : 'auto',
+        minWidth: 0,
+        maxWidth: '100%',
+      }}
+    />
+  );
 
   return (
     <Box
@@ -202,82 +232,25 @@ const DutiesEditor = () => {
     >
       {!selectedWeek ? (
         <InfoNote message={t('tr_infoPlanMeetingDuties')} />
-      ) : (
-        <Stack spacing="16px">
-          <Box
-            sx={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              gap: 'var(--dialog-gap-mobile)',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-            }}
-          >
-            <DateNavigator
-              value={weekDateLocale}
-              onBack={handleChangeWeekBack}
-              onNext={handleChangeWeekNext}
-              disableBack={!showWeekNav.back}
-              disableNext={!showWeekNav.next}
-              badgeText={t('tr_today')}
-              badgeVisible={isCurrentWeek}
-              sx={{
-                width: tablet500Down ? '100%' : 'auto',
-                minWidth: 0,
-                maxWidth: '100%',
-              }}
-            />
-            <TabSwitcher<DutiesMeetingValue>
-              id={tabId}
-              wrapLabels
-              value={activeMeeting}
-              onChange={handleChangeMeeting}
-              ariaLabel={t('tr_meetingDutiesSchedules')}
-              options={(['midweek', 'weekend'] as const).map((meeting) => ({
-                value: meeting,
-                label: t(meeting === 'midweek' ? 'tr_midweek' : 'tr_weekend'),
-                panelId,
-                badge: (
-                  <Badge
-                    size="small"
-                    color={activeMeeting === meeting ? 'accent' : 'grey'}
-                    text={`${meetingsInfo[meeting].assigned}/${meetingsInfo[meeting].total}`}
-                  />
-                ),
-              }))}
-              sx={{
-                width: tablet500Down ? '100%' : 'auto',
-                maxWidth: '100%',
-                marginInlineStart: 'auto',
-                display: tablet500Down ? 'flex' : 'inline-grid',
-                gridAutoFlow: 'column',
-                gridAutoColumns: 'minmax(max-content, 1fr)',
-                '& [role="tab"]': { minHeight: '44px' },
-              }}
-            />
-          </Box>
-          <Box
-            role="tabpanel"
-            id={panelId}
-            aria-labelledby={`${tabId}-${activeMeeting}`}
-            tabIndex={0}
-            sx={{ minWidth: 0 }}
-          >
-            {status !== 'held' ? (
-              <InfoNote
-                message={t(
-                  status === 'missing-materials'
-                    ? 'tr_dutiesMaterialsRequired'
-                    : 'tr_noMeeting'
-                )}
-              />
-            ) : !hasAudio && !hasHall && !hasOther ? (
-              <InfoNote message={t('tr_dutiesNoSlots')} />
-            ) : (
-              dutiesPanel(activeMeeting)
-            )}
-          </Box>
+      ) : weekly ? (
+        <Stack spacing="24px">
+          {dateNavigator}
+          {meetingPanel(activeMeeting)}
         </Stack>
+      ) : (
+        <Tabs
+          fullWidth
+          value={activeMeeting === 'midweek' ? 0 : 1}
+          onChange={(index) =>
+            handleChangeMeeting(index === 0 ? 'midweek' : 'weekend')
+          }
+          tabs={[
+            { label: t('tr_midweek'), Component: meetingPanel('midweek') },
+            { label: t('tr_weekend'), Component: meetingPanel('weekend') },
+          ]}
+          actionPosition="start"
+          actionComponent={dateNavigator}
+        />
       )}
     </Box>
   );

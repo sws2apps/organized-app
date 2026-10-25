@@ -224,12 +224,19 @@
   "tr_sectionDeleteDesc": "The brothers assigned to it will be removed too. You can add it again later.",
   "tr_sectionDefaultName": "Section {{ index }}",
   "tr_hasAnotherDuty": "Has another duty this week",
-  "tr_hasAnotherAssignment": "Has another assignment: {{ assignment }}",
+  "tr_hasAnotherAssignment": "Also assigned: {{ assignment }}",
   "tr_noOtherAssignments": "No other assignments",
   "tr_withOtherAssignments": "With other assignments",
   "tr_dutiesCustomDelete": "Delete custom duty",
   "tr_dutiesCustomDeleteDesc": "Deleting this custom duty will remove it from all new schedules. You can always add it once again later if needed.",
   "tr_infoPlanMeetingDuties": "Select a week to schedule it manually, or allow Organized to auto-generate assignments with the Autofill feature, considering person’s qualifications and past assignments. You can modify them as needed.",
   "tr_exportDuties": "Export meeting duties",
-  "tr_exportDutiesDesc": "Select the weeks to export. Each duty is printed as a separate card with its assigned brothers."
+  "tr_exportDutiesDesc": "Select the weeks to export. Each duty is printed as a separate card with its assigned brothers.",
+  "tr_dutiesScheduleMode": "Schedule",
+  "tr_dutiesScheduleWeeks": "Weeks",
+  "tr_dutiesScheduleMeetings": "Separate meetings",
+  "tr_dutiesScheduleWeeksDesc": "Assign the same person to both meetings of the week.",
+  "tr_dutiesScheduleMeetingsDesc": "Assign duties independently for each meeting.",
+  "tr_dutiesWeeklyMicrophonesDesc": "Microphone sections are available when scheduling separate meetings. Your saved sections are kept.",
+  "tr_dutiesDifferentAssignments": "Different assignments. Choose for both."
 }

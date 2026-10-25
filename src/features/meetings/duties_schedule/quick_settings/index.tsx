@@ -1,3 +1,4 @@
+import DutiesScheduleMode from '@features/congregation/settings/meeting_duties/schedule_mode';
 import { Stack } from '@mui/material';
 import { useAppTranslation } from '@hooks/index';
 import { QuickSettingsMeetingDutiesProps } from './index.types';
@@ -34,6 +35,8 @@ const QuickSettingsMeetingDuties = ({
           >
             {t('tr_assignmentPreferences')}
           </Typography>
+
+          <DutiesScheduleMode />
 
           <DutiesPreventConflict />
         </Stack>

@@ -44,6 +44,7 @@ type DutyTask = {
   sections: DutiesSectionType[];
   targetDate: string;
   order: number;
+  paired?: DutyTask;
 };
 
 type DutyCandidateMeta = {
@@ -156,9 +157,13 @@ const buildDutyTasks = ({
   for (const schedule of weeks) {
     if (!schedule.duties) continue;
 
-    for (const meeting of ['midweek', 'weekend'] as const) {
-      if (!schedulesDutiesMeetingHeld(schedule, meeting)) continue;
-
+    const heldMeetings = (['midweek', 'weekend'] as const).filter((meeting) =>
+      schedulesDutiesMeetingHeld(schedule, meeting)
+    );
+    const meetings = config.schedule_weekly?.value
+      ? heldMeetings.slice(0, 1)
+      : heldMeetings;
+    for (const meeting of meetings) {
       const sections = schedulesDutiesSections(schedule.weekOf, meeting);
       const fields = schedulesDutiesFieldList(meeting, config, sections);
 
@@ -168,10 +173,23 @@ const buildDutyTasks = ({
       );
 
       fields.forEach((field, order) => {
-        slotsByCode.set(field.type, (slotsByCode.get(field.type) ?? 0) + 1);
+        const pairedMeeting = config.schedule_weekly?.value
+          ? heldMeetings.find((item) => item !== meeting)
+          : undefined;
+        const pairedFields = pairedMeeting
+          ? schedulesDutiesFieldList(pairedMeeting, config)
+          : [];
+        const pairedField = pairedFields[order];
+        slotsByCode.set(
+          field.type,
+          (slotsByCode.get(field.type) ?? 0) + (pairedField ? 2 : 1)
+        );
 
         if (
-          schedulesDutiesGetFieldValue(schedule, field, dataView).length > 0
+          schedulesDutiesGetFieldValue(schedule, field, dataView).length > 0 ||
+          (pairedField &&
+            schedulesDutiesGetFieldValue(schedule, pairedField, dataView)
+              .length > 0)
         ) {
           return;
         }
@@ -184,6 +202,26 @@ const buildDutyTasks = ({
           sections,
           targetDate,
           order,
+          paired:
+            pairedMeeting && pairedField
+              ? {
+                  schedule,
+                  meeting: pairedMeeting,
+                  field: pairedField,
+                  fields: pairedFields,
+                  sections: [],
+                  order,
+                  targetDate: formatDate(
+                    schedulesResolveMeetingDate({
+                      settings,
+                      schedule,
+                      meeting: pairedMeeting,
+                      dataView,
+                    }),
+                    'yyyy/MM/dd'
+                  ),
+                }
+              : undefined,
         });
       });
     }
@@ -280,13 +318,18 @@ const hasPartInMeeting = (
   person: PersonType,
   context: DutiesAutofillContext
 ) => {
-  const prefix = task.meeting === 'midweek' ? 'MM_' : 'WM_';
-
+  const meetings = task.paired
+    ? [task.meeting, task.paired.meeting]
+    : [task.meeting];
   return (context.otherHistoryByWeek.get(task.schedule.weekOf) ?? []).some(
     (entry) =>
       entry.assignment.person === person.person_uid &&
       entry.assignment.dataView === context.dataView &&
-      (entry.assignment.key ?? '').startsWith(prefix)
+      meetings.some((meeting) =>
+        (entry.assignment.key ?? '').startsWith(
+          meeting === 'midweek' ? 'MM_' : 'WM_'
+        )
+      )
   );
 };
 
@@ -301,9 +344,12 @@ const validCandidates = (task: DutyTask, context: DutiesAutofillContext) => {
         task.field.type,
         context.sistersDuties
       ) &&
-      !isPersonBlockedOnDate(person, task.targetDate) &&
-      !isServingAtTheTime(task, person, context.dataView) &&
-      !servesInAnotherView(task, person, context)
+      (task.paired ? [task, task.paired] : [task]).every(
+        (target) =>
+          !isPersonBlockedOnDate(person, target.targetDate) &&
+          !isServingAtTheTime(target, person, context.dataView) &&
+          !servesInAnotherView(target, person, context)
+      )
   );
 };
 
@@ -446,13 +492,15 @@ const autofillDutyTasks = (
 
       if (!selected) continue;
 
-      schedulesAutofillSaveAssignment({
-        schedule: task.schedule,
-        assignment: task.field.assignment,
-        value: selected,
-        history: context.dutyHistory,
-        schedule_id: task.field.schedule_id,
-      });
+      for (const target of task.paired ? [task, task.paired] : [task]) {
+        schedulesAutofillSaveAssignment({
+          schedule: target.schedule,
+          assignment: target.field.assignment,
+          value: selected,
+          history: context.dutyHistory,
+          schedule_id: target.field.schedule_id,
+        });
+      }
     }
   }
 };

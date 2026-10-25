@@ -1,3 +1,4 @@
+import DutiesScheduleMode from '@features/congregation/settings/meeting_duties/schedule_mode';
 import { Stack } from '@mui/material';
 import { useAppTranslation } from '@hooks/index';
 import { CardSection, CardSectionHeader } from '../shared_styles';
@@ -29,6 +30,8 @@ const MeetingDutiesSettings = () => {
           >
             {t('tr_assignmentPreferences')}
           </Typography>
+
+          <DutiesScheduleMode />
 
           <DutiesPreventConflict />
 

@@ -1,3 +1,8 @@
+import {
+  dutiesAssignRecords,
+  dutiesPatchSchedule,
+  dutyAssignmentForMeeting,
+} from '@utils/duties_weekly';
 import { UpdateSpec } from 'dexie';
 import { store } from '@states/index';
 import {
@@ -285,7 +290,7 @@ export const schedulesDutiesFieldList = (
     positioned('Video', AssignmentCode.DUTIES_Video, config.video_amount.value);
   }
 
-  if (config.mic_sections.value) {
+  if (config.mic_sections.value && !config.schedule_weekly?.value) {
     dynamic(sections, AssignmentCode.DUTIES_Microphone);
   } else {
     positioned(
@@ -328,7 +333,7 @@ export const schedulesDutiesFieldList = (
 
 export const schedulesDutiesGetFieldValue = (
   schedule: SchedWeekType,
-  field: DutyFieldDefinitionType,
+  field: Pick<DutyFieldDefinitionType, 'assignment' | 'schedule_id'>,
   dataView: string
 ) => {
   const data = schedulesGetData(
@@ -1999,6 +2004,48 @@ export const schedulesSaveAssignment = async (
   schedule_id?: string
 ) => {
   const dataView = store.get(userDataViewState);
+
+  if (
+    assignment.includes('_DUTIES_') &&
+    schedulesDutiesConfig()?.schedule_weekly?.value
+  ) {
+    const latest = store
+      .get(schedulesState)
+      .find((item) => item.weekOf === schedule.weekOf);
+    if (!latest?.duties) return;
+    const changes: Record<string, AssignmentCongregation[]> = {};
+    const updatedAt = new Date().toISOString();
+    const toSave =
+      typeof value === 'string' ? value : (value?.person_uid ?? '');
+    for (const meeting of ['midweek', 'weekend'] as const) {
+      if (!schedulesDutiesMeetingHeld(latest, meeting)) continue;
+      const field = dutyAssignmentForMeeting(assignment, meeting);
+      const path = ASSIGNMENT_PATH[field];
+      const records = (schedulesGetData(latest, path) ??
+        []) as AssignmentCongregation[];
+      changes[path] = dutiesAssignRecords(
+        records,
+        toSave,
+        dataView,
+        updatedAt,
+        schedule_id
+      );
+    }
+    if (Object.keys(changes).length === 0) return;
+    await dbSchedUpdate(
+      schedule.weekOf,
+      changes as unknown as UpdateSpec<SchedWeekType>
+    );
+    store.set(schedulesState, (current) =>
+      current.map((item) =>
+        item.weekOf === schedule.weekOf
+          ? dutiesPatchSchedule(item, changes)
+          : item
+      )
+    );
+    store.set(assignmentsHistoryState, schedulesBuildHistoryList());
+    return;
+  }
 
   if (!schedule_id) {
     await saveStandardAssignment(schedule, assignment, value, dataView);

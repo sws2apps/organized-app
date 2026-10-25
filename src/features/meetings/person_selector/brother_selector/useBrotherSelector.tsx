@@ -1,3 +1,4 @@
+import { dutyAssignmentForMeeting } from '@utils/duties_weekly';
 import { MouseEvent, useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'react-router';
 import { createFilterOptions, FilterOptionsState } from '@mui/material';
@@ -15,6 +16,7 @@ import { personIsAway, personIsElder } from '@services/app/persons';
 import {
   displayNameMeetingsEnableState,
   dutiesSistersState,
+  dutiesScheduleWeeklyState,
   fullnameOptionState,
   JWLangLocaleState,
   JWLangState,
@@ -35,6 +37,8 @@ import {
 import { personGetDisplayName, speakerGetDisplayName } from '@utils/common';
 import {
   schedulesDutyAllowedForPerson,
+  schedulesDutiesMeetingHeld,
+  schedulesDutiesGetFieldValue,
   schedulesDutyPersonQualified,
   schedulesGetData,
   schedulesGetMeetingDate,
@@ -66,12 +70,14 @@ const collectWeekConflicts = ({
   dataView,
   assignment,
   schedule_id,
+  meetingPrefixes,
 }: {
   history: AssignmentHistoryType[];
   week: string;
   dataView: string;
   assignment: string;
   schedule_id?: string;
+  meetingPrefixes?: string[];
 }) => {
   const conflicts = new Map<string, WeekConflict>();
 
@@ -81,8 +87,15 @@ const collectWeekConflicts = ({
     const isOtherFieldOfMeeting =
       weekOf === week &&
       held.dataView === dataView &&
-      held.key?.startsWith(meetingPrefix) &&
-      !(held.key === assignment && held.schedule_id === schedule_id);
+      (meetingPrefixes ?? [meetingPrefix]).some((prefix) =>
+        held.key?.startsWith(prefix)
+      ) &&
+      !(
+        held.schedule_id === schedule_id &&
+        (meetingPrefixes
+          ? held.key?.slice(2) === assignment.slice(2)
+          : held.key === assignment)
+      );
 
     if (!isOtherFieldOfMeeting || !held.person) continue;
 
@@ -144,6 +157,7 @@ const useBrotherSelector = ({
     weekendMeetingShowMonthlyWarningState
   );
   const sistersDuties = useAtomValue(dutiesSistersState);
+  const weekly = useAtomValue(dutiesScheduleWeeklyState);
 
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
   const [isFreeSolo, setIsFreeSolo] = useState(false);
@@ -214,6 +228,38 @@ const useBrotherSelector = ({
 
   const isDutiesField = assignment.includes('_DUTIES_');
 
+  const sharedMeetings = useMemo(() => {
+    if (!weekly || !isDutiesField || !schedule) return [];
+    return (['midweek', 'weekend'] as const).filter((meeting) =>
+      schedulesDutiesMeetingHeld(schedule, meeting)
+    );
+    // Meeting availability also depends on source language and group settings.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    weekly,
+    isDutiesField,
+    schedule,
+    sources,
+    dataView,
+    lang,
+    languageGroups,
+  ]);
+
+  const hasMixedDuties = useMemo(() => {
+    if (sharedMeetings.length < 2 || !schedule) return false;
+    const values = sharedMeetings.map((meeting) =>
+      schedulesDutiesGetFieldValue(
+        schedule,
+        {
+          assignment: dutyAssignmentForMeeting(assignment, meeting),
+          schedule_id,
+        },
+        dataView
+      )
+    );
+    return new Set(values).size > 1;
+  }, [sharedMeetings, schedule, assignment, schedule_id, dataView]);
+
   const weekConflicts = useMemo(() => {
     if (!isDutiesField || week.length === 0) {
       return new Map<string, WeekConflict>();
@@ -225,8 +271,15 @@ const useBrotherSelector = ({
       dataView,
       assignment,
       schedule_id,
+      meetingPrefixes: weekly
+        ? sharedMeetings.map((meeting) =>
+            meeting === 'midweek' ? 'MM_' : 'WM_'
+          )
+        : undefined,
     });
   }, [
+    weekly,
+    sharedMeetings,
     isDutiesField,
     week,
     dataView,
@@ -406,7 +459,7 @@ const useBrotherSelector = ({
   ]);
 
   const value = useMemo(() => {
-    if (week.length === 0) return null;
+    if (week.length === 0 || hasMixedDuties) return null;
 
     let linkedAssigment: AssignmentFieldType;
 
@@ -488,6 +541,7 @@ const useBrotherSelector = ({
 
     return person ?? null;
   }, [
+    hasMixedDuties,
     week,
     assignment,
     dataView,
@@ -549,6 +603,7 @@ const useBrotherSelector = ({
   }, [location.pathname, week, isDutiesField, assignment]);
 
   const helperText = useMemo(() => {
+    if (hasMixedDuties) return t('tr_dutiesDifferentAssignments');
     if (!value || week.length === 0) return '';
 
     // same-meeting conflict first: the helper color and decorator turn red
@@ -563,7 +618,15 @@ const useBrotherSelector = ({
       (record) => record.person_uid === value.person_uid
     );
 
-    const timeAwayNotice = personIsAway(person, meetingDate);
+    const dates =
+      sharedMeetings.length > 0
+        ? sharedMeetings.map(
+            (meeting) => schedulesGetMeetingDate({ week, meeting }).date
+          )
+        : [meetingDate];
+    const timeAwayNotice = dates
+      .map((date) => personIsAway(person, date))
+      .find(Boolean);
 
     if (timeAwayNotice) {
       return timeAwayNotice;
@@ -605,6 +668,8 @@ const useBrotherSelector = ({
 
     return '';
   }, [
+    hasMixedDuties,
+    sharedMeetings,
     value,
     week,
     personHistory,

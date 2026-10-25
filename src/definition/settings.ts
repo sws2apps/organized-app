@@ -292,6 +292,7 @@ export type SettingsType = {
     }[];
     meeting_duties: {
       type: string;
+      schedule_weekly?: { value: boolean; updatedAt: string };
       _deleted: { value: boolean; updatedAt: string };
       conflict_prevent: { value: boolean; updatedAt: string };
       sisters_duties?: { value: boolean; updatedAt: string };
