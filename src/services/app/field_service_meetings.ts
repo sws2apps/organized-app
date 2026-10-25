@@ -302,6 +302,17 @@ export const fieldServiceMeetingTimeSave = async (
   );
   if (!permissions.canEditGroupTimes())
     throw new Error(translate({ key: 'tr_fieldServiceMeetingNotAllowed' }));
+  if (
+    (value.weekday !== undefined &&
+      (!Number.isInteger(value.weekday) ||
+        value.weekday < 0 ||
+        value.weekday > 6)) ||
+    (value.time !== undefined &&
+      value.time !== '' &&
+      !/^([01]\d|2[0-3]):[0-5]\d$/.test(value.time))
+  ) {
+    throw new Error(translate({ key: 'tr_fieldServiceMeetingInvalid' }));
+  }
   await dbAppSettingsUpdateFieldServiceMeetingTime(groupId, (record) => {
     const now = new Date().toISOString();
     if (value.weekday !== undefined)

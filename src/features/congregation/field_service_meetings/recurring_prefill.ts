@@ -31,14 +31,17 @@ export const nextUnscheduledStart = (
 
   for (let i = 0; i < MAX_WEEKS_LOOKAHEAD; i++) {
     const dateStr = formatDate(candidate, 'yyyy/MM/dd');
-    const taken = existing.some(
-      (meeting) =>
+    const taken = existing.some((meeting) => {
+      const start = new Date(meeting.meeting_data.start);
+      return (
+        !meeting.meeting_data._deleted &&
+        Number.isFinite(start.getTime()) &&
         // Legacy records may carry the group in `type` only.
         (meeting.meeting_data.group_id ?? meeting.meeting_data.type) ===
           groupId &&
-        formatDate(new Date(meeting.meeting_data.start), 'yyyy/MM/dd') ===
-          dateStr
-    );
+        formatDate(start, 'yyyy/MM/dd') === dateStr
+      );
+    });
     if (!taken) break;
     candidate.setDate(candidate.getDate() + 7);
   }
@@ -62,21 +65,25 @@ export const getGroupRecurringStart = (
     (record) => record.type === groupId
   );
 
-  if (recurring?.weekday.value == null || !recurring.time.value) {
+  const weekday = recurring?.weekday?.value;
+  const time = recurring?.time?.value;
+  if (
+    !Number.isInteger(weekday) ||
+    weekday < 0 ||
+    weekday > 6 ||
+    typeof time !== 'string' ||
+    !/^([01]\d|2[0-3]):[0-5]\d$/.test(time) ||
+    (referenceDate && !Number.isFinite(referenceDate.getTime()))
+  ) {
     return null;
   }
 
   const start = referenceDate
     ? getWeekDate(new Date(referenceDate))
-    : nextUnscheduledStart(
-        recurring.weekday.value,
-        recurring.time.value,
-        groupId,
-        existing
-      );
+    : nextUnscheduledStart(weekday, time, groupId, existing);
   if (referenceDate) {
-    const [hours, minutes] = recurring.time.value.split(':').map(Number);
-    start.setDate(start.getDate() + recurring.weekday.value);
+    const [hours, minutes] = time.split(':').map(Number);
+    start.setDate(start.getDate() + weekday);
     start.setHours(hours ?? 0, minutes ?? 0, 0, 0);
   }
   const end = new Date(start.getTime() + MEETING_DEFAULT_DURATION_MS);
