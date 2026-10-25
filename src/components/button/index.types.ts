@@ -5,6 +5,8 @@ import { SxProps, Theme } from '@mui/material';
  * Props type for the Button component.
  */
 export type ButtonPropsType = {
+  'aria-expanded'?: boolean;
+  'aria-controls'?: string;
   /**
    * Class name for the button.
    */

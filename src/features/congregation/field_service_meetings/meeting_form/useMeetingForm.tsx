@@ -1,3 +1,4 @@
+import { fieldServiceMeetingConductorAllowed } from '@utils/field_service_meeting_permissions';
 import { FIELD_SERVICE_MEETING_DURATION_MINUTES } from '@constants/index';
 import { useCallback, useMemo, useState } from 'react';
 import { useAtom, useAtomValue } from 'jotai';
@@ -55,7 +56,7 @@ const useMeetingForm = (
   const fullnameOption = useAtomValue(fullnameOptionState);
   const settings = useAtomValue(settingsState);
   const congAddress = useAtomValue(congAddressState);
-  const { isAdmin, isServiceOverseer, canManageMeeting } =
+  const { canManageAll, canManageMeeting } =
     useFieldServiceMeetingsPermissions();
 
   const serviceOverseerUid =
@@ -104,6 +105,7 @@ const useMeetingForm = (
     const currentGroupId = meeting.meeting_data.group_id;
     if (
       currentGroupId &&
+      canManageMeeting(formData.meeting_data.category, currentGroupId) &&
       !availableGroups.some((option) => option.id === currentGroupId)
     ) {
       const deleted = allGroups.find(
@@ -124,11 +126,14 @@ const useMeetingForm = (
 
     // "main" spans all groups — labelled to match the "Joint meeting" type.
     return [
-      { id: 'main', label: t('tr_fieldServiceMeetingCategory_joint') },
+      ...(canManageAll
+        ? [{ id: 'main', label: t('tr_fieldServiceMeetingCategory_joint') }]
+        : []),
       ...availableGroups,
     ];
   }, [
     groups,
+    canManageAll,
     allGroups,
     meeting.meeting_data.group_id,
     formData.meeting_data.category,
@@ -182,17 +187,17 @@ const useMeetingForm = (
     groupOptions,
   ]);
 
-  // Qualified brothers, narrowed to the selected group. The field stays free
-  // entry, so this only shapes the suggestions.
+  // Qualified brothers, narrowed to the selected group. Only all-group
+  // schedulers may enter a conductor outside these suggestions.
   const conductorOptions = useMemo<ConductorOption[]>(() => {
-    if (selectedGroup.id === 'main') return qualifiedOptions;
-    const group = groups.find((g) => g.group_id === selectedGroup.id);
-    if (!group) return qualifiedOptions;
+    if (selectedGroup?.id === 'main') return qualifiedOptions;
+    const group = groups.find((g) => g.group_id === selectedGroup?.id);
+    if (!group) return [];
     const memberUids = new Set(
       group.group_data.members.map((member) => member.person_uid)
     );
     return qualifiedOptions.filter((option) => memberUids.has(option.id));
-  }, [selectedGroup.id, groups, qualifiedOptions]);
+  }, [selectedGroup?.id, groups, qualifiedOptions]);
 
   const conductorValue = useMemo<ConductorOption | string | null>(() => {
     const current = formData.meeting_data.conductor;
@@ -208,27 +213,16 @@ const useMeetingForm = (
     );
   }, [formData.meeting_data.location, locationOptions]);
 
-  const isJointMeeting = useMemo(
-    () =>
-      formData.meeting_data.category ===
-      FieldServiceMeetingCategory.JointMeeting,
-    [formData.meeting_data.category]
-  );
-
-  // Only the service overseer (or an admin) may create a "Service overseer
-  // visit"; a meeting's stored category always stays available for editing.
+  // All-group schedulers may create visits; preserve the stored type on edits.
   const categoryOptions = useMemo<FieldServiceMeetingCategory[]>(() => {
-    return FIELD_SERVICE_MEETING_CATEGORIES.filter((category) => {
-      if (category === FieldServiceMeetingCategory.ServiceOverseerMeeting) {
-        return (
-          isAdmin ||
-          isServiceOverseer ||
-          formData.meeting_data.category === category
-        );
-      }
-      return true;
-    });
-  }, [isAdmin, isServiceOverseer, formData.meeting_data.category]);
+    return FIELD_SERVICE_MEETING_CATEGORIES.filter(
+      (category) =>
+        category !== FieldServiceMeetingCategory.JointMeeting &&
+        (category !== FieldServiceMeetingCategory.ServiceOverseerMeeting ||
+          canManageAll ||
+          formData.meeting_data.category === category)
+    );
+  }, [canManageAll, formData.meeting_data.category]);
 
   const locationFieldLabel = useMemo(
     () =>
@@ -244,11 +238,28 @@ const useMeetingForm = (
       Number.isFinite(new Date(formData.meeting_data.end).getTime()) &&
       new Date(formData.meeting_data.end) >
         new Date(formData.meeting_data.start) &&
-      formData.meeting_data.conductor.trim().length > 0,
+      formData.meeting_data.conductor.trim().length > 0 &&
+      canManageMeeting(
+        formData.meeting_data.category,
+        formData.meeting_data.group_id
+      ) &&
+      (canManageAll ||
+        fieldServiceMeetingConductorAllowed(
+          formData.meeting_data.conductor,
+          formData.meeting_data.group_id,
+          groups,
+          allPersons
+        )),
     [
       formData.meeting_data.start,
       formData.meeting_data.end,
       formData.meeting_data.conductor,
+      formData.meeting_data.category,
+      formData.meeting_data.group_id,
+      canManageMeeting,
+      canManageAll,
+      groups,
+      allPersons,
     ]
   );
 
@@ -347,11 +358,27 @@ const useMeetingForm = (
       const payload: Partial<FieldServiceMeetingType['meeting_data']> = {
         type: nextGroup.id,
         group_id: groupId,
+        category:
+          formData.meeting_data.category ===
+          FieldServiceMeetingCategory.ServiceOverseerMeeting
+            ? formData.meeting_data.category
+            : groupId
+              ? FieldServiceMeetingCategory.RegularMeeting
+              : FieldServiceMeetingCategory.JointMeeting,
+        ...(!canManageAll &&
+        !fieldServiceMeetingConductorAllowed(
+          formData.meeting_data.conductor,
+          groupId,
+          groups,
+          allPersons
+        )
+          ? { conductor: '' }
+          : {}),
       };
 
       updateMeetingData(payload);
     },
-    [updateMeetingData]
+    [updateMeetingData, formData.meeting_data, canManageAll, groups, allPersons]
   );
 
   const handleLocationChange = useCallback(
@@ -390,14 +417,26 @@ const useMeetingForm = (
         return;
       }
 
-      updateMeetingData({ category });
+      updateMeetingData({
+        category: formData.meeting_data.group_id
+          ? category
+          : FieldServiceMeetingCategory.JointMeeting,
+      });
     },
-    [updateMeetingData, serviceOverseerUid]
+    [updateMeetingData, serviceOverseerUid, formData.meeting_data.group_id]
   );
 
   // Inline field error: only shown once the user has attempted to submit.
   const conductorError =
-    attempted && formData.meeting_data.conductor.trim().length === 0;
+    attempted &&
+    (!formData.meeting_data.conductor.trim() ||
+      (!canManageAll &&
+        !fieldServiceMeetingConductorAllowed(
+          formData.meeting_data.conductor,
+          formData.meeting_data.group_id,
+          groups,
+          allPersons
+        )));
 
   /**
    * Call before saving: marks the form as attempted (shows inline errors if
@@ -428,7 +467,7 @@ const useMeetingForm = (
     conductorOptions,
     selectedGroup,
     selectedLocation,
-    isJointMeeting,
+    canManageAll,
     categoryOptions,
     locationFieldLabel,
     isSimilarMeeting,

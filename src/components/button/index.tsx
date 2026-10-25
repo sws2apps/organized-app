@@ -245,6 +245,8 @@ const Button: FC<ButtonPropsType> = (props) => {
       endIcon={props.endIcon}
       aria-label={ariaLabel}
       aria-pressed={props['aria-pressed']}
+      aria-expanded={props['aria-expanded']}
+      aria-controls={props['aria-controls']}
       type={props.type ?? 'button'}
       variant={internalVariant}
       onClick={props.onClick}

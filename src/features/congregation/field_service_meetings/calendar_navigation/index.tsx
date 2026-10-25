@@ -55,7 +55,11 @@ const CalendarNavigation = () => {
             value={periodLabel}
             onBack={handleNavigatePrevious}
             onNext={handleNavigateNext}
-            labelMinWidth={tablet500Down ? undefined : '140px'}
+            labelMinWidth={
+              tablet500Down
+                ? undefined
+                : 'var(--date-navigator-label-min-width)'
+            }
             badgeText={t('tr_today')}
             badgeVisible={isCurrentPeriod}
             sx={{

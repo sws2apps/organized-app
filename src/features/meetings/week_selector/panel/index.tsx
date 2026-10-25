@@ -21,9 +21,9 @@ const WeekSelectorPanel = ({
   return (
     <Card
       sx={{
-        width: desktopUp ? '360px' : '100%',
+        width: desktopUp ? 'var(--week-selector-width)' : '100%',
         maxWidth: '100%',
-        minWidth: 0,
+        minWidth: desktopUp ? 'var(--week-selector-width)' : 0,
         flexShrink: 0,
         position: desktopUp ? 'sticky' : 'static',
         top: desktopUp ? 57 : undefined,

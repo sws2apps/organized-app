@@ -1,3 +1,4 @@
+import { fieldServiceMeetingConductorAllowed } from '@utils/field_service_meeting_permissions';
 import { dbAppSettingsUpdateFieldServiceMeetingTime } from '@services/dexie/settings';
 import {
   FIELD_SERVICE_MEETING_CATEGORIES,
@@ -235,10 +236,11 @@ export const fieldServiceMeetingsSave = async (
         current.meeting_data.category,
         current.meeting_data.group_id
       )) ||
-    (changingToVisit && !permissions.isAdmin && !permissions.isServiceOverseer)
+    (changingToVisit && !permissions.canManageAll)
   ) {
     throw new Error(translate({ key: 'tr_fieldServiceMeetingNotAllowed' }));
   }
+
   if (
     current &&
     (current.meeting_data._deleted ||
@@ -260,6 +262,20 @@ export const fieldServiceMeetingsSave = async (
       !FIELD_SERVICE_MEETING_LOCATIONS.includes(target.location))
   ) {
     throw new Error(translate({ key: 'tr_fieldServiceMeetingInvalid' }));
+  }
+  if (
+    !deleting &&
+    !permissions.canManageAll &&
+    !fieldServiceMeetingConductorAllowed(
+      target.conductor,
+      target.group_id,
+      store.get(fieldWithLanguageGroupsState),
+      store.get(personsState)
+    )
+  ) {
+    throw new Error(
+      translate({ key: 'tr_fieldServiceMeetingConductorGroupError' })
+    );
   }
   await dbFieldServiceMeetingsSave({
     ...meeting,

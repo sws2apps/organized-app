@@ -1,3 +1,4 @@
+import { fieldWithLanguageGroupsState } from '@states/field_service_groups';
 import { useEffect, useMemo, useState } from 'react';
 import { useAtom, useAtomValue } from 'jotai';
 import { useBreakpoints } from '@hooks/index';
@@ -10,7 +11,7 @@ import { userDataViewState } from '@states/settings';
 import { monthNamesState } from '@states/app';
 import {
   fieldServiceMeetingWeek,
-  fieldServiceMeetingOverlapsRange,
+  fieldServiceMeetingWeekCoverage,
 } from '@utils/field_service_meetings';
 import { weeksInMonth, formatDate } from '@utils/date';
 import { filterMeetingsByDataView } from '@features/congregation/field_service_meetings/filter_meetings_by_data_view';
@@ -21,6 +22,14 @@ const useWeekSelector = () => {
   const [, setView] = useAtom(fieldServiceMeetingsViewModeState);
   const meetings = useAtomValue(fieldServiceMeetingsState);
   const view = useAtomValue(userDataViewState);
+  const groups = useAtomValue(fieldWithLanguageGroupsState);
+  const visibleGroups = useMemo(
+    () =>
+      view === 'main'
+        ? groups
+        : groups.filter((group) => group.group_id === view),
+    [groups, view]
+  );
   const monthNames = useAtomValue(monthNamesState);
   const selectedWeek = fieldServiceMeetingWeek(date);
   const selectedMonth = selectedWeek.slice(0, 7);
@@ -71,18 +80,17 @@ const useWeekSelector = () => {
             end.setDate(end.getDate() + 6);
             return {
               value: week,
-              count: records.filter((meeting) =>
-                fieldServiceMeetingOverlapsRange(
-                  meeting,
-                  week,
-                  formatDate(end, 'yyyy/MM/dd')
-                )
-              ).length,
+              ...fieldServiceMeetingWeekCoverage(
+                records,
+                visibleGroups,
+                week,
+                formatDate(end, 'yyyy/MM/dd')
+              ),
             };
           }),
         };
       }),
-    [year, monthNames, records]
+    [year, monthNames, records, visibleGroups]
   );
   return {
     years,

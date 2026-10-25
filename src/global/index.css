@@ -1,4 +1,6 @@
 :root {
+  --week-selector-width: 360px;
+  --date-navigator-label-min-width: 320px;
   --icon-size: 24px;
   --icon-size-small: 20px;
   --touch-target-size: 44px;

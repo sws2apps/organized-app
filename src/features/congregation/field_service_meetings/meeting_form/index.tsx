@@ -23,7 +23,10 @@ import Dialog from '@components/dialog';
 import IconLoading from '@components/icon_loading';
 import InfoNote from '@components/info_note';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
-import { FIELD_SERVICE_MEETING_CATEGORY_TRANSLATION_KEYS } from '@definition/field_service_meetings';
+import {
+  FieldServiceMeetingCategory,
+  FIELD_SERVICE_MEETING_CATEGORY_TRANSLATION_KEYS,
+} from '@definition/field_service_meetings';
 import { MeetingFormProps } from '@features/congregation/field_service_meetings/meeting_form/index.types';
 import useMeetingForm from '@features/congregation/field_service_meetings/meeting_form/useMeetingForm';
 
@@ -51,7 +54,7 @@ const MeetingForm = ({
     conductorOptions,
     selectedGroup,
     selectedLocation,
-    isJointMeeting,
+    canManageAll,
     categoryOptions,
     locationFieldLabel,
     isSimilarMeeting,
@@ -166,7 +169,12 @@ const MeetingForm = ({
             <Autocomplete
               sx={{ width: '100%', minWidth: 0 }}
               label={t('tr_type')}
-              value={formData.meeting_data.category}
+              value={
+                formData.meeting_data.category ===
+                FieldServiceMeetingCategory.JointMeeting
+                  ? FieldServiceMeetingCategory.RegularMeeting
+                  : formData.meeting_data.category
+              }
               options={categoryOptions}
               disableClearable
               onChange={(_, value) => {
@@ -202,12 +210,11 @@ const MeetingForm = ({
               getOptionLabel={(option) =>
                 typeof option === 'string' ? option : option.label
               }
-              disabled={isJointMeeting}
             />
             <Autocomplete
               sx={{ width: '100%', minWidth: 0 }}
               label={t('tr_conductor')}
-              freeSolo
+              freeSolo={canManageAll}
               autoSelect
               options={conductorOptions}
               value={conductorValue}
@@ -229,7 +236,13 @@ const MeetingForm = ({
               endIcon={<IconSearch />}
               error={conductorError}
               helperText={
-                conductorError ? t('tr_fillRequiredField') : undefined
+                conductorError
+                  ? t(
+                      canManageAll
+                        ? 'tr_fillRequiredField'
+                        : 'tr_fieldServiceMeetingConductorGroupError'
+                    )
+                  : undefined
               }
             />
           </Box>
@@ -298,12 +311,13 @@ const MeetingForm = ({
           </Box>
 
           <TextField
-            label={t('tr_additionalInfo')}
+            label={t('tr_fieldServiceMeetingNote')}
             value={formData.meeting_data.additionalInfo ?? ''}
             onChange={(event) =>
               updateMeetingData({ additionalInfo: event.target.value })
             }
             multiline
+            slotProps={{ inputLabel: { shrink: true } }}
           />
         </Box>
         <Box

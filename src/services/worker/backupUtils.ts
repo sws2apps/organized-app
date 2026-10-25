@@ -1,3 +1,4 @@
+import { fieldServiceMeetingPermissions } from '@utils/field_service_meeting_permissions';
 // to minimize the size of the worker file, we recreate all its needed functions in this file
 
 import appDb from '@db/appDb';
@@ -1885,7 +1886,6 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
 
     const secretaryRole = userRole.includes('secretary');
     const coordinatorRole = userRole.includes('coordinator');
-    const groupOverseerRole = userRole.includes('group_overseers');
     const languageGroupOverseerRole = userRole.includes(
       'language_group_overseers'
     );
@@ -2206,10 +2206,7 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
         // covers group overseers and the service overseer, so the export gate
         // must match or their local changes would silently never sync
         if (
-          (adminRole ||
-            serviceCommitteeRole ||
-            groupOverseerRole ||
-            languageGroupOverseerRole) &&
+          fieldServiceMeetingPermissions(settings, field_service_groups).canCreate &&
           metadata.metadata.field_service_meetings?.send_local
         ) {
           const backupFieldServiceMeetings = field_service_meetings.map(

@@ -5,9 +5,8 @@ import { useAppTranslation } from '@hooks/index';
 import WeekSelectorPanel from '@features/meetings/week_selector/panel';
 import useWeekSelector from '@features/congregation/field_service_meetings/week_selector/useWeekSelector';
 import ScrollableTabs from '@components/scrollable_tabs';
-import Accordion from '@components/accordion';
-import Button from '@components/button';
-import Typography from '@components/typography';
+import MonthRow from '@features/meetings/week_selector/month_row';
+import WeekRow from '@features/meetings/week_selector/week_row';
 import { formatDate } from '@utils/date';
 
 const WeekSelector = () => {
@@ -40,58 +39,33 @@ const WeekSelector = () => {
         value={years.indexOf(year)}
         onChange={(index) => setYear(years[index]!)}
       />
-      {months.map((month) => (
-        <Accordion
-          key={month.value}
-          id={month.value}
-          label={month.label}
-          expanded={expandedMonth === month.value}
-          onChange={setExpandedMonth}
-          sx={{ borderBottom: '1px solid var(--accent-200)' }}
-        >
-          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+      <Box sx={{ '& > * + *': { borderTop: '1px solid var(--accent-200)' } }}>
+        {months.map((month) => (
+          <MonthRow
+            key={month.value}
+            label={month.label}
+            expanded={expandedMonth === month.value}
+            onToggle={() =>
+              setExpandedMonth(
+                expandedMonth === month.value ? false : month.value
+              )
+            }
+            assigned={month.weeks.reduce((sum, week) => sum + week.assigned, 0)}
+            total={month.weeks.reduce((sum, week) => sum + week.total, 0)}
+          >
             {month.weeks.map((week) => (
-              <Button
+              <WeekRow
                 key={week.value}
-                variant="secondary"
-                className="body-small-semibold"
-                aria-pressed={selectedWeek === week.value}
-                ariaLabel={`${formatDate(new Date(week.value), format)}, ${t('tr_fieldServiceMeetingCount', { count: week.count })}`}
-                onClick={() => selectWeek(week.value)}
-                sx={{
-                  justifyContent: 'space-between',
-                  borderRadius: 'var(--radius-none)',
-                  borderTop: '1px solid var(--accent-200)',
-                  padding: '8px',
-                  gap: '8px',
-                  minWidth: 0,
-                  backgroundColor:
-                    selectedWeek === week.value
-                      ? 'var(--accent-150)'
-                      : 'transparent',
-                  color:
-                    selectedWeek === week.value
-                      ? 'var(--accent-dark)'
-                      : 'var(--black)',
-                }}
-              >
-                <Typography
-                  sx={{ textAlign: 'start', overflowWrap: 'anywhere' }}
-                >
-                  {formatDate(new Date(week.value), format)}
-                </Typography>
-                <Typography
-                  className="label-small-medium"
-                  color="var(--grey-400)"
-                  sx={{ flexShrink: 0 }}
-                >
-                  {week.count}
-                </Typography>
-              </Button>
+                label={formatDate(new Date(week.value), format)}
+                isSelected={selectedWeek === week.value}
+                onSelect={() => selectWeek(week.value)}
+                assigned={week.assigned}
+                total={week.total}
+              />
             ))}
-          </Box>
-        </Accordion>
-      ))}
+          </MonthRow>
+        ))}
+      </Box>
     </WeekSelectorPanel>
   );
 };

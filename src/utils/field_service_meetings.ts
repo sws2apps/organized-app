@@ -1,75 +1,14 @@
+import type { FieldServiceGroupType } from '@definition/field_service_groups';
+import type { SettingsType } from '@definition/settings';
 import {
-  FieldServiceMeetingCategory,
   FieldServiceMeetingFormattedType,
   FieldServiceMeetingAgendaDay,
   FieldServiceMeetingAgendaSlot,
   FieldServiceMeetingType,
 } from '@definition/field_service_meetings';
-import { FieldServiceGroupType } from '@definition/field_service_groups';
-import { SettingsType } from '@definition/settings';
 import { formatDate, getWeekDate } from '@utils/date';
 
-export const fieldServiceMeetingPermissions = (
-  settings: SettingsType,
-  groups: FieldServiceGroupType[]
-) => {
-  const uid = settings.user_settings.user_local_uid;
-  const isAdmin = settings.user_settings.cong_role.some((role) =>
-    ['admin', 'secretary', 'coordinator'].includes(role)
-  );
-  const isServiceOverseer =
-    Boolean(uid) && uid === settings.cong_settings.responsabilities?.service;
-  const activeGroups = groups.filter((group) => !group.group_data._deleted);
-  const myMemberGroupIds = new Set(
-    activeGroups
-      .filter((group) =>
-        group.group_data.members.some((member) => member.person_uid === uid)
-      )
-      .map((group) => group.group_id)
-  );
-  const myLedGroupIds = new Set(
-    activeGroups
-      .filter((group) =>
-        group.group_data.members.some(
-          (member) =>
-            member.person_uid === uid &&
-            (member.isOverseer || member.isAssistant)
-        )
-      )
-      .map((group) => group.group_id)
-  );
-  const isAnyGroupLead = myLedGroupIds.size > 0;
-  const canManageMeeting = (
-    category: FieldServiceMeetingCategory,
-    groupId?: string
-  ) => {
-    if (isAdmin) return true;
-    if (category === FieldServiceMeetingCategory.JointMeeting)
-      return isAnyGroupLead;
-    if (
-      category === FieldServiceMeetingCategory.ServiceOverseerMeeting &&
-      isServiceOverseer
-    )
-      return true;
-    if (!groupId) return isAnyGroupLead;
-    return (
-      myLedGroupIds.has(groupId) ||
-      (isServiceOverseer &&
-        category === FieldServiceMeetingCategory.RegularMeeting &&
-        myMemberGroupIds.has(groupId))
-    );
-  };
-  return {
-    isAdmin,
-    isServiceOverseer,
-    isAnyGroupLead,
-    myLedGroupIds,
-    myMemberGroupIds,
-    canManageMeeting,
-    canCreate: isAdmin || isAnyGroupLead || isServiceOverseer,
-    canEditGroupTimes: () => isAdmin,
-  };
-};
+export { fieldServiceMeetingPermissions } from '@utils/field_service_meeting_permissions';
 
 export const fieldServiceMeetingOverlapsRange = (
   meeting: FieldServiceMeetingType,
@@ -138,4 +77,32 @@ export const fieldServiceMeetingAgenda = (
         left.key.localeCompare(right.key)
       ),
     }));
+};
+
+/** Each active group counts once, regardless of repeated meetings in the week. */
+export const fieldServiceMeetingWeekCoverage = (
+  meetings: FieldServiceMeetingType[],
+  groups: FieldServiceGroupType[],
+  rangeStart: string,
+  rangeEnd: string
+) => {
+  const activeGroups = groups.filter((group) => !group.group_data._deleted);
+  const covered = new Set<string>();
+  for (const meeting of meetings) {
+    if (
+      meeting.meeting_data._deleted ||
+      !fieldServiceMeetingOverlapsRange(meeting, rangeStart, rangeEnd)
+    )
+      continue;
+    if (!meeting.meeting_data.group_id) {
+      activeGroups.forEach((group) => covered.add(group.group_id));
+    } else if (
+      activeGroups.some(
+        (group) => group.group_id === meeting.meeting_data.group_id
+      )
+    ) {
+      covered.add(meeting.meeting_data.group_id);
+    }
+  }
+  return { assigned: covered.size, total: activeGroups.length };
 };

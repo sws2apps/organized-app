@@ -110,15 +110,14 @@ const useFieldServiceMeetings = () => {
     const groupId =
       my_group && permissions.myLedGroupIds.has(my_group.group_id)
         ? my_group.group_id
-        : dataView === 'main'
-          ? undefined
-          : dataView;
-    const category =
-      permissions.isServiceOverseer &&
-      !permissions.isAdmin &&
-      !permissions.isAnyGroupLead
-        ? FieldServiceMeetingCategory.ServiceOverseerMeeting
-        : FieldServiceMeetingCategory.RegularMeeting;
+        : !permissions.canManageAll
+          ? [...permissions.myLedGroupIds][0]
+          : dataView === 'main'
+            ? undefined
+            : dataView;
+    const category = groupId
+      ? FieldServiceMeetingCategory.RegularMeeting
+      : FieldServiceMeetingCategory.JointMeeting;
     const start = new Date(referenceDate);
     const now = new Date();
     start.setHours(now.getHours(), now.getMinutes(), 0, 0);
@@ -147,10 +146,7 @@ const useFieldServiceMeetings = () => {
           ).toISOString(),
           type: groupId ?? 'main',
           category,
-          conductor:
-            category === FieldServiceMeetingCategory.ServiceOverseerMeeting
-              ? (settings.cong_settings.responsabilities?.service ?? '')
-              : '',
+          conductor: '',
           location: FieldServiceMeetingLocation.Publisher,
           group_id: groupId,
           address: '',

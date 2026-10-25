@@ -105,25 +105,8 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
           sx={{
             minWidth: 0,
             maxWidth: '100%',
-            flex: '0 1 auto',
             gridColumn: '1 / -1',
             gridRow: 2,
-          }}
-        >
-          <DetailRow
-            label={t('tr_conductor')}
-            icon={<IconPerson color="var(--grey-400)" />}
-            className="body-small-regular"
-          >
-            {meeting.conductor}
-          </DetailRow>
-        </Box>
-        <Box
-          sx={{
-            minWidth: 0,
-            maxWidth: '100%',
-            gridColumn: '1 / -1',
-            gridRow: 3,
             width: tabletUp ? 'max-content' : '100%',
             flex: '0 1 auto',
           }}
@@ -173,7 +156,7 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
           gap: '8px',
           flexShrink: 0,
           gridColumn: 2,
-          gridRow: tabletUp && hasAdditionalInfo ? '1 / 3' : 1,
+          gridRow: tabletUp ? '1 / 3' : 1,
           alignSelf: 'start',
           justifySelf: 'end',
           '& > div': { display: 'flex' },
@@ -206,23 +189,53 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
           </Tooltip>
         )}
       </Box>
-      {hasAdditionalInfo && (
-        <Typography
-          component="div"
-          role="group"
-          aria-label={t('tr_comments')}
-          className="body-small-regular"
-          color="var(--text-muted)"
+      <Box
+        className="meeting-secondary"
+        sx={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          alignItems: 'flex-start',
+          gap: '8px 16px',
+          gridColumn: tabletUp ? 1 : '1 / -1',
+          gridRow: tabletUp ? 2 : 3,
+          minWidth: 0,
+        }}
+      >
+        <Box
           sx={{
-            gridColumn: tabletUp ? 1 : '1 / -1',
             minWidth: 0,
-            overflowWrap: 'anywhere',
-            whiteSpace: 'pre-wrap',
+            maxWidth: '100%',
+            flex: '0 1 auto',
+            gridColumn: '1 / -1',
+            gridRow: 3,
           }}
         >
-          {meeting.additionalInfo}
-        </Typography>
-      )}
+          <DetailRow
+            label={t('tr_conductor')}
+            icon={<IconPerson color="var(--grey-400)" />}
+            className="body-small-regular"
+          >
+            {meeting.conductor}
+          </DetailRow>
+        </Box>
+        {hasAdditionalInfo && (
+          <Typography
+            component="div"
+            role="group"
+            aria-label={t('tr_comments')}
+            className="body-small-regular"
+            color="var(--text-muted)"
+            sx={{
+              flex: '0 1 auto',
+              minWidth: 0,
+              overflowWrap: 'anywhere',
+              whiteSpace: 'pre-wrap',
+            }}
+          >
+            {meeting.additionalInfo}
+          </Typography>
+        )}
+      </Box>
     </Box>
   );
 };
