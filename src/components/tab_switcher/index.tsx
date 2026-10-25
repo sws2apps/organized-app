@@ -38,6 +38,10 @@ const TabSwitcher = <T extends string = string>({
   sx,
 }: TabSwitcherProps<T>) => {
   const palette = PALETTE[surface];
+  const activeClassName = surface === 'light' ? 'body-small-semibold' : 'h4';
+  const inactiveClassName =
+    surface === 'light' ? 'body-small-regular' : 'body-regular';
+  const labelPadding = surface === 'light' ? '4px 12px' : '4px 16px';
 
   const activeIndex = options.findIndex((option) => option.value === value);
   const gap = 8;
@@ -88,15 +92,7 @@ const TabSwitcher = <T extends string = string>({
           <ButtonBase
             key={option.value}
             role="tab"
-            className={
-              surface === 'light'
-                ? isActive
-                  ? 'body-small-semibold'
-                  : 'body-small-regular'
-                : isActive
-                  ? 'h4'
-                  : 'body-regular'
-            }
+            className={isActive ? activeClassName : inactiveClassName}
             aria-selected={isActive}
             aria-label={iconOnly || collapse ? option.label : undefined}
             disabled={option.disabled}
@@ -111,11 +107,7 @@ const TabSwitcher = <T extends string = string>({
               alignItems: 'center',
               justifyContent: 'center',
               gap: surface === 'light' ? '6px' : '8px',
-              padding: iconOnly
-                ? '4px 8px'
-                : surface === 'light'
-                  ? '4px 12px'
-                  : '4px 16px',
+              padding: iconOnly ? '4px 8px' : labelPadding,
               minHeight: '28px',
               borderRadius: 'var(--radius-m)',
               fontFamily: 'inherit',
