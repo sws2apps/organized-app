@@ -13,7 +13,11 @@ import {
   generateMonthShortNames,
   getTranslation,
 } from '@services/i18n/translation';
-import { dayNamesShortState, monthShortNamesState } from '@states/app';
+import {
+  dayNamesState,
+  dayNamesShortState,
+  monthShortNamesState,
+} from '@states/app';
 import { FirstDayWeekOption } from '@definition/settings';
 
 export const MAX_DATE = new Date(9999, 11, 31);
@@ -474,7 +478,8 @@ export const getDatesBetweenDates = (
 
 export const formatLongDateWithShortVars = (
   date: Date | string,
-  includeYear = true
+  includeYear = true,
+  weekdayFormat: 'short' | 'long' = 'short'
 ) => {
   date = new Date(date);
 
@@ -484,7 +489,9 @@ export const formatLongDateWithShortVars = (
   const year = date.getFullYear();
 
   const monthNames = store.get(monthShortNamesState);
-  const dayNames = store.get(dayNamesShortState);
+  const dayNames = store.get(
+    weekdayFormat === 'long' ? dayNamesState : dayNamesShortState
+  );
 
   const monthV = monthNames[month];
   const dayV = dayNames[day];
