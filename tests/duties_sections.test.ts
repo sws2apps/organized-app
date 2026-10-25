@@ -1,3 +1,5 @@
+import { meetingDutiesDefault } from '@services/dexie/schema';
+import { updateObject } from '@utils/common';
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import {
@@ -152,4 +154,42 @@ test('legacy group slot IDs retain timestamped clears for already-published sche
   assert.equal(old?.value, '');
   assert.equal(current?.value, 'B');
   assert.equal(old?.updatedAt, current?.updatedAt);
+});
+
+test('generated duty defaults never replace configured values during sync', () => {
+  const generated = meetingDutiesDefault('main');
+  const configured = meetingDutiesDefault('main');
+  configured.audio_amount = { value: 3, updatedAt: '2026-10-25T12:00:00Z' };
+  configured.mic_sections = { value: true, updatedAt: '2026-10-25T12:00:00Z' };
+  for (const [local, remote] of [
+    [generated, configured],
+    [configured, generated],
+  ]) {
+    const result = updateObject(
+      { meeting_duties: [structuredClone(local)] },
+      { meeting_duties: [structuredClone(remote)] }
+    ).meeting_duties[0];
+    assert.equal(result.audio_amount.value, 3);
+    assert.equal(result.mic_sections.value, true);
+  }
+});
+
+test('default settings belong to independent language groups and have no edit timestamps', () => {
+  const main = meetingDutiesDefault('main');
+  const group = meetingDutiesDefault('group');
+  main.audio_amount.value = 4;
+  main.custom.push({
+    id: 'custom',
+    name: 'Duty',
+    amount: 1,
+    _deleted: false,
+    updatedAt: 'now',
+  });
+  assert.equal(group.type, 'group');
+  assert.equal(group.audio_amount.value, 1);
+  assert.deepEqual(group.custom, []);
+  for (const field of Object.values(group)) {
+    if (field && typeof field === 'object' && 'updatedAt' in field)
+      assert.equal(field.updatedAt, '');
+  }
 });

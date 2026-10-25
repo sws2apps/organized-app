@@ -273,6 +273,31 @@ export const personSchema: PersonType = {
   },
 };
 
+export const meetingDutiesDefault = (
+  type: string
+): SettingsType['cong_settings']['meeting_duties'][number] => {
+  // Generated defaults must yield to configured values during timestamp-based sync.
+  const updatedAt = '';
+
+  return {
+    type,
+    _deleted: { value: false, updatedAt },
+    conflict_prevent: { value: false, updatedAt },
+    sisters_duties: { value: false, updatedAt },
+    mic_sections: { value: false, updatedAt },
+    av_combined: { value: false, updatedAt },
+    audio_amount: { value: 1, updatedAt },
+    video_amount: { value: 1, updatedAt },
+    mic_amount: { value: 2, updatedAt },
+    stage_amount: { value: 1, updatedAt },
+    entrance_attendant_amount: { value: 1, updatedAt },
+    auditorium_attendant_amount: { value: 1, updatedAt },
+    hospitality_amount: { value: 0, updatedAt },
+    videoconference_host_amount: { value: 0, updatedAt },
+    custom: [],
+  };
+};
+
 export const settingSchema: SettingsType = {
   id: 1,
   cong_settings: {

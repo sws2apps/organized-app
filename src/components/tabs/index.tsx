@@ -47,6 +47,7 @@ const a11yProps = (index: number, idPrefix: string) => {
  */
 const Tabs = ({
   tabs,
+  'aria-label': ariaLabel,
   value,
   onChange,
   actionComponent,
@@ -63,10 +64,8 @@ const Tabs = ({
   // tabs fill the row only on mobile; desktop keeps them content-sized
   const fillTabs = fullWidth && tabletDown;
 
-  // action component leads on mobile (stacked) and on `start` (reversed)
-  const axis = tabletDown ? 'column' : 'row';
-  const flexDirection =
-    actionPosition === 'start' ? (`${axis}-reverse` as const) : axis;
+  // Render actions in their visual order so keyboard navigation follows the layout.
+  const flexDirection = tabletDown ? 'column' : 'row';
 
   /**
    * Handle tab change event.
@@ -96,8 +95,10 @@ const Tabs = ({
           rowGap: tabletDown ? '16px' : '0px',
         }}
       >
+        {actionPosition === 'start' && actionComponent}
         {showTabs && (
           <MUITabs
+            aria-label={ariaLabel}
             value={valueOfActivePanel}
             onChange={handleChange}
             variant={fillTabs ? 'scrollable' : 'standard'}
@@ -144,7 +145,7 @@ const Tabs = ({
             )}
           </MUITabs>
         )}
-        {actionComponent}
+        {actionPosition !== 'start' && actionComponent}
       </Box>
 
       {tabs.map(

@@ -42,8 +42,14 @@ const Select = ({ helperText, ...props }: SelectPropsType) => {
         size="small"
         fullWidth
         inputProps={{
-          'aria-describedby': helperText ? helperId : undefined,
           ...props.inputProps,
+          'aria-describedby':
+            [
+              props.inputProps?.['aria-describedby'],
+              helperText ? helperId : undefined,
+            ]
+              .filter(Boolean)
+              .join(' ') || undefined,
         }}
         MenuProps={{
           slotProps: {
