@@ -359,16 +359,19 @@ const useMeetingForm = (
       if (!nextGroup) return;
 
       const groupId = nextGroup.id === 'main' ? undefined : nextGroup.id;
+      let category = groupId
+        ? FieldServiceMeetingCategory.RegularMeeting
+        : FieldServiceMeetingCategory.JointMeeting;
+      if (
+        formData.meeting_data.category ===
+        FieldServiceMeetingCategory.ServiceOverseerMeeting
+      ) {
+        category = FieldServiceMeetingCategory.ServiceOverseerMeeting;
+      }
       const payload: Partial<FieldServiceMeetingType['meeting_data']> = {
         type: nextGroup.id,
         group_id: groupId,
-        category:
-          formData.meeting_data.category ===
-          FieldServiceMeetingCategory.ServiceOverseerMeeting
-            ? formData.meeting_data.category
-            : groupId
-              ? FieldServiceMeetingCategory.RegularMeeting
-              : FieldServiceMeetingCategory.JointMeeting,
+        category,
         ...(!canManageAll &&
         !fieldServiceMeetingConductorAllowed(
           formData.meeting_data.conductor,

@@ -107,14 +107,11 @@ const useFieldServiceMeetings = () => {
   }, [meetings, referenceDate, formatAndFilter]);
   const handleStartCreate = useCallback(() => {
     if (!permissions.canCreate || currentDraft) return;
-    const groupId =
-      my_group && permissions.myLedGroupIds.has(my_group.group_id)
-        ? my_group.group_id
-        : !permissions.canManageAll
-          ? [...permissions.myLedGroupIds][0]
-          : dataView === 'main'
-            ? undefined
-            : dataView;
+    let groupId = dataView === 'main' ? undefined : dataView;
+    if (!permissions.canManageAll) groupId = [...permissions.myLedGroupIds][0];
+    if (my_group && permissions.myLedGroupIds.has(my_group.group_id)) {
+      groupId = my_group.group_id;
+    }
     const category = groupId
       ? FieldServiceMeetingCategory.RegularMeeting
       : FieldServiceMeetingCategory.JointMeeting;

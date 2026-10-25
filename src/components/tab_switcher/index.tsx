@@ -34,15 +34,16 @@ const TabSwitcher = <T extends string = string>({
       theme.direction === 'rtl'
         ? event.key === 'ArrowLeft'
         : event.key === 'ArrowRight';
-    const next =
-      event.key === 'Home'
-        ? enabledIndexes[0]
-        : event.key === 'End'
-          ? enabledIndexes.at(-1)
-          : enabledIndexes[
-              (position + (forward ? 1 : -1) + enabledIndexes.length) %
-                enabledIndexes.length
-            ];
+    let next: number | undefined;
+    if (event.key === 'Home') next = enabledIndexes[0];
+    else if (event.key === 'End') next = enabledIndexes.at(-1);
+    else {
+      const offset = forward ? 1 : -1;
+      next =
+        enabledIndexes[
+          (position + offset + enabledIndexes.length) % enabledIndexes.length
+        ];
+    }
     if (next === undefined) return;
     event.preventDefault();
     onChange(options[next]!.value);

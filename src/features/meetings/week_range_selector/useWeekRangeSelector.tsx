@@ -100,10 +100,12 @@ const useWeekRangeSelector = (
   const startWeekOptions = useMemo(() => {
     if (weeks) {
       const currentWeek = formatDate(getWeekDate(), 'yyyy/MM/dd');
-      const options = [...new Set(weeks)].sort().map((week) => ({
-        value: week,
-        label: formatDateShortMonthWithYear(week),
-      }));
+      const options = [...new Set(weeks)]
+        .sort((first, second) => first.localeCompare(second))
+        .map((week) => ({
+          value: week,
+          label: formatDateShortMonthWithYear(week),
+        }));
       return [
         options.filter((option) => option.value < currentWeek),
         options.filter((option) => option.value >= currentWeek),

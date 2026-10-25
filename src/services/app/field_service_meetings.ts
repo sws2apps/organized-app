@@ -3,8 +3,10 @@ import { dbAppSettingsUpdateFieldServiceMeetingTime } from '@services/dexie/sett
 import {
   FIELD_SERVICE_MEETING_CATEGORIES,
   FIELD_SERVICE_MEETING_LOCATIONS,
+  FieldServiceMeetingCategory,
+  FieldServiceMeetingFormattedType,
+  FieldServiceMeetingType,
 } from '@definition/field_service_meetings';
-import { settingsState } from '@states/settings';
 import {
   dbFieldServiceMeetingsGet,
   dbFieldServiceMeetingsSave,
@@ -13,12 +15,6 @@ import {
   fieldServiceMeetingPermissions,
   fieldServiceMeetingDraftScope,
 } from '@utils/field_service_meetings';
-import { getTranslation as translate } from '@services/i18n/translation';
-import {
-  FieldServiceMeetingCategory,
-  FieldServiceMeetingFormattedType,
-  FieldServiceMeetingType,
-} from '@definition/field_service_meetings';
 import { formatDate, getDatesBetweenDates } from '@utils/date';
 import {
   generateMonthShortNames,
@@ -31,6 +27,7 @@ import {
   displayNameMeetingsEnableState,
   fullnameOptionState,
   hour24FormatState,
+  settingsState,
 } from '@states/settings';
 import { personsState } from '@states/persons';
 import { fieldWithLanguageGroupsState } from '@states/field_service_groups';
@@ -145,7 +142,7 @@ export const fieldServiceMeetingData = (
     const startMonthIndex = startDate.getMonth();
     const startMonth = months[startMonthIndex];
 
-    const endDate = meetingDates[meetingDates.length - 1]!;
+    const endDate = meetingDates.at(-1)!;
     const endDateV = endDate.getDate();
     const endMonthIndex = endDate.getMonth();
     const endMonth = months[endMonthIndex];
@@ -218,7 +215,9 @@ export const fieldServiceMeetingsSave = async (
     expectedScope &&
     expectedScope !== fieldServiceMeetingDraftScope(store.get(settingsState))
   ) {
-    throw new Error(translate({ key: 'tr_fieldServiceMeetingNotAllowed' }));
+    throw new Error(
+      getTranslation({ key: 'tr_fieldServiceMeetingNotAllowed' })
+    );
   }
   const permissions = fieldServiceMeetingPermissions(
     store.get(settingsState),
@@ -238,7 +237,9 @@ export const fieldServiceMeetingsSave = async (
       )) ||
     (changingToVisit && !permissions.canManageAll)
   ) {
-    throw new Error(translate({ key: 'tr_fieldServiceMeetingNotAllowed' }));
+    throw new Error(
+      getTranslation({ key: 'tr_fieldServiceMeetingNotAllowed' })
+    );
   }
 
   if (
@@ -246,10 +247,10 @@ export const fieldServiceMeetingsSave = async (
     (current.meeting_data._deleted ||
       current.meeting_data.updatedAt !== target.updatedAt)
   ) {
-    throw new Error(translate({ key: 'tr_fieldServiceMeetingChanged' }));
+    throw new Error(getTranslation({ key: 'tr_fieldServiceMeetingChanged' }));
   }
   if (deleting && !current)
-    throw new Error(translate({ key: 'tr_fieldServiceMeetingChanged' }));
+    throw new Error(getTranslation({ key: 'tr_fieldServiceMeetingChanged' }));
   const start = new Date(target.start).getTime();
   const end = new Date(target.end).getTime();
   if (
@@ -261,7 +262,7 @@ export const fieldServiceMeetingsSave = async (
       !FIELD_SERVICE_MEETING_CATEGORIES.includes(target.category) ||
       !FIELD_SERVICE_MEETING_LOCATIONS.includes(target.location))
   ) {
-    throw new Error(translate({ key: 'tr_fieldServiceMeetingInvalid' }));
+    throw new Error(getTranslation({ key: 'tr_fieldServiceMeetingInvalid' }));
   }
   if (
     !deleting &&
@@ -274,7 +275,7 @@ export const fieldServiceMeetingsSave = async (
     )
   ) {
     throw new Error(
-      translate({ key: 'tr_fieldServiceMeetingConductorGroupError' })
+      getTranslation({ key: 'tr_fieldServiceMeetingConductorGroupError' })
     );
   }
   await dbFieldServiceMeetingsSave(
@@ -301,7 +302,9 @@ export const fieldServiceMeetingTimeSave = async (
     store.get(fieldWithLanguageGroupsState)
   );
   if (!permissions.canEditGroupTimes())
-    throw new Error(translate({ key: 'tr_fieldServiceMeetingNotAllowed' }));
+    throw new Error(
+      getTranslation({ key: 'tr_fieldServiceMeetingNotAllowed' })
+    );
   if (
     (value.weekday !== undefined &&
       (!Number.isInteger(value.weekday) ||
@@ -311,7 +314,7 @@ export const fieldServiceMeetingTimeSave = async (
       value.time !== '' &&
       !/^([01]\d|2[0-3]):[0-5]\d$/.test(value.time))
   ) {
-    throw new Error(translate({ key: 'tr_fieldServiceMeetingInvalid' }));
+    throw new Error(getTranslation({ key: 'tr_fieldServiceMeetingInvalid' }));
   }
   await dbAppSettingsUpdateFieldServiceMeetingTime(groupId, (record) => {
     const now = new Date().toISOString();

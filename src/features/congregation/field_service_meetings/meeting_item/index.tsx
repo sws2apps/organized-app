@@ -30,13 +30,12 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
   );
   const isOverseerVisit =
     meeting.category === FieldServiceMeetingCategory.ServiceOverseerMeeting;
-  const groupLabel =
-    meeting.groupName ||
-    (meeting.group_id
-      ? t('tr_group')
-      : isOverseerVisit
-        ? t('tr_allGroups')
-        : categoryLabel);
+  let groupLabel = meeting.groupName;
+  if (!groupLabel) {
+    groupLabel = categoryLabel;
+    if (isOverseerVisit) groupLabel = t('tr_allGroups');
+    if (meeting.group_id) groupLabel = t('tr_group');
+  }
   const groupColor = useMemo(
     () => resolveGroupBadgeColor(groups, meeting.group_id),
     [groups, meeting.group_id]

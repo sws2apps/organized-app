@@ -30,6 +30,12 @@ import {
 import { MeetingFormProps } from '@features/congregation/field_service_meetings/meeting_form/index.types';
 import useMeetingForm from '@features/congregation/field_service_meetings/meeting_form/useMeetingForm';
 
+const getSubmitIcon = (saving: boolean, compact: boolean) => {
+  if (saving) return <IconLoading />;
+  if (!compact) return <IconCheck />;
+  return undefined;
+};
+
 const MeetingForm = ({
   meeting,
   mode,
@@ -70,6 +76,10 @@ const MeetingForm = ({
     validate,
     handleSave,
   } = useMeetingForm(meeting, onSave);
+
+  const conductorErrorKey = canManageAll
+    ? 'tr_fillRequiredField'
+    : 'tr_fieldServiceMeetingConductorGroupError';
 
   const handleDeleteClick = () => {
     setDeleteConfirmOpen(true);
@@ -235,15 +245,7 @@ const MeetingForm = ({
               }
               endIcon={<IconSearch />}
               error={conductorError}
-              helperText={
-                conductorError
-                  ? t(
-                      canManageAll
-                        ? 'tr_fillRequiredField'
-                        : 'tr_fieldServiceMeetingConductorGroupError'
-                    )
-                  : undefined
-              }
+              helperText={conductorError ? t(conductorErrorKey) : undefined}
             />
           </Box>
 
@@ -381,13 +383,7 @@ const MeetingForm = ({
               variant="main"
               type="submit"
               disableAutoStretch
-              startIcon={
-                saving ? (
-                  <IconLoading />
-                ) : tablet500Down ? undefined : (
-                  <IconCheck />
-                )
-              }
+              startIcon={getSubmitIcon(saving, tablet500Down)}
               disabled={saving || deleting}
             >
               {t('tr_done')}

@@ -18,7 +18,7 @@ const dbUpdateFieldServiceMeetingsMetadata = async () => {
   await appDb.metadata.put(metadata);
 };
 
-export const dbFieldServiceMeetingsGetAll = async () => {
+export const dbFieldServiceMeetingsGetAll = () => {
   return appDb.field_service_meetings.toArray();
 };
 

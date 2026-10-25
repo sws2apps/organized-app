@@ -259,7 +259,7 @@ const useScheduleExport = (
           `${year}/${String(month).padStart(2, '0')}`
         ))
           weeks.add(week);
-    return [...weeks].sort();
+    return [...weeks].sort((first, second) => first.localeCompare(second));
   }, [meetings, startWeek, endWeek]);
 
   const handleExportSchedule = async () => {
