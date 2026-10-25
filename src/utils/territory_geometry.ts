@@ -112,10 +112,38 @@ export const splitTerritoryBoundary = (
       const edge = tx < ty ? horizontalIndex : verticalIndex;
       return { point, edge };
     };
+    const entersTerritory = (from: Pair, to: Pair) => {
+      const dx = to[0] - from[0];
+      const dy = to[1] - from[1];
+      const crossings = [0, 1];
+      for (let index = 1; index < ring.length; index++) {
+        const [ax, ay] = ring[index - 1];
+        const [bx, by] = ring[index];
+        const edgeX = bx - ax;
+        const edgeY = by - ay;
+        const denominator = dx * edgeY - dy * edgeX;
+        if (denominator === 0) continue;
+        const t =
+          ((ax - from[0]) * edgeY - (ay - from[1]) * edgeX) / denominator;
+        const u = ((ax - from[0]) * dy - (ay - from[1]) * dx) / denominator;
+        if (t > 0 && t < 1 && u >= 0 && u <= 1) crossings.push(t);
+      }
+      crossings.sort((a, b) => a - b);
+      return crossings.some((value, index) => {
+        if (index === 0) return false;
+        const middle = (crossings[index - 1] + value) / 2;
+        return strictlyInside([from[0] + middle * dx, from[1] + middle * dy]);
+      });
+    };
     const start = extend(line[0], line[1]);
     const end = extend(line.at(-1)!, line.at(-2)!);
     // Returning through the same outer edge cannot partition this envelope.
-    if (start.edge === end.edge) return { error: 'cross' };
+    if (
+      start.edge === end.edge ||
+      entersTerritory(start.point, line[0]) ||
+      entersTerritory(line.at(-1)!, end.point)
+    )
+      return { error: 'cross' };
     const path = [start.point, ...line, end.point];
     const closeSide = (forward: boolean): Pair[] => {
       const outside: Pair[] = [];

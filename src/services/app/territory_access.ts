@@ -65,17 +65,16 @@ const publisherDoNotCalls = (
   current: DoNotCall[],
   next: DoNotCall[],
   publisher: string,
-  publisherId?: string
+  publisherId?: string,
+  legacyIdentitySafe?: boolean
 ) => {
-  const owned = new Set(
-    current
-      .filter((entry) =>
-        entry.addedById
-          ? entry.addedById === publisherId
-          : entry.addedBy === publisher
-      )
-      .map((entry) => entry.id)
-  );
+  const ownsEntry = (entry: DoNotCall) =>
+    entry.addedById
+      ? entry.addedById === publisherId
+      : legacyIdentitySafe !== false &&
+        !!publisher &&
+        entry.addedBy === publisher;
+  const owned = new Set(current.filter(ownsEntry).map((entry) => entry.id));
   const protectedIds = new Set(
     current.filter((entry) => !owned.has(entry.id)).map((entry) => entry.id)
   );
@@ -83,13 +82,7 @@ const publisherDoNotCalls = (
 
   for (const entry of next) {
     if (!entry.id || protectedIds.has(entry.id)) continue;
-    if (
-      (entry.addedById
-        ? entry.addedById !== publisherId
-        : entry.addedBy !== publisher) ||
-      !entry.address.trim()
-    )
-      continue;
+    if (!ownsEntry(entry) || !entry.address.trim()) continue;
     entries.set(entry.id, entry);
   }
 
@@ -135,7 +128,8 @@ export const publisherTerritoryChanges = (
       current.doNotCalls,
       next.doNotCalls,
       context.publisher,
-      context.publisherId
+      context.publisherId,
+      context.legacyIdentitySafe
     );
   }
 
@@ -145,14 +139,17 @@ export const publisherTerritoryChanges = (
 export const territoryHistoryForPublisher = (
   territories: Territory[],
   publisher: string,
-  publisherId?: string
+  publisherId?: string,
+  legacyIdentitySafe?: boolean
 ) =>
   publisher || publisherId
     ? territories.flatMap((territory) => {
         const assignments = territory.assignments.filter((assignment) =>
           assignment.publisherId
             ? assignment.publisherId === publisherId
-            : assignment.publisher === publisher
+            : legacyIdentitySafe !== false &&
+              !!publisher &&
+              assignment.publisher === publisher
         );
         return assignments.length ? [{ ...territory, assignments }] : [];
       })
