@@ -1,4 +1,4 @@
-import { ReactNode, SyntheticEvent, useEffect, useState } from 'react';
+import { ReactNode, SyntheticEvent, useEffect, useId, useState } from 'react';
 import { Tabs as MUITabs, Tab, Box } from '@mui/material';
 import { TabsPanelProps, CustomTabProps } from './index.types';
 import { tabsSharedStyles } from './index.styles';
@@ -11,15 +11,15 @@ import useBreakpoints from '@hooks/useBreakpoints';
  * @param props The props for the TabsPanel component.
  */
 export const CustomTabPanel = (props: TabsPanelProps) => {
-  const { children, value, index, ...other } = props;
+  const { children, value, index, idPrefix = 'simple', ...other } = props;
 
   return (
     <Box
       sx={{ height: '100%' }}
       role="tabpanel"
       hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
+      id={`${idPrefix}-tabpanel-${index}`}
+      aria-labelledby={`${idPrefix}-tab-${index}`}
       {...other}
     >
       {value === index && <Box sx={{ padding: '24px 0' }}>{children}</Box>}
@@ -33,10 +33,10 @@ export const CustomTabPanel = (props: TabsPanelProps) => {
  * @param index The index of the tab.
  * @returns Accessibility props for the tab.
  */
-const a11yProps = (index: number) => {
+const a11yProps = (index: number, idPrefix: string) => {
   return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
+    id: `${idPrefix}-tab-${index}`,
+    'aria-controls': `${idPrefix}-tabpanel-${index}`,
   };
 };
 
@@ -50,12 +50,23 @@ const Tabs = ({
   value,
   onChange,
   actionComponent,
+  actionPosition = 'end',
   showTabs = true,
+  fullWidth = false,
   // the plain look is what every caller renders today; a chip is opt-in
   appearance = 'plain',
 }: CustomTabProps) => {
+  const idPrefix = useId();
   const [valueOfActivePanel, setValueOfActivePanel] = useState(value || 0);
   const { tabletDown } = useBreakpoints();
+
+  // tabs fill the row only on mobile; desktop keeps them content-sized
+  const fillTabs = fullWidth && tabletDown;
+
+  // action component leads on mobile (stacked) and on `start` (reversed)
+  const axis = tabletDown ? 'column' : 'row';
+  const flexDirection =
+    actionPosition === 'start' ? (`${axis}-reverse` as const) : axis;
 
   /**
    * Handle tab change event.
@@ -81,7 +92,7 @@ const Tabs = ({
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: tabletDown ? 'stretch' : 'center',
-          flexDirection: tabletDown ? 'column' : 'row',
+          flexDirection,
           rowGap: tabletDown ? '16px' : '0px',
         }}
       >
@@ -89,6 +100,8 @@ const Tabs = ({
           <MUITabs
             value={valueOfActivePanel}
             onChange={handleChange}
+            variant={fillTabs ? 'scrollable' : 'standard'}
+            scrollButtons={false}
             slotProps={{
               indicator: {
                 sx: {
@@ -98,7 +111,20 @@ const Tabs = ({
                 },
               },
             }}
-            sx={tabsSharedStyles(appearance)}
+            sx={[
+              tabsSharedStyles(appearance),
+              // an array keeps the shared look and layers the filled row on
+              // top of it, rather than replacing the tab styles wholesale
+              fillTabs && {
+                width: '100%',
+                // equal share is a floor: long labels overflow and scroll
+                '& .MuiTabs-list': { minWidth: '100%' },
+                '& .MuiTab-root': {
+                  flexShrink: 0,
+                  minWidth: `${100 / (tabs.length || 1)}%`,
+                },
+              },
+            ]}
           >
             {tabs.map(
               ({ label, badge, className }, index): ReactNode => (
@@ -112,7 +138,7 @@ const Tabs = ({
                   }
                   key={index}
                   className={className}
-                  {...a11yProps(index)}
+                  {...a11yProps(index, idPrefix)}
                 />
               )
             )}
@@ -123,7 +149,12 @@ const Tabs = ({
 
       {tabs.map(
         (tab, i: number): ReactNode => (
-          <CustomTabPanel value={valueOfActivePanel} index={i} key={i}>
+          <CustomTabPanel
+            value={valueOfActivePanel}
+            index={i}
+            key={tab.id ?? (typeof tab.label === 'string' ? tab.label : i)} // NOSONAR -- Legacy non-text tabs have a fixed positional contract.
+            idPrefix={idPrefix}
+          >
             {tab.Component}
           </CustomTabPanel>
         )

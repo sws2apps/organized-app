@@ -26,6 +26,8 @@ function ScrollableTabs({
   value,
   onChange,
   className,
+  disabled,
+  'aria-label': ariaLabel = 'scrollable-auto-tabs',
   layout = 'auto',
   appearance = 'chip',
   sx,
@@ -94,7 +96,7 @@ function ScrollableTabs({
               endScrollButtonIcon: ArrowForwardIosIcon,
               startScrollButtonIcon: ArrowBackIosIcon,
             }}
-            aria-label="scrollable-auto-tabs"
+            aria-label={ariaLabel}
             sx={[
               {
                 [`& .${tabsClasses.scrollButtons}`]: {
@@ -132,6 +134,7 @@ function ScrollableTabs({
                     />
                   }
                   key={index}
+                  disabled={disabled}
                   className={className}
                   icon={icon}
                   iconPosition="end"

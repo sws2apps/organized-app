@@ -1,5 +1,6 @@
 import { JSXElementConstructor, ReactElement, ReactNode } from 'react';
 import { AssignmentCode, AssignmentFieldType } from '@definition/assignment';
+import type { AssignmentConflict } from '@definition/assignment_conflicts';
 import { PersonType } from '@definition/person';
 import { SxProps } from '@mui/material';
 
@@ -30,4 +31,6 @@ export type PersonOptionsType = PersonType & {
   last_assistant?: string;
   last_assistant_weekOf?: string;
   hall?: string;
+  // another assignment the person holds in the selected week
+  conflict?: AssignmentConflict;
 };
