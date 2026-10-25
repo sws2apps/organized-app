@@ -1,5 +1,7 @@
-import type { TerritorySharedSettings } from '@definition/territory_sync';
-import type { TerritoryGrant } from '@definition/territory_sync';
+import type {
+  TerritoryGrant,
+  TerritorySharedSettings,
+} from '@definition/territory_sync';
 
 export class TerritoryPolicyConflict extends Error {}
 const same = (left: unknown, right: unknown) =>
