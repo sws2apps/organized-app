@@ -8,10 +8,10 @@ import {
   fieldWithLanguageGroupsState,
 } from '@states/field_service_groups';
 import {
-  fieldServiceMeetingsActiveState,
+  fieldServiceMeetingsState,
   fieldServiceMeetingsDraftState,
 } from '@states/field_service_meetings';
-import { personsByViewState, personsState } from '@states/persons';
+import { personsState } from '@states/persons';
 import { formatDate } from '@utils/date';
 import {
   congAddressState,
@@ -49,9 +49,8 @@ const useMeetingForm = (
   const { t } = useAppTranslation();
   const groups = useAtomValue(fieldWithLanguageGroupsState);
   const allGroups = useAtomValue(fieldServiceGroupsState);
-  const persons = useAtomValue(personsByViewState);
   const allPersons = useAtomValue(personsState);
-  const existingMeetings = useAtomValue(fieldServiceMeetingsActiveState);
+  const existingMeetings = useAtomValue(fieldServiceMeetingsState);
   const useDisplayName = useAtomValue(displayNameMeetingsEnableState);
   const fullnameOption = useAtomValue(fullnameOptionState);
   const settings = useAtomValue(settingsState);
@@ -159,13 +158,17 @@ const useMeetingForm = (
       .filter((option) => option.label.trim().length > 0);
   }, [allPersons, useDisplayName, fullnameOption]);
 
-  // Brothers holding the conductor qualification in the current view.
+  // Select from active people, then apply the chosen group below. The current
+  // data view must not hide members of another group this user may manage.
   const qualifiedOptions = useMemo<ConductorOption[]>(() => {
-    return persons
-      .filter((person) =>
-        person.person_data.assignments?.some((assignment) =>
-          assignment.values.includes(AssignmentCode.MINISTRY_FS_CONDUCTOR)
-        )
+    return allPersons
+      .filter(
+        (person) =>
+          !person._deleted.value &&
+          !person.person_data.archived?.value &&
+          person.person_data.assignments?.some((assignment) =>
+            assignment.values.includes(AssignmentCode.MINISTRY_FS_CONDUCTOR)
+          )
       )
       .map((person) => ({
         id: person.person_uid,
@@ -173,7 +176,7 @@ const useMeetingForm = (
       }))
       .filter((option) => option.label.trim().length > 0)
       .sort((a, b) => a.label.localeCompare(b.label));
-  }, [persons, useDisplayName, fullnameOption]);
+  }, [allPersons, useDisplayName, fullnameOption]);
 
   const selectedGroup = useMemo(() => {
     const groupId =
@@ -277,6 +280,7 @@ const useMeetingForm = (
       if (meeting.meeting_data._deleted) return false;
       if ((meeting.meeting_data.group_id ?? '') !== groupId) return false;
       const otherStart = new Date(meeting.meeting_data.start);
+      if (!Number.isFinite(otherStart.getTime())) return false;
       return (
         formatDate(otherStart, 'yyyy/MM/dd') === date &&
         formatDate(otherStart, 'HH:mm') === time

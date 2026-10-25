@@ -74,7 +74,7 @@ export type FieldServiceMeetingFormattedType = {
   uid: string;
   year: number;
   time: string;
-  // Raw ISO datetimes (used e.g. for calendar export).
+  // Raw ISO datetimes for period filtering and chronological grouping.
   startISO: string;
   endISO: string;
   dates: { date: string; dateFormatted: string; day: string }[];

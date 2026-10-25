@@ -4,6 +4,7 @@ export type FieldServiceMeetingTemplateMeeting = {
   group: string;
   address: string;
   conductor: string;
+  note?: string;
 };
 
 export type FieldServiceMeetingTemplateDay = {

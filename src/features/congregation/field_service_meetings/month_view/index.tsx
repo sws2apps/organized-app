@@ -185,23 +185,23 @@ const getCellBorderSx = (
   weekIndex: number,
   inBlock: (cell: MonthDayCell | undefined, week: number) => boolean
 ): Record<string, string> => {
-  const leftInBlock = inBlock(week[dayIndex - 1], weekIndex);
+  const previousInBlock = inBlock(week[dayIndex - 1], weekIndex);
   const topInBlock = inBlock(weeks[weekIndex - 1]?.[dayIndex], weekIndex - 1);
-  const rightInBlock = inBlock(week[dayIndex + 1], weekIndex);
+  const nextInBlock = inBlock(week[dayIndex + 1], weekIndex);
   const bottomInBlock = inBlock(
     weeks[weekIndex + 1]?.[dayIndex],
     weekIndex + 1
   );
   return {
-    borderRight: LINE,
+    borderInlineEnd: LINE,
     borderBottom: LINE,
-    ...(leftInBlock ? {} : { borderLeft: LINE }),
+    ...(previousInBlock ? {} : { borderInlineStart: LINE }),
     ...(weekIndex > 0 && !topInBlock ? { borderTop: LINE } : {}),
-    ...(!leftInBlock && !bottomInBlock
-      ? { borderBottomLeftRadius: 'var(--radius-xl)' }
+    ...(!previousInBlock && !bottomInBlock
+      ? { borderEndStartRadius: 'var(--radius-xl)' }
       : {}),
-    ...(!rightInBlock && !bottomInBlock
-      ? { borderBottomRightRadius: 'var(--radius-xl)' }
+    ...(!nextInBlock && !bottomInBlock
+      ? { borderEndEndRadius: 'var(--radius-xl)' }
       : {}),
   };
 };

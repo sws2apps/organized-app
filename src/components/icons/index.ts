@@ -178,7 +178,6 @@ export { default as IconMyGroup } from './IconMyGroup';
 export { default as IconMyLocation } from './IconMyLocation';
 export { default as IconNavigateLeft } from './IconNavigateLeft';
 export { default as IconNavigateRight } from './IconNavigateRight';
-export { default as IconNote } from './IconNote';
 export { default as IconNewStar } from './IconNewStar';
 export { default as IconNew } from './IconNew';
 export { default as IconNextEvents } from './IconNextEvents';

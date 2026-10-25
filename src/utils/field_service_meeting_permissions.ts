@@ -72,7 +72,10 @@ export const fieldServiceMeetingConductorAllowed = (
     (record) => record.group_id === groupId && !record.group_data._deleted
   );
   const person = persons.find(
-    (record) => record.person_uid === conductor && !record._deleted.value
+    (record) =>
+      record.person_uid === conductor &&
+      !record._deleted.value &&
+      !record.person_data.archived?.value
   );
   return Boolean(
     group?.group_data.members.some(

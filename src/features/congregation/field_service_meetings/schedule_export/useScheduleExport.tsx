@@ -6,6 +6,7 @@ import { saveAs } from 'file-saver';
 import { IconInfo } from '@components/icons';
 import {
   FieldServiceMeetingCategory,
+  FIELD_SERVICE_MEETING_LOCATION_TRANSLATION_KEYS,
   FieldServiceMeetingType,
 } from '@definition/field_service_meetings';
 import {
@@ -34,6 +35,16 @@ import {
   fieldServiceMeetingWeek,
 } from '@utils/field_service_meetings';
 import { filterMeetingsByDataView } from '@features/congregation/field_service_meetings/filter_meetings_by_data_view';
+
+const SHORT_WEEKDAY_KEYS = [
+  'tr_sundayShort',
+  'tr_mondayShort',
+  'tr_tuesdayShort',
+  'tr_wednesdayShort',
+  'tr_thursdayShort',
+  'tr_fridayShort',
+  'tr_saturdayShort',
+];
 
 const createTemplateMonths = (
   meetings: FieldServiceMeetingType[],
@@ -95,7 +106,7 @@ const createTemplateMonths = (
       if (!dayEntry) {
         dayEntry = {
           id: dayKey,
-          dateLabel: `${dateEntry.day}, ${new Date(dateEntry.date).getDate()}`,
+          dateLabel: `${getTranslation({ key: SHORT_WEEKDAY_KEYS[currentDate.getDay()], language: lng })}, ${currentDate.getDate()}`,
           sortKey: dateEntry.date,
           meetings: [],
         };
@@ -107,7 +118,15 @@ const createTemplateMonths = (
         group: fieldServiceMeetingLabel(formatted, (key) =>
           getTranslation({ key, language: lng })
         ),
-        address: formatted.address ?? '',
+        address:
+          formatted.address?.trim() ||
+          getTranslation({
+            key: FIELD_SERVICE_MEETING_LOCATION_TRANSLATION_KEYS[
+              formatted.location
+            ],
+            language: lng,
+          }),
+        note: formatted.additionalInfo?.trim() || undefined,
         conductor: formatted.conductor ?? '',
         sortKey: `${dayKey}-${formatted.start}-${index}`,
       });
@@ -134,12 +153,13 @@ const createTemplateMonths = (
             .toSorted((first, second) =>
               first.sortKey.localeCompare(second.sortKey)
             )
-            .map(({ id, time, group, address, conductor }) => ({
+            .map(({ id, time, group, address, conductor, note }) => ({
               id,
               time,
               group,
               address,
               conductor,
+              note,
             })),
         })),
     }));

@@ -4,7 +4,7 @@ import styles from './index.styles';
 
 const FieldServiceDay = ({ day, isLast }: FieldServiceDayProps) => {
   return (
-    <View wrap={false} style={[styles.dayRow, isLast ? styles.dayRowLast : {}]}>
+    <View style={[styles.dayRow, isLast ? styles.dayRowLast : {}]}>
       <View style={[styles.dateCell, isLast ? styles.dateCellLast : {}]}>
         <Text style={styles.dateText}>{day.dateLabel}</Text>
       </View>
@@ -18,21 +18,28 @@ const FieldServiceDay = ({ day, isLast }: FieldServiceDayProps) => {
               index === day.meetings.length - 1 ? {} : styles.meetingRowDivider,
             ]}
           >
-            <View style={styles.timeCell}>
-              <Text style={styles.timeText}>{meeting.time}</Text>
-            </View>
+            <View style={styles.meetingDetails}>
+              <View style={styles.timeCell}>
+                <Text style={styles.timeText}>{meeting.time}</Text>
+              </View>
 
-            <View style={styles.groupCell}>
-              <Text style={styles.cellText}>{meeting.group}</Text>
-            </View>
+              <View style={styles.groupCell}>
+                <Text style={styles.cellText}>{meeting.group}</Text>
+              </View>
 
-            <View style={styles.textCell}>
-              <Text style={styles.cellText}>{meeting.address}</Text>
-            </View>
+              <View style={styles.textCell}>
+                <Text style={styles.cellText}>{meeting.address}</Text>
+              </View>
 
-            <View style={styles.textCell}>
-              <Text style={styles.cellText}>{meeting.conductor}</Text>
+              <View style={styles.textCell}>
+                <Text style={styles.cellText}>{meeting.conductor}</Text>
+              </View>
             </View>
+            {meeting.note && (
+              <View style={styles.noteRow}>
+                <Text style={styles.noteText}>{meeting.note}</Text>
+              </View>
+            )}
           </View>
         ))}
       </View>

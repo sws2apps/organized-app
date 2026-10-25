@@ -163,3 +163,12 @@ test('conductor must be an active qualified member of the selected group', () =>
     false
   );
 });
+
+test('archived qualified conductors cannot pass the save-time group check', () => {
+  const archived = person('lead');
+  archived.person_data.archived = { value: true, updatedAt: '' };
+  assert.equal(
+    fieldServiceMeetingConductorAllowed('lead', 'first', groups, [archived]),
+    false
+  );
+});
