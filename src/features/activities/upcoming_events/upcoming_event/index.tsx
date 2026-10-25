@@ -1,5 +1,12 @@
+import CampaignProgress from '@features/territories/components/campaign_progress';
+import { upcomingEventTitle } from '@utils/upcoming_events';
+import { useNavigate, useLocation } from 'react-router';
+import { useAtomValue } from 'jotai';
+import { userDataViewState } from '@states/settings';
+import Button from '@components/button';
+import IconButton from '@components/icon_button';
 import { cloneElement, Fragment } from 'react';
-import { Box, IconButton } from '@mui/material';
+import { Box } from '@mui/material';
 import { IconEdit } from '@components/icons';
 import {
   useAppTranslation,
@@ -20,6 +27,9 @@ import UpcomingEventDate from '../upcoming_event_date';
 
 const UpcomingEvent = (props: UpcomingEventProps) => {
   const { t } = useAppTranslation();
+  const navigate = useNavigate();
+  const campaignsOnly = useLocation().pathname === '/territories/campaigns';
+  const dataView = useAtomValue(userDataViewState);
 
   const { isAdmin } = useCurrentUser();
   const { desktopUp, tabletUp, tablet600Up } = useBreakpoints();
@@ -31,7 +41,6 @@ const UpcomingEvent = (props: UpcomingEventProps) => {
     handleOnSaveEvent,
     dayIndicatorMaxWidth,
     dayIndicatorRefs,
-    showEditIcon,
     handleMouseEnter,
     handleMouseLeave,
     eventFormatted,
@@ -122,14 +131,18 @@ const UpcomingEvent = (props: UpcomingEventProps) => {
                   color: 'var(--black)',
                 }}
               >
-                {props.data.event_data.category !== UpcomingEventCategory.Custom
-                  ? t(eventDecoration.translationKey)
-                  : props.data.event_data.custom}
+                {upcomingEventTitle(
+                  props.data.event_data,
+                  t(eventDecoration.translationKey)
+                )}
               </Typography>
             </Box>
 
-            {isAdmin && (!desktopUp || showEditIcon) && (
-              <IconButton sx={{ padding: 0 }} onClick={handleTurnEditMode}>
+            {isAdmin && props.data.event_data.type === dataView && (
+              <IconButton
+                aria-label={t('tr_editUpcomingEvent')}
+                onClick={handleTurnEditMode}
+              >
                 <IconEdit color="var(--accent-main)" />
               </IconButton>
             )}
@@ -147,6 +160,21 @@ const UpcomingEvent = (props: UpcomingEventProps) => {
         <AddToCalendar event={props.data} />
       </Box>
 
+      {props.data.event_data.category ===
+        UpcomingEventCategory.SpecialCampaignWeek &&
+        !campaignsOnly && (
+          <Button
+            variant="small"
+            onClick={() =>
+              navigate(
+                `/territories/campaigns?event=${encodeURIComponent(props.data.event_uid)}`
+              )
+            }
+          >
+            {t('tr_territoryViewCampaign')}
+          </Button>
+        )}
+      {campaignsOnly && <CampaignProgress campaignId={props.data.event_uid} />}
       <Divider color="var(--accent-200)" />
 
       {props.data.event_data.duration === UpcomingEventDuration.SingleDay && (

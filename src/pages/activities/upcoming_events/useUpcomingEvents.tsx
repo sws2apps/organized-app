@@ -1,23 +1,52 @@
+import { useLocation, useSearchParams } from 'react-router';
+import { eventVisibleInDataView } from '@utils/upcoming_events';
+import {
+  upcomingEventsState,
+  saveUpcomingEventState,
+  upcomingEventsByDataViewState,
+} from '@states/upcoming_events';
 import { useState } from 'react';
-import { useAtomValue } from 'jotai';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { IconError } from '@components/icons';
 import { useCurrentUser } from '@hooks/index';
 import {
   DEFAULT_EVENT_START_HOUR,
+  UpcomingEventCategory,
+  UpcomingEventDuration,
   UpcomingEventType,
 } from '@definition/upcoming_events';
-import { dbUpcomingEventsSave } from '@services/dexie/upcoming_events';
-import { upcomingEventsByDataViewState } from '@states/upcoming_events';
+
 import { addHours } from '@utils/date';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { userDataViewState } from '@states/settings';
 
 const useUpcomingEvents = () => {
+  const saveEvent = useSetAtom(saveUpcomingEventState);
   const { isAdmin } = useCurrentUser();
 
-  const events = useAtomValue(upcomingEventsByDataViewState);
+  const activeEvents = useAtomValue(upcomingEventsByDataViewState);
+  const allEvents = useAtomValue(upcomingEventsState);
+  const campaignsOnly = useLocation().pathname === '/territories/campaigns';
+  const [params] = useSearchParams();
+  const selectedEvent = params.get('event');
+  const [showPast, setShowPast] = useState(false);
   const dataView = useAtomValue(userDataViewState);
+
+  const events = campaignsOnly
+    ? allEvents.filter(
+        (event) =>
+          eventVisibleInDataView(event, dataView) &&
+          event.event_data.category ===
+            UpcomingEventCategory.SpecialCampaignWeek &&
+          (selectedEvent
+            ? event.event_uid === selectedEvent
+            : showPast ||
+              activeEvents.some(
+                (active) => active.event_uid === event.event_uid
+              ))
+      )
+    : activeEvents;
 
   const [addEventBoxShow, setAddEventBoxShow] = useState(false);
   const [quickSettingsOpen, setQuickSettingsOpen] = useState(false);
@@ -33,12 +62,15 @@ const useUpcomingEvents = () => {
       _deleted: false,
       updatedAt: new Date().toISOString(),
       start: start.toISOString(),
-      end: addHours(1, start).toISOString(),
+      end: addHours(campaignsOnly ? 24 : 1, start).toISOString(),
       description: '',
       type: dataView,
       custom: '',
-      category: null,
-      duration: null,
+      category: campaignsOnly
+        ? UpcomingEventCategory.SpecialCampaignWeek
+        : null,
+      duration: campaignsOnly ? UpcomingEventDuration.MultipleDays : null,
+      wholeDay: campaignsOnly,
     },
   };
 
@@ -60,14 +92,14 @@ const useUpcomingEvents = () => {
 
   const handleSaveEvent = async (event: UpcomingEventType) => {
     try {
-      await dbUpcomingEventsSave(event);
+      await saveEvent(event);
       handleHideAddEventBox();
     } catch (error) {
       console.error(error);
 
       displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
-        message: error.message,
+        message: getMessageByCode('error_app_generic-title'),
         severity: 'error',
         icon: <IconError color="var(--white)" />,
       });
@@ -75,6 +107,10 @@ const useUpcomingEvents = () => {
   };
 
   return {
+    campaignsOnly,
+    showPast,
+    setShowPast,
+    selectedEvent,
     isAdmin,
     emptyEvent,
     events,

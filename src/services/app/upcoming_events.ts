@@ -1,5 +1,17 @@
+import { canEditUpcomingEvent } from '@utils/upcoming_events';
+import {
+  dbUpcomingEventsSave,
+  dbUpcomingEventGet,
+} from '@services/dexie/upcoming_events';
+import {
+  settingsState,
+  userDataViewState,
+  eventsMultiDayDisplayState,
+  hour24FormatState,
+} from '@states/settings';
 import {
   UPCOMING_EVENT_MAX_LIST_DAYS,
+  UpcomingEventCategory,
   UpcomingEventDataType,
   UpcomingEventDuration,
   UpcomingEventType,
@@ -11,10 +23,6 @@ import {
   getTranslation,
 } from '@services/i18n/translation';
 import { store } from '@states/index';
-import {
-  eventsMultiDayDisplayState,
-  hour24FormatState,
-} from '@states/settings';
 
 export const groupEventsByYear = (events: UpcomingEventType[]) => {
   const yearMap = new Map<number, UpcomingEventType[]>();
@@ -179,4 +187,35 @@ export const upcomingEventData = (event: UpcomingEventType) => {
   });
 
   return result;
+};
+
+export const saveUpcomingEvent = async (event: UpcomingEventType) => {
+  const roles = store.get(settingsState).user_settings.cong_role;
+  const existing = await dbUpcomingEventGet(event.event_uid);
+  if (
+    !canEditUpcomingEvent(roles, store.get(userDataViewState), event, existing)
+  ) {
+    throw new Error('error_app_generic-title');
+  }
+  if (
+    !event.event_data._deleted &&
+    (!Number.isFinite(Date.parse(event.event_data.start)) ||
+      !Number.isFinite(Date.parse(event.event_data.end)) ||
+      Date.parse(event.event_data.end) < Date.parse(event.event_data.start))
+  )
+    throw new Error('error_app_generic-title');
+  if (
+    existing?.event_data.category ===
+      UpcomingEventCategory.SpecialCampaignWeek &&
+    event.event_data.category !== UpcomingEventCategory.SpecialCampaignWeek
+  ) {
+    throw new Error('error_app_generic-title');
+  }
+  await dbUpcomingEventsSave({
+    ...event,
+    event_data: {
+      ...event.event_data,
+      updatedAt: new Date().toISOString(),
+    },
+  });
 };

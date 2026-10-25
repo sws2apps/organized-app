@@ -1,12 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useAtomValue } from 'jotai';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { useBreakpoints } from '@hooks/index';
 import { IconError } from '@components/icons';
 import {
   eventsMultiDayDisplayState,
   hour24FormatState,
 } from '@states/settings';
-import { dbUpcomingEventsSave } from '@services/dexie/upcoming_events';
+import { saveUpcomingEventState } from '@states/upcoming_events';
 import { UpcomingEventType } from '@definition/upcoming_events';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
@@ -16,6 +16,7 @@ import { decorationsForEvent } from '../decorations_for_event';
 import { UpcomingEventProps } from './index.types';
 
 const useUpcomingEvent = ({ data }: UpcomingEventProps) => {
+  const saveEvent = useSetAtom(saveUpcomingEventState);
   const multiDayDisplay = useAtomValue(eventsMultiDayDisplayState);
   const hour24 = useAtomValue(hour24FormatState);
 
@@ -78,14 +79,14 @@ const useUpcomingEvent = ({ data }: UpcomingEventProps) => {
 
   const handleOnSaveEvent = async (event: UpcomingEventType) => {
     try {
-      await dbUpcomingEventsSave(event);
+      await saveEvent(event);
       handleTurnEditMode();
     } catch (error) {
       console.error(error);
 
       displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
-        message: error.message,
+        message: getMessageByCode('error_app_generic-title'),
         severity: 'error',
         icon: <IconError color="var(--white)" />,
       });

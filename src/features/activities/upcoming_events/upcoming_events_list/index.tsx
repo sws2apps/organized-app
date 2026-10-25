@@ -31,7 +31,10 @@ const UpcomingEventsList = (props: UpcomingEventsListProps) => {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
       {!props.isAdding && eventsSortedByYear.length === 0 && (
-        <InfoNote message={t('tr_upcomingEventsEmpty')} variant="card" />
+        <InfoNote
+          message={props.emptyMessage ?? t('tr_upcomingEventsEmpty')}
+          variant="card"
+        />
       )}
 
       {eventsSortedByYear.map((upcomingEventsYear) => {

@@ -20,6 +20,17 @@ import SwitchWithLabel from '@components/switch_with_label';
 import TextField from '@components/textfield';
 import TimePicker from '@components/time_picker';
 import Typography from '@components/typography';
+import InfoNote from '@components/info_note';
+
+const editorTitleKey = (
+  category: UpcomingEventCategory,
+  type: EditUpcomingEventProps['type']
+) => {
+  const isCampaign = category === UpcomingEventCategory.SpecialCampaignWeek;
+  if (type === 'add')
+    return isCampaign ? 'tr_territoryAddCampaign' : 'tr_addUpcomingEvent';
+  return isCampaign ? 'tr_territoryEditCampaign' : 'tr_editUpcomingEvent';
+};
 
 const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
   const { t } = useAppTranslation();
@@ -47,6 +58,16 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
     handleCloseDeleteConfirm,
     eventTitle,
   } = useEditUpcomingEvent(props);
+
+  const rowStyles = {
+    display: 'flex',
+    flexDirection: 'row',
+    gap: '16px',
+    flexWrap: desktopUp ? 'nowrap' : 'wrap',
+    '& > *': { flex: desktopUp ? '1' : 'none' },
+  };
+  const timeWidth = hour24 ? '140px' : '150px';
+  const title = t(editorTitleKey(localEvent.event_data.category, props.type));
 
   return (
     <Box
@@ -83,9 +104,7 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
             color: 'var(--black)',
           }}
         >
-          {props.type == 'add'
-            ? t('tr_addUpcomingEvent')
-            : t('tr_editUpcomingEvent')}
+          {title}
         </Typography>
 
         {props.type === 'edit' && !tabletUp && (
@@ -110,6 +129,11 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
         )}
       </Box>
 
+      {localEvent.event_data.category ===
+        UpcomingEventCategory.SpecialCampaignWeek && (
+        <InfoNote message={t('tr_territoryCampaignsHelp')} />
+      )}
+
       <Box
         sx={{
           display: 'flex',
@@ -117,21 +141,17 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
           gap: '16px',
         }}
       >
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            gap: '16px',
-            flexWrap: !desktopUp ? 'wrap' : 'nowrap',
-            '& > *': { flex: !desktopUp ? 'none' : '1' },
-          }}
-        >
+        <Box sx={rowStyles}>
           <Select
             label={t('tr_eventType')}
+            disabled={
+              props.data.event_data.category ===
+              UpcomingEventCategory.SpecialCampaignWeek
+            }
             value={localEvent.event_data.category ?? ''}
             onChange={handleChangeEventCategory}
             error={errors.category}
-            helperText={errors.category && t('tr_fillRequiredField')}
+            helperText={errors.category ? t('tr_fillRequiredField') : undefined}
           >
             {decorationsForEvent.map((option, index) => (
               <MenuItem value={index} key={option.translationKey}>
@@ -157,13 +177,20 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
             ))}
           </Select>
 
-          {localEvent.event_data.category === UpcomingEventCategory.Custom && (
+          {(localEvent.event_data.category === UpcomingEventCategory.Custom ||
+            localEvent.event_data.category ===
+              UpcomingEventCategory.SpecialCampaignWeek) && (
             <TextField
-              label={t('tr_eventTitle')}
+              label={t(
+                localEvent.event_data.category ===
+                  UpcomingEventCategory.SpecialCampaignWeek
+                  ? 'tr_territoryCampaignName'
+                  : 'tr_eventTitle'
+              )}
               value={localEvent.event_data.custom}
               onChange={handleChangeEventCustomTitle}
               error={errors.custom}
-              helperText={errors.custom && t('tr_fillRequiredField')}
+              helperText={errors.custom ? t('tr_fillRequiredField') : undefined}
             />
           )}
 
@@ -178,22 +205,13 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
 
         <Typography className="h4">{t('tr_dateAndTime')}</Typography>
 
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            gap: '16px',
-
-            flexWrap: !desktopUp ? 'wrap' : 'nowrap',
-            '& > *': { flex: !desktopUp ? 'none' : '1' },
-          }}
-        >
+        <Box sx={rowStyles}>
           <Select
             label={t('tr_eventDuration')}
             onChange={handleChangeEventDuration}
             value={localEvent.event_data.duration ?? ''}
             error={errors.duration}
-            helperText={errors.duration && t('tr_fillRequiredField')}
+            helperText={errors.duration ? t('tr_fillRequiredField') : undefined}
           >
             <MenuItem value={UpcomingEventDuration.SingleDay} key={0}>
               <Typography
@@ -251,27 +269,19 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
             />
 
             {!wholeDay && (
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  gap: '16px',
-                  flexWrap: !desktopUp ? 'wrap' : 'nowrap',
-                  '& > *': { flex: !desktopUp ? 'none' : '1' },
-                }}
-              >
+              <Box sx={rowStyles}>
                 <TimePicker
                   onChange={handleChangeEventStartTime}
                   label={t('tr_startTime')}
                   ampm={!hour24}
-                  sx={{ minWidth: hour24 ? '140px' : '150px' }}
+                  sx={{ minWidth: timeWidth }}
                   value={new Date(localEvent.event_data.start)}
                 />
                 <TimePicker
                   onChange={handleChangeEventEndTime}
                   label={t('tr_endTime')}
                   ampm={!hour24}
-                  sx={{ minWidth: hour24 ? '140px' : '150px' }}
+                  sx={{ minWidth: timeWidth }}
                   value={new Date(localEvent.event_data.end)}
                   error={errors.endTime}
                   helperText={errors.endTime ? t('tr_endTimeAfterStart') : ''}
