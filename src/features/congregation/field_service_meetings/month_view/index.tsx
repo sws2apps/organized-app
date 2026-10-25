@@ -68,7 +68,7 @@ const MeetingBadges = ({
           {hidden > 0 && (
             <Typography
               className="label-small-regular"
-              color="var(--accent-main)"
+              color="var(--accent-text)"
             >
               {t('tr_xMore', { quantity: hidden })}
             </Typography>
@@ -86,7 +86,7 @@ const MeetingBadges = ({
         >
           <Typography
             className="label-small-medium"
-            color="var(--accent-main)"
+            color="var(--accent-text)"
             sx={{ textAlign: 'center' }}
           >
             {count}

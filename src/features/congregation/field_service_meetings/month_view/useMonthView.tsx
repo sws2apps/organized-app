@@ -1,11 +1,9 @@
+import { fieldServiceMeetingLabel } from '@utils/field_service_meeting_labels';
 import { useMemo } from 'react';
 import { useAtomValue } from 'jotai';
 import { fieldServiceMeetingsWeekRangeState } from '@states/field_service_meetings';
 import { fieldWithLanguageGroupsState } from '@states/field_service_groups';
-import {
-  FieldServiceMeetingCategory,
-  FieldServiceMeetingFormattedType,
-} from '@definition/field_service_meetings';
+import { FieldServiceMeetingFormattedType } from '@definition/field_service_meetings';
 import { GroupBadgeProps } from '@components/group_badge/index.types';
 import { generateWeekday } from '@services/i18n/translation';
 import { formatDate } from '@utils/date';
@@ -24,24 +22,6 @@ const useMonthView = (meetings: FieldServiceMeetingFormattedType[]) => {
   // Not memoized: the labels must follow the app language.
   const weekdayLabels = generateWeekday();
 
-  // Keep the group scope visible alongside the visit category.
-  const labelForMeeting = useMemo(() => {
-    return (meeting: FieldServiceMeetingFormattedType): string => {
-      if (meeting.category === FieldServiceMeetingCategory.JointMeeting) {
-        return t('tr_fieldServiceMeetingCategory_joint');
-      }
-      if (
-        meeting.category === FieldServiceMeetingCategory.ServiceOverseerMeeting
-      ) {
-        const groupLabel =
-          meeting.groupName ||
-          t(meeting.group_id ? 'tr_group' : 'tr_allGroups');
-        return `${groupLabel} · ${t('tr_fieldServiceMeetingCategory_serviceOverseer')}`;
-      }
-      return meeting.groupName ?? '';
-    };
-  }, [t]);
-
   const meetingsByDay = useMemo(() => {
     const map = new Map<string, MonthBadge[]>();
     for (const meeting of meetings) {
@@ -57,12 +37,12 @@ const useMonthView = (meetings: FieldServiceMeetingFormattedType[]) => {
 
       for (const dateStr of dates) {
         const existing = map.get(dateStr) ?? [];
-        existing.push({ label: labelForMeeting(meeting), color });
+        existing.push({ label: fieldServiceMeetingLabel(meeting, t), color });
         map.set(dateStr, existing);
       }
     }
     return map;
-  }, [meetings, groups, labelForMeeting]);
+  }, [meetings, groups, t]);
 
   const weeks = useMemo(() => {
     const year = referenceDate.getFullYear();

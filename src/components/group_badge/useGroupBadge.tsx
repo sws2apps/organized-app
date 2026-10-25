@@ -10,7 +10,10 @@ const useGroupBadge = ({
 
   const style: SxProps = {
     backgroundColor: variant === 'solid' ? cssGroupColor : cssGroupColorRGBA,
-    color: variant === 'solid' ? 'var(--always-white)' : cssGroupColor,
+    color:
+      variant === 'solid'
+        ? 'var(--always-white)'
+        : `color-mix(in srgb, ${cssGroupColor} var(--group-badge-color-weight), var(--black))`,
     border: variant === 'outlined' ? `1px solid ${cssGroupColor}` : 'none',
   };
 

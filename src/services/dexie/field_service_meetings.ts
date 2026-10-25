@@ -1,3 +1,4 @@
+import { getTranslation } from '@services/i18n/translation';
 import appDb from '@db/appDb';
 import {
   FieldServiceMeetingCategory,
@@ -36,10 +37,31 @@ export const dbFieldServiceMeetingsBulkSave = async (
 };
 
 export const dbFieldServiceMeetingsSave = async (
-  meeting: FieldServiceMeetingType
+  meeting: FieldServiceMeetingType,
+  expectedRevision?: { updatedAt: string | undefined }
 ) => {
-  await appDb.field_service_meetings.put(meeting);
-  await dbUpdateFieldServiceMeetingsMetadata();
+  await appDb.transaction(
+    'rw',
+    appDb.field_service_meetings,
+    appDb.metadata,
+    async () => {
+      if (expectedRevision) {
+        const current = await appDb.field_service_meetings.get(
+          meeting.meeting_uid
+        );
+        if (
+          current?.meeting_data._deleted ||
+          current?.meeting_data.updatedAt !== expectedRevision.updatedAt
+        ) {
+          throw new Error(
+            getTranslation({ key: 'tr_fieldServiceMeetingChanged' })
+          );
+        }
+      }
+      await appDb.field_service_meetings.put(meeting);
+      await dbUpdateFieldServiceMeetingsMetadata();
+    }
+  );
 };
 
 export const dbFieldServiceMeetingsClear = async () => {

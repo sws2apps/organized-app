@@ -124,8 +124,8 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
                   overflow: 'hidden',
                   overflowWrap: 'anywhere',
                   textOverflow: 'ellipsis',
-                  color: 'var(--accent-main)',
-                  textDecorationColor: 'var(--accent-main)',
+                  color: 'var(--accent-text)',
+                  textDecorationColor: 'currentColor',
                   '&:hover': { color: 'var(--accent-dark)' },
                 }}
               >
@@ -171,7 +171,7 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
             edge={false}
             onClick={() => fieldServiceMeetingCalendarExport(meeting, t)}
           >
-            <IconAddMonth color="var(--accent-main)" />
+            <IconAddMonth color="var(--accent-dark)" />
           </IconButton>
         </Tooltip>
         {canEdit && (
@@ -182,7 +182,7 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
               edge={false}
               onClick={onEdit}
             >
-              <IconEdit color="var(--accent-main)" />
+              <IconEdit color="var(--accent-dark)" />
             </IconButton>
           </Tooltip>
         )}

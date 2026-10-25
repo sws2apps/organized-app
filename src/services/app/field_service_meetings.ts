@@ -277,14 +277,19 @@ export const fieldServiceMeetingsSave = async (
       translate({ key: 'tr_fieldServiceMeetingConductorGroupError' })
     );
   }
-  await dbFieldServiceMeetingsSave({
-    ...meeting,
-    meeting_data: {
-      ...target,
-      _deleted: deleting,
-      updatedAt: new Date().toISOString(),
+  await dbFieldServiceMeetingsSave(
+    {
+      ...meeting,
+      meeting_data: {
+        ...target,
+        // The selected group is the source of truth for data-view visibility.
+        type: target.group_id ?? 'main',
+        _deleted: deleting,
+        updatedAt: new Date().toISOString(),
+      },
     },
-  });
+    { updatedAt: current?.meeting_data.updatedAt }
+  );
 };
 
 export const fieldServiceMeetingTimeSave = async (

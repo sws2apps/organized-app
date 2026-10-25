@@ -1,3 +1,4 @@
+import { fieldServiceMeetingLabel } from '@utils/field_service_meeting_labels';
 import { useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { pdf } from '@react-pdf/renderer';
@@ -5,7 +6,6 @@ import { saveAs } from 'file-saver';
 import { IconInfo } from '@components/icons';
 import {
   FieldServiceMeetingCategory,
-  FieldServiceMeetingFormattedType,
   FieldServiceMeetingType,
 } from '@definition/field_service_meetings';
 import {
@@ -34,28 +34,6 @@ import {
   fieldServiceMeetingWeek,
 } from '@utils/field_service_meetings';
 import { filterMeetingsByDataView } from '@features/congregation/field_service_meetings/filter_meetings_by_data_view';
-
-/** Group name for a regular meeting, the category otherwise. */
-const groupLabelForMeeting = (
-  meeting: FieldServiceMeetingFormattedType,
-  lng: string
-) => {
-  if (meeting.category === FieldServiceMeetingCategory.JointMeeting) {
-    return getTranslation({
-      key: 'tr_fieldServiceMeetingCategory_joint',
-      language: lng,
-    });
-  }
-
-  if (meeting.category === FieldServiceMeetingCategory.ServiceOverseerMeeting) {
-    return getTranslation({
-      key: 'tr_fieldServiceMeetingCategory_serviceOverseer',
-      language: lng,
-    });
-  }
-
-  return meeting.groupName ?? '';
-};
 
 const createTemplateMonths = (
   meetings: FieldServiceMeetingType[],
@@ -126,7 +104,9 @@ const createTemplateMonths = (
       dayEntry.meetings.push({
         id: `${formatted.uid}-${dayKey}-${index}`,
         time: formatted.time,
-        group: groupLabelForMeeting(formatted, lng),
+        group: fieldServiceMeetingLabel(formatted, (key) =>
+          getTranslation({ key, language: lng })
+        ),
         address: formatted.address ?? '',
         conductor: formatted.conductor ?? '',
         sortKey: `${dayKey}-${formatted.start}-${index}`,

@@ -1,7 +1,9 @@
+import { fieldServiceMeetingLabel } from '@utils/field_service_meeting_labels';
 import { createEvent, EventAttributes } from 'ics';
 import { saveAs } from 'file-saver';
 import {
   FieldServiceMeetingFormattedType,
+  FieldServiceMeetingCategory,
   FIELD_SERVICE_MEETING_CATEGORY_TRANSLATION_KEYS,
 } from '@definition/field_service_meetings';
 import { displaySnackNotification } from '@services/states/app';
@@ -14,6 +16,13 @@ export const fieldServiceMeetingCalendarExport = (
     FIELD_SERVICE_MEETING_CATEGORY_TRANSLATION_KEYS[meeting.category]
   );
 
+  const label = fieldServiceMeetingLabel(meeting, t);
+  const title =
+    meeting.category === FieldServiceMeetingCategory.RegularMeeting &&
+    label !== summary
+      ? `${summary} · ${label}`
+      : label;
+
   const descriptionParts: string[] = [];
   if (meeting.conductor) {
     descriptionParts.push(`${t('tr_conductor')}: ${meeting.conductor}`);
@@ -24,7 +33,7 @@ export const fieldServiceMeetingCalendarExport = (
   const endDate = new Date(meeting.endISO);
 
   const eventDetails: EventAttributes = {
-    title: summary,
+    title,
     description: descriptionParts.join('\n'),
     location: meeting.address,
     start: [

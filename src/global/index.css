@@ -4,6 +4,8 @@
   --icon-size: 24px;
   --icon-size-small: 20px;
   --touch-target-size: 44px;
+  --group-badge-color-weight: 60%;
+  --accent-text: color-mix(in srgb, var(--accent-dark) 80%, var(--black));
   --text-muted: color-mix(in srgb, var(--grey-350), var(--grey-400));
 
   --dashed-border-width: 1px;
