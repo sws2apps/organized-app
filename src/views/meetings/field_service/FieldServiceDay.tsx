@@ -25,6 +25,9 @@ const FieldServiceDay = ({ day, isLast }: FieldServiceDayProps) => {
 
               <View style={styles.groupCell}>
                 <Text style={styles.cellText}>{meeting.group}</Text>
+                {meeting.note && (
+                  <Text style={styles.noteText}>{meeting.note}</Text>
+                )}
               </View>
 
               <View style={styles.textCell}>
@@ -35,11 +38,6 @@ const FieldServiceDay = ({ day, isLast }: FieldServiceDayProps) => {
                 <Text style={styles.cellText}>{meeting.conductor}</Text>
               </View>
             </View>
-            {meeting.note && (
-              <View style={styles.noteRow}>
-                <Text style={styles.noteText}>{meeting.note}</Text>
-              </View>
-            )}
           </View>
         ))}
       </View>

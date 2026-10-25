@@ -93,14 +93,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: '4px',
   },
-  noteRow: {
-    margin: '0 4px 4px 4px',
-    padding: '4px 8px',
-    backgroundColor: '#F5F5F5',
-    borderRadius: RADIUS,
-  },
   noteText: {
-    fontSize: '10px',
+    marginTop: '4px',
+    paddingRight: '4px',
+    fontSize: '9px',
     lineHeight: 1.24,
     color: '#616161',
   },

@@ -25,7 +25,11 @@ import {
   fieldServiceMeetingsWeekRangeState,
 } from '@states/field_service_meetings';
 import { fieldServiceMeetingData } from '@services/app/field_service_meetings';
-import { JWLangLocaleState, userDataViewState } from '@states/settings';
+import {
+  congNameState,
+  JWLangLocaleState,
+  userDataViewState,
+} from '@states/settings';
 import { headerForScheduleState } from '@states/field_service_groups';
 import { formatDate, weeksInMonth } from '@utils/date';
 import { TemplateFieldServiceMeetings } from '@views/index';
@@ -177,6 +181,7 @@ const useScheduleExport = (
   const dataView = useAtomValue(userDataViewState);
   const lng = useAtomValue(JWLangLocaleState);
   const headerName = useAtomValue(headerForScheduleState);
+  const congregationName = useAtomValue(congNameState);
 
   const meetings = useMemo(
     () => filterMeetingsByDataView(fieldServiceMeetings, dataView),
@@ -296,7 +301,7 @@ const useScheduleExport = (
       );
       const pdfGroupLabel =
         dataView === 'main'
-          ? t('tr_allGroups', { lng })
+          ? congregationName
           : headerName || t('tr_groupNameLabel', { lng });
 
       const blob = await pdf(
