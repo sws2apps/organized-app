@@ -1,3 +1,7 @@
+import { SettingsType } from '@definition/settings';
+import { settingsState } from '@states/settings';
+import { dbAppSettingsUpdate } from '@services/dexie/settings';
+import { updateObject } from '@utils/common';
 import { UpdateSpec } from 'dexie';
 import { store } from '@states/index';
 import {
@@ -103,6 +107,24 @@ const saveSections = async (
   }
 
   await dbSchedUpdate(week, changes as unknown as UpdateSpec<SchedWeekType>);
+
+  store.set(schedulesState, (current) =>
+    current.map((schedule) => {
+      if (schedule.weekOf !== week || !schedule.duties) return schedule;
+      return {
+        ...schedule,
+        duties: {
+          ...schedule.duties,
+          [meeting]: {
+            ...schedule.duties[meeting],
+            sections,
+            ...(dynamic ? { dynamic } : {}),
+          },
+        },
+      };
+    })
+  );
+  store.set(assignmentsHistoryState, schedulesBuildHistoryList());
 };
 
 export const dutiesSectionAdd = async (
@@ -276,4 +298,67 @@ export const dutiesReleasePositions = async (
   );
 
   store.set(assignmentsHistoryState, schedulesBuildHistoryList());
+};
+
+const DUTY_AMOUNT_KEYS = {
+  audio_amount: ['audio', 'audio_video'],
+  video_amount: ['video'],
+  mic_amount: ['microphones'],
+  stage_amount: ['stage'],
+  entrance_attendant_amount: ['entrance_attendant'],
+  auditorium_attendant_amount: ['auditorium_attendant'],
+  hospitality_amount: ['hospitality'],
+  videoconference_host_amount: ['videoconference_host'],
+} satisfies Record<string, DutiesStaticKey[]>;
+
+// Serialize settings writes so two quick changes cannot replace each other's
+// newer fields. The existing timestamp merge also preserves other data views.
+let settingsWrite: Promise<void> = Promise.resolve();
+export const dutiesSaveSettings = (
+  incoming: SettingsType['cong_settings']['meeting_duties']
+) => {
+  const save = async () => {
+    const previous =
+      store.get(settingsState).cong_settings.meeting_duties ?? [];
+    const merged = updateObject(
+      { meeting_duties: structuredClone(previous) },
+      { meeting_duties: incoming }
+    ).meeting_duties;
+    await dbAppSettingsUpdate({ 'cong_settings.meeting_duties': merged });
+    store.set(settingsState, (current) => ({
+      ...current,
+      cong_settings: { ...current.cong_settings, meeting_duties: merged },
+    }));
+
+    for (const config of merged) {
+      const before = previous.find((record) => record.type === config.type);
+      if (!before) continue;
+      for (const key of Object.keys(
+        DUTY_AMOUNT_KEYS
+      ) as (keyof typeof DUTY_AMOUNT_KEYS)[]) {
+        if (config[key].value < before[key].value) {
+          await dutiesReleasePositions({
+            dataView: config.type,
+            amount: config[key].value,
+            keys: DUTY_AMOUNT_KEYS[key],
+          });
+        }
+      }
+      for (const custom of config.custom ?? []) {
+        const old = before.custom?.find((record) => record.id === custom.id);
+        const amount = custom._deleted ? 0 : custom.amount;
+        if (old && amount < old.amount) {
+          await dutiesReleasePositions({
+            dataView: config.type,
+            amount,
+            customId: custom.id,
+          });
+        }
+      }
+    }
+    store.set(assignmentsHistoryState, schedulesBuildHistoryList());
+  };
+  const pending = settingsWrite.then(save);
+  settingsWrite = pending.catch(() => undefined);
+  return pending;
 };

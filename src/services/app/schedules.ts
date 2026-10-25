@@ -479,7 +479,7 @@ export const schedulesDutiesSections = (
  * view, a group that holds that meeting at all. The editor, its counters and
  * autofill all go through this, so they never disagree.
  */
-export const schedulesDutiesMeetingHeld = (
+export const schedulesDutiesMeetingStatus = (
   schedule: SchedWeekType,
   meeting: 'midweek' | 'weekend'
 ) => {
@@ -495,8 +495,6 @@ export const schedulesDutiesMeetingHeld = (
       ? source?.midweek_meeting.week_date_locale[lang]
       : source?.weekend_meeting.w_study[lang];
 
-  if (!hasSource) return false;
-
   const group = store
     .get(fieldServiceGroupsState)
     .find(
@@ -511,15 +509,22 @@ export const schedulesDutiesMeetingHeld = (
       ? group?.group_data.midweek_meeting
       : group?.group_data.weekend_meeting) ?? true;
 
-  if (!groupHoldsMeeting) return false;
+  if (!groupHoldsMeeting) return 'no-meeting';
 
   const weekType =
     schedule[`${meeting}_meeting`].week_type.find(
       (record) => record.type === dataView
     )?.value ?? Week.NORMAL;
 
-  return !WEEK_TYPE_NO_MEETING.includes(weekType);
+  if (WEEK_TYPE_NO_MEETING.includes(weekType)) return 'no-meeting';
+
+  return hasSource ? 'held' : 'missing-materials';
 };
+
+export const schedulesDutiesMeetingHeld = (
+  schedule: SchedWeekType,
+  meeting: 'midweek' | 'weekend'
+) => schedulesDutiesMeetingStatus(schedule, meeting) === 'held';
 
 export const schedulesDutiesMeetingInfo = (
   week: string,

@@ -9,20 +9,25 @@ import {
   dutiesCustomState,
   meetingDutiesState,
   userDataViewState,
+  JWLangState,
 } from '@states/settings';
 import { sourcesState } from '@states/sources';
+import { fieldServiceGroupsState } from '@states/field_service_groups';
 import {
   schedulesDutiesFieldList,
-  schedulesDutiesMeetingHeld,
+  schedulesDutiesMeetingStatus,
   schedulesDutiesMeetingInfo,
   schedulesDutiesSections,
 } from '@services/app/schedules';
-import { formatMediumDateWithFullMonth } from '@utils/date';
+import {
+  formatMediumDateWithFullMonth,
+  formatDate,
+  getWeekDate,
+} from '@utils/date';
 import { useAppTranslation } from '@hooks/index';
 import useWeekNavigation from '@features/meetings/hooks/useWeekNavigation';
-import { DutyFieldType } from '../duty_row/index.types';
-
-export type DutiesMeetingValue = 'midweek' | 'weekend';
+import { DutyFieldType } from '@features/meetings/duties_schedule/duty_row/index.types';
+import { DutiesMeetingValue } from '@services/app/duties';
 
 const MEETING_PREFIX: Record<DutiesMeetingValue, DutiesMeetingPrefixType> = {
   midweek: 'MM',
@@ -39,6 +44,8 @@ const useDutiesEditor = () => {
   const customDuties = useAtomValue(dutiesCustomState);
   const sources = useAtomValue(sourcesState);
   const dataView = useAtomValue(userDataViewState);
+  const lang = useAtomValue(JWLangState);
+  const groups = useAtomValue(fieldServiceGroupsState);
 
   const [activeMeeting, setActiveMeeting] =
     useState<DutiesMeetingValue>('midweek');
@@ -66,24 +73,28 @@ const useDutiesEditor = () => {
     };
     // schedules and dutiesConfig drive the recount after saving an assignment
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedWeek, schedules, dutiesConfig]);
+  }, [selectedWeek, schedules, dutiesConfig, sources, dataView, lang, groups]);
 
   // a cancelled meeting or one without material has no duties to fill
-  const meetingsHeld = useMemo(() => {
+  const meetingStatus = useMemo(() => {
     const schedule = schedules.find((record) => record.weekOf === selectedWeek);
 
     return {
-      midweek: !!schedule && schedulesDutiesMeetingHeld(schedule, 'midweek'),
-      weekend: !!schedule && schedulesDutiesMeetingHeld(schedule, 'weekend'),
+      midweek: schedule
+        ? schedulesDutiesMeetingStatus(schedule, 'midweek')
+        : 'missing-materials',
+      weekend: schedule
+        ? schedulesDutiesMeetingStatus(schedule, 'weekend')
+        : 'missing-materials',
     };
     // the held check reads sources and the data view from the store
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedWeek, schedules, sources, dataView]);
+  }, [selectedWeek, schedules, sources, dataView, lang, groups]);
 
   // rendered fields come from the same list that drives counters and autofill
   const dutyRows = useMemo(() => {
     const fields =
-      dutiesConfig && meetingsHeld[activeMeeting]
+      dutiesConfig && meetingStatus[activeMeeting] === 'held'
         ? schedulesDutiesFieldList(
             activeMeeting,
             dutiesConfig,
@@ -137,7 +148,7 @@ const useDutiesEditor = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     activeMeeting,
-    meetingsHeld,
+    meetingStatus,
     dutiesConfig,
     customDuties,
     selectedWeek,
@@ -145,19 +156,18 @@ const useDutiesEditor = () => {
     t,
   ]);
 
-  const handleChangeMeeting = (tab: number) => {
-    setActiveMeeting(tab === 0 ? 'midweek' : 'weekend');
-  };
+  const handleChangeMeeting = setActiveMeeting;
 
   return {
     weekDateLocale,
+    isCurrentWeek: selectedWeek === formatDate(getWeekDate(), 'yyyy/MM/dd'),
     selectedWeek,
     showWeekNav: showWeekArrows,
     activeMeeting,
     activePrefix: MEETING_PREFIX[activeMeeting],
     micSectionsEnabled: dutiesConfig?.mic_sections.value ?? false,
     meetingsInfo,
-    meetingsHeld,
+    meetingStatus,
     dutyRows,
     handleChangeMeeting,
     handleChangeWeekBack,

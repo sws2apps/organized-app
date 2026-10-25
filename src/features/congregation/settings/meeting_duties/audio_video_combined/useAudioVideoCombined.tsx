@@ -5,7 +5,7 @@ import {
   settingsState,
   userDataViewState,
 } from '@states/settings';
-import { dbAppSettingsUpdate } from '@services/dexie/settings';
+import { dutiesSaveSettings } from '@services/app/duties';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 
@@ -31,9 +31,7 @@ const useAudioVideoCombined = () => {
         updatedAt: new Date().toISOString(),
       };
 
-      await dbAppSettingsUpdate({
-        'cong_settings.meeting_duties': meetingDuties,
-      });
+      await dutiesSaveSettings(meetingDuties);
     } catch (error) {
       console.error(error);
 

@@ -475,68 +475,75 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
         scheduleKeysToDelete
       );
 
-      const { data } = await refetch();
+      const { data, isError } = await refetch();
 
-      if (Array.isArray(data?.schedules) && Array.isArray(data?.sources)) {
-        const sourcesRemote = data.sources;
-        const schedulesRemote = data.schedules;
-
-        // clone before the merge below: it mutates the matched remote records
-        const schedulesPublished = structuredClone(schedulesRemote);
-
-        const sourcesPublish = handleUpdateMaterialsFromRemote(
-          sourcesLocalPublish,
-          sourcesRemote
-        );
-
-        const schedulesBasePublish = handleUpdateMaterialsFromRemote(
-          schedulesLocalPublish,
-          schedulesRemote
-        );
-
-        const schedulesPrePublish = handleUpdateSchedules(
-          schedulesBasePublish,
-          schedulesPublished
-        );
-        let schedulesPublish = schedulesPrePublish;
-
-        let talksPublish: OutgoingTalkExportScheduleType[] = undefined;
-
-        if (isPublicTalkCoordinator && type === 'weekend') {
-          schedulesPublish = handleFilterOutgoingTalks(schedulesPrePublish);
-          talksPublish = handleGetIncomingTalks(schedulesPublish);
-        }
-
-        const { status, message } = await apiPublishSchedule(
-          sourcesPublish,
-          schedulesPublish,
-          talksPublish
-        );
-
-        if (status !== 200) {
-          throw new Error(message);
-        }
-
-        displaySnackNotification({
-          header: t('tr_successfullyPublished'),
-          message: t('tr_successfullyPublishedDesc'),
-          severity: 'success',
-        });
-
-        setIsProcessing(false);
-        onClose?.();
+      if (
+        isError ||
+        data?.status !== 200 ||
+        !Array.isArray(data?.schedules) ||
+        !Array.isArray(data?.sources)
+      ) {
+        throw new Error(data?.message || 'error_app_generic-title');
       }
+
+      const sourcesRemote = data.sources;
+      const schedulesRemote = data.schedules;
+
+      // clone before the merge below: it mutates the matched remote records
+      const schedulesPublished = structuredClone(schedulesRemote);
+
+      const sourcesPublish = handleUpdateMaterialsFromRemote(
+        sourcesLocalPublish,
+        sourcesRemote
+      );
+
+      const schedulesBasePublish = handleUpdateMaterialsFromRemote(
+        schedulesLocalPublish,
+        schedulesRemote
+      );
+
+      const schedulesPrePublish = handleUpdateSchedules(
+        schedulesBasePublish,
+        schedulesPublished
+      );
+      let schedulesPublish = schedulesPrePublish;
+
+      let talksPublish: OutgoingTalkExportScheduleType[] = undefined;
+
+      if (isPublicTalkCoordinator && type === 'weekend') {
+        schedulesPublish = handleFilterOutgoingTalks(schedulesPrePublish);
+        talksPublish = handleGetIncomingTalks(schedulesPublish);
+      }
+
+      const { status, message } = await apiPublishSchedule(
+        sourcesPublish,
+        schedulesPublish,
+        talksPublish
+      );
+
+      if (status !== 200) {
+        throw new Error(message);
+      }
+
+      displaySnackNotification({
+        header: t('tr_successfullyPublished'),
+        message: t('tr_successfullyPublishedDesc'),
+        severity: 'success',
+      });
+
+      onClose?.();
     } catch (error) {
       console.error(error);
 
-      setIsProcessing(false);
-      onClose?.();
-
       displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
-        message: getMessageByCode(error.message),
+        message: getMessageByCode(
+          error instanceof Error ? error.message : 'error_app_generic-title'
+        ),
         severity: 'error',
       });
+    } finally {
+      setIsProcessing(false);
     }
   };
 

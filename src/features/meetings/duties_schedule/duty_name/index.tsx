@@ -9,22 +9,24 @@ const DutyName = ({ icon, duty }: DutyNameProps) => {
   return (
     <Box
       sx={{
-        minWidth: '240px',
+        minWidth: 0,
+        flexShrink: 0,
         borderRadius: 'var(--radius-l)',
         padding: '4px 8px',
         display: 'flex',
         alignItems: 'center',
         gap: '8px',
         backgroundColor: 'var(--accent-150)',
-        width: laptopDown ? '100%' : undefined,
+        width: '100%',
         // desktop matches the 48px field beside it
-        height: laptopDown ? '40px' : '48px',
+        minHeight: laptopDown ? '40px' : '44px',
+        '& svg': { flexShrink: 0 },
       }}
     >
       {icon}
       <Typography
         className="body-small-semibold"
-        sx={{ color: 'var(--accent-dark)', textWrap: 'wrap' }}
+        sx={{ color: 'var(--accent-dark)', overflowWrap: 'anywhere' }}
       >
         {duty}
       </Typography>

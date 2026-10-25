@@ -383,17 +383,15 @@ const compareCandidates = (a: DutyCandidateMeta, b: DutyCandidateMeta) => {
 
 /**
  * The best person for a task. Brothers come before sisters, and with conflict
- * prevention on, persons without a part in the meeting come before those who
- * have one; a later round is only tried when the earlier one has no one.
+ * prevention on, candidates with a meeting part remain ineligible. An empty
+ * field is preferable to silently creating a conflict.
  */
 const selectDutyPerson = (task: DutyTask, context: DutiesAutofillContext) => {
   const candidates = validCandidates(task, context);
 
   const rounds: { gender: DutiesGender; freeOnly: boolean }[] = [
     { gender: 'male', freeOnly: context.conflictPrevent },
-    { gender: 'male', freeOnly: false },
     { gender: 'female', freeOnly: context.conflictPrevent },
-    { gender: 'female', freeOnly: false },
   ];
 
   for (const round of rounds) {

@@ -1,3 +1,5 @@
+import { sourcesState } from '@states/sources';
+import { fieldServiceGroupsState } from '@states/field_service_groups';
 import { useMemo } from 'react';
 import { useLocation } from 'react-router';
 import { useAtom, useAtomValue } from 'jotai';
@@ -11,6 +13,7 @@ import {
 } from '@services/app/schedules';
 import {
   meetingDutiesState,
+  JWLangState,
   userDataViewState,
   weekendMeetingOpeningPrayerAutoAssignState,
   shortDateFormatState,
@@ -28,6 +31,9 @@ const useWeekItem = (week: string) => {
     weekendMeetingOpeningPrayerAutoAssignState
   );
   const dutiesConfig = useAtomValue(meetingDutiesState);
+  const sources = useAtomValue(sourcesState);
+  const groups = useAtomValue(fieldServiceGroupsState);
+  const lang = useAtomValue(JWLangState);
   const shortDateFormat = useAtomValue(shortDateFormatState);
 
   const schedule = useMemo(() => {
@@ -80,7 +86,16 @@ const useWeekItem = (week: string) => {
 
     return values;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [schedule, meeting, prayerAutoAssign, dutiesConfig]);
+  }, [
+    schedule,
+    meeting,
+    prayerAutoAssign,
+    dutiesConfig,
+    sources,
+    groups,
+    lang,
+    dataView,
+  ]);
 
   const handleSelectWeek = (value: string) => {
     setSelectedWeek(value);

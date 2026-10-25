@@ -1,3 +1,5 @@
+import { displaySnackNotification } from '@services/states/app';
+import { getMessageByCode } from '@services/i18n/translation';
 import { useEffect, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import {
@@ -5,7 +7,7 @@ import {
   settingsState,
   userDataViewState,
 } from '@states/settings';
-import { dbAppSettingsUpdate } from '@services/dexie/settings';
+import { dutiesSaveSettings } from '@services/app/duties';
 
 const useDutiesPreventConflict = () => {
   const settings = useAtomValue(settingsState);
@@ -28,9 +30,17 @@ const useDutiesPreventConflict = () => {
       updatedAt: new Date().toISOString(),
     };
 
-    await dbAppSettingsUpdate({
-      'cong_settings.meeting_duties': meetingDuties,
-    });
+    try {
+      await dutiesSaveSettings(meetingDuties);
+    } catch (error) {
+      displaySnackNotification({
+        header: getMessageByCode('error_app_generic-title'),
+        message: getMessageByCode(
+          error instanceof Error ? error.message : 'error_app_generic-title'
+        ),
+        severity: 'error',
+      });
+    }
   };
 
   useEffect(() => setValue(valueInitial), [valueInitial]);

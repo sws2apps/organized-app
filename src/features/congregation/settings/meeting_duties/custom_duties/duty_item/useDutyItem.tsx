@@ -3,10 +3,9 @@ import { SelectChangeEvent } from '@mui/material';
 import { useAtomValue } from 'jotai';
 import { useBreakpoints } from '@hooks/index';
 import { settingsState, userDataViewState } from '@states/settings';
-import { dbAppSettingsUpdate } from '@services/dexie/settings';
+import { dutiesSaveSettings } from '@services/app/duties';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
-import { dutiesReleasePositions } from '@services/app/duties';
 import { DutyItemProps } from './index.types';
 
 const useDutyItem = ({ id }: DutyItemProps) => {
@@ -45,9 +44,7 @@ const useDutyItem = ({ id }: DutyItemProps) => {
       duty._deleted = true;
       duty.updatedAt = new Date().toISOString();
 
-      await dbAppSettingsUpdate({
-        'cong_settings.meeting_duties': meetingDuties,
-      });
+      await dutiesSaveSettings(meetingDuties);
 
       setDeleteOpen(false);
     } catch (error) {
@@ -92,15 +89,7 @@ const useDutyItem = ({ id }: DutyItemProps) => {
       duty.amount = value;
       duty.updatedAt = new Date().toISOString();
 
-      await dbAppSettingsUpdate({
-        'cong_settings.meeting_duties': meetingDuties,
-      });
-
-      await dutiesReleasePositions({
-        dataView,
-        amount: value,
-        customId: id,
-      });
+      await dutiesSaveSettings(meetingDuties);
     } catch (error) {
       console.error(error);
 

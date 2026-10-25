@@ -1,3 +1,5 @@
+import { sourcesState } from '@states/sources';
+import { fieldServiceGroupsState } from '@states/field_service_groups';
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'react-router';
 import { useAtom, useAtomValue } from 'jotai';
@@ -7,6 +9,8 @@ import { schedulesWeekAssignmentsInfo } from '@services/app/schedules';
 import { schedulesState, selectedWeekState } from '@states/schedules';
 import {
   meetingDutiesState,
+  JWLangState,
+  userDataViewState,
   meetingExactDateState,
   midweekMeetingWeekdayState,
   weekendMeetingWeekdayState,
@@ -30,6 +34,10 @@ const useMonthItem = ({
   const midweekDay = useAtomValue(midweekMeetingWeekdayState);
   const weekendDay = useAtomValue(weekendMeetingWeekdayState);
   const dutiesConfig = useAtomValue(meetingDutiesState);
+  const sources = useAtomValue(sourcesState);
+  const groups = useAtomValue(fieldServiceGroupsState);
+  const lang = useAtomValue(JWLangState);
+  const dataView = useAtomValue(userDataViewState);
 
   const [total, setTotal] = useState(0);
   const [assigned, setAssigned] = useState(0);
@@ -98,7 +106,16 @@ const useMonthItem = ({
 
     return { total, assigned };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [weeks, schedules, meeting, dutiesConfig]);
+  }, [
+    weeks,
+    schedules,
+    meeting,
+    dutiesConfig,
+    sources,
+    groups,
+    lang,
+    dataView,
+  ]);
 
   const handleToggleExpand = () => {
     if (currentExpanded === month) {

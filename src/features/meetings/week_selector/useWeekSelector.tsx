@@ -29,7 +29,7 @@ const useWeekSelector = () => {
   const meetingExactDate = useAtomValue(meetingExactDateState);
   const lang = useAtomValue(JWLangState);
 
-  const [expanded, setExpanded] = useState(true);
+  const [expanded, setExpanded] = useState(desktopUp);
   const [openDelete, setOpenDelete] = useState(false);
   const [sortDown, setSortDown] = useState(
     convertStringToBoolean(localStorage.getItem('meeting_sort_down'))

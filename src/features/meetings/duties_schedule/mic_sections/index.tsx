@@ -1,5 +1,5 @@
 import { Fragment } from 'react';
-import { Box, Grid, Stack } from '@mui/material';
+import { Box, Stack } from '@mui/material';
 import { IconAdd, IconDelete, IconEdit } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import { AssignmentCode } from '@definition/assignment';
@@ -13,7 +13,7 @@ import IconButton from '@components/icon_button';
 import PersonSelector from '@features/meetings/person_selector';
 import SectionEdit from './section_edit';
 import Typography from '@components/typography';
-import { dutyFieldColumns } from '../shared';
+import { dutyFieldsLayout } from '@features/meetings/duties_schedule/shared';
 
 const MicSections = ({ week, prefix, meeting }: MicSectionsProps) => {
   const { t } = useAppTranslation();
@@ -33,7 +33,7 @@ const MicSections = ({ week, prefix, meeting }: MicSectionsProps) => {
   } = useMicSections(week, meeting);
 
   return (
-    <Stack spacing="16px" sx={{ flex: 1, width: '100%' }}>
+    <Stack spacing="16px" sx={{ flex: 1, width: '100%', minWidth: 0 }}>
       {formOpen && (
         <SectionEdit
           open={formOpen}
@@ -65,8 +65,6 @@ const MicSections = ({ week, prefix, meeting }: MicSectionsProps) => {
       )}
 
       {sections.map((section) => {
-        const size = dutyFieldColumns(section.amount);
-
         const partsLabel = sectionParts(section.parts);
 
         return (
@@ -84,16 +82,19 @@ const MicSections = ({ week, prefix, meeting }: MicSectionsProps) => {
                 },
               }}
             >
-              {/* absolute icons keep the row at label height, and the padding
-                  gives the same gap to the fields with or without parts */}
               <Box
                 sx={{
-                  position: 'relative',
                   display: 'flex',
-                  paddingBottom: '4px',
+                  alignItems: 'flex-start',
+                  justifyContent: 'space-between',
+                  gap: 'var(--dialog-header-gap)',
+                  paddingBottom: 'var(--radius-s)',
                 }}
               >
-                <Stack spacing="2px">
+                <Stack
+                  spacing="2px"
+                  sx={{ minWidth: 0, overflowWrap: 'anywhere' }}
+                >
                   <Typography
                     className="body-small-semibold"
                     sx={{ color: 'var(--grey-400)' }}
@@ -118,24 +119,21 @@ const MicSections = ({ week, prefix, meeting }: MicSectionsProps) => {
                   spacing="4px"
                   className="section-actions"
                   sx={{
-                    position: 'absolute',
-                    right: 0,
-                    top: '50%',
-                    transform: 'translateY(-50%)',
+                    flexShrink: 0,
                     opacity: 0,
                     transition: 'opacity 0.2s',
                   }}
                 >
                   <IconButton
                     aria-label={t('tr_sectionEdit')}
-                    sx={{ padding: '4px' }}
+                    sx={{ minWidth: '44px', minHeight: '44px' }}
                     onClick={() => handleOpenEdit(section.id)}
                   >
                     <IconEdit color="var(--accent-main)" />
                   </IconButton>
                   <IconButton
                     aria-label={t('tr_sectionDelete')}
-                    sx={{ padding: '4px' }}
+                    sx={{ minWidth: '44px', minHeight: '44px' }}
                     onClick={() => handleAskDelete(section.id)}
                   >
                     <IconDelete color="var(--red-main)" />
@@ -143,11 +141,11 @@ const MicSections = ({ week, prefix, meeting }: MicSectionsProps) => {
                 </Stack>
               </Box>
 
-              <Grid container columnSpacing="8px" rowSpacing="16px">
+              <Box sx={dutyFieldsLayout(section.amount)}>
                 {Array.from(
                   { length: Math.min(section.amount, 4) },
                   (_, index) => (
-                    <Grid key={index} size={{ mobile: 12, laptop: size }}>
+                    <Box key={index} sx={{ minWidth: 0 }}>
                       <PersonSelector
                         label={t('tr_responsible')}
                         week={week}
@@ -156,10 +154,10 @@ const MicSections = ({ week, prefix, meeting }: MicSectionsProps) => {
                         schedule_id={`${section.id}_${index + 1}`}
                         showIcon={false}
                       />
-                    </Grid>
+                    </Box>
                   )
                 )}
-              </Grid>
+              </Box>
             </Stack>
           </Fragment>
         );

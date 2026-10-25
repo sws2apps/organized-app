@@ -1,5 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
+import { sourcesState } from '@states/sources';
+import { JWLangState, userDataViewState } from '@states/settings';
 import { schedulesState } from '@states/schedules';
 import {
   schedulesDutiesMeetingParts,
@@ -11,6 +13,9 @@ import { getMessageByCode } from '@services/i18n/translation';
 
 const useMicSections = (week: string, meeting: DutiesMeetingValue) => {
   const schedules = useAtomValue(schedulesState);
+  const sources = useAtomValue(sourcesState);
+  const lang = useAtomValue(JWLangState);
+  const dataView = useAtomValue(userDataViewState);
 
   const [formOpen, setFormOpen] = useState(false);
   const [deleteId, setDeleteId] = useState('');
@@ -25,7 +30,8 @@ const useMicSections = (week: string, meeting: DutiesMeetingValue) => {
 
   const parts = useMemo(
     () => schedulesDutiesMeetingParts(week, meeting),
-    [week, meeting]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [week, meeting, schedules, sources, lang, dataView]
   );
 
   const handleOpenAdd = () => {

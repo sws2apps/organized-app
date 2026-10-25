@@ -1,3 +1,4 @@
+import { useId } from 'react';
 import { Box, Stack } from '@mui/material';
 import {
   IconAtHome,
@@ -6,65 +7,37 @@ import {
   IconDoor,
   IconDuties,
   IconHallOverseer,
-  IconInfo,
   IconMicrophone,
-  IconNavigateLeft,
-  IconNavigateRight,
   IconTalk,
 } from '@components/icons';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
-import useDutiesEditor, { DutiesMeetingValue } from './useDutiesEditor';
+import useDutiesEditor from '@features/meetings/duties_schedule/duties_editor/useDutiesEditor';
+import { DutiesMeetingValue } from '@services/app/duties';
 import Divider from '@components/divider';
-import DutyName from '../duty_name';
-import DutyRow from '../duty_row';
-import IconButton from '@components/icon_button';
-import MicSections from '../mic_sections';
-import Tabs from '@components/tabs';
+import DutyRow from '@features/meetings/duties_schedule/duty_row';
+import Badge from '@components/badge';
+import DateNavigator from '@components/date_navigator';
+import InfoNote from '@components/info_note';
+import MicSections from '@features/meetings/duties_schedule/mic_sections';
+import TabSwitcher from '@components/tab_switcher';
 import Typography from '@components/typography';
-
-const TabLabel = ({
-  label,
-  assigned,
-  total,
-}: {
-  label: string;
-  assigned: number;
-  total: number;
-}) => (
-  <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-    {label}
-    <Box
-      sx={{
-        borderRadius: '4px',
-        padding: '2px 6px',
-        backgroundColor: 'var(--grey-100)',
-        color: 'var(--grey-350)',
-        '.Mui-selected &': {
-          backgroundColor: 'var(--accent-150)',
-          color: 'var(--accent-dark)',
-        },
-      }}
-    >
-      <Typography className="label-small-medium" sx={{ color: 'inherit' }}>
-        {assigned}/{total}
-      </Typography>
-    </Box>
-  </Box>
-);
 
 const DutiesEditor = () => {
   const { t } = useAppTranslation();
+  const tabId = useId();
 
   const { tablet500Down, laptopDown } = useBreakpoints();
 
   const {
     weekDateLocale,
+    isCurrentWeek,
+    activeMeeting,
     selectedWeek,
     showWeekNav,
     activePrefix,
     micSectionsEnabled,
     meetingsInfo,
-    meetingsHeld,
+    meetingStatus,
     dutyRows,
     handleChangeMeeting,
     handleChangeWeekBack,
@@ -76,90 +49,101 @@ const DutiesEditor = () => {
     <Divider color="var(--accent-200)" />
   ) : undefined;
 
+  const hasAudio =
+    micSectionsEnabled ||
+    dutyRows.audioVideo.some((column) => column.length) ||
+    dutyRows.microphones.length > 0 ||
+    dutyRows.stage.length > 0;
+  const hasHall =
+    dutyRows.entranceAttendant.length > 0 ||
+    dutyRows.auditoriumAttendant.length > 0;
+  const hasOther =
+    dutyRows.hospitality.length > 0 ||
+    dutyRows.videoconferenceHost.length > 0 ||
+    dutyRows.custom.some((duty) => duty.fields.length > 0);
+
   const dutiesPanel = (meeting: DutiesMeetingValue) => (
     <Stack spacing="16px" key={meeting}>
-      <Stack spacing="12px">
-        <Typography className="h4">{t('tr_dutiesAudio')}</Typography>
+      {hasAudio && (
+        <Stack spacing="12px">
+          <Typography className="h4">{t('tr_dutiesAudio')}</Typography>
 
-        <Stack spacing="16px" divider={rowDivider}>
-          {dutyRows.audioVideo.some((column) => column.length > 0) && (
-            <DutyRow
-              duty={t('tr_audioVideo')}
-              icon={<IconComputerVideo color="var(--accent-dark)" />}
-              week={selectedWeek}
-              columns={dutyRows.audioVideo}
-            />
-          )}
+          <Stack spacing="16px" divider={rowDivider}>
+            {dutyRows.audioVideo.some((column) => column.length > 0) && (
+              <DutyRow
+                duty={t('tr_audioVideo')}
+                icon={<IconComputerVideo color="var(--accent-dark)" />}
+                week={selectedWeek}
+                columns={dutyRows.audioVideo}
+              />
+            )}
 
-          {micSectionsEnabled && (
-            <Stack
-              spacing={laptopDown ? '12px' : '8px'}
-              direction={laptopDown ? 'column' : 'row'}
-              sx={{ alignItems: 'flex-start' }}
-            >
-              <DutyName
+            {micSectionsEnabled && (
+              <DutyRow
                 duty={t('tr_dutiesMicrophones')}
                 icon={<IconMicrophone color="var(--accent-dark)" />}
-              />
-              <MicSections
                 week={selectedWeek}
-                prefix={activePrefix}
-                meeting={meeting}
+              >
+                <MicSections
+                  week={selectedWeek}
+                  prefix={activePrefix}
+                  meeting={meeting}
+                />
+              </DutyRow>
+            )}
+
+            {!micSectionsEnabled && dutyRows.microphones.length > 0 && (
+              <DutyRow
+                duty={t('tr_dutiesMicrophones')}
+                icon={<IconMicrophone color="var(--accent-dark)" />}
+                week={selectedWeek}
+                fields={dutyRows.microphones}
               />
-            </Stack>
-          )}
+            )}
 
-          {!micSectionsEnabled && dutyRows.microphones.length > 0 && (
-            <DutyRow
-              duty={t('tr_dutiesMicrophones')}
-              icon={<IconMicrophone color="var(--accent-dark)" />}
-              week={selectedWeek}
-              fields={dutyRows.microphones}
-            />
-          )}
-
-          {dutyRows.stage.length > 0 && (
-            <DutyRow
-              duty={t('tr_dutiesStage')}
-              icon={<IconTalk color="var(--accent-dark)" />}
-              week={selectedWeek}
-              fields={dutyRows.stage}
-            />
-          )}
+            {dutyRows.stage.length > 0 && (
+              <DutyRow
+                duty={t('tr_dutiesStage')}
+                icon={<IconTalk color="var(--accent-dark)" />}
+                week={selectedWeek}
+                fields={dutyRows.stage}
+              />
+            )}
+          </Stack>
         </Stack>
-      </Stack>
+      )}
 
-      <Divider color="var(--accent-200)" />
+      {hasAudio && hasHall && <Divider color="var(--accent-200)" />}
 
-      <Stack spacing="12px">
-        <Typography className="h4">{t('tr_hall')}</Typography>
+      {hasHall && (
+        <Stack spacing="12px">
+          <Typography className="h4">{t('tr_hall')}</Typography>
 
-        <Stack spacing="16px" divider={rowDivider}>
-          {dutyRows.entranceAttendant.length > 0 && (
-            <DutyRow
-              duty={t('tr_dutiesEntranceAttendant')}
-              icon={<IconDoor color="var(--accent-dark)" />}
-              week={selectedWeek}
-              fields={dutyRows.entranceAttendant}
-            />
-          )}
+          <Stack spacing="16px" divider={rowDivider}>
+            {dutyRows.entranceAttendant.length > 0 && (
+              <DutyRow
+                duty={t('tr_dutiesEntranceAttendant')}
+                icon={<IconDoor color="var(--accent-dark)" />}
+                week={selectedWeek}
+                fields={dutyRows.entranceAttendant}
+              />
+            )}
 
-          {dutyRows.auditoriumAttendant.length > 0 && (
-            <DutyRow
-              duty={t('tr_dutiesAuditoriumAttendant')}
-              icon={<IconHallOverseer color="var(--accent-dark)" />}
-              week={selectedWeek}
-              fields={dutyRows.auditoriumAttendant}
-            />
-          )}
+            {dutyRows.auditoriumAttendant.length > 0 && (
+              <DutyRow
+                duty={t('tr_dutiesAuditoriumAttendant')}
+                icon={<IconHallOverseer color="var(--accent-dark)" />}
+                week={selectedWeek}
+                fields={dutyRows.auditoriumAttendant}
+              />
+            )}
+          </Stack>
         </Stack>
-      </Stack>
+      )}
 
-      {(dutyRows.hospitality.length > 0 ||
-        dutyRows.videoconferenceHost.length > 0 ||
-        dutyRows.custom.length > 0) && (
+      {hasOther && (
         <>
-          <Divider color="var(--accent-200)" />
+          {(hasAudio || hasHall) && <Divider color="var(--accent-200)" />}
 
           <Stack spacing="12px">
             <Typography className="h4">{t('tr_otherPart')}</Typography>
@@ -183,15 +167,17 @@ const DutiesEditor = () => {
                 />
               )}
 
-              {dutyRows.custom.map((duty) => (
-                <DutyRow
-                  key={duty.id}
-                  duty={duty.name}
-                  icon={<IconDuties color="var(--accent-dark)" />}
-                  week={selectedWeek}
-                  fields={duty.fields}
-                />
-              ))}
+              {dutyRows.custom
+                .filter((duty) => duty.fields.length > 0)
+                .map((duty) => (
+                  <DutyRow
+                    key={duty.id}
+                    duty={duty.name}
+                    icon={<IconDuties color="var(--accent-dark)" />}
+                    week={selectedWeek}
+                    fields={duty.fields}
+                  />
+                ))}
             </Stack>
           </Stack>
         </>
@@ -199,108 +185,99 @@ const DutiesEditor = () => {
     </Stack>
   );
 
-  const noMeetingPanel = (
-    <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-      <IconInfo color="var(--accent-400)" />
-      <Typography sx={{ color: 'var(--grey-400)' }}>
-        {t('tr_noMeeting')}
-      </Typography>
-    </Box>
-  );
+  const panelId = `${tabId}-panel`;
+  const status = meetingStatus[activeMeeting];
 
   return (
     <Box
       sx={{
         borderRadius: 'var(--radius-xl)',
-        padding: '16px',
-        // mobile: let the last fields scroll clear of the floating action bar
+        padding: 'var(--dialog-gap-mobile)',
         marginBottom: laptopDown ? '96px' : 0,
         backgroundColor: 'var(--white)',
         border: '1px solid var(--accent-300)',
         flexGrow: 1,
+        minWidth: 0,
       }}
     >
-      {weekDateLocale.length === 0 && (
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <IconInfo color="var(--accent-400)" />
-          <Typography sx={{ color: 'var(--grey-400)' }}>
-            {t('tr_infoPlanMeetingDuties')}
-          </Typography>
-        </Box>
-      )}
-
-      {weekDateLocale.length > 0 && (
-        <Tabs
-          fullWidth
-          tabs={[
-            {
-              label: (
-                <TabLabel
-                  label={t('tr_midweek')}
-                  assigned={meetingsInfo.midweek.assigned}
-                  total={meetingsInfo.midweek.total}
-                />
-              ),
-              Component: meetingsHeld.midweek
-                ? dutiesPanel('midweek')
-                : noMeetingPanel,
-            },
-            {
-              label: (
-                <TabLabel
-                  label={t('tr_weekend')}
-                  assigned={meetingsInfo.weekend.assigned}
-                  total={meetingsInfo.weekend.total}
-                />
-              ),
-              Component: meetingsHeld.weekend
-                ? dutiesPanel('weekend')
-                : noMeetingPanel,
-            },
-          ]}
-          onChange={handleChangeMeeting}
-          actionPosition="start"
-          actionComponent={
-            <Stack
-              direction="row"
-              spacing="16px"
+      {!selectedWeek ? (
+        <InfoNote message={t('tr_infoPlanMeetingDuties')} />
+      ) : (
+        <Stack spacing="16px">
+          <Box
+            sx={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: 'var(--dialog-gap-mobile)',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}
+          >
+            <DateNavigator
+              value={weekDateLocale}
+              onBack={handleChangeWeekBack}
+              onNext={handleChangeWeekNext}
+              disableBack={!showWeekNav.back}
+              disableNext={!showWeekNav.next}
+              badgeText={t('tr_today')}
+              badgeVisible={isCurrentWeek}
               sx={{
-                alignItems: 'center',
-                justifyContent: tablet500Down ? 'space-between' : undefined,
+                width: tablet500Down ? '100%' : 'auto',
+                minWidth: 0,
+                maxWidth: '100%',
               }}
-            >
-              <IconButton
-                disabled={!showWeekNav.back}
-                onClick={handleChangeWeekBack}
-                sx={{ padding: '2px' }}
-              >
-                <IconNavigateLeft
-                  color={showWeekNav.back ? 'var(--black)' : 'var(--grey-300)'}
-                />
-              </IconButton>
-
-              <Typography
-                className="h2"
-                sx={{
-                  minWidth: tablet500Down ? undefined : '140px',
-                  textAlign: 'center',
-                }}
-              >
-                {weekDateLocale}
-              </Typography>
-
-              <IconButton
-                disabled={!showWeekNav.next}
-                onClick={handleChangeWeekNext}
-                sx={{ padding: '2px' }}
-              >
-                <IconNavigateRight
-                  color={showWeekNav.next ? 'var(--black)' : 'var(--grey-300)'}
-                />
-              </IconButton>
-            </Stack>
-          }
-        />
+            />
+            <TabSwitcher<DutiesMeetingValue>
+              id={tabId}
+              wrapLabels
+              value={activeMeeting}
+              onChange={handleChangeMeeting}
+              ariaLabel={t('tr_meetingDutiesSchedules')}
+              options={(['midweek', 'weekend'] as const).map((meeting) => ({
+                value: meeting,
+                label: t(meeting === 'midweek' ? 'tr_midweek' : 'tr_weekend'),
+                panelId,
+                badge: (
+                  <Badge
+                    size="small"
+                    color={activeMeeting === meeting ? 'accent' : 'grey'}
+                    text={`${meetingsInfo[meeting].assigned}/${meetingsInfo[meeting].total}`}
+                  />
+                ),
+              }))}
+              sx={{
+                width: tablet500Down ? '100%' : 'auto',
+                maxWidth: '100%',
+                marginInlineStart: 'auto',
+                display: tablet500Down ? 'flex' : 'inline-grid',
+                gridAutoFlow: 'column',
+                gridAutoColumns: 'minmax(max-content, 1fr)',
+                '& [role="tab"]': { minHeight: '44px' },
+              }}
+            />
+          </Box>
+          <Box
+            role="tabpanel"
+            id={panelId}
+            aria-labelledby={`${tabId}-${activeMeeting}`}
+            tabIndex={0}
+            sx={{ minWidth: 0 }}
+          >
+            {status !== 'held' ? (
+              <InfoNote
+                message={t(
+                  status === 'missing-materials'
+                    ? 'tr_dutiesMaterialsRequired'
+                    : 'tr_noMeeting'
+                )}
+              />
+            ) : !hasAudio && !hasHall && !hasOther ? (
+              <InfoNote message={t('tr_dutiesNoSlots')} />
+            ) : (
+              dutiesPanel(activeMeeting)
+            )}
+          </Box>
+        </Stack>
       )}
     </Box>
   );
