@@ -147,7 +147,7 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
         sx={{
           display: 'inline-flex',
           alignItems: 'center',
-          gap: '8px',
+          gap: '4px',
           flexShrink: 0,
           gridColumn: 2,
           gridRow: tabletUp ? '1 / 3' : 1,
