@@ -52,7 +52,9 @@ export const dbResetExportState = async () => {
 
 export const dbMetadataReset = async () => {
   try {
+    const previous = await appDb.metadata.get(1);
     await appDb.metadata.put({
+      territorySync: previous?.territorySync,
       id: 1,
       metadata: {
         cong_settings: { version: '', send_local: true },

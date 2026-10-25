@@ -430,6 +430,7 @@ const dbGetTableData = async () => {
   const sources = await appDb.sources.toArray();
   const meeting_attendance = await appDb.meeting_attendance.toArray();
   const upcoming_events = await appDb.upcoming_events.toArray();
+  const territories = await appDb.territories.toArray();
   const metadata = await appDb.metadata.get(1);
 
   if (!metadata) {
@@ -498,6 +499,7 @@ const dbGetTableData = async () => {
     metadata,
     delegated_field_service_reports,
     upcoming_events,
+    territories,
   };
 };
 

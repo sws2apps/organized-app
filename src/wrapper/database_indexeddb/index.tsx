@@ -4,8 +4,10 @@ This file will be the entry to get the live update from IndexedDb using dexie ho
 
 import { PropsWithChildren, useEffect } from 'react';
 import useIndexedDb from './useIndexedDb';
+import useTerritorySync from '@hooks/useTerritorySync';
 
 const DatabaseWrapper = ({ children }: PropsWithChildren) => {
+  useTerritorySync();
   const {
     loadSettings,
     loadAssignment,
@@ -25,6 +27,7 @@ const DatabaseWrapper = ({ children }: PropsWithChildren) => {
     loadDbNotifications,
     loadDbDelegatedReports,
     loadUpcomingEvents,
+    loadTerritories,
     loadPublicTalks,
     loadSongs,
     loadAppLocals,
@@ -79,6 +82,8 @@ const DatabaseWrapper = ({ children }: PropsWithChildren) => {
     loadSongs,
     loadAppLocals,
   ]);
+
+  useEffect(() => loadTerritories(), [loadTerritories]);
 
   return children;
 };
