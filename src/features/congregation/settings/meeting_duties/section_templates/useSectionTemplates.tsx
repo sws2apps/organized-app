@@ -104,12 +104,10 @@ const useSectionTemplates = (
     setBusy(true);
     setError('');
     try {
-      for (const kind of ['midweek', 'weekend'] as const) {
+      const saveMeeting = async (kind: DutiesMeetingValue) => {
         if (JSON.stringify(drafts[kind]) === initialSections.current[kind])
-          continue;
-        // Each save merges the latest settings; the next meeting must read that result.
+          return;
         const saved = await dutiesSaveSectionTemplate(
-          // NOSONAR -- Ordered settings revisions must not run concurrently.
           kind,
           drafts[kind],
           initial.current[kind],
@@ -117,7 +115,10 @@ const useSectionTemplates = (
         );
         initial.current[kind] = `${saved.id}:${saved.updatedAt}`;
         initialSections.current[kind] = JSON.stringify(drafts[kind]);
-      }
+      };
+      // Each save merges settings; the second meeting reads the first save's result.
+      await saveMeeting('midweek');
+      await saveMeeting('weekend');
       afterSave();
     } catch (error) {
       setError(

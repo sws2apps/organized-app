@@ -41,7 +41,7 @@ const DutyItem = (props: DutyItemProps) => {
         <DutyEdit
           type="edit"
           id={props.id}
-          open={formOpen && !deleteOpen}
+          open={!deleteOpen}
           onClose={handleCloseForm}
           onDelete={handleAskDelete}
         />
