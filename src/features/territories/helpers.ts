@@ -684,13 +684,7 @@ export const upsertById = <T extends { id: string }>(list: T[], next: T) =>
     ? list.map((item) => (item.id === next.id ? next : item))
     : [...list, next];
 
-// numbers are compared by their digits, however they were typed
-export const phoneDigits = (value: string) => value.replace(/\D/g, '');
-
-export const isDoNotCallNumber = (territory: Territory, number: string) =>
-  territory.doNotCalls.some(
-    (entry) => phoneDigits(entry.address) === phoneDigits(number)
-  );
+export { phoneDigits, isDoNotCallNumber } from '@utils/territory';
 
 // "label: count" reads the same in every language, with no plural forms
 export const doNotCallLabel = (count: number, isPhone = false) =>

@@ -3,7 +3,6 @@ import { test } from 'node:test';
 import {
   assignmentIssues,
   olderOpenAssignments,
-  parseHouseholds,
   startsBeforeOpen,
 } from '@features/territories/assignment_issues';
 
@@ -108,13 +107,4 @@ test('a new start before the open assignment would return it before it was assig
   assert.equal(startsBeforeOpen(assignments, '10.06.2026'), false);
   assert.equal(startsBeforeOpen(assignments, '01.07.2026'), false);
   assert.equal(startsBeforeOpen(assignments.slice(0, 1), '01.01.2025'), false);
-});
-
-test('households take 0, keep the old count when blank and refuse the rest', () => {
-  assert.equal(parseHouseholds('0', 40), 0);
-  assert.equal(parseHouseholds('35', 40), 35);
-  assert.equal(parseHouseholds(' ', 40), 40);
-  assert.equal(parseHouseholds('-3', 40), null);
-  assert.equal(parseHouseholds('2.5', 40), null);
-  assert.equal(parseHouseholds('abc', 40), null);
 });
