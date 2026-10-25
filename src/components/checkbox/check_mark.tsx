@@ -50,12 +50,14 @@ const CheckMark = ({
     strokeLinecap: 'round',
     strokeLinejoin: 'round',
     strokeDasharray: 1,
+    // A fully offset round cap can still paint a dot; hide inactive strokes.
+    opacity: shown ? 1 : 0,
     // drawn in with a flick once the box has filled, wiped out quickly
     strokeDashoffset: shown ? 0 : 1,
     transform: shown ? 'scale(1)' : 'scale(0.7)',
     transition: shown
-      ? `stroke-dashoffset 300ms ${DRAW} 90ms, transform 420ms ${SPRING} 60ms`
-      : `stroke-dashoffset 140ms ${WIPE}, transform 160ms ${WIPE}`,
+      ? `stroke-dashoffset 300ms ${DRAW} 90ms, transform 420ms ${SPRING} 60ms, opacity 120ms ${DRAW} 90ms`
+      : `stroke-dashoffset 140ms ${WIPE}, transform 160ms ${WIPE}, opacity 140ms ${WIPE}`,
   });
 
   return (
