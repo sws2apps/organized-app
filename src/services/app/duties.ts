@@ -477,7 +477,7 @@ const validateCustomDutyChanges = (config: DutyConfig, before?: DutyConfig) => {
     const old = before?.custom?.find((item) => item.id === duty.id);
     if (
       duty._deleted ||
-      (old && old.name === duty.name && old.amount === duty.amount)
+      (old?.name === duty.name && old?.amount === duty.amount)
     )
       continue;
     const error = validateDutyName(duty.name, config.custom, duty.id);
