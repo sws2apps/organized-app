@@ -77,7 +77,6 @@
   "tr_havePartnerDesc": "Select your partner from the list or enter their name",
   "tr_arrangementWith": "With: {{ publisherName }}",
   "tr_addToCalendar": "Add to calendar",
-  "tr_addToCalendarDesc": "Do you want to add this event to your personal calendar? You should have a calendar app installed on your device.",
   "tr_forMyself": "For myself",
   "tr_forOthers": "For others",
   "tr_publisherWithNumber": "Publisher {{ publisherNumber }}",
@@ -168,10 +167,11 @@
   "tr_PWNextPeriod": "Next period",
   "tr_PWMoveUp": "Move {{name}} up",
   "tr_PWMoveDown": "Move {{name}} down",
-  "tr_PWArrangementConfirmed": "Your arrangement is confirmed. Adding it to your calendar is optional.",
   "tr_PWAdditionalPartner": "Additional partner (optional)",
   "tr_PWRetiredShiftTitle": "Shift no longer scheduled",
   "tr_PWRetiredShift": "An administrator changed this time slot in the settings after it was booked. The booking has not been deleted. The publisher who made it or an administrator can keep or delete it.",
   "tr_PWCapacityBelowBookings": "This limit is lower than the number of publishers already booked for an upcoming shift. Update those arrangements before reducing the limit.",
-  "tr_PWLocationChanged": "This location was changed or deleted while you were editing it. Close this window and reopen the location to see the latest details."
+  "tr_PWLocationChanged": "This location was changed or deleted while you were editing it. Close this window and reopen the location to see the latest details.",
+  "tr_openCurrentDay": "Open today",
+  "tr_PWRemovePublisher": "Remove {{name}}"
 }

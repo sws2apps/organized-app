@@ -41,7 +41,7 @@ export const publicWitnessingSelectedDateState = atom(
 
 // Period the shifts card lays out: a single day, a week, or a month.
 export const publicWitnessingViewState = atom(
-  'day' as PublicWitnessingViewType
+  'week' as PublicWitnessingViewType
 );
 
 export const publicWitnessingLocationsState = atom((get) => {

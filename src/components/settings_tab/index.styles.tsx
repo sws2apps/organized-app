@@ -24,7 +24,7 @@ export const IndicatorBar = styled(Box)(({ theme }) => ({
   width: '4px',
   alignSelf: 'stretch',
   backgroundColor: 'var(--accent-main)',
-  borderRadius: '2px',
+  borderRadius: 'var(--radius-none)',
   transition: 'opacity 0.15s ease',
   flexShrink: 0,
   // Below the laptop layout the tabs are navigation rather than a selection,

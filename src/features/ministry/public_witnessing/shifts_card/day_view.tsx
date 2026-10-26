@@ -9,12 +9,18 @@ const DayView = ({ days, canInteract, onSelectSlot }: ShiftsViewProps) => {
 
   const slots = days.at(0)?.slots ?? [];
 
-  return (
-    <Stack spacing="12px">
-      {slots.length === 0 && (
-        <ShiftsEmpty message={t('tr_noShiftsForThisDay')} />
-      )}
+  if (slots.length === 0) {
+    return <ShiftsEmpty message={t('tr_noShiftsForThisDay')} />;
+  }
 
+  return (
+    <Stack
+      sx={{
+        display: 'grid',
+        gridTemplateColumns: 'max-content minmax(0, 1fr)',
+        gap: '12px 24px',
+      }}
+    >
       {slots.map((slot) => (
         <ShiftCell
           key={`${slot.start_time}-${slot.end_time}`}

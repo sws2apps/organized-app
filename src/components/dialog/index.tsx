@@ -240,6 +240,9 @@ const Dialog = ({
               overscrollBehavior: 'contain',
             },
             ...(Array.isArray(sx) ? sx : [sx ?? {}]),
+            // The header already supplies half of the title-to-content gap.
+            // Keep a small inset for floating field labels and focus outlines.
+            ...(titleRow ? [{ paddingTop: 'var(--dialog-header-gap)' }] : []),
           ]}
         >
           {content}

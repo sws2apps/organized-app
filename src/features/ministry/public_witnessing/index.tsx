@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Box } from '@mui/material';
+import { Box, useTheme } from '@mui/material';
 import { keyframes } from '@mui/system';
 import { useNavigate, useParams } from 'react-router';
 import { useAtom, useAtomValue } from 'jotai';
@@ -30,6 +30,7 @@ const PublicWitnessingContainer = () => {
   const { t } = useAppTranslation();
   const { canManageLocations } = usePublicWitnessingPermissions();
   const { laptopUp, desktopLargeUp } = useBreakpoints();
+  const { direction } = useTheme();
   const navigate = useNavigate();
 
   const { locationId } = useParams();
@@ -111,11 +112,12 @@ const PublicWitnessingContainer = () => {
     return (
       <Box
         key={locationId ?? 'locations'}
+        data-page-transition="horizontal"
         sx={{
           display: 'flex',
           flexDirection: 'column',
           gap: '16px',
-          animation: `${locationId ? pushIn : popIn} 0.24s cubic-bezier(0.22, 1, 0.36, 1)`,
+          animation: `${Boolean(locationId) !== (direction === 'rtl') ? pushIn : popIn} var(--motion-base) var(--ease-standard)`,
           '@media (prefers-reduced-motion: reduce)': { animation: 'none' },
         }}
       >

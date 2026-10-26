@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useId, useRef, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { hour24FormatState, userLocalUIDState } from '@states/settings';
 import { Box, Stack } from '@mui/material';
@@ -12,10 +12,12 @@ import { IconAdd, IconDelete } from '@components/icons';
 import Autocomplete from '@components/autocomplete';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
+import IconButton from '@components/icon_button';
 import MenuItem from '@components/menuitem';
 import Radio from '@components/radio';
 import Select from '@components/select';
-import Tabs from '@components/tabs';
+import TabSwitcher from '@components/tab_switcher';
+import Tooltip from '@components/tooltip';
 import Typography from '@components/typography';
 import useArrangementForm, { createPartnerName } from './useArrangementForm';
 import usePublicWitnessingPermissions from '../usePermissions';
@@ -50,6 +52,7 @@ const ArrangementEditor = (props: ArrangementEditorProps) => {
     setPartnerCount,
     partnerNames,
     setPartnerNames,
+    removePartner,
     forOthers,
     setForOthers,
     maxNames,
@@ -58,30 +61,48 @@ const ArrangementEditor = (props: ArrangementEditorProps) => {
     personOptions,
     handleConfirm,
     handleDelete,
-    handleDownloadCalendar,
   } = useArrangementForm(props);
 
-  const [step, setStep] = useState<'form' | 'calendar'>('form');
   const [isSaving, setIsSaving] = useState(false);
-  const calendarHeadingRef = useRef<HTMLHeadingElement>(null);
+  const publisherTabsId = useId();
+  const nameFieldsRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (step === 'calendar') calendarHeadingRef.current?.focus();
-  }, [step]);
+  const handleRemovePartner = (id: string, index: number) => {
+    removePartner(id);
+    requestAnimationFrame(() => {
+      const fields = nameFieldsRef.current?.querySelectorAll<HTMLInputElement>(
+        'input[role="combobox"]'
+      );
+      const nextField = fields?.[Math.min(index, fields.length - 1)];
+      // Keep keyboard focus in the form, including after removing the last row.
+      (nextField ?? nameFieldsRef.current?.querySelector('button'))?.focus();
+    });
+  };
 
   const partnerCounts = Array.from({ length: maxNames }, (_, i) => i + 1);
 
   const publisherForm = () => {
     if (isAdmin && !editingOthers) {
       return (
-        <Tabs
-          tabs={[
-            { label: t('tr_forMyself'), Component: myselfForm },
-            { label: t('tr_forOthers'), Component: nameFields(true) },
-          ]}
-          value={forOthers ? 1 : 0}
-          onChange={(tab) => setForOthers(tab === 1)}
-        />
+        <Stack spacing="24px" sx={{ minWidth: 0 }}>
+          <TabSwitcher
+            id={publisherTabsId}
+            options={[
+              { value: 'myself', label: t('tr_forMyself') },
+              { value: 'others', label: t('tr_forOthers') },
+            ]}
+            value={forOthers ? 'others' : 'myself'}
+            onChange={(tab) => setForOthers(tab === 'others')}
+          />
+          <Box
+            role="tabpanel"
+            id={`${publisherTabsId}-panel`}
+            aria-labelledby={`${publisherTabsId}-tab-${forOthers ? 'others' : 'myself'}`}
+            sx={{ minWidth: 0 }}
+          >
+            {forOthers ? nameFields(true) : myselfForm}
+          </Box>
+        </Stack>
       );
     }
 
@@ -95,12 +116,7 @@ const ArrangementEditor = (props: ArrangementEditorProps) => {
 
     try {
       const saved = await handleConfirm();
-      if (!saved) return;
-      if (mode === 'edit') {
-        props.onClose();
-        return;
-      }
-      setStep('calendar');
+      if (saved) props.onClose();
     } finally {
       setIsSaving(false);
     }
@@ -137,7 +153,7 @@ const ArrangementEditor = (props: ArrangementEditorProps) => {
   };
 
   const nameFields = (numbered: boolean) => (
-    <Stack spacing="16px">
+    <Stack ref={nameFieldsRef} spacing="16px">
       {partnerNames.map((partner, index) => (
         <Stack key={partner.id} spacing="8px">
           {numbered && (
@@ -148,39 +164,60 @@ const ArrangementEditor = (props: ArrangementEditorProps) => {
               {t('tr_publisherWithNumber', { publisherNumber: index + 1 })}
             </Typography>
           )}
-          <Autocomplete
-            freeSolo
-            autoSelect
-            label={t(
-              joinedBooking && !forOthers ? 'tr_PWAdditionalPartner' : 'tr_name'
-            )}
-            options={personOptions}
-            getOptionKey={(option) =>
-              typeof option === 'string' ? option : option.id
-            }
-            value={
-              partner.person_uid
-                ? (personOptions.find(
-                    (option) => option.id === partner.person_uid
-                  ) ?? partner.name)
-                : partner.name
-            }
-            onInputChange={(_, value, reason) => {
-              if (reason === 'input' || reason === 'clear') {
-                updatePartnerName(partner.id, value);
-              }
-            }}
-            onChange={(_, value) => {
-              const option = Array.isArray(value) ? value.at(0) : value;
-              updatePartnerName(partner.id, option);
-            }}
-            getOptionLabel={(option) => optionLabel(option)}
-            isOptionEqualToValue={(option, value) =>
-              typeof option !== 'string' && typeof value !== 'string'
-                ? option.id === value.id
-                : option === value
-            }
-          />
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <Box sx={{ flex: 1, minWidth: 0 }}>
+              <Autocomplete
+                freeSolo
+                autoSelect
+                label={t(
+                  joinedBooking && !forOthers
+                    ? 'tr_PWAdditionalPartner'
+                    : 'tr_name'
+                )}
+                options={personOptions}
+                getOptionKey={(option) =>
+                  typeof option === 'string' ? option : option.id
+                }
+                value={
+                  partner.person_uid
+                    ? (personOptions.find(
+                        (option) => option.id === partner.person_uid
+                      ) ?? partner.name)
+                    : partner.name
+                }
+                onInputChange={(_, value, reason) => {
+                  if (reason === 'input' || reason === 'clear') {
+                    updatePartnerName(partner.id, value);
+                  }
+                }}
+                onChange={(_, value) => {
+                  const option = Array.isArray(value) ? value.at(0) : value;
+                  updatePartnerName(partner.id, option);
+                }}
+                getOptionLabel={(option) => optionLabel(option)}
+                isOptionEqualToValue={(option, value) =>
+                  typeof option !== 'string' && typeof value !== 'string'
+                    ? option.id === value.id
+                    : option === value
+                }
+              />
+            </Box>
+            <Tooltip title={t('tr_delete')}>
+              <IconButton
+                edge={false}
+                color="error"
+                aria-label={t('tr_PWRemovePublisher', {
+                  name:
+                    partner.name.trim() ||
+                    t('tr_publisherWithNumber', { publisherNumber: index + 1 }),
+                })}
+                onClick={() => handleRemovePartner(partner.id, index)}
+                sx={{ flexShrink: 0, borderRadius: 'var(--radius-m)' }}
+              >
+                <IconDelete color="var(--red-main)" />
+              </IconButton>
+            </Tooltip>
+          </Box>
         </Stack>
       ))}
 
@@ -268,193 +305,139 @@ const ArrangementEditor = (props: ArrangementEditorProps) => {
       open={props.open}
       onClose={props.onClose}
       title={t(
-        step === 'calendar'
-          ? 'tr_addToCalendar'
-          : slot.retired
-            ? 'tr_PWRetiredShiftTitle'
-            : 'tr_confirmArrangement'
+        slot.retired ? 'tr_PWRetiredShiftTitle' : 'tr_confirmArrangement'
       )}
       header={
-        step === 'calendar' ? (
-          <Typography
-            component="h2"
-            className="h2"
-            ref={calendarHeadingRef}
-            tabIndex={-1}
+        <Stack spacing="8px" sx={{ minWidth: 0 }}>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'flex-start',
+              justifyContent: 'space-between',
+              gap: '16px',
+            }}
           >
-            {t('tr_addToCalendar')}
-          </Typography>
-        ) : (
-          <Stack spacing="8px" sx={{ minWidth: 0 }}>
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'flex-start',
-                justifyContent: 'space-between',
-                gap: '16px',
-              }}
-            >
-              <Typography component="h2" className="h2">
-                {t(
-                  slot.retired
-                    ? 'tr_PWRetiredShiftTitle'
-                    : 'tr_confirmArrangement'
-                )}
-              </Typography>
-              {mode === 'edit' && (
-                <Button
-                  variant="small"
-                  color="red"
-                  disableAutoStretch
-                  startIcon={<IconDelete color="var(--red-dark)" />}
-                  onClick={handleDeleteClick}
-                  disabled={isSaving}
-                  sx={{ flexShrink: 0 }}
-                >
-                  {t('tr_delete')}
-                </Button>
+            <Typography component="h2" className="h2">
+              {t(
+                slot.retired
+                  ? 'tr_PWRetiredShiftTitle'
+                  : 'tr_confirmArrangement'
               )}
-            </Box>
-            {slot.retired && (
-              <Typography
-                className="body-small-regular"
-                sx={{ color: 'var(--grey-400)' }}
-              >
-                {t('tr_PWRetiredShift')}
-              </Typography>
-            )}
-          </Stack>
-        )
-      }
-      actions={
-        step === 'calendar' ? (
-          <Stack spacing="8px" sx={{ width: '100%' }}>
-            <Button
-              variant="main"
-              onClick={() => {
-                handleDownloadCalendar();
-                props.onClose();
-              }}
-            >
-              {t('tr_add')}
-            </Button>
-            <Button variant="secondary" onClick={props.onClose}>
-              {t('tr_noThanks')}
-            </Button>
-          </Stack>
-        ) : (
-          <Stack spacing="8px" sx={{ width: '100%' }}>
-            {!slot.retired && (
+            </Typography>
+            {mode === 'edit' && (
               <Button
-                variant="main"
-                disabled={isSaving || !canConfirm}
-                onClick={handleConfirmClick}
+                variant="small"
+                color="red"
+                disableAutoStretch
+                startIcon={<IconDelete color="var(--red-dark)" />}
+                onClick={handleDeleteClick}
+                disabled={isSaving}
+                sx={{ flexShrink: 0 }}
               >
-                {t('tr_confirm')}
+                {t('tr_delete')}
               </Button>
             )}
-            <Button
-              variant={slot.retired ? 'main' : 'secondary'}
-              onClick={props.onClose}
+          </Box>
+          {slot.retired && (
+            <Typography
+              className="body-small-regular"
+              sx={{ color: 'var(--grey-400)' }}
             >
-              {t(slot.retired ? 'tr_close' : 'tr_cancel')}
+              {t('tr_PWRetiredShift')}
+            </Typography>
+          )}
+        </Stack>
+      }
+      actions={
+        <Stack spacing="8px" sx={{ width: '100%' }}>
+          {!slot.retired && (
+            <Button
+              variant="main"
+              disabled={isSaving || !canConfirm}
+              onClick={handleConfirmClick}
+            >
+              {t('tr_confirm')}
             </Button>
-          </Stack>
-        )
+          )}
+          <Button
+            variant={slot.retired ? 'main' : 'secondary'}
+            onClick={props.onClose}
+          >
+            {t(slot.retired ? 'tr_ok' : 'tr_cancel')}
+          </Button>
+        </Stack>
       }
     >
-      {step === 'calendar' ? (
-        <>
-          <Stack spacing="16px">
-            <Typography role="status">
-              {t('tr_PWArrangementConfirmed')}
+      <Stack spacing="16px" sx={{ width: '100%' }}>
+        <Stack spacing="8px">
+          <Stack>
+            <Typography
+              className="body-small-regular"
+              sx={{ color: 'var(--grey-400)' }}
+            >
+              {props.location.location_data.name}
             </Typography>
-            <Typography sx={{ color: 'var(--grey-400)' }}>
-              {t('tr_addToCalendarDesc')}
+            <Typography className="body-regular">
+              {dateFormatFriendly(slot.date)}:{' '}
+              <strong>
+                {formatDate(generateDateFromTime(slot.start_time), timeFormat)}{' '}
+                - {formatDate(generateDateFromTime(slot.end_time), timeFormat)}
+              </strong>
             </Typography>
           </Stack>
-        </>
-      ) : (
-        <>
-          <Stack spacing="16px" sx={{ width: '100%' }}>
-            <Stack spacing="8px">
-              <Stack>
-                <Typography
-                  className="body-small-regular"
-                  sx={{ color: 'var(--grey-400)' }}
-                >
-                  {props.location.location_data.name}
-                </Typography>
-                <Typography className="body-regular">
-                  {dateFormatFriendly(slot.date)}:{' '}
-                  <strong>
-                    {formatDate(
-                      generateDateFromTime(slot.start_time),
-                      timeFormat
-                    )}{' '}
-                    -{' '}
-                    {formatDate(
-                      generateDateFromTime(slot.end_time),
-                      timeFormat
-                    )}
-                  </strong>
-                </Typography>
-              </Stack>
-            </Stack>
+        </Stack>
 
-            {isAdmin &&
-              slot.arrangements.length > 0 &&
-              (slot.arrangements.length > 1 || canJoin) && (
-                <Select
-                  label={t('tr_selectArrangement')}
-                  inputProps={{ 'aria-label': t('tr_selectArrangement') }}
-                  value={props.selectedArrangementUID}
-                  onChange={(event) =>
-                    props.onArrangementChange(String(event.target.value))
-                  }
-                  disabled={isSaving}
-                >
-                  {canJoin && (
-                    <MenuItem value="join">{t('tr_PWJoinShift')}</MenuItem>
-                  )}
-                  {slot.arrangements.map((arrangement) => (
-                    <MenuItem
-                      key={arrangement.arrangement_uid}
-                      value={arrangement.arrangement_uid}
-                    >
-                      <Typography>
-                        {arrangement.arrangement_data.publishers
-                          .map((publisher) => publisher.name)
-                          .join(', ')}
-                      </Typography>
-                    </MenuItem>
-                  ))}
-                </Select>
+        {isAdmin &&
+          slot.arrangements.length > 0 &&
+          (slot.arrangements.length > 1 || canJoin) && (
+            <Select
+              label={t('tr_selectArrangement')}
+              inputProps={{ 'aria-label': t('tr_selectArrangement') }}
+              value={props.selectedArrangementUID}
+              onChange={(event) =>
+                props.onArrangementChange(String(event.target.value))
+              }
+              disabled={isSaving}
+            >
+              {canJoin && (
+                <MenuItem value="join">{t('tr_PWJoinShift')}</MenuItem>
               )}
+              {slot.arrangements.map((arrangement) => (
+                <MenuItem
+                  key={arrangement.arrangement_uid}
+                  value={arrangement.arrangement_uid}
+                >
+                  <Typography>
+                    {arrangement.arrangement_data.publishers
+                      .map((publisher) => publisher.name)
+                      .join(', ')}
+                  </Typography>
+                </MenuItem>
+              ))}
+            </Select>
+          )}
 
-            {(slot.retired ||
-              mode === 'join' ||
-              editingOthers ||
-              joinedBooking) && (
-              <Typography className="body-regular">
-                {t('tr_arrangementWith', {
-                  publisherName: (joinedBooking
-                    ? companionNames
-                    : slot.publishers
-                  ).join(', '),
-                })}
-              </Typography>
-            )}
+        {(slot.retired ||
+          mode === 'join' ||
+          editingOthers ||
+          joinedBooking) && (
+          <Typography className="body-regular">
+            {t('tr_arrangementWith', {
+              publisherName: (joinedBooking
+                ? companionNames
+                : slot.publishers
+              ).join(', '),
+            })}
+          </Typography>
+        )}
 
-            {saveError && (
-              <Typography role="alert" sx={{ color: 'var(--red-dark)' }}>
-                {t(saveError)}
-              </Typography>
-            )}
-            {!slot.retired && mode !== 'join' && publisherForm()}
-          </Stack>
-        </>
-      )}
+        {saveError && (
+          <Typography role="alert" sx={{ color: 'var(--red-dark)' }}>
+            {t(saveError)}
+          </Typography>
+        )}
+        {!slot.retired && mode !== 'join' && publisherForm()}
+      </Stack>
     </Dialog>
   );
 };

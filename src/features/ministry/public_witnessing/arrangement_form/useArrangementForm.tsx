@@ -1,7 +1,5 @@
 import { useMemo, useState } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { createEvent } from 'ics';
-import { saveAs } from 'file-saver';
 import { PublicWitnessingPublisherType } from '@definition/public_witnessing';
 import { ShiftSlotStatus } from '../shifts_card/index.types';
 import { personsActiveState } from '@states/persons';
@@ -129,6 +127,12 @@ const useArrangementForm = ({
 
   const names = partnerNames.slice(0, maxNames);
 
+  const removePartner = (id: string) => {
+    setPartnerNames((current) =>
+      current.filter((partner) => partner.id !== id)
+    );
+  };
+
   // Booking for others, or with a partner, needs at least one name: an empty
   // non-seeking record would otherwise mark the whole shift as full.
   const joinedBooking = Boolean(
@@ -247,39 +251,6 @@ const useArrangementForm = ({
     }
   };
 
-  const handleDownloadCalendar = () => {
-    const [year, month, day] = slot.date.split('/').map(Number);
-    const [startHour, startMinute] = slot.start_time.split(':').map(Number);
-    const [endHour, endMinute] = slot.end_time.split(':').map(Number);
-
-    createEvent(
-      {
-        title: location.location_data.name,
-        description: location.location_data.description,
-        location: location.location_data.address,
-        start: [year, month, day, startHour, startMinute],
-        end: [year, month, day, endHour, endMinute],
-      },
-      (error, value) => {
-        if (error) {
-          console.error(error);
-
-          displaySnackNotification({
-            header: getMessageByCode('error_app_generic-title'),
-            message: getMessageByCode((error as Error).message),
-            severity: 'error',
-          });
-
-          return;
-        }
-        saveAs(
-          new Blob([value], { type: 'text/calendar;charset=utf-8' }),
-          'public_witnessing.ics'
-        );
-      }
-    );
-  };
-
   return {
     mode,
     canJoin,
@@ -298,6 +269,7 @@ const useArrangementForm = ({
     setPartnerCount,
     partnerNames: names,
     setPartnerNames,
+    removePartner,
     forOthers,
     setForOthers,
     maxNames,
@@ -306,7 +278,6 @@ const useArrangementForm = ({
     personOptions,
     handleConfirm,
     handleDelete,
-    handleDownloadCalendar,
   };
 };
 

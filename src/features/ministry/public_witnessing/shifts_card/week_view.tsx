@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Box, Stack } from '@mui/material';
+import { Box } from '@mui/material';
 import { useAtomValue } from 'jotai';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { dayNamesState } from '@states/app';
@@ -37,21 +37,48 @@ const WeekView = ({ days, canInteract, onSelectSlot }: ShiftsViewProps) => {
   const isPastDay = (day: DayShiftsType) =>
     day.slots.length > 0 && day.slots.every((slot) => slot.status === 'past');
 
-  const dayHeader = (day: DayShiftsType) => {
+  const dayHeader = (day: DayShiftsType, inline = false) => {
     const colors = headerColors(day, isPastDay(day));
+    const available = day.slots.filter(
+      (slot) => slot.status === 'available' || slot.status === 'partner_needed'
+    ).length;
 
     return (
-      <Stack spacing="2px" sx={{ minWidth: 0 }}>
-        <Typography className="body-small-semibold" sx={{ color: colors.date }}>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: inline ? 'row' : 'column',
+          alignItems: inline ? 'baseline' : 'stretch',
+          gap: inline ? '8px' : '2px',
+          minWidth: 0,
+          gridColumn: '1 / -1',
+        }}
+      >
+        <Typography
+          className="body-small-semibold"
+          sx={{ color: colors.date, whiteSpace: 'nowrap' }}
+        >
           {formatDateShortMonth(day.dateObj)}
         </Typography>
         <Typography
           className="body-small-regular"
-          sx={{ color: colors.weekday }}
+          sx={{ color: colors.weekday, minWidth: 0, overflowWrap: 'anywhere' }}
         >
           {dayNames[day.dateObj.getDay()]}
         </Typography>
-      </Stack>
+        {inline && !isPastDay(day) && (
+          <Typography
+            className="label-small-regular"
+            sx={{
+              color: colors.weekday,
+              marginInlineStart: 'auto',
+              textAlign: 'end',
+            }}
+          >
+            {t('tr_available', { number: available })}
+          </Typography>
+        )}
+      </Box>
     );
   };
 
@@ -61,12 +88,26 @@ const WeekView = ({ days, canInteract, onSelectSlot }: ShiftsViewProps) => {
 
   if (!desktopUp) {
     return (
-      <Stack spacing="16px">
+      <Box
+        sx={{
+          display: 'grid',
+          gridTemplateColumns: 'max-content minmax(0, 1fr)',
+          gap: '32px 24px',
+        }}
+      >
         {days
           .filter((day) => day.slots.length > 0)
           .map((day) => (
-            <Stack key={day.date} spacing="8px">
-              {dayHeader(day)}
+            <Box
+              key={day.date}
+              sx={{
+                display: 'grid',
+                gridTemplateColumns: 'subgrid',
+                gridColumn: '1 / -1',
+                rowGap: '8px',
+              }}
+            >
+              {dayHeader(day, true)}
               {day.slots.map((slot) => (
                 <ShiftCell
                   key={`${slot.start_time}-${slot.end_time}`}
@@ -75,9 +116,9 @@ const WeekView = ({ days, canInteract, onSelectSlot }: ShiftsViewProps) => {
                   onClick={() => onSelectSlot(slot)}
                 />
               ))}
-            </Stack>
+            </Box>
           ))}
-      </Stack>
+      </Box>
     );
   }
 

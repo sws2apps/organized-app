@@ -2,7 +2,11 @@ import { KeyboardEvent, MouseEvent } from 'react';
 import { Box, Collapse } from '@mui/material';
 import { useAtomValue } from 'jotai';
 import { hour24FormatState } from '@states/settings';
-import { dateFormatFriendly, formatDate, generateDateFromTime } from '@utils/date';
+import {
+  dateFormatFriendly,
+  formatDate,
+  generateDateFromTime,
+} from '@utils/date';
 import { useAppTranslation } from '@hooks/index';
 import { BadgeColor } from '@definition/app';
 import { IconExpand, IconPersonSearch } from '@components/icons';
@@ -66,7 +70,7 @@ const PublisherNames = ({
 }: Omit<CellContentProps, 'statusLabel'> & { compact?: boolean }) => (
   <Typography
     className={compact ? 'label-small-regular' : 'body-small-regular'}
-    sx={{ color: color }}
+    sx={{ color, minWidth: 0, overflowWrap: 'anywhere' }}
   >
     {slot.publishers.join(', ')}
   </Typography>
@@ -95,21 +99,30 @@ const CompactContent = ({
 );
 
 const FullContent = ({ slot, color, statusLabel }: CellContentProps) => (
-  <>
+  <Box
+    sx={{
+      display: 'flex',
+      flexWrap: 'wrap',
+      alignItems: 'center',
+      gap: '8px 24px',
+      minWidth: 0,
+    }}
+  >
     {slot.publishers.length > 0 && <PublisherNames slot={slot} color={color} />}
 
     {(slot.status === 'available' || slot.status === 'partner_needed') && (
       <Badge
         size="small"
+        multiLine
         color={badgeColors[slot.status]}
         text={statusLabel}
         icon={
           slot.status === 'partner_needed' ? <IconPersonSearch /> : undefined
         }
-        sx={{ marginLeft: 'auto' }}
+        sx={{ marginInlineStart: 'auto', maxWidth: '100%' }}
       />
     )}
-  </>
+  </Box>
 );
 
 const ShiftCell = ({
@@ -170,7 +183,11 @@ const ShiftCell = ({
     <Typography
       component="span"
       className={compact ? 'label-small-medium' : 'body-small-semibold'}
-      sx={{ color, whiteSpace: compact ? 'normal' : 'nowrap' }}
+      sx={{
+        color,
+        whiteSpace: compact ? 'normal' : 'nowrap',
+        fontVariantNumeric: 'tabular-nums',
+      }}
     >
       {times}
     </Typography>
@@ -182,7 +199,9 @@ const ShiftCell = ({
       onClick={interactive ? onClick : undefined}
       aria-label={!compact ? accessibleLabel : undefined}
       sx={{
-        display: 'flex',
+        display: compact ? 'flex' : 'grid',
+        gridTemplateColumns: compact ? undefined : 'subgrid',
+        gridColumn: compact ? undefined : '1 / -1',
         flexDirection: compact ? 'column' : 'row',
         flexWrap: compact ? 'nowrap' : 'wrap',
         alignItems: compact ? 'stretch' : 'center',

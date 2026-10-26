@@ -216,6 +216,11 @@ body iframe {
   animation: page-enter var(--motion-base) var(--ease-standard) both;
 }
 
+/* A local slide owns the motion; combining it with page-enter looks diagonal. */
+.page-transition:has([data-page-transition='horizontal']) {
+  animation: none;
+}
+
 @keyframes page-enter {
   from {
     opacity: 0;

@@ -2,17 +2,9 @@ import { useId, useRef, useState } from 'react';
 import { Box } from '@mui/material';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { PublicWitnessingViewType } from '@definition/public_witnessing';
-import {
-  IconDate,
-  IconNavigateLeft,
-  IconNavigateRight,
-} from '@components/icons';
 import Card from '@components/card';
-import Divider from '@components/divider';
-import IconButton from '@components/icon_button';
+import DateNavigator from '@components/date_navigator';
 import TabSwitcher from '@components/tab_switcher';
-import Tooltip from '@components/tooltip';
-import Typography from '@components/typography';
 import usePublicWitnessingPermissions from '../usePermissions';
 import ArrangementForm from '../arrangement_form';
 import DayView from './day_view';
@@ -20,14 +12,6 @@ import MonthView from './month_view';
 import WeekView from './week_view';
 import useShiftsCard from './useShiftsCard';
 import { ShiftSlotType, ShiftsCardProps } from './index.types';
-
-const arrowButtonStyles = {
-  padding: '8px',
-  flexShrink: 0,
-  borderRadius: '50%',
-  '&:hover': { backgroundColor: 'var(--accent-150)' },
-  '& svg': { width: '24px', height: '24px' },
-};
 
 const ShiftsCard = ({ location }: ShiftsCardProps) => {
   const { t } = useAppTranslation();
@@ -95,68 +79,33 @@ const ShiftsCard = ({ location }: ShiftsCardProps) => {
             maxWidth: '100%',
           }}
         >
-          <Box
+          <DateNavigator
+            value={label}
+            onBack={handlePrevious}
+            onNext={handleNext}
+            backLabel={t('tr_PWPreviousPeriod')}
+            nextLabel={t('tr_PWNextPeriod')}
+            labelClassName="h3"
+            truncateLabel
+            badgeText={t('tr_current')}
+            badgeVisible={isCurrentPeriod}
+            badgeAction={{
+              text: t('tr_toCurrent'),
+              ariaLabel: t(
+                view === 'day'
+                  ? 'tr_openCurrentDay'
+                  : view === 'week'
+                    ? 'tr_openCurrentWeek'
+                    : 'tr_openCurrentMonth'
+              ),
+              onClick: goToToday,
+            }}
             sx={{
-              display: 'flex',
               width: isNavigationWrapped ? '100%' : 'max-content',
               maxWidth: '100%',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              gap: '16px',
               minWidth: 0,
             }}
-          >
-            <IconButton
-              edge={false}
-              aria-label={t('tr_PWPreviousPeriod')}
-              onClick={handlePrevious}
-              sx={arrowButtonStyles}
-            >
-              <IconNavigateLeft color="var(--black)" />
-            </IconButton>
-
-            <Box sx={{ display: 'flex', alignItems: 'center', minWidth: 0 }}>
-              <Typography
-                className="h3"
-                title={label}
-                sx={{
-                  textAlign: 'center',
-                  minWidth: 0,
-                  whiteSpace: 'nowrap',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                }}
-              >
-                {label}
-              </Typography>
-              <Tooltip show={!isCurrentPeriod} title={t('tr_today')}>
-                <IconButton
-                  edge={false}
-                  aria-label={t('tr_today')}
-                  onClick={goToToday}
-                  aria-hidden={isCurrentPeriod}
-                  tabIndex={isCurrentPeriod ? -1 : 0}
-                  sx={{
-                    marginInlineStart: '16px',
-                    padding: '4px',
-                    visibility: isCurrentPeriod ? 'hidden' : 'visible',
-                    pointerEvents: isCurrentPeriod ? 'none' : 'auto',
-                  }}
-                >
-                  <IconDate color="var(--black)" />
-                </IconButton>
-              </Tooltip>
-            </Box>
-
-            <IconButton
-              edge={false}
-              aria-label={t('tr_PWNextPeriod')}
-              onClick={handleNext}
-              sx={arrowButtonStyles}
-            >
-              <IconNavigateRight color="var(--black)" />
-            </IconButton>
-          </Box>
+          />
         </Box>
 
         <TabSwitcher<PublicWitnessingViewType>
@@ -179,8 +128,6 @@ const ShiftsCard = ({ location }: ShiftsCardProps) => {
           }}
         />
       </Box>
-
-      <Divider color="var(--accent-200)" />
 
       <Box
         ref={panelRef}
