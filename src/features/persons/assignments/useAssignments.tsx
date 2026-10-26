@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useAtomValue } from 'jotai';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { AssignmentCheckListColors } from '@definition/app';
 import { personCurrentDetailsState } from '@states/persons';
 import { setPersonCurrentDetails } from '@services/states/persons';
@@ -18,6 +18,7 @@ import { primaryTranslation } from '@utils/i18n';
 
 const useAssignments = () => {
   const { t } = useAppTranslation();
+  const { dutiesEnabled } = useCurrentUser();
 
   const person = useAtomValue(personCurrentDetailsState);
   const dataView = useAtomValue(userDataViewState);
@@ -458,7 +459,9 @@ const useAssignments = () => {
   };
 
   return {
-    assignments,
+    assignments: assignments.filter(
+      (group) => dutiesEnabled || group.id !== 'duties'
+    ),
     checkedItems,
     classroomQualifications,
     handleToggleAssignment,
