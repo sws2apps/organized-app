@@ -228,7 +228,8 @@ const migrateLocal = async (scope: string, snapshot: TerritorySnapshot) => {
   for (let index = 0; index < local.length; index += TERRITORY_SYNC_BATCH_LIMIT)
     await dbTerritoriesEnqueue(
       local.slice(index, index + TERRITORY_SYNC_BATCH_LIMIT),
-      scope
+      scope,
+      true
     );
 };
 const sendOperation = async (

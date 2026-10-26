@@ -7,6 +7,9 @@ import {
 } from '../src/services/files/export.ts';
 import {
   A5_HORIZONTAL,
+  S12,
+  PHONE_GRID,
+  phoneGridLayout,
   A5_VERTICAL,
   PRINT_MARGIN,
   printableA5,
@@ -144,4 +147,44 @@ test('native export receives a portable filename and propagates the save result'
 test('portable export names handle long trailing punctuation and Unicode', () => {
   assert.equal(exportFileName('Gebiet 😀.' + ' .'.repeat(50000)), 'Gebiet 😀');
   assert.equal(exportFileName('CON.example.pdf'), '_CON.example.pdf');
+});
+
+test('phone cards reserve an overflow cell and keep every row inside the frame', () => {
+  for (const size of [
+    S12,
+    printableA5(A5_HORIZONTAL),
+    printableA5(A5_VERTICAL),
+  ]) {
+    const height = size.height - 29 - 38;
+    for (const total of [0, 1, 31, 32, 33, 100, 1000]) {
+      const { columns, shown, remaining } = phoneGridLayout(
+        height,
+        total,
+        size.width - 18,
+        120
+      );
+      const cells = shown + (remaining > 0 ? 1 : 0);
+      const rows = Math.ceil(cells / columns);
+      const used =
+        rows * PHONE_GRID.cellHeight + Math.max(0, rows - 1) * PHONE_GRID.gap;
+      assert.ok(used <= height);
+      assert.equal(shown + remaining, total);
+    }
+  }
+  assert.deepEqual(phoneGridLayout(234, 32, 449, 109), {
+    columns: 4,
+    shown: 32,
+    remaining: 0,
+  });
+  assert.deepEqual(phoneGridLayout(234, 33, 449, 109), {
+    columns: 4,
+    shown: 31,
+    remaining: 2,
+  });
+});
+
+test('narrow phone cards reduce columns to preserve full dialable numbers', () => {
+  assert.equal(phoneGridLayout(500, 100, 357, 120).columns, 2);
+  assert.equal(phoneGridLayout(234, 100, 449, 120).columns, 3);
+  assert.equal(phoneGridLayout(400, 100, 550, 120).columns, 4);
 });
