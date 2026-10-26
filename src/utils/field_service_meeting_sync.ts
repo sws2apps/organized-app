@@ -105,7 +105,7 @@ export const mergeFieldServiceMeetingFromSync = (
   const keys = Object.keys({
     ...local.meeting_data,
     ...remote.meeting_data,
-  }).sort();
+  }).sort((left, right) => left.localeCompare(right));
   if (
     remote.meeting_data.updatedAt === local.meeting_data.updatedAt &&
     JSON.stringify(remote.meeting_data, keys) ===

@@ -164,37 +164,19 @@ const DateNavigator = ({
     label: string,
     showBadge: boolean,
     interactive = true
-  ) => (
-    <Box
-      sx={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: compact ? '4px' : '8px',
-        minWidth: 0,
-        maxWidth: '100%',
-      }}
-    >
-      <Typography
-        className={compact ? 'h3' : labelClassName}
-        sx={{
-          minWidth: 0,
-          textAlign: 'center',
-          whiteSpace: 'nowrap',
-          overflow: constrained ? 'hidden' : undefined,
-          textOverflow: constrained ? 'ellipsis' : undefined,
-        }}
-      >
-        {label}
-      </Typography>
-      {badgeText && badgeAction ? (
+  ) => {
+    let badge = null;
+    if (badgeText && badgeAction) {
+      badge = (
         <PeriodBadge
           text={badgeText}
           current={showBadge}
           action={badgeAction}
           interactive={interactive}
         />
-      ) : badgeText && showBadge ? (
+      );
+    } else if (badgeText && showBadge) {
+      badge = (
         <Badge
           size="small"
           color="accent"
@@ -202,9 +184,35 @@ const DateNavigator = ({
           text={badgeText}
           sx={{ whiteSpace: 'nowrap' }}
         />
-      ) : null}
-    </Box>
-  );
+      );
+    }
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: compact ? '4px' : '8px',
+          minWidth: 0,
+          maxWidth: '100%',
+        }}
+      >
+        <Typography
+          className={compact ? 'h3' : labelClassName}
+          sx={{
+            minWidth: 0,
+            textAlign: 'center',
+            whiteSpace: 'nowrap',
+            overflow: constrained ? 'hidden' : undefined,
+            textOverflow: constrained ? 'ellipsis' : undefined,
+          }}
+        >
+          {label}
+        </Typography>
+        {badge}
+      </Box>
+    );
+  };
 
   return (
     <Box

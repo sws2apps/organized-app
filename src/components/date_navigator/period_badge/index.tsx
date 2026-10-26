@@ -17,7 +17,8 @@ const PeriodBadge = ({
   return (
     <Box
       sx={{
-        display: 'inline-flex',
+        // Avoid inline baseline space shifting the badge inside block wrappers.
+        display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         minWidth: 0,

@@ -1,6 +1,8 @@
 import { formatLongDateWithShortVars } from '@utils/date';
 import { Box } from '@mui/material';
 import { type KeyboardEvent } from 'react';
+import { useAtomValue } from 'jotai';
+import { dayNamesShortState } from '@states/app';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import Typography from '@components/typography';
 import GroupBadge from '@components/group_badge';
@@ -39,7 +41,6 @@ const MeetingBadges = ({
   count,
 }: MeetingBadgesProps) => {
   const { t } = useAppTranslation();
-  const { tabletUp } = useBreakpoints();
 
   return (
     <Box
@@ -52,47 +53,49 @@ const MeetingBadges = ({
         minWidth: 0,
       }}
     >
-      {tabletUp ? (
-        <>
-          {visible.map((badge, index) => (
-            <GroupBadge
-              key={`${dateStr}-${index}`}
-              label={badge.label}
-              color={badge.color}
-              variant="outlined"
-              size="small"
-              fullWidth
-              align="center"
-            />
-          ))}
-          {hidden > 0 && (
-            <Typography
-              className="label-small-regular"
-              color="var(--accent-text)"
-            >
-              {t('tr_xMore', { quantity: hidden })}
-            </Typography>
-          )}
-        </>
-      ) : (
-        <Box
-          sx={{
-            alignSelf: 'center',
-            minWidth: '20px',
-            padding: '0 6px',
-            borderRadius: 'var(--radius-s)',
-            border: '1px solid var(--accent-main)',
-          }}
-        >
+      <Box
+        sx={{
+          display: 'none',
+          '@container (min-width: 700px)': { display: 'flex' },
+          flexDirection: 'column',
+          gap: '2px',
+          minWidth: 0,
+        }}
+      >
+        {visible.map((badge, index) => (
+          <GroupBadge
+            key={`${dateStr}-${index}`}
+            label={badge.label}
+            color={badge.color}
+            variant="outlined"
+            size="small"
+            fullWidth
+            align="center"
+          />
+        ))}
+        {hidden > 0 && (
           <Typography
-            className="label-small-medium"
+            className="label-small-regular"
             color="var(--accent-text)"
-            sx={{ textAlign: 'center' }}
           >
-            {count}
+            {t('tr_xMore', { quantity: hidden })}
           </Typography>
-        </Box>
-      )}
+        )}
+      </Box>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          '@container (min-width: 700px)': { display: 'none' },
+        }}
+      >
+        <GroupBadge
+          label={String(count)}
+          variant="outlined"
+          size="small"
+          align="center"
+        />
+      </Box>
     </Box>
   );
 };
@@ -117,13 +120,15 @@ const DayCell = ({ cell, borderSx, onSelectDay }: DayCellProps) => {
     onKeyDown: (e: KeyboardEvent<HTMLDivElement>) =>
       handleDayCellKeyDown(e, onSelectDay, cell.date),
     'aria-label': `${formatLongDateWithShortVars(cell.date)}, ${t('tr_fieldServiceMeetingCount', { count: cell.badges.length })}`,
+    'aria-current': cell.isToday ? ('date' as const) : undefined,
   };
 
   return (
     <Box
       {...interactiveProps}
       sx={{
-        minHeight: tabletUp ? '128px' : '64px',
+        minWidth: 0,
+        minHeight: tabletUp ? '96px' : '64px',
         padding: tabletUp ? '8px' : '4px',
         alignItems: tabletUp ? 'stretch' : 'center',
         ...borderSx,
@@ -214,6 +219,7 @@ const getCellBorderSx = (
 const MonthView = ({ meetings, onSelectDay }: MonthViewProps) => {
   const { tabletUp } = useBreakpoints();
   const { weeks, weekdayLabels } = useMonthView(meetings);
+  const dayNamesShort = useAtomValue(dayNamesShortState);
 
   // In-month days and leading blanks form the drawn block; trailing blanks
   // stay outside it so the grid steps away at the end.
@@ -221,25 +227,55 @@ const MonthView = ({ meetings, onSelectDay }: MonthViewProps) => {
     cell !== undefined && (cell.inMonth || week === 0);
 
   return (
-    <Box>
+    <Box sx={{ containerType: 'inline-size', minWidth: 0 }}>
       <Box
         sx={{
           display: 'grid',
           gridTemplateColumns: 'repeat(7, minmax(0, 1fr))',
           backgroundColor: 'var(--white)',
-          border: LINE,
-          borderStartStartRadius: 'var(--radius-xl)',
-          borderStartEndRadius: 'var(--radius-xl)',
         }}
       >
-        {weekdayLabels.map((label) => (
-          <Box key={label} sx={{ padding: tabletUp ? '12px' : '8px 4px' }}>
+        {weekdayLabels.map((label, index) => (
+          <Box
+            key={label}
+            sx={{
+              minWidth: 0,
+              padding: '8px 4px',
+              borderTop: LINE,
+              borderBottom: LINE,
+              borderInlineEnd: LINE,
+              ...(index === 0 && {
+                borderInlineStart: LINE,
+                borderStartStartRadius: 'var(--radius-xl)',
+              }),
+              ...(index === weekdayLabels.length - 1 && {
+                borderStartEndRadius: 'var(--radius-xl)',
+              }),
+            }}
+          >
             <Typography
               className="body-small-semibold"
               color="var(--grey-400)"
-              sx={{ textAlign: tabletUp ? 'left' : 'center' }}
+              title={label}
+              sx={{
+                textAlign: 'center',
+                overflowWrap: 'anywhere',
+                '@container (min-width: 840px)': { display: 'none' },
+              }}
             >
-              {tabletUp ? label : label.charAt(0)}
+              {dayNamesShort[weeks[0][index].date.getDay()]}
+            </Typography>
+            <Typography
+              className="body-small-semibold"
+              color="var(--grey-400)"
+              sx={{
+                display: 'none',
+                textAlign: 'center',
+                overflowWrap: 'anywhere',
+                '@container (min-width: 840px)': { display: 'block' },
+              }}
+            >
+              {label}
             </Typography>
           </Box>
         ))}
@@ -273,7 +309,8 @@ const MonthView = ({ meetings, onSelectDay }: MonthViewProps) => {
                 <Box
                   key={cell.dateStr}
                   sx={{
-                    minHeight: tabletUp ? '128px' : '64px',
+                    minWidth: 0,
+                    minHeight: tabletUp ? '96px' : '64px',
                     ...borderSx,
                     backgroundColor: 'var(--accent-100)',
                   }}
