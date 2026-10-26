@@ -1,3 +1,6 @@
+import { readFileSync } from 'node:fs';
+import { runInNewContext } from 'node:vm';
+import ts from 'typescript';
 import { meetingDutiesDefault } from '@services/dexie/schema';
 import { updateObject } from '@utils/common';
 import assert from 'node:assert/strict';
@@ -192,4 +195,58 @@ test('default settings belong to independent language groups and have no edit ti
     if (field && typeof field === 'object' && 'updatedAt' in field)
       assert.equal(field.updatedAt, '');
   }
+});
+
+test('duties editing requires membership in the selected language group', () => {
+  const source = readFileSync(
+    new URL('../src/hooks/useCurrentUser.tsx', import.meta.url),
+    'utf8'
+  );
+  // Execute the actual hook with deterministic atom values, without mounting UI.
+  const hook = source
+    .slice(source.indexOf('const useCurrentUser ='))
+    .replace('export default useCurrentUser;', '')
+    .replace('import.meta.env.DEV', 'false');
+  const code = ts.transpileModule(`${hook}; result = useCurrentUser();`, {
+    compilerOptions: { target: ts.ScriptTarget.ES2022 },
+  }).outputText;
+  const member = { person_uid: 'user' };
+  const groups = [
+    { group_id: 'a', group_data: { members: [member] } },
+    { group_id: 'b', group_data: { members: [] } },
+  ];
+  const canEdit = (role: string, view: string, enabled = true) => {
+    const state = {
+      userLocalUIDState: 'user',
+      personsState: [],
+      settingsState: { user_settings: { cong_role: [role] } },
+      congAccountConnectedState: false,
+      accountTypeState: 'vip',
+      fieldWithLanguageGroupsState: [],
+      languageGroupsState: groups,
+      userDataViewState: view,
+      featureFlagsState: { MEETING_DUTIES: enabled },
+    };
+    const context = {
+      ...Object.fromEntries(Object.keys(state).map((key) => [key, key])),
+      useAtomValue: (key: keyof typeof state) => state[key],
+      useMemo: (calculate: () => unknown) => calculate(),
+      usePerson: () => ({}),
+      APP_ENVIRONMENT: 'PRODUCTION',
+      MEETING_DUTIES_FLAG: 'MEETING_DUTIES',
+      result: undefined as { isDutiesEditor: boolean } | undefined,
+    };
+    runInNewContext(code, context);
+    return context.result?.isDutiesEditor;
+  };
+  for (const role of ['duties_schedule', 'language_group_overseers']) {
+    assert.equal(canEdit(role, 'a'), true);
+    assert.equal(canEdit(role, 'b'), false);
+    assert.equal(canEdit(role, 'a', false), false);
+  }
+  assert.equal(canEdit('duties_schedule', 'main'), true);
+  assert.equal(canEdit('language_group_overseers', 'main'), false);
+  assert.equal(canEdit('publisher', 'a'), false);
+  assert.equal(canEdit('admin', 'b'), true);
+  assert.equal(canEdit('admin', 'b', false), false);
 });
