@@ -45,10 +45,10 @@ export const dbFieldServiceMeetingsSave = async (
     appDb.field_service_meetings,
     appDb.metadata,
     async () => {
+      const current = expectedRevision
+        ? await appDb.field_service_meetings.get(meeting.meeting_uid)
+        : undefined;
       if (expectedRevision) {
-        const current = await appDb.field_service_meetings.get(
-          meeting.meeting_uid
-        );
         if (
           current?.meeting_data._deleted ||
           current?.meeting_data.updatedAt !== expectedRevision.updatedAt
@@ -58,7 +58,16 @@ export const dbFieldServiceMeetingsSave = async (
           );
         }
       }
-      await appDb.field_service_meetings.put(meeting);
+      await appDb.field_service_meetings.put(
+        current
+          ? {
+              ...meeting,
+              // Upload receipts can advance these while the editor stays open.
+              sync_revision: current.sync_revision,
+              sync_updatedAt: current.sync_updatedAt,
+            }
+          : meeting
+      );
       await dbUpdateFieldServiceMeetingsMetadata();
     }
   );

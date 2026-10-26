@@ -7,29 +7,19 @@ import {
   fieldServiceMeetingsWeekRangeState,
   fieldServiceMeetingsViewModeState,
 } from '@states/field_service_meetings';
-import { userDataViewState } from '@states/settings';
 import { monthNamesState } from '@states/app';
 import {
   fieldServiceMeetingWeek,
   fieldServiceMeetingWeekCoverage,
 } from '@utils/field_service_meetings';
 import { weeksInMonth, formatDate } from '@utils/date';
-import { filterMeetingsByDataView } from '@features/congregation/field_service_meetings/filter_meetings_by_data_view';
 
 const useWeekSelector = () => {
   const { desktopUp } = useBreakpoints();
   const [date, setDate] = useAtom(fieldServiceMeetingsWeekRangeState);
   const [, setView] = useAtom(fieldServiceMeetingsViewModeState);
   const meetings = useAtomValue(fieldServiceMeetingsState);
-  const view = useAtomValue(userDataViewState);
   const groups = useAtomValue(fieldWithLanguageGroupsState);
-  const visibleGroups = useMemo(
-    () =>
-      view === 'main'
-        ? groups
-        : groups.filter((group) => group.group_id === view),
-    [groups, view]
-  );
   const monthNames = useAtomValue(monthNamesState);
   const selectedWeek = fieldServiceMeetingWeek(date);
   const selectedMonth = selectedWeek.slice(0, 7);
@@ -44,10 +34,6 @@ const useWeekSelector = () => {
     setExpandedMonth(selectedMonth);
     if (!desktopUp) setExpanded(false);
   }, [selectedWeek, selectedMonth, desktopUp]);
-  const records = useMemo(
-    () => filterMeetingsByDataView(meetings, view),
-    [meetings, view]
-  );
   const years = useMemo(() => {
     const current = new Date().getFullYear();
     const values = new Set([
@@ -57,7 +43,7 @@ const useWeekSelector = () => {
       year,
       Number(selectedWeek.slice(0, 4)),
     ]);
-    for (const meeting of records) {
+    for (const meeting of meetings) {
       for (const value of [
         meeting.meeting_data.start,
         meeting.meeting_data.end,
@@ -67,7 +53,7 @@ const useWeekSelector = () => {
       }
     }
     return [...values].sort((a, b) => b - a);
-  }, [records, year, selectedWeek]);
+  }, [meetings, year, selectedWeek]);
   const months = useMemo(
     () =>
       Array.from({ length: 12 }, (_, index) => {
@@ -81,8 +67,8 @@ const useWeekSelector = () => {
             return {
               value: week,
               ...fieldServiceMeetingWeekCoverage(
-                records,
-                visibleGroups,
+                meetings,
+                groups,
                 week,
                 formatDate(end, 'yyyy/MM/dd')
               ),
@@ -90,7 +76,7 @@ const useWeekSelector = () => {
           }),
         };
       }),
-    [year, monthNames, records, visibleGroups]
+    [year, monthNames, meetings, groups]
   );
   return {
     years,

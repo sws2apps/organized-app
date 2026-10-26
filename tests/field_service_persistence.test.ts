@@ -134,3 +134,24 @@ test('concurrent drafts cannot both save the same revision', async () => {
   );
   assert.equal(db.current()?.meeting_data.updatedAt, 'first');
 });
+
+test('saving an open form preserves a newer upload receipt from the stored record', async () => {
+  const db = createPersistence();
+  const original = {
+    ...meeting('original'),
+    sync_revision: 'r1',
+    sync_updatedAt: 'before',
+  };
+  db.seed({ ...original, sync_revision: 'r2', sync_updatedAt: 'original' });
+  await db.save(
+    {
+      ...original,
+      meeting_data: { ...original.meeting_data, updatedAt: 'edited' },
+    },
+    { updatedAt: 'original' }
+  );
+  assert.equal(db.current()?.sync_revision, 'r2');
+  assert.equal(db.current()?.sync_updatedAt, 'original');
+  assert.equal(db.current()?.meeting_data.updatedAt, 'edited');
+  assert.equal(db.metadata.metadata.field_service_meetings.send_local, true);
+});

@@ -98,11 +98,22 @@ export const mergeFieldServiceMeetingFromSync = (
   local: FieldServiceMeetingType,
   remote: FieldServiceMeetingType
 ) => {
-  if (remote.meeting_data.updatedAt >= local.meeting_data.updatedAt)
+  const pending = local.sync_updatedAt !== local.meeting_data.updatedAt;
+  // Clean copies follow server revisions even when another device's clock is behind.
+  if (!pending) return remote;
+  // A download can acknowledge the exact edit submitted before its receipt arrived.
+  const keys = Object.keys({
+    ...local.meeting_data,
+    ...remote.meeting_data,
+  }).sort();
+  if (
+    remote.meeting_data.updatedAt === local.meeting_data.updatedAt &&
+    JSON.stringify(remote.meeting_data, keys) ===
+      JSON.stringify(local.meeting_data, keys)
+  )
     return remote;
-  const result = structuredClone(local);
-  // Local changes retain their original base revision so the API can reject stale writes.
-  return result;
+  // Keep pending content and its base revision; the API decides conflicting writes.
+  return structuredClone(local);
 };
 
 export const acknowledgeFieldServiceMeeting = (

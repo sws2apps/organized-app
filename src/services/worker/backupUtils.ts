@@ -40,10 +40,7 @@ import { MeetingAttendanceType } from '@definition/meeting_attendance';
 import { MetadataRecordType } from '@definition/metadata';
 import { DelegatedFieldServiceReportType } from '@definition/delegated_field_service_reports';
 import { UpcomingEventType } from '@definition/upcoming_events';
-import {
-  FieldServiceMeetingType,
-  FieldServiceMeetingReceipt,
-} from '@definition/field_service_meetings';
+import { FieldServiceMeetingReceipt } from '@definition/field_service_meetings';
 import { formatDate } from '@utils/date';
 import {
   meetingAttendanceFillCounts,
@@ -975,29 +972,21 @@ const dbRestoreFieldServiceMeetings = async (
       fieldServiceMeetingFromSync(meeting, accessCode)
     );
 
-    const meetings = await appDb.field_service_meetings.toArray();
-
-    const meetingToUpdate: FieldServiceMeetingType[] = [];
-
-    for (const remoteMeeting of remoteMeetings) {
-      const localMeeting = meetings.find(
-        (record) => record.meeting_uid === remoteMeeting.meeting_uid
+    await appDb.transaction('rw', appDb.field_service_meetings, async () => {
+      const meetings = await appDb.field_service_meetings.toArray();
+      const byUid = new Map(
+        meetings.map((meeting) => [meeting.meeting_uid, meeting])
       );
-
-      if (!localMeeting) {
-        meetingToUpdate.push(remoteMeeting);
+      const meetingToUpdate = remoteMeetings.map((remoteMeeting) => {
+        const localMeeting = byUid.get(remoteMeeting.meeting_uid);
+        return localMeeting
+          ? mergeFieldServiceMeetingFromSync(localMeeting, remoteMeeting)
+          : remoteMeeting;
+      });
+      if (meetingToUpdate.length > 0) {
+        await appDb.field_service_meetings.bulkPut(meetingToUpdate);
       }
-
-      if (localMeeting) {
-        meetingToUpdate.push(
-          mergeFieldServiceMeetingFromSync(localMeeting, remoteMeeting)
-        );
-      }
-    }
-
-    if (meetingToUpdate.length > 0) {
-      await appDb.field_service_meetings.bulkPut(meetingToUpdate);
-    }
+    });
   } catch (error) {
     throw new Error(`field_service_meetings: ${getErrorMessage(error)}`);
   }

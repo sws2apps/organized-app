@@ -197,3 +197,53 @@ test('manager roles consider every group rather than only the first membership',
   ]);
   assert.deepEqual(fieldServiceGroupRoles('other', groups), []);
 });
+
+test('a newer remote timestamp cannot discard an unacknowledged offline edit', () => {
+  const local = meeting();
+  local.meeting_data.updatedAt = '2026-10-26T01:00:00.000Z';
+  local.meeting_data.additionalInfo = 'Pending offline note';
+  const remote = meeting();
+  remote.sync_revision = 'r2';
+  remote.meeting_data.updatedAt = '2026-10-27T00:00:00.000Z';
+  const result = mergeFieldServiceMeetingFromSync(local, remote);
+  assert.equal(result.meeting_data.additionalInfo, 'Pending offline note');
+  assert.equal(result.sync_revision, 'r1');
+});
+
+test('clean copies follow a server revision from a device with an earlier clock', () => {
+  const local = meeting();
+  const remote = meeting();
+  remote.sync_revision = 'r2';
+  remote.meeting_data.updatedAt = '2026-10-25T00:00:00.000Z';
+  remote.sync_updatedAt = remote.meeting_data.updatedAt;
+  remote.meeting_data.address = 'Changed on another device';
+  assert.deepEqual(mergeFieldServiceMeetingFromSync(local, remote), remote);
+});
+
+test('identical timestamps with different content retain the pending edit', () => {
+  const local = meeting();
+  local.meeting_data.updatedAt = '2026-10-27T00:00:00.000Z';
+  local.meeting_data.additionalInfo = 'Local note';
+  const remote = structuredClone(local);
+  remote.sync_revision = 'r2';
+  remote.meeting_data.additionalInfo = 'Other note';
+  assert.equal(
+    mergeFieldServiceMeetingFromSync(local, remote).sync_revision,
+    'r1'
+  );
+});
+
+test('downloads acknowledge matching pending content independently of property order', () => {
+  const local = meeting();
+  local.meeting_data.updatedAt = '2026-10-27T00:00:00.000Z';
+  const remote = structuredClone(local);
+  remote.sync_revision = 'r2';
+  remote.sync_updatedAt = local.meeting_data.updatedAt;
+  remote.meeting_data = Object.fromEntries(
+    Object.entries(local.meeting_data).reverse()
+  ) as typeof remote.meeting_data;
+  assert.equal(
+    mergeFieldServiceMeetingFromSync(local, remote).sync_revision,
+    'r2'
+  );
+});

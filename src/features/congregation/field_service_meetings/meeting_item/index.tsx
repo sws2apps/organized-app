@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { fieldServiceMeetingLocationLabel } from '@utils/field_service_meeting_labels';
 import { Box, Link } from '@mui/material';
 import { useAtomValue } from 'jotai';
 import { IconEdit } from '@components/icons';
@@ -11,7 +12,6 @@ import Typography from '@components/typography';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import {
   FIELD_SERVICE_MEETING_CATEGORY_TRANSLATION_KEYS,
-  FIELD_SERVICE_MEETING_LOCATION_TRANSLATION_KEYS,
   FieldServiceMeetingCategory,
 } from '@definition/field_service_meetings';
 import { fieldWithLanguageGroupsState } from '@states/field_service_groups';
@@ -24,7 +24,8 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
   const { tablet600Up } = useBreakpoints();
   const groups = useAtomValue(fieldWithLanguageGroupsState);
   const hasAdditionalInfo = Boolean(meeting.additionalInfo?.trim());
-  const isWebAddress = /^https?:\/\//i.test(meeting.address ?? '');
+  const { address } = fieldServiceMeetingLocationLabel(meeting, t);
+  const isWebAddress = /^https?:\/\//i.test(address);
   const categoryLabel = t(
     FIELD_SERVICE_MEETING_CATEGORY_TRANSLATION_KEYS[meeting.category]
   );
@@ -158,10 +159,10 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
         >
           {isWebAddress ? (
             <Link
-              href={meeting.address}
+              href={address}
               target="_blank"
               rel="noopener noreferrer"
-              title={meeting.address}
+              title={address}
               sx={{
                 display: '-webkit-box',
                 WebkitBoxOrient: 'vertical',
@@ -173,11 +174,10 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
                 textDecorationColor: 'currentColor',
               }}
             >
-              {meeting.address}
+              {address}
             </Link>
           ) : (
-            meeting.address ||
-            t(FIELD_SERVICE_MEETING_LOCATION_TRANSLATION_KEYS[meeting.location])
+            address
           )}
         </LabeledDetail>
         {hasAdditionalInfo && (
