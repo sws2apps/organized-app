@@ -8,7 +8,8 @@ import {
   userDataViewState,
   userLocalUIDState,
 } from '@states/settings';
-import { congAccountConnectedState } from '@states/app';
+import { congAccountConnectedState, featureFlagsState } from '@states/app';
+import { APP_ENVIRONMENT, MEETING_DUTIES_FLAG } from '@constants/index';
 import {
   fieldWithLanguageGroupsState,
   languageGroupsState,
@@ -30,6 +31,10 @@ const useCurrentUser = () => {
   const fieldGroups = useAtomValue(fieldWithLanguageGroupsState);
   const languageGroups = useAtomValue(languageGroupsState);
   const dataView = useAtomValue(userDataViewState);
+  const featureFlags = useAtomValue(featureFlagsState);
+  const dutiesEnabled =
+    featureFlags[MEETING_DUTIES_FLAG] ??
+    (import.meta.env.DEV || APP_ENVIRONMENT === 'TEST');
 
   const person = useMemo(() => {
     return persons.find((record) => record.person_uid === userUID);
@@ -298,6 +303,8 @@ const useCurrentUser = () => {
   }, [isGroup, isAdmin, isLanguageGroupOverseer]);
 
   const isDutiesEditor = useMemo(() => {
+    if (!dutiesEnabled) return false;
+
     if (isAdmin) return true;
 
     if (isGroup && user_in_group && isLanguageGroupOverseer) return true;
@@ -311,7 +318,14 @@ const useCurrentUser = () => {
     if (isGroup && user_in_group) return true;
 
     return false;
-  }, [isAdmin, userRole, user_in_group, isGroup, isLanguageGroupOverseer]);
+  }, [
+    dutiesEnabled,
+    isAdmin,
+    userRole,
+    user_in_group,
+    isGroup,
+    isLanguageGroupOverseer,
+  ]);
 
   return {
     person,
@@ -337,6 +351,7 @@ const useCurrentUser = () => {
     languageGroup,
     isLanguageGroupOverseer,
     isSettingsEditor,
+    dutiesEnabled,
     isDutiesEditor,
   };
 };
