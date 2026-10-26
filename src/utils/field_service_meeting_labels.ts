@@ -27,24 +27,20 @@ export const fieldServiceMeetingLabel = (
   return meeting.group_id ? group : category;
 };
 
-/** Print-friendly location information without URLs or interactive action labels. */
+/** Preserve entered location details; use the type only when no address was entered. */
 export const fieldServiceMeetingLocationLabel = (
   meeting: Pick<FieldServiceMeetingFormattedType, 'location' | 'address'>,
   t: (key: string) => string
 ) => {
   const address = meeting.address?.trim() || '';
   const online = meeting.location === FieldServiceMeetingLocation.Online;
-  const isWebAddress = /^https?:\/\//i.test(address);
   return {
     address:
-      address && !isWebAddress
-        ? address
-        : t(
-            online
-              ? 'tr_videoconference'
-              : FIELD_SERVICE_MEETING_LOCATION_TRANSLATION_KEYS[
-                  meeting.location
-                ]
-          ),
+      address ||
+      t(
+        online
+          ? 'tr_videoconference'
+          : FIELD_SERVICE_MEETING_LOCATION_TRANSLATION_KEYS[meeting.location]
+      ),
   };
 };

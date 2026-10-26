@@ -78,25 +78,36 @@ const locationLabels: Record<string, string> = {
   tr_videoconference: 'Videoconference',
   tr_fieldServiceMeetingLocation_kingdomHall: 'Kingdom Hall',
   tr_fieldServiceMeetingLocation_territory: 'Territory',
+  tr_fieldServiceMeetingLocation_publisher: 'Publisher',
 };
 const locationT = (key: string) => locationLabels[key] ?? key;
 
-test('printed online meetings show information without link metadata', () => {
+test('entered online addresses remain plain information without link metadata', () => {
   assert.deepEqual(
     fieldServiceMeetingLocationLabel(
       { location: Location.Online, address: ' https://zoom.us/j/123456789 ' },
       locationT
     ),
-    { address: 'Videoconference' }
+    { address: 'https://zoom.us/j/123456789' }
   );
 });
-test('URL-only physical locations show their type instead of an unusable action', () => {
+test('entered location URLs take precedence over the location type', () => {
   assert.deepEqual(
     fieldServiceMeetingLocationLabel(
       { location: Location.Territory, address: 'https://example.org/park' },
       locationT
     ),
-    { address: 'Territory' }
+    { address: 'https://example.org/park' }
+  );
+  assert.deepEqual(
+    fieldServiceMeetingLocationLabel(
+      {
+        location: Location.Publisher,
+        address: ' https://example.org/publisher-address ',
+      },
+      locationT
+    ),
+    { address: 'https://example.org/publisher-address' }
   );
 });
 test('physical and free-form location information remains printable', () => {
@@ -118,7 +129,14 @@ test('physical and free-form location information remains printable', () => {
     { address: 'Meeting ID 123 456 - Passcode 789' }
   );
 });
-test('missing addresses retain a meaningful location label', () => {
+test('only missing or whitespace-only addresses use the location type', () => {
+  assert.deepEqual(
+    fieldServiceMeetingLocationLabel(
+      { location: Location.Publisher, address: '   ' },
+      locationT
+    ),
+    { address: 'Publisher' }
+  );
   assert.equal(
     fieldServiceMeetingLocationLabel(
       { location: Location.KingdomHall },
