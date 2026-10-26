@@ -1,5 +1,8 @@
-import InfoNote from '@components/info_note';
-import SwitchWithLabel from '@components/switch_with_label';
+import { useAtomValue } from 'jotai';
+import { userDataViewState } from '@states/settings';
+import { useState } from 'react';
+import CampaignOverview from '@features/territories/components/campaign_overview';
+import { UpcomingEventType } from '@definition/upcoming_events';
 import { Box } from '@mui/material';
 import { IconAdd } from '@components/icons';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
@@ -14,14 +17,12 @@ import NavBarButtonGroup from '@components/nav_bar_button_group';
 
 const UpcomingEvents = () => {
   const { t } = useAppTranslation();
+  const dataView = useAtomValue(userDataViewState);
   const { tablet688Up } = useBreakpoints();
 
   const {
     isAdmin,
     campaignsOnly,
-    showPast,
-    setShowPast,
-    selectedEvent,
     emptyEvent,
     events,
     handleAddEventButtonClick,
@@ -33,9 +34,7 @@ const UpcomingEvents = () => {
     handleCloseQuickSettings,
   } = useUpcomingEvents();
 
-  const emptyCampaignKey = selectedEvent
-    ? 'tr_territoryCampaignNotFound'
-    : 'tr_territoryCampaignsEmpty';
+  const [editing, setEditing] = useState<UpcomingEventType>();
 
   return (
     <Box
@@ -57,9 +56,11 @@ const UpcomingEvents = () => {
         title={t(campaignsOnly ? 'tr_territoryCampaigns' : 'tr_upcomingEvents')}
         quickSettings={isAdmin ? handleOpenQuickSettings : undefined}
         buttons={
-          isAdmin && (
+          isAdmin &&
+          !editing &&
+          !addEventBoxShow && (
             <NavBarButtonGroup>
-              <ExportUpcomingEvents />
+              {!campaignsOnly && <ExportUpcomingEvents />}
               <NavBarButton
                 text={t('tr_add')}
                 icon={<IconAdd />}
@@ -70,19 +71,15 @@ const UpcomingEvents = () => {
         }
       />
 
-      {campaignsOnly && (
-        <>
-          {!addEventBoxShow && (
-            <InfoNote message={t('tr_territoryCampaignsHelp')} />
-          )}
-          {!selectedEvent && (
-            <SwitchWithLabel
-              label={t('tr_territoryShowPastCampaigns')}
-              checked={showPast}
-              onChange={setShowPast}
-            />
-          )}
-        </>
+      {editing && (
+        <EditUpcomingEvent
+          data={editing}
+          type="edit"
+          onCancel={() => setEditing(undefined)}
+          onSave={async (event) => {
+            if (await handleSaveEvent(event)) setEditing(undefined);
+          }}
+        />
       )}
       {addEventBoxShow && (
         <EditUpcomingEvent
@@ -93,11 +90,26 @@ const UpcomingEvents = () => {
         />
       )}
 
-      <UpcomingEventsList
-        data={events}
-        isAdding={addEventBoxShow}
-        emptyMessage={campaignsOnly ? t(emptyCampaignKey) : undefined}
-      />
+      {campaignsOnly ? (
+        !addEventBoxShow &&
+        !editing && (
+          <CampaignOverview
+            editableIds={events
+              .filter((event) => event.event_data.type === dataView)
+              .map((event) => event.event_uid)}
+            onEdit={
+              isAdmin
+                ? (campaign) =>
+                    setEditing(
+                      events.find((event) => event.event_uid === campaign.id)
+                    )
+                : undefined
+            }
+          />
+        )
+      ) : (
+        <UpcomingEventsList data={events} isAdding={addEventBoxShow} />
+      )}
     </Box>
   );
 };

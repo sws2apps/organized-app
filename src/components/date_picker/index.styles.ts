@@ -27,10 +27,10 @@ export const StyleDatePickerDay = {
       backgroundColor: 'rgba(var(--accent-main-base), 0.1)',
     },
     '&.MuiPickersDay-dayOutsideMonth': {
-      color: 'var(--grey-200)',
+      color: 'var(--grey-350)',
     },
     '.MuiPickersYear-yearButton:hover': {
-      backgroundColor: 'red',
+      backgroundColor: 'var(--accent-150)',
     },
     '@media (max-width:430px)': {
       height: '100%',
@@ -88,10 +88,10 @@ export const StyleDatePickerPopper: SxProps<Theme> = {
   },
   '.Mui-selected': {
     backgroundColor: 'var(--accent-main) !important',
-    color: '#ffffff !important',
+    color: 'var(--always-white) !important',
   },
   '.Mui-disabled': {
-    color: 'var(--grey-200) !important',
+    color: 'var(--grey-350) !important',
   },
   '.MuiSvgIcon-root': {
     color: 'var(--grey-400)',

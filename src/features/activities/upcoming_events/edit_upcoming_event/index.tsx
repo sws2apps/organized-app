@@ -35,7 +35,7 @@ const editorTitleKey = (
 const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
   const { t } = useAppTranslation();
 
-  const { desktopUp, tabletUp } = useBreakpoints();
+  const { desktopUp, tabletUp, tablet600Up } = useBreakpoints();
 
   const {
     hour24,
@@ -66,6 +66,9 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
     flexWrap: desktopUp ? 'nowrap' : 'wrap',
     '& > *': { flex: desktopUp ? '1' : 'none' },
   };
+  const categoryLocked =
+    props.data.event_data.category ===
+    UpcomingEventCategory.SpecialCampaignWeek;
   const timeWidth = hour24 ? '140px' : '150px';
   const title = t(editorTitleKey(localEvent.event_data.category, props.type));
 
@@ -144,10 +147,7 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
         <Box sx={rowStyles}>
           <Select
             label={t('tr_eventType')}
-            disabled={
-              props.data.event_data.category ===
-              UpcomingEventCategory.SpecialCampaignWeek
-            }
+            disabled={categoryLocked}
             value={localEvent.event_data.category ?? ''}
             onChange={handleChangeEventCategory}
             error={errors.category}
@@ -163,7 +163,9 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
                     alignItems: 'center',
                   }}
                 >
-                  {cloneElement(option.icon, { color: 'var(--black)' })}
+                  {cloneElement(option.icon, {
+                    color: categoryLocked ? 'var(--grey-350)' : 'var(--black)',
+                  })}
                   <Typography
                     className="body-regular"
                     sx={{
@@ -205,8 +207,22 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
 
         <Typography className="h4">{t('tr_dateAndTime')}</Typography>
 
-        <Box sx={rowStyles}>
+        <Box
+          sx={{
+            display: 'grid',
+            gridTemplateColumns:
+              tablet600Up &&
+              localEvent.event_data.duration ===
+                UpcomingEventDuration.MultipleDays
+                ? 'repeat(2, minmax(0, 1fr))'
+                : 'minmax(0, 1fr)',
+            gap: '16px',
+            alignItems: 'start',
+            '& > *': { minWidth: 0 },
+          }}
+        >
           <Select
+            sx={{ gridColumn: '1 / -1' }}
             label={t('tr_eventDuration')}
             onChange={handleChangeEventDuration}
             value={localEvent.event_data.duration ?? ''}

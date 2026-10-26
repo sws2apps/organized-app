@@ -1,3 +1,4 @@
+import { useSearchParams } from 'react-router';
 import { useAppTranslation } from '@hooks/index';
 import { useState } from 'react';
 import { Box, MenuItem, Stack } from '@mui/material';
@@ -21,6 +22,7 @@ const CampaignChips = ({
   onChange: (next: TerritoryFilters) => void;
 }) => {
   const { t } = useAppTranslation();
+  const [, setParams] = useSearchParams();
 
   const campaigns = useAtomValue(territoryCampaignsState);
   const locale = useAtomValue(appLocaleState);
@@ -46,11 +48,18 @@ const CampaignChips = ({
   const isOn = (worked: boolean) =>
     filters.campaign?.id === campaign.id && filters.campaign.worked === worked;
 
-  const toggle = (worked: boolean) =>
-    onChange({
-      ...filters,
-      campaign: isOn(worked) ? undefined : { id: campaign.id, worked },
+  const toggle = (worked: boolean) => {
+    onChange({ ...filters, campaign: undefined });
+    setParams((previous) => {
+      const next = new URLSearchParams(previous);
+      next.set('tab', 'campaign');
+      next.set('campaign', campaign.id);
+      next.set('campaignStatus', worked ? 'completed' : 'waiting');
+      next.delete('forCampaign');
+      next.delete('filters');
+      return next;
     });
+  };
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>

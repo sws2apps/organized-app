@@ -74,7 +74,7 @@ export const forTab = (
       'publisherId' | 'groupId' | 'legacyIdentitySafe'
     >;
   } = {}
-) => {
+): Territory[] => {
   const { recommendations, identity } = options;
   if (tab === 'group') {
     return groupHolder
@@ -109,6 +109,17 @@ export const forTab = (
     );
   }
 
+  if (tab === 'campaign' && !isEditor) {
+    const ids = new Set(
+      (['all', 'mine', 'group'] as const)
+        .flatMap((view) =>
+          forTab(territories, view, me, false, groupHolder, restricted, options)
+        )
+        .map((item) => item.id)
+    );
+    return territories.filter((item) => ids.has(item.id));
+  }
+
   if (tab === 'all' && !isEditor) {
     return territories.filter(
       (territory) =>
@@ -132,11 +143,12 @@ export const forTab = (
 export const territoryTabGroups = (
   context: TerritoryAccessContext,
   localMode: boolean,
-  hasRequests: boolean
+  hasRequests: boolean,
+  hasCampaigns = false
 ): TerritoryTab[][] => {
   const { editor, access, publisher, eligiblePublisher, groupHolder } = context;
   const groups: TerritoryTab[][] = [
-    ['recommended', 'all'],
+    ['recommended', 'all', ...(hasCampaigns ? ['campaign' as const] : [])],
     ['mine', 'group', 'requested'],
     ['requests'],
   ];
@@ -144,7 +156,7 @@ export const territoryTabGroups = (
     .map((tabs) =>
       tabs.filter((tab) => {
         if (tab === 'group') return !!groupHolder;
-        if (tab === 'recommended' || tab === 'all')
+        if (tab === 'recommended' || tab === 'all' || tab === 'campaign')
           return editor || access !== 'own';
         if (tab === 'requested')
           return (

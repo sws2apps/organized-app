@@ -1,3 +1,9 @@
+import {
+  campaignSections,
+  CAMPAIGN_STATUSES,
+  CampaignStatus,
+  matchesCampaignStatus,
+} from '@features/territories/campaign_view';
 import { territoryTabGroups } from '@features/territories/tabs';
 import useTerritoryAccess from '@features/territories/useTerritoryAccess';
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -33,10 +39,11 @@ import useAssignReturn from '@features/territories/useAssignReturn';
 
 const OWN_TABS = new Set<TerritoryTab>(['mine', 'group', 'requested']);
 
-const BROWSE_TABS = new Set<TerritoryTab>(['recommended', 'all']);
+const BROWSE_TABS = new Set<TerritoryTab>(['recommended', 'all', 'campaign']);
 
 const TAB_LABELS: Record<TerritoryTab, string> = {
   recommended: 'tr_territoryRecommended',
+  campaign: 'tr_territoryCampaignTab',
   all: 'tr_allTerritories',
   mine: 'tr_territoryAssigned',
   group: 'tr_myGroup',
@@ -73,10 +80,17 @@ const useTerritoriesHub = () => {
   // the statistics open the list for one publisher's territories
   const [filters, setFilters] = useState<TerritoryFilters>(() => ({
     ...EMPTY_FILTERS,
-    search: searchParams.get('search') ?? '',
+    ...location.state?.territoryFilters,
+    search:
+      searchParams.get('search') ??
+      location.state?.territoryFilters?.search ??
+      '',
   }));
 
-  const searchFromUrl = searchParams.get('search') ?? '';
+  const searchFromUrl =
+    searchParams.get('search') ??
+    location.state?.territoryFilters?.search ??
+    '';
   useEffect(() => {
     setFilters((previous) => ({ ...previous, search: searchFromUrl }));
   }, [searchFromUrl]);
@@ -126,7 +140,12 @@ const useTerritoriesHub = () => {
     { recommendations, identity: context }
   ).length;
 
-  const tabGroups = territoryTabGroups(context, localMode, ownRequests > 0);
+  const tabGroups = territoryTabGroups(
+    context,
+    localMode,
+    ownRequests > 0,
+    campaigns.length > 0
+  );
 
   const groupIndex = tabGroups.findIndex((item) => item.includes(requested));
   const group = tabGroups[Math.max(groupIndex, 0)];
@@ -137,6 +156,11 @@ const useTerritoriesHub = () => {
 
   const setTab = (next: number) => {
     searchParams.set('tab', group[next]);
+    searchParams.delete('forCampaign');
+    if (group[next] !== 'campaign') {
+      searchParams.delete('campaign');
+      searchParams.delete('campaignStatus');
+    }
     // keeps the entry's state, which tells an open pane how to close
     setSearchParams(searchParams, { replace: true, state: location.state });
   };
@@ -154,7 +178,29 @@ const useTerritoriesHub = () => {
         }))
       : [];
 
-  const campaignId = searchParams.get('campaign');
+  const campaignId =
+    searchParams.get('campaign') ??
+    searchParams.get('forCampaign') ??
+    (tabId === 'campaign'
+      ? (campaignSections(campaigns).active[0]?.id ??
+        campaignSections(campaigns).past[0]?.id)
+      : undefined);
+  const campaign = campaigns.find((item) => item.id === campaignId);
+  const requestedStatus = searchParams.get('campaignStatus') as CampaignStatus;
+  const campaignStatus: CampaignStatus = CAMPAIGN_STATUSES.includes(
+    requestedStatus
+  )
+    ? requestedStatus
+    : 'all';
+  const setCampaign = (id: string, status: CampaignStatus = 'all') =>
+    setSearchParams((previous) => {
+      const next = new URLSearchParams(previous);
+      next.set('tab', 'campaign');
+      next.set('campaign', id);
+      next.set('campaignStatus', status);
+      next.delete('forCampaign');
+      return next;
+    });
   const visibleBeforeCampaign = useMemo(() => {
     const list = forTab(
       withStatus,
@@ -169,7 +215,10 @@ const useTerritoriesHub = () => {
     // own territories have no filters, so none left over from other tabs apply
     if (OWN_TABS.has(tabId)) return list;
 
-    const filtered = applyFilters(list, filters);
+    const filtered = applyFilters(
+      list,
+      tabId === 'campaign' ? { ...filters, campaign: undefined } : filters
+    );
 
     // during a special campaign, the ones it has not reached yet come first
     return tabId === 'recommended' && running
@@ -191,13 +240,28 @@ const useTerritoriesHub = () => {
     restricted,
     running,
   ]);
-  const visible = campaignId
-    ? visibleBeforeCampaign.filter((territory) =>
-        territory.assignments.some(
-          (assignment) => assignment.campaign?.id === campaignId
-        )
-      )
-    : visibleBeforeCampaign;
+  const visible = useMemo(
+    () =>
+      tabId === 'campaign'
+        ? campaign
+          ? visibleBeforeCampaign.filter((item) =>
+              matchesCampaignStatus(item, campaign.id, campaignStatus)
+            )
+          : []
+        : campaignId
+          ? visibleBeforeCampaign.filter((item) => inCampaign(item, campaignId))
+          : visibleBeforeCampaign,
+    [tabId, campaignId, campaign, campaignStatus, visibleBeforeCampaign]
+  );
+  const campaignTerritories = forTab(
+    withStatus,
+    'campaign',
+    me,
+    isTerritoryEditor,
+    groupHolder,
+    restricted,
+    { identity: context }
+  );
 
   // what the browse tabs can show between them; the list keeps all of it built
   const pool = useMemo(
@@ -205,24 +269,36 @@ const useTerritoriesHub = () => {
       isBrowsing
         ? forTab(
             withStatus,
-            'all',
+            tabId === 'campaign' ? 'campaign' : 'all',
             me,
             isTerritoryEditor,
             groupHolder,
-            restricted
+            restricted,
+            { identity: context }
           )
         : undefined,
-    [isBrowsing, withStatus, me, isTerritoryEditor, groupHolder, restricted]
+    [
+      isBrowsing,
+      withStatus,
+      me,
+      isTerritoryEditor,
+      groupHolder,
+      restricted,
+      tabId,
+      context,
+    ]
   );
 
   const boardTerritories = useMemo(
     () =>
       isTerritoryEditor
-        ? applyFilters(withStatus, filters).filter(
-            (item) => !campaignId || inCampaign(item, campaignId)
-          )
+        ? tabId === 'campaign'
+          ? visible
+          : applyFilters(withStatus, filters).filter(
+              (item) => !campaignId || inCampaign(item, campaignId)
+            )
         : [],
-    [withStatus, filters, isTerritoryEditor, campaignId]
+    [withStatus, filters, isTerritoryEditor, campaignId, tabId, visible]
   );
 
   // a selection made in one view isn't carried, unseen, into another
@@ -231,7 +307,7 @@ const useTerritoriesHub = () => {
   useEffect(() => {
     setChecked((prev) => (prev.size ? new Set() : prev));
     setSelecting(false);
-  }, [tabId, isBoard]);
+  }, [tabId, isBoard, campaignId, campaignStatus]);
 
   const byId = new Map(visible.map((territory) => [territory.id, territory]));
   const selected = Array.from(checked).flatMap((id) => {
@@ -320,6 +396,9 @@ const useTerritoriesHub = () => {
         ? 'tr_allTerritories'
         : 'tr_territoryGetTerritory',
       all: isTerritoryEditor ? 'tr_allTerritories' : 'tr_territoryGetTerritory',
+      campaign: isTerritoryEditor
+        ? 'tr_allTerritories'
+        : 'tr_territoryGetTerritory',
       mine: 'tr_myTerritories',
       group: 'tr_myTerritories',
       requested: 'tr_myTerritories',
@@ -327,8 +406,16 @@ const useTerritoriesHub = () => {
     }[tabId]
   );
 
-  const handleOpen = (id: string) =>
-    navigate(`/territories/${id}`, { state: { parent: title } });
+  const handleOpen = (id: string) => {
+    navigate(
+      { pathname: location.pathname, search: location.search },
+      { replace: true, state: { ...location.state, territoryFilters: filters } }
+    );
+    navigate(
+      `/territories/${id}${campaignId ? `?forCampaign=${encodeURIComponent(campaignId)}` : ''}`,
+      { state: { parent: title } }
+    );
+  };
 
   return {
     tab,
@@ -346,6 +433,10 @@ const useTerritoriesHub = () => {
     filtersOpen,
     setFiltersOpen,
     running,
+    campaign,
+    campaignStatus,
+    campaignTerritories,
+    setCampaign,
     visible,
     boardTerritories,
     pool,

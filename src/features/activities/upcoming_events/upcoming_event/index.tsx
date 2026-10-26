@@ -1,4 +1,3 @@
-import CampaignProgress from '@features/territories/components/campaign_progress';
 import { upcomingEventTitle } from '@utils/upcoming_events';
 import { useNavigate, useLocation } from 'react-router';
 import { useAtomValue } from 'jotai';
@@ -174,7 +173,6 @@ const UpcomingEvent = (props: UpcomingEventProps) => {
             {t('tr_territoryViewCampaign')}
           </Button>
         )}
-      {campaignsOnly && <CampaignProgress campaignId={props.data.event_uid} />}
       <Divider color="var(--accent-200)" />
 
       {props.data.event_data.duration === UpcomingEventDuration.SingleDay && (

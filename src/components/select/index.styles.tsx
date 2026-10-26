@@ -1,3 +1,4 @@
+import { disabledFieldStyles } from '@components/textfield/disabled.styles';
 import { styled, Theme } from '@mui/material/styles';
 import { Select } from '@mui/material';
 
@@ -17,7 +18,7 @@ export const SelectStyled = styled(Select)({
   '.MuiSelect-icon': {
     color: 'var(--black)',
     '&.Mui-disabled': {
-      color: 'var(--accent-200)',
+      color: 'var(--grey-350)',
     },
   },
   '.MuiOutlinedInput-notchedOutline': {
@@ -40,6 +41,7 @@ export const SelectStyled = styled(Select)({
       borderColor: 'var(--accent-200)',
     },
   },
+  ...disabledFieldStyles,
 });
 
 export const dropdownPaper = (theme: Theme) => ({

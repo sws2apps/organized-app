@@ -28,9 +28,7 @@ const useUpcomingEvents = () => {
   const activeEvents = useAtomValue(upcomingEventsByDataViewState);
   const allEvents = useAtomValue(upcomingEventsState);
   const campaignsOnly = useLocation().pathname === '/territories/campaigns';
-  const [params] = useSearchParams();
-  const selectedEvent = params.get('event');
-  const [showPast, setShowPast] = useState(false);
+  const [, setParams] = useSearchParams();
   const dataView = useAtomValue(userDataViewState);
 
   const events = campaignsOnly
@@ -38,13 +36,7 @@ const useUpcomingEvents = () => {
         (event) =>
           eventVisibleInDataView(event, dataView) &&
           event.event_data.category ===
-            UpcomingEventCategory.SpecialCampaignWeek &&
-          (selectedEvent
-            ? event.event_uid === selectedEvent
-            : showPast ||
-              activeEvents.some(
-                (active) => active.event_uid === event.event_uid
-              ))
+            UpcomingEventCategory.SpecialCampaignWeek
       )
     : activeEvents;
 
@@ -94,6 +86,14 @@ const useUpcomingEvents = () => {
     try {
       await saveEvent(event);
       handleHideAddEventBox();
+      if (campaignsOnly)
+        setParams((previous) => {
+          const next = new URLSearchParams(previous);
+          if (event.event_data._deleted) next.delete('event');
+          else next.set('event', event.event_uid);
+          return next;
+        });
+      return true;
     } catch (error) {
       console.error(error);
 
@@ -103,14 +103,12 @@ const useUpcomingEvents = () => {
         severity: 'error',
         icon: <IconError color="var(--white)" />,
       });
+      return false;
     }
   };
 
   return {
     campaignsOnly,
-    showPast,
-    setShowPast,
-    selectedEvent,
     isAdmin,
     emptyEvent,
     events,

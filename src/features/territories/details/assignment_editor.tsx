@@ -1,17 +1,20 @@
-import SwitchWithLabel from '@components/switch_with_label';
 import TerritoryNoteField from '@features/territories/components/note_field';
 import { useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { Box, Stack } from '@mui/material';
-import { Button, InfoNote } from '@components/index';
+import { Button, InfoNote, Typography } from '@components/index';
 import DatePicker from '@components/date_picker';
+import Divider from '@components/divider';
 import Dialog from '@components/dialog';
 import DialogActions from '@components/dialog_actions';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { IconCopy } from '@icons/index';
 import { territoryAssigneesState } from '@features/territories/assignees';
 import { territoryCampaignsState } from '@features/territories/campaigns';
-import { campaignSnapshot } from '@features/territories/campaign_dates';
+import {
+  campaignFor,
+  campaignSnapshot,
+} from '@features/territories/campaign_dates';
 import CampaignField, {
   CampaignChoice,
 } from '@features/territories/components/campaign_field';
@@ -73,15 +76,16 @@ const AssignmentEditor = ({
   const [returnedOn, setReturnedOn] = useState<Date | null>(
     parseDate(assignment.returnedOn)
   );
-  const [completed, setCompleted] = useState(assignment.completed !== false);
   const [note, setNote] = useState(assignment.note ?? '');
   const [card, setCard] = useState<AssignmentCard | undefined>(
     assignment.card ?? (isNew ? savedCard() : undefined)
   );
 
-  const [campaign, setCampaign] = useState<CampaignChoice>({
-    checked: !!assignment.campaign,
-    value: assignment.campaign,
+  const [campaign, setCampaign] = useState<CampaignChoice>(() => {
+    const value =
+      assignment.campaign ??
+      (isNew ? campaignFor(campaigns, new Date()) : undefined);
+    return { checked: !!value, value };
   });
 
   // allowed, but worth a second look
@@ -121,6 +125,9 @@ const AssignmentEditor = ({
         />
       }
     >
+      <Typography component="h3" className="body-small-semibold">
+        {t('tr_territoryRecipientHeading')}
+      </Typography>
       <HolderModeSwitch value={holder} onChange={setHolder} />
 
       <HolderPickers
@@ -131,6 +138,10 @@ const AssignmentEditor = ({
         current={assignment}
       />
 
+      <Divider color="var(--accent-200)" sx={{ width: '100%' }} />
+      <Typography component="h3" className="body-small-semibold">
+        {t('tr_territoryAssignmentHeading')}
+      </Typography>
       <Stack
         direction={tablet600Up ? 'row' : 'column'}
         spacing="16px"
@@ -164,13 +175,17 @@ const AssignmentEditor = ({
 
       <CardField value={card} onChange={setCard} />
 
-      {returnedOn && (
-        <SwitchWithLabel
-          label={t('tr_territoryCompleted')}
-          checked={completed}
-          onChange={setCompleted}
-        />
+      {(campaigns.length > 0 || campaign.value) && (
+        <>
+          <Divider color="var(--accent-200)" sx={{ width: '100%' }} />
+          <CampaignField
+            checked={campaign.checked}
+            value={campaign.value}
+            onChange={setCampaign}
+          />
+        </>
       )}
+
       <TerritoryNoteField kind="assignment" value={note} onChange={setNote} />
 
       {onAdoptNote && (
@@ -184,14 +199,6 @@ const AssignmentEditor = ({
         >
           {t('tr_territoryAddToTerritoryNotes')}
         </Button>
-      )}
-
-      {(campaigns.length > 0 || campaign.value) && (
-        <CampaignField
-          checked={campaign.checked}
-          value={campaign.value}
-          onChange={setCampaign}
-        />
       )}
 
       {secondOpen && (
@@ -228,7 +235,9 @@ const AssignmentEditor = ({
                   ? campaignSnapshot(campaign.value)
                   : undefined,
               note: note.trim() || undefined,
-              completed: returnedOn ? completed : undefined,
+              completed: returnedOn
+                ? assignment.completed !== false
+                : undefined,
               card,
             });
             onClose();
