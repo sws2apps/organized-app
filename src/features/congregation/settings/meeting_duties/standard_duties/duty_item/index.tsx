@@ -1,17 +1,41 @@
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { DUTIES_MAX } from '../../shared/constants';
 import { Stack } from '@mui/material';
+import {
+  IconAtHome,
+  IconAudioMixer,
+  IconComputerVideo,
+  IconConference,
+  IconDoor,
+  IconHallOverseer,
+  IconMicrophone,
+  IconTalk,
+} from '@components/icons';
+import { DutyStandard } from '@features/congregation/settings/meeting_duties/standard_duties/index.types';
 import { DutyItemProps } from './index.types';
 import useDutyItem from './useDutyItem';
 import MenuItem from '@components/menuitem';
 import Select from '@components/select';
 import Typography from '@components/typography';
 
+const DUTY_ICONS: Record<DutyStandard, typeof IconAudioMixer> = {
+  tr_audioVideo: IconComputerVideo,
+  tr_dutiesAudio: IconAudioMixer,
+  tr_dutiesVideo: IconComputerVideo,
+  tr_dutiesMicrophones: IconMicrophone,
+  tr_dutiesStage: IconTalk,
+  tr_dutiesEntranceAttendant: IconDoor,
+  tr_dutiesAuditoriumAttendant: IconHallOverseer,
+  tr_hospitality: IconAtHome,
+  tr_dutiesVideoconferenceHost: IconConference,
+};
+
 const DutyItem = (props: DutyItemProps) => {
   const { t } = useAppTranslation();
   const { isDutiesEditor } = useCurrentUser();
 
   const { value, handleAmountChange } = useDutyItem(props);
+  const Icon = DUTY_ICONS[props.duty];
 
   return (
     <Stack
@@ -21,7 +45,27 @@ const DutyItem = (props: DutyItemProps) => {
         gap: 'var(--dialog-gap-mobile)',
       }}
     >
-      <Typography sx={{ overflowWrap: 'anywhere' }}>{t(props.duty)}</Typography>
+      <Stack
+        direction="row"
+        sx={{
+          alignItems: 'center',
+          gap: 'var(--field-content-inset)',
+          color: 'var(--black)',
+        }}
+      >
+        <Icon
+          width={20}
+          height={20}
+          color="currentColor"
+          sx={{ flexShrink: 0 }}
+        />
+        <Typography
+          color="inherit"
+          sx={{ minWidth: 0, overflowWrap: 'anywhere' }}
+        >
+          {t(props.duty)}
+        </Typography>
+      </Stack>
 
       <Select
         label={t('tr_dutyPeopleNeeded')}

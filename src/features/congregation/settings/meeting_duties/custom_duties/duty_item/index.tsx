@@ -75,9 +75,24 @@ const DutyItem = (props: DutyItemProps) => {
         />
       )}
 
-      <Stack spacing="4px" direction="row" sx={{ alignItems: 'center' }}>
-        <IconCustomDuty icon={props.icon} sx={{ flexShrink: 0 }} />
-        <Typography sx={{ minWidth: 0, overflowWrap: 'anywhere' }}>
+      <Stack
+        direction="row"
+        sx={{
+          alignItems: 'center',
+          gap: 'var(--field-content-inset)',
+          color: 'var(--black)',
+        }}
+      >
+        <IconCustomDuty
+          icon={props.icon}
+          size={20}
+          color="currentColor"
+          sx={{ flexShrink: 0 }}
+        />
+        <Typography
+          color="inherit"
+          sx={{ minWidth: 0, overflowWrap: 'anywhere' }}
+        >
           {props.name}
         </Typography>
 
