@@ -1,4 +1,4 @@
-import { KeyboardEvent, useRef } from 'react';
+import { KeyboardEvent, MouseEvent, useRef, useState } from 'react';
 import { useBreakpoints } from '@hooks/index';
 import { CUSTOM_DUTY_ICONS } from '@constants/duty_icons';
 import { CustomDutyIconType } from '@definition/duties';
@@ -9,7 +9,25 @@ const ICONS = Object.keys(CUSTOM_DUTY_ICONS) as Exclude<
   'default'
 >[];
 
-const useDutyIconSelector = ({ disabled, onChange }: DutyIconSelectorProps) => {
+const useDutyIconSelector = ({
+  value,
+  disabled,
+  onChange,
+}: DutyIconSelectorProps) => {
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+  const handleOpen = (event: MouseEvent<HTMLButtonElement>) => {
+    if (!disabled) setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => setAnchorEl(null);
+  const handleSelect = (icon: CustomDutyIconType) => {
+    if (disabled) return;
+    onChange(icon);
+    handleClose();
+  };
+  const focusSelected = () => {
+    const index = value === 'default' ? 0 : ICONS.indexOf(value);
+    buttons.current[index]?.focus();
+  };
   const { mobile400Down } = useBreakpoints();
   const columns = mobile400Down ? 2 : 3;
   const buttons = useRef<(HTMLButtonElement | null)[]>([]);
@@ -41,7 +59,17 @@ const useDutyIconSelector = ({ disabled, onChange }: DutyIconSelectorProps) => {
     buttons.current[next]?.focus();
   };
 
-  return { icons: ICONS, buttons, columns, handleKeyDown };
+  return {
+    icons: ICONS,
+    buttons,
+    columns,
+    handleKeyDown,
+    anchorEl,
+    handleOpen,
+    handleClose,
+    handleSelect,
+    focusSelected,
+  };
 };
 
 export default useDutyIconSelector;

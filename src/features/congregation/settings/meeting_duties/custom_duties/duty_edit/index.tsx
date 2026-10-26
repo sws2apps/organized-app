@@ -10,6 +10,7 @@ import useDutyEdit from './useDutyEdit';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
 import MenuItem from '@components/menuitem';
+import InfoNote from '@components/info_note';
 import Select from '@components/select';
 import TextField from '@components/textfield';
 import Typography from '@components/typography';
@@ -82,13 +83,14 @@ const DutyEdit = (props: DutyEditProps) => {
           sx={{
             display: 'grid',
             gridTemplateColumns: tablet500Down
-              ? 'minmax(0, 1fr)'
-              : 'minmax(0, 2fr) minmax(0, 1fr)',
+              ? 'auto minmax(0, 1fr)'
+              : 'minmax(0, 2fr) auto minmax(0, 1fr)',
             gap: 'var(--dialog-gap-mobile)',
             alignItems: 'start',
           }}
         >
           <TextField
+            sx={{ gridColumn: tablet500Down ? '1 / -1' : undefined }}
             autoFocus
             label={t('tr_dutyName')}
             value={name}
@@ -99,6 +101,11 @@ const DutyEdit = (props: DutyEditProps) => {
             slotProps={{ htmlInput: { maxLength: DUTY_NAME_MAX } }}
           />
 
+          <DutyIconSelector
+            value={icon}
+            onChange={handleIconChange}
+            disabled={isSaving || unavailable}
+          />
           <Select
             label={t('tr_dutyPeopleNeeded')}
             value={amount}
@@ -116,11 +123,7 @@ const DutyEdit = (props: DutyEditProps) => {
             ))}
           </Select>
         </Box>
-        <DutyIconSelector
-          value={icon}
-          onChange={handleIconChange}
-          disabled={isSaving || unavailable}
-        />
+        {icon === 'meals' && <InfoNote message={t('tr_dutyIconMealsHint')} />}
       </Stack>
     </Dialog>
   );
