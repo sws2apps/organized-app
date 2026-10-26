@@ -51,7 +51,6 @@ const PdfPreview = ({
       if (cancelled) return;
 
       for (let number = 1; number <= document.numPages; number++) {
-        if (cancelled) return;
         const page = await document.getPage(number);
         if (cancelled) return;
         const width = page.getViewport({ scale: 1 }).width;
