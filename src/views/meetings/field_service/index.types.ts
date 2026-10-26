@@ -1,8 +1,11 @@
+import { FieldServiceMeetingLocation } from '@definition/field_service_meetings';
+
 export type FieldServiceMeetingTemplateMeeting = {
   id: string;
   time: string;
   group: string;
   address: string;
+  location: FieldServiceMeetingLocation;
   addressUrl?: string;
   conductor: string;
   note?: string;

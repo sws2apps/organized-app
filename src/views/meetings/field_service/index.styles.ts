@@ -135,6 +135,25 @@ const styles = StyleSheet.create({
     lineHeight: 1.24,
     color: '#222222',
   },
+  locationContent: {
+    width: '100%',
+    minWidth: 0,
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: '4px',
+  },
+  locationIcon: {
+    width: '12px',
+    height: 10 * 1.24,
+    flexShrink: 0,
+    justifyContent: 'center',
+  },
+  locationText: {
+    flexBasis: 0,
+    flexGrow: 1,
+    flexShrink: 1,
+    minWidth: 0,
+  },
   linkText: {
     color: '#3B4CA3',
     textDecoration: 'underline',

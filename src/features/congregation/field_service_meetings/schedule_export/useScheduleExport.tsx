@@ -121,6 +121,7 @@ const createTemplateMonths = (
       dayEntry.meetings.push({
         id: `${formatted.uid}-${dayKey}-${index}`,
         time: formatted.time,
+        location: formatted.location,
         group: fieldServiceMeetingLabel(formatted, (key) =>
           getTranslation({ key, language: lng })
         ),
@@ -155,10 +156,20 @@ const createTemplateMonths = (
               first.sortKey.localeCompare(second.sortKey)
             )
             .map(
-              ({ id, time, group, address, addressUrl, conductor, note }) => ({
+              ({
                 id,
                 time,
                 group,
+                location,
+                address,
+                addressUrl,
+                conductor,
+                note,
+              }) => ({
+                id,
+                time,
+                group,
+                location,
                 address,
                 addressUrl,
                 conductor,
