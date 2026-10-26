@@ -134,7 +134,8 @@ export const publicWitnessingBookingError = (
   );
   for (const publisher of data.publishers) {
     if (!publisher.person_uid) continue;
-    if (ids.has(publisher.person_uid)) return 'tr_PWDuplicatePublisher';
+    if (ids.has(publisher.person_uid))
+      return 'tr_publicWitnessingDuplicatePublisher';
     ids.add(publisher.person_uid);
   }
   if (

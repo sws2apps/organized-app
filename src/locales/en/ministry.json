@@ -159,7 +159,7 @@
   "tr_duplicateShiftStart": "Each shift on the same day must have a different start time",
   "tr_selectArrangement": "Select arrangement",
   "tr_PWBookingChanged": "This shift has changed or no longer has enough places. Close this window and check the updated schedule.",
-  "tr_PWDuplicatePublisher": "Each publisher can only be included once in this shift.",
+  "tr_publicWitnessingDuplicatePublisher": "Each publisher can only be included once in this shift.",
   "tr_PWInvalidCapacity": "Enter a whole number greater than zero.",
   "tr_PWJoinShift": "Join this shift",
   "tr_PWLocationsEmptyPublisher": "No public witnessing locations have been added yet.",

@@ -178,13 +178,13 @@ test('rejects a person already booked or selected twice without conflating ident
       [booking('a')],
       reviewNow
     ),
-    'tr_PWDuplicatePublisher'
+    'tr_publicWitnessingDuplicatePublisher'
   );
   const repeated = booking('a');
   repeated.arrangement_data.publishers.push({ name: 'Alex', person_uid: 'a' });
   assert.equal(
     publicWitnessingBookingError(repeated, reviewLocation, [], reviewNow),
-    'tr_PWDuplicatePublisher'
+    'tr_publicWitnessingDuplicatePublisher'
   );
   assert.equal(
     publicWitnessingBookingError(
