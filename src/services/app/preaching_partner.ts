@@ -1,9 +1,9 @@
 import { dbAppLocalsReadPartnerNotification } from '@services/dexie/app_locals';
 import { isTest } from '@constants/index';
-import { PartnerMutation } from '@definition/preaching_partner';
 import { dbPreachingPartnerMutate } from '@services/dexie/preaching_partner';
 import { applyPartnerMutation } from '@services/app/preaching_partner_actions';
 import {
+  PartnerMutation,
   PreachingPartnerFilterType,
   PreachingPartnerGroupType,
   PreachingPartnerMinistryType,

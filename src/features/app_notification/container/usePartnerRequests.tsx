@@ -1,12 +1,17 @@
 import { isTest } from '@constants/index';
-import { hour24FormatState, userLocalUIDState } from '@states/settings';
-import { partnerReadNotificationsState } from '@states/preaching_partner';
+import {
+  fullnameOptionState,
+  hour24FormatState,
+  userLocalUIDState,
+} from '@states/settings';
+import {
+  myArrangedPreachingPartnerRequestsState,
+  partnerReadNotificationsState,
+} from '@states/preaching_partner';
 import { useEffect } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { StandardNotificationType } from '@definition/notification';
 import { buildPersonFullname } from '@utils/common';
-import { fullnameOptionState } from '@states/settings';
-import { myArrangedPreachingPartnerRequestsState } from '@states/preaching_partner';
 import { notificationsState } from '@states/notification';
 import { personsActiveState } from '@states/persons';
 import { preachingPartnerTimeLabel } from '@services/app/preaching_partner';

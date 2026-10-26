@@ -7,7 +7,7 @@ import { addDays, formatDate } from '@utils/date';
 
 // Reading, validating and writing under one lock prevents stale dialogs from
 // replacing another tab's edits or leaving half of an arrangement saved.
-export const dbPreachingPartnerMutate = async (
+export const dbPreachingPartnerMutate = (
   transform: (
     records: PreachingPartnerRequestType[],
     activePersonIds: string[]

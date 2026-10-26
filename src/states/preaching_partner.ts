@@ -1,24 +1,24 @@
 import { PARTNER_NOTIFICATION_LOCAL_ID } from '@constants/index';
 import { appLocalsState } from '@states/app_locals';
-import { preachingPartnerReadNotification } from '@services/app/preaching_partner';
 /*
 This file holds the source of the truth from the table "preaching_partner_requests".
 */
 
 import { atom } from 'jotai';
 import {
+  PartnerMutation,
   PreachingPartnerFilterType,
   PreachingPartnerRequestType,
 } from '@definition/preaching_partner';
 import {
+  preachingPartnerMutate,
+  preachingPartnerReadNotification,
   preachingPartnerGroupByDate,
   preachingPartnerMatchesFilters,
   preachingPartnerSort,
 } from '@services/app/preaching_partner';
 import { personsActiveState } from '@states/persons';
 import { partnerToday } from '@utils/preaching_partner';
-import { preachingPartnerMutate } from '@services/app/preaching_partner';
-import { PartnerMutation } from '@definition/preaching_partner';
 import { userLocalUIDState } from '@states/settings';
 
 export const preachingPartnerRequestsDbState = atom<

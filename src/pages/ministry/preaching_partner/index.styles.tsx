@@ -35,16 +35,19 @@ const enterBackward = keyframes({
 // only the arriving view animates, so the two never overlap
 export const NavigationView = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'direction',
-})<{ direction: NavigationDirection }>(({ direction }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '16px',
-  willChange: direction === 'none' ? undefined : 'opacity, transform',
-  animation:
-    direction === 'none'
-      ? 'none'
-      : `${direction === 'forward' ? enterForward : enterBackward} ${SUBPAGE_DURATION} ${SUBPAGE_EASING} both`,
-  '@media (prefers-reduced-motion: reduce)': {
-    animation: 'none',
-  },
-})) as unknown as FC<BoxProps & { direction: NavigationDirection }>;
+})<{ direction: NavigationDirection }>(({ direction }) => {
+  const enter = direction === 'forward' ? enterForward : enterBackward;
+  return {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '16px',
+    willChange: direction === 'none' ? undefined : 'opacity, transform',
+    animation:
+      direction === 'none'
+        ? 'none'
+        : `${enter} ${SUBPAGE_DURATION} ${SUBPAGE_EASING} both`,
+    '@media (prefers-reduced-motion: reduce)': {
+      animation: 'none',
+    },
+  };
+}) as unknown as FC<BoxProps & { direction: NavigationDirection }>;

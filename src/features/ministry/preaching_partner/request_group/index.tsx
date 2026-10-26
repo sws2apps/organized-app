@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { Children, Fragment } from 'react';
+import { Children, Fragment, isValidElement } from 'react';
 import { PreachingPartnerGroupProps } from '@features/ministry/preaching_partner/request_group/index.types';
 import { formatLongDateWithShortVars } from '@utils/date';
 import { useBreakpoints } from '@hooks/index';
@@ -29,7 +29,7 @@ const PreachingPartnerGroup = ({
       {/* rows of one day sit close, so the day reads as a single block */}
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
         {rows.map((row, index) => (
-          <Fragment key={index}>
+          <Fragment key={isValidElement(row) ? row.key : String(row)}>
             {index > 0 && <Divider color="var(--accent-200)" />}
             {row}
           </Fragment>

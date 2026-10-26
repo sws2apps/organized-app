@@ -199,7 +199,7 @@ const useRequestEditor = ({
     isDiscardOpen,
     handleClose,
     handleCloseDiscard: () => setIsDiscardOpen(false),
-    handleDiscard: async () => {
+    handleDiscard: () => {
       setIsDiscardOpen(false);
       onClose();
     },
