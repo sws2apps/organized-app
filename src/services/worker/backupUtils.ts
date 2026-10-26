@@ -1,4 +1,7 @@
-import { fieldServiceMeetingPermissions } from '@utils/field_service_meeting_permissions';
+import {
+  fieldServiceMeetingPermissions,
+  fieldServiceMeetingUploadRecords,
+} from '@utils/field_service_meeting_permissions';
 // to minimize the size of the worker file, we recreate all its needed functions in this file
 
 import appDb from '@db/appDb';
@@ -2206,20 +2209,23 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
         // covers group overseers and the service overseer, so the export gate
         // must match or their local changes would silently never sync
         if (
-          fieldServiceMeetingPermissions(settings, field_service_groups).canCreate &&
+          fieldServiceMeetingPermissions(settings, field_service_groups)
+            .canCreate &&
           metadata.metadata.field_service_meetings?.send_local
         ) {
-          const backupFieldServiceMeetings = field_service_meetings.map(
-            (meeting) => {
-              encryptObject({
-                data: meeting,
-                table: 'field_service_meetings',
-                accessCode,
-              });
+          const backupFieldServiceMeetings = fieldServiceMeetingUploadRecords(
+            field_service_meetings,
+            settings,
+            field_service_groups
+          ).map((meeting) => {
+            encryptObject({
+              data: meeting,
+              table: 'field_service_meetings',
+              accessCode,
+            });
 
-              return meeting;
-            }
-          );
+            return meeting;
+          });
 
           obj.field_service_meetings = backupFieldServiceMeetings;
         }

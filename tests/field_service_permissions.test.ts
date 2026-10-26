@@ -3,6 +3,7 @@ import { test } from 'node:test';
 import {
   fieldServiceMeetingPermissions,
   fieldServiceMeetingConductorAllowed,
+  fieldServiceMeetingUploadRecords,
 } from '../src/utils/field_service_meeting_permissions';
 import { FieldServiceMeetingCategory as Category } from '../src/definition/field_service_meetings';
 import { AssignmentCode } from '../src/definition/assignment';
@@ -170,5 +171,64 @@ test('archived qualified conductors cannot pass the save-time group check', () =
   assert.equal(
     fieldServiceMeetingConductorAllowed('lead', 'first', groups, [archived]),
     false
+  );
+});
+
+const uploadMeeting = (
+  uid: string,
+  groupId: string | undefined,
+  category = Category.RegularMeeting,
+  deleted = false
+) =>
+  ({
+    meeting_uid: uid,
+    meeting_data: { group_id: groupId, category, _deleted: deleted },
+  }) as import('../src/definition/field_service_meetings').FieldServiceMeetingType;
+const uploadRecords = [
+  uploadMeeting('own', 'first'),
+  uploadMeeting('other', 'third'),
+  uploadMeeting('joint', undefined, Category.JointMeeting),
+  uploadMeeting('visit', 'first', Category.ServiceOverseerMeeting),
+  uploadMeeting('deleted-own', 'first', Category.RegularMeeting, true),
+];
+test('group overseer uploads exclude other groups, joint meetings and visits', () => {
+  assert.deepEqual(
+    fieldServiceMeetingUploadRecords(
+      uploadRecords,
+      settings('lead'),
+      groups
+    ).map((record) => record.meeting_uid),
+    ['own', 'deleted-own']
+  );
+});
+test('ordinary members cannot upload meeting changes', () => {
+  assert.deepEqual(
+    fieldServiceMeetingUploadRecords(uploadRecords, settings('member'), groups),
+    []
+  );
+});
+test('all-group schedulers may upload all meeting changes including tombstones', () => {
+  assert.deepEqual(
+    fieldServiceMeetingUploadRecords(
+      uploadRecords,
+      settings('delegate', ['field_service_schedule']),
+      groups
+    ),
+    uploadRecords
+  );
+});
+
+test('group assistants upload only their group’s regular meetings', () => {
+  const records = [
+    ...uploadRecords,
+    uploadMeeting('assistant-group', 'second'),
+  ];
+  assert.deepEqual(
+    fieldServiceMeetingUploadRecords(
+      records,
+      settings('assistant'),
+      groups
+    ).map((record) => record.meeting_uid),
+    ['assistant-group']
   );
 });

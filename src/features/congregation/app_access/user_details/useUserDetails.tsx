@@ -15,6 +15,7 @@ import { userIDState } from '@states/app';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { settingsState } from '@states/settings';
 import { useMemo } from 'react';
+import { getMessageByCode } from '@services/i18n/translation';
 
 const useUserDetails = () => {
   const { id } = useParams();
@@ -50,15 +51,20 @@ const useUserDetails = () => {
         last_name: user.profile.lastname.value,
       });
 
+      const savedUser = users.find((record) => record.id === user.id);
+      if (!savedUser) {
+        throw new Error(getMessageByCode('error_app_generic-title'));
+      }
       setUsers(users);
 
-      // update local record
+      // Apply only the identity and roles accepted by the server.
       if (userID === id) {
         await dbAppSettingsUpdate({
-          'user_settings.user_local_uid': user.profile.user_local_uid || '',
+          'user_settings.user_local_uid':
+            savedUser.profile.user_local_uid || '',
           'user_settings.user_members_delegate':
-            user.profile.user_members_delegate,
-          'user_settings.cong_role': user.profile.cong_role,
+            savedUser.profile.user_members_delegate,
+          'user_settings.cong_role': savedUser.profile.cong_role,
         });
       }
 

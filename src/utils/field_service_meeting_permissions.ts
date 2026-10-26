@@ -1,4 +1,7 @@
-import { FieldServiceMeetingCategory } from '@definition/field_service_meetings';
+import {
+  FieldServiceMeetingCategory,
+  type FieldServiceMeetingType,
+} from '@definition/field_service_meetings';
 import type { FieldServiceGroupType } from '@definition/field_service_groups';
 import type { SettingsType } from '@definition/settings';
 import type { PersonType } from '@definition/person';
@@ -83,6 +86,21 @@ export const fieldServiceMeetingConductorAllowed = (
     ) &&
     person?.person_data.assignments?.some((assignment) =>
       assignment.values.includes(AssignmentCode.MINISTRY_FS_CONDUCTOR)
+    )
+  );
+};
+
+/** Upload only meetings covered by the current scheduler's edit permissions. */
+export const fieldServiceMeetingUploadRecords = (
+  meetings: FieldServiceMeetingType[],
+  settings: SettingsType,
+  groups: FieldServiceGroupType[]
+) => {
+  const permissions = fieldServiceMeetingPermissions(settings, groups);
+  return meetings.filter((meeting) =>
+    permissions.canManageMeeting(
+      meeting.meeting_data.category,
+      meeting.meeting_data.group_id
     )
   );
 };

@@ -50,7 +50,9 @@ const InfoNote = ({
       </Box>
     ) : (
       <Typography
-        className="body-small-regular"
+        className={
+          variant === 'subtle' ? 'label-small-regular' : 'body-small-regular'
+        }
         sx={{
           color,
           minWidth: 0,
@@ -74,7 +76,7 @@ const InfoNote = ({
             minWidth: 0,
             padding: 'var(--note-padding)',
             backgroundColor: 'var(--note-background)',
-            borderRadius: 'var(--radius-l)',
+            borderRadius: 'var(--radius-m)',
           },
           ...(Array.isArray(sx) ? sx : [sx]),
         ]}
