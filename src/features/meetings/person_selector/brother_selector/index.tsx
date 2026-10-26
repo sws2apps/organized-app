@@ -264,6 +264,12 @@ const SelectorAdornments = ({
   );
 };
 
+const getInputPaddingRight = (hasEndIcon: boolean, hasInlineAction: boolean) => {
+  if (hasEndIcon) return '10px !important';
+  if (hasInlineAction) return '80px !important';
+  return 'calc(var(--dialog-gap-mobile) * 3) !important';
+};
+
 const BrotherSelector = (props: PersonSelectorType) => {
   const selectorRef = useRef<HTMLDivElement>(null);
   const showIcon = props.showIcon ?? true;
@@ -386,11 +392,10 @@ const BrotherSelector = (props: PersonSelectorType) => {
         clearIcon={<IconClose width={20} height={20} />}
         sx={{
           '& .MuiOutlinedInput-input': {
-            paddingRight: props.endIcon
-              ? '10px !important'
-              : hasInlineAction
-                ? '80px !important'
-                : 'calc(var(--dialog-gap-mobile) * 3) !important',
+            paddingRight: getInputPaddingRight(
+              Boolean(props.endIcon),
+              hasInlineAction
+            ),
           },
           '& .MuiAutocomplete-clearIndicator': {
             marginRight: hasInlineAction ? '30px' : 0,
