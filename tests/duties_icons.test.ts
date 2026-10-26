@@ -13,13 +13,12 @@ import packDuties from '@views/meetings/duties/packDuties';
 import IconCustomDuty from '@views/components/icons/IconCustomDuty';
 import { CustomDutyIconType } from '@definition/duties';
 
-test('custom-duty palette contains exactly the nine selected choices', () => {
+test('custom-duty palette contains exactly the eight selected choices', () => {
   assert.deepEqual(Object.keys(CUSTOM_DUTY_ICONS), [
     'emergency',
     'keys',
     'timekeeping',
     'welcome',
-    'meals',
     'transport',
     'donations',
     'group',
@@ -27,7 +26,7 @@ test('custom-duty palette contains exactly the nine selected choices', () => {
   ]);
   assert.equal(
     new Set(Object.values(CUSTOM_DUTY_ICONS).map((icon) => icon.path)).size,
-    9
+    8
   );
 });
 
@@ -40,6 +39,7 @@ test('legacy, unknown and prototype names fall back safely to the existing icon'
     '__proto__',
     'toString',
     'future-icon',
+    'meals',
     1,
     {},
   ]) {

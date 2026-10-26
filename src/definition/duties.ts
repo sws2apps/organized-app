@@ -4,7 +4,6 @@ export type CustomDutyIconType =
   | 'keys'
   | 'timekeeping'
   | 'welcome'
-  | 'meals'
   | 'transport'
   | 'donations'
   | 'group'

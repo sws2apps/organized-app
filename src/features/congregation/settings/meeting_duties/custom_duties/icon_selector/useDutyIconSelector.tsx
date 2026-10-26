@@ -1,13 +1,15 @@
 import { KeyboardEvent, MouseEvent, useRef, useState } from 'react';
-import { useBreakpoints } from '@hooks/index';
 import { CUSTOM_DUTY_ICONS } from '@constants/duty_icons';
 import { CustomDutyIconType } from '@definition/duties';
 import { DutyIconSelectorProps } from './index.types';
 
-const ICONS = Object.keys(CUSTOM_DUTY_ICONS) as Exclude<
-  CustomDutyIconType,
-  'default'
->[];
+const ICONS: CustomDutyIconType[] = [
+  'default',
+  ...(Object.keys(CUSTOM_DUTY_ICONS) as Exclude<
+    CustomDutyIconType,
+    'default'
+  >[]),
+];
 
 const useDutyIconSelector = ({
   value,
@@ -25,11 +27,10 @@ const useDutyIconSelector = ({
     handleClose();
   };
   const focusSelected = () => {
-    const index = value === 'default' ? 0 : ICONS.indexOf(value);
+    const index = ICONS.indexOf(value);
     buttons.current[index]?.focus();
   };
-  const { mobile400Down } = useBreakpoints();
-  const columns = mobile400Down ? 2 : 3;
+  const columns = 3;
   const buttons = useRef<(HTMLButtonElement | null)[]>([]);
 
   const handleKeyDown = (

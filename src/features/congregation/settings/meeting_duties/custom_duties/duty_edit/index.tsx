@@ -10,7 +10,6 @@ import useDutyEdit from './useDutyEdit';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
 import MenuItem from '@components/menuitem';
-import InfoNote from '@components/info_note';
 import Select from '@components/select';
 import TextField from '@components/textfield';
 import Typography from '@components/typography';
@@ -123,7 +122,6 @@ const DutyEdit = (props: DutyEditProps) => {
             ))}
           </Select>
         </Box>
-        {icon === 'meals' && <InfoNote message={t('tr_dutyIconMealsHint')} />}
       </Stack>
     </Dialog>
   );
