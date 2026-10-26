@@ -1,64 +1,18 @@
-import { useAppTranslation } from '@hooks/index';
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { Box, FormControlLabel, RadioGroup, Stack } from '@mui/material';
-import { useDropzone } from 'react-dropzone';
-import { useSetAtom } from 'jotai';
-import { Button, InfoNote, Radio, Typography } from '@components/index';
+import { Box, Stack } from '@mui/material';
+import {
+  AutoComplete,
+  Button,
+  InfoNote,
+  MenuItem,
+  Select,
+  Typography,
+} from '@components/index';
 import Dialog from '@components/dialog';
 import WaitingLoader from '@components/waiting_loader';
 import { IconImportFile } from '@icons/index';
-import { getMessageByCode } from '@services/i18n/translation';
-import { displaySnackNotification } from '@services/states/app';
-import useTerritoryAccess from '@features/territories/useTerritoryAccess';
-import { territoryNumberKey } from '@utils/territory';
-import { territoriesState } from '@states/territories';
-import {
-  parseServiceTerritory,
-  ServiceTerritoryImport,
-} from '@features/territories/import/parse_service_territory';
-
-type Mode = 'merge' | 'replace';
-
-const numberKey = territoryNumberKey;
-
-const Summary = ({ result }: { result: ServiceTerritoryImport }) => {
-  const { t } = useAppTranslation();
-
-  const lines = [
-    [t('tr_territories'), result.territories.length],
-    [t('tr_assignments'), result.assignments],
-    [
-      t('tr_territoryOutRightNow'),
-      result.territories.filter((territory) => territory.holder).length,
-    ],
-    [t('tr_territoryDoNotCallLabel'), result.doNotCalls],
-    [t('tr_territoryPublishersNamed'), result.publishers],
-  ] as const;
-
-  return (
-    <Stack
-      sx={{
-        padding: '12px 16px',
-        borderRadius: 'var(--radius-l)',
-        backgroundColor: 'var(--accent-150)',
-        gap: '6px',
-      }}
-    >
-      {lines.map(([label, value]) => (
-        <Stack
-          key={label}
-          direction="row"
-          sx={{ justifyContent: 'space-between' }}
-        >
-          <Typography className="body-small-regular" color="var(--grey-400)">
-            {label}
-          </Typography>
-          <Typography className="body-small-semibold">{value}</Typography>
-        </Stack>
-      ))}
-    </Stack>
-  );
-};
+import { useAppTranslation } from '@hooks/index';
+import type { TerritoryImportDateOrder } from '@definition/territory_import';
+import useTerritoryImport from '@features/territories/import/useTerritoryImport';
 
 const TerritoryImport = ({
   open,
@@ -68,212 +22,217 @@ const TerritoryImport = ({
   onClose: VoidFunction;
 }) => {
   const { t } = useAppTranslation();
-
-  const { editor } = useTerritoryAccess();
-  const operation = useRef(0);
-  useEffect(
-    () => () => {
-      operation.current++;
-    },
-    [open]
-  );
-  const setTerritories = useSetAtom(territoriesState);
-
-  const [processing, setProcessing] = useState(false);
-  const [result, setResult] = useState<ServiceTerritoryImport>();
-  const [mode, setMode] = useState<Mode>('merge');
-
-  const onDrop = useCallback(
-    async (files: File[]) => {
-      const file = files.at(0);
-      if (!file || !editor) return;
-      const current = ++operation.current;
-
-      try {
-        setProcessing(true);
-        setResult(undefined);
-        const parsed = await parseServiceTerritory(await file.arrayBuffer());
-        if (current === operation.current) setResult(parsed);
-      } catch (error) {
-        if (current !== operation.current) return;
-        displaySnackNotification({
-          severity: 'error',
-          header: getMessageByCode('error_app_generic-title'),
-          message:
-            error instanceof Error
-              ? error.message
-              : t('tr_territoryTheTerritoryBackupCouldNotBeImportedCheckThe'),
-        });
-      } finally {
-        if (current === operation.current) setProcessing(false);
-      }
-    },
-    [t, editor]
-  );
-
-  const { getRootProps, getInputProps } = useDropzone({
-    onDrop,
-    accept: { 'application/octet-stream': ['.bkt', '.db', '.sqlite'] },
-    maxFiles: 1,
-    multiple: false,
-  });
-
-  const handleImport = () => {
-    if (!result || processing || !editor) return;
-
-    setTerritories((current) => {
-      if (mode === 'replace') return result.territories;
-
-      const incoming = new Map(
-        result.territories.map((territory) => [
-          numberKey(territory.number),
-          territory,
-        ])
-      );
-
-      const kept = current.map((territory) => {
-        const match = incoming.get(numberKey(territory.number));
-        if (!match) return territory;
-
-        incoming.delete(numberKey(territory.number));
-
-        // keep what only Organized knows: categories and the drawn map
-        return {
-          ...match,
-          id: territory.id,
-          categories: territory.categories,
-          notes: territory.notes,
-          warning: territory.warning,
-          phoneNumbers: territory.phoneNumbers,
-          boundaryStyle: territory.boundaryStyle,
-          boundary: territory.boundary,
-          mapShapes: territory.mapShapes,
-          mapLines: territory.mapLines,
-          mapMarkers: territory.mapMarkers,
-        };
-      });
-
-      return [...kept, ...incoming.values()];
-    });
-
-    displaySnackNotification({
-      severity: 'success',
-      header: t('tr_territoryTerritoriesImported'),
-      message: t('tr_territoryTerritoriesWithAssignments', {
-        length: result.territories.length,
-        assignments: result.assignments,
-      }),
-    });
-
-    onClose();
-  };
-
+  const importer = useTerritoryImport(open, onClose);
+  const { result, error, processing, saving } = importer;
+  const counts = result
+    ? ([
+        ['tr_territoryImportAdded', result.added],
+        ['tr_territoryImportUpdated', result.updated],
+        ['tr_assignments', result.assignments],
+        ['tr_territoryDoNotCallLabel', result.doNotCalls],
+        ['tr_territoryImportBoundaries', result.boundaries],
+      ] as const)
+    : [];
   return (
     <Dialog
       open={open}
-      onClose={onClose}
+      onClose={() => {
+        if (!saving) onClose();
+      }}
       title={t('tr_territoryImportTerritories')}
-      description={t(
-        'tr_territoryBringTerritoriesTheirAssignmentHistoryAndDoNotCall'
-      )}
+      description={t('tr_territoryImportDescription')}
     >
       <Stack spacing="16px" sx={{ width: '100%' }}>
-        {processing && <WaitingLoader variant="standard" size={60} />}
-
-        {!processing && !result && (
+        {error && (
+          <Box role="alert">
+            <Typography color="var(--red-main)">{error}</Typography>
+          </Box>
+        )}
+        {!result && !saving && (
+          <>
+            <Button variant="small" onClick={importer.downloadTemplate}>
+              {t('tr_territoryImportDownloadTemplate')}
+            </Button>
+            <InfoNote message={t('tr_territoryImportTemplateHelp')} />
+          </>
+        )}
+        {!result && !processing && (
           <Box
-            {...getRootProps()}
+            {...importer.getRootProps({
+              role: 'button',
+              'aria-label': t('tr_territoryImportChooseFiles'),
+            })}
             sx={{
               border: '1px dashed var(--accent-dark)',
               borderRadius: 'var(--radius-l)',
-              height: '160px',
+              padding: '24px',
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
-              justifyContent: 'center',
-              gap: '4px',
+              gap: '8px',
               cursor: 'pointer',
               '&:hover': { backgroundColor: 'var(--accent-100)' },
             }}
           >
-            <input {...getInputProps()} />
-            <Stack direction="row" spacing="8px" sx={{ alignItems: 'center' }}>
-              <IconImportFile color="var(--accent-dark)" />
-              <Typography className="button-caps" color="var(--accent-dark)">
-                {t('tr_territoryDragOrClickToChoose')}
-              </Typography>
-            </Stack>
-            <Typography
-              className="label-small-regular"
-              color="var(--accent-400)"
-            >
-              ServiceTerritory.bkt
+            <input
+              {...importer.getInputProps()}
+              aria-label={t('tr_territoryImportChooseFiles')}
+            />
+            <IconImportFile color="var(--accent-dark)" />
+            <Typography className="button-caps" color="var(--accent-dark)">
+              {t('tr_territoryDragOrClickToChoose')}
+            </Typography>
+            <Typography className="body-small-regular">
+              {t('tr_territoryImportFormats')}
             </Typography>
           </Box>
         )}
-
-        {!processing && result && (
+        {!!importer.files.length && (
+          <Typography
+            className="body-small-regular"
+            sx={{ overflowWrap: 'anywhere' }}
+          >
+            {importer.files.map((file) => file.name).join(', ')}
+          </Typography>
+        )}
+        <Select
+          label={t('tr_territoryImportDateOrder')}
+          value={importer.dateOrder}
+          disabled={saving}
+          onChange={(event) =>
+            importer.setDateOrder(
+              event.target.value as TerritoryImportDateOrder
+            )
+          }
+        >
+          {(
+            [
+              ['iso', 'tr_territoryImportDate_iso'],
+              ['day', 'tr_territoryImportDate_day'],
+              ['month', 'tr_territoryImportDate_month'],
+            ] as const
+          ).map(([order, label]) => (
+            <MenuItem key={order} value={order}>
+              <Typography>{t(label)}</Typography>
+            </MenuItem>
+          ))}
+        </Select>
+        {processing && (
+          <Box role="status" aria-label={t('tr_territoryImportReading')}>
+            <WaitingLoader variant="standard" size={60} />
+          </Box>
+        )}
+        {result && (
           <>
-            <Summary result={result} />
-
-            {(result.driveMaps > 0 || result.skippedDisabled > 0) && (
+            <Stack spacing="8px" role="status" aria-live="polite">
+              {counts.map(([key, count]) => (
+                <Stack
+                  key={key}
+                  direction="row"
+                  sx={{ justifyContent: 'space-between', gap: '16px' }}
+                >
+                  <Typography>{t(key)}</Typography>
+                  <Typography className="body-small-semibold">
+                    {count}
+                  </Typography>
+                </Stack>
+              ))}
+            </Stack>
+            <Stack spacing="8px">
+              {result.sample.map((entry) => (
+                <Typography
+                  key={entry.number}
+                  className="body-small-regular"
+                  sx={{ overflowWrap: 'anywhere' }}
+                >
+                  {entry.number}
+                  {entry.name ? ` · ${entry.name}` : ''}
+                </Typography>
+              ))}
+              {!!result.remaining && (
+                <Typography className="body-small-regular">
+                  {t('tr_territoryImportMorePreview', {
+                    count: result.remaining,
+                  })}
+                </Typography>
+              )}
+            </Stack>
+            <InfoNote message={t('tr_territoryImportPreserveData')} />
+            {result.notices.map((notice, index) => (
               <InfoNote
-                message={[
-                  result.driveMaps > 0 &&
-                    t('tr_territoryMapsAreGoogleDriveLinksAndWereNotImported', {
-                      driveMaps: result.driveMaps,
-                    }),
-                  result.skippedDisabled > 0 &&
-                    t('tr_territoryDisabledTerritoriesWereSkipped', {
-                      skippedDisabled: result.skippedDisabled,
-                    }),
-                ]
-                  .filter(Boolean)
-                  .join(' ')}
+                key={`${notice.key}-${index}`}
+                message={t(notice.key, notice.values)}
               />
+            ))}
+            {!!result.missing.length && (
+              <InfoNote message={t('tr_territoryImportMatchPublishers')} />
             )}
-
-            <RadioGroup
-              value={mode}
-              onChange={(event) => setMode(event.target.value as Mode)}
+            {importer.publisherNames.map((name) => (
+              <AutoComplete
+                key={name}
+                label={t('tr_territoryImportMatchPublisher', { name })}
+                options={importer.assignees}
+                getOptionLabel={(person) =>
+                  typeof person === 'string' ? person : person.name
+                }
+                isOptionEqualToValue={(a, b) =>
+                  typeof b !== 'string' && a.id === b.id
+                }
+                getOptionKey={(person) =>
+                  typeof person === 'string' ? person : person.id
+                }
+                value={
+                  importer.assignees.find(
+                    (person) => person.id === importer.matches[name]
+                  ) ?? null
+                }
+                onChange={(_event, person) => {
+                  if (!person)
+                    importer.setMatches((current) => ({
+                      ...current,
+                      [name]: '',
+                    }));
+                  if (
+                    person &&
+                    !Array.isArray(person) &&
+                    typeof person !== 'string'
+                  )
+                    importer.setMatches((current) => ({
+                      ...current,
+                      [name]: person.id,
+                    }));
+                }}
+              />
+            ))}
+            <Button
+              variant="main"
+              disabled={
+                saving || !!error || !!result.missing.length || !importer.editor
+              }
+              onClick={importer.handleImport}
             >
-              <FormControlLabel
-                value="merge"
-                control={<Radio />}
-                label={
-                  <Typography className="body-regular">
-                    {t(
-                      'tr_territoryUpdateTerritoriesWithTheSameNumberAddTheRest'
-                    )}
-                  </Typography>
-                }
-              />
-              <FormControlLabel
-                value="replace"
-                control={<Radio />}
-                label={
-                  <Typography className="body-regular">
-                    {t('tr_territoryReplaceAllTerritories')}
-                  </Typography>
-                }
-              />
-            </RadioGroup>
+              {saving ? (
+                <WaitingLoader size={20} variant="standard" />
+              ) : (
+                t('tr_import')
+              )}
+            </Button>
           </>
         )}
-
-        <Stack spacing="8px">
-          {result && (
-            <Button variant="main" onClick={handleImport}>
-              {t('tr_import')}
-            </Button>
-          )}
-          <Button variant="secondary" onClick={onClose}>
-            {t('tr_cancel')}
+        {!!importer.files.length && (
+          <Button
+            variant="tertiary"
+            disabled={saving || processing}
+            onClick={importer.chooseAgain}
+          >
+            {t('tr_territoryImportChooseAgain')}
           </Button>
-        </Stack>
+        )}
+        <Button variant="secondary" disabled={saving} onClick={onClose}>
+          {t('tr_cancel')}
+        </Button>
       </Stack>
     </Dialog>
   );
 };
-
 export default TerritoryImport;

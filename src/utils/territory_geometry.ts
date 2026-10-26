@@ -28,7 +28,7 @@ export const territoryBoundaryArea = (ring: TerritoryBoundary) => {
   );
 };
 
-const normalizedBoundary = (boundary: TerritoryBoundary) => {
+export const normalizeTerritoryBoundary = (boundary: TerritoryBoundary) => {
   if (boundary.length < 3 || !boundary.every(validPosition)) return;
   const longitudes = boundary.map(([lng]) => lng);
   if (Math.max(...longitudes) - Math.min(...longitudes) >= 180) return;
@@ -49,7 +49,7 @@ export const splitTerritoryBoundary = (
   line: Pair[]
 ): GeometryResult<{ first: TerritoryBoundary; second: TerritoryBoundary }> => {
   try {
-    const ring = normalizedBoundary(boundary);
+    const ring = normalizeTerritoryBoundary(boundary);
     if (!ring || line.length < 2 || !line.every(validPosition))
       return { error: 'invalid' };
     if (
@@ -183,7 +183,7 @@ export const combineTerritoryBoundaries = (
 ): GeometryResult<{ boundary: TerritoryBoundary }> => {
   try {
     if (boundaries.length < 2) return { error: 'invalid' };
-    const rings = boundaries.map(normalizedBoundary);
+    const rings = boundaries.map(normalizeTerritoryBoundary);
     if (rings.some((ring) => !ring)) return { error: 'invalid' };
     const polygons = polygonClipping.union(
       [rings[0]!],
