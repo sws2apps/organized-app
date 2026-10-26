@@ -58,6 +58,12 @@ const CampaignOverview = ({
       {view.items.map((campaign, index) => {
         const past = campaign.end < today;
         const upcoming = campaign.start > today;
+        let statusLabel = t('tr_territoryCampaignActive');
+        if (past) statusLabel = t('tr_territoryCampaignPast');
+        else if (upcoming)
+          statusLabel = t('tr_territoryCampaignStartsIn', {
+            count: campaignStartsIn(campaign),
+          });
         const featured = !view.past && index === 0;
         const editable =
           onEdit && (!editableIds || editableIds.includes(campaign.id));
@@ -148,15 +154,7 @@ const CampaignOverview = ({
                           color={past ? 'grey' : 'accent'}
                           multiLine
                           sx={{ maxWidth: '100%', flexShrink: 1 }}
-                          text={
-                            past
-                              ? t('tr_territoryCampaignPast')
-                              : upcoming
-                                ? t('tr_territoryCampaignStartsIn', {
-                                    count: campaignStartsIn(campaign),
-                                  })
-                                : t('tr_territoryCampaignActive')
-                          }
+                          text={statusLabel}
                         />
                       </Stack>
                     </Stack>

@@ -240,19 +240,19 @@ const useTerritoriesHub = () => {
     restricted,
     running,
   ]);
-  const visible = useMemo(
-    () =>
-      tabId === 'campaign'
-        ? campaign
-          ? visibleBeforeCampaign.filter((item) =>
-              matchesCampaignStatus(item, campaign.id, campaignStatus)
-            )
-          : []
-        : campaignId
-          ? visibleBeforeCampaign.filter((item) => inCampaign(item, campaignId))
-          : visibleBeforeCampaign,
-    [tabId, campaignId, campaign, campaignStatus, visibleBeforeCampaign]
-  );
+  const visible = useMemo(() => {
+    if (tabId === 'campaign') {
+      if (!campaign) return [];
+      return visibleBeforeCampaign.filter((item) =>
+        matchesCampaignStatus(item, campaign.id, campaignStatus)
+      );
+    }
+    if (campaignId)
+      return visibleBeforeCampaign.filter((item) =>
+        inCampaign(item, campaignId)
+      );
+    return visibleBeforeCampaign;
+  }, [tabId, campaignId, campaign, campaignStatus, visibleBeforeCampaign]);
   const campaignTerritories = forTab(
     withStatus,
     'campaign',
@@ -264,42 +264,35 @@ const useTerritoriesHub = () => {
   );
 
   // what the browse tabs can show between them; the list keeps all of it built
-  const pool = useMemo(
-    () =>
-      isBrowsing
-        ? forTab(
-            withStatus,
-            tabId === 'campaign' ? 'campaign' : 'all',
-            me,
-            isTerritoryEditor,
-            groupHolder,
-            restricted,
-            { identity: context }
-          )
-        : undefined,
-    [
-      isBrowsing,
+  const pool = useMemo(() => {
+    if (!isBrowsing) return;
+    return forTab(
       withStatus,
+      tabId === 'campaign' ? 'campaign' : 'all',
       me,
       isTerritoryEditor,
       groupHolder,
       restricted,
-      tabId,
-      context,
-    ]
-  );
+      { identity: context }
+    );
+  }, [
+    isBrowsing,
+    withStatus,
+    me,
+    isTerritoryEditor,
+    groupHolder,
+    restricted,
+    tabId,
+    context,
+  ]);
 
-  const boardTerritories = useMemo(
-    () =>
-      isTerritoryEditor
-        ? tabId === 'campaign'
-          ? visible
-          : applyFilters(withStatus, filters).filter(
-              (item) => !campaignId || inCampaign(item, campaignId)
-            )
-        : [],
-    [withStatus, filters, isTerritoryEditor, campaignId, tabId, visible]
-  );
+  const boardTerritories = useMemo(() => {
+    if (!isTerritoryEditor) return [];
+    if (tabId === 'campaign') return visible;
+    return applyFilters(withStatus, filters).filter(
+      (item) => !campaignId || inCampaign(item, campaignId)
+    );
+  }, [withStatus, filters, isTerritoryEditor, campaignId, tabId, visible]);
 
   // a selection made in one view isn't carried, unseen, into another
   // an empty selection stays the same object, so a switch with nothing
@@ -411,10 +404,10 @@ const useTerritoriesHub = () => {
       { pathname: location.pathname, search: location.search },
       { replace: true, state: { ...location.state, territoryFilters: filters } }
     );
-    navigate(
-      `/territories/${id}${campaignId ? `?forCampaign=${encodeURIComponent(campaignId)}` : ''}`,
-      { state: { parent: title } }
-    );
+    const search = campaignId
+      ? `?forCampaign=${encodeURIComponent(campaignId)}`
+      : '';
+    navigate(`/territories/${id}${search}`, { state: { parent: title } });
   };
 
   return {

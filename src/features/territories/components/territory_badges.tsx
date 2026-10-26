@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router';
 import Button from '@components/button';
-import { territoryLocalModeState } from '@states/territories';
 import { territoryCampaignsState } from '@features/territories/campaigns';
 import { useAppTranslation } from '@hooks/index';
 import { Box, Stack } from '@mui/material';
@@ -16,6 +15,7 @@ import { hasNewNote } from '@features/territories/notes';
 import { categoryBadge } from '@features/territories/category_colors';
 import { useAtomValue } from 'jotai';
 import {
+  territoryLocalModeState,
   territoriesShowDoNotCallCountState,
   territoryCategoriesState,
 } from '@states/territories';

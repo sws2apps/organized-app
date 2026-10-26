@@ -43,12 +43,11 @@ export const campaignStartsIn = (
 export const campaignStatus = (
   territory: Territory,
   id: string
-): Exclude<CampaignStatus, 'all'> =>
-  workedInCampaign(territory, id)
-    ? 'completed'
-    : outForCampaign(territory, id)
-      ? 'assigned'
-      : 'waiting';
+): Exclude<CampaignStatus, 'all'> => {
+  if (workedInCampaign(territory, id)) return 'completed';
+  if (outForCampaign(territory, id)) return 'assigned';
+  return 'waiting';
+};
 
 export const matchesCampaignStatus = (
   territory: Territory,
