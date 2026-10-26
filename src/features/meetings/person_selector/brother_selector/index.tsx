@@ -1,4 +1,5 @@
-import { HTMLAttributes, MouseEvent, ReactNode } from 'react';
+import { HOSPITALITY_NOT_NEEDED } from '@constants/duties';
+import { HTMLAttributes, MouseEvent, ReactNode, useRef } from 'react';
 import {
   AutocompleteRenderGroupParams,
   Box,
@@ -25,7 +26,9 @@ import Typography from '@components/typography';
 import { assignmentConflictGroup } from '@utils/assignment_conflicts';
 
 const dutiesGroupBy = (option: PersonOptionsType) =>
-  String(assignmentConflictGroup(option.conflict));
+  option.person_uid === HOSPITALITY_NOT_NEEDED
+    ? '-1'
+    : String(assignmentConflictGroup(option.conflict));
 
 const BrotherOption = ({
   optionProps,
@@ -54,6 +57,7 @@ const BrotherOption = ({
       sx={{ display: 'flex', alignItems: 'center', gap: '8px', width: '100%' }}
     >
       {showIcon &&
+        option.person_uid !== HOSPITALITY_NOT_NEEDED &&
         (option.person_data.male.value ? <IconMale /> : <IconFemale />)}
 
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
@@ -97,6 +101,9 @@ const BrotherGroup = ({
   children: ReactNode;
 }) => {
   const { t } = useAppTranslation();
+
+  if (group === '-1')
+    return <ul style={{ padding: 0, margin: 0 }}>{children}</ul>;
 
   const groupLabels: Record<string, string> = {
     '0': 'tr_noOtherAssignments',
@@ -258,6 +265,7 @@ const SelectorAdornments = ({
 };
 
 const BrotherSelector = (props: PersonSelectorType) => {
+  const selectorRef = useRef<HTMLDivElement>(null);
   const showIcon = props.showIcon ?? true;
   const showAssignmentsHistory = props.showAssignmentsHistory ?? true;
 
@@ -305,7 +313,7 @@ const BrotherSelector = (props: PersonSelectorType) => {
   }
 
   return (
-    <Box sx={{ position: 'relative' }}>
+    <Box ref={selectorRef} sx={{ position: 'relative' }}>
       {isHistoryOpen && (
         <AssignmentsHistoryDialog
           open={isHistoryOpen}
@@ -335,7 +343,9 @@ const BrotherSelector = (props: PersonSelectorType) => {
         endIcon={props.endIcon}
         inputValue={inputValue}
         onInputChange={(_, value) => handleValueChange(value)}
-        onChange={(_, value: PersonOptionsType) => handleSaveAssignment(value)}
+        onChange={(_, value: PersonOptionsType) =>
+          handleSaveAssignment(value, selectorRef.current)
+        }
         fullWidth={true}
         groupBy={isDutiesField ? dutiesGroupBy : undefined}
         renderGroup={isDutiesField ? renderBrotherGroup : undefined}
@@ -381,7 +391,9 @@ const BrotherSelector = (props: PersonSelectorType) => {
       />
 
       <SelectorAdornments
-        showAssignmentsHistory={showAssignmentsHistory}
+        showAssignmentsHistory={
+          showAssignmentsHistory && value?.person_uid !== HOSPITALITY_NOT_NEEDED
+        }
         hasValue={Boolean(value)}
         helperText={helperText}
         helperColor={helperColor}

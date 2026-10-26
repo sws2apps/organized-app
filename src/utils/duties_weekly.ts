@@ -1,6 +1,8 @@
+import { HOSPITALITY_NOT_NEEDED } from '@constants/duties';
 import type { AssignmentFieldType } from '@definition/assignment';
 import type {
   AssignmentCongregation,
+  DutyPositionsType,
   SchedWeekType,
 } from '@definition/schedules';
 
@@ -50,6 +52,42 @@ export const dutiesPatchSchedule = (
       target = target[part] as Record<string, unknown>;
     }
     target[parts.at(-1)!] = value;
+  }
+  return next;
+};
+
+/** A no-hospitality choice handles every host slot, independently per data view. */
+export const dutiesHospitalityRecords = (
+  positions: DutyPositionsType,
+  position: keyof DutyPositionsType,
+  value: string,
+  dataView: string,
+  updatedAt: string
+): DutyPositionsType => {
+  const next = structuredClone(positions);
+  for (const key of Object.keys(next) as (keyof DutyPositionsType)[]) {
+    const previous = next[key].find(
+      (record) => record.type === dataView
+    )?.value;
+    if (
+      value === HOSPITALITY_NOT_NEEDED ||
+      previous === HOSPITALITY_NOT_NEEDED
+    ) {
+      next[key] = dutiesAssignRecords(
+        next[key],
+        value === HOSPITALITY_NOT_NEEDED ? HOSPITALITY_NOT_NEEDED : '',
+        dataView,
+        updatedAt
+      );
+    }
+  }
+  if (value !== HOSPITALITY_NOT_NEEDED) {
+    next[position] = dutiesAssignRecords(
+      next[position],
+      value,
+      dataView,
+      updatedAt
+    );
   }
   return next;
 };

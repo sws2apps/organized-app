@@ -202,6 +202,8 @@
   "tr_outgoingSpeakersSchedule": "Outgoing speakers schedule",
   "tr_audioVideo": "Audio/Video",
   "tr_hospitality": "Hospitality",
+  "tr_hospitalityNotNeeded": "Not needed",
+  "tr_invalidDutyValue": "This option is only available for Hospitality.",
   "tr_scheduleWeeksSort": "Reverse week order",
   "tr_scheduleWeeksToggle": "Show or hide weeks",
   "tr_dutiesMaterialsRequired": "Import meeting materials for this week to schedule duties.",

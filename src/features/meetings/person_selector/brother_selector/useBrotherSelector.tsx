@@ -1,3 +1,5 @@
+import { HOSPITALITY_NOT_NEEDED } from '@constants/duties';
+import { personSchema } from '@services/dexie/schema';
 import { dutyAssignmentForMeeting } from '@utils/duties_weekly';
 import { MouseEvent, useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'react-router';
@@ -419,7 +421,7 @@ const useBrotherSelector = ({
       };
     });
 
-    return newPersons.sort((a, b) => {
+    newPersons.sort((a, b) => {
       // conflict-free persons first, so the group order stays stable
       const aConflict = assignmentConflictGroup(a.conflict);
       const bConflict = assignmentConflictGroup(b.conflict);
@@ -449,7 +451,16 @@ const useBrotherSelector = ({
         .toISOString()
         .localeCompare(new Date(b.weekOf).toISOString());
     });
+    if (type === AssignmentCode.DUTIES_Hospitality) {
+      newPersons.unshift({
+        ...personSchema,
+        person_uid: HOSPITALITY_NOT_NEEDED,
+        person_name: t('tr_hospitalityNotNeeded'),
+      });
+    }
+    return newPersons;
   }, [
+    t,
     personsList,
     type,
     sources,
@@ -565,7 +576,7 @@ const useBrotherSelector = ({
   ]);
 
   const personHistory = useMemo(() => {
-    if (!value) return [];
+    if (!value || value.person_uid === HOSPITALITY_NOT_NEEDED) return [];
 
     return assignmentsHistory.filter(
       (record) => record.assignment.person === value.person_uid
@@ -573,7 +584,7 @@ const useBrotherSelector = ({
   }, [value, assignmentsHistory]);
 
   const isMeetingConflict = useMemo(() => {
-    if (!value) return false;
+    if (!value || value.person_uid === HOSPITALITY_NOT_NEEDED) return false;
 
     return schedulesPersonHasMeetingConflict({
       history: assignmentsHistory,
@@ -586,7 +597,7 @@ const useBrotherSelector = ({
   }, [value, assignmentsHistory, week, assignment, dataView, type]);
 
   const isConsecutiveAssignment = useMemo(() => {
-    if (!value) return false;
+    if (!value || value.person_uid === HOSPITALITY_NOT_NEEDED) return false;
 
     return schedulesPersonHasConsecutiveAssignment({
       history: assignmentsHistory,
@@ -613,7 +624,12 @@ const useBrotherSelector = ({
 
   const helperText = useMemo(() => {
     if (hasMixedDuties) return t('tr_dutiesDifferentAssignments');
-    if (!value || week.length === 0) return '';
+    if (
+      !value ||
+      value.person_uid === HOSPITALITY_NOT_NEEDED ||
+      week.length === 0
+    )
+      return '';
 
     // same-meeting conflict first: the helper color and decorator turn red
     // on conflict alone, so the text must match instead of showing the
@@ -755,9 +771,20 @@ const useBrotherSelector = ({
     persons,
   ]);
 
-  const handleSaveAssignment = async (value: PersonOptionsType) => {
+  const handleSaveAssignment = async (
+    value: PersonOptionsType,
+    selector?: HTMLDivElement | null
+  ) => {
+    // Selecting the meeting-wide status can remove the second/third host input.
+    const dutyGroup = selector?.closest('[role="group"]');
     try {
       await schedulesSaveAssignment(schedule, assignment, value, schedule_id);
+      if (
+        value?.person_uid === HOSPITALITY_NOT_NEEDED &&
+        document.activeElement === document.body
+      ) {
+        dutyGroup?.querySelector('input')?.focus();
+      }
 
       if (assignment === 'WM_Speaker_Part1') {
         setLocalSongSelectorOpen(true);
@@ -810,7 +837,9 @@ const useBrotherSelector = ({
     ) =>
       defaultFilterOptions(
         list.filter(
-          (record) => record.person_data.male.value === (gender === 'male')
+          (record) =>
+            record.person_uid === HOSPITALITY_NOT_NEEDED ||
+            record.person_data.male.value === (gender === 'male')
         ),
         state
       );

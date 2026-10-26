@@ -1,3 +1,4 @@
+import { HOSPITALITY_NOT_NEEDED } from '@constants/duties';
 import { useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { pdf } from '@react-pdf/renderer';
@@ -141,6 +142,7 @@ const useDutiesExport = (onClose: DutiesExportType['onClose']) => {
   };
 
   const personName = (uid: string) => {
+    if (uid === HOSPITALITY_NOT_NEEDED) return t('tr_hospitalityNotNeeded');
     if (uid.length === 0) return '';
 
     const person = persons.find((record) => record.person_uid === uid);
@@ -229,7 +231,11 @@ const useDutiesExport = (onClose: DutiesExportType['onClose']) => {
         : fieldsOf(slot)
             .filter(matcher)
             .map((field) => ({
-              id: `${slot.id}_${field.assignment}_${field.schedule_id ?? ''}`,
+              id:
+                schedulesDutiesGetFieldValue(slot.schedule, field, dataView) ===
+                HOSPITALITY_NOT_NEEDED
+                  ? `${slot.id}_hospitality-not-needed`
+                  : `${slot.id}_${field.assignment}_${field.schedule_id ?? ''}`,
               name: personName(
                 schedulesDutiesGetFieldValue(slot.schedule, field, dataView)
               ),
@@ -237,7 +243,11 @@ const useDutiesExport = (onClose: DutiesExportType['onClose']) => {
               // the brother reads from the sheet which parts he covers
               note: sectionNote(slot, field),
             }))
-            .filter((person) => person.name.length > 0);
+            .filter(
+              (person, index, all) =>
+                person.name.length > 0 &&
+                all.findIndex((item) => item.id === person.id) === index
+            );
 
       return {
         id: `${id}_${slot.id}`,
@@ -300,7 +310,11 @@ const useDutiesExport = (onClose: DutiesExportType['onClose']) => {
         String(duty.code),
         t(duty.label),
         duty.icon,
-        (field) => field.type === duty.code && !field.schedule_id
+        (field) => field.type === duty.code && !field.schedule_id,
+        duty.code === AssignmentCode.DUTIES_Hospitality &&
+          !config.schedule_weekly?.value
+          ? ['weekend']
+          : MEETINGS
       );
     }
 

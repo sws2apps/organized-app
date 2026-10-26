@@ -1,7 +1,10 @@
+import { HOSPITALITY_NOT_NEEDED } from '@constants/duties';
+import { dutyPositions } from '@services/dexie/schema';
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import {
   dutiesAssignRecords,
+  dutiesHospitalityRecords,
   dutiesPatchSchedule,
   dutyAssignmentForMeeting,
 } from '@utils/duties_weekly';
@@ -91,4 +94,99 @@ test('applying saved paths preserves intervening edits and microphone sections',
     original.duties.weekend.sections
   );
   assert.equal(original.duties.midweek.audio.position_1[0].value, 'A');
+});
+
+test('Not needed handles every Hospitality position without affecting another language group', () => {
+  const positions = Object.fromEntries(
+    [1, 2, 3, 4].map((n) => [
+      `position_${n}`,
+      [entry('main', `host-${n}`), entry('group', `group-host-${n}`)],
+    ])
+  ) as import('@definition/schedules').DutyPositionsType;
+  const saved = dutiesHospitalityRecords(
+    positions,
+    'position_2',
+    HOSPITALITY_NOT_NEEDED,
+    'main',
+    'new'
+  );
+  for (const [key, records] of Object.entries(saved)) {
+    assert.equal(
+      records.find((r) => r.type === 'main')?.value,
+      HOSPITALITY_NOT_NEEDED
+    );
+    assert.equal(records.find((r) => r.type === 'main')?.updatedAt, 'new');
+    assert.equal(
+      records.find((r) => r.type === 'group')?.value,
+      positions[key].find((r) => r.type === 'group')?.value
+    );
+  }
+  assert.equal(positions.position_2[0].value, 'host-2');
+});
+
+test('choosing a host after Not needed clears the status from every other Hospitality slot', () => {
+  const positions = dutyPositions();
+  const handled = dutiesHospitalityRecords(
+    positions,
+    'position_1',
+    HOSPITALITY_NOT_NEEDED,
+    'main',
+    'status'
+  );
+  const needed = dutiesHospitalityRecords(
+    handled,
+    'position_1',
+    'host',
+    'main',
+    'assigned'
+  );
+  assert.deepEqual(
+    Object.values(needed).map((records) => records[0].value),
+    ['host', '', '', '']
+  );
+  assert.ok(
+    Object.values(needed).every(
+      (records) => records[0].updatedAt === 'assigned'
+    )
+  );
+});
+
+test('clearing Not needed makes all configured Hospitality positions unassigned again', () => {
+  const handled = dutiesHospitalityRecords(
+    dutyPositions(),
+    'position_1',
+    HOSPITALITY_NOT_NEEDED,
+    'main',
+    'status'
+  );
+  const empty = dutiesHospitalityRecords(
+    handled,
+    'position_1',
+    '',
+    'main',
+    'cleared'
+  );
+  assert.ok(
+    Object.values(empty).every(
+      (records) => records[0].value === '' && records[0].updatedAt === 'cleared'
+    )
+  );
+});
+
+test('ordinary Hospitality edits preserve other hosts and groups', () => {
+  const positions = dutyPositions();
+  positions.position_2 = [entry('main', 'second-host')];
+  positions.position_1.push(entry('group', 'group-host'));
+  const saved = dutiesHospitalityRecords(
+    positions,
+    'position_1',
+    'first-host',
+    'main',
+    'new'
+  );
+  assert.equal(saved.position_2[0].value, 'second-host');
+  assert.equal(
+    saved.position_1.find((r) => r.type === 'group')?.value,
+    'group-host'
+  );
 });
