@@ -4,6 +4,7 @@ import { DutiesExportType } from './index.types';
 import useDutiesExport from './useDutiesExport';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
+import DialogActions from '@components/dialog_actions';
 import IconLoading from '@components/icon_loading';
 import Radio from '@components/radio';
 import Typography from '@components/typography';
@@ -14,6 +15,7 @@ const DutiesExport = ({ open, onClose }: DutiesExportType) => {
   const { tablet600Down } = useBreakpoints();
 
   const {
+    canExport,
     isProcessing,
     orientation,
     fontSize,
@@ -27,15 +29,30 @@ const DutiesExport = ({ open, onClose }: DutiesExportType) => {
   const handleExport = () => handleExportSchedules({ orientation, fontSize });
 
   return (
-    <Dialog onClose={onClose} open={open} sx={{ padding: '24px' }}>
-      <Stack spacing="24px" sx={{ width: '100%' }}>
-        <Stack spacing="8px">
-          <Typography className="h2">{t('tr_exportDuties')}</Typography>
-          <Typography sx={{ color: 'var(--grey-400)' }}>
-            {t('tr_exportDutiesDesc')}
-          </Typography>
-        </Stack>
-
+    <Dialog
+      onClose={() => {
+        if (!isProcessing) onClose();
+      }}
+      open={open}
+      title={t('tr_exportDuties')}
+      description={t('tr_exportDutiesDesc')}
+      actions={
+        <DialogActions>
+          <Button variant="secondary" disabled={isProcessing} onClick={onClose}>
+            {t('tr_cancel')}
+          </Button>
+          <Button
+            variant="main"
+            onClick={handleExport}
+            disabled={isProcessing || !canExport}
+            endIcon={isProcessing ? <IconLoading /> : undefined}
+          >
+            {t('tr_export')}
+          </Button>
+        </DialogActions>
+      }
+    >
+      <Stack spacing="var(--dialog-gap)" sx={{ width: '100%' }}>
         <WeekRangeSelector
           meeting="duties"
           onStartChange={handleSetStartWeek}
@@ -108,20 +125,6 @@ const DutiesExport = ({ open, onClose }: DutiesExportType) => {
               />
             </RadioGroup>
           </Stack>
-        </Stack>
-
-        <Stack spacing="8px" sx={{ width: '100%' }}>
-          <Button
-            variant="main"
-            onClick={handleExport}
-            disabled={isProcessing}
-            endIcon={isProcessing ? <IconLoading /> : undefined}
-          >
-            {t('tr_export')}
-          </Button>
-          <Button variant="secondary" disabled={isProcessing} onClick={onClose}>
-            {t('tr_cancel')}
-          </Button>
         </Stack>
       </Stack>
     </Dialog>

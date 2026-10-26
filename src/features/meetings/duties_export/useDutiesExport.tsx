@@ -125,7 +125,12 @@ const useDutiesExport = (onClose: DutiesExportType['onClose']) => {
   );
   const [fontSize, setFontSize] = useState(savedExportSettings.fontSize);
 
-  const handleSetStartWeek = (value: string) => setStartWeek(value);
+  const handleSetStartWeek = (value: string) => {
+    setStartWeek(value);
+    setEndWeek((end) => (end < value ? '' : end));
+  };
+  const canExport =
+    startWeek.length > 0 && endWeek.length > 0 && endWeek >= startWeek;
 
   const handleSetEndWeek = (value: string) => setEndWeek(value);
 
@@ -355,7 +360,7 @@ const useDutiesExport = (onClose: DutiesExportType['onClose']) => {
   };
 
   const handleExportSchedules = async (settings: DutiesExportSettings) => {
-    if (startWeek.length === 0 || endWeek.length === 0) return;
+    if (!canExport || isProcessing) return;
 
     try {
       setIsProcessing(true);
@@ -367,6 +372,7 @@ const useDutiesExport = (onClose: DutiesExportType['onClose']) => {
       );
 
       const duties = config ? dutyCards(weeks, config) : [];
+      if (duties.length === 0) throw new Error('tr_dutiesExportEmpty');
 
       const blob = await pdf(
         <TemplateMeetingDuties
@@ -388,7 +394,6 @@ const useDutiesExport = (onClose: DutiesExportType['onClose']) => {
       console.error(error);
 
       setIsProcessing(false);
-      onClose?.();
 
       displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
@@ -399,6 +404,7 @@ const useDutiesExport = (onClose: DutiesExportType['onClose']) => {
   };
 
   return {
+    canExport,
     isProcessing,
     orientation,
     fontSize,
