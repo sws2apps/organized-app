@@ -10,7 +10,8 @@ import { titleOf } from '@views/territories/shared/title';
 import Shadow from '@views/territories/shared/Shadow';
 import WarningChip from '@views/territories/shared/WarningChip';
 
-const COLUMNS = 4;
+import { textWidth } from '@views/territories/shared/textWidth';
+import { PHONE_GRID, phoneGridLayout } from '@views/territories/geometry';
 
 const digits = (value: string) => value.replace(/\D/g, '');
 
@@ -18,22 +19,40 @@ const PhoneGrid = ({
   numbers,
   blocked,
   width,
+  height,
 }: {
   numbers: string[];
   // do-not-call numbers, struck through so they read on a black and white print
   blocked: string[];
   width: number;
+  height: number;
 }) => {
-  const cell = (width - (COLUMNS - 1) * 4) / COLUMNS;
+  const { t } = useAppTranslation();
+  // Keep the entire dialable number; narrow cards use fewer columns.
+  const longest = numbers.reduce(
+    (max, number) => Math.max(max, textWidth(number, 10, true)),
+    0
+  );
+  const badge = Math.max(15, textWidth(String(numbers.length), 8, true) + 6);
+  const { columns, shown, remaining } = phoneGridLayout(
+    height,
+    numbers.length,
+    width,
+    longest + badge + 21
+  );
+  const cell = (width - (columns - 1) * PHONE_GRID.gap) / columns;
   const skip = new Set(blocked.map(digits));
 
   return (
-    <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 4 }}>
-      {numbers.map((number, index) => (
+    <View
+      style={{ flexDirection: 'row', flexWrap: 'wrap', gap: PHONE_GRID.gap }}
+    >
+      {numbers.slice(0, shown).map((number, index) => (
         <View
           key={`${index}-${number}`}
           style={{
             width: cell,
+            height: PHONE_GRID.cellHeight,
             flexDirection: 'row',
             alignItems: 'center',
             gap: 3,
@@ -62,6 +81,7 @@ const PhoneGrid = ({
           <Text
             style={[
               styles.phone,
+              { flexShrink: 1 },
               skip.has(digits(number))
                 ? { color: COLORS.dncText, textDecoration: 'line-through' }
                 : {},
@@ -71,6 +91,21 @@ const PhoneGrid = ({
           </Text>
         </View>
       ))}
+      {remaining > 0 && (
+        <View
+          style={{
+            width: cell,
+            height: PHONE_GRID.cellHeight,
+            justifyContent: 'center',
+            paddingLeft: 4,
+            paddingRight: 4,
+          }}
+        >
+          <Text style={styles.fine}>
+            {t('tr_territoryMoreInTheApp', { n: remaining })}
+          </Text>
+        </View>
+      )}
     </View>
   );
 };
@@ -165,6 +200,7 @@ const CardFront = ({
             numbers={territory.phoneNumbers ?? []}
             blocked={territory.doNotCalls.map((entry) => entry.address)}
             width={inner}
+            height={mapHeight}
           />
         )}
 

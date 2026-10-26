@@ -3,6 +3,7 @@ import { Image, Text, View } from '@react-pdf/renderer';
 import { TerritoryPrintData } from '@views/territories/index.types';
 import styles, { CHIP_HEIGHT, COLORS } from '@views/territories/index.styles';
 import { titleOf } from '@views/territories/shared/title';
+import CardFront from '@views/territories/shared/CardFront';
 import Shadow from '@views/territories/shared/Shadow';
 import WarningChip from '@views/territories/shared/WarningChip';
 import { fits, textWidth } from '@views/territories/shared/textWidth';
@@ -58,6 +59,17 @@ const MapFront = ({
   );
 
   const warningChip = warning && <WarningChip text={warning} maxWidth={row} />;
+
+  if (territory.type === 'phone') {
+    return (
+      <CardFront
+        territory={territory}
+        width={width}
+        height={height}
+        titleAtBottom
+      />
+    );
+  }
 
   return (
     <View style={{ position: 'relative', width, height }}>

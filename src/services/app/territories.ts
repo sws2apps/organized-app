@@ -1,3 +1,4 @@
+import { isTerritorySyncManager } from '@services/app/territory_policy';
 import type { TerritorySharedSettings } from '@definition/territory_sync';
 import {
   dbTerritorySettingsSave,
@@ -51,7 +52,12 @@ export const saveTerritoryChanges = async (
   const congregation = store.get(congIDState);
   const user = store.get(userIDState);
   if (isTest || !congregation || !user) await dbTerritoriesSave(records);
-  else await dbTerritoriesEnqueue(records, `${congregation}:${user}`);
+  else
+    await dbTerritoriesEnqueue(
+      records,
+      `${congregation}:${user}`,
+      isTerritorySyncManager()
+    );
 };
 
 export const saveTerritorySettings = async (
