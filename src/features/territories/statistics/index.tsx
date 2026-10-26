@@ -101,6 +101,10 @@ const TerritoriesStatistics = () => {
     { locale }
   )}`;
 
+  const rangeHint = custom
+    ? t('tr_territoryStillShowing', { range: rangeText })
+    : rangeText;
+
   // starts from the period on screen, so nothing jumps until a date changes
   const choosePeriod = (next: string) => {
     if (next === 'custom') {
@@ -161,6 +165,7 @@ const TerritoriesStatistics = () => {
           <Select
             label={t('tr_period')}
             value={period}
+            helperText={!custom || fromError || toError ? rangeHint : undefined}
             onChange={(event) => choosePeriod(String(event.target.value))}
           >
             {STATS_PERIODS().map((option) => (
@@ -201,22 +206,6 @@ const TerritoriesStatistics = () => {
                 onChange={(value) => changeCustom(from, value)}
               />
             </Box>
-          </Box>
-        )}
-        {/* a complete From–To already says it */}
-        {(!custom || fromError || toError) && (
-          <Box
-            sx={{
-              minHeight: { tablet600: '48px' },
-              display: 'flex',
-              alignItems: 'center',
-            }}
-          >
-            <Typography className="body-small-regular" color="var(--grey-400)">
-              {custom
-                ? t('tr_territoryStillShowing', { range: rangeText })
-                : rangeText}
-            </Typography>
           </Box>
         )}
       </Box>
