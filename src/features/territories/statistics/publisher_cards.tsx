@@ -6,7 +6,6 @@ import { Typography } from '@components/index';
 import {
   chartsCut,
   publisherCoverage,
-  PublisherSort,
   publishersPerMonth,
   rangeMonths,
   StatsRange,
@@ -17,9 +16,7 @@ import {
   ChartCard,
   ColumnChart,
 } from '@features/territories/components/charts';
-import PublisherLoad, {
-  PublisherSortButton,
-} from '@features/territories/components/publisher_load';
+import PublisherLoad from '@features/territories/components/publisher_load';
 import { Territory } from '@definition/territory';
 import { monthShortNamesState } from '@states/app';
 
@@ -37,7 +34,6 @@ export const PublisherSplit = ({
   );
 
   const [open, setOpen] = useState<string>();
-  const [sort, setSort] = useState<PublisherSort>('count');
 
   const total = withTerritory.length + without.length + never.length || 1;
   const share = Math.round((withTerritory.length / total) * 100);
@@ -74,7 +70,6 @@ export const PublisherSplit = ({
       })}
       note={t('tr_territoryAsOfToday')}
       span={4}
-      action={opened && <PublisherSortButton sort={sort} onChange={setSort} />}
     >
       <Stack direction="row" spacing="4px" sx={{ height: '20px' }}>
         {rows.map((row) => (
@@ -139,7 +134,6 @@ export const PublisherSplit = ({
         <PublisherLoad
           key={opened.label}
           entries={opened.entries}
-          sort={sort}
         />
       )}
     </ChartCard>
@@ -154,23 +148,16 @@ export const PublisherLoadCard = ({
   const { t } = useAppTranslation();
 
   const assignees = useAtomValue(territoryAssigneesState);
-  const [sort, setSort] = useState<PublisherSort>('count');
 
   return (
     <ChartCard
       title={t('tr_publishers')}
-      hint={
-        sort === 'count'
-          ? t('tr_territoryMostTerritoriesHeld')
-          : t('tr_territoryTerritoriesHeldByName')
-      }
+      hint={t('tr_territoryMostTerritoriesHeld')}
       note={t('tr_territoryAsOfToday')}
       span={4}
-      action={<PublisherSortButton sort={sort} onChange={setSort} />}
     >
       <PublisherLoad
         entries={publisherCoverage(territories, assignees).withTerritory}
-        sort={sort}
         limit={9}
       />
     </ChartCard>
