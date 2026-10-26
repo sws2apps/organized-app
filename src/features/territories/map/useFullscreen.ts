@@ -36,7 +36,7 @@ const useFullscreen = (
   }, [fullscreen, wrapper]);
 
   useEffect(() => {
-    let resizeTimer: ReturnType<typeof window.setTimeout>;
+    let resizeTimer: number | undefined;
 
     const handle = () => {
       window.clearTimeout(resizeTimer);
