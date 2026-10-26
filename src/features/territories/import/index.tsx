@@ -1,7 +1,9 @@
-import { Box, Stack } from '@mui/material';
+import { Box, Link, Stack } from '@mui/material';
 import {
+  Accordion,
   AutoComplete,
   Button,
+  CustomDivider,
   InfoNote,
   MenuItem,
   Select,
@@ -25,13 +27,15 @@ const TerritoryImport = ({
   const importer = useTerritoryImport(open, onClose);
   const { result, error, processing, saving } = importer;
   const counts = result
-    ? ([
-        ['tr_territoryImportAdded', result.added],
-        ['tr_territoryImportUpdated', result.updated],
-        ['tr_assignments', result.assignments],
-        ['tr_territoryDoNotCallLabel', result.doNotCalls],
-        ['tr_territoryImportBoundaries', result.boundaries],
-      ] as const)
+    ? (
+        [
+          ['tr_territoryImportAdded', result.added],
+          ['tr_territoryImportUpdated', result.updated],
+          ['tr_assignments', result.assignments],
+          ['tr_territoryDoNotCallLabel', result.doNotCalls],
+          ['tr_territoryImportBoundaries', result.boundaries],
+        ] as const
+      ).filter(([, count]) => count > 0)
     : [];
   return (
     <Dialog
@@ -39,84 +43,161 @@ const TerritoryImport = ({
       onClose={() => {
         if (!saving) onClose();
       }}
-      title={t('tr_territoryImportTerritories')}
-      description={t('tr_territoryImportDescription')}
+      title={t(
+        result ? 'tr_territoryImportReview' : 'tr_territoryImportTerritories'
+      )}
+      description={
+        !result && !processing && !importer.files.length ? (
+          <>
+            {t('tr_territoryImportIntro_before')}
+            <Link
+              component="button"
+              onClick={importer.downloadTemplate}
+              sx={{
+                color: 'var(--accent-dark)',
+                textDecoration: 'none',
+                cursor: 'pointer',
+                fontSize: 'inherit',
+                fontFamily: 'inherit',
+                verticalAlign: 'baseline',
+                lineHeight: 'inherit',
+                border: 'none',
+                background: 'none',
+                padding: 0,
+              }}
+            >
+              {t('tr_territoryImportDownloadTemplate')}
+            </Link>
+            {t('tr_territoryImportIntro_after')}
+          </>
+        ) : undefined
+      }
+      actions={
+        <Stack spacing="var(--dialog-header-gap)">
+          {result && (
+            <Button
+              variant="main"
+              disabled={
+                saving || !!error || !!result.missing.length || !importer.editor
+              }
+              onClick={importer.handleImport}
+              endIcon={
+                saving ? (
+                  <WaitingLoader size={20} variant="standard" />
+                ) : undefined
+              }
+            >
+              {t('tr_import')}
+            </Button>
+          )}
+          <Button
+            variant="secondary"
+            disabled={saving}
+            onClick={
+              importer.files.length && !processing
+                ? importer.chooseAgain
+                : onClose
+            }
+          >
+            {t(importer.files.length && !processing ? 'tr_back' : 'tr_cancel')}
+          </Button>
+        </Stack>
+      }
     >
-      <Stack spacing="16px" sx={{ width: '100%' }}>
+      <Stack spacing="var(--dialog-gap-mobile)" sx={{ width: '100%' }}>
         {error && (
           <Box role="alert">
             <Typography color="var(--red-main)">{error}</Typography>
           </Box>
         )}
-        {!result && !saving && (
+        {!result && !processing && !importer.files.length && (
           <>
-            <Button variant="small" onClick={importer.downloadTemplate}>
-              {t('tr_territoryImportDownloadTemplate')}
-            </Button>
-            <InfoNote message={t('tr_territoryImportTemplateHelp')} />
+            <Accordion
+              id="territory-import-tips"
+              label={t('tr_templateFillingTips')}
+              expanded={importer.tipsExpanded}
+              onChange={importer.toggleTips}
+              summaryProps={{
+                'aria-controls': 'territory-import-tips-content',
+              }}
+              sx={{
+                backgroundColor: 'var(--grey-50)',
+                borderRadius: 'var(--radius-s)',
+              }}
+            >
+              <Stack
+                id="territory-import-tips-content"
+                spacing="var(--dialog-header-gap)"
+              >
+                {[
+                  'tr_territoryImportTemplateHelp',
+                  'tr_territoryImportTypeHelp',
+                  'tr_territoryImportMapHelp',
+                  'tr_territoryImportFilesHelp',
+                ].map((key) => (
+                  <Typography
+                    key={key}
+                    className="body-small-regular"
+                    color="var(--grey-400)"
+                  >
+                    {t(key)}
+                  </Typography>
+                ))}
+              </Stack>
+            </Accordion>
+            <Box
+              {...importer.getRootProps({
+                role: 'button',
+                'aria-label': t('tr_territoryImportChooseFiles'),
+              })}
+              sx={{
+                border: '1px dashed var(--accent-dark)',
+                borderRadius: 'var(--radius-m)',
+                minHeight: '160px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+                padding: 'var(--dialog-gap-mobile)',
+                '&:hover': { backgroundColor: 'var(--accent-100)' },
+                '&:focus-visible': {
+                  outline: '2px solid var(--accent-dark)',
+                  outlineOffset: '2px',
+                },
+              }}
+            >
+              <input
+                {...importer.getInputProps()}
+                aria-label={t('tr_territoryImportChooseFiles')}
+              />
+              <Stack
+                spacing="var(--dialog-header-gap)"
+                sx={{ alignItems: 'center' }}
+              >
+                <Stack
+                  direction="row"
+                  spacing="var(--dialog-header-gap)"
+                  sx={{ alignItems: 'center' }}
+                >
+                  <IconImportFile color="var(--accent-dark)" />
+                  <Typography
+                    className="button-caps"
+                    color="var(--accent-dark)"
+                  >
+                    {t('tr_dragOrClick')}
+                  </Typography>
+                </Stack>
+                <Typography
+                  className="label-small-regular"
+                  color="var(--accent-400)"
+                  sx={{ textAlign: 'center' }}
+                >
+                  {t('tr_territoryImportFormats')}
+                </Typography>
+              </Stack>
+            </Box>
           </>
         )}
-        {!result && !processing && (
-          <Box
-            {...importer.getRootProps({
-              role: 'button',
-              'aria-label': t('tr_territoryImportChooseFiles'),
-            })}
-            sx={{
-              border: '1px dashed var(--accent-dark)',
-              borderRadius: 'var(--radius-l)',
-              padding: '24px',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              gap: '8px',
-              cursor: 'pointer',
-              '&:hover': { backgroundColor: 'var(--accent-100)' },
-            }}
-          >
-            <input
-              {...importer.getInputProps()}
-              aria-label={t('tr_territoryImportChooseFiles')}
-            />
-            <IconImportFile color="var(--accent-dark)" />
-            <Typography className="button-caps" color="var(--accent-dark)">
-              {t('tr_territoryDragOrClickToChoose')}
-            </Typography>
-            <Typography className="body-small-regular">
-              {t('tr_territoryImportFormats')}
-            </Typography>
-          </Box>
-        )}
-        {!!importer.files.length && (
-          <Typography
-            className="body-small-regular"
-            sx={{ overflowWrap: 'anywhere' }}
-          >
-            {importer.files.map((file) => file.name).join(', ')}
-          </Typography>
-        )}
-        <Select
-          label={t('tr_territoryImportDateOrder')}
-          value={importer.dateOrder}
-          disabled={saving}
-          onChange={(event) =>
-            importer.setDateOrder(
-              event.target.value as TerritoryImportDateOrder
-            )
-          }
-        >
-          {(
-            [
-              ['iso', 'tr_territoryImportDate_iso'],
-              ['day', 'tr_territoryImportDate_day'],
-              ['month', 'tr_territoryImportDate_month'],
-            ] as const
-          ).map(([order, label]) => (
-            <MenuItem key={order} value={order}>
-              <Typography>{t(label)}</Typography>
-            </MenuItem>
-          ))}
-        </Select>
         {processing && (
           <Box role="status" aria-label={t('tr_territoryImportReading')}>
             <WaitingLoader variant="standard" size={60} />
@@ -124,48 +205,86 @@ const TerritoryImport = ({
         )}
         {result && (
           <>
-            <Stack spacing="8px" role="status" aria-live="polite">
-              {counts.map(([key, count]) => (
-                <Stack
-                  key={key}
-                  direction="row"
-                  sx={{ justifyContent: 'space-between', gap: '16px' }}
-                >
-                  <Typography>{t(key)}</Typography>
-                  <Typography className="body-small-semibold">
-                    {count}
-                  </Typography>
-                </Stack>
-              ))}
-            </Stack>
-            <Stack spacing="8px">
-              {result.sample.map((entry) => (
+            <Stack
+              spacing="var(--dialog-gap-mobile)"
+              divider={<CustomDivider color="var(--accent-200)" />}
+              sx={{
+                padding: 'var(--dialog-gap-mobile)',
+                borderRadius: 'var(--radius-m)',
+                bgcolor: 'var(--accent-150)',
+              }}
+            >
+              <Stack
+                direction="row"
+                spacing="var(--dialog-header-gap)"
+                sx={{ alignItems: 'center' }}
+              >
+                <IconImportFile color="var(--accent-dark)" />
                 <Typography
-                  key={entry.number}
-                  className="body-small-regular"
-                  sx={{ overflowWrap: 'anywhere' }}
+                  className="h4"
+                  color="var(--accent-dark)"
+                  sx={{ overflowWrap: 'anywhere', minWidth: 0 }}
                 >
-                  {entry.number}
-                  {entry.name ? ` · ${entry.name}` : ''}
+                  {importer.files.map((file) => file.name).join(', ')}
                 </Typography>
-              ))}
-              {!!result.remaining && (
-                <Typography className="body-small-regular">
-                  {t('tr_territoryImportMorePreview', {
-                    count: result.remaining,
-                  })}
-                </Typography>
-              )}
+              </Stack>
+              <Stack
+                spacing="var(--dialog-header-gap)"
+                role="status"
+                aria-live="polite"
+              >
+                {counts.map(([key, count]) => (
+                  <Stack
+                    key={key}
+                    direction="row"
+                    sx={{
+                      justifyContent: 'space-between',
+                      gap: 'var(--dialog-gap-mobile)',
+                    }}
+                  >
+                    <Typography>{t(key)}</Typography>
+                    <Typography className="body-small-semibold">
+                      {count}
+                    </Typography>
+                  </Stack>
+                ))}
+              </Stack>
+              <Stack spacing="var(--dialog-header-gap)">
+                {result.sample.map((entry) => (
+                  <Typography
+                    key={entry.number}
+                    className="body-small-regular"
+                    sx={{ overflowWrap: 'anywhere' }}
+                  >
+                    {entry.number}
+                    {entry.name ? ` · ${entry.name}` : ''}
+                  </Typography>
+                ))}
+                {!!result.remaining && (
+                  <Typography className="body-small-regular">
+                    {t('tr_territoryImportMorePreview', {
+                      count: result.remaining,
+                    })}
+                  </Typography>
+                )}
+              </Stack>
             </Stack>
-            <InfoNote message={t('tr_territoryImportPreserveData')} />
+            {!!result.updated && (
+              <InfoNote message={t('tr_territoryImportPreserveData')} />
+            )}
+            {!!result.updated && !!result.boundaries && (
+              <InfoNote message={t('tr_territoryImportReplaceMaps')} />
+            )}
             {result.notices.map((notice, index) => (
               <InfoNote
                 key={`${notice.key}-${index}`}
                 message={t(notice.key, notice.values)}
               />
             ))}
-            {!!result.missing.length && (
-              <InfoNote message={t('tr_territoryImportMatchPublishers')} />
+            {!!importer.publisherNames.length && (
+              <Typography className="body-small-semibold">
+                {t('tr_territoryImportMatchPublishers')}
+              </Typography>
             )}
             {importer.publisherNames.map((name) => (
               <AutoComplete
@@ -204,33 +323,32 @@ const TerritoryImport = ({
                 }}
               />
             ))}
-            <Button
-              variant="main"
-              disabled={
-                saving || !!error || !!result.missing.length || !importer.editor
-              }
-              onClick={importer.handleImport}
-            >
-              {saving ? (
-                <WaitingLoader size={20} variant="standard" />
-              ) : (
-                t('tr_import')
-              )}
-            </Button>
           </>
         )}
-        {!!importer.files.length && (
-          <Button
-            variant="tertiary"
+        {importer.showDateOrder && (
+          <Select
+            label={t('tr_territoryImportDateOrder')}
+            value={importer.dateOrder}
             disabled={saving || processing}
-            onClick={importer.chooseAgain}
+            onChange={(event) =>
+              importer.setDateOrder(
+                event.target.value as TerritoryImportDateOrder
+              )
+            }
           >
-            {t('tr_territoryImportChooseAgain')}
-          </Button>
+            {(
+              [
+                ['iso', 'tr_territoryImportDate_iso'],
+                ['day', 'tr_territoryImportDate_day'],
+                ['month', 'tr_territoryImportDate_month'],
+              ] as const
+            ).map(([order, label]) => (
+              <MenuItem key={order} value={order}>
+                <Typography>{t(label)}</Typography>
+              </MenuItem>
+            ))}
+          </Select>
         )}
-        <Button variant="secondary" disabled={saving} onClick={onClose}>
-          {t('tr_cancel')}
-        </Button>
       </Stack>
     </Dialog>
   );

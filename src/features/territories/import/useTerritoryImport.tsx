@@ -30,6 +30,8 @@ const useTerritoryImport = (open: boolean, onClose: VoidFunction) => {
   const [processing, setProcessing] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
+  const [tipsExpanded, setTipsExpanded] = useState(false);
+  const [dateError, setDateError] = useState(false);
   const [dateOrder, setDateOrder] = useState<TerritoryImportDateOrder>('iso');
   const [matches, setMatches] = useState<Record<string, string>>({});
   const operation = useRef(0);
@@ -49,6 +51,9 @@ const useTerritoryImport = (open: boolean, onClose: VoidFunction) => {
   useEffect(() => {
     setFiles([]);
     setData(undefined);
+    setTipsExpanded(false);
+    setDateOrder('iso');
+    setDateError(false);
     setError('');
     setMatches({});
     setProcessing(false);
@@ -61,6 +66,7 @@ const useTerritoryImport = (open: boolean, onClose: VoidFunction) => {
     }
     const current = ++operation.current;
     setProcessing(true);
+    setDateError(false);
     setError('');
     setData(undefined);
     setMatches({});
@@ -69,7 +75,14 @@ const useTerritoryImport = (open: boolean, onClose: VoidFunction) => {
         if (current === operation.current) setData(result);
       })
       .catch((error) => {
-        if (current === operation.current) setError(errorText(error));
+        if (current === operation.current) {
+          setDateError(
+            error instanceof TerritoryImportError &&
+              error.key === 'tr_territoryImportDateError' &&
+              files.some((file) => /\.csv$/i.test(file.name))
+          );
+          setError(errorText(error));
+        }
       })
       .finally(() => {
         if (current === operation.current) setProcessing(false);
@@ -158,10 +171,15 @@ const useTerritoryImport = (open: boolean, onClose: VoidFunction) => {
     setFiles([]);
     setData(undefined);
     setMatches({});
+    setDateOrder('iso');
+    setDateError(false);
     setError('');
   };
   return {
     ...dropzone,
+    tipsExpanded,
+    toggleTips: () => setTipsExpanded((value) => !value),
+    showDateOrder: !!files.length && (dateError || dateOrder !== 'iso'),
     publisherNames: [
       ...new Set([
         ...(preview?.result?.missing ?? []),
