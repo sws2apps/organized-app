@@ -1171,6 +1171,7 @@
   "tr_territoryItIsSavedOnceItHasANumberNo": "It is saved once it has a number no other territory uses.",
   "tr_territoryShowAvailableTerritories": "Show available territories",
   "tr_territoryDigitalMap": "Digital map",
+  "tr_territoryMoreInTheApp": "{{n}} more in the app",
   "tr_territoryOlderInTheApp": "+{{n}} older in the app",
   "tr_territoryTheOfflineMapCouldNotBeUpdatedTryAgain": "The offline map could not be updated. Try again.",
   "tr_territoryTheCampaignReportCouldNotBeSharedTryAgain": "The campaign report could not be shared. Try again.",
