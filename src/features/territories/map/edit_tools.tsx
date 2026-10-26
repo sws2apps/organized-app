@@ -633,7 +633,7 @@ const drawingStyleOptions = (
     content = (
       <>
         <PinTypes value={current} onPick={editor.pickPinType} />
-        {kind && finished}
+        {finished}
       </>
     );
   } else if (kind === 'text') {
