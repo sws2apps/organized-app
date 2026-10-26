@@ -5,7 +5,12 @@ import Typography from '@components/typography';
 import { LabeledDetailProps } from '@components/labeled_detail/index.types';
 
 /** A visible label above flexible read-only content, with an optional icon. */
-const LabeledDetail = ({ label, children, icon }: LabeledDetailProps) => {
+const LabeledDetail = ({
+  label,
+  children,
+  icon,
+  valueClassName = 'body-small-regular',
+}: LabeledDetailProps) => {
   const labelId = useId();
 
   return (
@@ -28,7 +33,7 @@ const LabeledDetail = ({ label, children, icon }: LabeledDetailProps) => {
       >
         {label}
       </Typography>
-      <DetailRow icon={icon} className="body-small-regular">
+      <DetailRow icon={icon} className={valueClassName}>
         {children}
       </DetailRow>
     </Box>

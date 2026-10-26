@@ -90,7 +90,7 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
         >
           <Typography
             component="h4"
-            className="body-small-semibold"
+            className="h4"
             sx={{ minWidth: 0, overflowWrap: 'anywhere' }}
           >
             {groupLabel}
@@ -145,11 +145,15 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
           minWidth: 0,
         }}
       >
-        <LabeledDetail label={t('tr_conductor')}>
+        <LabeledDetail
+          label={t('tr_conductor')}
+          valueClassName="body-small-semibold"
+        >
           {meeting.conductor}
         </LabeledDetail>
         <LabeledDetail
           label={t('tr_location')}
+          valueClassName="body-small-semibold"
           icon={getLocationIcon(meeting.location, 'var(--grey-400)')}
         >
           {isWebAddress ? (
