@@ -80,7 +80,7 @@ const DutyItem = (props: DutyItemProps) => {
         sx={{
           alignItems: 'center',
           gap: 'var(--dialog-header-gap)',
-          color: 'var(--black)',
+          color: 'var(--grey-350)',
         }}
       >
         <IconCustomDuty
