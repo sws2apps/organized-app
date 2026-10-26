@@ -7,7 +7,7 @@ import {
   IconWrapper,
   TextColumn,
   ChevronWrapper,
-} from './index.styles';
+} from '@components/settings_tab/index.styles';
 
 type SettingsTabProps = {
   renderIcon: (color: string) => ReactNode;

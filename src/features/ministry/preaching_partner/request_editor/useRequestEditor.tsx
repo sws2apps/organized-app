@@ -1,6 +1,13 @@
-import { useCallback, useEffect, useState } from 'react';
-import { useAtomValue } from 'jotai';
-import { PreachingPartnerEditorProps } from './index.types';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { isValid as isValidDate } from 'date-fns';
+import { partnerDate, partnerRequestIsValid } from '@utils/preaching_partner';
+import {
+  partnerCanCreateState,
+  partnerMutationState,
+  partnerTodayState,
+} from '@states/preaching_partner';
+import { useSetAtom, useAtomValue } from 'jotai';
+import { PreachingPartnerEditorProps } from '@features/ministry/preaching_partner/request_editor/index.types';
 import {
   PreachingPartnerMinistryType,
   PreachingPartnerRequestType,
@@ -9,10 +16,6 @@ import {
   preachingPartnerBuildRequest,
   preachingPartnerTypeLabel,
 } from '@services/app/preaching_partner';
-import {
-  dbPreachingPartnerRequestDelete,
-  dbPreachingPartnerRequestSave,
-} from '@services/dexie/preaching_partner';
 import { displaySnackNotification } from '@services/states/app';
 import { formatDate, generateDateFromTime } from '@utils/date';
 import { getMessageByCode, getTranslation } from '@services/i18n/translation';
@@ -30,14 +33,21 @@ const MINISTRY_TYPES = [
 const useRequestEditor = ({
   open,
   onClose,
+  onSaved,
   request,
 }: PreachingPartnerEditorProps) => {
+  const mutate = useSetAtom(partnerMutationState);
+  const canCreate = useAtomValue(partnerCanCreateState);
+  const today = useAtomValue(partnerTodayState);
   const userUID = useAtomValue(userLocalUIDState);
   const hour24 = useAtomValue(hour24FormatState);
 
   const [value, setValue] = useState<PreachingPartnerRequestType>(() =>
     preachingPartnerBuildRequest(userUID)
   );
+  const original = useRef(value);
+  const [isDiscardOpen, setIsDiscardOpen] = useState(false);
+  const [dateInputError, setDateInputError] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
@@ -46,7 +56,9 @@ const useRequestEditor = ({
     label: preachingPartnerTypeLabel(type),
   }));
 
-  const date = new Date(value.request_data.date);
+  const date = value.request_data.date
+    ? partnerDate(value.request_data.date)
+    : null;
 
   const start = value.request_data.start
     ? generateDateFromTime(value.request_data.start)
@@ -62,7 +74,13 @@ const useRequestEditor = ({
     !flexible && !!startTime && !!endTime && endTime <= startTime;
 
   // a specific time needs a start; the end stays optional
-  const isValid = (flexible || !!startTime) && !endBeforeStart;
+  const isValid =
+    canCreate && !dateInputError && partnerRequestIsValid(value, today);
+  const dateError =
+    !!dateInputError ||
+    !date ||
+    !isValidDate(date) ||
+    value.request_data.date < today;
 
   const updateData = useCallback(
     (data: Partial<PreachingPartnerRequestType['request_data']>) => {
@@ -75,9 +93,9 @@ const useRequestEditor = ({
   );
 
   const handleDateChange = (value: Date | null) => {
-    if (!value) return;
-
-    updateData({ date: formatDate(value, 'yyyy/MM/dd') });
+    updateData({
+      date: value && isValidDate(value) ? formatDate(value, 'yyyy/MM/dd') : '',
+    });
   };
 
   const handleFlexibleChange = (flexible: boolean) => {
@@ -88,12 +106,17 @@ const useRequestEditor = ({
     );
   };
 
-  const handleStartChange = (value: Date) => {
-    updateData({ start: formatDate(value, 'HH:mm') });
+  const handleStartChange = (value: Date | null) => {
+    updateData({
+      start:
+        value && isValidDate(value) ? formatDate(value, 'HH:mm') : undefined,
+    });
   };
 
-  const handleEndChange = (value: Date) => {
-    updateData({ end: formatDate(value, 'HH:mm') });
+  const handleEndChange = (value: Date | null) => {
+    updateData({
+      end: value && isValidDate(value) ? formatDate(value, 'HH:mm') : undefined,
+    });
   };
 
   const handleTypeChange = (type: PreachingPartnerMinistryType) => {
@@ -110,25 +133,34 @@ const useRequestEditor = ({
     try {
       setIsProcessing(true);
 
-      await dbPreachingPartnerRequestSave({
-        ...value,
-        request_data: {
-          ...value.request_data,
-          updatedAt: new Date().toISOString(),
-        },
-      });
+      await mutate({ action: request ? 'edit' : 'create', request: value });
 
       setIsProcessing(false);
       onClose();
+      onSaved?.();
     } catch (error) {
       setIsProcessing(false);
 
       displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
-        message: getMessageByCode(error.message),
+        message: getMessageByCode(
+          error instanceof Error && error.message.startsWith('tr_partner')
+            ? error.message
+            : 'tr_partnerActionFailed'
+        ),
         severity: 'error',
       });
     }
+  };
+
+  const handleClose = () => {
+    if (isProcessing) return;
+    if (
+      JSON.stringify(value.request_data) !==
+      JSON.stringify(original.current.request_data)
+    )
+      setIsDiscardOpen(true);
+    else onClose();
   };
 
   const handleOpenDelete = () => setIsDeleteOpen(true);
@@ -138,7 +170,7 @@ const useRequestEditor = ({
   const handleConfirmDelete = async () => {
     if (!request) return;
 
-    await dbPreachingPartnerRequestDelete(request.request_uid);
+    await mutate({ action: 'delete', request });
 
     setIsDeleteOpen(false);
     onClose();
@@ -153,13 +185,26 @@ const useRequestEditor = ({
   useEffect(() => {
     if (!open) return;
 
-    setValue(
-      request ? structuredClone(request) : preachingPartnerBuildRequest(userUID)
-    );
+    setIsDeleteOpen(false);
+    setIsDiscardOpen(false);
+    setDateInputError(null);
+    original.current = request
+      ? structuredClone(request)
+      : preachingPartnerBuildRequest(userUID);
+    setValue(original.current);
   }, [open, request, userUID]);
 
   return {
     value,
+    isDiscardOpen,
+    handleClose,
+    handleCloseDiscard: () => setIsDiscardOpen(false),
+    handleDiscard: async () => {
+      setIsDiscardOpen(false);
+      onClose();
+    },
+    dateError,
+    handleDateError: setDateInputError,
     date,
     start,
     end,

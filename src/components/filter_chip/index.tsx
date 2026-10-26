@@ -27,6 +27,7 @@ const CustomFilterChip = ({
 }) => {
   return (
     <Button
+      aria-pressed={selected}
       disableRipple
       onClick={onClick}
       data-text={label}

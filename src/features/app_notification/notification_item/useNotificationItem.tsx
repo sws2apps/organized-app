@@ -1,3 +1,6 @@
+import { displaySnackNotification } from '@services/states/app';
+import { getTranslation } from '@services/i18n/translation';
+import { partnerReadNotificationState } from '@states/preaching_partner';
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router';
 import { useAtomValue, useSetAtom } from 'jotai';
@@ -10,6 +13,7 @@ import { dbNotificationsSave } from '@services/dexie/notifications';
 import { hour24FormatState, shortDateFormatState } from '@states/settings';
 
 const useNotificationItem = (notification: NotificationRecordType) => {
+  const readPartnerNotification = useSetAtom(partnerReadNotificationState);
   const navigate = useNavigate();
 
   const setNotifications = useSetAtom(notificationsState);
@@ -26,6 +30,19 @@ const useNotificationItem = (notification: NotificationRecordType) => {
   }, [hour24, shortDateFormat, notification.date]);
 
   const handleMarkAsRead = async () => {
+    if (notification.id.startsWith('partner-request-joined-')) {
+      try {
+        await readPartnerNotification(notification.id);
+      } catch {
+        displaySnackNotification({
+          header: getTranslation({ key: 'error_app_generic-title' }),
+          message: getTranslation({ key: 'tr_partnerActionFailed' }),
+          severity: 'error',
+        });
+        return;
+      }
+    }
+
     const isStandardNotif = notification.id.startsWith('standard-notification');
 
     if (isStandardNotif) {
@@ -49,7 +66,8 @@ const useNotificationItem = (notification: NotificationRecordType) => {
     if (!isStandardNotif) {
       setNotifications((prev) => {
         const find = prev.find((record) => record.id === notification.id);
-        const newObj = { icon: find.icon, ...find };
+        if (!find) return prev;
+        const newObj = { ...find };
         newObj.read = true;
 
         const newData = prev.filter((record) => record.id !== notification.id);

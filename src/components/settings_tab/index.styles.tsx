@@ -14,6 +14,12 @@ export const StyledSettingsTab = styled(ButtonBase)({
   overflow: 'hidden',
   cursor: 'pointer',
   transition: 'background-color 0.15s ease',
+  '&:focus-visible': {
+    outline: 'auto',
+    outlineColor: 'var(--accent-main)',
+    outlineOffset: 'var(--radius-xs)',
+  },
+  '@media (prefers-reduced-motion: reduce)': { transition: 'none' },
   '&:hover .chevron-container': {
     opacity: 1,
   },
@@ -43,6 +49,7 @@ export const TextColumn = styled(Box)({
   gap: '2px',
   flex: 1,
   minWidth: 0,
+  overflowWrap: 'anywhere',
   paddingTop: '8px',
   paddingBottom: '8px',
 }) as unknown as typeof Box;

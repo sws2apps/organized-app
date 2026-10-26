@@ -1,8 +1,8 @@
 import { Box } from '@mui/material';
 import { IconCancelCicle, IconEdit, IconRaiseHand } from '@components/icons';
-import { PreachingPartnerRowProps } from './index.types';
+import { PreachingPartnerRowProps } from '@features/ministry/preaching_partner/request_row/index.types';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
-import useRequestRow from './useRequestRow';
+import useRequestRow from '@features/ministry/preaching_partner/request_row/useRequestRow';
 import Badge from '@components/badge';
 import Button from '@components/button';
 import Typography from '@components/typography';
@@ -19,6 +19,7 @@ const PreachingPartnerRow = (props: PreachingPartnerRowProps) => {
   const { tablet688Up } = useBreakpoints();
 
   const {
+    canAct,
     isMine,
     isArranged,
     timeLabel,
@@ -37,8 +38,7 @@ const PreachingPartnerRow = (props: PreachingPartnerRowProps) => {
   const backgroundColor =
     variant === 'accent' ? 'var(--accent-150)' : 'var(--orange-secondary)';
 
-  const textColor =
-    variant === 'accent' ? 'var(--accent-dark)' : 'var(--orange-dark)';
+  const textColor = 'var(--black)';
 
   const ActionIcon = ACTION_ICONS[action.variant];
 
@@ -47,12 +47,11 @@ const PreachingPartnerRow = (props: PreachingPartnerRowProps) => {
   const comment = props.request.request_data.comment;
 
   return (
-    // one line at every width: a phone narrows the chip and shortens the
-    // action instead of stacking them
     <Box
       sx={{
         display: 'flex',
         alignItems: 'center',
+        flexWrap: tablet688Up ? 'nowrap' : 'wrap',
         gap: tablet688Up ? '16px' : '12px',
       }}
     >
@@ -99,10 +98,16 @@ const PreachingPartnerRow = (props: PreachingPartnerRowProps) => {
             {publisherName}
           </Typography>
 
-          <Badge size={badgeSize} color={variant} text={typeLabel} />
+          <Badge
+            size={badgeSize}
+            color={isMine ? 'accent' : 'grey'}
+            text={typeLabel}
+            multiLine
+            sx={{ maxWidth: '100%', overflowWrap: 'anywhere' }}
+          />
 
           {isArranged && (
-            <Badge size={badgeSize} color="green" text={t('tr_arranged')} />
+            <Badge size={badgeSize} color="accent" text={t('tr_arranged')} />
           )}
         </Box>
 
@@ -123,20 +128,36 @@ const PreachingPartnerRow = (props: PreachingPartnerRowProps) => {
         )}
       </Box>
 
-      <Button
-        variant="small"
-        // btn-small is 32 high in the design; the shared default of 40 made it
-        // tall and pinched at the sides
-        minHeight={32}
-        // on a phone buttons stretch to full width, which crushed the details
-        disableAutoStretch
-        startIcon={<ActionIcon />}
-        onClick={action.onClick}
-        ariaLabel={actionAriaLabel}
-        sx={{ flexShrink: 0 }}
+      <Box
+        sx={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: 1,
+          justifyContent: 'flex-end',
+          width: tablet688Up ? 'auto' : '100%',
+        }}
       >
-        {action.label}
-      </Button>
+        {isArranged && props.onCalendar && (
+          <Button
+            variant="small"
+            disableAutoStretch
+            onClick={() => props.onCalendar?.(props.request)}
+          >
+            {t('tr_addToCalendar')}
+          </Button>
+        )}
+        <Button
+          variant="small"
+          disableAutoStretch
+          startIcon={<ActionIcon />}
+          onClick={action.onClick}
+          disabled={!canAct}
+          ariaLabel={actionAriaLabel}
+          sx={{ flexShrink: 0 }}
+        >
+          {action.label}
+        </Button>
+      </Box>
     </Box>
   );
 };

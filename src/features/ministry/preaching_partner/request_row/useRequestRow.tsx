@@ -1,13 +1,18 @@
+import { partnerCanCreateState } from '@states/preaching_partner';
 import { useMemo } from 'react';
 import { useAtomValue } from 'jotai';
-import { PreachingPartnerRowProps } from './index.types';
+import { PreachingPartnerRowProps } from '@features/ministry/preaching_partner/request_row/index.types';
 import {
   preachingPartnerTimeLabel,
   preachingPartnerTypeLabel,
 } from '@services/app/preaching_partner';
 import { buildPersonFullname } from '@utils/common';
 import { formatLongDateWithShortVars } from '@utils/date';
-import { fullnameOptionState, userLocalUIDState } from '@states/settings';
+import {
+  hour24FormatState,
+  fullnameOptionState,
+  userLocalUIDState,
+} from '@states/settings';
 import { personsActiveState } from '@states/persons';
 import { useAppTranslation } from '@hooks/index';
 
@@ -19,6 +24,8 @@ const useRequestRow = ({
 }: PreachingPartnerRowProps) => {
   const { t } = useAppTranslation();
 
+  useAtomValue(hour24FormatState);
+  const canAct = useAtomValue(partnerCanCreateState);
   const persons = useAtomValue(personsActiveState);
   const fullnameOption = useAtomValue(fullnameOptionState);
   const userUID = useAtomValue(userLocalUIDState);
@@ -32,7 +39,7 @@ const useRequestRow = ({
     return (uid?: string) => {
       const person = persons.find((record) => record.person_uid === uid);
 
-      if (!person) return '';
+      if (!person) return t('tr_partnerUnavailable');
 
       return buildPersonFullname(
         person.person_data.person_lastname.value,
@@ -40,7 +47,7 @@ const useRequestRow = ({
         fullnameOption
       );
     };
-  }, [persons, fullnameOption]);
+  }, [persons, fullnameOption, t]);
 
   const timeLabel = preachingPartnerTimeLabel(request);
 
@@ -81,6 +88,7 @@ const useRequestRow = ({
   )}, ${timeLabel}`;
 
   return {
+    canAct,
     isMine,
     isArranged,
     timeLabel,

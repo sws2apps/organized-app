@@ -132,11 +132,7 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
                 { path: '/ministry-report', element: <MinistryReport /> },
                 { path: '/service-year', element: <ServiceYear /> },
                 {
-                  path: '/find-a-preaching-partner',
-                  element: <PreachingPartner />,
-                },
-                {
-                  path: '/find-a-preaching-partner/:tab',
+                  path: '/find-a-preaching-partner/:tab?',
                   element: <PreachingPartner />,
                 },
 

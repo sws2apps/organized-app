@@ -28,6 +28,8 @@ const useCongregationRequests = () => {
     { key: 'door-to-door', label: t('tr_doorToDoor') },
     { key: 'bible-study', label: t('tr_bibleStudy') },
     { key: 'public-witnessing', label: t('tr_PW') },
+    { key: 'zoom', label: t('tr_ministryZoom') },
+    { key: 'phone', label: t('tr_ministryPhone') },
     { key: 'male', label: t('tr_male') },
     { key: 'female', label: t('tr_female') },
   ];

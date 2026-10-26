@@ -1147,3 +1147,5 @@ export const EASING = {
   expoOut: 'cubic-bezier(0.16, 1, 0.3, 1)',
   easeIn: 'cubic-bezier(0.55, 0, 1, 0.45)',
 };
+
+export const PARTNER_NOTIFICATION_LOCAL_ID = 2;

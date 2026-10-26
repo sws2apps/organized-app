@@ -1,15 +1,15 @@
 import { Fragment } from 'react';
 import { Box } from '@mui/material';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
-import useCongregationRequests from './useCongregationRequests';
+import useCongregationRequests from '@features/ministry/preaching_partner/congregation_requests/useCongregationRequests';
 import Card from '@components/card';
-import ConfirmArrangement from '../confirm_arrangement';
+import ConfirmArrangement from '@features/ministry/preaching_partner/confirm_arrangement';
 import Divider from '@components/divider';
 import FilterChip from '@components/filter_chip';
 import InfoNote from '@components/info_note';
 import Markup from '@components/text_markup';
-import PreachingPartnerGroup from '../request_group';
-import PreachingPartnerRow from '../request_row';
+import PreachingPartnerGroup from '@features/ministry/preaching_partner/request_group';
+import PreachingPartnerRow from '@features/ministry/preaching_partner/request_row';
 import Typography from '@components/typography';
 
 const CongregationRequests = () => {

@@ -5,60 +5,32 @@ import {
 } from '@definition/preaching_partner';
 import { addDays, formatDate } from '@utils/date';
 
-export const dbPreachingPartnerRequestsGetAll = async () => {
-  const requests = await appDb.preaching_partner_requests.toArray();
-  return requests;
-};
-
-export const dbPreachingPartnerRequestSave = async (
-  request: PreachingPartnerRequestType
-) => {
-  await appDb.preaching_partner_requests.put(request);
-};
-
-export const dbPreachingPartnerRequestUpdate = async (
-  request_uid: string,
-  data: Partial<PreachingPartnerRequestType['request_data']>
-) => {
-  const request = await appDb.preaching_partner_requests.get(request_uid);
-
-  if (!request) return;
-
-  const updated = structuredClone(request);
-
-  updated.request_data = {
-    ...updated.request_data,
-    ...data,
-    updatedAt: new Date().toISOString(),
-  };
-
-  await appDb.preaching_partner_requests.put(updated);
-};
-
-export const dbPreachingPartnerRequestDelete = async (request_uid: string) => {
-  await dbPreachingPartnerRequestUpdate(request_uid, { _deleted: true });
-};
-
-export const dbPreachingPartnerArrangementClear = async (
-  request_uid: string
-) => {
-  const request = await appDb.preaching_partner_requests.get(request_uid);
-
-  if (!request) return;
-
-  const updated = structuredClone(request);
-
-  delete updated.request_data.partner_uid;
-  delete updated.request_data.arranged_at;
-
-  updated.request_data.updatedAt = new Date().toISOString();
-
-  await appDb.preaching_partner_requests.put(updated);
-};
-
-export const dbPreachingPartnerRequestsClear = async () => {
-  await appDb.preaching_partner_requests.clear();
-};
+// Reading, validating and writing under one lock prevents stale dialogs from
+// replacing another tab's edits or leaving half of an arrangement saved.
+export const dbPreachingPartnerMutate = async (
+  transform: (
+    records: PreachingPartnerRequestType[],
+    activePersonIds: string[]
+  ) => PreachingPartnerRequestType[]
+) =>
+  appDb.transaction(
+    'rw',
+    appDb.preaching_partner_requests,
+    appDb.persons,
+    async () => {
+      const records = await appDb.preaching_partner_requests.toArray();
+      const persons = await appDb.persons.toArray();
+      const active = persons
+        .filter(
+          (person) =>
+            !person._deleted.value && !person.person_data.archived?.value
+        )
+        .map((person) => person.person_uid);
+      const changes = transform(records, active);
+      await appDb.preaching_partner_requests.bulkPut(changes);
+      return changes[0];
+    }
+  );
 
 const DUMMY_REQUESTS = [
   {

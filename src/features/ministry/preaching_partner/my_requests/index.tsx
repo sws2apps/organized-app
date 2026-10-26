@@ -1,14 +1,15 @@
+import PreachingPartnerCalendar from '@features/ministry/preaching_partner/add_to_calendar';
 import { Fragment } from 'react';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
-import useMyRequests from './useMyRequests';
+import useMyRequests from '@features/ministry/preaching_partner/my_requests/useMyRequests';
 import Card from '@components/card';
 import Divider from '@components/divider';
 import InfoNote from '@components/info_note';
 import Markup from '@components/text_markup';
-import PreachingPartnerConfirmDialog from '../confirm_dialog';
-import PreachingPartnerEditor from '../request_editor';
-import PreachingPartnerGroup from '../request_group';
-import PreachingPartnerRow from '../request_row';
+import PreachingPartnerConfirmDialog from '@features/ministry/preaching_partner/confirm_dialog';
+import PreachingPartnerEditor from '@features/ministry/preaching_partner/request_editor';
+import PreachingPartnerGroup from '@features/ministry/preaching_partner/request_group';
+import PreachingPartnerRow from '@features/ministry/preaching_partner/request_row';
 
 const MyRequests = () => {
   const { t } = useAppTranslation();
@@ -17,6 +18,9 @@ const MyRequests = () => {
 
   const {
     groups,
+    calendarRequest,
+    handleCalendar,
+    handleCloseCalendar,
     editRequest,
     cancelRequest,
     handleEdit,
@@ -53,12 +57,21 @@ const MyRequests = () => {
                     request={request}
                     onEdit={handleEdit}
                     onCancel={handleCancel}
+                    onCalendar={handleCalendar}
                   />
                 ))}
               </PreachingPartnerGroup>
             </Fragment>
           ))}
         </Card>
+      )}
+
+      {calendarRequest && (
+        <PreachingPartnerCalendar
+          open
+          onClose={handleCloseCalendar}
+          request={calendarRequest}
+        />
       )}
 
       {editRequest && (
@@ -76,7 +89,7 @@ const MyRequests = () => {
           onConfirm={handleConfirmCancel}
           title={t('tr_cancelArrangement')}
           description={t('tr_cancelArrangementDesc')}
-          confirmLabel={t('tr_yes')}
+          confirmLabel={t('tr_cancelArrangement')}
         />
       )}
     </>

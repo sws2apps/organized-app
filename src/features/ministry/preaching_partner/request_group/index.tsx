@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import { Children, Fragment } from 'react';
-import { PreachingPartnerGroupProps } from './index.types';
+import { PreachingPartnerGroupProps } from '@features/ministry/preaching_partner/request_group/index.types';
 import { formatLongDateWithShortVars } from '@utils/date';
 import { useBreakpoints } from '@hooks/index';
 import Divider from '@components/divider';

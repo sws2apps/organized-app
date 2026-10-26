@@ -1,8 +1,9 @@
 import { Fragment, KeyboardEvent } from 'react';
-import { Box, Divider } from '@mui/material';
-import { PreachingPartnerNavProps } from './index.types';
+import Divider from '@components/divider';
+import { Box } from '@mui/material';
+import { PreachingPartnerNavProps } from '@features/ministry/preaching_partner/requests_nav/index.types';
 import { useAppTranslation } from '@hooks/index';
-import usePreachingPartnerTabs from './usePreachingPartnerTabs';
+import usePreachingPartnerTabs from '@features/ministry/preaching_partner/requests_nav/usePreachingPartnerTabs';
 import Card from '@components/card';
 import SettingsTab from '@components/settings_tab';
 import Typography from '@components/typography';
@@ -31,6 +32,9 @@ const PreachingPartnerNav = ({
     if (next === undefined) return;
 
     e.preventDefault();
+    const buttons =
+      e.currentTarget.querySelectorAll<HTMLElement>('[role="tab"]');
+    buttons[next]?.focus();
     onChange(tabs[next].id);
   };
 
@@ -39,7 +43,8 @@ const PreachingPartnerNav = ({
       <Typography className="h2">{t('tr_ministryRequests')}</Typography>
 
       <Box
-        role="tablist"
+        role={enableKeyboardNavigation ? 'tablist' : 'navigation'}
+        aria-orientation={enableKeyboardNavigation ? 'vertical' : undefined}
         aria-label={t('tr_ministryRequests')}
         onKeyDown={handleKeyDown}
         sx={{ display: 'flex', flexDirection: 'column', gap: '6px' }}
@@ -52,16 +57,20 @@ const PreachingPartnerNav = ({
               description={tab.description}
               active={value === tab.id}
               onClick={() => onChange(tab.id)}
-              role="tab"
-              aria-selected={value === tab.id}
-              aria-controls={`preaching-partner-tabpanel-${tab.id}`}
+              role={enableKeyboardNavigation ? 'tab' : undefined}
+              aria-selected={
+                enableKeyboardNavigation ? value === tab.id : undefined
+              }
+              aria-controls={
+                enableKeyboardNavigation && value === tab.id
+                  ? `preaching-partner-tabpanel-${tab.id}`
+                  : undefined
+              }
               id={`preaching-partner-tab-${tab.id}`}
-              tabIndex={!value || value === tab.id ? 0 : -1}
+              tabIndex={!enableKeyboardNavigation || value === tab.id ? 0 : -1}
             />
 
-            {index < tabs.length - 1 && (
-              <Divider sx={{ borderColor: 'var(--accent-200)' }} />
-            )}
+            {index < tabs.length - 1 && <Divider color="var(--accent-200)" />}
           </Fragment>
         ))}
       </Box>

@@ -1,3 +1,4 @@
+import { isTest } from '@constants/index';
 import { ListItem } from '@mui/material';
 import {
   IconMinistryReport,
@@ -47,16 +48,20 @@ const MinistryCard = () => {
         />
       </ListItem>
 
-      <ListItem disablePadding>
-        <DashboardMenu
-          icon={<IconRaiseHand color="var(--black)" />}
-          primaryText={t('tr_findPreachingPartner')}
-          badgeText={
-            partnerRequestsCount > 0 ? String(partnerRequestsCount) : undefined
-          }
-          path="/find-a-preaching-partner"
-        />
-      </ListItem>
+      {isTest && (
+        <ListItem disablePadding>
+          <DashboardMenu
+            icon={<IconRaiseHand color="var(--black)" />}
+            primaryText={t('tr_partnerDemoTitle')}
+            badgeText={
+              partnerRequestsCount > 0
+                ? String(partnerRequestsCount)
+                : undefined
+            }
+            path="/find-a-preaching-partner"
+          />
+        </ListItem>
+      )}
 
       {enable_AP_application && (
         <ListItem disablePadding>

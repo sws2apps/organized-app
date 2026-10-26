@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { PreachingPartnerConfirmDialogProps } from './index.types';
+import { PreachingPartnerConfirmDialogProps } from '@features/ministry/preaching_partner/confirm_dialog/index.types';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { useAppTranslation } from '@hooks/index';
@@ -33,7 +33,11 @@ const PreachingPartnerConfirmDialog = ({
 
       displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
-        message: getMessageByCode(error.message),
+        message: getMessageByCode(
+          error instanceof Error && error.message.startsWith('tr_partner')
+            ? error.message
+            : 'tr_partnerActionFailed'
+        ),
         severity: 'error',
       });
     }
@@ -42,7 +46,9 @@ const PreachingPartnerConfirmDialog = ({
   return (
     <Dialog
       open={open}
-      onClose={onClose}
+      onClose={() => {
+        if (!isProcessing) onClose();
+      }}
       title={title}
       description={description}
     >
@@ -55,7 +61,7 @@ const PreachingPartnerConfirmDialog = ({
           variant="main"
           color="red"
           disabled={isProcessing}
-          endIcon={isProcessing && <IconLoading />}
+          endIcon={isProcessing ? <IconLoading /> : undefined}
           onClick={handleConfirm}
         >
           {confirmLabel}

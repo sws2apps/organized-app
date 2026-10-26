@@ -1,26 +1,32 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useAtomValue } from 'jotai';
-import { PreachingPartnerConfirmProps } from './index.types';
+import { useSetAtom, useAtomValue } from 'jotai';
+import { PreachingPartnerConfirmProps } from '@features/ministry/preaching_partner/confirm_arrangement/index.types';
 import {
   preachingPartnerTimeLabel,
   preachingPartnerTypeLabel,
 } from '@services/app/preaching_partner';
 import { buildPersonFullname } from '@utils/common';
-import {
-  dbPreachingPartnerRequestDelete,
-  dbPreachingPartnerRequestUpdate,
-} from '@services/dexie/preaching_partner';
 import { displaySnackNotification } from '@services/states/app';
 import { formatLongDateWithShortVars } from '@utils/date';
-import { fullnameOptionState, userLocalUIDState } from '@states/settings';
+import {
+  hour24FormatState,
+  fullnameOptionState,
+  userLocalUIDState,
+} from '@states/settings';
 import { getMessageByCode, getTranslation } from '@services/i18n/translation';
 import { personsActiveState } from '@states/persons';
-import { myPreachingPartnerRequestsState } from '@states/preaching_partner';
+import {
+  partnerMutationState,
+  myPreachingPartnerRequestsState,
+} from '@states/preaching_partner';
 
 const useConfirmArrangement = ({
   open,
   request,
 }: PreachingPartnerConfirmProps) => {
+  const mutate = useSetAtom(partnerMutationState);
+  const [confirmedRequest, setConfirmedRequest] = useState(request);
+  useAtomValue(hour24FormatState);
   const persons = useAtomValue(personsActiveState);
   const fullnameOption = useAtomValue(fullnameOptionState);
   const userUID = useAtomValue(userLocalUIDState);
@@ -28,7 +34,7 @@ const useConfirmArrangement = ({
 
   const [isProcessing, setIsProcessing] = useState(false);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
-  const [removeOwnRequests, setRemoveOwnRequests] = useState(true);
+  const [removeOwnRequests, setRemoveOwnRequests] = useState(false);
 
   // once I have a partner for the day, my own open request for it is stale
   const ownRequestsSameDay = myRequests.filter(
@@ -64,16 +70,14 @@ const useConfirmArrangement = ({
     try {
       setIsProcessing(true);
 
-      await dbPreachingPartnerRequestUpdate(request.request_uid, {
-        partner_uid: userUID,
-        arranged_at: new Date().toISOString(),
+      const confirmed = await mutate({
+        action: 'join',
+        request,
+        withdrawRequestIds: removeOwnRequests
+          ? ownRequestsSameDay.map((own) => own.request_uid)
+          : [],
       });
-
-      if (removeOwnRequests) {
-        for (const own of ownRequestsSameDay) {
-          await dbPreachingPartnerRequestDelete(own.request_uid);
-        }
-      }
+      setConfirmedRequest(confirmed);
 
       setIsProcessing(false);
 
@@ -92,7 +96,11 @@ const useConfirmArrangement = ({
 
       displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
-        message: getMessageByCode(error.message),
+        message: getMessageByCode(
+          error instanceof Error && error.message.startsWith('tr_partner')
+            ? error.message
+            : 'tr_partnerActionFailed'
+        ),
         severity: 'error',
       });
     }
@@ -103,6 +111,7 @@ const useConfirmArrangement = ({
   }, [open]);
 
   return {
+    confirmedRequest,
     isProcessing,
     isCalendarOpen,
     typeLabel,

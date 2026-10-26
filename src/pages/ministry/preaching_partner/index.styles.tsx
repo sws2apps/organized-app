@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { keyframes, styled } from '@mui/system';
 import { Box, BoxProps } from '@mui/material';
-import { NavigationDirection } from './usePreachingPartner';
+import { NavigationDirection } from '@pages/ministry/preaching_partner/usePreachingPartner';
 
 // mirrors the congregation settings layout so both subpage flows move alike
 export const SplitLayout = styled(Box)({

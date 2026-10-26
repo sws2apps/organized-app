@@ -1,6 +1,6 @@
-import { PreachingPartnerCalendarProps } from './index.types';
+import { PreachingPartnerCalendarProps } from '@features/ministry/preaching_partner/add_to_calendar/index.types';
 import { useAppTranslation } from '@hooks/index';
-import useAddToCalendar from './useAddToCalendar';
+import useAddToCalendar from '@features/ministry/preaching_partner/add_to_calendar/useAddToCalendar';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
 import DialogActions from '@components/dialog_actions';
@@ -26,7 +26,7 @@ const PreachingPartnerCalendar = (props: PreachingPartnerCalendarProps) => {
         <Button
           variant="main"
           disabled={isProcessing}
-          endIcon={isProcessing && <IconLoading />}
+          endIcon={isProcessing ? <IconLoading /> : undefined}
           onClick={handleAddToCalendar}
         >
           {t('tr_add')}

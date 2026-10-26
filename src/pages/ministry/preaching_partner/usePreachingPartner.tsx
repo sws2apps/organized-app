@@ -1,3 +1,5 @@
+import { useAtomValue } from 'jotai';
+import { partnerCanCreateState } from '@states/preaching_partner';
 import { useCallback, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router';
 import {
@@ -12,6 +14,7 @@ type MobileView = 'list' | 'detail';
 export type NavigationDirection = 'forward' | 'backward' | 'none';
 
 const usePreachingPartner = () => {
+  const canCreate = useAtomValue(partnerCanCreateState);
   const navigate = useNavigate();
   const location = useLocation();
   const { tab } = useParams();
@@ -74,6 +77,7 @@ const usePreachingPartner = () => {
   const handleCloseEditor = () => setIsEditorOpen(false);
 
   return {
+    canCreate,
     activeTab,
     mobileView,
     isUnknownTab,

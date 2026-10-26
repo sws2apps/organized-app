@@ -1,13 +1,18 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { useAtomValue } from 'jotai';
+import { useSetAtom, useAtomValue } from 'jotai';
 import { PreachingPartnerRequestType } from '@definition/preaching_partner';
-import { myPreachingPartnerGroupsState } from '@states/preaching_partner';
-import { dbPreachingPartnerArrangementClear } from '@services/dexie/preaching_partner';
+import {
+  partnerMutationState,
+  myPreachingPartnerGroupsState,
+} from '@states/preaching_partner';
 import { displaySnackNotification } from '@services/states/app';
 import { getTranslation } from '@services/i18n/translation';
 
 const useMyRequests = () => {
+  const mutate = useSetAtom(partnerMutationState);
+  const [calendarRequest, setCalendarRequest] =
+    useState<PreachingPartnerRequestType>();
   const groups = useAtomValue(myPreachingPartnerGroupsState);
 
   const navigate = useNavigate();
@@ -29,7 +34,7 @@ const useMyRequests = () => {
   const handleConfirmCancel = async () => {
     if (!cancelRequest) return;
 
-    await dbPreachingPartnerArrangementClear(cancelRequest.request_uid);
+    await mutate({ action: 'cancel', request: cancelRequest });
 
     setCancelRequest(undefined);
 
@@ -47,6 +52,9 @@ const useMyRequests = () => {
     });
 
   return {
+    calendarRequest,
+    handleCalendar: setCalendarRequest,
+    handleCloseCalendar: () => setCalendarRequest(undefined),
     groups,
     editRequest,
     cancelRequest,

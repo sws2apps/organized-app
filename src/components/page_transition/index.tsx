@@ -10,8 +10,13 @@ import { useLocation } from 'react-router';
 const PageTransition = ({ children }: PropsWithChildren) => {
   const { pathname } = useLocation();
 
+  // Partner tabs share a page; remounting here discards their keyboard focus.
+  const transitionKey = /^\/find-a-preaching-partner(?:\/|$)/.test(pathname)
+    ? '/find-a-preaching-partner'
+    : pathname;
+
   return (
-    <Box key={pathname} className="page-transition">
+    <Box key={transitionKey} className="page-transition">
       {children}
     </Box>
   );

@@ -38,10 +38,18 @@ export type PreachingPartnerFilterType =
   | 'door-to-door'
   | 'bible-study'
   | 'public-witnessing'
+  | 'zoom'
+  | 'phone'
   | 'male'
   | 'female';
 
 export type PreachingPartnerGroupType = {
   date: string;
   requests: PreachingPartnerRequestType[];
+};
+
+export type PartnerMutation = {
+  action: 'create' | 'edit' | 'join' | 'cancel' | 'delete';
+  request: PreachingPartnerRequestType;
+  withdrawRequestIds?: string[];
 };

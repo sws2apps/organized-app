@@ -1,8 +1,8 @@
 import { Box, FormControlLabel, RadioGroup } from '@mui/material';
-import { PreachingPartnerEditorProps } from './index.types';
+import { PreachingPartnerEditorProps } from '@features/ministry/preaching_partner/request_editor/index.types';
 import { PreachingPartnerMinistryType } from '@definition/preaching_partner';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
-import useRequestEditor from './useRequestEditor';
+import useRequestEditor from '@features/ministry/preaching_partner/request_editor/useRequestEditor';
 import Button from '@components/button';
 import DatePicker from '@components/date_picker';
 import Dialog from '@components/dialog';
@@ -10,7 +10,7 @@ import DialogActions from '@components/dialog_actions';
 import Divider from '@components/divider';
 import IconLoading from '@components/icon_loading';
 import MenuItem from '@components/menuitem';
-import PreachingPartnerConfirmDialog from '../confirm_dialog';
+import PreachingPartnerConfirmDialog from '@features/ministry/preaching_partner/confirm_dialog';
 import Radio from '@components/radio';
 import Select from '@components/select';
 import TextField from '@components/textfield';
@@ -24,7 +24,13 @@ const PreachingPartnerEditor = (props: PreachingPartnerEditorProps) => {
 
   const {
     value,
+    isDiscardOpen,
+    handleClose,
+    handleCloseDiscard,
+    handleDiscard,
     date,
+    dateError,
+    handleDateError,
     start,
     end,
     hour24,
@@ -49,7 +55,7 @@ const PreachingPartnerEditor = (props: PreachingPartnerEditorProps) => {
     <>
       <Dialog
         open={props.open}
-        onClose={props.onClose}
+        onClose={handleClose}
         title={
           props.request
             ? t('tr_editPartnerRequest')
@@ -61,15 +67,22 @@ const PreachingPartnerEditor = (props: PreachingPartnerEditorProps) => {
           <DatePicker
             label={t('tr_date')}
             value={date}
+            error={dateError}
+            helperText={dateError ? t('tr_partnerDateRequired') : undefined}
+            readOnly={isProcessing}
             disablePast
             onChange={handleDateChange}
+            onError={handleDateError}
           />
         </Box>
 
         <Box sx={{ width: '100%' }}>
-          <Typography className="h4">{t('tr_preferredTime')}</Typography>
+          <Typography id="partner-preferred-time" className="h4">
+            {t('tr_preferredTime')}
+          </Typography>
 
           <RadioGroup
+            aria-labelledby="partner-preferred-time"
             sx={{ gap: '8px', marginTop: '8px' }}
             value={value.request_data.flexible ? 'flexible' : 'specific'}
             onChange={(e) =>
@@ -101,6 +114,9 @@ const PreachingPartnerEditor = (props: PreachingPartnerEditorProps) => {
             >
               <TimePicker
                 label={t('tr_startTime')}
+                readOnly={isProcessing}
+                error={!start}
+                helperText={!start ? t('tr_partnerStartRequired') : undefined}
                 ampm={!hour24}
                 value={start}
                 onChange={handleStartChange}
@@ -109,6 +125,7 @@ const PreachingPartnerEditor = (props: PreachingPartnerEditorProps) => {
 
               <TimePicker
                 label={t('tr_endTimeOptional')}
+                readOnly={isProcessing}
                 ampm={!hour24}
                 value={end}
                 onChange={handleEndChange}
@@ -158,7 +175,7 @@ const PreachingPartnerEditor = (props: PreachingPartnerEditorProps) => {
             variant="secondary"
             color={props.request ? 'red' : undefined}
             disabled={isProcessing}
-            onClick={props.request ? handleOpenDelete : props.onClose}
+            onClick={props.request ? handleOpenDelete : handleClose}
           >
             {props.request ? t('tr_delete') : t('tr_cancel')}
           </Button>
@@ -166,13 +183,24 @@ const PreachingPartnerEditor = (props: PreachingPartnerEditorProps) => {
           <Button
             variant="main"
             disabled={!isValid || isProcessing}
-            endIcon={isProcessing && <IconLoading />}
+            endIcon={isProcessing ? <IconLoading /> : undefined}
             onClick={handleSave}
           >
             {props.request ? t('tr_save') : t('tr_create')}
           </Button>
         </DialogActions>
       </Dialog>
+
+      {isDiscardOpen && (
+        <PreachingPartnerConfirmDialog
+          open
+          onClose={handleCloseDiscard}
+          onConfirm={handleDiscard}
+          title={t('tr_unsavedChanges')}
+          description={t('tr_unsavedChangesDesc')}
+          confirmLabel={t('tr_discardChanges')}
+        />
+      )}
 
       {isDeleteOpen && (
         <PreachingPartnerConfirmDialog

@@ -1,3 +1,8 @@
+import { dbAppLocalsReadPartnerNotification } from '@services/dexie/app_locals';
+import { isTest } from '@constants/index';
+import { PartnerMutation } from '@definition/preaching_partner';
+import { dbPreachingPartnerMutate } from '@services/dexie/preaching_partner';
+import { applyPartnerMutation } from '@services/app/preaching_partner_actions';
 import {
   PreachingPartnerFilterType,
   PreachingPartnerGroupType,
@@ -25,6 +30,8 @@ const FILTER_TYPES: Partial<
   'door-to-door': PreachingPartnerMinistryType.DoorToDoor,
   'bible-study': PreachingPartnerMinistryType.BibleStudy,
   'public-witnessing': PreachingPartnerMinistryType.PublicWitnessing,
+  zoom: PreachingPartnerMinistryType.Zoom,
+  phone: PreachingPartnerMinistryType.Phone,
 };
 
 export const preachingPartnerTypeLabel = (
@@ -48,13 +55,6 @@ export const preachingPartnerTimeLabel = (
   if (!end) return startLabel;
 
   return `${startLabel} - ${formatDate(generateDateFromTime(end), pattern)}`;
-};
-
-// a request stays listed for the whole of its day, however late it starts
-export const preachingPartnerIsPast = (
-  request: PreachingPartnerRequestType
-) => {
-  return request.request_data.date < formatDate(new Date(), 'yyyy/MM/dd');
 };
 
 export const preachingPartnerSort = (
@@ -141,3 +141,16 @@ export const preachingPartnerBuildRequest = (
     },
   };
 };
+
+export const preachingPartnerMutate = (
+  mutation: PartnerMutation,
+  actor: string
+) => {
+  if (!isTest) throw new Error('tr_partnerDemoOnly');
+  return dbPreachingPartnerMutate((records, active) =>
+    applyPartnerMutation(records, mutation, actor, active)
+  );
+};
+
+export const preachingPartnerReadNotification = (id: string) =>
+  dbAppLocalsReadPartnerNotification(id);

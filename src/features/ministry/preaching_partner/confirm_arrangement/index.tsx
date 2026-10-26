@@ -1,14 +1,14 @@
 import { Box } from '@mui/material';
-import { PreachingPartnerConfirmProps } from './index.types';
+import { PreachingPartnerConfirmProps } from '@features/ministry/preaching_partner/confirm_arrangement/index.types';
 import { useAppTranslation } from '@hooks/index';
-import useConfirmArrangement from './useConfirmArrangement';
+import useConfirmArrangement from '@features/ministry/preaching_partner/confirm_arrangement/useConfirmArrangement';
 import Badge from '@components/badge';
 import Button from '@components/button';
 import Checkbox from '@components/checkbox';
 import Dialog from '@components/dialog';
 import DialogActions from '@components/dialog_actions';
 import IconLoading from '@components/icon_loading';
-import PreachingPartnerCalendar from '../add_to_calendar';
+import PreachingPartnerCalendar from '@features/ministry/preaching_partner/add_to_calendar';
 import Typography from '@components/typography';
 
 const ConfirmArrangement = (props: PreachingPartnerConfirmProps) => {
@@ -16,6 +16,7 @@ const ConfirmArrangement = (props: PreachingPartnerConfirmProps) => {
 
   const {
     isProcessing,
+    confirmedRequest,
     isCalendarOpen,
     typeLabel,
     scheduleLabel,
@@ -30,8 +31,10 @@ const ConfirmArrangement = (props: PreachingPartnerConfirmProps) => {
     return (
       <PreachingPartnerCalendar
         open={props.open}
-        onClose={props.onClose}
-        request={props.request}
+        onClose={() => {
+          if (!isProcessing) props.onClose();
+        }}
+        request={confirmedRequest}
       />
     );
   }
@@ -39,7 +42,9 @@ const ConfirmArrangement = (props: PreachingPartnerConfirmProps) => {
   return (
     <Dialog
       open={props.open}
-      onClose={props.onClose}
+      onClose={() => {
+        if (!isProcessing) props.onClose();
+      }}
       title={t('tr_confirmArrangement')}
     >
       <Box
@@ -50,7 +55,7 @@ const ConfirmArrangement = (props: PreachingPartnerConfirmProps) => {
           gap: '8px',
         }}
       >
-        <Badge size="medium" color="orange" text={typeLabel} />
+        <Badge size="medium" color="grey" text={typeLabel} />
 
         <Typography className="h4">{scheduleLabel}</Typography>
 
@@ -62,20 +67,25 @@ const ConfirmArrangement = (props: PreachingPartnerConfirmProps) => {
       {ownRequestsSameDay.length > 0 && (
         <Checkbox
           label={t('tr_withdrawMyRequestsSameDay')}
+          disabled={isProcessing}
           checked={removeOwnRequests}
           onChange={(_, checked) => setRemoveOwnRequests(checked)}
         />
       )}
 
       <DialogActions>
-        <Button variant="secondary" onClick={props.onClose}>
+        <Button
+          variant="secondary"
+          onClick={props.onClose}
+          disabled={isProcessing}
+        >
           {t('tr_cancel')}
         </Button>
 
         <Button
           variant="main"
           disabled={isProcessing}
-          endIcon={isProcessing && <IconLoading />}
+          endIcon={isProcessing ? <IconLoading /> : undefined}
           onClick={handleConfirm}
         >
           {t('tr_confirm')}

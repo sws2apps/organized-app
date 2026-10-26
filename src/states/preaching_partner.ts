@@ -1,3 +1,6 @@
+import { PARTNER_NOTIFICATION_LOCAL_ID } from '@constants/index';
+import { appLocalsState } from '@states/app_locals';
+import { preachingPartnerReadNotification } from '@services/app/preaching_partner';
 /*
 This file holds the source of the truth from the table "preaching_partner_requests".
 */
@@ -9,12 +12,14 @@ import {
 } from '@definition/preaching_partner';
 import {
   preachingPartnerGroupByDate,
-  preachingPartnerIsPast,
   preachingPartnerMatchesFilters,
   preachingPartnerSort,
 } from '@services/app/preaching_partner';
-import { personsActiveState } from './persons';
-import { userLocalUIDState } from './settings';
+import { personsActiveState } from '@states/persons';
+import { partnerToday } from '@utils/preaching_partner';
+import { preachingPartnerMutate } from '@services/app/preaching_partner';
+import { PartnerMutation } from '@definition/preaching_partner';
+import { userLocalUIDState } from '@states/settings';
 
 export const preachingPartnerRequestsDbState = atom<
   PreachingPartnerRequestType[]
@@ -24,15 +29,43 @@ export const preachingPartnerFiltersState = atom<PreachingPartnerFilterType[]>([
   'all',
 ]);
 
+export const partnerTodayState = atom(partnerToday());
+partnerTodayState.onMount = (set) => {
+  const refresh = () => set(partnerToday());
+  refresh();
+  const timer = setInterval(refresh, 60_000);
+  window.addEventListener('focus', refresh);
+  document.addEventListener('visibilitychange', refresh);
+  return () => {
+    clearInterval(timer);
+    window.removeEventListener('focus', refresh);
+    document.removeEventListener('visibilitychange', refresh);
+  };
+};
+
+export const partnerMutationState = atom(
+  null,
+  (get, _set, mutation: PartnerMutation) =>
+    preachingPartnerMutate(mutation, get(userLocalUIDState))
+);
+
+export const partnerCanCreateState = atom((get) =>
+  get(personsActiveState).some(
+    (person) => person.person_uid === get(userLocalUIDState)
+  )
+);
+
 export const preachingPartnerRequestsState = atom((get) => {
   const requests = get(preachingPartnerRequestsDbState);
   const persons = get(personsActiveState);
+
+  const today = get(partnerTodayState);
 
   // a request whose publisher is gone has nobody to arrange with
   const listed = requests.filter(
     (record) =>
       !record.request_data._deleted &&
-      !preachingPartnerIsPast(record) &&
+      record.request_data.date >= today &&
       persons.some(
         (person) => person.person_uid === record.request_data.person_uid
       )
@@ -101,3 +134,14 @@ export const myArrangedPreachingPartnerRequestsState = atom((get) => {
       )
     );
 });
+
+export const partnerReadNotificationsState = atom(
+  (get) =>
+    get(appLocalsState).find(
+      (record) => record.id === PARTNER_NOTIFICATION_LOCAL_ID
+    )?.partnerNotificationsRead ?? []
+);
+export const partnerReadNotificationState = atom(
+  null,
+  (_get, _set, id: string) => preachingPartnerReadNotification(id)
+);
