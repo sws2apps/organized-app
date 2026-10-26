@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import { useAtomValue } from 'jotai';
-import { useAppTranslation, useBreakpoints } from '@hooks/index';
-import { dayNamesState } from '@states/app';
+import { useAppTranslation } from '@hooks/index';
+import { dayNamesShortState, dayNamesState } from '@states/app';
 import { dateFormatFriendly } from '@utils/date';
 import MonthCalendar from '@components/month_calendar';
 import { MonthCalendarDay } from '@components/month_calendar/index.types';
@@ -29,9 +29,9 @@ const countColor = (isOver: boolean, available: number) => {
 
 const MonthView = ({ days, onSelectDay }: MonthViewProps) => {
   const { t } = useAppTranslation();
-  const { tabletUp } = useBreakpoints();
 
   const dayNames = useAtomValue(dayNamesState);
+  const dayNamesShort = useAtomValue(dayNamesShortState);
 
   const hasShifts = days.some((day) => day.slots.length > 0);
 
@@ -64,13 +64,14 @@ const MonthView = ({ days, onSelectDay }: MonthViewProps) => {
 
     if (isOver && occupied === 0) return null;
 
-    if (!tabletUp) {
-      const color = countColor(isOver, available);
+    const color = countColor(isOver, available);
 
-      return (
+    return (
+      <>
         <Box
           sx={{
             marginTop: 'auto',
+            '@container (min-width: 700px)': { display: 'none' },
             alignSelf: 'center',
             minWidth: '20px',
             padding: '0 6px',
@@ -85,46 +86,47 @@ const MonthView = ({ days, onSelectDay }: MonthViewProps) => {
             {isOver ? occupied : available}
           </Typography>
         </Box>
-      );
-    }
-
-    return (
-      <Box
-        sx={{
-          marginTop: 'auto',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '4px',
-          width: '100%',
-          minWidth: 0,
-        }}
-      >
-        <Badge
-          size="small"
-          color="accent"
-          text={t('tr_occupied', { number: occupied })}
-          borderStyle="dashed"
-          fullWidth
-          centerContent
-          // Longhands: the badge already sets the `border` shorthand, and a
-          // second one in sx would be overwritten by its own borderStyle.
+        <Box
           sx={{
-            background: 'transparent',
-            borderWidth: '1px',
-            borderColor: 'var(--accent-300)',
+            marginTop: 'auto',
+            display: 'none',
+            '@container (min-width: 700px)': { display: 'flex' },
+            flexDirection: 'column',
+            gap: '4px',
+            width: '100%',
+            minWidth: 0,
+            overflowWrap: 'anywhere',
           }}
-        />
-        {!isOver && (
+        >
           <Badge
             size="small"
-            filled
-            color={available > 0 ? 'accent' : 'red'}
-            text={t('tr_available', { number: available })}
+            color="accent"
+            text={t('tr_occupied', { number: occupied })}
+            multiLine
+            borderStyle="dashed"
             fullWidth
             centerContent
+            // Longhands: the badge already sets the `border` shorthand, and a
+            // second one in sx would be overwritten by its own borderStyle.
+            sx={{
+              background: 'transparent',
+              borderWidth: '1px',
+              borderColor: 'var(--accent-300)',
+            }}
           />
-        )}
-      </Box>
+          {!isOver && (
+            <Badge
+              size="small"
+              filled
+              multiLine
+              color={available > 0 ? 'accent' : 'red'}
+              text={t('tr_available', { number: available })}
+              fullWidth
+              centerContent
+            />
+          )}
+        </Box>
+      </>
     );
   };
 
@@ -144,12 +146,34 @@ const MonthView = ({ days, onSelectDay }: MonthViewProps) => {
   };
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '8px',
+        containerType: 'inline-size',
+        minWidth: 0,
+      }}
+    >
       {!hasShifts && <ShiftsEmpty message={t('tr_noShiftsScheduled')} />}
+      {hasShifts && (
+        <Typography
+          className="body-small-regular"
+          sx={{
+            color: 'var(--grey-400)',
+            '@container (min-width: 700px)': { display: 'none' },
+          }}
+        >
+          {t('tr_PWMonthCountsLegend')}
+        </Typography>
+      )}
 
       <MonthCalendar
         weeks={calendarWeeks}
         weekdayLabels={weekdayLabels}
+        weekdayShortLabels={(weeks.at(0) ?? []).map(
+          (day) => dayNamesShort[day.dateObj.getDay()]
+        )}
         renderDay={renderDay}
         isDaySelectable={(calendarDay) =>
           (byDate.get(calendarDay.dateStr)?.slots.length ?? 0) > 0

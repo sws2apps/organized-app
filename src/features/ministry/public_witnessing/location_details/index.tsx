@@ -13,7 +13,13 @@ const LocationDetails = ({ location }: LocationDetailsProps) => {
   const { name, address, cart_stored_at, max_publishers, description } =
     location.location_data;
 
-  const badgeProps = { size: 'small', color: 'accent', light: true } as const;
+  const badgeProps = {
+    size: 'small',
+    color: 'accent',
+    light: true,
+    multiLine: true,
+    sx: { maxWidth: '100%', overflowWrap: 'anywhere' },
+  } as const;
 
   return (
     <Card sx={{ padding: laptopUp ? '24px' : '16px', gap: '24px' }}>

@@ -69,7 +69,7 @@ const WeekView = ({ days, canInteract, onSelectSlot }: ShiftsViewProps) => {
               {dayHeader(day)}
               {day.slots.map((slot) => (
                 <ShiftCell
-                  key={slot.start_time}
+                  key={`${slot.start_time}-${slot.end_time}`}
                   slot={slot}
                   interactive={canInteract(slot)}
                   onClick={() => onSelectSlot(slot)}
@@ -118,7 +118,7 @@ const WeekView = ({ days, canInteract, onSelectSlot }: ShiftsViewProps) => {
 
       {days.map((day, column) =>
         day.slots.map((slot, row) => {
-          const key = `${day.date}-${slot.start_time}`;
+          const key = `${day.date}-${slot.start_time}-${slot.end_time}`;
 
           return (
             <Box

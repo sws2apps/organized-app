@@ -2,10 +2,10 @@ import { useAtomValue } from 'jotai';
 import { publicWitnessingWriteContextState } from '@states/public_witnessing';
 
 const usePublicWitnessingPermissions = () => {
-  const { canManageLocations } = useAtomValue(
+  const { canManageLocations, userUID } = useAtomValue(
     publicWitnessingWriteContextState
   );
-  return { canManageLocations };
+  return { canManageLocations, userUID };
 };
 
 export default usePublicWitnessingPermissions;

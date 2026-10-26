@@ -44,6 +44,7 @@ const useArrangementForm = ({
   onClose,
   arrangement,
 }: ArrangementEditorProps) => {
+  const [saveError, setSaveError] = useState('');
   const saveArrangement = useSetAtom(publicWitnessingSaveArrangementState);
 
   const { canManageLocations } = usePublicWitnessingPermissions();
@@ -65,10 +66,24 @@ const useArrangementForm = ({
     [persons, fullnameOption]
   );
 
-  const myName =
-    personOptions.find((option) => option.id === userUID)?.label ?? '';
+  const canJoin =
+    slot.status === 'partner_needed' &&
+    !slot.myArrangement &&
+    !slot.arrangements.some((record) =>
+      record.arrangement_data.publishers.some(
+        (publisher) => publisher.person_uid === userUID
+      )
+    );
 
   const existing = canManageLocations ? arrangement : slot.myArrangement;
+  const bookingUserUID = existing?.arrangement_data.created_by ?? userUID;
+  const editingOthers = Boolean(existing && bookingUserUID !== userUID);
+  const myName =
+    personOptions.find((option) => option.id === bookingUserUID)?.label ??
+    existing?.arrangement_data.publishers.find(
+      (publisher) => publisher.person_uid === bookingUserUID
+    )?.name ??
+    '';
 
   const mode = getMode(Boolean(existing), slot.status);
 
@@ -80,7 +95,7 @@ const useArrangementForm = ({
   );
   const [partnerNames, setPartnerNames] = useState<PartnerNameType[]>(() => {
     const others = (existing?.arrangement_data.publishers ?? [])
-      .filter((publisher) => publisher.person_uid !== userUID)
+      .filter((publisher) => publisher.person_uid !== bookingUserUID)
       .map((publisher) =>
         createPartnerName(publisher.name, publisher.person_uid)
       );
@@ -90,7 +105,7 @@ const useArrangementForm = ({
   const [forOthers, setForOthers] = useState(
     existing
       ? !existing.arrangement_data.publishers.some(
-          (publisher) => publisher.person_uid === userUID
+          (publisher) => publisher.person_uid === bookingUserUID
         )
       : false
   );
@@ -116,11 +131,19 @@ const useArrangementForm = ({
 
   // Booking for others, or with a partner, needs at least one name: an empty
   // non-seeking record would otherwise mark the whole shift as full.
+  const joinedBooking = Boolean(
+    existing &&
+    !existing.arrangement_data.partner_needed &&
+    existing.arrangement_data.publishers.length === 1 &&
+    takenByOthers > 0
+  );
   const needsNames =
-    mode !== 'join' && (forOthers || (canInvitePartners && !partnerNeeded));
+    mode !== 'join' &&
+    (forOthers || (canInvitePartners && !partnerNeeded && !joinedBooking));
 
   const canConfirm =
-    !needsNames || names.some((partner) => partner.name.trim().length > 0);
+    !slot.retired &&
+    (!needsNames || names.some((partner) => partner.name.trim().length > 0));
 
   // The card only refreshes its clock every minute, so check again that the
   // shift has not ended while the dialog was open.
@@ -138,8 +161,8 @@ const useArrangementForm = ({
     const named = publicWitnessingPublisherEntries(names);
 
     if (forOthers) return named;
-    if (partnerNeeded) return [{ name: myName, person_uid: userUID }];
-    return [{ name: myName, person_uid: userUID }, ...named];
+    if (partnerNeeded) return [{ name: myName, person_uid: bookingUserUID }];
+    return [{ name: myName, person_uid: bookingUserUID }, ...named];
   };
 
   const handleSave = async (arrangement: {
@@ -147,6 +170,7 @@ const useArrangementForm = ({
     partner_count?: number;
     publishers: PublicWitnessingPublisherType[];
   }) => {
+    setSaveError('');
     try {
       await saveArrangement({
         arrangement_uid: existing?.arrangement_uid ?? crypto.randomUUID(),
@@ -163,6 +187,7 @@ const useArrangementForm = ({
       });
       return true;
     } catch (error) {
+      setSaveError((error as Error).message);
       console.error(error);
 
       displaySnackNotification({
@@ -185,7 +210,7 @@ const useArrangementForm = ({
     if (mode === 'join') {
       return handleSave({
         partner_needed: false,
-        publishers: [{ name: myName, person_uid: userUID }],
+        publishers: [{ name: myName, person_uid: bookingUserUID }],
       });
     }
 
@@ -211,6 +236,7 @@ const useArrangementForm = ({
 
       onClose();
     } catch (error) {
+      setSaveError((error as Error).message);
       console.error(error);
 
       displaySnackNotification({
@@ -256,10 +282,19 @@ const useArrangementForm = ({
 
   return {
     mode,
+    canJoin,
+    saveError,
+    companionNames: slot.arrangements
+      .filter((record) => record.arrangement_uid !== existing?.arrangement_uid)
+      .flatMap((record) =>
+        record.arrangement_data.publishers.map((publisher) => publisher.name)
+      ),
+    editingOthers,
+    joinedBooking,
     isAdmin: canManageLocations,
     partnerNeeded,
     setPartnerNeeded,
-    partnerCount,
+    partnerCount: Math.min(partnerCount, maxNames),
     setPartnerCount,
     partnerNames: names,
     setPartnerNames,

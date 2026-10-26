@@ -1,4 +1,4 @@
-import { useId, useState } from 'react';
+import { useId, useRef, useState } from 'react';
 import { Box } from '@mui/material';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { PublicWitnessingViewType } from '@definition/public_witnessing';
@@ -23,6 +23,7 @@ import { ShiftSlotType, ShiftsCardProps } from './index.types';
 
 const arrowButtonStyles = {
   padding: '8px',
+  flexShrink: 0,
   borderRadius: '50%',
   '&:hover': { backgroundColor: 'var(--accent-150)' },
   '& svg': { width: '24px', height: '24px' },
@@ -30,10 +31,12 @@ const arrowButtonStyles = {
 
 const ShiftsCard = ({ location }: ShiftsCardProps) => {
   const { t } = useAppTranslation();
-  const { laptopUp, tabletUp } = useBreakpoints();
-  const { canManageLocations } = usePublicWitnessingPermissions();
+  const { laptopUp } = useBreakpoints();
+  const { canManageLocations, userUID } = usePublicWitnessingPermissions();
 
   const {
+    navigationRef,
+    isNavigationWrapped,
     view,
     label,
     isCurrentPeriod,
@@ -46,6 +49,7 @@ const ShiftsCard = ({ location }: ShiftsCardProps) => {
   } = useShiftsCard({ location });
 
   const tabsId = useId();
+  const panelRef = useRef<HTMLDivElement>(null);
 
   const [openSlot, setOpenSlot] = useState<ShiftSlotType | null>(null);
 
@@ -53,6 +57,15 @@ const ShiftsCard = ({ location }: ShiftsCardProps) => {
     if (slot.status === 'past') return false;
     if (canManageLocations) return true;
     if (slot.myArrangement) return true;
+    if (
+      slot.arrangements.some((arrangement) =>
+        arrangement.arrangement_data.publishers.some(
+          (publisher) => publisher.person_uid === userUID
+        )
+      )
+    ) {
+      return false;
+    }
     return slot.status === 'available' || slot.status === 'partner_needed';
   };
 
@@ -65,93 +78,113 @@ const ShiftsCard = ({ location }: ShiftsCardProps) => {
   return (
     <Card sx={{ padding: laptopUp ? '24px' : '16px', gap: '24px' }}>
       <Box
+        ref={navigationRef}
         sx={{
           display: 'flex',
-          flexDirection: tabletUp ? 'row' : 'column',
           flexWrap: 'wrap',
-          justifyContent: tabletUp ? 'space-between' : 'flex-start',
-          alignItems: tabletUp ? 'center' : 'stretch',
+          justifyContent: 'space-between',
+          alignItems: 'center',
           gap: '12px',
           minWidth: 0,
         }}
       >
         <Box
           sx={{
-            display: 'flex',
-            justifyContent: tabletUp ? 'flex-start' : 'space-between',
-            alignItems: 'center',
-            gap: tabletUp ? '16px' : 0,
+            flex: '999 1 auto',
             minWidth: 0,
+            maxWidth: '100%',
           }}
         >
-          <IconButton onClick={handlePrevious} sx={arrowButtonStyles}>
-            <IconNavigateLeft color="var(--black)" />
-          </IconButton>
-
-          <Box sx={{ display: 'flex', alignItems: 'center', minWidth: 0 }}>
-            <Typography
-              className="h3"
-              sx={{
-                textAlign: 'center',
-                minWidth: '180px',
-                whiteSpace: 'nowrap',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-              }}
+          <Box
+            sx={{
+              display: 'flex',
+              width: isNavigationWrapped ? '100%' : 'max-content',
+              maxWidth: '100%',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              gap: '16px',
+              minWidth: 0,
+            }}
+          >
+            <IconButton
+              edge={false}
+              aria-label={t('tr_PWPreviousPeriod')}
+              onClick={handlePrevious}
+              sx={arrowButtonStyles}
             >
-              {label}
-            </Typography>
-            <Tooltip show={!isCurrentPeriod} title={t('tr_today')}>
-              <IconButton
-                onClick={goToToday}
-                aria-hidden={isCurrentPeriod}
-                tabIndex={isCurrentPeriod ? -1 : 0}
+              <IconNavigateLeft color="var(--black)" />
+            </IconButton>
+
+            <Box sx={{ display: 'flex', alignItems: 'center', minWidth: 0 }}>
+              <Typography
+                className="h3"
+                title={label}
                 sx={{
-                  marginLeft: '16px',
-                  padding: '4px',
-                  visibility: isCurrentPeriod ? 'hidden' : 'visible',
-                  pointerEvents: isCurrentPeriod ? 'none' : 'auto',
+                  textAlign: 'center',
+                  minWidth: 0,
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
                 }}
               >
-                <IconDate color="var(--black)" />
-              </IconButton>
-            </Tooltip>
+                {label}
+              </Typography>
+              <Tooltip show={!isCurrentPeriod} title={t('tr_today')}>
+                <IconButton
+                  edge={false}
+                  aria-label={t('tr_today')}
+                  onClick={goToToday}
+                  aria-hidden={isCurrentPeriod}
+                  tabIndex={isCurrentPeriod ? -1 : 0}
+                  sx={{
+                    marginInlineStart: '16px',
+                    padding: '4px',
+                    visibility: isCurrentPeriod ? 'hidden' : 'visible',
+                    pointerEvents: isCurrentPeriod ? 'none' : 'auto',
+                  }}
+                >
+                  <IconDate color="var(--black)" />
+                </IconButton>
+              </Tooltip>
+            </Box>
+
+            <IconButton
+              edge={false}
+              aria-label={t('tr_PWNextPeriod')}
+              onClick={handleNext}
+              sx={arrowButtonStyles}
+            >
+              <IconNavigateRight color="var(--black)" />
+            </IconButton>
           </Box>
-
-          <IconButton onClick={handleNext} sx={arrowButtonStyles}>
-            <IconNavigateRight color="var(--black)" />
-          </IconButton>
         </Box>
 
-        <Box
+        <TabSwitcher<PublicWitnessingViewType>
+          id={tabsId}
+          value={view}
+          onChange={handleViewChange}
+          options={[
+            { value: 'day', label: t('tr_day') },
+            { value: 'week', label: t('tr_week') },
+            { value: 'month', label: t('tr_month') },
+          ]}
           sx={{
-            alignSelf: tabletUp ? 'center' : 'stretch',
-            flexGrow: 1,
-            display: 'flex',
-            justifyContent: 'flex-end',
-            minWidth: '260px',
+            display: 'inline-grid',
+            gridAutoFlow: 'column',
+            gridAutoColumns: 'minmax(0, 1fr)',
+            width: 'max-content',
+            flex: '1 0 auto',
+            minWidth: 0,
+            maxWidth: '100%',
           }}
-        >
-          <TabSwitcher<PublicWitnessingViewType>
-            id={tabsId}
-            value={view}
-            onChange={handleViewChange}
-            options={[
-              { value: 'day', label: t('tr_day') },
-              { value: 'week', label: t('tr_week') },
-              { value: 'month', label: t('tr_month') },
-            ]}
-            sx={{
-              width: tabletUp ? '320px' : '100%',
-              maxWidth: '100%',
-            }}
-          />
-        </Box>
+        />
       </Box>
 
       <Divider color="var(--accent-200)" />
 
       <Box
+        ref={panelRef}
+        tabIndex={-1}
         role="tabpanel"
         id={`${tabsId}-panel`}
         aria-labelledby={`${tabsId}-tab-${view}`}
@@ -160,7 +193,13 @@ const ShiftsCard = ({ location }: ShiftsCardProps) => {
         {view === 'day' && <DayView {...viewProps} />}
         {view === 'week' && <WeekView {...viewProps} />}
         {view === 'month' && (
-          <MonthView days={days} onSelectDay={handleSelectDay} />
+          <MonthView
+            days={days}
+            onSelectDay={(date) => {
+              handleSelectDay(date);
+              requestAnimationFrame(() => panelRef.current?.focus());
+            }}
+          />
         )}
       </Box>
 

@@ -2,7 +2,10 @@ import { type KeyboardEvent, type ReactNode } from 'react';
 import { Box } from '@mui/material';
 import { useBreakpoints } from '@hooks/index';
 import Typography from '@components/typography';
-import { MonthCalendarDay, MonthCalendarProps } from './index.types';
+import {
+  MonthCalendarDay,
+  MonthCalendarProps,
+} from '@components/month_calendar/index.types';
 
 const LINE = '1px solid var(--accent-200)';
 
@@ -17,9 +20,9 @@ const getCellBorderSx = (
   const topInBlock = inBlock(weeks[weekIndex - 1]?.[dayIndex], weekIndex - 1);
 
   return {
-    borderRight: LINE,
+    borderInlineEnd: LINE,
     borderBottom: LINE,
-    ...(leftInBlock ? {} : { borderLeft: LINE }),
+    ...(leftInBlock ? {} : { borderInlineStart: LINE }),
     ...(weekIndex > 0 && !topInBlock ? { borderTop: LINE } : {}),
   };
 };
@@ -65,7 +68,8 @@ const DayCell = ({
     <Box
       {...interactiveProps}
       sx={{
-        minHeight: tabletUp ? '128px' : '64px',
+        minWidth: 0,
+        minHeight: tabletUp ? '96px' : '64px',
         padding: tabletUp ? '8px' : '4px',
         alignItems: tabletUp ? 'stretch' : 'center',
         ...borderSx,
@@ -126,6 +130,7 @@ const DayCell = ({
 const MonthCalendar = ({
   weeks,
   weekdayLabels,
+  weekdayShortLabels,
   renderDay,
   isDaySelectable,
   onSelectDay,
@@ -142,11 +147,11 @@ const MonthCalendar = ({
     cell !== undefined && (cell.inMonth || week === 0);
 
   return (
-    <Box>
+    <Box sx={{ containerType: 'inline-size', minWidth: 0 }}>
       <Box
         sx={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(7, 1fr)',
+          gridTemplateColumns: 'repeat(7, minmax(0, 1fr))',
           backgroundColor: 'var(--white)',
         }}
       >
@@ -154,27 +159,43 @@ const MonthCalendar = ({
           <Box
             key={label}
             sx={{
-              padding: tabletUp ? '12px' : '8px 4px',
+              minWidth: 0,
+              padding: '8px 4px',
               borderTop: LINE,
-              borderRight: LINE,
+              borderInlineEnd: LINE,
               borderBottom: LINE,
               ...(index === 0 && {
-                borderLeft: LINE,
-                borderTopLeftRadius: 'var(--radius-l)',
+                borderInlineStart: LINE,
+                borderStartStartRadius: 'var(--radius-l)',
               }),
               ...(index === weekdayLabels.length - 1 && {
-                borderTopRightRadius: 'var(--radius-l)',
+                borderStartEndRadius: 'var(--radius-l)',
               }),
             }}
           >
             <Typography
               className="body-small-semibold"
+              title={label}
               sx={{
                 color: 'var(--grey-400)',
-                textAlign: tabletUp ? 'left' : 'center',
+                textAlign: 'center',
+                overflowWrap: 'anywhere',
+                '@container (min-width: 840px)': { display: 'none' },
               }}
             >
-              {tabletUp ? label : label.charAt(0)}
+              {weekdayShortLabels[index]}
+            </Typography>
+            <Typography
+              className="body-small-semibold"
+              sx={{
+                display: 'none',
+                color: 'var(--grey-400)',
+                textAlign: 'center',
+                overflowWrap: 'anywhere',
+                '@container (min-width: 840px)': { display: 'block' },
+              }}
+            >
+              {label}
             </Typography>
           </Box>
         ))}
@@ -183,7 +204,10 @@ const MonthCalendar = ({
       {weeks.map((week, weekIndex) => (
         <Box
           key={week[0].dateStr}
-          sx={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)' }}
+          sx={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(7, minmax(0, 1fr))',
+          }}
         >
           {week.map((day, dayIndex) => {
             // Trailing blanks render empty — grid outline steps away at the end.
@@ -197,12 +221,11 @@ const MonthCalendar = ({
               ...getCellBorderSx(week, weeks, dayIndex, weekIndex, inBlock),
               ...(isLastWeek &&
                 dayIndex === 0 && {
-                  borderBottomLeftRadius: 'var(--radius-l)',
+                  borderEndStartRadius: 'var(--radius-l)',
                 }),
               ...(isLastWeek &&
-                dayIndex === week.length - 1 &&
-                inBlock(day, weekIndex) && {
-                  borderBottomRightRadius: 'var(--radius-l)',
+                !inBlock(week[dayIndex + 1], weekIndex) && {
+                  borderEndEndRadius: 'var(--radius-l)',
                 }),
             };
 
@@ -212,7 +235,8 @@ const MonthCalendar = ({
                 <Box
                   key={day.dateStr}
                   sx={{
-                    minHeight: tabletUp ? '128px' : '64px',
+                    minWidth: 0,
+                    minHeight: tabletUp ? '96px' : '64px',
                     ...borderSx,
                     backgroundColor: 'var(--accent-100)',
                   }}

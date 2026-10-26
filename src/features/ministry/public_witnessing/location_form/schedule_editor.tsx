@@ -1,3 +1,4 @@
+import { useId } from 'react';
 import { Box, Collapse, Stack } from '@mui/material';
 import { useAtomValue } from 'jotai';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
@@ -10,6 +11,7 @@ import {
   IconInfo,
 } from '@components/icons';
 import Button from '@components/button';
+import IconButton from '@components/icon_button';
 import Checkbox from '@components/checkbox';
 import Divider from '@components/divider';
 import SwitchWithLabel from '@components/switch_with_label';
@@ -21,7 +23,7 @@ const dayRowStyles = (checked: boolean) => ({
   display: 'flex',
   alignItems: 'center',
   gap: '8px',
-  padding: '8px 16px 8px 8px',
+  padding: '4px 8px',
   borderRadius: 'var(--radius-m)',
   border: checked
     ? '1px solid var(--accent-main)'
@@ -30,10 +32,6 @@ const dayRowStyles = (checked: boolean) => ({
   cursor: 'pointer',
   '&:hover': { borderColor: 'var(--accent-main)' },
   '&:focus-visible': { outline: 'var(--accent-main) auto 1px' },
-  '&:hover .day-row-chevron, &:focus-within .day-row-chevron': {
-    opacity: 1,
-    transform: 'translateX(0)',
-  },
 });
 
 const ScheduleEditor = ({
@@ -52,6 +50,7 @@ const ScheduleEditor = ({
   const { laptopUp } = useBreakpoints();
   const hour24 = useAtomValue(hour24FormatState);
   const weekdayNames = generateWeekday();
+  const schedulePanelId = useId();
 
   const shiftsEditor = (
     <>
@@ -74,7 +73,7 @@ const ScheduleEditor = ({
         onClick={onAddShift}
         sx={{ alignSelf: 'flex-start' }}
       >
-        {t('tr_addShift')}
+        {t('tr_add')}
       </Button>
     </>
   );
@@ -89,60 +88,43 @@ const ScheduleEditor = ({
 
   const dayRow = (weekday: number, dayName: string, expanded: boolean) => (
     <Box
-      role="button"
-      tabIndex={0}
-      aria-expanded={approvedDays.includes(weekday) ? expanded : undefined}
       sx={dayRowStyles(expanded)}
       onClick={() => handleDayRowClick(weekday, expanded)}
-      onKeyDown={(event) => {
-        if (event.key !== 'Enter' && event.key !== ' ') return;
-        event.preventDefault();
-        handleDayRowClick(weekday, expanded);
-      }}
     >
       <Checkbox
         checked={approvedDays.includes(weekday)}
         onChange={() => onToggleDay(weekday)}
         label={dayName}
         stopPropagation
-        sx={{ marginLeft: 0 }}
+        sx={{ marginInlineStart: 0, flex: 1, minWidth: 0 }}
       />
 
-      {approvedDays.includes(weekday) && !laptopUp && (
-        <Box
-          aria-hidden
-          sx={{
-            marginLeft: 'auto',
-            display: 'flex',
-            transform: expanded ? 'rotate(180deg)' : 'none',
-            transition: 'transform 0.25s ease',
-          }}
-        >
-          <IconExpand
-            color={expanded ? 'var(--accent-dark)' : 'var(--grey-350)'}
-          />
-        </Box>
-      )}
-
-      {laptopUp && (
-        <Box
-          aria-hidden
-          className="day-row-chevron"
-          sx={{
-            marginLeft: 'auto',
-            display: 'flex',
-            opacity: 0,
-            transform: 'translateX(-4px)',
-            transition: 'opacity 0.16s ease-out, transform 0.16s ease-out',
-          }}
-        >
+      <IconButton
+        edge={false}
+        aria-label={t('tr_daysShifts', { dayName })}
+        aria-expanded={expanded}
+        aria-controls={
+          expanded
+            ? `${schedulePanelId}-${laptopUp ? 'desktop' : weekday}`
+            : undefined
+        }
+        onClick={(event) => {
+          event.stopPropagation();
+          handleDayRowClick(weekday, expanded);
+        }}
+        sx={{ flexShrink: 0 }}
+      >
+        {laptopUp ? (
           <IconChevronRight
             color={expanded ? 'var(--accent-dark)' : 'var(--grey-350)'}
-            width={20}
-            height={20}
           />
-        </Box>
-      )}
+        ) : (
+          <IconExpand
+            color={expanded ? 'var(--accent-dark)' : 'var(--grey-350)'}
+            sx={{ transform: expanded ? 'rotate(180deg)' : 'none' }}
+          />
+        )}
+      </IconButton>
     </Box>
   );
 
@@ -166,7 +148,12 @@ const ScheduleEditor = ({
           <Box key={weekday}>
             {dayRow(weekday, dayName, expanded)}
 
-            <Collapse in={expanded} timeout={250} unmountOnExit>
+            <Collapse
+              id={`${schedulePanelId}-${weekday}`}
+              in={expanded}
+              timeout={250}
+              unmountOnExit
+            >
               <Stack spacing="10px" sx={{ padding: '14px 0 8px' }}>
                 {shiftsEditor}
               </Stack>
@@ -185,7 +172,11 @@ const ScheduleEditor = ({
 
       <Divider orientation="vertical" flexItem color="var(--accent-200)" />
 
-      <Stack spacing="16px" sx={{ flex: 1, minWidth: 0 }}>
+      <Stack
+        id={`${schedulePanelId}-desktop`}
+        spacing="16px"
+        sx={{ flex: 1, minWidth: 0 }}
+      >
         {selectedDay === null ? (
           <Box
             sx={{

@@ -29,6 +29,7 @@ const TimePicker = ({
   readOnly = false,
   hideIcon = false,
   clearable = true,
+  commitKeyboardChanges = false,
   error,
   helperText,
 }: CustomTimePickerProps) => {
@@ -38,18 +39,30 @@ const TimePicker = ({
 
   const [valueTmp, setValueTmp] = useState(value);
   const [open, setOpen] = useState<boolean>(false);
+  const [invalidValue, setInvalidValue] = useState(false);
 
   const isMobile = useMediaQuery('(max-width:600px)');
 
-  const handleClickAway = () => {
-    if (open) setOpen(false);
+  const handleClose = () => {
+    setValueTmp(value);
+    setOpen(false);
   };
 
-  const handleValueChange = (value: Date) => {
+  const handleClickAway = () => {
+    if (open) handleClose();
+  };
+
+  const handleValueChange = (value: Date | null) => {
     setValueTmp(value);
+    // Keyboard edits outside the popup are already committed field values.
+    // Clock selections stay a draft until its OK action is pressed.
+    if (commitKeyboardChanges && !open) {
+      onChange?.(value && Number.isNaN(value.getTime()) ? null : value);
+    }
   };
 
   const handleSave = () => {
+    if (valueTmp && Number.isNaN(valueTmp.getTime())) return;
     onChange?.(valueTmp);
     setOpen(false);
   };
@@ -71,7 +84,6 @@ const TimePicker = ({
         sx={{ flex: 1, minWidth: '120px', width: '100%', ...sx }}
       >
         <DesktopTimePicker
-          key={value ? value.toISOString() : crypto.randomUUID()}
           readOnly={readOnly}
           localeText={{ toolbarTitle: t('tr_pickerSelectTime') }}
           open={!readOnly && open}
@@ -81,7 +93,12 @@ const TimePicker = ({
           value={valueTmp}
           ampm={ampm}
           onChange={handleValueChange}
-          onOpen={() => setOpen(true)}
+          onError={(reason) => setInvalidValue(Boolean(reason))}
+          onOpen={() => {
+            setValueTmp(value);
+            setOpen(true);
+          }}
+          onClose={handleClose}
           viewRenderers={{
             hours: renderTimeViewClock,
             minutes: renderTimeViewClock,
@@ -99,11 +116,18 @@ const TimePicker = ({
           slotProps={{
             textField: {
               label: label,
-              onClick: () => setOpen(!open),
+              onClick: () => {
+                if (open) handleClose();
+                else setOpen(true);
+              },
               sx: hideIcon
                 ? { '.MuiInputAdornment-root': { display: 'none' } }
                 : undefined,
-              error,
+              error:
+                error ||
+                invalidValue ||
+                (commitKeyboardChanges &&
+                  (!valueTmp || Number.isNaN(valueTmp.getTime()))),
               helperText,
             },
             toolbar: {
@@ -113,9 +137,24 @@ const TimePicker = ({
             },
             desktopPaper: {
               className: 'pop-up pop-up-shadow',
+              sx: {
+                maxHeight: 'calc(100dvh - var(--dialog-padding))',
+                overflowY: 'auto',
+                maxWidth: 'calc(100vw - var(--dialog-padding))',
+              },
             },
             popper: {
               anchorEl: divRef.current,
+              modifiers: [
+                {
+                  name: 'preventOverflow',
+                  options: {
+                    rootBoundary: 'viewport',
+                    altAxis: true,
+                    tether: false,
+                  },
+                },
+              ],
               sx: getTimePickerPopperStyle(isMobile, ampm),
             },
           }}

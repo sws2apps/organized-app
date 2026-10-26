@@ -10,6 +10,8 @@ import { getMessageByCode } from '@services/i18n/translation';
 import { LocationItemType, LocationsReorderProps } from './index.types';
 
 const useLocationsReorder = ({ onClose }: LocationsReorderProps) => {
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveError, setSaveError] = useState('');
   const reorderLocations = useSetAtom(publicWitnessingReorderLocationsState);
 
   const locationsList = useAtomValue(publicWitnessingLocationsState);
@@ -31,7 +33,8 @@ const useLocationsReorder = ({ onClose }: LocationsReorderProps) => {
         (record) => record.id === location.location_uid
       );
 
-      if (findIndex === location.location_data.sort_index) continue;
+      if (findIndex < 0 || findIndex === location.location_data.sort_index)
+        continue;
 
       const newLocation = structuredClone(location);
 
@@ -49,6 +52,9 @@ const useLocationsReorder = ({ onClose }: LocationsReorderProps) => {
   };
 
   const handleSaveChanges = async () => {
+    if (isSaving) return;
+    setIsSaving(true);
+    setSaveError('');
     try {
       if (locations_sorted.length > 0) {
         await reorderLocations(locations_sorted);
@@ -56,6 +62,7 @@ const useLocationsReorder = ({ onClose }: LocationsReorderProps) => {
 
       onClose();
     } catch (error) {
+      setSaveError((error as Error).message);
       console.error(error);
 
       displaySnackNotification({
@@ -63,10 +70,18 @@ const useLocationsReorder = ({ onClose }: LocationsReorderProps) => {
         message: getMessageByCode((error as Error).message),
         severity: 'error',
       });
+    } finally {
+      setIsSaving(false);
     }
   };
 
-  return { locations, handleDragChange, handleSaveChanges };
+  return {
+    locations,
+    handleDragChange,
+    handleSaveChanges,
+    isSaving,
+    saveError,
+  };
 };
 
 export default useLocationsReorder;

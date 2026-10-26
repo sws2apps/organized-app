@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { Box, Stack } from '@mui/material';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { IconDelete } from '@components/icons';
@@ -13,6 +14,7 @@ import { LocationFormProps } from './index.types';
 
 const LocationForm = (props: LocationFormProps) => {
   const { t } = useAppTranslation();
+  const formRef = useRef<HTMLDivElement>(null);
   const { laptopUp, tabletUp } = useBreakpoints();
 
   const {
@@ -33,6 +35,7 @@ const LocationForm = (props: LocationFormProps) => {
     selectedShifts,
     errors,
     isSaving,
+    saveError,
     step,
     setStep,
     handleNext,
@@ -66,6 +69,7 @@ const LocationForm = (props: LocationFormProps) => {
         }}
       >
         <TextField
+          required
           label={t('tr_locationName')}
           value={name}
           onChange={(e) => setName(e.target.value)}
@@ -83,16 +87,18 @@ const LocationForm = (props: LocationFormProps) => {
           onChange={(e) => setCartStoredAt(e.target.value)}
         />
         <TextField
+          required
+          slotProps={{ htmlInput: { min: 1, step: 1 } }}
           label={t('tr_maxPublisherLabel')}
           type="number"
           value={maxPublishers}
           onChange={(e) =>
             setMaxPublishers(
-              e.target.value === '' ? '' : Math.max(1, Number(e.target.value))
+              e.target.value === '' ? '' : Number(e.target.value)
             )
           }
           error={errors.maxPublishers}
-          helperText={errors.maxPublishers && t('tr_fillRequiredField')}
+          helperText={errors.maxPublishers && t('tr_PWInvalidCapacity')}
         />
       </Box>
       <TextField
@@ -122,28 +128,17 @@ const LocationForm = (props: LocationFormProps) => {
 
   return (
     <Dialog
-      open={props.open}
-      onClose={props.onClose}
-      sx={{ padding: tabletUp ? '24px' : '16px' }}
-      PaperProps={{
-        className: 'pop-up-shadow',
-        style: {
-          maxWidth: '740px',
-          borderRadius: 'var(--radius-xl)',
-          backgroundColor: 'var(--white)',
-        },
-      }}
-    >
-      <Stack spacing="16px" sx={{ width: '100%' }}>
+      title={isEditing ? t('tr_PWLocationEdit') : t('tr_PWLocationAdd')}
+      header={
         <Box
           sx={{
             display: 'flex',
-            alignItems: 'center',
+            alignItems: 'flex-start',
             justifyContent: 'space-between',
             gap: '16px',
           }}
         >
-          <Typography className="h2">
+          <Typography component="h2" className="h2">
             {isEditing ? t('tr_PWLocationEdit') : t('tr_PWLocationAdd')}
           </Typography>
           {props.onDelete && (
@@ -159,7 +154,52 @@ const LocationForm = (props: LocationFormProps) => {
             </Button>
           )}
         </Box>
-
+      }
+      actions={
+        <Stack spacing="8px" sx={{ width: '100%' }}>
+          <Button
+            variant="main"
+            disabled={isSaving}
+            onClick={async () => {
+              const invalidField = formRef.current?.querySelector<HTMLElement>(
+                '[aria-invalid="true"]'
+              );
+              if (invalidField) {
+                const focusTarget =
+                  invalidField.querySelector<HTMLElement>(
+                    '[role="spinbutton"], input'
+                  ) ?? invalidField;
+                focusTarget.focus();
+                return;
+              }
+              await mainAction.onClick();
+              requestAnimationFrame(() => {
+                formRef.current
+                  ?.querySelector<HTMLElement>('[aria-invalid="true"]')
+                  ?.focus();
+              });
+            }}
+          >
+            {mainAction.label}
+          </Button>
+          <Button variant="secondary" onClick={backAction.onClick}>
+            {backAction.label}
+          </Button>
+        </Stack>
+      }
+      open={props.open}
+      onClose={props.onClose}
+      sx={{ padding: tabletUp ? '24px' : '16px' }}
+      PaperProps={{
+        className: 'pop-up-shadow',
+        style: {
+          maxWidth: '740px',
+          borderRadius: 'var(--radius-xl)',
+          backgroundColor: 'var(--white)',
+        },
+      }}
+    >
+      <Stack ref={formRef} spacing="16px" sx={{ width: '100%' }}>
         {isEditing ? (
           <Tabs
             value={step}
@@ -178,15 +218,11 @@ const LocationForm = (props: LocationFormProps) => {
             {step === 0 ? detailsTab : scheduleTab}
           </Stack>
         )}
-      </Stack>
-
-      <Stack spacing="8px" sx={{ width: '100%' }}>
-        <Button variant="main" disabled={isSaving} onClick={mainAction.onClick}>
-          {mainAction.label}
-        </Button>
-        <Button variant="secondary" onClick={backAction.onClick}>
-          {backAction.label}
-        </Button>
+        {saveError && (
+          <Typography role="alert" sx={{ color: 'var(--red-dark)' }}>
+            {t(saveError)}
+          </Typography>
+        )}
       </Stack>
     </Dialog>
   );

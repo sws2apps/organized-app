@@ -14,6 +14,7 @@ export const StyledSettingsTab = styled(ButtonBase)({
   overflow: 'hidden',
   cursor: 'pointer',
   transition: 'background-color 0.15s ease',
+  '&.Mui-focusVisible': { outline: 'var(--accent-main) auto 1px' },
   '&:hover .chevron-container': {
     opacity: 1,
   },

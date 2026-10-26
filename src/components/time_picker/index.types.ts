@@ -32,6 +32,8 @@ export interface CustomTimePickerProps {
    * is not a valid value.
    */
   clearable?: boolean;
+  /** Commit keyboard edits immediately in forms that validate before saving. */
+  commitKeyboardChanges?: boolean;
   error?: boolean;
   helperText?: string;
 }

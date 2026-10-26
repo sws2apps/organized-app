@@ -1,9 +1,13 @@
 import { KeyboardEvent, MouseEvent } from 'react';
 import { Box, Collapse } from '@mui/material';
+import { useAtomValue } from 'jotai';
+import { hour24FormatState } from '@states/settings';
+import { dateFormatFriendly, formatDate, generateDateFromTime } from '@utils/date';
 import { useAppTranslation } from '@hooks/index';
 import { BadgeColor } from '@definition/app';
 import { IconExpand, IconPersonSearch } from '@components/icons';
 import Badge from '@components/badge';
+import Button from '@components/button';
 import IconButton from '@components/icon_button';
 import Tooltip from '@components/tooltip';
 import Typography from '@components/typography';
@@ -117,6 +121,7 @@ const ShiftCell = ({
   onClick,
 }: ShiftCellProps) => {
   const { t } = useAppTranslation();
+  const hour24 = useAtomValue(hour24FormatState);
 
   const statusLabels: Record<ShiftSlotStatus, string> = {
     available: t('tr_shiftAvailable'),
@@ -127,7 +132,8 @@ const ShiftCell = ({
 
   const color = textColors[slot.status];
   const statusLabel = statusLabels[slot.status];
-  const times = `${slot.start_time} - ${slot.end_time}`;
+  const timeFormat = hour24 ? 'HH:mm' : 'h:mm aaa';
+  const times = `${formatDate(generateDateFromTime(slot.start_time), timeFormat)} - ${formatDate(generateDateFromTime(slot.end_time), timeFormat)}`;
   const expandable = Boolean(compact && slot.publishers.length);
 
   const handleKeyDown = (event: KeyboardEvent) => {
@@ -151,12 +157,30 @@ const ShiftCell = ({
     ? { role: 'button', tabIndex: 0, onClick, onKeyDown: handleKeyDown }
     : {};
 
+  const accessibleLabel = [
+    dateFormatFriendly(slot.date),
+    times,
+    statusLabel,
+    ...slot.publishers,
+  ]
+    .filter(Boolean)
+    .join(', ');
+
+  const timeLabel = (
+    <Typography
+      component="span"
+      className={compact ? 'label-small-medium' : 'body-small-semibold'}
+      sx={{ color, whiteSpace: compact ? 'normal' : 'nowrap' }}
+    >
+      {times}
+    </Typography>
+  );
+
   const cell = (
     <Box
-      {...interactiveProps}
-      aria-label={
-        compact ? [times, statusLabel].filter(Boolean).join(', ') : undefined
-      }
+      {...(!compact ? interactiveProps : {})}
+      onClick={interactive ? onClick : undefined}
+      aria-label={!compact ? accessibleLabel : undefined}
       sx={{
         display: 'flex',
         flexDirection: compact ? 'column' : 'row',
@@ -183,12 +207,30 @@ const ShiftCell = ({
           minWidth: 0,
         }}
       >
-        <Typography
-          className={compact ? 'label-small-medium' : 'body-small-semibold'}
-          sx={{ color: color, whiteSpace: 'nowrap' }}
-        >
-          {times}
-        </Typography>
+        {compact && interactive ? (
+          <Button
+            variant="small"
+            disableAutoStretch
+            ariaLabel={accessibleLabel}
+            onClick={(event) => {
+              event.stopPropagation();
+              onClick?.();
+            }}
+            sx={{
+              padding: 0,
+              minHeight: '24px',
+              minWidth: '24px',
+              flex: 1,
+              justifyContent: 'flex-start',
+              textTransform: 'none',
+              textAlign: 'start',
+            }}
+          >
+            {timeLabel}
+          </Button>
+        ) : (
+          timeLabel
+        )}
 
         {expandable && (
           <IconButton
@@ -196,7 +238,13 @@ const ShiftCell = ({
             aria-label={t('tr_publishers')}
             onClick={handleToggle}
             onKeyDown={handleTogglekeyDown}
-            sx={{ padding: '2px', marginRight: '-2px' }}
+            sx={{
+              padding: '2px',
+              marginRight: '-2px',
+              minHeight: '24px',
+              minWidth: '24px',
+              flexShrink: 0,
+            }}
           >
             <IconExpand
               color={color}

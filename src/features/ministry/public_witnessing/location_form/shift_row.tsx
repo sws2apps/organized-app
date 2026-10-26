@@ -21,11 +21,11 @@ const ShiftRow = ({
   const { tabletUp, tablet688Up } = useBreakpoints();
 
   const startValue = useMemo(
-    () => generateDateFromTime(shift.start_time),
+    () => (shift.start_time ? generateDateFromTime(shift.start_time) : null),
     [shift.start_time]
   );
   const endValue = useMemo(
-    () => generateDateFromTime(shift.end_time),
+    () => (shift.end_time ? generateDateFromTime(shift.end_time) : null),
     [shift.end_time]
   );
 
@@ -43,9 +43,11 @@ const ShiftRow = ({
         hideIcon={!tablet688Up}
         // a shift always needs both times, so there is nothing to clear to
         clearable={false}
+        commitKeyboardChanges
         value={startValue}
+        helperText={!shift.start_time ? t('tr_invalidShiftTime') : undefined}
         onChange={(value) =>
-          value && onChange('start_time', formatDate(value, 'HH:mm'))
+          onChange('start_time', value ? formatDate(value, 'HH:mm') : '')
         }
         sx={{ flex: '1 1 0', minWidth: 0 }}
       />
@@ -64,9 +66,11 @@ const ShiftRow = ({
         ampm={!hour24}
         hideIcon={!tablet688Up}
         clearable={false}
+        commitKeyboardChanges
         value={endValue}
+        helperText={!shift.end_time ? t('tr_invalidShiftTime') : undefined}
         onChange={(value) =>
-          value && onChange('end_time', formatDate(value, 'HH:mm'))
+          onChange('end_time', value ? formatDate(value, 'HH:mm') : '')
         }
         sx={{ flex: '1 1 0', minWidth: 0 }}
       />

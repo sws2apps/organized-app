@@ -17,7 +17,7 @@ const DayView = ({ days, canInteract, onSelectSlot }: ShiftsViewProps) => {
 
       {slots.map((slot) => (
         <ShiftCell
-          key={slot.start_time}
+          key={`${slot.start_time}-${slot.end_time}`}
           slot={slot}
           interactive={canInteract(slot)}
           onClick={() => onSelectSlot(slot)}

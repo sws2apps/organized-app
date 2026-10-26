@@ -14,6 +14,7 @@ export type ShiftSlotType = {
   start_time: string;
   end_time: string;
   status: ShiftSlotStatus;
+  retired?: boolean;
   /**
    * Display names of everyone arranged for this slot.
    */

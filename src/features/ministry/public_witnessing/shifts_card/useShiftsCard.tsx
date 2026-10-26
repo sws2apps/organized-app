@@ -1,4 +1,15 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import {
+  publicWitnessingIsSeekingPartner,
+  publicWitnessingDayShifts,
+} from '@utils/public_witnessing';
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { useAtom, useAtomValue } from 'jotai';
 import {
   publicWitnessingArrangementsState,
@@ -6,10 +17,7 @@ import {
   publicWitnessingViewState,
 } from '@states/public_witnessing';
 import { firstDayWeekState, userLocalUIDState } from '@states/settings';
-import {
-  PublicWitnessingArrangementType,
-  PublicWitnessingShiftType,
-} from '@definition/public_witnessing';
+import { PublicWitnessingArrangementType } from '@definition/public_witnessing';
 import {
   addDays,
   formatDate,
@@ -36,28 +44,6 @@ const parseDate = (date: string) => {
 // getDay(): 0 = Sunday; schedule weekdays: 1 (Monday) – 7 (Sunday).
 const getScheduleWeekday = (date: Date) => date.getDay() || 7;
 
-// A seeker keeps the slot open until the partners they asked for have joined;
-// a booking made with a partner closes the slot entirely. Several seekers in
-// one slot add up their requests, so their authors do not count as each
-// other's partners.
-const isSeekingPartner = (
-  records: PublicWitnessingArrangementType[],
-  publisherCount: number,
-  capacity: number
-) => {
-  const wanted = records
-    .filter((record) => record.arrangement_data.partner_needed)
-    .reduce(
-      (total, record) =>
-        total +
-        record.arrangement_data.publishers.length +
-        (record.arrangement_data.partner_count ?? 1),
-      0
-    );
-
-  return publisherCount < Math.min(wanted, capacity);
-};
-
 const getSlotStatus = (
   isPast: boolean,
   records: PublicWitnessingArrangementType[],
@@ -69,6 +55,30 @@ const getSlotStatus = (
 };
 
 const useShiftsCard = ({ location }: ShiftsCardProps) => {
+  const navigationRef = useRef<HTMLDivElement>(null);
+  const [isNavigationWrapped, setIsNavigationWrapped] = useState(false);
+
+  useLayoutEffect(() => {
+    const row = navigationRef.current;
+    if (!row) return;
+    const [date, tabs] = row.children;
+    if (!date || !tabs) return;
+
+    // Measure the actual flex wrap, including translated labels and font changes.
+    const measure = () => {
+      setIsNavigationWrapped(
+        tabs.getBoundingClientRect().top >= date.getBoundingClientRect().bottom
+      );
+    };
+
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(row);
+    observer.observe(date);
+    observer.observe(tabs);
+    return () => observer.disconnect();
+  }, []);
+
   const [view, setView] = useAtom(publicWitnessingViewState);
   const [selectedDate, setSelectedDate] = useAtom(
     publicWitnessingSelectedDateState
@@ -123,10 +133,11 @@ const useShiftsCard = ({ location }: ShiftsCardProps) => {
     const index = new Map<string, PublicWitnessingArrangementType[]>();
 
     for (const record of arrangements) {
-      const { location_uid, date, start_time } = record.arrangement_data;
+      const { location_uid, date, start_time, end_time } =
+        record.arrangement_data;
       if (location_uid !== location.location_uid) continue;
 
-      const key = `${date}|${start_time}`;
+      const key = `${date}|${start_time}|${end_time}`;
       const slotRecords = index.get(key);
 
       if (slotRecords) slotRecords.push(record);
@@ -145,34 +156,21 @@ const useShiftsCard = ({ location }: ShiftsCardProps) => {
           (day) => day.weekday === getScheduleWeekday(date)
         )?.shifts ?? [];
 
-      // bookings made before the schedule changed no longer match a shift:
-      // keep them as their own slots so they stay visible and can be
-      // cancelled, instead of silently disappearing
-      const scheduledStarts = new Set(
-        scheduled.map((shift) => shift.start_time)
+      const dateRecords = arrangements.filter(
+        (record) =>
+          record.arrangement_data.location_uid === location.location_uid &&
+          record.arrangement_data.date === dateKey
       );
-      const retired = new Map<string, PublicWitnessingShiftType>();
-
-      for (const [key, records] of arrangementsBySlot) {
-        const [recordDate, start_time] = key.split('|');
-        if (recordDate !== dateKey || scheduledStarts.has(start_time)) continue;
-
-        retired.set(start_time, {
-          start_time,
-          end_time: records[0].arrangement_data.end_time,
-        });
-      }
-
-      const shifts = [...scheduled, ...retired.values()].sort((a, b) =>
-        a.start_time.localeCompare(b.start_time)
-      );
+      const shifts = publicWitnessingDayShifts(scheduled, dateRecords);
 
       const capacity = location.location_data.max_publishers;
 
       return shifts.map((shift) => {
         const records =
-          arrangementsBySlot.get(`${dateKey}|${shift.start_time}`) ?? [];
-        const isRetired = retired.has(shift.start_time);
+          arrangementsBySlot.get(
+            `${dateKey}|${shift.start_time}|${shift.end_time}`
+          ) ?? [];
+        const isRetired = shift.retired;
 
         const publishers = records.flatMap((record) =>
           record.arrangement_data.publishers.map((publisher) => publisher.name)
@@ -183,6 +181,7 @@ const useShiftsCard = ({ location }: ShiftsCardProps) => {
           (dateKey === today && shift.end_time <= currentTime);
 
         return {
+          retired: isRetired,
           date: dateKey,
           start_time: shift.start_time,
           end_time: shift.end_time,
@@ -190,7 +189,12 @@ const useShiftsCard = ({ location }: ShiftsCardProps) => {
           status: getSlotStatus(
             isPast,
             records,
-            !isRetired && isSeekingPartner(records, publishers.length, capacity)
+            !isRetired &&
+              publicWitnessingIsSeekingPartner(
+                records,
+                publishers.length,
+                capacity
+              )
           ),
           publishers,
           arrangements: records,
@@ -200,7 +204,7 @@ const useShiftsCard = ({ location }: ShiftsCardProps) => {
         };
       });
     },
-    [location, arrangementsBySlot, today, currentTime, userUID]
+    [location, arrangements, arrangementsBySlot, today, currentTime, userUID]
   );
 
   const days = useMemo<DayShiftsType[]>(() => {
@@ -299,6 +303,8 @@ const useShiftsCard = ({ location }: ShiftsCardProps) => {
   };
 
   return {
+    navigationRef,
+    isNavigationWrapped,
     view,
     label,
     isCurrentPeriod,

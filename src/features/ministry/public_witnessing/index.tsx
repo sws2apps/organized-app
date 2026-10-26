@@ -11,6 +11,7 @@ import {
   publicWitnessingSelectedLocationState,
 } from '@states/public_witnessing';
 import InfoNote from '@components/info_note';
+import usePublicWitnessingPermissions from '@features/ministry/public_witnessing/usePermissions';
 import LocationsList from './locations_list';
 import LocationDetails from './location_details';
 import ShiftsCard from './shifts_card';
@@ -27,6 +28,7 @@ const popIn = keyframes({
 
 const PublicWitnessingContainer = () => {
   const { t } = useAppTranslation();
+  const { canManageLocations } = usePublicWitnessingPermissions();
   const { laptopUp, desktopLargeUp } = useBreakpoints();
   const navigate = useNavigate();
 
@@ -83,13 +85,25 @@ const PublicWitnessingContainer = () => {
   if (!locationsLoaded) return null;
 
   if (locations.length === 0) {
-    return <InfoNote variant="card" message={t('tr_PWLocationsEmpty')} />;
+    return (
+      <InfoNote
+        variant="card"
+        message={t(
+          canManageLocations
+            ? 'tr_PWLocationsEmpty'
+            : 'tr_PWLocationsEmptyPublisher'
+        )}
+      />
+    );
   }
 
   const details = selectedLocation && (
     <>
       <LocationDetails location={selectedLocation} />
-      <ShiftsCard location={selectedLocation} />
+      <ShiftsCard
+        key={selectedLocation.location_uid}
+        location={selectedLocation}
+      />
     </>
   );
 

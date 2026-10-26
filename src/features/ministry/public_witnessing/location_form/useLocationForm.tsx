@@ -76,6 +76,7 @@ const useLocationForm = ({ location, onClose }: LocationFormProps) => {
   const [showErrors, setShowErrors] = useState(false);
 
   const [isSaving, setIsSaving] = useState(false);
+  const [saveError, setSaveError] = useState('');
 
   const [scheduleMode, setScheduleMode] = useState<ScheduleMode>(() => {
     const schedule = location?.location_data.schedule;
@@ -89,15 +90,33 @@ const useLocationForm = ({ location, onClose }: LocationFormProps) => {
     return sameEveryDay ? 'every_day' : 'custom';
   });
 
+  const [customDraft, setCustomDraft] = useState<{
+    shifts: typeof shiftsByDay;
+    days: number[];
+    selected: number | null;
+  } | null>(null);
+
   const isEveryDay = scheduleMode === 'every_day';
 
   const handleScheduleModeChange = (mode: ScheduleMode) => {
     setScheduleMode(mode);
 
     if (mode === 'custom') {
+      if (customDraft) {
+        setShiftsByDay(customDraft.shifts);
+        setApprovedDays(customDraft.days);
+        setSelectedDay(customDraft.selected);
+        return;
+      }
       setSelectedDay(approvedDays.at(0) ?? null);
       return;
     }
+
+    setCustomDraft({
+      shifts: shiftsByDay,
+      days: approvedDays,
+      selected: selectedDay,
+    });
 
     // with every day collapsed, copy the first scheduled day, not Monday
     const templateDay =
@@ -177,11 +196,16 @@ const useLocationForm = ({ location, onClose }: LocationFormProps) => {
 
   const errors = {
     name: showErrors && name.trim().length === 0,
-    maxPublishers: showErrors && Number(maxPublishers) <= 0,
+    maxPublishers:
+      showErrors &&
+      (!Number.isInteger(maxPublishers) || Number(maxPublishers) <= 0),
   };
 
   const isDetailsValid = useMemo(
-    () => name.trim().length > 0 && Number(maxPublishers) > 0,
+    () =>
+      name.trim().length > 0 &&
+      Number.isInteger(maxPublishers) &&
+      Number(maxPublishers) > 0,
     [name, maxPublishers]
   );
 
@@ -196,6 +220,7 @@ const useLocationForm = ({ location, onClose }: LocationFormProps) => {
 
   const handleSave = async () => {
     if (isSaving) return;
+    setSaveError('');
 
     if (!isDetailsValid) {
       setShowErrors(true);
@@ -210,6 +235,7 @@ const useLocationForm = ({ location, onClose }: LocationFormProps) => {
     if (invalidDay !== undefined) {
       setStep(1);
       if (!isEveryDay) setSelectedDay(invalidDay);
+      setSaveError(publicWitnessingShiftError(shiftsByDay[invalidDay]) ?? '');
       displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getTranslation({
@@ -233,23 +259,27 @@ const useLocationForm = ({ location, onClose }: LocationFormProps) => {
     setIsSaving(true);
 
     try {
-      await saveLocation({
-        location_uid: location?.location_uid ?? crypto.randomUUID(),
-        location_data: {
-          _deleted: false,
-          updatedAt: new Date().toISOString(),
-          name: name.trim(),
-          address: address.trim(),
-          cart_stored_at: cartStoredAt.trim(),
-          max_publishers: Number(maxPublishers),
-          description: description.trim(),
-          sort_index: location?.location_data.sort_index ?? locations.length,
-          schedule,
+      await saveLocation(
+        {
+          location_uid: location?.location_uid ?? crypto.randomUUID(),
+          location_data: {
+            _deleted: false,
+            updatedAt: new Date().toISOString(),
+            name: name.trim(),
+            address: address.trim(),
+            cart_stored_at: cartStoredAt.trim(),
+            max_publishers: Number(maxPublishers),
+            description: description.trim(),
+            sort_index: location?.location_data.sort_index ?? locations.length,
+            schedule,
+          },
         },
-      });
+        location?.location_data.updatedAt
+      );
 
       onClose();
     } catch (error) {
+      setSaveError((error as Error).message);
       console.error(error);
 
       displaySnackNotification({
@@ -280,6 +310,7 @@ const useLocationForm = ({ location, onClose }: LocationFormProps) => {
     selectedShifts,
     errors,
     isSaving,
+    saveError,
     step,
     setStep,
     handleNext,

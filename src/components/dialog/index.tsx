@@ -114,7 +114,7 @@ const Dialog = ({
 
   if (header) {
     heading = (
-      <Box id={titleId} sx={{ minWidth: 0 }}>
+      <Box id={titleId} sx={{ minWidth: 0, flex: 1 }}>
         {header}
       </Box>
     );
@@ -182,7 +182,10 @@ const Dialog = ({
       fullWidth
       open={open}
       onClose={handleClose}
-      aria-labelledby={header || title ? titleId : undefined}
+      aria-label={header && title ? title : undefined}
+      aria-labelledby={
+        header && title ? undefined : header || title ? titleId : undefined
+      }
       sx={{
         boxSizing: 'border-box',
         '.MuiPaper-root': {

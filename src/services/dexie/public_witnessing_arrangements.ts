@@ -1,3 +1,4 @@
+import { publicWitnessingBookingError } from '@utils/public_witnessing';
 import appDb from '@db/appDb';
 import { PublicWitnessingArrangementType } from '@definition/public_witnessing';
 
@@ -17,8 +18,19 @@ export const dbPublicWitnessingArrangementsSave = async (
   await appDb.transaction(
     'rw',
     appDb.public_witnessing_arrangements,
+    appDb.public_witnessing_locations,
     appDb.metadata,
     async () => {
+      const location = await appDb.public_witnessing_locations.get(
+        arrangement.arrangement_data.location_uid
+      );
+      const records = await appDb.public_witnessing_arrangements.toArray();
+      const error = publicWitnessingBookingError(
+        arrangement,
+        location,
+        records
+      );
+      if (error) throw new Error(error);
       await appDb.public_witnessing_arrangements.put(arrangement);
       await dbUpdatePublicWitnessingArrangementsMetadata();
     }

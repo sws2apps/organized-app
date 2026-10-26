@@ -88,10 +88,16 @@ export const publicWitnessingSaveArrangementState = atom(
 );
 export const publicWitnessingSaveLocationState = atom(
   null,
-  (get, _set, location: PublicWitnessingLocationType) =>
+  (
+    get,
+    _set,
+    location: PublicWitnessingLocationType,
+    expectedUpdatedAt?: string
+  ) =>
     publicWitnessingSaveLocation(
       location,
-      get(publicWitnessingWriteContextState)
+      get(publicWitnessingWriteContextState),
+      expectedUpdatedAt
     )
 );
 export const publicWitnessingReorderLocationsState = atom(

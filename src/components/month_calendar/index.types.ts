@@ -22,6 +22,7 @@ export type MonthCalendarProps = {
    * Weekday headers, in the same order as the columns.
    */
   weekdayLabels: string[];
+  weekdayShortLabels: string[];
   /**
    * Content rendered under the day number — badges, counts, anything.
    */

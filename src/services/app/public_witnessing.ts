@@ -9,7 +9,7 @@ import {
 } from '@services/dexie/public_witnessing_arrangements';
 import {
   dbPublicWitnessingLocationDelete,
-  dbPublicWitnessingLocationsBulkSave,
+  dbPublicWitnessingLocationsReorder,
   dbPublicWitnessingLocationsSave,
 } from '@services/dexie/public_witnessing_locations';
 import { publicWitnessingShiftError } from '@utils/public_witnessing';
@@ -46,14 +46,21 @@ export const publicWitnessingSaveArrangement = async (
 
 export const publicWitnessingSaveLocation = async (
   location: PublicWitnessingLocationType,
-  context: PublicWitnessingWriteContext
+  context: PublicWitnessingWriteContext,
+  expectedUpdatedAt?: string
 ) => {
   requireManager(context);
+  if (
+    !Number.isInteger(location.location_data.max_publishers) ||
+    location.location_data.max_publishers <= 0
+  ) {
+    throw new Error('tr_PWInvalidCapacity');
+  }
   for (const day of location.location_data.schedule) {
     const error = publicWitnessingShiftError(day.shifts);
     if (error) throw new Error(error);
   }
-  await dbPublicWitnessingLocationsSave(location);
+  await dbPublicWitnessingLocationsSave(location, expectedUpdatedAt);
 };
 
 export const publicWitnessingReorderLocations = (
@@ -61,7 +68,7 @@ export const publicWitnessingReorderLocations = (
   context: PublicWitnessingWriteContext
 ) => {
   requireManager(context);
-  return dbPublicWitnessingLocationsBulkSave(locations);
+  return dbPublicWitnessingLocationsReorder(locations);
 };
 
 export const publicWitnessingDeleteLocation = (
