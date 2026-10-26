@@ -1,4 +1,5 @@
-import type { DoNotCall, TerritoryAssignee } from '@definition/territory';
+import { territoryPublisherCommandChanges } from '@utils/territory_sync_queue';
+import type { TerritoryAssignee } from '@definition/territory';
 import type {
   TerritoryCommand,
   TerritoryPendingChange,
@@ -9,36 +10,6 @@ import {
   encryptTerritoryContent,
   TerritoryIdentityError,
 } from '@services/app/territory_codec';
-
-const doNotCallCommands = (
-  before: DoNotCall[],
-  after: DoNotCall[],
-  key: string,
-  expectedRevision: number
-) => {
-  const commands: TerritoryCommand[] = [];
-  for (const entry of after) {
-    if (
-      JSON.stringify(before.find((item) => item.id === entry.id)) !==
-      JSON.stringify(entry)
-    )
-      commands.push({
-        action: 'do_not_call',
-        expectedRevision,
-        entryId: entry.id,
-        content: encryptTerritoryContent(entry, key),
-      });
-  }
-  for (const entry of before) {
-    if (!after.some((item) => item.id === entry.id))
-      commands.push({
-        action: 'do_not_call',
-        expectedRevision,
-        entryId: entry.id,
-      });
-  }
-  return commands;
-};
 
 export const prepareTerritoryCommands = (
   change: TerritoryPendingChange,
@@ -67,14 +38,10 @@ export const prepareTerritoryCommands = (
       ...command,
       expectedRevision: expectedRevision + commands.length,
     });
-  if (before.requestedBy !== after.requestedBy)
-    add({
-      action: after.requestedBy ? 'request' : 'cancel_request',
-      expectedRevision,
-    });
-  const active = before.assignments.find((item) => !item.returnedOn);
-  const updated = after.assignments.find((item) => item.id === active?.id);
-  if (active && updated?.returnedOn) {
+  const plan = territoryPublisherCommandChanges(before, after);
+  if (plan.request) add({ action: plan.request, expectedRevision });
+  if (plan.assignment?.action === 'return') {
+    const updated = plan.assignment.value;
     const assignment = encodeTerritoryAssignment(updated, assignees, key);
     add({
       action: 'return',
@@ -84,20 +51,22 @@ export const prepareTerritoryCommands = (
       notes: assignment.notes,
       households: after.households,
     });
-  } else if (active && updated && active.note !== updated.note) {
+  } else if (plan.assignment) {
     add({
       action: 'assignment_note',
       expectedRevision,
-      notes: encryptTerritoryContent(updated.note ?? '', key),
+      notes: encryptTerritoryContent(plan.assignment.value.note ?? '', key),
     });
   }
-  for (const command of doNotCallCommands(
-    before.doNotCalls,
-    after.doNotCalls,
-    key,
-    expectedRevision
-  ))
-    add(command);
+  for (const entry of plan.doNotCalls)
+    add({
+      action: 'do_not_call',
+      expectedRevision,
+      entryId: entry.id,
+      content: entry.value
+        ? encryptTerritoryContent(entry.value, key)
+        : undefined,
+    });
   if (!commands.length)
     throw new TerritoryIdentityError('This change requires a manager');
   return commands;

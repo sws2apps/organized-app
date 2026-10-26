@@ -11,6 +11,7 @@ import type {
 import { TERRITORY_SYNC_BATCH_LIMIT } from '@constants/index';
 import {
   coalesceTerritoryChanges,
+  partitionTerritoryChanges,
   matchesTerritoryReview,
 } from '@utils/territory_sync_queue';
 
@@ -28,7 +29,8 @@ const assertScope = (state: TerritorySyncState | undefined, scope: string) => {
 /** Local edits and their outbox entry commit together, including map splits and combinations. */
 export const dbTerritoriesEnqueue = async (
   records: TerritoryRecord[],
-  scope: string
+  scope: string,
+  manager: boolean
 ) => {
   await appDb.transaction('rw', appDb.territories, appDb.metadata, async () => {
     const metadata = await appDb.metadata.get(1);
@@ -48,20 +50,19 @@ export const dbTerritoriesEnqueue = async (
       state.queue = state.queue.filter(
         (operation) => operation.changes.length > 0
       );
-    } else if (
-      changes.length > TERRITORY_SYNC_BATCH_LIMIT &&
-      previous.every((record) => !record)
-    ) {
-      for (
-        let index = 0;
-        index < changes.length;
-        index += TERRITORY_SYNC_BATCH_LIMIT
-      )
-        state.queue.push({
-          id: crypto.randomUUID(),
-          changes: changes.slice(index, index + TERRITORY_SYNC_BATCH_LIMIT),
-        });
     } else state.queue.push({ id: crypto.randomUUID(), changes });
+    state.queue = state.queue.flatMap((operation) =>
+      operation.prepared
+        ? [operation]
+        : partitionTerritoryChanges(
+            operation.changes,
+            manager,
+            TERRITORY_SYNC_BATCH_LIMIT
+          ).map((batch, index) => ({
+            id: index === 0 ? operation.id : crypto.randomUUID(),
+            changes: batch,
+          }))
+    );
     await appDb.territories.bulkPut(
       records.map((record, index) => ({
         ...record,

@@ -122,17 +122,24 @@ const useTerritoryExport = (territory: Territory) => {
     const needsMap = parts.front && !isPhone;
 
     if (needsMap && !mapImages.current.has(format)) {
-      mapImages.current.set(
-        format,
-        captureTerritoryMap(
-          territory,
-          MAP_RATIO[format],
-          MAP_INSET[format],
-          MAP_LONG_SIDE[format],
-          MAP_DETAIL[format],
-          showDoNotCalls
-        )
+      const capture = captureTerritoryMap(
+        territory,
+        MAP_RATIO[format],
+        MAP_INSET[format],
+        MAP_LONG_SIDE[format],
+        MAP_DETAIL[format],
+        showDoNotCalls
       );
+      mapImages.current.set(format, capture);
+
+      const forget = () => {
+        if (mapImages.current.get(format) === capture) {
+          mapImages.current.delete(format);
+        }
+      };
+      capture.then((picture) => {
+        if (!picture) forget();
+      }, forget);
     }
 
     const picture = needsMap ? await mapImages.current.get(format) : undefined;

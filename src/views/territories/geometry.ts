@@ -14,3 +14,30 @@ export const printableA5 = (size: { width: number; height: number }) => ({
 
 // the white label floating over the bottom of an A5 map, with its margin
 export const MAP_LABEL_SPACE = 58;
+
+// Fixed PDF cells keep long telephone lists inside the front's map frame.
+export const PHONE_GRID = { columns: 4, gap: 4, cellHeight: 25 };
+
+export const phoneGridLayout = (
+  height: number,
+  total: number,
+  width: number,
+  minCellWidth: number
+) => {
+  const columns = Math.max(
+    1,
+    Math.min(
+      PHONE_GRID.columns,
+      Math.floor((width + PHONE_GRID.gap) / (minCellWidth + PHONE_GRID.gap))
+    )
+  );
+  const rows = Math.max(
+    0,
+    Math.floor(
+      (height + PHONE_GRID.gap) / (PHONE_GRID.cellHeight + PHONE_GRID.gap)
+    )
+  );
+  const capacity = rows * columns;
+  const shown = total > capacity ? Math.max(0, capacity - 1) : total;
+  return { columns, shown, remaining: total - shown };
+};
