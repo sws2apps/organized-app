@@ -102,7 +102,7 @@ const useWeekRangeSelector = (
 
   const startWeekOptions = useMemo(() => {
     let startDate = formatDate(getFirstWeekPreviousMonth(), 'yyyy/MM/dd');
-    let endDate = formatDate(new Date(), 'yyyy/MM/dd');
+    let endDate = formatDate(addDays(new Date(), -1), 'yyyy/MM/dd');
 
     const pastSources = filterSources(startDate, endDate);
 
