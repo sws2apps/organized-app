@@ -5,7 +5,7 @@ import { IconUndo } from '@components/icons';
 import Typography from '@components/typography';
 import { DateNavigatorPeriodBadgeProps } from '@components/date_navigator/index.types';
 
-/** Keeps both period states the same size, including translated labels. */
+/** Compact current-period status and return action with content-sized widths. */
 const PeriodBadge = ({
   text,
   current,
@@ -17,41 +17,21 @@ const PeriodBadge = ({
   return (
     <Box
       sx={{
-        display: 'grid',
-        gridTemplateColumns: 'minmax(0, 1fr)',
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
         minWidth: 0,
         flexShrink: 1,
         maxWidth: '100%',
       }}
     >
-      {[text, action.text].map((label, index) => (
-        <Box
-          key={index}
-          aria-hidden
-          sx={{
-            gridArea: '1 / 1',
-            visibility: 'hidden',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '4px',
-            padding: '4px 8px',
-            minWidth: 0,
-            overflow: 'hidden',
-            pointerEvents: 'none',
-          }}
-        >
-          <Box sx={{ width: '16px', flexShrink: 0 }} />
-          <Typography className="body-small-semibold" noWrap>
-            {label}
-          </Typography>
-        </Box>
-      ))}
       {current ? (
         <Badge
           size="small"
           color="accent"
           faded
-          className="body-small-semibold"
+          className="label-small-semibold"
+          centerContent
           text={text}
           icon={
             <Box
@@ -71,15 +51,16 @@ const PeriodBadge = ({
             </Box>
           }
           sx={{
-            gridArea: '1 / 1',
-            height: '32px',
+            height: '24px',
             boxSizing: 'border-box',
-            padding: '4px 8px',
+            padding: '2px 6px',
             alignItems: 'center',
             minWidth: 0,
+            maxWidth: '100%',
+            flexShrink: 1,
             overflow: 'hidden',
             borderRadius: 'var(--radius-m)',
-            '& > div': { minWidth: 0 },
+            '& > div': { minWidth: 0, alignItems: 'center' },
             '& .MuiTypography-root': {
               display: 'block',
               minWidth: 0,
@@ -93,6 +74,7 @@ const PeriodBadge = ({
         <Button
           variant="small"
           disableAutoStretch
+          minHeight={24}
           ariaLabel={action.ariaLabel}
           onClick={interactive ? action.onClick : undefined}
           startIcon={
@@ -102,10 +84,11 @@ const PeriodBadge = ({
             />
           }
           sx={{
-            gridArea: '1 / 1',
             minWidth: 0,
-            width: '100%',
-            height: '32px',
+            width: 'auto',
+            maxWidth: '100%',
+            height: '24px',
+            padding: '2px 6px',
             gap: '4px',
             color: 'var(--grey-400)',
             backgroundColor: 'var(--grey-100)',
@@ -116,8 +99,10 @@ const PeriodBadge = ({
             '&:hover, &:active': { backgroundColor: 'var(--grey-200)' },
           }}
         >
-          <Box
+          <Typography
             component="span"
+            className="label-small-semibold"
+            color="var(--grey-400)"
             sx={{
               overflow: 'hidden',
               textOverflow: 'ellipsis',
@@ -125,7 +110,7 @@ const PeriodBadge = ({
             }}
           >
             {action.text}
-          </Box>
+          </Typography>
         </Button>
       )}
     </Box>
