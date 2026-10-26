@@ -1198,5 +1198,6 @@
   "tr_territoryTransferBeforeAssigned": "The new assignment cannot start before an open assignment.",
   "tr_territoryOpenAssignmentDateInvalid": "Correct the open assignment’s date before assigning this territory.",
   "tr_territoryAssigneeUnavailable": "Choose a current publisher and, if applicable, a current group.",
-  "tr_territoryRetryExport": "Try again"
+  "tr_territoryRetryExport": "Try again",
+  "tr_territoryChangeTooLarge": "This change is too large. Select fewer territories or update fewer do-not-call entries at once."
 }
