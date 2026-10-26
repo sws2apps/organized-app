@@ -1,3 +1,6 @@
+import { SourceWeekType } from '@definition/sources';
+import { sourceSchema } from '@services/dexie/schema';
+
 /** Keep the selected data view without dropping scalar arrays such as section parts. */
 export const filterScheduleByDataView = <T>(
   value: T,
@@ -30,4 +33,27 @@ export const filterScheduleByDataView = <T>(
   }
 
   return value;
+};
+
+/** Publishing duties must never publish draft meeting programs. */
+export const mergeDutiesSources = (
+  local: SourceWeekType[],
+  remote: SourceWeekType[],
+  earliestWeek: string
+): SourceWeekType[] => {
+  const published = structuredClone(
+    remote.filter((record) => record.weekOf >= earliestWeek)
+  );
+  for (const source of local) {
+    if (published.some((record) => record.weekOf === source.weekOf)) continue;
+    // New weeks only need a well-formed source shell and localized dates.
+    // Songs, meeting parts, event names and talk overrides publish separately.
+    const dates = structuredClone(sourceSchema);
+    dates.weekOf = source.weekOf;
+    dates.midweek_meeting.week_date_locale = structuredClone(
+      source.midweek_meeting.week_date_locale
+    );
+    published.push(dates);
+  }
+  return published;
 };

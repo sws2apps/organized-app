@@ -36,7 +36,10 @@ import {
 } from '@services/api/schedule';
 import { speakersCongregationsState } from '@states/speakers_congregations';
 import { getUserDataView } from '@services/app';
-import { filterScheduleByDataView } from '@utils/schedule_publish';
+import {
+  filterScheduleByDataView,
+  mergeDutiesSources,
+} from '@utils/schedule_publish';
 
 // dynamic duty slots of one data view all share the same type, and
 // updateObject matches array entries by type before id, so it would fold
@@ -440,8 +443,8 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
 
       const months = checkedItems.toSorted();
 
-      // each publish carries only its own sections; duties keeps the meeting
-      // sources so week dates stay resolvable
+      // Each publish carries only its own sections. Duties source merging below
+      // preserves published programs and adds date-only shells for new weeks.
       const scheduleKeysToDelete = {
         midweek: ['weekend_meeting', 'duties'],
         weekend: ['midweek_meeting', 'duties'],
@@ -498,10 +501,14 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
       // clone before the merge below: it mutates the matched remote records
       const schedulesPublished = structuredClone(schedulesRemote);
 
-      const sourcesPublish = handleUpdateMaterialsFromRemote(
-        sourcesLocalPublish,
-        sourcesRemote
-      );
+      const sourcesPublish =
+        type === 'duties'
+          ? mergeDutiesSources(
+              sourcesLocalPublish,
+              sourcesRemote,
+              formatDate(addMonths(getWeekDate(), -3), 'yyyy/MM/dd')
+            )
+          : handleUpdateMaterialsFromRemote(sourcesLocalPublish, sourcesRemote);
 
       const schedulesBasePublish = handleUpdateMaterialsFromRemote(
         schedulesLocalPublish,

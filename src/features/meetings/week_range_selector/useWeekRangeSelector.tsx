@@ -19,7 +19,8 @@ import { schedulesGetMeetingDate } from '@services/app/schedules';
 
 const useWeekRangeSelector = (
   onStartChange: WeekRangeSelectorType['onStartChange'],
-  meeting: WeekRangeSelectorType['meeting']
+  meeting: WeekRangeSelectorType['meeting'],
+  onEndChange?: WeekRangeSelectorType['onEndChange']
 ) => {
   const sources = useAtomValue(sourcesState);
   const lang = useAtomValue(JWLangState);
@@ -28,6 +29,7 @@ const useWeekRangeSelector = (
   const weekendDay = useAtomValue(weekendMeetingWeekdayState);
 
   const [startWeek, setStartWeek] = useState('');
+  const [endWeek, setEndWeek] = useState('');
 
   const showDateLabel = useMemo(() => {
     if (meeting === 'duties') return false;
@@ -128,9 +130,20 @@ const useWeekRangeSelector = (
   const handleStartWeekChange = (value: string) => {
     setStartWeek(value);
     onStartChange?.(value);
+    if (endWeek && endWeek < value) {
+      setEndWeek('');
+      onEndChange?.('');
+    }
+  };
+
+  const handleEndWeekChange = (value: string) => {
+    setEndWeek(value);
+    onEndChange?.(value);
   };
 
   return {
+    endWeek,
+    handleEndWeekChange,
     endWeekOptions,
     startWeekOptions,
     handleStartWeekChange,
