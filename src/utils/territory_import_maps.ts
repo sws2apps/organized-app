@@ -30,12 +30,9 @@ export const importGeometry = (value: unknown, data: TerritoryImportData) => {
 };
 export const parseTerritoryGeoJSON = (value: unknown) => {
   const root = importObject(value);
-  const features =
-    root.type === 'FeatureCollection'
-      ? root.features
-      : root.type === 'Feature'
-        ? [root]
-        : undefined;
+  let features: unknown;
+  if (root.type === 'FeatureCollection') features = root.features;
+  else if (root.type === 'Feature') features = [root];
   if (!Array.isArray(features))
     return importError('tr_territoryImportInvalidFile');
   const data = emptyTerritoryImport();

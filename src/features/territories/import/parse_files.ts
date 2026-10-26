@@ -14,6 +14,56 @@ import { parseTerritoryCSV } from '@utils/territory_import_csv';
 import { parseTerritoryJSON } from '@utils/territory_import_json';
 import { parseTerritoryKML } from '@utils/territory_import_maps';
 
+const textEncoding = (bytes: Uint8Array) => {
+  if (bytes[0] === 255 && bytes[1] === 254) return 'utf-16le';
+  if (bytes[0] === 254 && bytes[1] === 255) return 'utf-16be';
+  return 'utf-8';
+};
+const parseBackup = async (buffer: ArrayBuffer) => {
+  const backup = await parseServiceTerritory(buffer);
+  const data = emptyTerritoryImport();
+  data.entries = backup.territories.map((territory) => ({
+    number: territory.number,
+    values: {
+      name: territory.name,
+      city: territory.city,
+      type: territory.type,
+      households: territory.households,
+      cardLost: territory.cardLost,
+      assignments: territory.assignments.map((item) => ({
+        ...item,
+        id: crypto.randomUUID(),
+      })),
+      doNotCalls: territory.doNotCalls.map((item) => ({
+        ...item,
+        id: crypto.randomUUID(),
+      })),
+    },
+  }));
+  if (backup.driveMaps) importNotice(data, 'tr_territoryImportLinksSkipped');
+  if (backup.skippedDisabled)
+    importNotice(data, 'tr_territoryImportDisabledSkipped');
+  return data;
+};
+const parseTextFile = (
+  buffer: ArrayBuffer,
+  bytes: Uint8Array,
+  dateOrder: TerritoryImportDateOrder
+) => {
+  let source: string;
+  try {
+    const encoding = textEncoding(bytes);
+    source = new TextDecoder(encoding, { fatal: true }).decode(buffer).trim();
+  } catch {
+    return importError('tr_territoryImportInvalidFile');
+  }
+  if (!source || source.includes('\0'))
+    return importError('tr_territoryImportInvalidFile');
+  if (source.startsWith('{')) return parseTerritoryJSON(source);
+  if (source.startsWith('<')) return parseTerritoryKML(source);
+  return parseTerritoryCSV(source, dateOrder);
+};
+
 export const parseTerritoryFiles = async (
   files: Pick<File, 'size' | 'arrayBuffer'>[],
   existing: Territory[],
@@ -33,54 +83,10 @@ export const parseTerritoryFiles = async (
     if (
       new TextDecoder().decode(bytes.subarray(0, 16)) === 'SQLite format 3\0'
     ) {
-      const backup = await parseServiceTerritory(buffer);
-      const data = emptyTerritoryImport();
-      data.entries = backup.territories.map((territory) => ({
-        number: territory.number,
-        values: {
-          name: territory.name,
-          city: territory.city,
-          type: territory.type,
-          households: territory.households,
-          cardLost: territory.cardLost,
-          assignments: territory.assignments.map((item) => ({
-            ...item,
-            id: crypto.randomUUID(),
-          })),
-          doNotCalls: territory.doNotCalls.map((item) => ({
-            ...item,
-            id: crypto.randomUUID(),
-          })),
-        },
-      }));
-      if (backup.driveMaps)
-        importNotice(data, 'tr_territoryImportLinksSkipped');
-      if (backup.skippedDisabled)
-        importNotice(data, 'tr_territoryImportDisabledSkipped');
-      datasets.push(data);
+      datasets.push(await parseBackup(buffer));
       continue;
     }
-    let source: string;
-    try {
-      const encoding =
-        bytes[0] === 255 && bytes[1] === 254
-          ? 'utf-16le'
-          : bytes[0] === 254 && bytes[1] === 255
-            ? 'utf-16be'
-            : 'utf-8';
-      source = new TextDecoder(encoding, { fatal: true }).decode(buffer).trim();
-    } catch {
-      return importError('tr_territoryImportInvalidFile');
-    }
-    if (!source || source.includes('\0'))
-      return importError('tr_territoryImportInvalidFile');
-    datasets.push(
-      source.startsWith('{')
-        ? parseTerritoryJSON(source)
-        : source.startsWith('<')
-          ? parseTerritoryKML(source)
-          : parseTerritoryCSV(source, dateOrder)
-    );
+    datasets.push(parseTextFile(buffer, bytes, dateOrder));
   }
   return combineTerritoryImports(datasets, existing);
 };

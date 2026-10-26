@@ -27,12 +27,11 @@ export class TerritoryImportError extends Error {
 export const importError = (key: string, detail = ''): never => {
   throw new TerritoryImportError(key, { detail });
 };
-export const importText = (value: unknown) =>
-  typeof value === 'string'
-    ? value.trim()
-    : typeof value === 'number' && Number.isFinite(value)
-      ? String(value)
-      : '';
+export const importText = (value: unknown) => {
+  if (typeof value === 'string') return value.trim();
+  if (typeof value === 'number' && Number.isFinite(value)) return String(value);
+  return '';
+};
 export const importObject = (value: unknown): Record<string, unknown> => {
   if (!value || typeof value !== 'object' || Array.isArray(value))
     return importError('tr_territoryImportInvalidFile');
@@ -197,6 +196,40 @@ const mergeHistory = (
   return records;
 };
 
+const mergeEntryValues = (
+  previous: TerritoryImportEntry,
+  entry: TerritoryImportEntry
+) => {
+  const left = previous.values;
+  const right = entry.values;
+  for (const field of Object.keys(right) as (keyof typeof right)[]) {
+    if (
+      left[field] !== undefined &&
+      JSON.stringify(left[field]) !== JSON.stringify(right[field])
+    )
+      return importError('tr_territoryImportDuplicate', entry.number);
+  }
+  previous.values = { ...left, ...right };
+};
+const collectImportEntry = (
+  entry: TerritoryImportEntry,
+  entries: Map<string, TerritoryImportEntry>,
+  sourceNumbers: Map<string, string>
+) => {
+  const key = territoryNumberKey(entry.number);
+  if (!key) return importError('tr_territoryImportNumberRequired');
+  if (entry.sourceId) {
+    const number = sourceNumbers.get(entry.sourceId);
+    if (number && number !== key)
+      return importError('tr_territoryImportDuplicate', entry.number);
+    sourceNumbers.set(entry.sourceId, key);
+  }
+  const previous = entries.get(key);
+  if (previous) {
+    mergeEntryValues(previous, entry);
+  } else entries.set(key, structuredClone(entry));
+};
+
 export const combineTerritoryImports = (
   datasets: TerritoryImportData[],
   existing: Territory[]
@@ -206,27 +239,7 @@ export const combineTerritoryImports = (
   const sourceNumbers = new Map<string, string>();
   for (const data of datasets) {
     for (const entry of data.entries) {
-      const key = territoryNumberKey(entry.number);
-      if (!key) return importError('tr_territoryImportNumberRequired');
-      if (entry.sourceId) {
-        const number = sourceNumbers.get(entry.sourceId);
-        if (number && number !== key)
-          return importError('tr_territoryImportDuplicate', entry.number);
-        sourceNumbers.set(entry.sourceId, key);
-      }
-      const previous = entries.get(key);
-      if (previous) {
-        const left = previous.values;
-        const right = entry.values;
-        for (const field of Object.keys(right) as (keyof typeof right)[]) {
-          if (
-            left[field] !== undefined &&
-            JSON.stringify(left[field]) !== JSON.stringify(right[field])
-          )
-            return importError('tr_territoryImportDuplicate', entry.number);
-        }
-        previous.values = { ...left, ...right };
-      } else entries.set(key, structuredClone(entry));
+      collectImportEntry(entry, entries, sourceNumbers);
     }
     result.notices.push(...data.notices);
   }
@@ -282,6 +295,59 @@ export const combineTerritoryImports = (
   return result;
 };
 
+const mergeStandingNote = (
+  previous: Territory | undefined,
+  values: TerritoryImportEntry['values'],
+  number: string
+) => {
+  // Existing standing notes may contain information added after the export.
+  if (previous?.notes && values.notes && previous.notes !== values.notes) {
+    const combined = `${previous.notes}\n${values.notes}`;
+    if (
+      !previous.notes.includes(values.notes) &&
+      combined.length > MAX_NOTE_LENGTH
+    )
+      return importError('tr_territoryImportLongNote', number);
+    values.notes = previous.notes.includes(values.notes)
+      ? previous.notes
+      : combined;
+  }
+};
+const resolveImportPublisher = (
+  record: TerritoryAssignment,
+  assignees: TerritoryAssignee[],
+  matches: Record<string, string>
+) => {
+  if (record.publisherId) return record;
+  const candidates = assignees.filter(
+    (person) =>
+      !person.group &&
+      (matches[record.publisher]
+        ? person.id === matches[record.publisher]
+        : nameKey(person.name) === nameKey(record.publisher))
+  );
+  if (candidates.length !== 1) return record;
+  return {
+    ...record,
+    publisher: record.returnedOn ? record.publisher : candidates[0].name,
+    publisherId: candidates[0].id,
+  };
+};
+
+const mergeImportAddresses = (
+  previous: Territory | undefined,
+  values: TerritoryImportEntry['values']
+) => {
+  const dnc = new Map(
+    (previous?.doNotCalls ?? []).map((item) => [nameKey(item.address), item])
+  );
+  for (const item of values.doNotCalls ?? []) {
+    const prior = dnc.get(nameKey(item.address));
+    dnc.set(nameKey(item.address), prior ? { ...item, ...prior } : item);
+  }
+  return [...dnc.values()];
+};
+
 export const prepareTerritoryImport = (
   data: TerritoryImportData,
   existing: Territory[],
@@ -306,34 +372,9 @@ export const prepareTerritoryImport = (
     const key = territoryNumberKey(entry.number);
     const previous = current.get(key);
     const values = { ...entry.values };
-    // Existing standing notes may contain information added after the export.
-    if (previous?.notes && values.notes && previous.notes !== values.notes) {
-      const combined = `${previous.notes}\n${values.notes}`;
-      if (
-        !previous.notes.includes(values.notes) &&
-        combined.length > MAX_NOTE_LENGTH
-      )
-        return importError('tr_territoryImportLongNote', entry.number);
-      values.notes = previous.notes.includes(values.notes)
-        ? previous.notes
-        : combined;
-    }
-    const resolvePublisher = (record: TerritoryAssignment) => {
-      if (record.publisherId) return record;
-      const candidates = assignees.filter(
-        (person) =>
-          !person.group &&
-          (matches[record.publisher]
-            ? person.id === matches[record.publisher]
-            : nameKey(person.name) === nameKey(record.publisher))
-      );
-      if (candidates.length !== 1) return record;
-      return {
-        ...record,
-        publisher: record.returnedOn ? record.publisher : candidates[0].name,
-        publisherId: candidates[0].id,
-      };
-    };
+    mergeStandingNote(previous, values, entry.number);
+    const resolvePublisher = (record: TerritoryAssignment) =>
+      resolveImportPublisher(record, assignees, matches);
     const priorHistory = (previous?.assignments ?? []).map(resolvePublisher);
     const importedHistory = (values.assignments ?? []).map(resolvePublisher);
     const unresolved = [...priorHistory, ...importedHistory].filter(
@@ -347,13 +388,6 @@ export const prepareTerritoryImport = (
     assignmentCount += values.assignments?.length ?? 0;
     doNotCalls += values.doNotCalls?.length ?? 0;
     boundaries += values.boundary ? 1 : 0;
-    const dnc = new Map(
-      (previous?.doNotCalls ?? []).map((item) => [nameKey(item.address), item])
-    );
-    for (const item of values.doNotCalls ?? []) {
-      const prior = dnc.get(nameKey(item.address));
-      dnc.set(nameKey(item.address), prior ? { ...item, ...prior } : item);
-    }
     const territory: Territory = {
       id: crypto.randomUUID(),
       number: entry.number,
@@ -368,7 +402,7 @@ export const prepareTerritoryImport = (
       ...previous,
       ...values,
       assignments,
-      doNotCalls: [...dnc.values()],
+      doNotCalls: mergeImportAddresses(previous, values),
       phoneNumbers: [
         ...new Set([
           ...(previous?.phoneNumbers ?? []),
