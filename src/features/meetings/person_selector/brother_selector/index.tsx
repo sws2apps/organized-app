@@ -304,6 +304,10 @@ const BrotherSelector = (props: PersonSelectorType) => {
   const valueIcon =
     value && !value.person_data.male.value ? <IconFemale /> : <IconMale />;
 
+  const showHistory =
+    showAssignmentsHistory && value?.person_uid !== HOSPITALITY_NOT_NEEDED;
+  const hasInlineAction = Boolean(props.onEditClick || (showHistory && value));
+
   let helperColor = 'var(--orange-dark)';
 
   if (isLinkedPart) {
@@ -382,18 +386,20 @@ const BrotherSelector = (props: PersonSelectorType) => {
         clearIcon={<IconClose width={20} height={20} />}
         sx={{
           '& .MuiOutlinedInput-input': {
-            paddingRight: props.endIcon ? '10px !important' : '80px !important',
+            paddingRight: props.endIcon
+              ? '10px !important'
+              : hasInlineAction
+                ? '80px !important'
+                : 'calc(var(--dialog-gap-mobile) * 3) !important',
           },
           '& .MuiAutocomplete-clearIndicator': {
-            marginRight: value ? '30px' : 'initial',
+            marginRight: hasInlineAction ? '30px' : 0,
           },
         }}
       />
 
       <SelectorAdornments
-        showAssignmentsHistory={
-          showAssignmentsHistory && value?.person_uid !== HOSPITALITY_NOT_NEEDED
-        }
+        showAssignmentsHistory={showHistory}
         hasValue={Boolean(value)}
         helperText={helperText}
         helperColor={helperColor}
