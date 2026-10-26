@@ -1,3 +1,4 @@
+import { CustomDutyIconType } from '@definition/duties';
 import { DutiesSectionTemplateType } from '@definition/schedules';
 import { AppRoleType } from './app';
 import { AssignmentFieldType } from './assignment';
@@ -309,6 +310,7 @@ export type SettingsType = {
       hospitality_amount: { value: number; updatedAt: string };
       videoconference_host_amount: { value: number; updatedAt: string };
       custom: {
+        icon?: CustomDutyIconType;
         _deleted: boolean;
         id: string;
         name: string;

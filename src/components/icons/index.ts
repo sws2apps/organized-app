@@ -70,6 +70,7 @@ export { default as IconCopy } from './IconCopy';
 export { default as IconCorporateFare } from './IconCorporateFare';
 export { default as IconCreate } from './IconCreate';
 export { default as IconCustomSchedule } from './IconCustomSchedule';
+export { default as IconCustomDuty } from './IconCustomDuty';
 export { default as IconCustom } from './IconCustom';
 export { default as IconDarkMode } from './IconDarkMode';
 export { default as IconDashedLine } from './IconDashedLine';

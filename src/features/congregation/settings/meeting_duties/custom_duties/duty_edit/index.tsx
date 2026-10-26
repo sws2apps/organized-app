@@ -1,3 +1,4 @@
+import DutyIconSelector from '@features/congregation/settings/meeting_duties/custom_duties/icon_selector';
 import DialogActions from '@components/dialog_actions';
 import { DUTY_NAME_MAX } from '@utils/duties_sections';
 import { Box, Stack } from '@mui/material';
@@ -18,6 +19,8 @@ const DutyEdit = (props: DutyEditProps) => {
   const { tablet500Down } = useBreakpoints();
 
   const {
+    icon,
+    handleIconChange,
     name,
     amount,
     nameError,
@@ -72,7 +75,7 @@ const DutyEdit = (props: DutyEditProps) => {
       <Stack spacing="var(--dialog-gap)" sx={{ width: '100%' }}>
         {unavailable && (
           <Typography color="var(--red-main)" role="alert">
-            {t('tr_sectionUnavailable')}
+            {t('tr_dutyUnavailable')}
           </Typography>
         )}
         <Box
@@ -113,6 +116,11 @@ const DutyEdit = (props: DutyEditProps) => {
             ))}
           </Select>
         </Box>
+        <DutyIconSelector
+          value={icon}
+          onChange={handleIconChange}
+          disabled={isSaving || unavailable}
+        />
       </Stack>
     </Dialog>
   );

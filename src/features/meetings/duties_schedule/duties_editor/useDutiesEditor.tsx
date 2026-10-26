@@ -145,6 +145,7 @@ const useDutiesEditor = () => {
       custom: customDuties.map((duty) => ({
         id: duty.id,
         name: duty.name,
+        icon: duty.icon,
         fields: fields
           .filter((field) => field.schedule_id?.startsWith(`${duty.id}_`))
           .map((field): DutyFieldType => ({ ...field, label: responsible })),

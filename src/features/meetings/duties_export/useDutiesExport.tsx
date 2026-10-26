@@ -280,6 +280,10 @@ const useDutiesExport = (onClose: DutiesExportType['onClose']) => {
         id,
         name,
         icon,
+        customIcon:
+          icon === 'custom'
+            ? config.custom.find((duty) => duty.id === id)?.icon
+            : undefined,
         rows: dutyRows(
           id,
           slots.filter((slot) => meetings.includes(slot.meeting)),

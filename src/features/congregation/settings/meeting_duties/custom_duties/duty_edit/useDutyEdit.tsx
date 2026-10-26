@@ -1,5 +1,7 @@
+import { CustomDutyIconType } from '@definition/duties';
+import { resolveCustomDutyIcon } from '@constants/duty_icons';
 import { validateDutyName } from '@utils/duties_sections';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { ChangeEvent, useRef, useState } from 'react';
 import { SelectChangeEvent } from '@mui/material';
 import { useAtomValue } from 'jotai';
@@ -15,17 +17,21 @@ import { DutyEditProps } from './index.types';
 
 const useDutyEdit = ({ id, onClose, type }: DutyEditProps) => {
   const { t } = useAppTranslation();
+  const { isDutiesEditor } = useCurrentUser();
   const settings = useAtomValue(settingsState);
   const dataView = useAtomValue(userDataViewState);
   const duties = useAtomValue(dutiesCustomState);
 
   const duty = duties.find((item) => item.id === id);
+  const [icon, setIcon] = useState<CustomDutyIconType>(
+    resolveCustomDutyIcon(duty?.icon)
+  );
   const [name, setName] = useState(duty?.name ?? '');
   const [amount, setAmount] = useState(duty?.amount ?? 1);
   const [nameError, setNameError] = useState<string>();
   const [isSaving, setIsSaving] = useState(false);
   const saving = useRef(false);
-  const unavailable = type === 'edit' && !duty;
+  const unavailable = !isDutiesEditor || (type === 'edit' && !duty);
 
   const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -61,6 +67,7 @@ const useDutyEdit = ({ id, onClose, type }: DutyEditProps) => {
           id: crypto.randomUUID(),
           name: dutyName,
           amount,
+          icon,
           _deleted: false,
           updatedAt: new Date().toISOString(),
         });
@@ -69,6 +76,7 @@ const useDutyEdit = ({ id, onClose, type }: DutyEditProps) => {
       if (type === 'edit') {
         const duty = duties.custom.find((duty) => duty.id === id)!;
 
+        duty.icon = icon;
         duty.name = dutyName;
         duty.amount = amount;
         duty.updatedAt = new Date().toISOString();
@@ -92,6 +100,8 @@ const useDutyEdit = ({ id, onClose, type }: DutyEditProps) => {
   };
 
   return {
+    icon,
+    handleIconChange: setIcon,
     name,
     amount,
     nameError,

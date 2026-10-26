@@ -1,3 +1,4 @@
+import { isCustomDutyIcon } from '@constants/duty_icons';
 import {
   resolveRecurringSections,
   snapshotRecurringSections,
@@ -475,6 +476,12 @@ type DutyConfig = DutySettings[number];
 const validateCustomDutyChanges = (config: DutyConfig, before?: DutyConfig) => {
   for (const duty of config.custom ?? []) {
     const old = before?.custom?.find((item) => item.id === duty.id);
+    if (
+      duty.icon !== undefined &&
+      duty.icon !== old?.icon &&
+      !isCustomDutyIcon(duty.icon)
+    )
+      throw new Error('tr_dutyInvalidIcon');
     if (
       duty._deleted ||
       (old?.name === duty.name && old?.amount === duty.amount)

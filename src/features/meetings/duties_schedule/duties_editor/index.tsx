@@ -5,7 +5,7 @@ import {
   IconComputerVideo,
   IconConference,
   IconDoor,
-  IconDuties,
+  IconCustomDuty,
   IconHallOverseer,
   IconMicrophone,
   IconTalk,
@@ -174,7 +174,7 @@ const DutiesEditor = () => {
                   <DutyRow
                     key={duty.id}
                     duty={duty.name}
-                    icon={<IconDuties color="var(--accent-dark)" />}
+                    icon={<IconCustomDuty icon={duty.icon} />}
                     week={selectedWeek}
                     fields={duty.fields}
                   />

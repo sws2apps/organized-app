@@ -1,6 +1,6 @@
 import DialogActions from '@components/dialog_actions';
 import { Stack } from '@mui/material';
-import { IconEdit } from '@components/icons';
+import { IconCustomDuty, IconEdit } from '@components/icons';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { DUTIES_MAX } from '../../shared/constants';
 import { DutyItemProps } from './index.types';
@@ -76,6 +76,7 @@ const DutyItem = (props: DutyItemProps) => {
       )}
 
       <Stack spacing="4px" direction="row" sx={{ alignItems: 'center' }}>
+        <IconCustomDuty icon={props.icon} sx={{ flexShrink: 0 }} />
         <Typography sx={{ minWidth: 0, overflowWrap: 'anywhere' }}>
           {props.name}
         </Typography>
