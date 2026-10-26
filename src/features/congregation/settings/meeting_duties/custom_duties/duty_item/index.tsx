@@ -79,7 +79,7 @@ const DutyItem = (props: DutyItemProps) => {
         direction="row"
         sx={{
           alignItems: 'center',
-          gap: 'var(--field-content-inset)',
+          gap: 'var(--dialog-header-gap)',
           color: 'var(--black)',
         }}
       >
