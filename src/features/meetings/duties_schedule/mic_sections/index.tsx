@@ -30,6 +30,7 @@ const MicSections = ({
 
   const {
     sections,
+    emptyHint,
     restoreOpen,
     setRestoreOpen,
     handleRestore,
@@ -276,7 +277,7 @@ const MicSections = ({
       ) : (
         sections.length === 0 && (
           <Typography className="body-small-regular" color="var(--grey-350)">
-            {t('tr_sectionsConfigureHint')}
+            {t(emptyHint)}
           </Typography>
         )
       )}

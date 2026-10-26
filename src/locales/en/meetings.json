@@ -272,6 +272,7 @@
   "tr_sectionsSettingsDesc": "Set up the sections you normally use once. Customize an individual week only when its arrangement differs.",
   "tr_sectionsThisWeek": "Customize week of {{week}}",
   "tr_sectionsWeekDesc": "Changes here apply only to this meeting of this week and are saved immediately.",
+  "tr_sectionsSavedWeekHint": "This week keeps its saved setup. Recurring sections apply to new weeks.",
   "tr_sectionsConfigureHint": "Set up recurring sections in Quick settings.",
   "tr_sectionPositions_one": "{{count}} person",
   "tr_sectionPositions_other": "{{count}} people",

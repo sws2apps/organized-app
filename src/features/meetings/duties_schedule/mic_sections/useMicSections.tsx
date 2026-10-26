@@ -19,6 +19,7 @@ import {
 } from '@services/app/duties';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
+import { hasSavedSections } from '@utils/duties_recurring';
 
 const useMicSections = (week: string, meeting: DutiesMeetingValue) => {
   const { t } = useAppTranslation();
@@ -47,6 +48,14 @@ const useMicSections = (week: string, meeting: DutiesMeetingValue) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [week, meeting, schedules, sources, lang, dataView]
   );
+
+  const savedDuties = schedules.find((item) => item.weekOf === week)?.duties?.[
+    meeting
+  ];
+  const emptyHint =
+    savedDuties && hasSavedSections(savedDuties, dataView)
+      ? 'tr_sectionsSavedWeekHint'
+      : 'tr_sectionsConfigureHint';
 
   const handleOpenAdd = () => {
     setEditId(undefined);
@@ -103,6 +112,7 @@ const useMicSections = (week: string, meeting: DutiesMeetingValue) => {
 
   return {
     sections,
+    emptyHint,
     restoreOpen,
     setRestoreOpen,
     handleRestore: () =>

@@ -75,12 +75,13 @@ test('icon updates and resets sync without affecting another language group or d
     assert.equal(merged.meeting_duties[1].custom[0].icon, 'welcome');
   }
   // An older client that does not know the icon field must not erase it.
+  local.meeting_duties[0].custom[0].icon = 'keys';
   const incoming = structuredClone(local);
   delete incoming.meeting_duties[0].custom[0].icon;
   incoming.meeting_duties[0].custom[0].updatedAt += 'Z';
   assert.equal(
     updateObject(local, incoming).meeting_duties[0].custom[0].icon,
-    'default'
+    'keys'
   );
 });
 
