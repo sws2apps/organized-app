@@ -1,10 +1,7 @@
 import { Box } from '@mui/material';
-import { IconDate } from '@components/icons';
 import { FilterChip } from '@components/index';
 import TabSwitcher from '@components/tab_switcher';
 import DateNavigator from '@components/date_navigator';
-import IconButton from '@components/icon_button';
-import Tooltip from '@components/tooltip';
 import useCalendarNavigation from '@features/congregation/field_service_meetings/calendar_navigation/useCalendarNavigation';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 
@@ -12,6 +9,8 @@ const CalendarNavigation = () => {
   const { t } = useAppTranslation();
   const { tablet500Down } = useBreakpoints();
   const {
+    navigationRef,
+    isNavigationWrapped,
     periodLabel,
     viewMode,
     filterId,
@@ -33,6 +32,7 @@ const CalendarNavigation = () => {
       }}
     >
       <Box
+        ref={navigationRef}
         sx={{
           display: 'flex',
           flexWrap: 'wrap',
@@ -61,36 +61,25 @@ const CalendarNavigation = () => {
                 ? undefined
                 : 'var(--date-navigator-label-min-width)'
             }
-            badgeText={t('tr_today')}
+            badgeText={t('tr_current')}
+            truncateLabel
+            badgeAction={{
+              text: t('tr_toCurrent'),
+              ariaLabel: t(
+                viewMode === 'week'
+                  ? 'tr_openCurrentWeek'
+                  : 'tr_openCurrentMonth'
+              ),
+              onClick: goToToday,
+            }}
             badgeVisible={isCurrentPeriod}
             sx={{
-              width: tablet500Down ? '100%' : 'auto',
+              width: tablet500Down || isNavigationWrapped ? '100%' : 'auto',
               minWidth: 0,
               maxWidth: '100%',
               alignSelf: 'flex-start',
             }}
           />
-          {!isCurrentPeriod && (
-            <Tooltip
-              title={t(
-                viewMode === 'week'
-                  ? 'tr_openCurrentWeek'
-                  : 'tr_openCurrentMonth'
-              )}
-            >
-              <IconButton
-                edge={false}
-                aria-label={t(
-                  viewMode === 'week'
-                    ? 'tr_openCurrentWeek'
-                    : 'tr_openCurrentMonth'
-                )}
-                onClick={goToToday}
-              >
-                <IconDate color="var(--black)" />
-              </IconButton>
-            </Tooltip>
-          )}
         </Box>
         <TabSwitcher<'week' | 'month'>
           value={viewMode}

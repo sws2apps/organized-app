@@ -6,6 +6,7 @@ import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import Badge from '@components/badge';
 import ButtonIcon from '@components/icon_button';
 import Typography from '@components/typography';
+import PeriodBadge from '@components/date_navigator/period_badge';
 
 const DURATION = 320;
 const DISTANCE = 40;
@@ -65,11 +66,14 @@ const DateNavigator = ({
   labelMinWidth,
   badgeText,
   badgeVisible = false,
+  badgeAction,
+  truncateLabel = false,
   sx,
 }: DateNavigatorType) => {
   const { t } = useAppTranslation();
   const { mobile400Down } = useBreakpoints();
   const compact = !!badgeText && mobile400Down;
+  const constrained = compact || truncateLabel;
   const labelBleed = BLEED - (compact ? 4 : 0);
 
   const theme = useTheme();
@@ -156,7 +160,11 @@ const DateNavigator = ({
     },
   };
 
-  const labelContent = (label: string, showBadge: boolean) => (
+  const labelContent = (
+    label: string,
+    showBadge: boolean,
+    interactive = true
+  ) => (
     <Box
       sx={{
         display: 'flex',
@@ -164,6 +172,7 @@ const DateNavigator = ({
         justifyContent: 'center',
         gap: compact ? '4px' : '8px',
         minWidth: 0,
+        maxWidth: '100%',
       }}
     >
       <Typography
@@ -172,13 +181,20 @@ const DateNavigator = ({
           minWidth: 0,
           textAlign: 'center',
           whiteSpace: 'nowrap',
-          overflow: compact ? 'hidden' : undefined,
-          textOverflow: compact ? 'ellipsis' : undefined,
+          overflow: constrained ? 'hidden' : undefined,
+          textOverflow: constrained ? 'ellipsis' : undefined,
         }}
       >
         {label}
       </Typography>
-      {badgeText && showBadge && (
+      {badgeText && badgeAction ? (
+        <PeriodBadge
+          text={badgeText}
+          current={showBadge}
+          action={badgeAction}
+          interactive={interactive}
+        />
+      ) : badgeText && showBadge ? (
         <Badge
           size="small"
           color="accent"
@@ -186,7 +202,7 @@ const DateNavigator = ({
           text={badgeText}
           sx={{ whiteSpace: 'nowrap' }}
         />
-      )}
+      ) : null}
     </Box>
   );
 
@@ -219,7 +235,8 @@ const DateNavigator = ({
           flexGrow: 1,
           display: 'flex',
           justifyContent: 'center',
-          minWidth: labelMinWidth ?? (compact ? 0 : undefined),
+          minWidth: constrained ? 0 : labelMinWidth,
+          width: truncateLabel ? labelMinWidth : undefined,
           boxSizing: 'content-box',
           paddingInline: `${labelBleed}px`,
           marginInline: `-${labelBleed}px`,
@@ -231,13 +248,13 @@ const DateNavigator = ({
         <Box
           sx={{
             display: 'grid',
-            gridTemplateColumns: compact ? 'minmax(0, 1fr)' : undefined,
+            gridTemplateColumns: constrained ? 'minmax(0, 1fr)' : undefined,
             alignItems: 'center',
             minWidth: 0,
-            width: compact ? '100%' : undefined,
+            width: constrained ? '100%' : undefined,
           }}
         >
-          {badgeText && (
+          {badgeText && !badgeAction && (
             <Box aria-hidden sx={{ gridArea: '1 / 1', visibility: 'hidden' }}>
               {labelContent(model.value, true)}
             </Box>
@@ -260,6 +277,7 @@ const DateNavigator = ({
         {model.exiting && (
           <Box
             aria-hidden
+            inert
             sx={{
               position: 'absolute',
               inset: 0,
@@ -279,7 +297,11 @@ const DateNavigator = ({
                 },
               }}
             >
-              {labelContent(model.exiting.value, model.exiting.badgeVisible)}
+              {labelContent(
+                model.exiting.value,
+                model.exiting.badgeVisible,
+                false
+              )}
             </Box>
           </Box>
         )}

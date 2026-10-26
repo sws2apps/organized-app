@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useAtom, useAtomValue } from 'jotai';
 import {
   fieldServiceMeetingsFilterState,
@@ -11,6 +11,29 @@ import { useAppTranslation } from '@hooks/index';
 
 const useCalendarNavigation = () => {
   const { t } = useAppTranslation();
+  const navigationRef = useRef<HTMLDivElement>(null);
+  const [isNavigationWrapped, setIsNavigationWrapped] = useState(false);
+
+  useLayoutEffect(() => {
+    const row = navigationRef.current;
+    if (!row) return;
+    const [date, tabs] = row.children;
+    if (!date || !tabs) return;
+
+    const measure = () => {
+      setIsNavigationWrapped(
+        tabs.getBoundingClientRect().top >= date.getBoundingClientRect().bottom
+      );
+    };
+
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(row);
+    observer.observe(date);
+    observer.observe(tabs);
+    return () => observer.disconnect();
+  }, []);
+
   const [currentDate, setCurrentDate] = useAtom(
     fieldServiceMeetingsWeekRangeState
   );
@@ -108,6 +131,8 @@ const useCalendarNavigation = () => {
   );
 
   return {
+    navigationRef,
+    isNavigationWrapped,
     periodLabel,
     viewMode,
     filterId,
