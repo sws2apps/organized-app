@@ -155,27 +155,15 @@ const createTemplateMonths = (
             .toSorted((first, second) =>
               first.sortKey.localeCompare(second.sortKey)
             )
-            .map(
-              ({
-                id,
-                time,
-                group,
-                location,
-                address,
-                addressUrl,
-                conductor,
-                note,
-              }) => ({
-                id,
-                time,
-                group,
-                location,
-                address,
-                addressUrl,
-                conductor,
-                note,
-              })
-            ),
+            .map(({ id, time, group, location, address, conductor, note }) => ({
+              id,
+              time,
+              group,
+              location,
+              address,
+              conductor,
+              note,
+            })),
         })),
     }));
 };

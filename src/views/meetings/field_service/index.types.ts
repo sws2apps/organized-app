@@ -6,7 +6,6 @@ export type FieldServiceMeetingTemplateMeeting = {
   group: string;
   address: string;
   location: FieldServiceMeetingLocation;
-  addressUrl?: string;
   conductor: string;
   note?: string;
 };

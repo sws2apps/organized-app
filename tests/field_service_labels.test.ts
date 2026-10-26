@@ -76,37 +76,49 @@ test('every part of the visit label uses the requested translator', () => {
 
 const locationLabels: Record<string, string> = {
   tr_videoconference: 'Videoconference',
-  tr_viewLocation: 'View location',
   tr_fieldServiceMeetingLocation_kingdomHall: 'Kingdom Hall',
+  tr_fieldServiceMeetingLocation_territory: 'Territory',
 };
 const locationT = (key: string) => locationLabels[key] ?? key;
 
-test('online exports label the conference instead of exposing the URL', () => {
+test('printed online meetings show information without link metadata', () => {
   assert.deepEqual(
     fieldServiceMeetingLocationLabel(
       { location: Location.Online, address: ' https://zoom.us/j/123456789 ' },
       locationT
     ),
-    { address: 'Videoconference', addressUrl: 'https://zoom.us/j/123456789' }
+    { address: 'Videoconference' }
   );
 });
-test('location links are not mislabeled as video meetings', () => {
+test('URL-only physical locations show their type instead of an unusable action', () => {
   assert.deepEqual(
     fieldServiceMeetingLocationLabel(
       { location: Location.Territory, address: 'https://example.org/park' },
       locationT
     ),
-    { address: 'View location', addressUrl: 'https://example.org/park' }
+    { address: 'Territory' }
   );
 });
-test('physical and free-form addresses remain readable plain text', () => {
+test('physical and free-form location information remains printable', () => {
   assert.deepEqual(
     fieldServiceMeetingLocationLabel(
       { location: Location.KingdomHall, address: ' 123 Kingdom Hall St ' },
       locationT
     ),
-    { address: '123 Kingdom Hall St', addressUrl: undefined }
+    { address: '123 Kingdom Hall St' }
   );
+  assert.deepEqual(
+    fieldServiceMeetingLocationLabel(
+      {
+        location: Location.Online,
+        address: 'Meeting ID 123 456 - Passcode 789',
+      },
+      locationT
+    ),
+    { address: 'Meeting ID 123 456 - Passcode 789' }
+  );
+});
+test('missing addresses retain a meaningful location label', () => {
   assert.equal(
     fieldServiceMeetingLocationLabel(
       { location: Location.KingdomHall },
@@ -119,19 +131,4 @@ test('physical and free-form addresses remain readable plain text', () => {
       .address,
     'Videoconference'
   );
-});
-test('malformed and non-web URLs do not become PDF hyperlinks', () => {
-  for (const address of [
-    'https://',
-    'javascript:alert(1)',
-    'file:///private/meeting',
-  ]) {
-    assert.equal(
-      fieldServiceMeetingLocationLabel(
-        { location: Location.Online, address },
-        locationT
-      ).addressUrl,
-      undefined
-    );
-  }
 });

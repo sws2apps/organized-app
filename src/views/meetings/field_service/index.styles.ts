@@ -154,10 +154,6 @@ const styles = StyleSheet.create({
     flexShrink: 1,
     minWidth: 0,
   },
-  linkText: {
-    color: '#3B4CA3',
-    textDecoration: 'underline',
-  },
   columnDate: {
     width: '56px',
     paddingLeft: '8px',

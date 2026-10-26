@@ -1,4 +1,4 @@
-import { Link, Text, View } from '@react-pdf/renderer';
+import { Text, View } from '@react-pdf/renderer';
 import { FieldServiceDayProps } from './index.types';
 import styles from './index.styles';
 import { FieldServiceMeetingLocation } from '@definition/field_service_meetings';
@@ -54,16 +54,7 @@ const FieldServiceDay = ({ day, isLast }: FieldServiceDayProps) => {
                       <LocationIcon size={12} color="#616161" />
                     </View>
                     <View style={styles.locationText}>
-                      {meeting.addressUrl ? (
-                        <Link
-                          src={meeting.addressUrl}
-                          style={[styles.cellText, styles.linkText]}
-                        >
-                          {meeting.address}
-                        </Link>
-                      ) : (
-                        <Text style={styles.cellText}>{meeting.address}</Text>
-                      )}
+                      <Text style={styles.cellText}>{meeting.address}</Text>
                     </View>
                   </View>
                 </View>
