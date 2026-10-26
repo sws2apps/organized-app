@@ -48,7 +48,8 @@ const CalendarNavigation = () => {
             gap: '8px',
             minWidth: 0,
             maxWidth: '100%',
-            flex: tablet500Down ? '1 1 auto' : '0 1 auto',
+            // Give spare inline space to the date so tabs stay compact until they wrap.
+            flex: tablet500Down ? '1 1 auto' : '999 1 auto',
           }}
         >
           <DateNavigator
@@ -105,7 +106,8 @@ const CalendarNavigation = () => {
             gridAutoFlow: 'column',
             gridAutoColumns: 'minmax(max-content, 1fr)',
             width: tablet500Down ? '100%' : 'auto',
-            marginInlineStart: tablet500Down ? 0 : 'auto',
+            flexGrow: 1,
+            flexShrink: 0,
             maxWidth: '100%',
           }}
         />
