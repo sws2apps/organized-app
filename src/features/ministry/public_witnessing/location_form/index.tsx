@@ -50,9 +50,7 @@ const LocationForm = (props: LocationFormProps) => {
   const isEditing = Boolean(props.location);
   const isLastStep = isEditing || step === 1;
 
-  const mainAction = isLastStep
-    ? { label: t('tr_save'), onClick: handleSave }
-    : { label: t('tr_next'), onClick: handleNext };
+  const mainActionLabel = isLastStep ? t('tr_save') : t('tr_next');
 
   const backAction =
     !isEditing && step === 1
@@ -172,7 +170,11 @@ const LocationForm = (props: LocationFormProps) => {
                 focusTarget.focus();
                 return;
               }
-              await mainAction.onClick();
+              if (isLastStep) {
+                await handleSave();
+              } else {
+                handleNext();
+              }
               requestAnimationFrame(() => {
                 formRef.current
                   ?.querySelector<HTMLElement>('[aria-invalid="true"]')
@@ -180,7 +182,7 @@ const LocationForm = (props: LocationFormProps) => {
               });
             }}
           >
-            {mainAction.label}
+            {mainActionLabel}
           </Button>
           <Button variant="secondary" onClick={backAction.onClick}>
             {backAction.label}

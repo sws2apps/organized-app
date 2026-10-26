@@ -34,8 +34,8 @@ html {
   --accent-gradient-top: rgb(84, 110, 237);
 }
 
-body {
-  background-color: var(--accent-100) !important;
+html body {
+  background-color: var(--accent-100);
   margin: 0;
   -webkit-tap-highlight-color: transparent;
 }

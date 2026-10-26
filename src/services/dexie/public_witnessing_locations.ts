@@ -53,16 +53,19 @@ export const dbPublicWitnessingLocationsReorder = async (
     appDb.public_witnessing_locations,
     appDb.metadata,
     async () => {
-      for (const location of locations) {
-        const current = await appDb.public_witnessing_locations.get(
-          location.location_uid
-        );
+      const records = await appDb.public_witnessing_locations.bulkGet(
+        locations.map((location) => location.location_uid)
+      );
+      const updates: PublicWitnessingLocationType[] = [];
+      for (const [index, location] of locations.entries()) {
+        const current = records[index];
         if (!current || current.location_data._deleted) continue;
         // Reordering must never replace newer details or restore a deleted location.
         current.location_data.sort_index = location.location_data.sort_index;
         current.location_data.updatedAt = new Date().toISOString();
-        await appDb.public_witnessing_locations.put(current);
+        updates.push(current);
       }
+      await appDb.public_witnessing_locations.bulkPut(updates);
       await dbUpdatePublicWitnessingLocationsMetadata();
     }
   );

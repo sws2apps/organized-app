@@ -92,11 +92,11 @@ const ShiftsCard = ({ location }: ShiftsCardProps) => {
             badgeAction={{
               text: t('tr_toCurrent'),
               ariaLabel: t(
-                view === 'day'
-                  ? 'tr_openCurrentDay'
-                  : view === 'week'
-                    ? 'tr_openCurrentWeek'
-                    : 'tr_openCurrentMonth'
+                {
+                  day: 'tr_openCurrentDay',
+                  week: 'tr_openCurrentWeek',
+                  month: 'tr_openCurrentMonth',
+                }[view]
               ),
               onClick: goToToday,
             }}

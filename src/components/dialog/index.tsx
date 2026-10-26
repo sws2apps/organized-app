@@ -177,15 +177,15 @@ const Dialog = ({
     onClose();
   };
 
+  const headingLabelledBy = header || title ? titleId : undefined;
+
   return (
     <MUIDialog
       fullWidth
       open={open}
       onClose={handleClose}
       aria-label={header && title ? title : undefined}
-      aria-labelledby={
-        header && title ? undefined : header || title ? titleId : undefined
-      }
+      aria-labelledby={header && title ? undefined : headingLabelledBy}
       sx={{
         boxSizing: 'border-box',
         '.MuiPaper-root': {

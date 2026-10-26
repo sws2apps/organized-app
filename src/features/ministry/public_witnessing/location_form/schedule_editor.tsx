@@ -86,6 +86,9 @@ const ScheduleEditor = ({
     onSelectDay(expanded ? null : weekday);
   };
 
+  const getSchedulePanelId = (weekday: number) =>
+    `${schedulePanelId}-${laptopUp ? 'desktop' : weekday}`;
+
   const dayRow = (weekday: number, dayName: string, expanded: boolean) => (
     <Box
       sx={dayRowStyles(expanded)}
@@ -103,11 +106,7 @@ const ScheduleEditor = ({
         edge={false}
         aria-label={t('tr_daysShifts', { dayName })}
         aria-expanded={expanded}
-        aria-controls={
-          expanded
-            ? `${schedulePanelId}-${laptopUp ? 'desktop' : weekday}`
-            : undefined
-        }
+        aria-controls={expanded ? getSchedulePanelId(weekday) : undefined}
         onClick={(event) => {
           event.stopPropagation();
           handleDayRowClick(weekday, expanded);

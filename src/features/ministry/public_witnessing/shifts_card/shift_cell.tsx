@@ -1,5 +1,5 @@
 import { KeyboardEvent, MouseEvent } from 'react';
-import { Box, Collapse } from '@mui/material';
+import { Box, Collapse, SxProps, Theme } from '@mui/material';
 import { useAtomValue } from 'jotai';
 import { hour24FormatState } from '@states/settings';
 import {
@@ -125,6 +125,31 @@ const FullContent = ({ slot, color, statusLabel }: CellContentProps) => (
   </Box>
 );
 
+const getCellStyles = ({
+  compact,
+  interactive,
+  slot: { status },
+}: Pick<
+  ShiftCellProps,
+  'compact' | 'interactive' | 'slot'
+>): SxProps<Theme> => ({
+  display: compact ? 'flex' : 'grid',
+  gridTemplateColumns: compact ? undefined : 'subgrid',
+  gridColumn: compact ? undefined : '1 / -1',
+  flexDirection: compact ? 'column' : 'row',
+  flexWrap: compact ? 'nowrap' : 'wrap',
+  alignItems: compact ? 'stretch' : 'center',
+  gap: compact ? '4px' : '8px 24px',
+  padding: compact ? '8px' : '12px 16px',
+  borderRadius: 'var(--radius-m)',
+  '&:focus-visible': { outline: 'var(--accent-main) auto 1px' },
+  ...cellStyles[status],
+  ...(interactive && {
+    cursor: 'pointer',
+    '&:hover': hoverStyles[status],
+  }),
+});
+
 const ShiftCell = ({
   slot,
   interactive,
@@ -198,23 +223,7 @@ const ShiftCell = ({
       {...(!compact ? interactiveProps : {})}
       onClick={interactive ? onClick : undefined}
       aria-label={!compact ? accessibleLabel : undefined}
-      sx={{
-        display: compact ? 'flex' : 'grid',
-        gridTemplateColumns: compact ? undefined : 'subgrid',
-        gridColumn: compact ? undefined : '1 / -1',
-        flexDirection: compact ? 'column' : 'row',
-        flexWrap: compact ? 'nowrap' : 'wrap',
-        alignItems: compact ? 'stretch' : 'center',
-        gap: compact ? '4px' : '8px 24px',
-        padding: compact ? '8px' : '12px 16px',
-        borderRadius: 'var(--radius-m)',
-        '&:focus-visible': { outline: 'var(--accent-main) auto 1px' },
-        ...cellStyles[slot.status],
-        ...(interactive && {
-          cursor: 'pointer',
-          '&:hover': hoverStyles[slot.status],
-        }),
-      }}
+      sx={getCellStyles({ compact, interactive, slot })}
     >
       <Box
         sx={{

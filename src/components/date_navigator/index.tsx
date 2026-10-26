@@ -193,7 +193,7 @@ const DateNavigator = ({
       >
         {label}
       </Typography>
-      {badgeText && badgeAction ? (
+      {badgeText && badgeAction && (
         <Box sx={{ flexShrink: 0 }}>
           <PeriodBadge
             text={badgeText}
@@ -202,7 +202,8 @@ const DateNavigator = ({
             interactive={interactive}
           />
         </Box>
-      ) : badgeText && showBadge ? (
+      )}
+      {badgeText && !badgeAction && showBadge && (
         <Badge
           size="small"
           color="accent"
@@ -210,7 +211,7 @@ const DateNavigator = ({
           text={badgeText}
           sx={{ whiteSpace: 'nowrap' }}
         />
-      ) : null}
+      )}
     </Box>
   );
 
