@@ -16,8 +16,7 @@ export const fieldServiceMeetingPermissions = (
     ['admin', 'secretary', 'coordinator'].includes(role)
   );
   const isServiceOverseer =
-    settings.user_settings.cong_role.includes('service_overseer') ||
-    (Boolean(uid) && uid === settings.cong_settings.responsabilities?.service);
+    settings.user_settings.cong_role.includes('service_overseer');
   const canManageAll =
     isAdmin ||
     isServiceOverseer ||
@@ -30,11 +29,15 @@ export const fieldServiceMeetingPermissions = (
       )
       .map((group) => group.group_id)
   );
+  const hasGroupRole = settings.user_settings.cong_role.some((role) =>
+    ['group_overseers', 'language_group_overseers'].includes(role)
+  );
   const myLedGroupIds = new Set(
     activeGroups
       .filter((group) =>
         group.group_data.members.some(
           (member) =>
+            hasGroupRole &&
             member.person_uid === uid &&
             (member.isOverseer || member.isAssistant)
         )

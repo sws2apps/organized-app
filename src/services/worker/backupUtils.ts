@@ -1,7 +1,12 @@
 import {
-  fieldServiceMeetingPermissions,
-  fieldServiceMeetingUploadRecords,
-} from '@utils/field_service_meeting_permissions';
+  fieldServiceMeetingToSync,
+  fieldServiceMeetingFromSync,
+  fieldServiceSchedulingScope,
+  mergeFieldServiceMeetingFromSync,
+  acknowledgeFieldServiceMeeting,
+  fieldServiceGroupRoles,
+} from '@utils/field_service_meeting_sync';
+import { fieldServiceMeetingUploadRecords } from '@utils/field_service_meeting_permissions';
 // to minimize the size of the worker file, we recreate all its needed functions in this file
 
 import appDb from '@db/appDb';
@@ -35,7 +40,10 @@ import { MeetingAttendanceType } from '@definition/meeting_attendance';
 import { MetadataRecordType } from '@definition/metadata';
 import { DelegatedFieldServiceReportType } from '@definition/delegated_field_service_reports';
 import { UpcomingEventType } from '@definition/upcoming_events';
-import { FieldServiceMeetingType } from '@definition/field_service_meetings';
+import {
+  FieldServiceMeetingType,
+  FieldServiceMeetingReceipt,
+} from '@definition/field_service_meetings';
 import { formatDate } from '@utils/date';
 import {
   meetingAttendanceFillCounts,
@@ -963,28 +971,8 @@ const dbRestoreFieldServiceMeetings = async (
   try {
     if (!backupData.field_service_meetings) return;
 
-    const remoteMeetings = backupData.field_service_meetings.map(
-      (meeting: FieldServiceMeetingType) => {
-        decryptObject({
-          data: meeting,
-          table: 'field_service_meetings',
-          accessCode,
-        });
-
-        // Copy the legacy top-level state only when it is newer, or a stale
-        // stamp undoes a later change (as dbFieldServiceMeetingsCleanup does).
-        if (meeting.updatedAt) {
-          if (meeting.updatedAt > meeting.meeting_data.updatedAt) {
-            meeting.meeting_data._deleted = meeting._deleted ?? false;
-            meeting.meeting_data.updatedAt = meeting.updatedAt;
-          }
-
-          delete meeting._deleted;
-          delete meeting.updatedAt;
-        }
-
-        return meeting;
-      }
+    const remoteMeetings = backupData.field_service_meetings.map((meeting) =>
+      fieldServiceMeetingFromSync(meeting, accessCode)
     );
 
     const meetings = await appDb.field_service_meetings.toArray();
@@ -1001,10 +989,9 @@ const dbRestoreFieldServiceMeetings = async (
       }
 
       if (localMeeting) {
-        const newMeeting = structuredClone(localMeeting);
-        syncFromRemote(newMeeting, remoteMeeting);
-
-        meetingToUpdate.push(newMeeting);
+        meetingToUpdate.push(
+          mergeFieldServiceMeetingFromSync(localMeeting, remoteMeeting)
+        );
       }
     }
 
@@ -1904,6 +1891,18 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
     const scheduleEditor = isScheduleEditorRole(userRole);
 
     const personEditor = serviceCommitteeRole || scheduleEditor;
+    const schedulingScope = serviceCommitteeRole
+      ? fieldServiceSchedulingScope(
+          field_service_groups,
+          persons,
+          metadata.metadata.field_service_scheduling?.version ?? ''
+        )
+      : undefined;
+    const meetingsToUpload = fieldServiceMeetingUploadRecords(
+      field_service_meetings,
+      settings,
+      field_service_groups
+    ).map((meeting) => fieldServiceMeetingToSync(meeting, accessCode));
 
     const settingEditor =
       adminRole || languageGroupOverseerRole || scheduleEditor;
@@ -1927,6 +1926,12 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
     );
 
     if (dataSync) {
+      if (
+        meetingsToUpload.length > 0 &&
+        metadata.metadata.field_service_meetings?.send_local
+      ) {
+        obj.field_service_meetings = meetingsToUpload;
+      }
       if (accountType === 'vip') {
         if (metadata.metadata.user_settings.send_local) {
           obj.app_settings = { user_settings: userBaseSettings };
@@ -2073,7 +2078,8 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
           serviceCommitteeRole &&
           metadata.metadata.field_service_groups.send_local
         ) {
-          const backupGroups = field_service_groups.map((group) => {
+          const backupGroups = field_service_groups.map((record) => {
+            const group = structuredClone(record);
             encryptObject({
               data: group,
               table: 'field_service_groups',
@@ -2205,30 +2211,9 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
           }
         }
 
-        // include field service meetings — the edit permission model also
-        // covers group overseers and the service overseer, so the export gate
-        // must match or their local changes would silently never sync
-        if (
-          fieldServiceMeetingPermissions(settings, field_service_groups)
-            .canCreate &&
-          metadata.metadata.field_service_meetings?.send_local
-        ) {
-          const backupFieldServiceMeetings = fieldServiceMeetingUploadRecords(
-            field_service_meetings,
-            settings,
-            field_service_groups
-          ).map((meeting) => {
-            encryptObject({
-              data: meeting,
-              table: 'field_service_meetings',
-              accessCode,
-            });
-
-            return meeting;
-          });
-
-          obj.field_service_meetings = backupFieldServiceMeetings;
-        }
+        // Scheduling scope is independent of group metadata: conductor qualifications
+        // can change without a group row changing. Only trusted managers publish it.
+        if (schedulingScope) obj.field_service_scheduling = schedulingScope;
 
         // include user role changes
         if (adminRole && backupData.cong_users) {
@@ -2274,29 +2259,9 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
               userRole.push('ms');
             }
 
-            const group = field_service_groups.find((record) =>
-              record.group_data.members.some(
-                (member) => member.person_uid === person.person_uid
-              )
+            userRole.push(
+              ...fieldServiceGroupRoles(person.person_uid, field_service_groups)
             );
-
-            const publisher = group?.group_data.members.find(
-              (member) => member.person_uid === person.person_uid
-            );
-
-            if (publisher) {
-              const isLanguageGroup = group?.group_data.language_group;
-              const isOverseer =
-                publisher?.isOverseer || publisher?.isAssistant || false;
-
-              if (isOverseer) {
-                userRole.push(
-                  isLanguageGroup
-                    ? 'language_group_overseers'
-                    : 'group_overseers'
-                );
-              }
-            }
 
             userRole = Array.from(new Set(userRole));
 
@@ -2505,10 +2470,61 @@ export const dbClearExportState = async () => {
   const newMetadata = {} as MetadataRecordType['metadata'];
 
   for (const [key, values] of Object.entries(oldMetadata)) {
-    newMetadata[key] = { version: values.version, send_local: false };
+    newMetadata[key] = {
+      version: values.version,
+      send_local: key === 'field_service_meetings' && values.send_local,
+    };
   }
 
   await appDb.metadata.update(metadata.id, {
     metadata: newMetadata,
   });
+};
+
+/** Keep pending edits made during upload and acknowledge only the submitted base revision. */
+export const dbAcknowledgeFieldServiceMeetings = async (
+  receipts: FieldServiceMeetingReceipt[]
+) => {
+  await appDb.transaction(
+    'rw',
+    [
+      appDb.field_service_meetings,
+      appDb.metadata,
+      appDb.app_settings,
+      appDb.field_service_groups,
+    ],
+    async () => {
+      const meetings = await appDb.field_service_meetings.toArray();
+      const byUid = new Map(
+        receipts.map((receipt) => [receipt.meeting_uid, receipt])
+      );
+      const acknowledged = meetings.map((meeting) => {
+        const receipt = byUid.get(meeting.meeting_uid);
+        return receipt
+          ? acknowledgeFieldServiceMeeting(meeting, receipt)
+          : meeting;
+      });
+      await appDb.field_service_meetings.bulkPut(acknowledged);
+      const settings = await dbGetSettings();
+      if (!settings) throw new Error('Settings not found');
+      const groups = await appDb.field_service_groups.toArray();
+      const pending = fieldServiceMeetingUploadRecords(
+        acknowledged,
+        settings,
+        groups
+      ).some(
+        (meeting) => meeting.sync_updatedAt !== meeting.meeting_data.updatedAt
+      );
+      const metadata = await appDb.metadata.get(1);
+      if (!metadata) return;
+      const current = metadata.metadata.field_service_meetings ?? {
+        version: '',
+      };
+      metadata.metadata.field_service_meetings = {
+        ...current,
+        send_local: pending,
+      };
+      await appDb.metadata.put(metadata);
+    }
+  );
 };

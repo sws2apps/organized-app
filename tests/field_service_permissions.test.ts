@@ -37,7 +37,6 @@ const groups = [
 ];
 for (const [name, config] of [
   ['admin', settings('a', ['admin'])],
-  ['service responsibility', settings('service')],
   ['service role', settings('s', ['service_overseer'])],
   ['delegated scheduler', settings('delegate', ['field_service_schedule'])],
 ] as const) {
@@ -65,7 +64,10 @@ for (const [uid, own] of [
   ['assistant', 'second'],
 ]) {
   test(`${uid} can schedule only their own group`, () => {
-    const rights = fieldServiceMeetingPermissions(settings(uid), groups);
+    const rights = fieldServiceMeetingPermissions(
+      settings(uid, ['group_overseers']),
+      groups
+    );
     assert.equal(rights.canCreate, true);
     assert.deepEqual([...rights.myLedGroupIds], [own]);
     assert.equal(rights.canManageMeeting(Category.RegularMeeting, own), true);
@@ -89,7 +91,7 @@ test('membership alone and deleted groups do not grant scheduling', () => {
     false
   );
   assert.equal(
-    fieldServiceMeetingPermissions(settings('lead'), [
+    fieldServiceMeetingPermissions(settings('lead', ['group_overseers']), [
       group('first', 'lead', true, false, true),
     ]).canCreate,
     false
@@ -104,10 +106,10 @@ test('revoking delegated rights restores group-only access', () => {
     true
   );
   assert.equal(
-    fieldServiceMeetingPermissions(settings('lead'), groups).canManageMeeting(
-      Category.RegularMeeting,
-      'third'
-    ),
+    fieldServiceMeetingPermissions(
+      settings('lead', ['group_overseers']),
+      groups
+    ).canManageMeeting(Category.RegularMeeting, 'third'),
     false
   );
 });
@@ -195,7 +197,7 @@ test('group overseer uploads exclude other groups, joint meetings and visits', (
   assert.deepEqual(
     fieldServiceMeetingUploadRecords(
       uploadRecords,
-      settings('lead'),
+      settings('lead', ['group_overseers']),
       groups
     ).map((record) => record.meeting_uid),
     ['own', 'deleted-own']
@@ -226,9 +228,23 @@ test('group assistants upload only their group’s regular meetings', () => {
   assert.deepEqual(
     fieldServiceMeetingUploadRecords(
       records,
-      settings('assistant'),
+      settings('assistant', ['group_overseers']),
       groups
     ).map((record) => record.meeting_uid),
     ['assistant-group']
+  );
+});
+
+test('a local responsibility setting cannot grant congregation-wide editing', () => {
+  assert.equal(
+    fieldServiceMeetingPermissions(settings('service'), groups).canManageAll,
+    false
+  );
+});
+
+test('a group assignment without a current server-confirmed role does not grant editing', () => {
+  assert.equal(
+    fieldServiceMeetingPermissions(settings('lead', []), groups).canCreate,
+    false
   );
 });

@@ -34,7 +34,6 @@ import {
 } from '@utils/field_service_meetings';
 import usePermissions from '@features/congregation/field_service_meetings/usePermissions';
 import { getGroupRecurringStart } from '@features/congregation/field_service_meetings/recurring_prefill';
-import { filterMeetingsByDataView } from '@features/congregation/field_service_meetings/filter_meetings_by_data_view';
 
 const useFieldServiceMeetings = () => {
   const { t } = useAppTranslation();
@@ -54,10 +53,8 @@ const useFieldServiceMeetings = () => {
   const saveMeeting = useSetAtom(fieldServiceMeetingsSaveState);
   const scope = fieldServiceMeetingDraftScope(settings);
   const currentDraft = draft?.scope === scope ? draft : null;
-  const meetings = useMemo(
-    () => filterMeetingsByDataView(allMeetings, dataView),
-    [allMeetings, dataView]
-  );
+  // Viewing is congregation-wide; only explicit page filters narrow the agenda.
+  const meetings = allMeetings;
   const formatAndFilter = useCallback(
     (records: FieldServiceMeetingType[]) => {
       const formatted = records.map((meeting) =>

@@ -53,6 +53,8 @@ export const FIELD_SERVICE_MEETING_LOCATIONS = Object.freeze(
 
 export type FieldServiceMeetingType = {
   meeting_uid: string;
+  sync_revision?: string;
+  sync_updatedAt?: string;
   _deleted?: boolean;
   updatedAt?: string;
   meeting_data: {
@@ -106,4 +108,34 @@ export type FieldServiceMeetingAgendaSlot = {
 export type FieldServiceMeetingAgendaDay = {
   date: string;
   slots: FieldServiceMeetingAgendaSlot[];
+};
+
+/** Wire contract: only identifiers and authority fields are readable by the API. */
+export type FieldServiceMeetingSyncRecord = {
+  meeting_uid: string;
+  revision?: string;
+  authorization: {
+    group_id?: string;
+    category: FieldServiceMeetingCategory;
+    conductor: string;
+    deleted: boolean;
+    updatedAt: string;
+  };
+  meeting_data: string;
+};
+
+export type FieldServiceSchedulingScope = {
+  base_revision: string;
+  groups: {
+    group_id: string;
+    manager_uids: string[];
+    conductor_uids: string[];
+  }[];
+};
+
+export type FieldServiceMeetingReceipt = {
+  meeting_uid: string;
+  base_revision?: string;
+  revision: string;
+  updatedAt: string;
 };
