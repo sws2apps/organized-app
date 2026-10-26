@@ -46,7 +46,14 @@ const DutyIconSelector = ({
           height: '44px',
           borderRadius: 'var(--radius-l)',
           color: 'var(--accent-dark)',
-          '&.Mui-disabled': { color: 'var(--accent-200)' },
+          border: '1px solid var(--accent-350)',
+          '&[aria-expanded="true"], &:focus-visible': {
+            borderColor: 'var(--accent-main)',
+          },
+          '&.Mui-disabled': {
+            color: 'var(--accent-200)',
+            borderColor: 'var(--accent-200)',
+          },
         }}
       >
         <IconCustomDuty icon={value} color="currentColor" />
@@ -101,7 +108,13 @@ const DutyIconSelector = ({
                 height: 'calc(var(--dialog-gap-mobile) * 3)',
                 borderRadius: 'var(--radius-l)',
                 color: disabled ? 'var(--grey-350)' : 'var(--accent-dark)',
-                '&[aria-checked="true"]': { color: 'var(--accent-main)' },
+                border: '1px solid transparent',
+                '&[aria-checked="true"]': {
+                  color: disabled ? 'var(--accent-200)' : 'var(--accent-main)',
+                  borderColor: disabled
+                    ? 'var(--accent-200)'
+                    : 'var(--accent-main)',
+                },
               }}
             >
               <IconCustomDuty icon={icon} color="currentColor" />
