@@ -452,6 +452,8 @@ export const APP_ROLES = Array.from(
 
 export const APP_ENVIRONMENT = import.meta.env.VITE_APP_MODE;
 
+export const MEETING_DUTIES_FLAG = 'MEETING_DUTIES';
+
 export const isTest = APP_ENVIRONMENT === 'TEST';
 
 export const isStaging = APP_ENVIRONMENT === 'STAGING';
