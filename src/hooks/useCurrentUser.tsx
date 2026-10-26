@@ -307,7 +307,11 @@ const useCurrentUser = () => {
 
     if (isAdmin) return true;
 
-    if (isGroup && user_in_group && isLanguageGroupOverseer) return true;
+    const isMember = languageGroup?.group_data.members.some(
+      (member) => member.person_uid === userUID
+    );
+
+    if (isGroup && isMember && isLanguageGroupOverseer) return true;
 
     const hasRole = userRole.includes('duties_schedule');
 
@@ -315,14 +319,15 @@ const useCurrentUser = () => {
 
     if (!isGroup) return true;
 
-    if (isGroup && user_in_group) return true;
+    if (isGroup && isMember) return true;
 
     return false;
   }, [
     dutiesEnabled,
     isAdmin,
     userRole,
-    user_in_group,
+    languageGroup,
+    userUID,
     isGroup,
     isLanguageGroupOverseer,
   ]);
