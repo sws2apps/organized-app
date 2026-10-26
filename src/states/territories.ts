@@ -1,3 +1,4 @@
+import { TerritoryOperationLimitError } from '@utils/territory_sync_queue';
 import type { TerritoryServerAccess } from '@definition/territory_access';
 import { isTest } from '@constants/index';
 import type { TerritorySharedSettings } from '@definition/territory_sync';
@@ -58,12 +59,17 @@ export const territoriesState = atom(
     set(territoriesDbState, next);
     try {
       await saveTerritoryChanges(previous, next, dataView);
-    } catch {
+    } catch (error) {
       if (get(territoriesDbState) === next) set(territoriesDbState, previous);
       displaySnackNotification({
         severity: 'error',
         header: getTranslation({ key: 'error_app_generic-title' }),
-        message: getTranslation({ key: 'tr_territorySaveFailed' }),
+        message:
+          error instanceof TerritoryOperationLimitError
+            ? getTranslation({
+                key: 'tr_territoryChangeTooLarge',
+              })
+            : getTranslation({ key: 'tr_territorySaveFailed' }),
       });
     } finally {
       set(territoryWritesPendingState, (count) => count - 1);

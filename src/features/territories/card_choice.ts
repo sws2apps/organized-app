@@ -31,12 +31,13 @@ export const initialHolder = (
   publisher?: string
 ): HolderChoice => {
   if (current?.publisher || current?.group) {
+    const name = publisher ?? (current.publisher || null);
     return {
       mode: current.group ? 'group' : 'publisher',
-      publisherId: current.publisherId,
+      publisherId: name === current.publisher ? current.publisherId : undefined,
       groupId: current.groupId,
       group: current.group ?? null,
-      publisher: publisher ?? (current.publisher || null),
+      publisher: name,
     };
   }
 

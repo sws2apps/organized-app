@@ -36,21 +36,31 @@ const useFullscreen = (
   }, [fullscreen, wrapper]);
 
   useEffect(() => {
+    let resizeTimer: ReturnType<typeof window.setTimeout>;
+
     const handle = () => {
+      window.clearTimeout(resizeTimer);
       setFullscreen(document.fullscreenElement === wrapper.current);
-      window.setTimeout(() => map.current?.resize(), 150);
+      resizeTimer = window.setTimeout(() => map.current?.resize(), 150);
     };
 
     document.addEventListener('fullscreenchange', handle);
 
-    return () => document.removeEventListener('fullscreenchange', handle);
+    return () => {
+      window.clearTimeout(resizeTimer);
+      document.removeEventListener('fullscreenchange', handle);
+    };
   }, [wrapper, map]);
 
   // a transform (even a filled animation at none) traps position: fixed inside the page
   useEffect(() => {
     if (!fullscreen) return;
 
-    const patched: HTMLElement[] = [];
+    const properties = ['transform', 'filter', 'perspective'] as const;
+    const patched: {
+      element: HTMLElement;
+      styles: { property: string; value: string; priority: string }[];
+    }[] = [];
     const cancelled: Animation[] = [];
 
     let node = wrapper.current?.parentElement;
@@ -66,20 +76,29 @@ const useFullscreen = (
       }
 
       if (transform !== 'none' || filter !== 'none' || perspective !== 'none') {
-        patched.push(node);
-        node.style.setProperty('transform', 'none', 'important');
-        node.style.setProperty('filter', 'none', 'important');
-        node.style.setProperty('perspective', 'none', 'important');
+        const element = node;
+        patched.push({
+          element,
+          styles: properties.map((property) => ({
+            property,
+            value: element.style.getPropertyValue(property),
+            priority: element.style.getPropertyPriority(property),
+          })),
+        });
+        for (const property of properties) {
+          element.style.setProperty(property, 'none', 'important');
+        }
       }
 
       node = node.parentElement;
     }
 
     return () => {
-      for (const element of patched) {
-        element.style.removeProperty('transform');
-        element.style.removeProperty('filter');
-        element.style.removeProperty('perspective');
+      for (const { element, styles } of patched) {
+        for (const { property, value, priority } of styles) {
+          if (value) element.style.setProperty(property, value, priority);
+          else element.style.removeProperty(property);
+        }
       }
 
       for (const animation of cancelled) animation.finish();
