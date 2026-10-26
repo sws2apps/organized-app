@@ -16,12 +16,17 @@ const useScheduleAutofill = (
 
   const setSelectedWeek = useSetAtom(selectedWeekState);
 
-  const handleSetStartWeek = (value: string) => setStartWeek(value);
+  const handleSetStartWeek = (value: string) => {
+    setStartWeek(value);
+    if (endWeek && endWeek < value) setEndWeek('');
+  };
 
   const handleSetEndWeek = (value: string) => setEndWeek(value);
 
+  const canAutofill = !!startWeek && !!endWeek && endWeek >= startWeek;
+
   const handleStartAutoFill = async () => {
-    if (startWeek.length === 0 || endWeek.length === 0) return;
+    if (!canAutofill || isProcessing) return;
     try {
       setIsProcessing(true);
 
@@ -47,6 +52,7 @@ const useScheduleAutofill = (
   };
 
   return {
+    canAutofill,
     handleSetStartWeek,
     handleSetEndWeek,
     isProcessing,
