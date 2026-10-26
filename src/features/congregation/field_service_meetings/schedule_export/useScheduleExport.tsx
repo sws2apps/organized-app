@@ -1,4 +1,7 @@
-import { fieldServiceMeetingLabel } from '@utils/field_service_meeting_labels';
+import {
+  fieldServiceMeetingLabel,
+  fieldServiceMeetingLocationLabel,
+} from '@utils/field_service_meeting_labels';
 import { useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { pdf } from '@react-pdf/renderer';
@@ -6,7 +9,6 @@ import { saveAs } from 'file-saver';
 import { IconInfo } from '@components/icons';
 import {
   FieldServiceMeetingCategory,
-  FIELD_SERVICE_MEETING_LOCATION_TRANSLATION_KEYS,
   FieldServiceMeetingType,
 } from '@definition/field_service_meetings';
 import {
@@ -122,14 +124,9 @@ const createTemplateMonths = (
         group: fieldServiceMeetingLabel(formatted, (key) =>
           getTranslation({ key, language: lng })
         ),
-        address:
-          formatted.address?.trim() ||
-          getTranslation({
-            key: FIELD_SERVICE_MEETING_LOCATION_TRANSLATION_KEYS[
-              formatted.location
-            ],
-            language: lng,
-          }),
+        ...fieldServiceMeetingLocationLabel(formatted, (key) =>
+          getTranslation({ key, language: lng })
+        ),
         note: formatted.additionalInfo?.trim() || undefined,
         conductor: formatted.conductor ?? '',
         sortKey: `${dayKey}-${formatted.start}-${index}`,
@@ -157,14 +154,17 @@ const createTemplateMonths = (
             .toSorted((first, second) =>
               first.sortKey.localeCompare(second.sortKey)
             )
-            .map(({ id, time, group, address, conductor, note }) => ({
-              id,
-              time,
-              group,
-              address,
-              conductor,
-              note,
-            })),
+            .map(
+              ({ id, time, group, address, addressUrl, conductor, note }) => ({
+                id,
+                time,
+                group,
+                address,
+                addressUrl,
+                conductor,
+                note,
+              })
+            ),
         })),
     }));
 };

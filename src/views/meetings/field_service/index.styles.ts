@@ -42,7 +42,6 @@ const styles = StyleSheet.create({
   headerDateGroup: {
     display: 'flex',
     flexDirection: 'row',
-    gap: '4px',
   },
   headerCell: {
     fontWeight: 500,
@@ -52,7 +51,6 @@ const styles = StyleSheet.create({
   dayRow: {
     display: 'flex',
     flexDirection: 'row',
-    gap: '4px',
     borderRightWidth: 1,
     borderBottomWidth: 1,
     borderColor: BORDER_COLOR,
@@ -105,8 +103,8 @@ const styles = StyleSheet.create({
     borderColor: BORDER_COLOR,
   },
   timeCell: {
-    width: '64px',
-    padding: '4px 0 4px 4px',
+    width: '68px',
+    padding: '4px 0 4px 8px',
     display: 'flex',
     justifyContent: 'center',
   },
@@ -137,13 +135,17 @@ const styles = StyleSheet.create({
     lineHeight: 1.24,
     color: '#222222',
   },
+  linkText: {
+    color: '#3B4CA3',
+    textDecoration: 'underline',
+  },
   columnDate: {
     width: '56px',
     paddingLeft: '8px',
   },
   columnTime: {
-    width: '64px',
-    paddingLeft: '4px',
+    width: '68px',
+    paddingLeft: '8px',
   },
   columnGroup: {
     width: '120px',

@@ -3,6 +3,7 @@ export type FieldServiceMeetingTemplateMeeting = {
   time: string;
   group: string;
   address: string;
+  addressUrl?: string;
   conductor: string;
   note?: string;
 };
