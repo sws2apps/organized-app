@@ -97,6 +97,7 @@ const DutyItem = (props: DutyItemProps) => {
         </Typography>
 
         <IconButton
+          edge={false}
           aria-label={t('tr_dutyEditNamed', { duty: props.name })}
           disabled={isBusy || !isDutiesEditor}
           onClick={handleOpenForm}
