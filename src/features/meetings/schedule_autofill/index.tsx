@@ -30,7 +30,9 @@ const ScheduleAutofillDialog = ({
 
   return (
     <Dialog
-      onClose={isProcessing ? undefined : onClose}
+      onClose={() => {
+        if (!isProcessing) onClose();
+      }}
       open={open}
       title={t(TITLE_KEYS[meeting])}
       description={t('tr_autofillDesc')}
