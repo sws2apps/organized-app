@@ -86,6 +86,19 @@ export const territoryPublisherCommandChanges = (
   };
 };
 
+const territoryChangeCommandCount = (
+  change: TerritoryPendingChange,
+  manager: boolean,
+  limit: number
+) => {
+  if (manager) return 1;
+  if (!change.before || !change.after) return limit + 1;
+  const plan = territoryPublisherCommandChanges(change.before, change.after);
+  return (
+    Number(!!plan.request) + Number(!!plan.assignment) + plan.doNotCalls.length
+  );
+};
+
 /** Only uniform, independent record changes may be split; restructuring stays atomic. */
 export const partitionTerritoryChanges = (
   changes: TerritoryPendingChange[],
@@ -102,17 +115,7 @@ export const partitionTerritoryChanges = (
     })
   );
   for (const change of changes) {
-    const plan =
-      !manager && change.before && change.after
-        ? territoryPublisherCommandChanges(change.before, change.after)
-        : undefined;
-    let size = 1;
-    if (!manager)
-      size = plan
-        ? Number(!!plan.request) +
-          Number(!!plan.assignment) +
-          plan.doNotCalls.length
-        : limit + 1;
+    const size = territoryChangeCommandCount(change, manager, limit);
     if (size > limit) throw new TerritoryOperationLimitError();
     if (count + size > limit) {
       if (kinds.size > 1) throw new TerritoryOperationLimitError();
