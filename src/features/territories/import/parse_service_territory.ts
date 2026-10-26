@@ -11,7 +11,7 @@ import {
   assignmentFromDates,
   toStoredDate,
   withAssignments,
-} from '@features/territories/helpers';
+} from '@utils/territory_dates';
 
 export type ServiceTerritoryImport = {
   territories: Territory[];
@@ -235,7 +235,7 @@ export const parseServiceTerritory = async (
   } catch {
     throw new Error(
       getTranslation({
-        key: 'tr_territoryThisFileIsNotAServiceTerritoryBackup',
+        key: 'tr_territoryImportInvalidBackup',
       })
     );
   } finally {
