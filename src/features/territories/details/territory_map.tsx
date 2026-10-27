@@ -43,6 +43,7 @@ import {
 } from '@features/territories/map/basemap';
 import {
   addAttribution,
+  MAP_ATTRIBUTION_STYLES,
   boundaryBounds,
   letterFrames,
   mapLocale,
@@ -228,6 +229,7 @@ const FullscreenMap = ({
         sx={{
           position: 'relative',
           height: '100%',
+          ...MAP_ATTRIBUTION_STYLES,
           '& .maplibregl-ctrl-bottom-left': {
             bottom: systemBarInset('bottom'),
             left: systemBarInset('left'),

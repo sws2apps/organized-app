@@ -404,7 +404,6 @@ export const labelCollection = (
   }),
 });
 
-// starts folded into the info button, so the credits never cover the map
 // maplibre's own control labels, in the app's language
 export const mapLocale = () => ({
   'AttributionControl.ToggleAttribution': getTranslation({
@@ -415,16 +414,26 @@ export const mapLocale = () => ({
 
 export const addAttribution = (map: maplibregl.Map) => {
   map.addControl(
-    new maplibregl.AttributionControl({ compact: true }),
+    new maplibregl.AttributionControl({ compact: false }),
     'bottom-left'
   );
+};
 
-  map.once('load', () => {
-    const control = map.getContainer().querySelector('.maplibregl-ctrl-attrib');
-
-    control?.classList.remove('maplibregl-compact-show');
-    control?.removeAttribute('open');
-  });
+// the credits as quiet small print in the corner, without a box or toggle
+export const MAP_ATTRIBUTION_STYLES = {
+  '& .maplibregl-ctrl-bottom-left .maplibregl-ctrl.maplibregl-ctrl-attrib': {
+    margin: '0 0 4px 6px',
+    padding: 0,
+    maxWidth: 'calc(100% - 12px)',
+    background: 'none',
+    border: 'none',
+    boxShadow: 'none',
+    color: 'var(--grey-350)',
+    fontSize: '9px',
+    lineHeight: '11px',
+  },
+  '& .maplibregl-ctrl-attrib a': { color: 'inherit' },
+  '& .maplibregl-ctrl-attrib-button': { display: 'none' },
 };
 
 export const LABEL_BACKGROUND = 'territory-label-background';
