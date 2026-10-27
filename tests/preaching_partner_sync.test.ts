@@ -81,6 +81,7 @@ const device = (
   let online = false;
   let loseResponse = false;
   let sentOperation = '';
+  const sentPayloads: PartnerWireMutation[] = [];
   let nextFailure: Error | undefined;
   let disconnectAfterUpdate = false;
   const client = createPartnerSyncClient(connection(actor), {
@@ -94,8 +95,13 @@ const device = (
       }
       return next.result;
     },
+    seal: async (mutation) =>
+      ({ ...mutation, seal: crypto.randomUUID() }) as PartnerWireMutation,
     request: async (mutation) => {
-      if (mutation) sentOperation = mutation.operationId;
+      if (mutation) {
+        sentOperation = mutation.operationId;
+        sentPayloads.push(mutation);
+      }
       if (mutation && nextFailure) {
         const error = nextFailure;
         nextFailure = undefined;
@@ -119,6 +125,7 @@ const device = (
     get sentOperation() {
       return sentOperation;
     },
+    sentPayloads,
     connect: () => {
       online = true;
     },
@@ -168,6 +175,8 @@ test('lost mutation responses retry the original operation id without duplicate 
   assert.equal(alice.cache.pending.length, 1);
   await alice.client.synchronize();
   assert.equal(alice.sentOperation, id);
+  assert.equal(alice.sentPayloads.length, 2);
+  assert.deepEqual(alice.sentPayloads[1], alice.sentPayloads[0]);
   assert.equal(alice.cache.pending.length, 0);
   assert.equal(backend.writes, 1);
 });

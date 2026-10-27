@@ -68,6 +68,8 @@ export type PartnerWireMutation = PartnerMutation & {
 };
 export type PartnerPendingMutation = {
   mutation: PartnerWireMutation;
+  // sealed once, so a retry repeats the exact payload the server fingerprinted
+  payload?: PartnerWireMutation;
   optimistic: PreachingPartnerRequestType[];
   error?: string;
 };

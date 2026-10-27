@@ -200,6 +200,7 @@
   "tr_partnerSyncFailedLabel": "Needs review",
   "tr_partnerSyncConflict": "Some local changes conflict with a newer request. Review and save them again, or discard the rejected changes to use the shared version.",
   "tr_partnerSyncRetry": "Some changes could not be confirmed. They are kept on this device and will retry when connected. An arrangement is confirmed only after the server accepts it.",
+  "tr_partnerKeyUnavailable": "Shared partner requests can't be unlocked on this device. Check that your congregation access code is up to date.",
   "tr_partnerServiceUnavailable": "Partner sharing is not available on this server yet. Try refreshing later.",
   "tr_partnerOffline": "Offline. Saved requests are available here. Changes will sync when you reconnect; confirming or cancelling an arrangement requires a connection.",
   "tr_partnerLoading": "Loading shared partner requests…",

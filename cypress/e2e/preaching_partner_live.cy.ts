@@ -36,6 +36,8 @@ const publisher = (name: 'alice' | 'bob') =>
     value.user_settings.user_local_uid = actor;
     value.cong_settings.cong_id = 'partner-browser-fixture';
     value.cong_settings.data_sync.value = true;
+    // unwraps the fixture congregation's sealed access code
+    value.cong_settings.cong_access_code = 'partner-fixture-code';
     await settings.dbAppSettingsUpdateWithoutNotice({
       user_settings: value.user_settings,
       cong_settings: value.cong_settings,

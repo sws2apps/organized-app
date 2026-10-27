@@ -7,6 +7,10 @@ import {
 } from '../src/definition/preaching_partner';
 import { applyPartnerMutation } from '../src/services/app/preaching_partner_actions';
 import {
+  openPartnerRequests,
+  sealPartnerMutation,
+} from '../src/services/app/preaching_partner_crypto';
+import {
   partnerCalendarEvent,
   partnerDateIsValid,
   partnerRequestIsValid,
@@ -253,4 +257,46 @@ test('editing only changes editable fields and always advances the revision', ()
     result.request_data.updatedAt,
     original.request_data.updatedAt
   );
+});
+
+test('request details travel sealed and only the authorization fields stay readable', () => {
+  const original = request();
+  Object.assign(original.request_data, {
+    flexible: false,
+    start: '09:00',
+    end: '11:00',
+    type: PreachingPartnerMinistryType.Zoom,
+    comment: 'Call me first',
+    partner_uid: 'bob',
+  });
+  const { request: sealed } = sealPartnerMutation(
+    {
+      action: 'edit',
+      request: original,
+      operationId: 'operation',
+      publisher_uid: 'alice',
+    },
+    'shared key'
+  );
+  const data = sealed.request_data as unknown as Record<string, unknown>;
+  for (const field of ['flexible', 'start', 'end', 'type', 'comment'])
+    assert.match(String(data[field]), /^U2FsdGVkX1[A-Za-z0-9+/]*={0,2}$/);
+  assert.doesNotMatch(JSON.stringify(sealed), /Call me first|09:00/);
+  for (const field of ['person_uid', 'partner_uid', 'date', 'updatedAt'])
+    assert.equal(data[field], original.request_data[field]);
+  assert.deepEqual(openPartnerRequests([sealed], 'shared key'), [original]);
+});
+
+test('records that cannot be opened with the shared key are left out', () => {
+  const sealed = sealPartnerMutation(
+    {
+      action: 'create',
+      request: request(),
+      operationId: 'operation',
+      publisher_uid: 'alice',
+    },
+    'old key'
+  ).request;
+  const plain = request('plain');
+  assert.deepEqual(openPartnerRequests([sealed, plain], 'new key'), []);
 });

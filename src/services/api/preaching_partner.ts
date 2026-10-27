@@ -21,7 +21,10 @@ export class PartnerApiError extends Error {
 export const apiPartnerRequests = async (
   connection: PartnerConnection,
   mutation?: PartnerWireMutation
-): Promise<PreachingPartnerRequestType[]> => {
+): Promise<{
+  cong_access_code: string;
+  requests: PreachingPartnerRequestType[];
+}> => {
   const { apiHost, appVersion, congID, idToken, userID } = await apiDefault();
   const pocket = store.get(accountTypeState) === 'pocket';
   if (
@@ -56,7 +59,7 @@ export const apiPartnerRequests = async (
     );
   if (data.publisher_uid !== connection.actor)
     throw new PartnerApiError(403, 'tr_partnerAccountChanged');
-  if (!Array.isArray(data.requests))
+  if (!Array.isArray(data.requests) || typeof data.cong_access_code !== 'string')
     throw new PartnerApiError(502, 'tr_partnerActionFailed');
-  return data.requests as PreachingPartnerRequestType[];
+  return data;
 };

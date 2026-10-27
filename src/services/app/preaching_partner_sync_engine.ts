@@ -21,11 +21,13 @@ export type PartnerSyncDependencies = {
       activePersonIds: string[]
     ) => { cache: PartnerSyncCache; result: T }
   ) => Promise<T>;
+  seal: (mutation: PartnerWireMutation) => Promise<PartnerWireMutation>;
   request: (
-    mutation?: PartnerWireMutation
+    payload?: PartnerWireMutation
   ) => Promise<PreachingPartnerRequestType[]>;
   online: () => boolean;
   errorStatus: (error: unknown) => number | undefined;
+  errorMessage?: (error: unknown) => string | undefined;
 };
 
 export const partnerSyncError = (status?: number) => {
@@ -145,7 +147,21 @@ export const createPartnerSyncClient = (
       );
       if (!entry) break;
       try {
-        const changes = await dependencies.request(entry.mutation);
+        const payload =
+          entry.payload ?? (await dependencies.seal(entry.mutation));
+        if (!entry.payload)
+          await dependencies.update((cache) => ({
+            cache: {
+              ...cache,
+              pending: cache.pending.map((pending) =>
+                pending.mutation.operationId === entry.mutation.operationId
+                  ? { ...pending, payload }
+                  : pending
+              ),
+            },
+            result: undefined,
+          }));
+        const changes = await dependencies.request(payload);
         await dependencies.update((cache) => ({
           cache: acknowledgePartnerMutation(
             cache,
@@ -157,7 +173,8 @@ export const createPartnerSyncClient = (
         completed.set(entry.mutation.operationId, changes);
       } catch (error) {
         const status = dependencies.errorStatus(error);
-        const message = partnerSyncError(status);
+        const message =
+          dependencies.errorMessage?.(error) ?? partnerSyncError(status);
         const rejected = status === 400 || status === 409;
         await dependencies.update((cache) => ({
           cache: {
@@ -195,7 +212,10 @@ export const createPartnerSyncClient = (
         result: undefined,
       }));
     } catch (error) {
-      await setError(partnerSyncError(dependencies.errorStatus(error)));
+      await setError(
+        dependencies.errorMessage?.(error) ??
+          partnerSyncError(dependencies.errorStatus(error))
+      );
     }
     return completed;
   };
