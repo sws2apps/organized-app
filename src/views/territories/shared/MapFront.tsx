@@ -7,6 +7,7 @@ import CardFront from '@views/territories/shared/CardFront';
 import Shadow from '@views/territories/shared/Shadow';
 import WarningChip from '@views/territories/shared/WarningChip';
 import { fits, textWidth } from '@views/territories/shared/textWidth';
+import { MAP_EXPORT_ATTRIBUTION } from '@services/maps/attribution';
 
 const INSET = 9;
 const PADDING = 9;
@@ -102,45 +103,58 @@ const MapFront = ({
           bottom: INSET,
         }}
       >
-        <Shadow radius={6} drop={6} spread={10} opacity={0.0065} />
+        {territory.mapImage && (
+          <Text style={[styles.fine, { fontSize: 6, marginBottom: 3 }]}>
+            {MAP_EXPORT_ATTRIBUTION}
+          </Text>
+        )}
 
-        <View
-          style={{
-            backgroundColor: '#FFFFFF',
-            borderRadius: 6,
-            // one inset on every side: the badges sit as far from the top as from the right
-            padding: PADDING,
-            gap: 6,
-          }}
-        >
-          <View
-            style={{ flexDirection: 'row', alignItems: 'center', columnGap: 8 }}
-          >
-            <View style={{ flexDirection: 'row', flexShrink: 0, gap: 4 }}>
-              {households && <Chip text={households} />}
-              {warningInline && warningChip}
-            </View>
-            <Text style={{ flexGrow: 1, flexBasis: 0, textAlign: 'right' }}>
-              <Text style={styles.frameName}>{title}</Text>
-            </Text>
-          </View>
-
-          {!warningInline && warningChip && (
-            <View style={{ flexDirection: 'row' }}>{warningChip}</View>
-          )}
+        {/* its own box, so the shadow follows the label and not the credits */}
+        <View>
+          <Shadow radius={6} drop={6} spread={10} opacity={0.0065} />
 
           <View
             style={{
-              flexDirection: 'row',
-              gap: 8,
-              paddingTop: 5,
-              // react-pdf drops borders under 0.5 pt; 0.5 pt still prints on a home printer
-              borderTop: `0.5px solid ${COLORS.divider}`,
+              backgroundColor: '#FFFFFF',
+              borderRadius: 6,
+              // one inset on every side: the badges sit as far from the top as from the right
+              padding: PADDING,
+              gap: 6,
             }}
           >
-            <Text style={[styles.frameNote, { flexGrow: 1, flexBasis: 0 }]}>
-              {t('tr_territoryPleaseKeepThisCardInTheEnvelopeDoNot')}
-            </Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                columnGap: 8,
+              }}
+            >
+              <View style={{ flexDirection: 'row', flexShrink: 0, gap: 4 }}>
+                {households && <Chip text={households} />}
+                {warningInline && warningChip}
+              </View>
+              <Text style={{ flexGrow: 1, flexBasis: 0, textAlign: 'right' }}>
+                <Text style={styles.frameName}>{title}</Text>
+              </Text>
+            </View>
+
+            {!warningInline && warningChip && (
+              <View style={{ flexDirection: 'row' }}>{warningChip}</View>
+            )}
+
+            <View
+              style={{
+                flexDirection: 'row',
+                gap: 8,
+                paddingTop: 5,
+                // react-pdf drops borders under 0.5 pt; 0.5 pt still prints on a home printer
+                borderTop: `0.5px solid ${COLORS.divider}`,
+              }}
+            >
+              <Text style={[styles.frameNote, { flexGrow: 1, flexBasis: 0 }]}>
+                {t('tr_territoryPleaseKeepThisCardInTheEnvelopeDoNot')}
+              </Text>
+            </View>
           </View>
         </View>
       </View>

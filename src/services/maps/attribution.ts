@@ -4,13 +4,11 @@ import { getCSSPropertyValue } from '@utils/common';
 export const MAP_EXPORT_ATTRIBUTION =
   '© OpenFreeMap · © OpenMapTiles · © OpenStreetMap contributors · openstreetmap.org/copyright';
 
-// small print in the bottom-left corner, without a box; `reserved` is the
-// share of the height a label covers at the bottom. It wraps at the separators
-// so it stays clear of the badges in the bottom-right corner
+// small print in the bottom-left corner, without a box; it wraps at the
+// separators so it stays clear of the badges in the bottom-right corner
 export const paintMapAttribution = (
   canvas: HTMLCanvasElement,
-  printedLongSide: number,
-  reserved = 0
+  printedLongSide: number
 ) => {
   const context = canvas.getContext('2d');
   if (!context) return;
@@ -19,8 +17,7 @@ export const paintMapAttribution = (
   const fontSize =
     (6 * Math.max(canvas.width, canvas.height)) / printedLongSide;
   const inset = fontSize / 2;
-  // under a full-width label there are no badges beside it, and a second line would hide
-  const maxWidth = reserved ? canvas.width - inset * 2 : canvas.width * 0.55;
+  const maxWidth = canvas.width * 0.55;
   context.save();
   context.font = `${fontSize}px sans-serif`;
   context.textBaseline = 'bottom';
@@ -34,7 +31,7 @@ export const paintMapAttribution = (
     else lines.push(part);
   }
 
-  const bottom = canvas.height * (1 - reserved) - inset;
+  const bottom = canvas.height - inset;
   lines.forEach((line, index) =>
     context.fillText(
       line,
