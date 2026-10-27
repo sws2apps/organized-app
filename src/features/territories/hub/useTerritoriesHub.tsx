@@ -383,7 +383,8 @@ const useTerritoriesHub = () => {
     clearChecked();
   };
 
-  const title = t(
+  // the key, not its text: a page shown under it translates it itself
+  const titleKey = (
     {
       recommended: isTerritoryEditor
         ? 'tr_allTerritories'
@@ -396,8 +397,9 @@ const useTerritoriesHub = () => {
       group: 'tr_myTerritories',
       requested: 'tr_myTerritories',
       requests: 'tr_territoryRequests',
-    }[tabId]
-  );
+    } as const
+  )[tabId];
+  const title = t(titleKey);
 
   const handleOpen = (id: string) => {
     navigate(
@@ -407,7 +409,7 @@ const useTerritoriesHub = () => {
     const search = campaignId
       ? `?forCampaign=${encodeURIComponent(campaignId)}`
       : '';
-    navigate(`/territories/${id}${search}`, { state: { parent: title } });
+    navigate(`/territories/${id}${search}`, { state: { parent: titleKey } });
   };
 
   return {
@@ -445,6 +447,7 @@ const useTerritoriesHub = () => {
     handleDecline: actions.handleDecline,
     handleOpen,
     title,
+    titleKey,
     isBoard,
     setIsBoard,
     selecting,

@@ -76,7 +76,7 @@ const Territories = () => {
         icon={<IconAdd />}
         textImportant
         onClick={() =>
-          navigate('/territories/new', { state: { parent: title } })
+          navigate('/territories/new', { state: { parent: hub.titleKey } })
         }
       />
     </NavBarButtonGroup>

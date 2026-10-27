@@ -464,7 +464,7 @@ const TerritoriesMap = ({ map }: { map: TerritoriesMapState }) => {
       onDetails={() =>
         map.selected &&
         navigate(`/territories/${map.selected.id}`, {
-          state: { parent: t('tr_territoryTerritoryCoverageMap') },
+          state: { parent: 'tr_territoryTerritoryCoverageMap' },
         })
       }
     />
