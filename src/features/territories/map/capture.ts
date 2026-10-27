@@ -322,7 +322,8 @@ const capture = (
         }
         context.drawImage(map.getCanvas(), 0, 0);
         paintMarkers(canvas, map, territory.mapMarkers ?? [], 2);
-        paintMapAttribution(canvas, printedPoints, inset);
+        // the A5 label covers the bottom; that card prints the credits above it
+        if (!inset) paintMapAttribution(canvas, printedPoints);
         cleanup(canvas.toDataURL('image/png'));
       } catch {
         cleanup();
