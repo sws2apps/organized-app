@@ -1,3 +1,4 @@
+import { PARTNER_COMMENT_LIMIT } from '@constants/preaching_partner';
 import { addDays, format, isValid, parse } from 'date-fns';
 import { DateTime, EventAttributes } from 'ics';
 import {
@@ -20,7 +21,7 @@ export const partnerRequestIsValid = (
   today = partnerToday()
 ) =>
   typeof data.comment === 'string' &&
-  data.comment.length <= 5000 &&
+  data.comment.length <= PARTNER_COMMENT_LIMIT &&
   partnerDateIsValid(data.date) &&
   data.date >= today &&
   Object.values(PreachingPartnerMinistryType).includes(data.type) &&
