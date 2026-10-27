@@ -48,7 +48,7 @@ export const hasSavedSections = (
   dataView: string
 ) =>
   duties.section_overrides?.some((item) => item.type === dataView) ||
-  duties.sections.some((item) => !item.dataView || item.dataView === dataView);
+  duties.sections.some((item) => item.dataView === dataView);
 
 const containsAssignment = (value: unknown, dataView: string): boolean => {
   if (Array.isArray(value))

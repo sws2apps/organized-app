@@ -35,9 +35,6 @@ const SectionTemplates = ({
     return (
       <SectionEdit
         open
-        recurring
-        week=""
-        meeting={meeting}
         type={editing ? 'edit' : 'add'}
         id={editing || undefined}
         availableSections={sections}

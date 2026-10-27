@@ -1,5 +1,4 @@
 import { queueDutyWrite } from '@services/app/duties_queue';
-import { resolveSectionSlot } from '@utils/duties_sections';
 import {
   resolveRecurringSections,
   snapshotRecurringSections,
@@ -92,6 +91,7 @@ import { setAssignmentsHistory } from '@services/states/schedules';
 import { PersonType } from '@definition/person';
 import { Week } from '@definition/week_type';
 import { dbSchedUpdate } from '@services/dexie/schedules';
+import { dutiesSchema } from '@services/dexie/schema';
 import {
   addDays,
   addWeeks,
@@ -2027,19 +2027,14 @@ const dutyAssignmentChanges = ({
   const path = ASSIGNMENT_PATH[field];
   const records = (schedulesGetData(latest, path) ??
     []) as AssignmentCongregation[];
-  const slot = resolveSectionSlot(
-    duties[meeting].sections ?? [],
-    dataView,
-    schedule_id
-  );
-  if (slot) {
+  if (schedule_id) {
     const config = store
       .get(settingsState)
       .cong_settings.meeting_duties?.find((item) => item.type === dataView);
     const fields = config
       ? schedulesDutiesFieldList(meeting, config, resolvedSections)
       : [];
-    if (!fields.some((item) => item.schedule_id === slot))
+    if (!fields.some((item) => item.schedule_id === schedule_id))
       throw new Error('tr_sectionUnavailable');
   }
   changes[path] = dutiesAssignRecords(
@@ -2047,7 +2042,7 @@ const dutyAssignmentChanges = ({
     toSave,
     dataView,
     updatedAt,
-    slot
+    schedule_id
   );
   return changes;
 };
@@ -2062,10 +2057,14 @@ const saveDutyAssignment = (
   const weekly = schedulesDutiesConfig()?.schedule_weekly?.value ?? false;
   const selectedMeeting = assignment.startsWith('MM_') ? 'midweek' : 'weekend';
   return queueDutyWrite(schedule.weekOf, async () => {
-    const latest = store
+    const stored = store
       .get(schedulesState)
       .find((item) => item.weekOf === schedule.weekOf);
-    if (!latest?.duties) return;
+    if (!stored) return;
+    // duty fields are created with the first assignment of the week
+    const latest = stored.duties
+      ? stored
+      : { ...stored, duties: dutiesSchema() };
     const changes: Record<string, unknown> = {};
     const updatedAt = new Date().toISOString();
     const toSave =
@@ -2088,14 +2087,19 @@ const saveDutyAssignment = (
       );
     }
     if (Object.keys(changes).length === 0) return;
+    const updated = dutiesPatchSchedule(latest, changes);
     await dbSchedUpdate(
       schedule.weekOf,
-      changes as unknown as UpdateSpec<SchedWeekType>
+      (stored.duties
+        ? changes
+        : { duties: updated.duties }) as unknown as UpdateSpec<SchedWeekType>
     );
     store.set(schedulesState, (current) =>
       current.map((item) =>
         item.weekOf === schedule.weekOf
-          ? dutiesPatchSchedule(item, changes)
+          ? stored.duties
+            ? dutiesPatchSchedule(item, changes)
+            : { ...item, duties: updated.duties }
           : item
       )
     );

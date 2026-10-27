@@ -6,8 +6,6 @@ import { updateObject } from '@utils/common';
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import {
-  isolateLegacySections,
-  resolveSectionSlot,
   sectionsForView,
   validateDutyName,
   uniqueDutyName,
@@ -23,6 +21,7 @@ const section = (id = 'shift'): DutiesSectionType => ({
   name: 'First half',
   amount: 2,
   parts: ['tgw_gems'],
+  dataView: 'main',
   _deleted: false,
   updatedAt: '2020-01-01',
 });
@@ -34,75 +33,22 @@ const assignment = (type: string, value: string): AssignmentCongregation => ({
   updatedAt: '2020-01-01',
 });
 
-test('legacy layout and assignments become independent for every existing view', () => {
-  const original = {
-    sections: [section()],
-    dynamic: [assignment('main', 'A'), assignment('group', 'B')],
-  };
-  const result = isolateLegacySections(original.sections, original.dynamic, [
-    'main',
-    'group',
-    'empty-group',
-  ]);
-  assert.equal(result.sections.length, 3);
-  for (const view of ['main', 'group', 'empty-group']) {
-    const scoped = sectionsForView(result.sections, view);
-    assert.equal(scoped.length, 1);
-    assert.equal(scoped[0].dataView, view);
-    if (view !== 'empty-group')
-      assert.equal(
-        result.dynamic.find((entry) => entry.type === view && entry.value)?.id,
-        `${scoped[0].id}_1`
-      );
-  }
-  sectionsForView(result.sections, 'group')[0].parts.push('lc_cbs');
-  assert.deepEqual(sectionsForView(result.sections, 'main')[0].parts, [
-    'tgw_gems',
-  ]);
-  assert.deepEqual(original.sections[0].parts, ['tgw_gems']);
-  assert.equal(original.dynamic[1].id, 'shift_1');
-});
-
-test('isolation is idempotent and does not copy a private section to another view', () => {
-  const first = isolateLegacySections(
-    [section()],
-    [assignment('group', 'B')],
-    ['group']
-  );
-  assert.deepEqual(
-    isolateLegacySections(first.sections, first.dynamic, [
-      'group',
-      'new-group',
-    ]),
-    first
-  );
-  assert.equal(sectionsForView(first.sections, 'new-group').length, 0);
-});
-
-test('a picker opened before isolation resolves to its own view only', () => {
-  const { sections } = isolateLegacySections([section()], [], ['group']);
-  assert.equal(
-    resolveSectionSlot(sections, 'group', 'shift_1'),
-    'shift~group_1'
-  );
-  assert.equal(resolveSectionSlot(sections, 'main', 'shift_1'), 'shift_1');
-  assert.equal(resolveSectionSlot(sections, 'group', 'custom_1'), 'custom_1');
-});
-
 test('scoped sections and assignments stay isolated in publishing', () => {
-  const duties = isolateLegacySections(
-    [section()],
-    [assignment('main', 'A'), assignment('group', 'B')],
-    ['group']
-  );
+  const duties = {
+    sections: [section(), { ...section('group-shift'), dataView: 'group' }],
+    dynamic: [
+      assignment('main', 'A'),
+      { ...assignment('group', 'B'), id: 'group-shift_1' },
+    ],
+  };
   const result = filterScheduleByDataView(duties, 'group');
   assert.deepEqual(
-    result.sections.map((item) => item.dataView),
-    ['group']
+    result.sections.map((item) => item.id),
+    ['group-shift']
   );
   assert.deepEqual(
     result.dynamic.map((item) => item.value),
-    ['', 'B']
+    ['B']
   );
   assert.deepEqual(result.sections[0].parts, ['tgw_gems']);
 });
@@ -144,19 +90,6 @@ test('copied names remain bounded and unique even with a long translated title',
   const second = uniqueDutyName(base, [{ id: 'a', name: first }]);
   assert.ok(first.length <= 40 && second.length <= 40);
   assert.notEqual(first, second);
-});
-
-test('legacy group slot IDs retain timestamped clears for already-published schedules', () => {
-  const { dynamic } = isolateLegacySections(
-    [section()],
-    [assignment('group', 'B')],
-    ['group']
-  );
-  const old = dynamic.find((entry) => entry.id === 'shift_1');
-  const current = dynamic.find((entry) => entry.id === 'shift~group_1');
-  assert.equal(old?.value, '');
-  assert.equal(current?.value, 'B');
-  assert.equal(old?.updatedAt, current?.updatedAt);
 });
 
 test('generated duty defaults never replace configured values during sync', () => {

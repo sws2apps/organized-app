@@ -291,7 +291,8 @@ const isScheduleEditorRole = (userRole: AppRoleType[]) => {
     userRole.includes('language_group_overseers') ||
     userRole.includes('midweek_schedule') ||
     userRole.includes('weekend_schedule') ||
-    userRole.includes('public_talk_schedule')
+    userRole.includes('public_talk_schedule') ||
+    userRole.includes('duties_schedule')
   );
 };
 

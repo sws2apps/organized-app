@@ -95,7 +95,7 @@ const dutyAssignment = (): AssignmentCongregation[] => [
   { type: 'main', value: '', name: '', updatedAt: '' },
 ];
 
-export const dutyPositions = (): DutyPositionsType => ({
+const dutyPositions = (): DutyPositionsType => ({
   position_1: dutyAssignment(),
   position_2: dutyAssignment(),
   position_3: dutyAssignment(),
@@ -123,7 +123,6 @@ export const dutiesSchema = () => ({
 
 export const scheduleSchema: SchedWeekType = {
   weekOf: '',
-  duties: dutiesSchema(),
   midweek_meeting: {
     chairman: {
       main_hall: [{ type: 'main', value: '', name: '', updatedAt: '' }],

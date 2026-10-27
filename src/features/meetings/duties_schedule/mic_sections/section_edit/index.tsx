@@ -119,11 +119,7 @@ const SectionEdit = (props: SectionEditProps) => {
             className="label-small-regular"
             sx={{ color: 'var(--grey-350)' }}
           >
-            {t(
-              props.recurring
-                ? 'tr_sectionRecurringPartsDesc'
-                : 'tr_sectionPartsDesc'
-            )}
+            {t('tr_sectionRecurringPartsDesc')}
           </Typography>
 
           {parts.length === 0 && (

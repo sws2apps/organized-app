@@ -155,12 +155,6 @@ test('pre-existing assigned weeks are not silently given new sections', () => {
   assert.deepEqual(resolve({ duties }), []);
   assert.equal(resolve({ duties, dataView: 'group' }).length, 3);
 });
-test('legacy shared sections keep their previous layout', () => {
-  const section = { ...resolve()[0], id: 'legacy', dataView: undefined };
-  assert.deepEqual(resolve({ duties: { ...empty, sections: [section] } }), [
-    section,
-  ]);
-});
 test('publishing a snapshot includes only its group and keeps linked part keys', () => {
   const host = snapshotRecurringSections(empty, resolve(), 'main', 'now');
   const group = resolve({

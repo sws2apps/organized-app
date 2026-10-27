@@ -1,18 +1,7 @@
-import { ChangeEvent, useMemo, useRef, useState } from 'react';
+import { ChangeEvent, useRef, useState } from 'react';
 import { SelectChangeEvent } from '@mui/material';
 import { useAtomValue } from 'jotai';
-import {
-  meetingDutiesState,
-  userDataViewState,
-  JWLangState,
-} from '@states/settings';
-import { schedulesState } from '@states/schedules';
-import { sourcesState } from '@states/sources';
-import {
-  schedulesDutiesMeetingParts,
-  schedulesDutiesSections,
-} from '@services/app/schedules';
-import { dutiesSectionAdd, dutiesSectionUpdate } from '@services/app/duties';
+import { meetingDutiesState } from '@states/settings';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { useAppTranslation } from '@hooks/index';
@@ -21,42 +10,17 @@ import { SectionEditProps } from '@features/meetings/duties_schedule/mic_section
 
 const useSectionEdit = ({
   id,
-  meeting,
   onClose,
   type,
-  week,
-  availableSections,
-  availableParts,
+  availableSections: sections,
+  availableParts: parts,
   onSave,
 }: SectionEditProps) => {
   const { t } = useAppTranslation();
   const config = useAtomValue(meetingDutiesState);
-  const schedules = useAtomValue(schedulesState);
-  const sources = useAtomValue(sourcesState);
-  const dataView = useAtomValue(userDataViewState);
-  const lang = useAtomValue(JWLangState);
-  const sections = useMemo(
-    () => availableSections ?? schedulesDutiesSections(week, meeting, dataView),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [
-      week,
-      meeting,
-      dataView,
-      schedules,
-      config,
-      sources,
-      lang,
-      availableSections,
-    ]
-  );
-  const parts = useMemo(
-    () => availableParts ?? schedulesDutiesMeetingParts(week, meeting),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [week, meeting, schedules, sources, dataView, lang, availableParts]
-  );
   const section =
     type === 'edit' && id
-      ? sections.find((record) => record.id === id || record.legacyId === id)
+      ? sections.find((record) => record.id === id)
       : undefined;
   const initialUpdatedAt = useRef(section?.updatedAt);
   const changed =
@@ -113,16 +77,7 @@ const useSectionEdit = ({
           .map((part) => part.key)
           .filter((key) => selectedParts.includes(key)),
       };
-      if (onSave) await onSave(values);
-      else if (type === 'add') await dutiesSectionAdd(week, meeting, values);
-      else if (id)
-        await dutiesSectionUpdate(
-          week,
-          meeting,
-          id,
-          values,
-          initialUpdatedAt.current
-        );
+      await onSave(values);
       onClose();
     } catch (error) {
       displaySnackNotification({
