@@ -1,12 +1,10 @@
-const PBKDF2_ITERATIONS = 250_000;
+export const APP_LOCK_PBKDF2_ITERATIONS = 250_000;
 const PBKDF2_KEY_LEN_BITS = 256;
 const SALT_BYTES = 16;
 const HEX_REGEX = /^[0-9a-fA-F]+$/;
 
 const bytesToHex = (bytes: Uint8Array): string => {
-  return Array.from(bytes)
-    .map((b) => ('00' + b.toString(16)).slice(-2))
-    .join('');
+  return Array.from(bytes, (b) => b.toString(16).padStart(2, '0')).join('');
 };
 
 const hexToBytes = (hex: string): Uint8Array => {
@@ -37,7 +35,7 @@ export const generateSalt = (): string => {
 export const hashPin = async (
   pin: string,
   salt: string,
-  iterations: number = PBKDF2_ITERATIONS
+  iterations: number = APP_LOCK_PBKDF2_ITERATIONS
 ): Promise<string> => {
   const pinBytes = new TextEncoder().encode(pin);
   const saltBytes = hexToBytes(salt);
@@ -68,7 +66,7 @@ export const verifyPin = async (
   pin: string,
   hash: string,
   salt: string,
-  iterations: number = PBKDF2_ITERATIONS
+  iterations: number = APP_LOCK_PBKDF2_ITERATIONS
 ): Promise<boolean> => {
   const candidate = await hashPin(pin, salt, iterations);
 
@@ -81,5 +79,3 @@ export const verifyPin = async (
 
   return diff === 0;
 };
-
-export const APP_LOCK_PBKDF2_ITERATIONS = PBKDF2_ITERATIONS;

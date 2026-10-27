@@ -1,15 +1,18 @@
 import { useAppTranslation } from '@hooks/index';
-import { appLockClearPinCreateRequest } from '@services/app_lock/reset';
+import { appLockUpdate } from '@services/app_lock/storage';
 import { displaySnackNotification } from '@services/states/app';
 import useCreatePin from '../create_pin/useCreatePin';
+
+const clearPinCreateRequest = () =>
+  appLockUpdate({ pin_create_pending: false });
 
 const useCreatePinScreen = () => {
   const { t } = useAppTranslation();
 
-  const createPin = useCreatePin('create', appLockClearPinCreateRequest);
+  const createPin = useCreatePin('create', clearPinCreateRequest);
 
-  const handleTurnOff = async () => {
-    await appLockClearPinCreateRequest();
+  const handleTurnOff = () => {
+    clearPinCreateRequest();
 
     displaySnackNotification({
       header: t('tr_appLockOff'),

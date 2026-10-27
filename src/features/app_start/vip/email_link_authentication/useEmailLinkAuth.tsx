@@ -8,7 +8,6 @@ import {
 import { apiUpdatePasswordlessInfo } from '@services/api/user';
 import {
   displayOnboardingFeedback,
-  displaySnackNotification,
   setIsCongAccountCreate,
   setIsEmailLinkAuthenticate,
   setIsUnauthorizedRole,
@@ -22,10 +21,7 @@ import {
   isEmailLinkAuthenticateState,
   isUserAccountCreatedState,
 } from '@states/app';
-import {
-  appLockIsPinResetPending,
-  appLockResetPin,
-} from '@services/app_lock/reset';
+import { appLockCompletePinReset } from '@services/app_lock/reset';
 import useAuth from '../hooks/useAuth';
 import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 
@@ -88,19 +84,14 @@ const useEmailLinkAuth = () => {
         return;
       }
 
-      if (appLockIsPinResetPending()) {
-        await appLockResetPin();
-
-        displaySnackNotification({
-          header: t('tr_PINResetDone'),
-          message: t('tr_PINResetDoneDesc'),
-          severity: 'success',
-        });
-      }
-
       const nextStep: NextStepType = determineNextStep(
         data as UserLoginResponseType
       );
+
+      // with 2FA on, the PIN reset waits for the verified code
+      if (!nextStep.isVerifyMFA && !nextStep.unauthorized) {
+        appLockCompletePinReset();
+      }
 
       if (
         nextStep.isVerifyMFA ||

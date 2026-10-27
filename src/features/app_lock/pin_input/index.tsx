@@ -1,8 +1,9 @@
 import {
-  forwardRef,
   KeyboardEvent,
   MouseEvent,
-  useCallback,
+  Ref,
+  useEffect,
+  useId,
   useImperativeHandle,
   useRef,
 } from 'react';
@@ -10,16 +11,18 @@ import { keyframes } from '@emotion/react';
 import { Box } from '@mui/material';
 import { MuiOtpInput } from 'mui-one-time-password-input';
 import {
-  IconPinSymbolSquare,
-  IconPinSymbolTriangle,
-  IconPinSymbolStar,
-  IconPinSymbolSquircle,
   IconPinSymbolCog,
   IconPinSymbolHexagon,
+  IconPinSymbolSquare,
+  IconPinSymbolSquircle,
+  IconPinSymbolStar,
+  IconPinSymbolTriangle,
 } from '@icons/index';
-import { PinInputContainer } from './index.styles';
-import useShuffledSymbols from './useShuffledSymbols';
 import { useAppTranslation } from '@hooks/index';
+import { APP_LOCK_PIN_LENGTH } from '@constants/index';
+import Typography from '@components/typography';
+import { PinCells, PinField, PinSymbols } from './index.styles';
+import useShuffledSymbols from './useShuffledSymbols';
 
 const PIN_ICONS = [
   IconPinSymbolSquare,
@@ -28,33 +31,13 @@ const PIN_ICONS = [
   IconPinSymbolSquircle,
   IconPinSymbolCog,
   IconPinSymbolHexagon,
-] as const;
+];
 
 const CELL_SIZE = 52;
 const CELL_GAP = 8;
 const SYMBOL_SIZE = 20;
-
-type PinInputVariant = 'default' | 'success' | 'error';
-
-type PinInputProps = {
-  value: string;
-  onChange: (value: string) => void;
-  onComplete?: (value: string) => void;
-  onSubmit?: () => void;
-  length?: number;
-  variant?: PinInputVariant;
-  autoFocus?: boolean;
-};
-
-export type PinInputHandle = {
-  focus: () => void;
-};
-
-const isDigit = (text: string) => /^\d$/.test(text);
-
-const ANIMATION_DURATION = '180ms';
-const ANIMATION_EASING = 'cubic-bezier(0.25, 0.1, 0.25, 1)';
 const SPRING = 'cubic-bezier(0.34, 1.56, 0.64, 1)';
+const REDUCED_MOTION = '@media (prefers-reduced-motion: reduce)';
 
 const shakeError = keyframes`
   0%   { transform: translateX(0); }
@@ -71,90 +54,98 @@ const cellPop = keyframes`
   100% { transform: scale(1); }
 `;
 
-const PinInput = forwardRef<PinInputHandle, PinInputProps>(
-  (
-    {
-      value,
-      onChange,
-      onComplete,
-      onSubmit,
-      length = 4,
-      variant = 'default',
-      autoFocus = true,
-    },
-    ref
-  ) => {
-    const { t } = useAppTranslation();
+export type PinInputHandle = {
+  focus: VoidFunction;
+};
 
-    const isError = variant === 'error';
-    const symbolOrder = useShuffledSymbols(length, value, PIN_ICONS.length);
-    const containerRef = useRef<HTMLDivElement>(null);
+type PinInputProps = {
+  ref?: Ref<PinInputHandle>;
+  value: string;
+  onChange: (value: string) => void;
+  onComplete?: (value: string) => void;
+  onSubmit?: VoidFunction;
+  error?: boolean;
+  helperText?: string;
+  disabled?: boolean;
+  autoFocus?: boolean;
+};
 
-    useImperativeHandle(ref, () => ({
-      focus: () => {
-        containerRef.current?.querySelector('input')?.focus();
-      },
-    }));
+const isDigit = (text: string) => /^\d$/.test(text);
 
-    const borderColor = (filled: boolean) => {
-      if (isError) return '--red-dark';
-      if (variant === 'success') return '--accent-main';
-      return filled ? '--accent-main' : '--accent-300';
-    };
+const PinInput = ({
+  ref,
+  value,
+  onChange,
+  onComplete,
+  onSubmit,
+  error = false,
+  helperText = '',
+  disabled = false,
+  autoFocus = false,
+}: PinInputProps) => {
+  const { t } = useAppTranslation();
 
-    const handleKeyDownCapture = useCallback(
-      (e: KeyboardEvent) => {
-        if (e.key === 'Enter') {
-          if (value.length >= length && onSubmit) {
-            e.preventDefault();
-            onSubmit();
-          }
-          return;
-        }
+  const length = APP_LOCK_PIN_LENGTH;
+  const symbolOrder = useShuffledSymbols(length, value, PIN_ICONS.length);
+  const cellsRef = useRef<HTMLDivElement>(null);
+  const helperId = useId();
 
-        if (e.key !== 'Backspace') return;
-        if (value.length === 0) return;
+  const focusCell = (index: number) => {
+    cellsRef.current?.querySelectorAll('input')[index]?.focus();
+  };
 
-        // capture phase: bypass MuiOtpInput's two-press delete
+  useImperativeHandle(ref, () => ({
+    focus: () => focusCell(Math.min(value.length, length - 1)),
+  }));
+
+  useEffect(() => {
+    // a cleared entry, e.g. after a wrong PIN, starts again at the first cell
+    if (value === '' && cellsRef.current?.contains(document.activeElement)) {
+      focusCell(0);
+    }
+  }, [value]);
+
+  const accent = error ? 'var(--red-dark)' : 'var(--accent-main)';
+
+  const handleKeyDownCapture = (e: KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      if (value.length === length && onSubmit) {
         e.preventDefault();
-        e.stopPropagation();
-        e.nativeEvent.stopImmediatePropagation();
+        onSubmit();
+      }
+      return;
+    }
 
-        const newValue = value.slice(0, -1);
-        onChange(newValue);
+    if (e.key !== 'Backspace' || value.length === 0) return;
 
-        requestAnimationFrame(() => {
-          const inputs = containerRef.current?.querySelectorAll('input');
-          inputs?.[Math.max(0, newValue.length)]?.focus();
-        });
-      },
-      [value, length, onChange, onSubmit]
-    );
+    // MuiOtpInput clears the focused cell first and needs a second press to go back
+    e.preventDefault();
+    e.stopPropagation();
 
-    const handleMouseDownCapture = useCallback(
-      (e: MouseEvent) => {
-        // keep focus on the next empty cell, wherever the click lands
-        const target = e.target as HTMLElement;
-        if (target.tagName === 'INPUT') {
-          e.preventDefault();
-          const inputs = containerRef.current?.querySelectorAll('input');
-          const correctIndex = Math.min(value.length, length - 1);
-          inputs?.[correctIndex]?.focus();
-        }
-      },
-      [value, length]
-    );
+    const next = value.slice(0, -1);
+    onChange(next);
+    requestAnimationFrame(() => focusCell(next.length));
+  };
 
-    return (
-      <PinInputContainer
-        ref={containerRef}
+  // cells fill in order, so a click anywhere lands on the next empty one
+  const handleMouseDownCapture = (e: MouseEvent) => {
+    if ((e.target as HTMLElement).tagName !== 'INPUT') return;
+
+    e.preventDefault();
+    focusCell(Math.min(value.length, length - 1));
+  };
+
+  return (
+    <PinField>
+      <PinCells
+        ref={cellsRef}
         role="group"
         aria-label={t('tr_PINInputLabel', { entered: value.length, length })}
         onKeyDownCapture={handleKeyDownCapture}
         onMouseDownCapture={handleMouseDownCapture}
         sx={{
-          position: 'relative',
-          ...(isError ? { animation: `${shakeError} 320ms ease-in-out` } : {}),
+          animation: error ? `${shakeError} 320ms ease-in-out` : 'none',
+          [REDUCED_MOTION]: { animation: 'none' },
         }}
       >
         <MuiOtpInput
@@ -163,94 +154,70 @@ const PinInput = forwardRef<PinInputHandle, PinInputProps>(
           onComplete={onComplete}
           length={length}
           autoFocus={autoFocus}
-          sx={{ display: 'flex', gap: `${CELL_GAP}px` }}
           validateChar={isDigit}
+          sx={{ display: 'flex', gap: `${CELL_GAP}px` }}
           TextFieldsProps={(index) => {
             const filled = !!value[index];
 
+            let border = 'var(--accent-300)';
+            if (error || filled) border = accent;
+            if (disabled) border = 'var(--accent-200)';
+
             return {
-              autoComplete: 'off',
+              disabled,
               type: 'tel',
-              onFocus: () => {
-                setTimeout(() => {
-                  containerRef.current?.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'center',
-                  });
-                }, 300);
-              },
-              inputProps: {
-                inputMode: 'numeric',
-                pattern: '[0-9]*',
-                autoComplete: 'off',
-                'aria-label': t('tr_PINDigitLabel', { position: index + 1 }),
+              autoComplete: 'off',
+              slotProps: {
+                htmlInput: {
+                  inputMode: 'numeric',
+                  pattern: '[0-9]*',
+                  'aria-label': t('tr_PINDigitLabel', { position: index + 1 }),
+                  'aria-describedby': helperText ? helperId : undefined,
+                },
               },
               sx: {
-                '.MuiOutlinedInput-input': {
-                  color: 'transparent',
-                  caretColor: 'transparent',
-                  WebkitTextSecurity: 'none',
-                  width: CELL_SIZE,
-                  height: CELL_SIZE,
-                  padding: 0,
-                  borderRadius: 'var(--radius-l)',
-                  textAlign: 'center',
-
-                  '&::selection': {
-                    backgroundColor: 'transparent',
-                    color: 'transparent',
-                  },
-                  '&::-moz-selection': {
-                    backgroundColor: 'transparent',
-                    color: 'transparent',
-                  },
-                },
                 '.MuiOutlinedInput-root': {
                   cursor: 'default',
+                  backgroundColor: disabled
+                    ? 'var(--accent-150)'
+                    : 'transparent',
+                  borderRadius: 'var(--radius-l)',
                   animation: filled
                     ? `${cellPop} 220ms ${SPRING} both`
                     : 'none',
-                  '& fieldset': {
-                    border: `1px solid var(${borderColor(filled)})`,
+                  [REDUCED_MOTION]: { animation: 'none' },
+                  '& fieldset, &:hover fieldset, &.Mui-disabled fieldset': {
+                    border: `1px solid ${border}`,
                     borderRadius: 'var(--radius-l)',
                     transition: 'border-color 150ms ease',
                   },
-                  '&.Mui-focused fieldset': {
-                    border: `1px solid var(${
-                      isError ? '--red-dark' : '--accent-main'
-                    })`,
+                  '&.Mui-focused fieldset, &.Mui-focused:hover fieldset': {
+                    border: `1px solid ${accent}`,
                   },
-                  '&:hover fieldset': {
-                    border: `1px solid var(${borderColor(filled)})`,
-                  },
-                  '&.Mui-focused:hover fieldset': {
-                    border: `1px solid var(${
-                      isError ? '--red-dark' : '--accent-main'
-                    })`,
-                  },
+                },
+                // the digit stays hidden; the symbol overlay shows progress
+                '.MuiOutlinedInput-input': {
+                  width: CELL_SIZE,
+                  height: CELL_SIZE,
+                  padding: 0,
+                  textAlign: 'center',
+                  color: 'transparent',
+                  caretColor: 'transparent',
+                  '&::selection': { backgroundColor: 'transparent' },
                 },
               },
             };
           }}
         />
-        <Box
-          aria-hidden
-          sx={{
-            position: 'absolute',
-            inset: 0,
-            display: 'flex',
-            gap: `${CELL_GAP}px`,
-            pointerEvents: 'none',
-          }}
-        >
-          {Array.from({ length }).map((_, index) => {
-            const symbolIndex = symbolOrder[index] ?? index;
+
+        <PinSymbols aria-hidden sx={{ gap: `${CELL_GAP}px` }}>
+          {symbolOrder.map((symbolIndex, index) => {
+            const Icon = PIN_ICONS[symbolIndex];
             const filled = !!value[index];
-            const Icon = PIN_ICONS[symbolIndex % PIN_ICONS.length];
 
             return (
               <Box
-                key={`pin-symbol-${symbolIndex}`}
+                key={symbolIndex}
                 sx={{
                   width: CELL_SIZE,
                   height: CELL_SIZE,
@@ -262,28 +229,36 @@ const PinInput = forwardRef<PinInputHandle, PinInputProps>(
                 <Icon
                   width={SYMBOL_SIZE}
                   height={SYMBOL_SIZE}
-                  color={isError ? 'var(--red-dark)' : 'var(--accent-main)'}
+                  color={accent}
                   sx={{
                     opacity: filled ? 1 : 0,
                     transform: filled
                       ? 'scale(1) rotate(0deg)'
                       : 'scale(0.7) rotate(-25deg)',
-                    transition: [
-                      `opacity ${ANIMATION_DURATION} ${ANIMATION_EASING}`,
-                      `transform 220ms ${SPRING}`,
-                    ].join(', '),
-                    '& > svg': { width: '100%', height: '100%' },
+                    transition: `opacity 180ms ease, transform 220ms ${SPRING}`,
+                    [REDUCED_MOTION]: { transform: 'none', transition: 'none' },
                   }}
                 />
               </Box>
             );
           })}
-        </Box>
-      </PinInputContainer>
-    );
-  }
-);
+        </PinSymbols>
+      </PinCells>
 
-PinInput.displayName = 'PinInput';
+      <Typography
+        id={helperId}
+        className="body-small-regular"
+        role="alert"
+        sx={{
+          color: 'var(--red-dark)',
+          minHeight: '20px',
+          textAlign: 'center',
+        }}
+      >
+        {helperText}
+      </Typography>
+    </PinField>
+  );
+};
 
 export default PinInput;

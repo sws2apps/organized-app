@@ -1,59 +1,66 @@
+import { getAuth } from 'firebase/auth';
 import { STORAGE_KEY } from '@constants/index';
 import { localStorageGetItem } from '@utils/common';
-import { appLockUpdate } from './storage';
+import { displaySnackNotification } from '@services/states/app';
+import { getTranslation } from '@services/i18n/translation';
+import { appLockClearPin } from './storage';
 
-export const appLockMarkPinResetRequested = () => {
-  if (typeof localStorage === 'undefined') return;
+// a stale request must not clear the PIN on a later sign-in
+const PIN_RESET_VALID_FOR = 60 * 60 * 1000;
 
-  localStorage.setItem(
-    STORAGE_KEY.app_lock_pin_reset,
-    new Date().toISOString()
-  );
+type PinResetRequest = { email: string; requested_at: number };
+
+const normalize = (email: string) => email.trim().toLowerCase();
+
+const readRequest = (): PinResetRequest | null => {
+  try {
+    const stored = localStorageGetItem(STORAGE_KEY.app_lock_pin_reset);
+    const request = stored ? (JSON.parse(stored) as PinResetRequest) : null;
+
+    if (request && Date.now() - request.requested_at <= PIN_RESET_VALID_FOR) {
+      return request;
+    }
+  } catch {
+    // unreadable marker, dropped below
+  }
+
+  appLockClearPinResetRequest();
+  return null;
+};
+
+export const appLockMarkPinResetRequested = (email: string) => {
+  const request: PinResetRequest = {
+    email: normalize(email),
+    requested_at: Date.now(),
+  };
+
+  localStorage.setItem(STORAGE_KEY.app_lock_pin_reset, JSON.stringify(request));
 };
 
 export const appLockClearPinResetRequest = () => {
-  if (typeof localStorage === 'undefined') return;
-
   localStorage.removeItem(STORAGE_KEY.app_lock_pin_reset);
 };
 
-// a stale request must not clear the PIN on a later email sign-in
-const PIN_RESET_VALID_FOR = 60 * 60 * 1000;
+export const appLockIsPinResetPending = () => readRequest() !== null;
 
-export const appLockIsPinResetPending = () => {
-  const requestedAt = localStorageGetItem(STORAGE_KEY.app_lock_pin_reset);
+// call only once the sign-in is complete, MFA included
+export const appLockCompletePinReset = () => {
+  const request = readRequest();
 
-  if (!requestedAt) return false;
-
-  const elapsed = Date.now() - new Date(requestedAt).getTime();
-
-  if (Number.isNaN(elapsed) || elapsed > PIN_RESET_VALID_FOR) {
-    appLockClearPinResetRequest();
-    return false;
-  }
-
-  return true;
-};
-
-/** Removes the PIN and every credential derived from it on this device. */
-export const appLockResetPin = async () => {
-  const now = new Date().toISOString();
-
-  appLockUpdate({
-    enabled: { value: false, updatedAt: now },
-    pin_create_pending: { value: true, updatedAt: now },
-    pin_hash: undefined,
-    pin_salt: undefined,
-    pin_iterations: undefined,
-    biometric_enabled: { value: false, updatedAt: now },
-    webauthn_credential_id: undefined,
-  });
+  if (!request) return;
 
   appLockClearPinResetRequest();
-};
 
-export const appLockClearPinCreateRequest = async () => {
-  appLockUpdate({
-    pin_create_pending: { value: false, updatedAt: new Date().toISOString() },
+  // only the account that asked for the reset may clear the PIN
+  const email = getAuth().currentUser?.email;
+
+  if (!email || normalize(email) !== request.email) return;
+
+  appLockClearPin({ pin_create_pending: true });
+
+  displaySnackNotification({
+    header: getTranslation({ key: 'tr_PINResetDone' }),
+    message: getTranslation({ key: 'tr_PINResetDoneDesc' }),
+    severity: 'success',
   });
 };

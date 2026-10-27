@@ -1,126 +1,104 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAtomValue } from 'jotai';
-import { useAppTranslation } from '@hooks/index';
-import { appLockUpdate } from '@services/app_lock/storage';
+import { useAppTranslation, useFirebaseAuth } from '@hooks/index';
 import {
-  appLockAfterMinutesState,
   appLockBiometricEnabledState,
-  appLockHasPinState,
+  appLockEnabledState,
   appLockSettingsState,
-} from '@states/settings';
-import { userEmailState } from '@states/app';
+} from '@states/app_lock';
+import { appLockUpdate } from '@services/app_lock/storage';
 import { displaySnackNotification } from '@services/states/app';
 import {
   isBiometricAvailable,
   registerBiometric,
 } from '@services/app_lock/webauthn';
+import { CreatePinMode } from '@features/app_lock/create_pin/useCreatePin';
 
 const useAppLockToggle = () => {
   const { t } = useAppTranslation();
+  const { user } = useFirebaseAuth();
 
-  const appLock = useAtomValue(appLockSettingsState);
-  const hasPin = useAtomValue(appLockHasPinState);
-  const lockAfter = useAtomValue(appLockAfterMinutesState);
+  const enabled = useAtomValue(appLockEnabledState);
   const biometricEnabled = useAtomValue(appLockBiometricEnabledState);
-  const userEmail = useAtomValue(userEmailState);
+  const { lock_after_minutes } = useAtomValue(appLockSettingsState);
 
-  const enabled = hasPin && appLock?.enabled?.value === true;
-
-  const [isCreatePinOpen, setIsCreatePinOpen] = useState(false);
-  const [createPinMode, setCreatePinMode] = useState<
-    'create' | 'change' | 'disable'
-  >('create');
+  const [createPinMode, setCreatePinMode] = useState<CreatePinMode | null>(
+    null
+  );
   const [biometricSupported, setBiometricSupported] = useState(false);
-  const isBiometricToggling = useRef(false);
+  const [isBiometricProcessing, setIsBiometricProcessing] = useState(false);
 
   useEffect(() => {
-    let mounted = true;
+    let active = true;
+
     isBiometricAvailable().then((available) => {
-      if (mounted) setBiometricSupported(available);
+      if (active) setBiometricSupported(available);
     });
+
     return () => {
-      mounted = false;
+      active = false;
     };
   }, []);
 
-  const handleCloseDialog = useCallback(() => setIsCreatePinOpen(false), []);
+  const handleToggle = () => setCreatePinMode(enabled ? 'disable' : 'create');
 
-  const handleToggle = async () => {
-    if (!enabled) {
-      setCreatePinMode('create');
-      setIsCreatePinOpen(true);
-      return;
-    }
+  const handleChangePin = () => setCreatePinMode('change');
 
-    setCreatePinMode('disable');
-    setIsCreatePinOpen(true);
-  };
+  const handleCloseDialog = () => setCreatePinMode(null);
 
-  const handleChangePIN = () => {
-    setCreatePinMode('change');
-    setIsCreatePinOpen(true);
-  };
-
-  const handleLockAfterChange = async (value: number) => {
-    appLockUpdate({
-      lock_after_minutes: { value, updatedAt: new Date().toISOString() },
-    });
+  const handleLockAfterChange = (minutes: number) => {
+    appLockUpdate({ lock_after_minutes: minutes });
   };
 
   const handleBiometricToggle = async (checked: boolean) => {
-    if (isBiometricToggling.current) return;
-    isBiometricToggling.current = true;
+    if (!checked) {
+      appLockUpdate({
+        biometric_enabled: false,
+        webauthn_credential_id: undefined,
+      });
+      return;
+    }
+
+    if (isBiometricProcessing) return;
+
+    setIsBiometricProcessing(true);
 
     try {
-      const now = new Date().toISOString();
+      const { credentialId } = await registerBiometric(
+        user?.email ?? 'Organized'
+      );
 
-      if (!checked) {
-        appLockUpdate({
-          biometric_enabled: { value: false, updatedAt: now },
-          webauthn_credential_id: undefined,
-        });
-        return;
-      }
+      appLockUpdate({
+        biometric_enabled: true,
+        webauthn_credential_id: credentialId,
+      });
 
-      try {
-        const { credentialId } = await registerBiometric(
-          userEmail || 'organized-user',
-          userEmail || 'user',
-          userEmail || 'Organized user'
-        );
-
-        appLockUpdate({
-          biometric_enabled: { value: true, updatedAt: now },
-          webauthn_credential_id: credentialId,
-        });
-
-        displaySnackNotification({
-          header: t('tr_biometricEnabled'),
-          message: t('tr_biometricEnabledDesc'),
-          severity: 'success',
-        });
-      } catch {
-        displaySnackNotification({
-          header: t('tr_biometricRegisterFailed'),
-          message: t('tr_biometricRegisterFailedDesc'),
-          severity: 'error',
-        });
-      }
+      displaySnackNotification({
+        header: t('tr_appLockBiometricOn'),
+        message: t('tr_appLockBiometricOnDesc'),
+        severity: 'success',
+      });
+    } catch {
+      displaySnackNotification({
+        header: t('tr_appLockBiometricFailed'),
+        message: t('tr_appLockBiometricFailedDesc'),
+        severity: 'error',
+      });
     } finally {
-      isBiometricToggling.current = false;
+      setIsBiometricProcessing(false);
     }
   };
 
   return {
     enabled,
-    lockAfter,
+    lockAfterMinutes: lock_after_minutes,
     biometricEnabled,
     biometricSupported,
-    isCreatePinOpen,
+    isBiometricProcessing,
     createPinMode,
     handleToggle,
+    handleChangePin,
     handleCloseDialog,
-    handleChangePIN,
     handleLockAfterChange,
     handleBiometricToggle,
   };

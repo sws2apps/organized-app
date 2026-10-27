@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useMemo } from 'react';
-import { useAtomValue, useSetAtom } from 'jotai';
+import { useEffect, useMemo } from 'react';
+import { useAtomValue } from 'jotai';
 import {
   congAccountConnectedState,
   isAppDataSyncingState,
@@ -11,12 +11,9 @@ import {
   useFirebaseAuth,
 } from '@hooks/index';
 import { getMessageByCode } from '@services/i18n/translation';
-import {
-  adminRoleState,
-  appLockEnabledState,
-  appLockAfterMinutesState,
-} from '@states/settings';
-import { isAppLockedState } from '@states/app_lock';
+import { adminRoleState } from '@states/settings';
+import { appLockEnabledState, appLockSettingsState } from '@states/app_lock';
+import { appLockLockNow } from '@services/app_lock/lock';
 import { joinRequestsCountState } from '@states/congregation';
 import { dbMetadataReset } from '@services/dexie/metadata';
 import worker from '@services/worker/backupWorker';
@@ -34,8 +31,7 @@ const useCongregation = () => {
   const isUserAdmin = useAtomValue(adminRoleState);
   const joinRequestsCount = useAtomValue(joinRequestsCountState);
   const appLockEnabled = useAtomValue(appLockEnabledState);
-  const lockAfterMinutes = useAtomValue(appLockAfterMinutesState);
-  const setAppLocked = useSetAtom(isAppLockedState);
+  const { lock_after_minutes } = useAtomValue(appLockSettingsState);
 
   const requests_count = useMemo(() => {
     if (joinRequestsCount === 0) return;
@@ -80,10 +76,6 @@ const useCongregation = () => {
     worker.postMessage('startWorker');
   };
 
-  const handleLockApp = useCallback(() => {
-    setAppLocked(true);
-  }, [setAppLocked]);
-
   useEffect(() => {
     if (isConnected) {
       const svgIcon = document.querySelector('.organized-sync-icon');
@@ -126,12 +118,12 @@ const useCongregation = () => {
   return {
     secondaryText: getSecondaryText(),
     handleManualSync,
-    handleLockApp,
     isConnected,
     isUserAdmin,
     requests_count,
     appLockEnabled,
-    lockAfterMinutes,
+    lockAfterMinutes: lock_after_minutes,
+    handleLockApp: appLockLockNow,
   };
 };
 

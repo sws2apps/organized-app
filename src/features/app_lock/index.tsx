@@ -1,15 +1,32 @@
 import { useAtomValue } from 'jotai';
-import { appLockViewState } from '@states/app_lock';
-import UnlockScreen from './unlock_screen';
+import {
+  appLockNeedsPinState,
+  appLockViewState,
+  isAppLockedState,
+} from '@states/app_lock';
+import CreatePinScreen from './create_pin_screen';
 import ForgotPin from './forgot_pin';
+import UnlockScreen from './unlock_screen';
+import useAppLock from './useAppLock';
 
-type AppLockProps = { isExiting?: boolean };
-
-const AppLock = ({ isExiting = false }: AppLockProps) => {
+const AppLock = () => {
+  const isLocked = useAtomValue(isAppLockedState);
+  const needsPin = useAtomValue(appLockNeedsPinState);
   const view = useAtomValue(appLockViewState);
 
-  if (view === 'forgot') return <ForgotPin isExiting={isExiting} />;
-  return <UnlockScreen isExiting={isExiting} />;
+  useAppLock();
+
+  return (
+    <>
+      {view === 'forgot' ? (
+        <ForgotPin open={isLocked} />
+      ) : (
+        <UnlockScreen open={isLocked} />
+      )}
+
+      {!isLocked && needsPin && <CreatePinScreen />}
+    </>
+  );
 };
 
 export default AppLock;

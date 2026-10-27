@@ -81,7 +81,6 @@ const Dialog = ({
   children,
   sx,
   PaperProps,
-  TransitionProps,
   header,
   actions,
   title,
@@ -205,8 +204,6 @@ const Dialog = ({
             backgroundColor: 'var(--white)',
           },
         },
-
-        transition: TransitionProps,
       }}
     >
       {titleRow && (

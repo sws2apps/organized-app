@@ -22,14 +22,13 @@ const base64UrlDecode = (value: string): ArrayBuffer => {
   return bytes.buffer;
 };
 
-const randomChallenge = (): Uint8Array<ArrayBuffer> => {
-  const challenge = new Uint8Array(new ArrayBuffer(32));
-  crypto.getRandomValues(challenge);
-  return challenge;
+const randomBytes = (length: number): Uint8Array<ArrayBuffer> => {
+  const bytes = new Uint8Array(new ArrayBuffer(length));
+  crypto.getRandomValues(bytes);
+  return bytes;
 };
 
 export const isBiometricAvailable = async (): Promise<boolean> => {
-  if (globalThis.window === undefined) return false;
   if (!globalThis.PublicKeyCredential) return false;
 
   try {
@@ -40,23 +39,14 @@ export const isBiometricAvailable = async (): Promise<boolean> => {
 };
 
 export const registerBiometric = async (
-  userId: string,
-  userName: string,
-  displayName: string
+  userName: string
 ): Promise<{ credentialId: string }> => {
-  const userIdBytes = new Uint8Array(
-    new TextEncoder().encode(userId || userName || 'user')
-  );
-
   const credential = (await navigator.credentials.create({
     publicKey: {
-      challenge: randomChallenge(),
-      rp: { name: RP_NAME, id: globalThis.window.location.hostname },
-      user: {
-        id: userIdBytes,
-        name: userName || 'user',
-        displayName: displayName || userName || 'user',
-      },
+      challenge: randomBytes(32),
+      rp: { name: RP_NAME, id: location.hostname },
+      // the spec wants an opaque handle here, never personal data
+      user: { id: randomBytes(16), name: userName, displayName: userName },
       pubKeyCredParams: [
         { type: 'public-key', alg: -7 },
         { type: 'public-key', alg: -257 },
@@ -64,7 +54,7 @@ export const registerBiometric = async (
       authenticatorSelection: {
         authenticatorAttachment: 'platform',
         userVerification: 'required',
-        residentKey: 'preferred',
+        residentKey: 'discouraged',
       },
       timeout: 60_000,
       attestation: 'none',
@@ -78,15 +68,15 @@ export const registerBiometric = async (
   return { credentialId: base64UrlEncode(credential.rawId) };
 };
 
-// Local-only unlock: we trust the OS 'required' biometric/passcode check.
+// local-only unlock: the OS check behind userVerification is the proof
 export const verifyBiometric = async (
   credentialId: string
 ): Promise<boolean> => {
   try {
     const assertion = (await navigator.credentials.get({
       publicKey: {
-        challenge: randomChallenge(),
-        rpId: globalThis.window.location.hostname,
+        challenge: randomBytes(32),
+        rpId: location.hostname,
         allowCredentials: [
           {
             id: base64UrlDecode(credentialId),

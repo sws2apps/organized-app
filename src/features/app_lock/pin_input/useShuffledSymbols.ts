@@ -1,47 +1,39 @@
-import { useRef, useMemo } from 'react';
+import { useState } from 'react';
 
-const getSecureRandom = () => {
-  const randomBuffer = new Uint32Array(1);
-  globalThis.crypto.getRandomValues(randomBuffer);
-  return randomBuffer[0] / (0xffffffff + 1);
+const randomIndex = (max: number) => {
+  const buffer = new Uint32Array(1);
+  crypto.getRandomValues(buffer);
+  return buffer[0] % max;
 };
 
-const shuffle = <T>(array: readonly T[]): T[] => {
-  const result = [...array];
-  for (let i = result.length - 1; i > 0; i--) {
-    const j = Math.floor(getSecureRandom() * (i + 1));
-    [result[i], result[j]] = [result[j], result[i]];
+const pickSymbols = (length: number, poolSize: number) => {
+  const pool = Array.from({ length: poolSize }, (_, i) => i);
+
+  for (let i = pool.length - 1; i > 0; i--) {
+    const j = randomIndex(i + 1);
+    [pool[i], pool[j]] = [pool[j], pool[i]];
   }
-  return result;
+
+  return pool.slice(0, length);
 };
 
+// a fresh set of symbols for every new entry, stable while typing
 const useShuffledSymbols = (
   length: number,
   value: string,
   poolSize: number
-): number[] => {
-  const prevEmptyRef = useRef(true);
-  const orderRef = useRef<number[]>([]);
-  const poolSizeRef = useRef(poolSize);
+) => {
+  const isEmpty = value.length === 0;
 
-  return useMemo(() => {
-    const isEmpty = value.length === 0;
+  const [order, setOrder] = useState(() => pickSymbols(length, poolSize));
+  const [wasEmpty, setWasEmpty] = useState(isEmpty);
 
-    const configChanged =
-      orderRef.current.length !== length || poolSizeRef.current !== poolSize;
+  if (isEmpty !== wasEmpty) {
+    setWasEmpty(isEmpty);
+    if (isEmpty) setOrder(pickSymbols(length, poolSize));
+  }
 
-    if (
-      configChanged ||
-      (isEmpty && (!orderRef.current.length || !prevEmptyRef.current))
-    ) {
-      const pool = Array.from({ length: poolSize }, (_, i) => i);
-      orderRef.current = shuffle(pool).slice(0, length);
-      poolSizeRef.current = poolSize;
-    }
-
-    prevEmptyRef.current = isEmpty;
-    return orderRef.current;
-  }, [length, value, poolSize]);
+  return order;
 };
 
 export default useShuffledSymbols;

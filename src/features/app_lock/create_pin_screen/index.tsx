@@ -1,26 +1,24 @@
 import { Stack } from '@mui/material';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
+import { APP_LOCK_PIN_LENGTH } from '@constants/index';
 import Button from '@components/button';
 import IconLoading from '@components/icon_loading';
-import Typography from '@components/typography';
+import LockScreen from '../lock_screen';
 import PinInput from '../pin_input';
-import { AppLockCard, AppLockPage, PinFieldStack } from '../index.styles';
 import useCreatePinScreen from './useCreatePinScreen';
 
-const PIN_LENGTH = 4;
-
+// after a PIN reset the app asks for a new PIN before it opens again
 const CreatePinScreen = () => {
   const { t } = useAppTranslation();
-
   const { tablet600Down } = useBreakpoints();
 
   const {
+    step,
     title,
     description,
-    currentValue,
-    continueLabel,
-    hasError,
+    value,
     errorText,
+    continueLabel,
     isProcessing,
     handlePinChange,
     handleContinue,
@@ -28,62 +26,37 @@ const CreatePinScreen = () => {
   } = useCreatePinScreen();
 
   return (
-    <AppLockPage role="main" aria-label={title}>
-      <Stack spacing={3} sx={{ width: '100%', alignItems: 'center' }}>
-        <AppLockCard role="region" aria-label={title}>
-          <Stack spacing={1}>
-            <Typography className="h1" id="create-pin-heading">
-              {title}
-            </Typography>
-            <Typography className="body-regular" color="var(--grey-400)">
-              {description}
-            </Typography>
-          </Stack>
+    <LockScreen open title={title} description={description}>
+      <PinInput
+        key={step}
+        value={value}
+        onChange={handlePinChange}
+        onComplete={handleContinue}
+        onSubmit={() => handleContinue()}
+        error={errorText.length > 0}
+        helperText={errorText}
+        autoFocus={!tablet600Down}
+      />
 
-          <PinFieldStack>
-            <PinInput
-              length={PIN_LENGTH}
-              value={currentValue}
-              onChange={handlePinChange}
-              onSubmit={handleContinue}
-              variant={hasError ? 'error' : 'default'}
-              autoFocus={!tablet600Down}
-            />
-            <Typography
-              className="body-small-regular"
-              color="var(--red-dark)"
-              role="alert"
-              aria-live="assertive"
-              sx={{ minHeight: '20px', display: 'block' }}
-            >
-              {hasError ? errorText : ''}
-            </Typography>
-          </PinFieldStack>
+      <Stack spacing="8px">
+        <Button
+          variant="main"
+          disabled={value.length < APP_LOCK_PIN_LENGTH || isProcessing}
+          onClick={() => handleContinue()}
+          endIcon={isProcessing ? <IconLoading /> : undefined}
+        >
+          {continueLabel}
+        </Button>
 
-          <Stack spacing={1}>
-            <Button
-              variant="main"
-              disabled={currentValue.length < PIN_LENGTH || isProcessing}
-              onClick={handleContinue}
-              endIcon={
-                isProcessing ? (
-                  <IconLoading width={22} height={22} color="var(--black)" />
-                ) : undefined
-              }
-            >
-              {continueLabel}
-            </Button>
-            <Button
-              variant="secondary"
-              disabled={isProcessing}
-              onClick={handleTurnOff}
-            >
-              {t('tr_disableAppLock')}
-            </Button>
-          </Stack>
-        </AppLockCard>
+        <Button
+          variant="secondary"
+          disabled={isProcessing}
+          onClick={handleTurnOff}
+        >
+          {t('tr_appLockDisable')}
+        </Button>
       </Stack>
-    </AppLockPage>
+    </LockScreen>
   );
 };
 

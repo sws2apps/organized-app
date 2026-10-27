@@ -1,7 +1,21 @@
 import { Box, styled } from '@mui/material';
 
-export const PinInputContainer = styled(Box)({
-  width: 'fit-content',
+export const PinField = styled(Box)({
+  width: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  gap: '8px',
+});
+
+export const PinCells = styled(Box)({
+  position: 'relative',
   maxWidth: '100%',
-  margin: '0 auto',
-}) as unknown as typeof Box;
+});
+
+export const PinSymbols = styled(Box)({
+  position: 'absolute',
+  inset: 0,
+  display: 'flex',
+  pointerEvents: 'none',
+});

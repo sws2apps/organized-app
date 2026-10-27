@@ -3,17 +3,15 @@ import { useAppTranslation } from '@hooks/index';
 import Button from '@components/button';
 import IconLoading from '@components/icon_loading';
 import TextField from '@components/textfield';
-import Typography from '@components/typography';
-import { AppLockCard, AppLockPage } from '../index.styles';
+import LockScreen from '../lock_screen';
 import useForgotPin from './useForgotPin';
 
-const ForgotPin = ({ isExiting = false }: { isExiting?: boolean }) => {
+const ForgotPin = ({ open }: { open: boolean }) => {
   const { t } = useAppTranslation();
 
   const {
     email,
     isProcessing,
-    hasError,
     errorText,
     handleEmailChange,
     handleBack,
@@ -21,65 +19,40 @@ const ForgotPin = ({ isExiting = false }: { isExiting?: boolean }) => {
   } = useForgotPin();
 
   return (
-    <AppLockPage
-      role="main"
-      aria-label={t('tr_forgotPINTitle')}
-      exiting={isExiting}
+    <LockScreen
+      open={open}
+      title={t('tr_PINForgotTitle')}
+      description={t('tr_PINForgotDesc')}
     >
-      <AppLockCard
-        role="region"
-        aria-label={t('tr_forgotPINTitle')}
-        exiting={isExiting}
-      >
-        <Stack spacing={1}>
-          <Typography className="h1" id="forgot-pin-heading">
-            {t('tr_forgotPINTitle')}
-          </Typography>
-          <Typography className="body-regular" color="var(--grey-400)">
-            {t('tr_forgotPINDesc')}
-          </Typography>
-        </Stack>
+      <TextField
+        label={t('tr_email')}
+        type="email"
+        autoComplete="email"
+        autoFocus
+        value={email}
+        onChange={(e) => handleEmailChange(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') handleResetPin();
+        }}
+        error={errorText.length > 0}
+        helperText={errorText}
+      />
 
-        <TextField
-          label={t('tr_email')}
-          type="email"
-          value={email}
-          onChange={(e) => handleEmailChange(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' && email.trim() && !isProcessing) {
-              e.preventDefault();
-              handleResetPin();
-            }
-          }}
-          autoComplete="email"
-          error={hasError}
-          helperText={hasError ? errorText : ' '}
-        />
+      <Stack spacing="8px">
+        <Button
+          variant="main"
+          disabled={email.trim().length === 0 || isProcessing}
+          onClick={handleResetPin}
+          endIcon={isProcessing ? <IconLoading /> : undefined}
+        >
+          {t('tr_PINReset')}
+        </Button>
 
-        <Stack spacing={1}>
-          <Button
-            variant="main"
-            disabled={!email.trim() || isProcessing}
-            onClick={handleResetPin}
-            aria-label={t('tr_resetPIN')}
-            endIcon={
-              isProcessing ? (
-                <IconLoading width={22} height={22} color="var(--black)" />
-              ) : undefined
-            }
-          >
-            {t('tr_resetPIN')}
-          </Button>
-          <Button
-            variant="secondary"
-            onClick={handleBack}
-            aria-label={t('tr_back')}
-          >
-            {t('tr_back')}
-          </Button>
-        </Stack>
-      </AppLockCard>
-    </AppLockPage>
+        <Button variant="secondary" onClick={handleBack}>
+          {t('tr_back')}
+        </Button>
+      </Stack>
+    </LockScreen>
   );
 };
 

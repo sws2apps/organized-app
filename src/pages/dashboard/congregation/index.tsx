@@ -20,17 +20,13 @@ const CongregationCard = () => {
   const {
     secondaryText,
     handleManualSync,
-    handleLockApp,
     isConnected,
     isUserAdmin,
     requests_count,
     appLockEnabled,
     lockAfterMinutes,
+    handleLockApp,
   } = useCongregation();
-
-  const lockSecondaryText = lockAfterMinutes === -1
-    ? t('tr_lockAutoNever')
-    : t('tr_lockAutoAfter', { minutes: lockAfterMinutes });
 
   return (
     <DashboardCard
@@ -97,8 +93,12 @@ const CongregationCard = () => {
         <ListItem disablePadding>
           <DashboardMenu
             icon={<IconLock color="var(--black)" />}
-            primaryText={t('tr_lockTheApp')}
-            secondaryText={lockSecondaryText}
+            primaryText={t('tr_appLockLockNow')}
+            secondaryText={
+              lockAfterMinutes === -1
+                ? t('tr_appLockAutoOff')
+                : t('tr_appLockAutoLocksAfter', { minutes: lockAfterMinutes })
+            }
             onClick={handleLockApp}
           />
         </ListItem>

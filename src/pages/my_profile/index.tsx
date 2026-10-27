@@ -91,7 +91,7 @@ const MyProfile = () => {
         >
           <AppSettings />
 
-          <Security />
+          {isConnected && <Security />}
 
           {isConnected && <UserSessions />}
         </Box>

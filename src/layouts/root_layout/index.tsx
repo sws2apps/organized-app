@@ -1,6 +1,5 @@
-import { Suspense, useEffect, useRef, useState } from 'react';
+import { Suspense } from 'react';
 import { Outlet, ScrollRestoration } from 'react-router';
-import { useAtomValue } from 'jotai';
 import { Box, Container, Toolbar } from '@mui/material';
 import { IconClose } from '@components/icons';
 import { AppModalWrapper, WebWorkerWrapper } from '@wrapper/index';
@@ -10,14 +9,9 @@ import useConsoleWarning from '@hooks/useConsoleWarning';
 import useCurrentUser from '@hooks/useCurrentUser';
 import useGlobal from '@hooks/useGlobal';
 import useRootLayout from './useRootLayout';
-import useAppLock from '@features/app_lock/useAppLock';
-import { isAppLockedState } from '@states/app_lock';
-import { appLockNeedsPinState } from '@states/settings';
-import AppLock from '@features/app_lock';
-import CreatePinScreen from '@features/app_lock/create_pin_screen';
-import { EXIT_DURATION_MS } from '@features/app_lock/animations';
 import About from '@features/about';
 import AppFeedback from '@features/app_feedback';
+import AppLock from '@features/app_lock';
 import AppReminders from '@features/reminders';
 import PageTransition from '@components/page_transition';
 import AppUpdater from '@features/app_updater';
@@ -40,33 +34,8 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
   const { isSupported } = useGlobal();
 
   useConsoleWarning();
-  useAppLock();
 
   const { isPublisher } = useCurrentUser();
-  const isAppLocked = useAtomValue(isAppLockedState);
-  const createPinOpen = useAtomValue(appLockNeedsPinState);
-
-  // Keep AppLock mounted briefly after unlock so the exit animation plays.
-  const [showLock, setShowLock] = useState(isAppLocked);
-  const [isExiting, setIsExiting] = useState(false);
-  const exitTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  useEffect(() => {
-    if (isAppLocked) {
-      if (exitTimerRef.current) clearTimeout(exitTimerRef.current);
-      setIsExiting(false);
-      setShowLock(true);
-    } else if (showLock) {
-      setIsExiting(true);
-      exitTimerRef.current = setTimeout(() => {
-        setShowLock(false);
-        setIsExiting(false);
-      }, EXIT_DURATION_MS);
-    }
-    return () => {
-      if (exitTimerRef.current) clearTimeout(exitTimerRef.current);
-    };
-  }, [isAppLocked, showLock]);
 
   const {
     isAppLoad,
@@ -78,6 +47,7 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
     isDashboard,
     isDemoNoticeOpen,
     initialSetupOpen,
+    isAppLockShown,
   } = useRootLayout();
 
   return (
@@ -119,12 +89,9 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
 
               {isAppLoad && isTest && <DemoStartup />}
 
-              {!isAppLoad && showLock && <AppLock isExiting={isExiting} />}
+              {!isAppLoad && <AppLock />}
 
-              {/* the forgotten PIN was cleared after the email link sign-in */}
-              {!isAppLoad && !showLock && createPinOpen && <CreatePinScreen />}
-
-              {!isAppLoad && (!showLock || isExiting) ? (
+              {!isAppLoad && (
                 <Suspense
                   fallback={
                     isDashboard ? (
@@ -134,12 +101,19 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
                     )
                   }
                 >
-                  {isTest && <DemoNotice />}
+                  {/* a dialog opened later would take the focus from the lock screen */}
+                  {!isAppLockShown && (
+                    <>
+                      {isTest && <DemoNotice />}
 
-                  {!initialSetupOpen &&
-                    (!isTest || (isTest && !isDemoNoticeOpen)) && <WhatsNew />}
+                      {!initialSetupOpen &&
+                        (!isTest || (isTest && !isDemoNoticeOpen)) && (
+                          <WhatsNew />
+                        )}
 
-                  {!isTest && initialSetupOpen && <InitialSetup />}
+                      {!isTest && initialSetupOpen && <InitialSetup />}
+                    </>
+                  )}
 
                   {isPublisher && <AppReminders />}
 
@@ -150,7 +124,7 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
                     </PageTransition>
                   </Box>
                 </Suspense>
-              ) : null}
+              )}
             </>
           )}
         </Container>

@@ -1,117 +1,90 @@
-import { useEffect, useLayoutEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { isAppLoadState } from '@states/app';
 import {
-  appLockAfterMinutesState,
   appLockEnabledState,
-} from '@states/settings';
-import { appLockViewState, isAppLockedState } from '@states/app_lock';
+  appLockSettingsState,
+  isAppLockedState,
+} from '@states/app_lock';
+import { STORAGE_KEY } from '@constants/index';
+import { appLockLockNow } from '@services/app_lock/lock';
+import { appLockRefresh } from '@services/app_lock/storage';
 
 const ACTIVITY_EVENTS = [
-  'mousemove',
-  'mousedown',
+  'pointerdown',
+  'pointermove',
   'keydown',
-  'touchstart',
-  'scroll',
   'wheel',
+  'scroll',
+  'touchstart',
 ] as const;
 
 const useAppLock = () => {
-  const isAppLoad = useAtomValue(isAppLoadState);
   const enabled = useAtomValue(appLockEnabledState);
-  const lockAfterMinutes = useAtomValue(appLockAfterMinutesState);
-
+  const { lock_after_minutes } = useAtomValue(appLockSettingsState);
   const isLocked = useAtomValue(isAppLockedState);
   const setIsLocked = useSetAtom(isAppLockedState);
-  const setView = useSetAtom(appLockViewState);
 
-  // never unlock from the URL: startup completes PIN reset links before load
-
-  const coldStartGate = useRef(false);
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  useLayoutEffect(() => {
-    if (isAppLoad) {
-      coldStartGate.current = false;
-      setIsLocked(false);
-      return;
-    }
-
-    if (!enabled) {
-      coldStartGate.current = false;
-      setIsLocked(false);
-      return;
-    }
-
-    if (!coldStartGate.current) {
-      coldStartGate.current = true;
-      setView('unlock');
-      setIsLocked(true);
-    }
-  }, [isAppLoad, enabled, setIsLocked, setView]);
+  // e.g. the PIN was reset or turned off in another tab
+  useEffect(() => {
+    if (!enabled) setIsLocked(false);
+  }, [enabled, setIsLocked]);
 
   useEffect(() => {
-    if (!enabled || isLocked || isAppLoad) return;
-    if (lockAfterMinutes < 0) return;
-
-    const lockAfterMs = Math.max(0, lockAfterMinutes) * 60_000;
-
-    const lockNow = () => {
-      setView('unlock');
-      setIsLocked(true);
+    const handleStorage = (e: StorageEvent) => {
+      if (e.key === STORAGE_KEY.app_lock) appLockRefresh();
     };
 
-    if (lockAfterMs === 0) {
-      lockNow();
-      return;
-    }
+    globalThis.addEventListener('storage', handleStorage);
 
-    // timers pause in background tabs, so elapsed time is rechecked on return
+    return () => globalThis.removeEventListener('storage', handleStorage);
+  }, []);
+
+  useEffect(() => {
+    if (!enabled || isLocked || lock_after_minutes < 0) return;
+
+    const timeout = lock_after_minutes * 60_000;
+
     let lastActivity = Date.now();
+    let timer: ReturnType<typeof setTimeout>;
 
-    const schedule = (delay: number) => {
-      if (timerRef.current) clearTimeout(timerRef.current);
-      timerRef.current = setTimeout(lockNow, delay);
+    // activity only stamps the time, the timer checks it when it fires
+    const check = () => {
+      const remaining = timeout - (Date.now() - lastActivity);
+
+      if (remaining <= 0) appLockLockNow();
+      else timer = setTimeout(check, remaining);
     };
 
-    const resetTimer = () => {
+    const markActive = () => {
       lastActivity = Date.now();
-      schedule(lockAfterMs);
     };
 
-    const checkElapsed = () => {
-      if (document.visibilityState === 'hidden') return;
+    // background tabs pause timers, so the time away counts on return
+    const handleVisibility = () => {
+      if (document.visibilityState !== 'visible') return;
 
-      const remaining = lockAfterMs - (Date.now() - lastActivity);
-
-      if (remaining <= 0) {
-        lockNow();
-        return;
-      }
-
-      schedule(remaining);
+      clearTimeout(timer);
+      check();
     };
 
-    resetTimer();
+    timer = setTimeout(check, timeout);
 
     for (const event of ACTIVITY_EVENTS) {
-      globalThis.addEventListener(event, resetTimer, { passive: true });
+      globalThis.addEventListener(event, markActive, { passive: true });
     }
 
-    document.addEventListener('visibilitychange', checkElapsed);
-    globalThis.addEventListener('focus', checkElapsed);
-    globalThis.addEventListener('pageshow', checkElapsed);
+    document.addEventListener('visibilitychange', handleVisibility);
 
     return () => {
-      if (timerRef.current) clearTimeout(timerRef.current);
+      clearTimeout(timer);
+
       for (const event of ACTIVITY_EVENTS) {
-        globalThis.removeEventListener(event, resetTimer);
+        globalThis.removeEventListener(event, markActive);
       }
-      document.removeEventListener('visibilitychange', checkElapsed);
-      globalThis.removeEventListener('focus', checkElapsed);
-      globalThis.removeEventListener('pageshow', checkElapsed);
+
+      document.removeEventListener('visibilitychange', handleVisibility);
     };
-  }, [enabled, isLocked, isAppLoad, lockAfterMinutes, setIsLocked, setView]);
+  }, [enabled, isLocked, lock_after_minutes]);
 };
 
 export default useAppLock;

@@ -4,6 +4,7 @@ import { useAppTranslation } from '@hooks/index';
 import { displayOnboardingFeedback } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { apiHandleVerifyOTP } from '@services/api/user';
+import { appLockCompletePinReset } from '@services/app_lock/reset';
 import {
   isEncryptionCodeOpenState,
   isUnauthorizedRoleState,
@@ -166,6 +167,7 @@ const useVerifyMFA = () => {
         throw new Error(data?.message);
       }
 
+      appLockCompletePinReset();
       handleAuthorization(data);
     } catch (error) {
       console.error(error);

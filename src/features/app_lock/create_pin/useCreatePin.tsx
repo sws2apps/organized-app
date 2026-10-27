@@ -1,9 +1,9 @@
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import { useAtomValue } from 'jotai';
-import { TFunction } from 'i18next';
 import { useAppTranslation } from '@hooks/index';
-import { appLockSettingsState } from '@states/settings';
-import { appLockUpdate } from '@services/app_lock/storage';
+import { appLockSettingsState } from '@states/app_lock';
+import { APP_LOCK_PIN_LENGTH } from '@constants/index';
+import { appLockClearPin, appLockUpdate } from '@services/app_lock/storage';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import {
@@ -13,219 +13,154 @@ import {
   verifyPin,
 } from '@services/app_lock/crypto';
 
+export type CreatePinMode = 'create' | 'change' | 'disable';
+
 type Step = 'current' | 'new' | 'confirm';
-type Mode = 'create' | 'change' | 'disable';
 
-const PIN_PATTERN = /^\d{4}$/;
-
-const initialStep = (mode: Mode): Step =>
-  mode === 'create' ? 'new' : 'current';
-
-const getStepLabels = (
-  step: Step,
-  mode: Mode,
-  t: TFunction
-): { title: string; description: string } => {
-  if (step === 'current') {
-    if (mode === 'disable') {
-      return {
-        title: t('tr_disableAppLock'),
-        description: t('tr_enterCurrentPIN'),
-      };
-    }
-    return {
-      title: t('tr_changePIN'),
-      description: t('tr_enterCurrentPIN'),
-    };
-  }
-  if (step === 'new') {
-    return mode === 'change'
-      ? { title: t('tr_createNewPIN'), description: t('tr_createNewPINDesc') }
-      : { title: t('tr_PINCreate'), description: t('tr_PINCreateDesc') };
-  }
-  return { title: t('tr_PINConfirm'), description: t('tr_PINConfirmDesc') };
-};
-
-const useCreatePin = (mode: Mode, onClose: VoidFunction) => {
+const useCreatePin = (mode: CreatePinMode, onDone: VoidFunction) => {
   const { t } = useAppTranslation();
+
   const appLock = useAtomValue(appLockSettingsState);
 
-  const [step, setStep] = useState<Step>(initialStep(mode));
-  const [currentPin, setCurrentPin] = useState('');
+  const [step, setStep] = useState<Step>(mode === 'create' ? 'new' : 'current');
+  const [value, setValue] = useState('');
   const [newPin, setNewPin] = useState('');
-  const [confirmPin, setConfirmPin] = useState('');
-  const [hasError, setHasError] = useState(false);
   const [errorText, setErrorText] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
 
-  const reset = useCallback(() => {
-    setStep(initialStep(mode));
-    setCurrentPin('');
-    setNewPin('');
-    setConfirmPin('');
-    setHasError(false);
+  const goTo = (next: Step, error = '') => {
+    setStep(next);
+    setValue('');
+    setErrorText(error);
+  };
+
+  const showError = (error: unknown) => {
+    displaySnackNotification({
+      header: getMessageByCode('error_app_generic-title'),
+      message: getMessageByCode((error as Error).message),
+      severity: 'error',
+    });
+  };
+
+  const verifyCurrentPin = async (pin: string) => {
+    const { pin_hash, pin_salt, pin_iterations } = appLock;
+
+    if (!pin_hash || !pin_salt) return false;
+
+    return verifyPin(pin, pin_hash, pin_salt, pin_iterations).catch(
+      () => false
+    );
+  };
+
+  const saveNewPin = async (pin: string) => {
+    const salt = generateSalt();
+
+    appLockUpdate({
+      enabled: true,
+      pin_create_pending: false,
+      failed_attempts: 0,
+      locked_until: undefined,
+      pin_hash: await hashPin(pin, salt),
+      pin_salt: salt,
+      pin_iterations: APP_LOCK_PBKDF2_ITERATIONS,
+    });
+
+    displaySnackNotification({
+      header: t('tr_PINNewSet'),
+      message: t('tr_PINNewSetDesc'),
+      severity: 'success',
+    });
+  };
+
+  const disableAppLock = () => {
+    appLockClearPin();
+
+    displaySnackNotification({
+      header: t('tr_appLockOff'),
+      message: t('tr_appLockOffDesc'),
+      severity: 'success',
+    });
+  };
+
+  const handlePinChange = (pin: string) => {
     setErrorText('');
-  }, [mode]);
-
-  const showError = (message: string) => {
-    setHasError(true);
-    setErrorText(message);
+    setValue(pin);
   };
 
-  const clearError = () => {
-    setHasError(false);
-    setErrorText('');
-  };
+  const handleContinue = async (pin = value) => {
+    if (isProcessing || pin.length < APP_LOCK_PIN_LENGTH) return;
 
-  const pinSetters: Record<Step, (value: string) => void> = {
-    current: setCurrentPin,
-    new: setNewPin,
-    confirm: setConfirmPin,
-  };
-
-  const handlePinChange = (value: string) => {
-    clearError();
-    pinSetters[step](value);
-  };
-
-  const verifyCurrentPin = async (): Promise<boolean> => {
-    if (!appLock?.pin_hash || !appLock?.pin_salt) return false;
-    setIsProcessing(true);
-    try {
-      return await verifyPin(
-        currentPin,
-        appLock.pin_hash,
-        appLock.pin_salt,
-        appLock.pin_iterations ?? APP_LOCK_PBKDF2_ITERATIONS
-      );
-    } catch {
-      return false;
-    } finally {
-      setIsProcessing(false);
+    if (step === 'new') {
+      setNewPin(pin);
+      goTo('confirm');
+      return;
     }
-  };
 
-  const persistNewPin = async () => {
-    if (!PIN_PATTERN.test(newPin)) return;
     setIsProcessing(true);
+
     try {
-      const salt = generateSalt();
-      const hash = await hashPin(newPin, salt);
-      const now = new Date().toISOString();
+      if (step === 'current') {
+        if (!(await verifyCurrentPin(pin))) {
+          goTo('current', t('tr_PINWrong'));
+          return;
+        }
 
-      appLockUpdate({
-        enabled: { value: true, updatedAt: now },
-        pin_create_pending: { value: false, updatedAt: now },
-        pin_hash: hash,
-        pin_salt: salt,
-        pin_iterations: APP_LOCK_PBKDF2_ITERATIONS,
-      });
+        if (mode === 'disable') {
+          disableAppLock();
+          onDone();
+          return;
+        }
 
-      displaySnackNotification({
-        header: t('tr_PINNewSet'),
-        message: t('tr_PINNewSetDesc'),
-        severity: 'success',
-      });
-
-      onClose();
-    } catch (error) {
-      displaySnackNotification({
-        header: getMessageByCode('error_app_generic-title'),
-        message: getMessageByCode(error instanceof Error ? error.message : ''),
-        severity: 'error',
-      });
-    } finally {
-      setIsProcessing(false);
-    }
-  };
-
-  const disableAppLock = async () => {
-    setIsProcessing(true);
-    try {
-      const now = new Date().toISOString();
-      appLockUpdate({
-        enabled: { value: false, updatedAt: now },
-        pin_hash: undefined,
-        pin_salt: undefined,
-        pin_iterations: undefined,
-        biometric_enabled: { value: false, updatedAt: now },
-        webauthn_credential_id: undefined,
-      });
-      onClose();
-    } catch (error) {
-      displaySnackNotification({
-        header: getMessageByCode('error_app_generic-title'),
-        message: getMessageByCode(error instanceof Error ? error.message : ''),
-        severity: 'error',
-      });
-    } finally {
-      setIsProcessing(false);
-    }
-  };
-
-  const handleCurrentStep = async () => {
-    const ok = await verifyCurrentPin();
-    if (ok) {
-      if (mode === 'disable') {
-        await disableAppLock();
+        goTo('new');
         return;
       }
-      setStep('new');
-      return;
+
+      if (pin !== newPin) {
+        goTo('new', t('tr_PINMismatch'));
+        return;
+      }
+
+      await saveNewPin(pin);
+      onDone();
+    } catch (error) {
+      showError(error);
+    } finally {
+      setIsProcessing(false);
     }
-    showError(t('tr_wrongPINTryAgain'));
-    setCurrentPin('');
   };
 
-  const handleConfirmStep = async () => {
-    if (confirmPin === newPin) {
-      await persistNewPin();
-      return;
-    }
-    showError(t('tr_pinMismatch'));
-    setConfirmPin('');
-    setNewPin('');
-    setStep('new');
-  };
+  let title = t('tr_PINConfirm');
+  let description = t('tr_PINConfirmDesc');
 
-  const handleContinue = async () => {
-    if (isProcessing) return;
-    if (step === 'current') return handleCurrentStep();
-    if (step === 'new') {
-      if (!PIN_PATTERN.test(newPin)) return;
-      setStep('confirm');
-      return;
-    }
-    return handleConfirmStep();
-  };
+  if (step === 'current') {
+    title = mode === 'disable' ? t('tr_appLockDisable') : t('tr_PINChange');
+    description = t('tr_PINEnterCurrent');
+  }
 
-  const pinValues: Record<Step, string> = {
-    current: currentPin,
-    new: newPin,
-    confirm: confirmPin,
-  };
+  if (step === 'new' && mode === 'change') {
+    title = t('tr_PINCreateNew');
+    description = t('tr_PINCreateNewDesc');
+  }
 
-  const { title, description } = getStepLabels(step, mode, t);
+  if (step === 'new' && mode !== 'change') {
+    title = t('tr_PINCreate');
+    description = t('tr_PINCreateDesc');
+  }
 
   let continueLabel = t('tr_continue');
-  if (mode === 'disable') {
-    continueLabel = t('tr_disable');
-  } else if (step === 'confirm') {
-    continueLabel = t('tr_PINSet');
-  }
+  if (step === 'current' && mode === 'disable') continueLabel = t('tr_disable');
+  if (step === 'confirm') continueLabel = t('tr_PINSet');
 
   return {
     step,
     title,
     description,
-    currentValue: pinValues[step],
-    continueLabel,
-    hasError,
+    value,
     errorText,
+    continueLabel,
     isProcessing,
     handlePinChange,
     handleContinue,
-    reset,
   };
 };
 

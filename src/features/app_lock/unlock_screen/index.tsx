@@ -1,20 +1,24 @@
 import { Stack } from '@mui/material';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
+import { APP_LOCK_PIN_LENGTH } from '@constants/index';
 import Button from '@components/button';
-import Typography from '@components/typography';
+import IconLoading from '@components/icon_loading';
+import LockScreen from '../lock_screen';
 import PinInput from '../pin_input';
-import { AppLockCard, AppLockPage, PinFieldStack } from '../index.styles';
 import useUnlockScreen from './useUnlockScreen';
 
-const UnlockScreen = ({ isExiting = false }: { isExiting?: boolean }) => {
+const UnlockScreen = ({ open }: { open: boolean }) => {
   const { t } = useAppTranslation();
   const { tablet600Down } = useBreakpoints();
 
   const {
+    pinRef,
     pin,
-    pinLength,
-    isProcessing,
     hasError,
+    helperText,
+    unlockLabel,
+    isProcessing,
+    isCoolingDown,
     biometricEnabled,
     handlePinChange,
     handleUnlock,
@@ -23,77 +27,48 @@ const UnlockScreen = ({ isExiting = false }: { isExiting?: boolean }) => {
   } = useUnlockScreen();
 
   return (
-    <AppLockPage
-      role="main"
-      aria-label={t('tr_enterPinToUnlock')}
-      exiting={isExiting}
+    <LockScreen
+      open={open}
+      title={t('tr_PINUnlock')}
+      description={t('tr_PINUnlockDesc')}
     >
-      <Stack spacing={3} sx={{ width: '100%', alignItems: 'center' }}>
-        <AppLockCard
-          role="region"
-          aria-label={t('tr_enterPinToUnlock')}
-          exiting={isExiting}
-        >
-          <Stack spacing={1}>
-            <Typography className="h1" id="unlock-heading">
-              {t('tr_enterPinToUnlock')}
-            </Typography>
-            <Typography className="body-regular" color="var(--grey-400)">
-              {t('tr_enterPinToUnlockDesc')}
-            </Typography>
-          </Stack>
+      <PinInput
+        ref={pinRef}
+        value={pin}
+        onChange={handlePinChange}
+        onComplete={handleUnlock}
+        onSubmit={() => handleUnlock()}
+        error={hasError}
+        helperText={helperText}
+        disabled={isCoolingDown}
+        autoFocus={!tablet600Down}
+      />
 
-          <PinFieldStack>
-            <PinInput
-              length={pinLength}
-              value={pin}
-              onChange={handlePinChange}
-              onSubmit={() => handleUnlock()}
-              variant={hasError ? 'error' : 'default'}
-              autoFocus={!tablet600Down}
-            />
-            <Typography
-              className="body-small-regular"
-              color="var(--red-dark)"
-              role="alert"
-              aria-live="assertive"
-              sx={{ minHeight: '20px', display: 'block' }}
-            >
-              {hasError ? t('tr_wrongPINTryAgain') : ''}
-            </Typography>
-          </PinFieldStack>
-
-          <Stack spacing={1}>
-            {biometricEnabled && (
-              <Button
-                variant="secondary"
-                onClick={handleBiometric}
-                disabled={isProcessing}
-                aria-label={t('tr_biometricUnlock')}
-              >
-                {t('tr_biometricUnlock')}
-              </Button>
-            )}
-            <Button
-              variant="main"
-              disabled={pin.length < pinLength || isProcessing}
-              onClick={() => handleUnlock()}
-              aria-label={t('tr_unlock')}
-            >
-              {t('tr_unlock')}
-            </Button>
-          </Stack>
-        </AppLockCard>
-
+      <Stack spacing="8px">
         <Button
-          variant="secondary"
-          onClick={handleForgot}
-          aria-label={t('tr_forgotYourPIN')}
+          variant="main"
+          disabled={pin.length < APP_LOCK_PIN_LENGTH || isProcessing}
+          onClick={() => handleUnlock()}
+          endIcon={isProcessing ? <IconLoading /> : undefined}
         >
-          {t('tr_forgotYourPIN')}
+          {unlockLabel}
+        </Button>
+
+        {biometricEnabled && (
+          <Button
+            variant="tertiary"
+            disabled={isProcessing}
+            onClick={handleBiometric}
+          >
+            {t('tr_appLockBiometric')}
+          </Button>
+        )}
+
+        <Button variant="secondary" onClick={handleForgot}>
+          {t('tr_PINForgot')}
         </Button>
       </Stack>
-    </AppLockPage>
+    </LockScreen>
   );
 };
 

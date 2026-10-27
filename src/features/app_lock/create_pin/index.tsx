@@ -1,32 +1,28 @@
-import { useRef } from 'react';
 import { useAppTranslation } from '@hooks/index';
+import { APP_LOCK_PIN_LENGTH } from '@constants/index';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
-import Typography from '@components/typography';
+import DialogActions from '@components/dialog_actions';
 import IconLoading from '@components/icon_loading';
-import PinInput, { PinInputHandle } from '../pin_input';
-import { DialogActionsStack, PinFieldStack } from '../index.styles';
-import useCreatePin from './useCreatePin';
+import PinInput from '../pin_input';
+import useCreatePin, { CreatePinMode } from './useCreatePin';
 
 type CreatePinProps = {
   open: boolean;
-  mode?: 'create' | 'change' | 'disable';
+  mode: CreatePinMode;
   onClose: VoidFunction;
 };
 
-const PIN_LENGTH = 4;
-
-const CreatePin = ({ open, mode = 'create', onClose }: CreatePinProps) => {
+const CreatePin = ({ open, mode, onClose }: CreatePinProps) => {
   const { t } = useAppTranslation();
-  const pinRef = useRef<PinInputHandle>(null);
 
   const {
+    step,
     title,
     description,
-    currentValue,
-    continueLabel,
-    hasError,
+    value,
     errorText,
+    continueLabel,
     isProcessing,
     handlePinChange,
     handleContinue,
@@ -36,56 +32,34 @@ const CreatePin = ({ open, mode = 'create', onClose }: CreatePinProps) => {
     <Dialog
       open={open}
       onClose={onClose}
-      TransitionProps={{ onEntered: () => pinRef.current?.focus() }}
+      title={title}
+      description={description}
     >
-      <Typography className="h1" id="create-pin-heading">
-        {title}
-      </Typography>
-      <Typography
-        className="body-regular"
-        color="var(--grey-400)"
-        id="create-pin-description"
-      >
-        {description}
-      </Typography>
+      <PinInput
+        key={step}
+        value={value}
+        onChange={handlePinChange}
+        onComplete={handleContinue}
+        onSubmit={() => handleContinue()}
+        error={errorText.length > 0}
+        helperText={errorText}
+        autoFocus
+      />
 
-      <PinFieldStack sx={{ width: '100%' }}>
-        <PinInput
-          ref={pinRef}
-          length={PIN_LENGTH}
-          value={currentValue}
-          onChange={handlePinChange}
-          onSubmit={handleContinue}
-          variant={hasError ? 'error' : 'default'}
-          autoFocus={false}
-        />
-        <Typography
-          className="body-small-regular"
-          color="var(--red-dark)"
-          role="alert"
-          aria-live="assertive"
-        >
-          {hasError && errorText ? errorText : ' '}
-        </Typography>
-      </PinFieldStack>
-
-      <DialogActionsStack>
-        <Button
-          variant="main"
-          disabled={currentValue.length < PIN_LENGTH || isProcessing}
-          onClick={handleContinue}
-          endIcon={
-            isProcessing ? (
-              <IconLoading width={22} height={22} color="var(--black)" />
-            ) : undefined
-          }
-        >
-          {continueLabel}
-        </Button>
+      <DialogActions>
         <Button variant="secondary" onClick={onClose}>
           {t('tr_cancel')}
         </Button>
-      </DialogActionsStack>
+
+        <Button
+          variant="main"
+          disabled={value.length < APP_LOCK_PIN_LENGTH || isProcessing}
+          onClick={() => handleContinue()}
+          endIcon={isProcessing ? <IconLoading /> : undefined}
+        >
+          {continueLabel}
+        </Button>
+      </DialogActions>
     </Dialog>
   );
 };
