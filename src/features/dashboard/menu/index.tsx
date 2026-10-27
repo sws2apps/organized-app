@@ -35,9 +35,6 @@ const DashboardMenu = (props: DashboardMenuProps) => {
           '& p': {
             color: hoverTextColor,
           },
-          '& .secondary-text': {
-            color: isGroup ? 'var(--red-secondary)' : 'var(--accent-400)',
-          },
           '& svg, & svg g, & svg g path': {
             fill: hoverTextColor,
           },
@@ -84,12 +81,17 @@ const DashboardMenu = (props: DashboardMenuProps) => {
                 </Typography>
                 {props.secondaryText && props.secondaryText.length > 0 && (
                   <Typography
-                    className="label-small-regular secondary-text"
+                    className="label-small-regular"
                     sx={{
                       color: 'var(--grey-350)',
                       overflow: 'hidden',
                       textOverflow: 'ellipsis',
                       whiteSpace: 'nowrap',
+                      '.MuiListItemButton-root:hover &': {
+                        color: isGroup
+                          ? 'var(--red-secondary)'
+                          : 'var(--accent-400)',
+                      },
                     }}
                   >
                     {props.secondaryText}

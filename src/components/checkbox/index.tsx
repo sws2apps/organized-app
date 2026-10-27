@@ -39,12 +39,12 @@ const Checkbox = (props: CheckboxPropsType) => {
         width: 'fit-content',
         ...(isBorder && { ...StyleCheckboxBorder }),
         ...(isBorder && checked && { ...StyleCheckboxBorderChecked }),
-        ...sx,
         '& .MuiFormControlLabel-label': {
           display: 'flex',
           flexDirection: 'column',
           gap: '4px',
         },
+        ...sx,
         '&.Mui-disabled': {
           opacity: 1,
           '& p': {
