@@ -32,6 +32,8 @@ export type BackupDataType = {
   sources?: object;
   meeting_attendance?: object;
   upcoming_events?: UpcomingEventType[];
+  volunteer_activities?: object;
+  volunteer_activity_participants?: object;
   cong_users?: CongUserType[];
   metadata?: Record<string, string>;
   delegated_field_service_reports?: object;

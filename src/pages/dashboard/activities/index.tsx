@@ -1,11 +1,17 @@
 import { ListItem } from '@mui/material';
-import { IconNextEvents } from '@icons/index';
-import { useAppTranslation } from '@hooks/index';
+import { useAtomValue } from 'jotai';
+import { IconCollaborativeActivities, IconNextEvents } from '@icons/index';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
+import { congAccountConnectedState } from '@states/app';
 import DashboardCard from '@features/dashboard/card';
 import DashboardMenu from '@features/dashboard/menu';
 
 const ActivitiesCard = () => {
   const { t } = useAppTranslation();
+
+  const { isAdmin, isPublisher } = useCurrentUser();
+
+  const isConnected = useAtomValue(congAccountConnectedState);
 
   return (
     <DashboardCard header={t('tr_activitiesCard')}>
@@ -16,6 +22,16 @@ const ActivitiesCard = () => {
           path="/activities/upcoming-events"
         />
       </ListItem>
+
+      {(isPublisher || isAdmin) && isConnected && (
+        <ListItem disablePadding>
+          <DashboardMenu
+            icon={<IconCollaborativeActivities color="var(--black)" />}
+            primaryText={t('tr_volunteerActivities')}
+            path="/activities/volunteer-activities"
+          />
+        </ListItem>
+      )}
     </DashboardCard>
   );
 };

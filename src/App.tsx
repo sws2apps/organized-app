@@ -66,6 +66,9 @@ const ApplicationDetails = lazy(
   () => import('@pages/persons/application_details')
 );
 const UpcomingEvents = lazy(() => import('@pages/activities/upcoming_events'));
+const VolunteerActivities = lazy(
+  () => import('@pages/activities/volunteer_activities')
+);
 
 const queryClient = new QueryClient();
 
@@ -120,6 +123,19 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
             {
               path: '/activities/upcoming-events',
               element: <UpcomingEvents />,
+            },
+            {
+              element: (
+                <RouteProtected
+                  allowed={(isPublisher || isAdmin) && isConnected}
+                />
+              ),
+              children: [
+                {
+                  path: '/activities/volunteer-activities',
+                  element: <VolunteerActivities />,
+                },
+              ],
             },
 
             // publisher routes
