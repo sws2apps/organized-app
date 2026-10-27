@@ -17,7 +17,7 @@ const IconDuties = ({
 }: IconProps) => {
   return (
     <SvgIcon
-      className={['organized-icon-duties', className].filter(Boolean).join(' ')}
+      className={`organized-icon-duties ${className}`}
       sx={{ width: `${width}px`, height: `${height}px`, ...sx }}
     >
       <svg
