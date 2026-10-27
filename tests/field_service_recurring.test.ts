@@ -85,11 +85,7 @@ test('recurring Sunday stays in the selected year-boundary week', () => {
 });
 test('invalid selected date skips recurring prefilling', () => {
   assert.equal(
-    getGroupRecurringStart(
-      settings(0, '09:30'),
-      'group',
-      new Date('invalid')
-    ),
+    getGroupRecurringStart(settings(0, '09:30'), 'group', new Date('invalid')),
     null
   );
 });
@@ -97,8 +93,5 @@ test('missing recurring fields skip prefilling', () => {
   const incomplete = {
     cong_settings: { field_service_meeting_times: [{ type: 'group' }] },
   } as SettingsType;
-  assert.equal(
-    getGroupRecurringStart(incomplete, 'group', new Date()),
-    null
-  );
+  assert.equal(getGroupRecurringStart(incomplete, 'group', new Date()), null);
 });
