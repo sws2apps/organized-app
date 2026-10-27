@@ -1079,6 +1079,7 @@
   "tr_territoryTheMapPausedBecauseTheDeviceRanOutOf": "The map paused because the device ran out of graphics resources.",
   "tr_territoryTheMapCouldNotBeLoaded": "The map could not be loaded. Check the connection and try again.",
   "tr_territoryReloadMap": "Reload map",
+  "tr_territoryS13CampaignMark": "C",
   "tr_territoryDrawALineAcrossTheTerritory": "Draw a line across the territory",
   "tr_territoryPickTheNeighbouringTerritories": "Pick the neighbouring territories",
   "tr_territoryGaps": "Gaps",
