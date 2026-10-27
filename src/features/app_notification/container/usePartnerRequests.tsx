@@ -1,4 +1,7 @@
-import { PARTNER_SYNC_INTERVAL } from '@constants/preaching_partner';
+import {
+  PARTNER_NOTIFICATION_PREFIX,
+  PARTNER_SYNC_INTERVAL,
+} from '@constants/preaching_partner';
 import {
   fullnameOptionState,
   hour24FormatState,
@@ -19,8 +22,6 @@ import { personsActiveState } from '@states/persons';
 import { preachingPartnerTimeLabel } from '@services/app/preaching_partner';
 import { formatLongDateWithShortVars } from '@utils/date';
 import { useAppTranslation } from '@hooks/index';
-
-const NOTIFICATION_PREFIX = 'partner-request-joined-';
 
 const usePartnerRequests = () => {
   const { t } = useAppTranslation();
@@ -67,8 +68,10 @@ const usePartnerRequests = () => {
           )
         : t('tr_partnerUnavailable');
 
+      const id = `${PARTNER_NOTIFICATION_PREFIX}${userUID}-${request.request_uid}-${request.request_data.arranged_at}`;
+
       const notification: StandardNotificationType = {
-        id: `${NOTIFICATION_PREFIX}${userUID}-${request.request_uid}-${request.request_data.arranged_at}`,
+        id,
         title: t('tr_partnerRequestJoined'),
         description: t('tr_partnerRequestJoinedDesc', {
           publisherName,
@@ -80,9 +83,7 @@ const usePartnerRequests = () => {
           request.request_data.arranged_at ?? request.request_data.updatedAt,
         icon: 'ministry',
         enableRead: true,
-        read: readNotifications.includes(
-          `${NOTIFICATION_PREFIX}${userUID}-${request.request_uid}-${request.request_data.arranged_at}`
-        ),
+        read: readNotifications.includes(id),
       };
 
       return notification;
@@ -90,7 +91,7 @@ const usePartnerRequests = () => {
 
     setNotifications((prev) => {
       const kept = prev.filter(
-        (record) => !record.id.startsWith(NOTIFICATION_PREFIX)
+        (record) => !record.id.startsWith(PARTNER_NOTIFICATION_PREFIX)
       );
 
       // an already dismissed notification keeps its read state

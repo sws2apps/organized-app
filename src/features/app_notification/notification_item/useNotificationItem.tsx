@@ -1,3 +1,4 @@
+import { PARTNER_NOTIFICATION_PREFIX } from '@constants/preaching_partner';
 import { displaySnackNotification } from '@services/states/app';
 import { getTranslation } from '@services/i18n/translation';
 import { partnerReadNotificationState } from '@states/preaching_partner';
@@ -30,7 +31,7 @@ const useNotificationItem = (notification: NotificationRecordType) => {
   }, [hour24, shortDateFormat, notification.date]);
 
   const handleMarkAsRead = async () => {
-    if (notification.id.startsWith('partner-request-joined-')) {
+    if (notification.id.startsWith(PARTNER_NOTIFICATION_PREFIX)) {
       try {
         await readPartnerNotification(notification.id);
       } catch {
@@ -86,7 +87,7 @@ const useNotificationItem = (notification: NotificationRecordType) => {
       navigate('/reports/field-service');
     }
 
-    if (notification.id.startsWith('partner-request-joined-')) {
+    if (notification.id.startsWith(PARTNER_NOTIFICATION_PREFIX)) {
       navigate('/find-a-preaching-partner/my-requests');
     }
   };
