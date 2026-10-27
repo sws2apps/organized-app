@@ -1,5 +1,4 @@
 import { HOSPITALITY_NOT_NEEDED } from '@constants/duties';
-import { dutyPositions } from '@services/dexie/schema';
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import {
@@ -9,6 +8,7 @@ import {
   dutyAssignmentForMeeting,
 } from '@utils/duties_weekly';
 import type { SchedWeekType } from '@definition/schedules';
+import { dutiesSchema, scheduleSchema } from '@services/dexie/schema';
 
 const entry = (type: string, value: string, id?: string) => ({
   type,
@@ -125,7 +125,7 @@ test('Not needed handles every Hospitality position without affecting another la
 });
 
 test('choosing a host after Not needed clears the status from every other Hospitality slot', () => {
-  const positions = dutyPositions();
+  const positions = dutiesSchema().midweek.hospitality;
   const handled = dutiesHospitalityRecords(
     positions,
     'position_1',
@@ -153,7 +153,7 @@ test('choosing a host after Not needed clears the status from every other Hospit
 
 test('clearing Not needed makes all configured Hospitality positions unassigned again', () => {
   const handled = dutiesHospitalityRecords(
-    dutyPositions(),
+    dutiesSchema().midweek.hospitality,
     'position_1',
     HOSPITALITY_NOT_NEEDED,
     'main',
@@ -174,7 +174,7 @@ test('clearing Not needed makes all configured Hospitality positions unassigned 
 });
 
 test('ordinary Hospitality edits preserve other hosts and groups', () => {
-  const positions = dutyPositions();
+  const positions = dutiesSchema().midweek.hospitality;
   positions.position_2 = [entry('main', 'second-host')];
   positions.position_1.push(entry('group', 'group-host'));
   const saved = dutiesHospitalityRecords(
@@ -189,4 +189,18 @@ test('ordinary Hospitality edits preserve other hosts and groups', () => {
     saved.position_1.find((r) => r.type === 'group')?.value,
     'group-host'
   );
+});
+
+test('new weeks carry no duty fields until the first assignment', () => {
+  assert.equal('duties' in scheduleSchema, false);
+  const week = {
+    ...structuredClone(scheduleSchema),
+    weekOf: '2026/11/02',
+    duties: dutiesSchema(),
+  };
+  const updated = dutiesPatchSchedule(week, {
+    'duties.midweek.audio.position_1': [entry('main', 'A')],
+  });
+  assert.equal(updated.duties?.midweek.audio.position_1[0].value, 'A');
+  assert.deepEqual(updated.duties?.weekend.dynamic, []);
 });

@@ -11,6 +11,8 @@ import {
 } from '@utils/duties_recurring';
 import { useAppTranslation } from '@hooks/index';
 
+type SectionDraft = Omit<DutiesSectionType, 'dataView'>;
+
 const useSectionTemplates = (
   meeting: DutiesMeetingValue,
   onClose: VoidFunction
@@ -19,7 +21,7 @@ const useSectionTemplates = (
   const config = useAtomValue(meetingDutiesState);
   const dataView = useAtomValue(userDataViewState);
   const [drafts, setDrafts] = useState<
-    Record<DutiesMeetingValue, DutiesSectionType[]>
+    Record<DutiesMeetingValue, SectionDraft[]>
   >(() => {
     const sectionsFor = (kind: DutiesMeetingValue) => {
       const revision = currentSectionTemplate(
@@ -53,9 +55,7 @@ const useSectionTemplates = (
     weekend: JSON.stringify(drafts.weekend),
   });
   const sections = drafts[meeting];
-  const setSections = (
-    update: (current: DutiesSectionType[]) => DutiesSectionType[]
-  ) =>
+  const setSections = (update: (current: SectionDraft[]) => SectionDraft[]) =>
     setDrafts((current) => ({
       ...current,
       [meeting]: update(current[meeting]),

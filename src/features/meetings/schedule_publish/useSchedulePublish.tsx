@@ -90,21 +90,6 @@ const mergeScheduleIntoRemote = <T extends { weekOf: string }>(
   for (const meeting of ['midweek', 'weekend'] as const) {
     const localMeeting = localItem.duties?.[meeting];
 
-    if (localMeeting?.sections && remoteSchedule.duties?.[meeting]) {
-      const migrated = new Set(
-        localMeeting.sections
-          .filter(
-            (section) =>
-              section.dataView &&
-              section.legacyId &&
-              section.legacyId !== section.id
-          )
-          .map((section) => section.legacyId)
-      );
-      remoteSchedule.duties[meeting].sections = (
-        remoteSchedule.duties[meeting].sections ?? []
-      ).filter((section) => section.dataView || !migrated.has(section.id));
-    }
     if (!localMeeting?.dynamic) continue;
 
     dynamicMerged[meeting] = mergeDynamicDuties(
