@@ -535,7 +535,7 @@ export const schedulesDutiesMeetingStatus = (
   if (!groupHoldsMeeting) return 'no-meeting';
 
   const weekType =
-    schedule[`${meeting}_meeting`].week_type.find(
+    schedule[`${meeting}_meeting`]?.week_type.find(
       (record) => record.type === dataView
     )?.value ?? Week.NORMAL;
 
