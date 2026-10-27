@@ -13,8 +13,13 @@ import DashboardMenu from '@features/dashboard/menu';
 const CongregationCard = () => {
   const { t } = useAppTranslation();
 
-  const { isAdmin, isElder, isGroup, isLanguageGroupOverseer } =
-    useCurrentUser();
+  const {
+    isAdmin,
+    isElder,
+    isGroup,
+    isLanguageGroupOverseer,
+    isMidweekStudent,
+  } = useCurrentUser();
 
   const {
     secondaryText,
@@ -28,13 +33,15 @@ const CongregationCard = () => {
     <DashboardCard
       header={isGroup ? t('tr_languageGroupShort') : t('tr_congregation')}
     >
-      <ListItem disablePadding>
-        <DashboardMenu
-          icon={<IconGroups color="var(--black)" />}
-          primaryText={t('tr_fieldServiceGroups')}
-          path="/field-service-groups"
-        />
-      </ListItem>
+      {!isMidweekStudent && (
+        <ListItem disablePadding>
+          <DashboardMenu
+            icon={<IconGroups color="var(--black)" />}
+            primaryText={t('tr_fieldServiceGroups')}
+            path="/field-service-groups"
+          />
+        </ListItem>
+      )}
 
       {isConnected && isUserAdmin && (
         <ListItem disablePadding>

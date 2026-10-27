@@ -93,6 +93,7 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
     isMidweekEditor,
     isWeekendEditor,
     isGroupOverseer,
+    isMidweekStudent,
     isSecretary,
     isPublicTalkCoordinator,
     isGroup,
@@ -123,7 +124,15 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
               path: '/activities/field-service-meetings',
               element: <FieldServiceMeetings />,
             },
-            { path: '/field-service-groups', element: <FieldServiceGroups /> },
+            {
+              element: <RouteProtected allowed={!isMidweekStudent} />,
+              children: [
+                {
+                  path: '/field-service-groups',
+                  element: <FieldServiceGroups />,
+                },
+              ],
+            },
             {
               path: '/activities/upcoming-events',
               element: <UpcomingEvents />,
