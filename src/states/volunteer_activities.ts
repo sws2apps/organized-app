@@ -39,3 +39,20 @@ export const volunteerActivityParticipantsState = atom((get) => {
 
   return participants.filter((record) => !record.participation_data._deleted);
 });
+
+export const volunteerActivitiesOpenCountState = atom((get) => {
+  const activities = get(volunteerActivitiesState);
+  const participants = get(volunteerActivityParticipantsState);
+  const now = new Date().toISOString();
+
+  return activities.filter((activity) => {
+    if (activity.activity_data.start <= now) return false;
+
+    const count = participants.filter(
+      (record) =>
+        record.participation_data.activity_uid === activity.activity_uid
+    ).length;
+
+    return count < activity.activity_data.participant_goal;
+  }).length;
+});
