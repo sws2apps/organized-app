@@ -1,6 +1,6 @@
 import { fieldWithLanguageGroupsState } from '@states/field_service_groups';
 import { useEffect, useMemo, useState } from 'react';
-import { useAtom, useAtomValue } from 'jotai';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { useBreakpoints } from '@hooks/index';
 import {
   fieldServiceMeetingsState,
@@ -17,7 +17,7 @@ import { weeksInMonth, formatDate } from '@utils/date';
 const useWeekSelector = () => {
   const { desktopUp } = useBreakpoints();
   const [date, setDate] = useAtom(fieldServiceMeetingsWeekRangeState);
-  const [, setView] = useAtom(fieldServiceMeetingsViewModeState);
+  const setView = useSetAtom(fieldServiceMeetingsViewModeState);
   const meetings = useAtomValue(fieldServiceMeetingsState);
   const groups = useAtomValue(fieldWithLanguageGroupsState);
   const monthNames = useAtomValue(monthNamesState);

@@ -57,8 +57,12 @@ const useCalendarNavigation = () => {
   );
 
   const monthLabel = useMemo(
-    () => `${months[currentDate.getMonth()]} ${currentDate.getFullYear()}`,
-    [months, currentDate]
+    () =>
+      t('tr_monthYear', {
+        month: months[currentDate.getMonth()],
+        year: currentDate.getFullYear(),
+      }),
+    [months, currentDate, t]
   );
 
   const periodLabel = viewMode === 'month' ? monthLabel : weekLabel;

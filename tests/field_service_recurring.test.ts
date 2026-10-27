@@ -19,8 +19,7 @@ const module = {
     getGroupRecurringStart: (
       settings: SettingsType,
       group: string,
-      existing: unknown[],
-      reference?: Date
+      reference: Date
     ) => { start: Date; end: Date } | null;
   },
 };
@@ -68,7 +67,6 @@ for (const [weekday, time] of [
       getGroupRecurringStart(
         settings(weekday, time),
         'group',
-        [],
         new Date(2026, 9, 19)
       ),
       null
@@ -79,7 +77,6 @@ test('recurring Sunday stays in the selected year-boundary week', () => {
   const result = getGroupRecurringStart(
     settings(6, '10:30'),
     'group',
-    [],
     new Date(2026, 11, 28)
   );
   assert.ok(result);
@@ -91,7 +88,6 @@ test('invalid selected date skips recurring prefilling', () => {
     getGroupRecurringStart(
       settings(0, '09:30'),
       'group',
-      [],
       new Date('invalid')
     ),
     null
@@ -102,7 +98,7 @@ test('missing recurring fields skip prefilling', () => {
     cong_settings: { field_service_meeting_times: [{ type: 'group' }] },
   } as SettingsType;
   assert.equal(
-    getGroupRecurringStart(incomplete, 'group', [], new Date()),
+    getGroupRecurringStart(incomplete, 'group', new Date()),
     null
   );
 });

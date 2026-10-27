@@ -99,7 +99,11 @@ const createTemplateMonths = (
         const titleMonth = monthNames[monthIndex] || '';
         monthEntry = {
           id: key,
-          title: `${titleMonth} ${year}`.trim(),
+          title: getTranslation({
+            key: 'tr_monthYear',
+            language: lng,
+            params: { month: titleMonth, year },
+          }),
           sortKey: formatted.start,
           days: new Map(),
         };
@@ -130,7 +134,7 @@ const createTemplateMonths = (
         ),
         note: formatted.additionalInfo?.trim() || undefined,
         conductor: formatted.conductor ?? '',
-        sortKey: `${dayKey}-${formatted.start}-${index}`,
+        sortKey: `${formatDate(new Date(formatted.startISO), 'HH:mm')}-${formatted.uid}`,
       });
 
       if (formatted.start < monthEntry.sortKey) {
@@ -349,7 +353,6 @@ const useScheduleExport = (
     handleSetEndWeek,
     isProcessing,
     handleExportSchedule,
-    isValid,
     showValidationErrors,
     isStartWeekMissing,
     isEndWeekMissing,

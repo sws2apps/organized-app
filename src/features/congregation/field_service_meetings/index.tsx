@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { useAtom, useSetAtom } from 'jotai';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import useFieldServiceMeetings from '@features/congregation/field_service_meetings/useFieldServiceMeetings';
 import usePermissions from '@features/congregation/field_service_meetings/usePermissions';
@@ -8,6 +8,7 @@ import MonthView from '@features/congregation/field_service_meetings/month_view'
 import PaneSwitcher from '@components/pane_switcher';
 import InfoNote from '@components/info_note';
 import {
+  fieldServiceMeetingsFilterState,
   fieldServiceMeetingsViewModeState,
   fieldServiceMeetingsWeekRangeState,
 } from '@states/field_service_meetings';
@@ -19,6 +20,7 @@ const FieldServiceMeetingsContainer = () => {
   const { canManageMeeting } = usePermissions();
   const [viewMode, setViewMode] = useAtom(fieldServiceMeetingsViewModeState);
   const setDate = useSetAtom(fieldServiceMeetingsWeekRangeState);
+  const filterId = useAtomValue(fieldServiceMeetingsFilterState);
   const weekContent = (
     <Box
       sx={{
@@ -29,7 +31,13 @@ const FieldServiceMeetingsContainer = () => {
       }}
     >
       {!editingMeeting && weekMeetings.length === 0 && (
-        <InfoNote message={t('tr_fieldServiceMeetingEmptyFiltered')} />
+        <InfoNote
+          message={t(
+            filterId === 'all'
+              ? 'tr_noFieldServiceMeetings'
+              : 'tr_fieldServiceMeetingEmptyFiltered'
+          )}
+        />
       )}
       <FieldServiceMeetingsList
         meetings={weekMeetings.filter(

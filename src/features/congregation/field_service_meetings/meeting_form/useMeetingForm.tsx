@@ -1,6 +1,6 @@
 import { fieldServiceMeetingConductorAllowed } from '@utils/field_service_meeting_permissions';
 import { FIELD_SERVICE_MEETING_DURATION_MINUTES } from '@constants/index';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { useAtom, useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import {
@@ -67,6 +67,7 @@ const useMeetingForm = (
       ? draft.meeting
       : meeting;
   const [saving, setSaving] = useState(false);
+  const savingRef = useRef(false);
   const [attempted, setAttempted] = useState(false);
 
   const meetingDuration = useMemo(() => {
@@ -194,13 +195,16 @@ const useMeetingForm = (
   // schedulers may enter a conductor outside these suggestions.
   const conductorOptions = useMemo<ConductorOption[]>(() => {
     if (selectedGroup?.id === 'main') return qualifiedOptions;
-    const group = groups.find((g) => g.group_id === selectedGroup?.id);
+    // A since-deleted group stays selectable, so fall back to its stored members.
+    const group =
+      groups.find((g) => g.group_id === selectedGroup?.id) ??
+      allGroups.find((g) => g.group_id === selectedGroup?.id);
     if (!group) return [];
     const memberUids = new Set(
       group.group_data.members.map((member) => member.person_uid)
     );
     return qualifiedOptions.filter((option) => memberUids.has(option.id));
-  }, [selectedGroup?.id, groups, qualifiedOptions]);
+  }, [selectedGroup?.id, groups, allGroups, qualifiedOptions]);
 
   const conductorValue = useMemo<ConductorOption | string | null>(() => {
     const current = formData.meeting_data.conductor;
@@ -412,12 +416,6 @@ const useMeetingForm = (
     (_: unknown, category: FieldServiceMeetingCategory | null) => {
       if (category === null) return;
 
-      // Joint meetings span all groups, so clear specific group assignment
-      if (category === FieldServiceMeetingCategory.JointMeeting) {
-        updateMeetingData({ category, group_id: undefined, type: 'main' });
-        return;
-      }
-
       // Service overseer meetings are conducted by the service overseer
       if (category === FieldServiceMeetingCategory.ServiceOverseerMeeting) {
         updateMeetingData({ category, conductor: serviceOverseerUid });
@@ -456,14 +454,17 @@ const useMeetingForm = (
   }, [canSubmit]);
 
   const handleSave = useCallback(async () => {
-    if (saving) return;
+    // A ref, so two submits within one render cannot both pass.
+    if (savingRef.current) return;
+    savingRef.current = true;
     setSaving(true);
     try {
       await onSave(formData);
     } finally {
+      savingRef.current = false;
       setSaving(false);
     }
-  }, [formData, onSave, saving]);
+  }, [formData, onSave]);
 
   return {
     formData,

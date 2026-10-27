@@ -41,7 +41,7 @@ const useFieldServiceMeetings = () => {
   const permissions = usePermissions();
   const dataView = useAtomValue(userDataViewState);
   const settings = useAtomValue(settingsState);
-  const allMeetings = useAtomValue(fieldServiceMeetingsState);
+  const meetings = useAtomValue(fieldServiceMeetingsState);
   const filterId = useAtomValue(fieldServiceMeetingsFilterState);
   const referenceDate = useAtomValue(fieldServiceMeetingsWeekRangeState);
   const persons = useAtomValue(personsState);
@@ -53,23 +53,24 @@ const useFieldServiceMeetings = () => {
   const saveMeeting = useSetAtom(fieldServiceMeetingsSaveState);
   const scope = fieldServiceMeetingDraftScope(settings);
   const currentDraft = draft?.scope === scope ? draft : null;
-  // Viewing is congregation-wide; only explicit page filters narrow the agenda.
-  const meetings = allMeetings;
   const formatAndFilter = useCallback(
     (records: FieldServiceMeetingType[]) => {
       const formatted = records.map((meeting) =>
         fieldServiceMeetingData(meeting)
       );
       return formatted.filter((meeting: FieldServiceMeetingFormattedType) => {
+        // Joint meetings and all-group visits include the user's group.
         if (filterId === 'my-group')
-          return meeting.group_id === my_group?.group_id && Boolean(my_group);
+          return (
+            Boolean(my_group) &&
+            (!meeting.group_id || meeting.group_id === my_group?.group_id)
+          );
         if (filterId === 'joint')
           return meeting.category === FieldServiceMeetingCategory.JointMeeting;
         if (filterId === 'online')
           return meeting.location === FieldServiceMeetingLocation.Online;
         return true;
       });
-      // Formatting resolves person/group labels and time preferences from the store.
     },
     // The formatter reads these preferences from the Jotai store.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -115,12 +116,7 @@ const useFieldServiceMeetings = () => {
     const start = new Date(referenceDate);
     const now = new Date();
     start.setHours(now.getHours(), now.getMinutes(), 0, 0);
-    const recurring = getGroupRecurringStart(
-      settings,
-      groupId,
-      allMeetings,
-      start
-    );
+    const recurring = getGroupRecurringStart(settings, groupId, start);
     const date = recurring?.start ?? start;
     setDraft({
       scope,
@@ -155,7 +151,6 @@ const useFieldServiceMeetings = () => {
     dataView,
     referenceDate,
     settings,
-    allMeetings,
     setDraft,
     scope,
   ]);
