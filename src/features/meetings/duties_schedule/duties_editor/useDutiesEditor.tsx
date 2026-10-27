@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useAtom, useAtomValue } from 'jotai';
 import {
   AssignmentCode,
@@ -45,6 +45,9 @@ const useDutiesEditor = () => {
 
   const [selectedWeek, setSelectedWeek] = useAtom(selectedWeekState);
 
+  const navigationRef = useRef<HTMLDivElement>(null);
+  const [isNavigationWrapped, setIsNavigationWrapped] = useState(false);
+
   const schedules = useAtomValue(schedulesState);
   const settings = useAtomValue(settingsState);
   const weekly = useAtomValue(dutiesScheduleWeeklyState);
@@ -82,6 +85,29 @@ const useDutiesEditor = () => {
   if (weekly && meetingStatus.midweek === 'held') activeMeeting = 'midweek';
   else if (weekly && meetingStatus.weekend === 'held')
     activeMeeting = 'weekend';
+
+  useLayoutEffect(() => {
+    const row = navigationRef.current;
+    if (!row) return;
+    const [date, tabs] = row.children;
+    if (!date || !tabs) {
+      setIsNavigationWrapped(false);
+      return;
+    }
+
+    const measure = () => {
+      setIsNavigationWrapped(
+        tabs.getBoundingClientRect().top >= date.getBoundingClientRect().bottom
+      );
+    };
+
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(row);
+    observer.observe(date);
+    observer.observe(tabs);
+    return () => observer.disconnect();
+  }, [selectedWeek, weekly]);
 
   const schedule = schedules.find((record) => record.weekOf === selectedWeek);
   const headerDate =
@@ -165,6 +191,8 @@ const useDutiesEditor = () => {
   const handleChangeMeeting = setActiveMeeting;
 
   return {
+    navigationRef,
+    isNavigationWrapped,
     dataView,
     weekly,
     weekDateLocale,
