@@ -322,7 +322,7 @@ const capture = (
         }
         context.drawImage(map.getCanvas(), 0, 0);
         paintMarkers(canvas, map, territory.mapMarkers ?? [], 2);
-        paintMapAttribution(canvas, printedPoints);
+        paintMapAttribution(canvas, printedPoints, inset);
         cleanup(canvas.toDataURL('image/png'));
       } catch {
         cleanup();
