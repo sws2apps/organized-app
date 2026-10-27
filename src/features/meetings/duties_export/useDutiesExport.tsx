@@ -184,7 +184,7 @@ const useDutiesExport = (onClose: DutiesExportType['onClose']) => {
   const meetingSlots = (weeks: SchedWeekType[]): MeetingSlotType[] => {
     return weeks
       .flatMap((schedule) =>
-        MEETINGS.map((meeting) => {
+        MEETINGS.map((meeting): MeetingSlotType => {
           const meetingDate = schedulesGetMeetingDate({
             week: schedule.weekOf,
             meeting,
