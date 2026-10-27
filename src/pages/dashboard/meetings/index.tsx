@@ -23,8 +23,7 @@ const MeetingsCard = ({ assignmentCount }: MeetingsCardProps) => {
     isDutiesEditor,
   } = useCurrentUser();
 
-  const { showMeetingCard, showMidweek, showWeekend, showDuties } =
-    useSharedHook();
+  const { showMeetingCard, showMidweek, showWeekend } = useSharedHook();
 
   const { handleOpenMyAssignments } = useMeetings();
 
@@ -49,7 +48,7 @@ const MeetingsCard = ({ assignmentCount }: MeetingsCardProps) => {
         />
       </ListItem>
 
-      {showDuties && isDutiesEditor && (
+      {isDutiesEditor && (
         <ListItem disablePadding>
           <DashboardMenu
             icon={<IconDuties color="var(--black)" />}
