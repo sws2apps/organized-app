@@ -35,6 +35,15 @@ test('a prepared payload is immutable, even after a lost response', () => {
   assert.equal(coalesceTerritoryChanges(queue, [change('New')]), false);
   assert.equal(queue[0].changes[0].after?.name, 'Old');
 });
+test('an edit is not merged behind a later operation that touches the same territory', () => {
+  const other = { ...change('Other'), id: 'main:b' };
+  const queue: TerritoryPendingOperation[] = [
+    { id: 'one', changes: [change('Old'), other] },
+    { id: 'two', changes: [change('Later')] },
+  ];
+  assert.equal(coalesceTerritoryChanges(queue, [change('New'), other]), false);
+  assert.equal(queue[0].changes[0].after?.name, 'Old');
+});
 test('undoing an unsent edit removes its queued change', () => {
   const queue: TerritoryPendingOperation[] = [
     { id: 'one', changes: [change('Old')] },
