@@ -55,6 +55,7 @@ const useVolunteerActivity = ({ data }: VolunteerActivityProps) => {
           (p) => p.person_uid === record.participation_data.person_uid
         );
 
+        // the joiner's saved name covers persons this device does not have
         return {
           uid: record.participation_uid,
           name: participant
@@ -63,7 +64,7 @@ const useVolunteerActivity = ({ data }: VolunteerActivityProps) => {
                 participant.person_data.person_firstname.value,
                 fullnameOption
               )
-            : '',
+            : record.participation_data.person_name,
         };
       });
   }, [allParticipants, activity_uid, persons, fullnameOption]);
@@ -109,6 +110,9 @@ const useVolunteerActivity = ({ data }: VolunteerActivityProps) => {
   const handleToggleJoin = async () => {
     if (!person) return;
 
+    // the card may have been rendered before the start time or the goal
+    if (!joined && (start.getTime() <= Date.now() || full)) return;
+
     try {
       await dbVolunteerParticipantSave({
         participation_uid: participationUid,
@@ -117,6 +121,11 @@ const useVolunteerActivity = ({ data }: VolunteerActivityProps) => {
           updatedAt: new Date().toISOString(),
           activity_uid,
           person_uid: person.person_uid,
+          person_name: buildPersonFullname(
+            person.person_data.person_lastname.value,
+            person.person_data.person_firstname.value,
+            fullnameOption
+          ),
         },
       });
     } catch (error) {

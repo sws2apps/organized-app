@@ -21,5 +21,6 @@ export type VolunteerActivityParticipantType = {
     updatedAt: string;
     activity_uid: string;
     person_uid: string;
+    person_name: string;
   };
 };
