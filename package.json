@@ -18,7 +18,8 @@
     "generate:css": "node converter/css/convert.js && prettier  converter/css/tokens.json src/global/global.css src/global/global.ts --write",
     "generate:icons": "node converter/svg/convert.js && prettier src/components/icons --write",
     "locales:unused": "tsx unused-i18n-keys.ts",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "test:territories": "node --import tsx --test tests/territory_*.test.ts src/features/territories/__tests__/*.test.ts"
   },
   "eslintConfig": {
     "extends": [
@@ -60,6 +61,7 @@
     "nanoid": "^5.1.16",
     "node-html-parser": "^7.1.0",
     "papaparse": "^5.7.0",
+    "polygon-clipping": "^0.15.7",
     "qrcode": "^1.5.4",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",

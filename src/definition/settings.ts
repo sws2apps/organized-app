@@ -1,6 +1,7 @@
 import { AppRoleType } from './app';
 import { AssignmentFieldType } from './assignment';
 import { UpcomingEventDisplayType } from './upcoming_events';
+import { TerritoryAccess, TerritoryType } from './territory';
 
 export enum FullnameOption {
   FIRST_BEFORE_LAST = 1,
@@ -173,6 +174,9 @@ export type SettingsType = {
       _deleted: boolean;
     }[];
     time_away_public: { value: boolean; updatedAt: string };
+    territory_access: { value: TerritoryAccess; updatedAt: string };
+    territory_restricted_categories: { value: string[]; updatedAt: string };
+    territory_restricted_types: { value: TerritoryType[]; updatedAt: string };
     source_material: {
       auto_import: {
         enabled: { value: boolean; updatedAt: string };
