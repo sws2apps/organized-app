@@ -1077,6 +1077,7 @@
   "tr_territoryGapsOverlaps": "Gaps: {{gaps}} · Overlaps: {{overlaps}}",
   "tr_territorySelectATerritory": "Select a territory",
   "tr_territoryTheMapPausedBecauseTheDeviceRanOutOf": "The map paused because the device ran out of graphics resources.",
+  "tr_territoryTheMapCouldNotBeLoaded": "The map could not be loaded. Check the connection and try again.",
   "tr_territoryReloadMap": "Reload map",
   "tr_territoryDrawALineAcrossTheTerritory": "Draw a line across the territory",
   "tr_territoryPickTheNeighbouringTerritories": "Pick the neighbouring territories",

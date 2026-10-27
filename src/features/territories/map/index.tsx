@@ -534,7 +534,11 @@ const TerritoriesMap = ({ map }: { map: TerritoriesMapState }) => {
             }}
           >
             <Typography>
-              {t('tr_territoryTheMapPausedBecauseTheDeviceRanOutOf')}
+              {t(
+                map.mapError === 'load'
+                  ? 'tr_territoryTheMapCouldNotBeLoaded'
+                  : 'tr_territoryTheMapPausedBecauseTheDeviceRanOutOf'
+              )}
             </Typography>
             <Button variant="main" onClick={map.reloadMap}>
               {t('tr_territoryReloadMap')}
