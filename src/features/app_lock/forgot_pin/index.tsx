@@ -32,7 +32,7 @@ const ForgotPin = ({ open }: { open: boolean }) => {
         value={email}
         onChange={(e) => handleEmailChange(e.target.value)}
         onKeyDown={(e) => {
-          if (e.key === 'Enter') handleResetPin();
+          if (e.key === 'Enter') void handleResetPin();
         }}
         error={errorText.length > 0}
         helperText={errorText}

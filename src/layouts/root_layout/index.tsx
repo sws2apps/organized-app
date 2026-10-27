@@ -106,10 +106,9 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
                     <>
                       {isTest && <DemoNotice />}
 
-                      {!initialSetupOpen &&
-                        (!isTest || (isTest && !isDemoNoticeOpen)) && (
-                          <WhatsNew />
-                        )}
+                      {!initialSetupOpen && (!isTest || !isDemoNoticeOpen) && (
+                        <WhatsNew />
+                      )}
 
                       {!isTest && initialSetupOpen && <InitialSetup />}
                     </>

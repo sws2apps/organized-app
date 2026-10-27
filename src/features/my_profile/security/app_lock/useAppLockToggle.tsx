@@ -31,7 +31,7 @@ const useAppLockToggle = () => {
   useEffect(() => {
     let active = true;
 
-    isBiometricAvailable().then((available) => {
+    void isBiometricAvailable().then((available) => {
       if (active) setBiometricSupported(available);
     });
 
