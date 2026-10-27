@@ -1,21 +1,4 @@
 {
-  "2026-07-01T00:00": {
-    "images": {
-      "img_01": {
-        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-color-schemes.svg",
-        "tr_title": "Nya färgscheman",
-        "tr_desc": "Fler sätt att göra Organized till ditt! Utforska nya färger i profilinställningarna, från stilrent monokromt till livfullt rosa."
-      },
-      "img_02": {
-        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-homescreen-shortcuts.svg",
-        "tr_title": "Genvägar på startskärmen",
-        "tr_desc": "Gå direkt till de viktigaste funktionerna, både på datorn och på mobila enheter."
-      }
-    },
-    "improvements": {
-      "tr_note_01": "Lade till en förinställning för tillgodoräknade timmar för skolan för församlingsäldste"
-    }
-  },
   "2026-09-01T00:00": {
     "images": {
       "img_01": {
@@ -32,6 +15,15 @@
       "tr_note_05": "Tilldela valfri familjemedlem som medhjälpare",
       "tr_note_06": "Markera ålderspionjärer så att de befrias från det årliga timmålet",
       "tr_note_07": "Välj orientering och teckenstorlek för PDF-exporten av tjänstegruppen"
+    }
+  },
+  "2026-10-01T00:00": {
+    "images": {
+      "img_01": {
+        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-profile-pictures.svg",
+        "tr_title": "Nytt utseende för din profil",
+        "tr_desc": "Välj en ny profilbild: Bibelberättelser, vänliga ansikten, abstrakt konst eller ljusa gradienter."
+      }
     }
   }
 }

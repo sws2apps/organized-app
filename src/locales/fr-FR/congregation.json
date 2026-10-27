@@ -380,6 +380,7 @@
   "tr_congregationRequestRejectedDesc": "L'assemblée <strong>{{ congregationNameAndNumber }}</strong> a rejeté votre demande de consulter leur liste d'orateurs sortants. Au besoin, vous pouvez les contacter directement.",
   "tr_congregationAccessRevoke": "Révoquer l'accès pour cette assemblée",
   "tr_congregationAccessRevokeDesc": "Révoquer l'accès à votre liste d'orateurs pour l'assemblée <strong>{{ congregationName }}</strong> ? Ils ne pourront plus la voir, mais vous pourrez la partager à nouveau avec eux plus tard s'ils font une nouvelle demande.",
+  "tr_withoutGroup": "Without a group",
   "tr_noGroupsYet": "Vous n'avez pas encore créé de groupes de prédication. Créez un groupe d'abord afin de pouvoir commencer à ajouter des proclamateurs et réorganiser les groupes.",
   "tr_coordinator": "Coordinateur",
   "tr_secretary": "Secrétaire",
@@ -568,5 +569,6 @@
   "tr_congregationAlreadySynced": "L'assemblée est déjà connectée et synchronisée.",
   "tr_error_app_data_no_valid_data_found": "No valid data found or no speaker selected.",
   "tr_infirmPioneer": "Infirm pioneer",
-  "tr_infirmPioneerNoGoal": "As an infirm pioneer, you can serve as much as you are able without a yearly hour goal."
+  "tr_infirmPioneerNoGoal": "As an infirm pioneer, you can serve as much as you are able without a yearly hour goal.",
+  "tr_importCsvParseError": "The file could not be read. Please check the column structure and try again."
 }

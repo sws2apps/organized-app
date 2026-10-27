@@ -74,14 +74,19 @@ const DashboardMenu = (props: DashboardMenuProps) => {
               }}
             >
               <Box sx={{ minWidth: 0 }}>
-                <Typography className="body-regular" color="var(--black)">
+                <Typography
+                  className="body-regular"
+                  sx={{
+                    color: 'var(--black)',
+                  }}
+                >
                   {props.primaryText}
                 </Typography>
                 {props.secondaryText && props.secondaryText.length > 0 && (
                   <Typography
                     className="label-small-regular secondary-text"
-                    color="var(--grey-350)"
                     sx={{
+                      color: 'var(--grey-350)',
                       overflow: 'hidden',
                       textOverflow: 'ellipsis',
                       whiteSpace: 'nowrap',

@@ -380,6 +380,7 @@
   "tr_congregationRequestRejectedDesc": "De gemeente <strong>{{ congregationNameAndNumber }}</strong> heeft je verzoek om hun uitgaande sprekerslijst te bekijken afgewezen. Indien nodig, kun je ze persoonlijk contacteren.",
   "tr_congregationAccessRevoke": "Toegang voor deze gemeente intrekken",
   "tr_congregationAccessRevokeDesc": "Toegang tot je sprekerslijst intrekken voor gemeente <strong>{{ congregationName }}</strong>? Ze kunnen het niet meer zien, maar je kunt het later weer met hen delen als ze een nieuw verzoek indienen.",
+  "tr_withoutGroup": "Without a group",
   "tr_noGroupsYet": "Je hebt nog geen velddienstgroepen aangemaakt. Maak eerst een groep aan om verkondigers toe te voegen en groepen opnieuw te ordenen.",
   "tr_coordinator": "Coördinator",
   "tr_secretary": "Secretaris",
@@ -568,5 +569,6 @@
   "tr_congregationAlreadySynced": "Congregation is already connected and synced.",
   "tr_error_app_data_no_valid_data_found": "No valid data found or no speaker selected.",
   "tr_infirmPioneer": "Infirm pioneer",
-  "tr_infirmPioneerNoGoal": "As an infirm pioneer, you can serve as much as you are able without a yearly hour goal."
+  "tr_infirmPioneerNoGoal": "As an infirm pioneer, you can serve as much as you are able without a yearly hour goal.",
+  "tr_importCsvParseError": "The file could not be read. Please check the column structure and try again."
 }

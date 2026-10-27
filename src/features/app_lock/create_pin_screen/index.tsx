@@ -29,7 +29,7 @@ const CreatePinScreen = () => {
 
   return (
     <AppLockPage role="main" aria-label={title}>
-      <Stack spacing={3} alignItems="center" sx={{ width: '100%' }}>
+      <Stack spacing={3} sx={{ width: '100%', alignItems: 'center' }}>
         <AppLockCard role="region" aria-label={title}>
           <Stack spacing={1}>
             <Typography className="h1" id="create-pin-heading">

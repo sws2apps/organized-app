@@ -1,5 +1,7 @@
 import BaseDexie from 'dexie';
 import { settingSchema } from '@services/dexie/schema';
+import { MeetingAttendanceType } from '@definition/meeting_attendance';
+import { meetingAttendanceSplitDeaf } from '@utils/meeting_attendance';
 import { PersonsTable, personsSchema } from './tables/persons';
 import { SettingsTable, settingsSchema } from './tables/settings';
 import { SourcesTable, sourcesSchema } from './tables/sources';
@@ -240,6 +242,31 @@ appDb
     delete newSettings.user_settings.user_avatar;
 
     await tx.table('app_settings').put(newSettings);
+  });
+
+appDb
+  .version(15)
+  .stores({
+    ...schema,
+    ...metadataSchema,
+    ...delegatedFieldServiceReportsSchema,
+    ...weekTypeSchema,
+    ...publicTalkSchema,
+    ...songSchema,
+    ...upcomingEventsSchema,
+    ...appLocalsSchema,
+  })
+  .upgrade(async (tx) => {
+    // present and online used to include the deaf count: keep the hearing count
+    // only. updatedAt stays as it was, so a device converting an outdated
+    // record cannot push it over a newer edit made elsewhere; records still in
+    // the old format are converted again whenever they arrive from sync
+    await tx
+      .table('meeting_attendance')
+      .toCollection()
+      .modify((attendance: MeetingAttendanceType) => {
+        meetingAttendanceSplitDeaf(attendance);
+      });
   });
 
 appDb.on('populate', function () {

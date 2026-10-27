@@ -44,16 +44,30 @@ const ErrorBoundary = (props: ErrorBoundaryProps) => {
         <Sentry.ErrorBoundary
           fallback={<Typography>An error occured.</Typography>}
         >
-          <Typography className="h1" color="var(--black)">
+          <Typography
+            className="h1"
+            sx={{
+              color: 'var(--black)',
+            }}
+          >
             {getMessageByCode('error_app_generic-title')}
             {' (v'}
             {import.meta.env.PACKAGE_VERSION}
             {')'}
           </Typography>
-          <Typography color="var(--grey-400)">
+          <Typography
+            sx={{
+              color: 'var(--grey-400)',
+            }}
+          >
             {error.message || error.data}
           </Typography>
-          <Typography className="body-regular" color="var(--grey-400)">
+          <Typography
+            className="body-regular"
+            sx={{
+              color: 'var(--grey-400)',
+            }}
+          >
             {getMessageByCode('error_app_generic-desc')}
           </Typography>
         </Sentry.ErrorBoundary>

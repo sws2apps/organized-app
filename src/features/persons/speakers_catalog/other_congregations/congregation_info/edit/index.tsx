@@ -71,7 +71,12 @@ const CongregationInfoEdit = ({ cong_number }: CongregationInfoEditType) => {
         />
       </Box>
 
-      <Typography className="body-small-semibold" color="var(--grey-400)">
+      <Typography
+        className="body-small-semibold"
+        sx={{
+          color: 'var(--grey-400)',
+        }}
+      >
         {t('tr_meetingDetails')}
       </Typography>
 
@@ -101,7 +106,12 @@ const CongregationInfoEdit = ({ cong_number }: CongregationInfoEditType) => {
         onTimeChange={handleWeekendTimeChange}
       />
 
-      <Typography className="body-small-semibold" color="var(--grey-400)">
+      <Typography
+        className="body-small-semibold"
+        sx={{
+          color: 'var(--grey-400)',
+        }}
+      >
         {t('tr_contactPersons')}
       </Typography>
 

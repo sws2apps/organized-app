@@ -1,12 +1,13 @@
 import { PropsWithChildren, ReactNode } from 'react';
 import { DialogProps as MUIDialogProps, SxProps, Theme } from '@mui/material';
+import { TransitionProps as MUITransitionProps } from '@mui/material/transitions';
 
 export type DialogProps = PropsWithChildren & {
   open: boolean;
   onClose: VoidFunction;
   sx?: SxProps<Theme>;
   PaperProps?: MUIDialogProps['PaperProps'];
-  TransitionProps?: MUIDialogProps['TransitionProps'];
+  TransitionProps?: MUITransitionProps;
 
   title?: string;
 

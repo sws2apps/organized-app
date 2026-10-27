@@ -2,8 +2,7 @@ import { memo } from 'react';
 import { Box, Stack } from '@mui/material';
 import { useAppTranslation } from '@hooks/index';
 import { TextFieldStyles } from './index.styles';
-import { ClickerTab } from '../clicker_mode/index.types';
-import { WeekBoxProps } from './index.types';
+import { WeekBoxField, WeekBoxProps } from './index.types';
 import useWeekBox from './useWeekBox';
 import NowIndicator from './now_indicator';
 import TextField from '@components/textfield';
@@ -16,7 +15,6 @@ const WeekBox = (props: WeekBoxProps) => {
 
   const {
     isCurrent,
-    isMeetingDay,
     detailed,
     recordOnline,
     fields,
@@ -28,6 +26,10 @@ const WeekBox = (props: WeekBoxProps) => {
     clickerEnabled,
     clickerOpen,
     clickerTitle,
+    clickerSecondaryTitle,
+    clickerTab,
+    clickerPresent,
+    clickerOnline,
     focusedField,
     handleFieldFocus,
     handleFieldBlur,
@@ -36,15 +38,24 @@ const WeekBox = (props: WeekBoxProps) => {
     handleClickerSave,
   } = useWeekBox(props);
 
-  const suggestionOpen = (field: ClickerTab) =>
+  const suggestionOpen = (field: WeekBoxField['name']) =>
     !clickerOpen && focusedField === field;
 
   return (
-    <Stack spacing="4px" flex={1}>
+    <Stack
+      spacing="4px"
+      sx={{
+        flex: 1,
+      }}
+    >
       <Stack spacing="16px">
         {detailed && (
           <Box
             sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: '4px',
               padding: '4px 16px',
               backgroundColor:
                 props.type === 'midweek'
@@ -60,29 +71,25 @@ const WeekBox = (props: WeekBoxProps) => {
                   ? 'var(--accent-dark)'
                   : 'var(--weekend-meeting)'
               }
+              sx={{ flexShrink: 0 }}
             >
               {box_label}
             </Typography>
+
+            {isCurrent && <NowIndicator type={props.type} />}
           </Box>
         )}
 
-        {fields.map((field, index) => {
-          const last = detailed && index === fields.length - 1;
-
-          // the counter writes a whole count, so it is offered on the two
-          // fields it knows and not on the deaf halves
-          const counted = field.name === 'present' || field.name === 'online';
-
+        {fields.map((field) => {
           return (
-            <Stack
-              key={field.name}
-              spacing="4px"
-              height={last && isMeetingDay ? '56px' : 'unset'}
-            >
+            <Stack key={field.name} spacing="4px">
               {field.section && (
                 <Typography
                   className="body-small-semibold"
-                  color="var(--grey-400)"
+                  sx={{
+                    color: 'var(--grey-400)',
+                    paddingBottom: '4px',
+                  }}
                 >
                   {field.section}
                 </Typography>
@@ -102,14 +109,14 @@ const WeekBox = (props: WeekBoxProps) => {
               >
                 <TextField
                   type="number"
-                  label={field.label}
+                  label={
+                    !detailed && isCurrent
+                      ? `${field.label} • ${t('tr_today')}`
+                      : field.label
+                  }
                   value={values[field.name]}
                   onChange={handleValueChange(field.name)}
-                  onFocus={
-                    counted
-                      ? () => handleFieldFocus(field.name as ClickerTab)
-                      : undefined
-                  }
+                  onFocus={() => handleFieldFocus(field.name)}
                   disabled={noMeeting}
                   slotProps={{
                     htmlInput: { className: 'h4' },
@@ -117,16 +124,14 @@ const WeekBox = (props: WeekBoxProps) => {
                   sx={TextFieldStyles}
                 />
 
-                {clickerEnabled && counted && (
+                {clickerEnabled && (
                   <ClickerSuggestion
-                    open={suggestionOpen(field.name as ClickerTab)}
+                    open={suggestionOpen(field.name)}
                     onOpen={handleClickerOpen}
                     label={t('tr_clickerMode')}
                   />
                 )}
               </Box>
-
-              {last && isCurrent && <NowIndicator type={props.type} />}
             </Stack>
           );
         })}
@@ -144,12 +149,14 @@ const WeekBox = (props: WeekBoxProps) => {
           >
             <Typography
               className="h4"
-              textAlign="center"
               color={
                 props.type === 'midweek'
                   ? 'var(--accent-dark)'
                   : 'var(--weekend-meeting)'
               }
+              sx={{
+                textAlign: 'center',
+              }}
             >
               {total}
             </Typography>
@@ -157,17 +164,16 @@ const WeekBox = (props: WeekBoxProps) => {
         )}
       </Stack>
 
-      {!detailed && isCurrent && <NowIndicator type={props.type} />}
-
       {clickerEnabled && (
         <ClickerMode
           open={clickerOpen}
           onClose={handleClickerClose}
           title={clickerTitle}
-          initialTab={focusedField ?? 'present'}
+          secondaryTitle={clickerSecondaryTitle}
+          initialTab={clickerTab}
           recordOnline={recordOnline}
-          presentValue={Number(values.present) || 0}
-          onlineValue={Number(values.online) || 0}
+          presentValue={clickerPresent}
+          onlineValue={clickerOnline}
           onSave={handleClickerSave}
         />
       )}

@@ -25,6 +25,7 @@ import { Gender } from './index.types';
 import {
   schedulesGetData,
   schedulesGetMeetingDate,
+  schedulesPersonHasConsecutiveAssignment,
   schedulesPersonHasMeetingConflict,
   schedulesSaveAssignment,
 } from '@services/app/schedules';
@@ -397,6 +398,20 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
     });
   }, [value, assignmentsHistory, week, assignment, dataView, type]);
 
+  const isConsecutiveAssignment = useMemo(() => {
+    if (!value) return false;
+
+    // Assistants share the student part qualification in type, but history
+    // stores them as MM_AssistantOnly. Normalize so assistant repeats warn.
+    return schedulesPersonHasConsecutiveAssignment({
+      history: assignmentsHistory,
+      week,
+      type: isAssistant ? AssignmentCode.MM_AssistantOnly : type,
+      person_uid: value.person_uid,
+      dataView,
+    });
+  }, [value, assignmentsHistory, week, type, dataView, isAssistant]);
+
   const meetingDate = useMemo(() => {
     const meeting = location.pathname.includes('midweek')
       ? 'midweek'
@@ -429,12 +444,8 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
     }
 
     // check week assignments
-    const weekAssignments = personHistory.filter(
-      (record) => record.weekOf === week
-    );
-
-    if (weekAssignments.length > 1) {
-      return t('tr_personAlreadyAssignmentWeek');
+    if (isConsecutiveAssignment) {
+      return t('tr_personAssignedPreviousWeek');
     }
 
     const [currentYear, currentMonth] = week.split('/');
@@ -449,7 +460,16 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
     }
 
     return '';
-  }, [persons, value, week, personHistory, t, meetingDate, isMeetingConflict]);
+  }, [
+    persons,
+    value,
+    week,
+    personHistory,
+    t,
+    meetingDate,
+    isMeetingConflict,
+    isConsecutiveAssignment,
+  ]);
 
   const handleGenderChange = (
     e: MouseEvent<HTMLLabelElement>,

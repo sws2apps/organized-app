@@ -380,6 +380,7 @@
   "tr_congregationRequestRejectedDesc": "Ti <strong>{{ congregationNameAndNumber }}</strong> a kongregasion ket in-disapprove ti request mo a kitaen ti outgoing speakers list da. No kasapulan, mabalin mo a makikontak kadakuada personally.",
   "tr_congregationAccessRevoke": "I-revoke ti access para iti daytoy a kongregasion",
   "tr_congregationAccessRevokeDesc": "I-revoke ti access ti speakers listyo para iti <strong>{{ congregationName }}</strong> a kongregasion? Saan da a makakita manen, ngem mabalin mo a i-share manen kadakuada inton ag-request da manen.",
+  "tr_withoutGroup": "Without a group",
   "tr_noGroupsYet": "Awan pay a field service groups a na-create. Create a group umuna tapno ag-Add dagiti publishers ken reorder dagiti groups.",
   "tr_coordinator": "Coordinator",
   "tr_secretary": "Secretary",
@@ -568,5 +569,6 @@
   "tr_congregationAlreadySynced": "Congregation is already connected and synced.",
   "tr_error_app_data_no_valid_data_found": "No valid data found or no speaker selected.",
   "tr_infirmPioneer": "Infirm pioneer",
-  "tr_infirmPioneerNoGoal": "As an infirm pioneer, you can serve as much as you are able without a yearly hour goal."
+  "tr_infirmPioneerNoGoal": "As an infirm pioneer, you can serve as much as you are able without a yearly hour goal.",
+  "tr_importCsvParseError": "The file could not be read. Please check the column structure and try again."
 }

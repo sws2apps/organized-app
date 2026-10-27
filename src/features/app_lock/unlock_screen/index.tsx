@@ -28,7 +28,7 @@ const UnlockScreen = ({ isExiting = false }: { isExiting?: boolean }) => {
       aria-label={t('tr_enterPinToUnlock')}
       exiting={isExiting}
     >
-      <Stack spacing={3} alignItems="center" sx={{ width: '100%' }}>
+      <Stack spacing={3} sx={{ width: '100%', alignItems: 'center' }}>
         <AppLockCard
           role="region"
           aria-label={t('tr_enterPinToUnlock')}

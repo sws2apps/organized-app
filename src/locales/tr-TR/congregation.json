@@ -380,6 +380,7 @@
   "tr_congregationRequestRejectedDesc": "The <strong>{{ congregationNameAndNumber }}</strong> congregation rejected your request to view their outgoing speakers list. If necessary, you can contact them personally.",
   "tr_congregationAccessRevoke": "Bu cemaatin erişimini iptal et",
   "tr_congregationAccessRevokeDesc": "<strong>{{ congregationName }}</strong> cemaatinin konuşmacı listenize erişimini iptal etmek istiyor musunuz? Artık göremeyecekler, ancak yeni bir talepte bulunurlarsa tekrar paylaşabilirsiniz.",
+  "tr_withoutGroup": "Without a group",
   "tr_noGroupsYet": "You don’t have any field service groups created yet. Create a group first to start adding publishers and reordering groups.",
   "tr_coordinator": "Koordinatör",
   "tr_secretary": "Yazman",
@@ -568,5 +569,6 @@
   "tr_congregationAlreadySynced": "Congregation is already connected and synced.",
   "tr_error_app_data_no_valid_data_found": "No valid data found or no speaker selected.",
   "tr_infirmPioneer": "Infirm pioneer",
-  "tr_infirmPioneerNoGoal": "As an infirm pioneer, you can serve as much as you are able without a yearly hour goal."
+  "tr_infirmPioneerNoGoal": "As an infirm pioneer, you can serve as much as you are able without a yearly hour goal.",
+  "tr_importCsvParseError": "The file could not be read. Please check the column structure and try again."
 }

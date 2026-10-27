@@ -1,0 +1,43 @@
+import { Box } from '@mui/material';
+import { useScrollFade } from '@hooks/index';
+import { ScrollAreaProps } from './index.types';
+
+/**
+ * A list or panel that scrolls inside something else, dissolving at the edges
+ * it scrolls past: the surrounding scroll area cannot tell that it is cut off.
+ */
+const ScrollArea = ({
+  children,
+  sx,
+  className,
+  ref,
+  ...props
+}: ScrollAreaProps) => {
+  const fadeRef = useScrollFade();
+
+  return (
+    <Box
+      {...props}
+      ref={(el: HTMLDivElement | null) => {
+        fadeRef(el);
+
+        const refCleanup = typeof ref === 'function' ? ref(el) : undefined;
+        if (ref && typeof ref !== 'function') ref.current = el;
+
+        return () => {
+          fadeRef(null);
+
+          if (typeof refCleanup === 'function') refCleanup();
+          else if (typeof ref === 'function') ref(null);
+          else if (ref) ref.current = null;
+        };
+      }}
+      className={['scroll-fade-y', className].filter(Boolean).join(' ')}
+      sx={[{ overflowY: 'auto' }, ...(Array.isArray(sx) ? sx : [sx])]}
+    >
+      {children}
+    </Box>
+  );
+};
+
+export default ScrollArea;

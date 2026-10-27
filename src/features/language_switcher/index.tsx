@@ -12,7 +12,13 @@ import Typography from '@components/typography';
 import useAppTranslation from '@hooks/useAppTranslation';
 import useLanguage from './useLanguage';
 
-const LanguageSwitcher = ({ menuStyle }: { menuStyle: SxProps }) => {
+const LanguageSwitcher = ({
+  menuStyle,
+  standalone = false,
+}: {
+  menuStyle: SxProps;
+  standalone?: boolean;
+}) => {
   const { t } = useAppTranslation();
 
   const {
@@ -27,28 +33,62 @@ const LanguageSwitcher = ({ menuStyle }: { menuStyle: SxProps }) => {
     isAppLoad,
   } = useLanguage();
 
+  const triggerContent = (
+    <>
+      <ListItemIcon
+        sx={{
+          '&.MuiListItemIcon-root': {
+            width: '24px',
+            minWidth: '24px !important',
+            justifyContent: 'center',
+          },
+        }}
+      >
+        <IconLanguage color="var(--black)" width={22} height={22} />
+      </ListItemIcon>
+      {(tabletDown || !isAppLoad) && (
+        <ListItemText>
+          <Typography className="body-regular">
+            {t('tr_changeLanguage')}
+          </Typography>
+        </ListItemText>
+      )}
+    </>
+  );
+
   return (
     <>
-      <MenuItem disableRipple sx={menuStyle} onClick={handleClick} tabIndex={0}>
-        <ListItemIcon
+      {standalone ? (
+        <Box
+          role="button"
+          tabIndex={0}
+          onClick={handleClick}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              handleClick(e);
+            }
+          }}
           sx={{
-            '&.MuiListItemIcon-root': {
-              width: '24px',
-              minWidth: '24px !important',
-              justifyContent: 'center',
-            },
+            display: 'flex',
+            alignItems: 'center',
+            cursor: 'pointer',
+            userSelect: 'none',
+            ...(menuStyle as object),
           }}
         >
-          <IconLanguage color="var(--black)" width={22} height={22} />
-        </ListItemIcon>
-        {(tabletDown || !isAppLoad) && (
-          <ListItemText>
-            <Typography className="body-regular">
-              {t('tr_changeLanguage')}
-            </Typography>
-          </ListItemText>
-        )}
-      </MenuItem>
+          {triggerContent}
+        </Box>
+      ) : (
+        <MenuItem
+          disableRipple
+          sx={menuStyle}
+          onClick={handleClick}
+          tabIndex={0}
+        >
+          {triggerContent}
+        </MenuItem>
+      )}
       <Menu
         id="menu-language"
         disableScrollLock={true}
@@ -65,9 +105,6 @@ const LanguageSwitcher = ({ menuStyle }: { menuStyle: SxProps }) => {
             borderBottom: 'none',
           },
         }}
-        MenuListProps={{
-          'aria-labelledby': 'basic-button',
-        }}
         slotProps={{
           paper: {
             className: 'small-card-shadow',
@@ -76,6 +113,10 @@ const LanguageSwitcher = ({ menuStyle }: { menuStyle: SxProps }) => {
               border: '1px solid var(--accent-200)',
               backgroundColor: 'var(--white)',
             },
+          },
+
+          list: {
+            'aria-labelledby': 'basic-button',
           },
         }}
       >
@@ -88,8 +129,8 @@ const LanguageSwitcher = ({ menuStyle }: { menuStyle: SxProps }) => {
               <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
                 <Typography
                   className="label-small-medium"
-                  color="var(--accent-dark)"
                   sx={{
+                    color: 'var(--accent-dark)',
                     backgroundColor: 'var(--accent-200)',
                     padding: '2px 3px',
                     borderRadius: 'var(--radius-s)',
@@ -97,7 +138,12 @@ const LanguageSwitcher = ({ menuStyle }: { menuStyle: SxProps }) => {
                 >
                   {lang.code.toUpperCase()}
                 </Typography>
-                <Typography className="body-regular" color="var(--black)">
+                <Typography
+                  className="body-regular"
+                  sx={{
+                    color: 'var(--black)',
+                  }}
+                >
                   {lang.name}
                 </Typography>
               </Box>
@@ -132,7 +178,9 @@ const LanguageSwitcher = ({ menuStyle }: { menuStyle: SxProps }) => {
             <ListItemText>
               <Typography
                 className="body-small-semibold"
-                color="var(--accent-dark)"
+                sx={{
+                  color: 'var(--accent-dark)',
+                }}
               >
                 {t('tr_languageMissing')}
               </Typography>

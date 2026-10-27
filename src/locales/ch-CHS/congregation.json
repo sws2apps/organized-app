@@ -380,6 +380,7 @@
   "tr_congregationRequestRejectedDesc": "你申请查看 <strong>{{ congregationNameAndNumber }}</strong> 会众外出讲者名单的请求已被拒绝。如有需要，你可以直接联系他们。",
   "tr_congregationAccessRevoke": "撤销这个会众的访问权限",
   "tr_congregationAccessRevokeDesc": "确定要撤销 <strong>{{ congregationName }}</strong> 会众查看本会众讲者名单的权限吗？撤销后，他们将无法继续查看。不过，如果他们以后再次提出申请，你仍然可以重新授予权限。",
+  "tr_withoutGroup": "Without a group",
   "tr_noGroupsYet": "目前还没有建立传道小组。请先建立一个小组，然后就可以添加传道员并调整小组顺序。",
   "tr_coordinator": "长老团协调人",
   "tr_secretary": "秘书",
@@ -568,5 +569,6 @@
   "tr_congregationAlreadySynced": "Congregation is already connected and synced.",
   "tr_error_app_data_no_valid_data_found": "No valid data found or no speaker selected.",
   "tr_infirmPioneer": "体弱先驱",
-  "tr_infirmPioneerNoGoal": "作为体弱先驱，你可以按照自己的能力参与传道，不需要达到每年的小时定额。"
+  "tr_infirmPioneerNoGoal": "作为体弱先驱，你可以按照自己的能力参与传道，不需要达到每年的小时定额。",
+  "tr_importCsvParseError": "The file could not be read. Please check the column structure and try again."
 }

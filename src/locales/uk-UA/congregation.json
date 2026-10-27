@@ -380,6 +380,7 @@
   "tr_congregationRequestRejectedDesc": "Збір <strong>{{ congregationNameAndNumber }}</strong> відхилив твоє прохання на перегляд їхнього списку рекомендованих промовців. Якщо потрібно, ти можеш особисто зв'язатися з ними.",
   "tr_congregationAccessRevoke": "Скасувати доступ для цього збору",
   "tr_congregationAccessRevokeDesc": "Скасувати доступ до твого списку промовців для збору <strong>{{ congregationName }}</strong>? Вони більше не зможуть його бачити, але ти все ще зможеш поділитися ним пізніше після нового запиту.",
+  "tr_withoutGroup": "Without a group",
   "tr_noGroupsYet": "Ти ще не створив жодної групи для служіння. Спершу створи групу, щоб додати вісників і впорядкувати групи.",
   "tr_coordinator": "Координатор",
   "tr_secretary": "Секретар",
@@ -568,5 +569,6 @@
   "tr_congregationAlreadySynced": "Congregation is already connected and synced.",
   "tr_error_app_data_no_valid_data_found": "No valid data found or no speaker selected.",
   "tr_infirmPioneer": "Infirm pioneer",
-  "tr_infirmPioneerNoGoal": "As an infirm pioneer, you can serve as much as you are able without a yearly hour goal."
+  "tr_infirmPioneerNoGoal": "As an infirm pioneer, you can serve as much as you are able without a yearly hour goal.",
+  "tr_importCsvParseError": "The file could not be read. Please check the column structure and try again."
 }

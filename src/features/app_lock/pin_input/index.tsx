@@ -163,8 +163,7 @@ const PinInput = forwardRef<PinInputHandle, PinInputProps>(
           onComplete={onComplete}
           length={length}
           autoFocus={autoFocus}
-          display="flex"
-          gap={1}
+          sx={{ display: 'flex', gap: `${CELL_GAP}px` }}
           validateChar={isDigit}
           TextFieldsProps={(index) => {
             const filled = !!value[index];

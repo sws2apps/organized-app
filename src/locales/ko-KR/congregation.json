@@ -380,6 +380,7 @@
   "tr_congregationRequestRejectedDesc": "<strong>{{ congregationNameAndNumber }}</strong> 회중이 외부 연사 명단을 볼 수 있게 해 달라는 요청을 거절했습니다. 필요하면 직접 연락할 수 있습니다.",
   "tr_congregationAccessRevoke": "이 회중의 접근 권한 철회",
   "tr_congregationAccessRevokeDesc": "<strong>{{ congregationName }}</strong> 회중이 우리 회중의 연사 명단에 접근할 수 있는 권한을 철회하시겠습니까? 더 이상 명단을 볼 수 없지만, 나중에 새로 요청하면 다시 공유할 수 있습니다.",
+  "tr_withoutGroup": "Without a group",
   "tr_noGroupsYet": "아직 만든 야외 봉사 집단이 없습니다. 먼저 집단을 만들고 전도인들을 추가한 다음 집단 순서를 정하세요.",
   "tr_coordinator": "장로의 회 조정자",
   "tr_secretary": "서기",
@@ -568,5 +569,6 @@
   "tr_congregationAlreadySynced": "Congregation is already connected and synced.",
   "tr_error_app_data_no_valid_data_found": "No valid data found or no speaker selected.",
   "tr_infirmPioneer": "노약자 파이오니아",
-  "tr_infirmPioneerNoGoal": "노약자 파이오니아는 연간 시간 목표 없이 자신의 형편이 허락하는 만큼 봉사할 수 있습니다."
+  "tr_infirmPioneerNoGoal": "노약자 파이오니아는 연간 시간 목표 없이 자신의 형편이 허락하는 만큼 봉사할 수 있습니다.",
+  "tr_importCsvParseError": "The file could not be read. Please check the column structure and try again."
 }

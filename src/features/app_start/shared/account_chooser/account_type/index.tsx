@@ -37,7 +37,8 @@ const AccountType = ({
         borderRadius: 'var(--radius-l)',
         border: '1px solid var(--accent-300)',
         textAlign: 'left',
-        transition: 'border 0.15s ease-in-out, background 0.15s ease-in-out, box-shadow 0.15s ease-in-out, color 0.15s ease-in-out',
+        transition:
+          'border 0.15s ease-in-out, background 0.15s ease-in-out, box-shadow 0.15s ease-in-out, color 0.15s ease-in-out',
         '&:hover': {
           border: '1px solid var(--accent-main)',
           background: 'var(--accent-150)',
@@ -71,8 +72,10 @@ const AccountType = ({
           })}
         <Typography
           className="h4"
-          color="var(--accent-400)"
-          sx={{ flex: 1 }}
+          sx={{
+            color: 'var(--accent-400)',
+            flex: 1,
+          }}
         >
           {text}
         </Typography>
@@ -84,7 +87,8 @@ const AccountType = ({
             rotate: '180deg',
             opacity: buttonIsHovered ? 1 : 0,
             transform: buttonIsHovered ? 'translateX(0)' : 'translateX(8px)',
-            transition: 'opacity 0.15s ease-in-out, transform 0.15s ease-in-out',
+            transition:
+              'opacity 0.15s ease-in-out, transform 0.15s ease-in-out',
           }}
         />
       </Box>
@@ -92,8 +96,10 @@ const AccountType = ({
       {subtitle && (
         <Typography
           className="body-small-regular"
-          color="var(--accent-350)"
-          sx={{ width: '100%' }}
+          sx={{
+            color: 'var(--accent-350)',
+            width: '100%',
+          }}
         >
           {subtitle}
         </Typography>

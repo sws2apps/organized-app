@@ -19,7 +19,11 @@ const MonthlyRecord = () => {
         <Stack spacing="24px">
           <Stack spacing="8px">
             <Typography className="h2">{t('tr_recordAttendance')}</Typography>
-            <Typography color="var(--grey-400)">
+            <Typography
+              sx={{
+                color: 'var(--grey-400)',
+              }}
+            >
               {t('tr_recordAttendanceDesc')}
             </Typography>
           </Stack>

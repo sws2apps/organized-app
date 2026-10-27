@@ -6,7 +6,6 @@ import useWeekendExport from './useWeekendExport';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
 import DialogActions from '@components/dialog_actions';
-import Typography from '@components/typography';
 import WeekRangeSelector from '../week_range_selector';
 import Checkbox from '@components/checkbox';
 
@@ -28,29 +27,15 @@ const WeekendExport = ({ open, onClose }: WeekendExportType) => {
     <Dialog
       onClose={onClose}
       open={open}
-      sx={{ padding: '24px', position: 'relative' }}
+      sx={{ position: 'relative' }}
+      title={t('tr_exportWM')}
+      description={t('tr_exportWMDesc')}
     >
-      <Box
-        sx={{
-          display: 'flex',
-          gap: '24px',
-          flexDirection: 'column',
-          width: '100%',
-        }}
-      >
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-          <Typography className="h2">{t('tr_exportWM')}</Typography>
-          <Typography color="var(--grey-400)">
-            {t('tr_exportWMDesc')}
-          </Typography>
-        </Box>
-
-        <WeekRangeSelector
-          meeting="weekend"
-          onStartChange={handleSetStartWeek}
-          onEndChange={handleSetEndWeek}
-        />
-      </Box>
+      <WeekRangeSelector
+        meeting="weekend"
+        onStartChange={handleSetStartWeek}
+        onEndChange={handleSetEndWeek}
+      />
 
       <Box
         sx={{
