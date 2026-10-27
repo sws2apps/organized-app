@@ -241,9 +241,6 @@ export const DEFAULT_CATEGORIES: TerritoryCategoryOption[] = [
   { id: 'rural', name: 'Rural', color: 'green' },
 ];
 
-// once among the defaults; taken out of stored data when it loads
-export const RETIRED_CATEGORIES = ['dangerous', 'dogs', 'gated'];
-
 export const CATEGORY_COLORS: CategoryColor[] = [
   'blue',
   'green',
