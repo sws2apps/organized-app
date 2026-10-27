@@ -22,13 +22,6 @@ export const fieldServiceMeetingPermissions = (
     isServiceOverseer ||
     settings.user_settings.cong_role.includes('field_service_schedule');
   const activeGroups = groups.filter((group) => !group.group_data._deleted);
-  const myMemberGroupIds = new Set(
-    activeGroups
-      .filter((group) =>
-        group.group_data.members.some((member) => member.person_uid === uid)
-      )
-      .map((group) => group.group_id)
-  );
   const hasGroupRole = settings.user_settings.cong_role.some((role) =>
     [
       'group_overseers',
@@ -48,7 +41,6 @@ export const fieldServiceMeetingPermissions = (
       )
       .map((group) => group.group_id)
   );
-  const isAnyGroupLead = myLedGroupIds.size > 0;
   const canManageMeeting = (
     category: FieldServiceMeetingCategory,
     groupId?: string
@@ -59,14 +51,10 @@ export const fieldServiceMeetingPermissions = (
     return myLedGroupIds.has(groupId);
   };
   return {
-    isAdmin,
     canManageAll,
-    isServiceOverseer,
-    isAnyGroupLead,
     myLedGroupIds,
-    myMemberGroupIds,
     canManageMeeting,
-    canCreate: canManageAll || isAnyGroupLead,
+    canCreate: canManageAll || myLedGroupIds.size > 0,
     canEditGroupTimes: () => isAdmin,
   };
 };
