@@ -317,8 +317,15 @@ const handleSyncError = async (error: unknown, scope: string) => {
       restricted: { categories: [], types: [] },
     });
     const state = await dbTerritorySyncGet();
+    // Revoke server copies only; never-synced local territories exist nowhere else.
     if (state?.scope === scopeNow())
-      await dbTerritorySyncApply(state.scope, state.revision, []);
+      await dbTerritorySyncApply(
+        state.scope,
+        state.revision,
+        [],
+        undefined,
+        true
+      );
   }
   let nextStatus: TerritorySyncStatus = 'failed';
   if (error instanceof TerritoryIdentityError) nextStatus = 'identity';
@@ -365,6 +372,17 @@ export const synchronizeTerritories = () => {
     running = undefined;
   });
   return running;
+};
+
+export const territoryPendingReview = async (): Promise<
+  TerritoryPendingReview | undefined
+> => {
+  const state = await dbTerritorySyncGet();
+  if (state?.scope !== scopeNow()) return undefined;
+  return {
+    queue: state.queue,
+    settings: state.settingsDirty ? state.settings : undefined,
+  };
 };
 
 export const discardPendingTerritories = async (

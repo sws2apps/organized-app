@@ -1,5 +1,5 @@
 import { territoryNumberKey } from '@utils/territory';
-import { getTranslation } from '@services/i18n/translation';
+import { TerritoryImportError } from '@utils/territory_import';
 import type { Database, SqlValue, SqlJsStatic } from 'sql.js';
 import {
   DoNotCall,
@@ -32,6 +32,13 @@ const rows = (db: Database, sql: string): Row[] => {
     Object.fromEntries(result.columns.map((column, i) => [column, values[i]]))
   );
 };
+
+// older backups lack some tables
+const hasTable = (db: Database, name: string) =>
+  rows(
+    db,
+    `SELECT name FROM sqlite_master WHERE type = 'table' AND name = '${name}'`
+  ).length > 0;
 
 const text = (value: SqlValue) =>
   typeof value === 'string' ? value.trim() : '';
@@ -117,12 +124,16 @@ export const parseServiceTerritory = async (
       )
     );
 
-    const doNotCallRows = groupByTerritory(rows(db, 'SELECT * FROM visit_not'));
+    const doNotCallRows = groupByTerritory(
+      hasTable(db, 'visit_not') ? rows(db, 'SELECT * FROM visit_not') : []
+    );
 
-    const driveMaps = rows(
-      db,
-      "SELECT count(*) AS count FROM maps WHERE coalesce(MapId, '') <> ''"
-    ).at(0)?.count as number;
+    const driveMaps = hasTable(db, 'maps')
+      ? (rows(
+          db,
+          "SELECT count(*) AS count FROM maps WHERE coalesce(MapId, '') <> ''"
+        ).at(0)?.count as number)
+      : 0;
 
     let assignments = 0;
     let doNotCalls = 0;
@@ -233,11 +244,7 @@ export const parseServiceTerritory = async (
       driveMaps: driveMaps ?? 0,
     };
   } catch {
-    throw new Error(
-      getTranslation({
-        key: 'tr_territoryImportInvalidBackup',
-      })
-    );
+    throw new TerritoryImportError('tr_territoryImportInvalidBackup');
   } finally {
     db?.close();
   }

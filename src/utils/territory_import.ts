@@ -377,8 +377,10 @@ export const prepareTerritoryImport = (
       resolveImportPublisher(record, assignees, matches);
     const priorHistory = (previous?.assignments ?? []).map(resolvePublisher);
     const importedHistory = (values.assignments ?? []).map(resolvePublisher);
+    // an old open record that named only a group has no publisher to match
     const unresolved = [...priorHistory, ...importedHistory].filter(
-      (record) => !record.returnedOn && !record.publisherId
+      (record) =>
+        !record.returnedOn && !record.publisherId && !!record.publisher.trim()
     );
     for (const record of unresolved) missing.add(record.publisher);
     // Let managers resolve aliases before treating them as two different active holders.

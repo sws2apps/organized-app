@@ -403,6 +403,9 @@ const Row = memo(function Row({
               disabled={!showCheckboxes}
               sx={{ padding: 0, margin: 0 }}
               checked={checked}
+              ariaLabel={t('tr_territoryTerritory', {
+                number: territory.number,
+              })}
               onChange={() => api.check(territory.id)}
             />
           </Box>
@@ -833,6 +836,7 @@ const TerritoryTable = ({
             sx={{ padding: 0, margin: 0 }}
             checked={allChecked}
             indeterminate={someChecked && !allChecked}
+            ariaLabel={t('tr_selectAll')}
             onChange={() => onCheckMany(sorted.map((t) => t.id))}
           />
         )}

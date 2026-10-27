@@ -7,6 +7,7 @@ import {
 import { mapRequest } from '@services/maps/offline';
 import { mapPerformanceOptions } from '@services/maps/performance';
 import * as maplibregl from 'maplibre-gl';
+import '@features/territories/map/worker';
 import { Territory } from '@definition/territory';
 import {
   DEFAULT_PROVIDER,

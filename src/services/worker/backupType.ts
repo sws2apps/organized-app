@@ -1,4 +1,3 @@
-import { TerritoryRecord } from '@definition/territory_record';
 import { AppRoleType } from '@definition/app';
 import { OutgoingTalkExportScheduleType } from '@definition/schedules';
 import { UpcomingEventType } from '@definition/upcoming_events';
@@ -33,7 +32,6 @@ export type BackupDataType = {
   sources?: object;
   meeting_attendance?: object;
   upcoming_events?: UpcomingEventType[];
-  territories?: TerritoryRecord[];
   cong_users?: CongUserType[];
   metadata?: Record<string, string>;
   delegated_field_service_reports?: object;

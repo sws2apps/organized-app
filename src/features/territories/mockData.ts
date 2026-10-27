@@ -348,7 +348,9 @@ const buildTerritories = (count: number): Territory[] => {
   return territories;
 };
 
-const TERRITORIES = buildTerritories(132);
+// built on first use so production startup never pays for the samples
+let territories: Territory[] | undefined;
+const allSamples = () => (territories ??= buildTerritories(132));
 
 // a few worked for the special campaign the test mode seeds, a few still out for it
 const withCampaign = (
@@ -405,7 +407,7 @@ const withCampaign = (
 // in place of the sample "me", so "Mine" and assigning show real people
 export const sampleTerritories = (get: Getter): Territory[] => {
   const me = get(currentPublisherState);
-  if (!isTest || !me) return TERRITORIES;
+  if (!isTest || !me) return allSamples();
 
   const campaign = campaignsOn(get(territoryCampaignsState), new Date())[0];
 
@@ -434,7 +436,7 @@ export const sampleTerritories = (get: Getter): Territory[] => {
 
   const to = (name: string) => names.get(name) ?? name;
 
-  return TERRITORIES.map((sample, index) => {
+  return allSamples().map((sample, index) => {
     const territory = campaign ? withCampaign(sample, index, campaign) : sample;
 
     return {

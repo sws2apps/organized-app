@@ -11,16 +11,22 @@ export const coalesceTerritoryChanges = (
   queue: TerritoryPendingOperation[],
   changes: TerritoryPendingChange[]
 ) => {
+  // Only the latest operation touching these ids may absorb the edit, or a later one would replay older data.
   const operation = [...queue]
     .reverse()
-    .find(
-      (item) =>
-        !item.prepared &&
-        changes.every((change) =>
-          item.changes.some((previous) => previous.id === change.id)
-        )
+    .find((item) =>
+      changes.some((change) =>
+        item.changes.some((previous) => previous.id === change.id)
+      )
     );
-  if (!operation) return false;
+  if (
+    !operation ||
+    operation.prepared ||
+    !changes.every((change) =>
+      operation.changes.some((previous) => previous.id === change.id)
+    )
+  )
+    return false;
   for (const change of changes) {
     const previous = operation.changes.find((item) => item.id === change.id)!;
     previous.after = change.after;

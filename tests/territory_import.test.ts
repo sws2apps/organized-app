@@ -425,3 +425,28 @@ test('reimport of an active alias offers matching before checking holder conflic
   assert.deepEqual(preview.missing, ['Example, Alice']);
   assert.equal(preview.territories[0].assignments.length, 1);
 });
+test('an open group record without a publisher does not block re-importing its territory', () => {
+  const existing = {
+    ...territory(),
+    status: 'in_work',
+    assignments: [
+      {
+        id: 'open',
+        publisher: '',
+        group: 'Group 1',
+        assignedOn: '05.01.2026',
+        serviceYear: '2025-2026',
+        months: 1,
+        startMonth: 4,
+        endMonth: 4,
+      },
+    ],
+  } as Territory;
+  const result = prepareTerritoryImport(
+    parseTerritoryCSV('Number,Name\nM22,Renamed', 'iso'),
+    [existing],
+    people
+  );
+  assert.deepEqual(result.missing, []);
+  assert.equal(result.territories[0].name, 'Renamed');
+});
