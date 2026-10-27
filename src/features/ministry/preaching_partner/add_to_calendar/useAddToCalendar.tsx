@@ -1,3 +1,4 @@
+import { partnerDemoMode } from '@constants/index';
 import { useAtomValue } from 'jotai';
 import { personsActiveState } from '@states/persons';
 import { fullnameOptionState, userLocalUIDState } from '@states/settings';
@@ -41,10 +42,15 @@ const useAddToCalendar = ({
         : t('tr_partnerUnavailable');
       const event = partnerCalendarEvent(
         request,
-        t('tr_partnerCalendarTitle', {
-          type: preachingPartnerTypeLabel(request.request_data.type),
-          publisherName,
-        })
+        t(
+          partnerDemoMode
+            ? 'tr_partnerCalendarTitle'
+            : 'tr_partnerLiveCalendarTitle',
+          {
+            type: preachingPartnerTypeLabel(request.request_data.type),
+            publisherName,
+          }
+        )
       );
       const { error, value } = createEvent(event);
       if (error || !value) throw error ?? new Error('tr_partnerCalendarFailed');

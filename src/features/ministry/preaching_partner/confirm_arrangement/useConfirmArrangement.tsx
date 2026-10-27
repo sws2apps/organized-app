@@ -1,3 +1,4 @@
+import { partnerDemoMode } from '@constants/index';
 import { useEffect, useMemo, useState } from 'react';
 import { useSetAtom, useAtomValue } from 'jotai';
 import { PreachingPartnerConfirmProps } from '@features/ministry/preaching_partner/confirm_arrangement/index.types';
@@ -82,7 +83,11 @@ const useConfirmArrangement = ({
       setIsProcessing(false);
 
       displaySnackNotification({
-        header: getTranslation({ key: 'tr_arrangementConfirmed' }),
+        header: getTranslation({
+          key: partnerDemoMode
+            ? 'tr_arrangementConfirmed'
+            : 'tr_partnerLiveConfirmed',
+        }),
         message: getTranslation({
           key: 'tr_arrangementWith',
           params: { publisherName },

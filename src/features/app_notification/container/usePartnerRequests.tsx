@@ -1,4 +1,4 @@
-import { isTest } from '@constants/index';
+import { PARTNER_SYNC_INTERVAL } from '@constants/preaching_partner';
 import {
   fullnameOptionState,
   hour24FormatState,
@@ -7,6 +7,8 @@ import {
 import {
   myArrangedPreachingPartnerRequestsState,
   partnerReadNotificationsState,
+  partnerConnectionState,
+  partnerSyncState,
 } from '@states/preaching_partner';
 import { useEffect } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
@@ -22,6 +24,25 @@ const NOTIFICATION_PREFIX = 'partner-request-joined-';
 
 const usePartnerRequests = () => {
   const { t } = useAppTranslation();
+  const connection = useAtomValue(partnerConnectionState);
+  const sync = useSetAtom(partnerSyncState);
+  useEffect(() => {
+    if (!connection) return;
+    const refresh = () => {
+      if (!document.hidden) void sync().catch(() => undefined);
+    };
+    void sync(true).catch(() => undefined);
+    const timer = setInterval(refresh, PARTNER_SYNC_INTERVAL);
+    window.addEventListener('online', refresh);
+    window.addEventListener('focus', refresh);
+    document.addEventListener('visibilitychange', refresh);
+    return () => {
+      clearInterval(timer);
+      window.removeEventListener('online', refresh);
+      window.removeEventListener('focus', refresh);
+      document.removeEventListener('visibilitychange', refresh);
+    };
+  }, [connection, sync]);
 
   const setNotifications = useSetAtom(notificationsState);
 
@@ -33,7 +54,7 @@ const usePartnerRequests = () => {
   const fullnameOption = useAtomValue(fullnameOptionState);
 
   useEffect(() => {
-    const incoming = (isTest ? arranged : []).map((request) => {
+    const incoming = arranged.map((request) => {
       const partner = persons.find(
         (record) => record.person_uid === request.request_data.partner_uid
       );

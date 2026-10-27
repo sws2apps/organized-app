@@ -1,4 +1,8 @@
-import { PARTNER_NOTIFICATION_LOCAL_ID } from '@constants/index';
+import {
+  partnerDemoMode,
+  PARTNER_SYNC_LOCAL_ID,
+  PARTNER_NOTIFICATION_LOCAL_ID,
+} from '@constants/index';
 import { appLocalsState } from '@states/app_locals';
 /*
 This file holds the source of the truth from the table "preaching_partner_requests".
@@ -19,7 +23,70 @@ import {
 } from '@services/app/preaching_partner';
 import { personsActiveState } from '@states/persons';
 import { partnerToday } from '@utils/preaching_partner';
-import { userLocalUIDState } from '@states/settings';
+import {
+  accountTypeState,
+  congIDState,
+  congDataSyncState,
+  userLocalUIDState,
+} from '@states/settings';
+import { apiHostState, userIDState } from '@states/app';
+import { PartnerConnection } from '@definition/preaching_partner';
+import {
+  activatePartnerConnection,
+  partnerSyncClient,
+} from '@services/app/preaching_partner_sync';
+import { emptyPartnerCache } from '@utils/preaching_partner_sync';
+
+export const partnerConnectionState = atom((get): PartnerConnection | null => {
+  if (partnerDemoMode || !get(congDataSyncState)) return null;
+  const apiHost = get(apiHostState);
+  const congregationId = get(congIDState);
+  const userId = get(userIDState);
+  const actor = get(userLocalUIDState);
+  const accountType = get(accountTypeState);
+  if (
+    !apiHost ||
+    !congregationId ||
+    !userId ||
+    !actor ||
+    !['vip', 'pocket'].includes(accountType)
+  )
+    return null;
+  const pocket = accountType === 'pocket';
+  return {
+    apiHost,
+    congregationId,
+    userId,
+    actor,
+    pocket,
+    scope: JSON.stringify([apiHost, congregationId, userId, actor, pocket]),
+  };
+});
+export const partnerCacheState = atom((get) => {
+  const connection = get(partnerConnectionState);
+  const local = get(appLocalsState).find(
+    (record) => record.id === PARTNER_SYNC_LOCAL_ID
+  )?.partnerSync;
+  return connection
+    ? (local?.scopes[connection.scope] ?? emptyPartnerCache())
+    : emptyPartnerCache();
+});
+export const partnerReadyState = atom(
+  (get) => partnerDemoMode || !!get(partnerCacheState).syncedAt
+);
+export const partnerSyncState = atom(
+  null,
+  async (get, _set, activate = false) => {
+    const connection = get(partnerConnectionState);
+    if (!connection) return;
+    if (activate) await activatePartnerConnection(connection);
+    else await partnerSyncClient(connection).synchronize();
+  }
+);
+export const partnerDiscardFailedState = atom(null, async (get) => {
+  const connection = get(partnerConnectionState);
+  if (connection) await partnerSyncClient(connection).discardFailed();
+});
 
 export const preachingPartnerRequestsDbState = atom<
   PreachingPartnerRequestType[]
@@ -45,18 +112,33 @@ partnerTodayState.onMount = (set) => {
 
 export const partnerMutationState = atom(
   null,
-  (get, _set, mutation: PartnerMutation) =>
-    preachingPartnerMutate(mutation, get(userLocalUIDState))
+  (get, _set, mutation: PartnerMutation) => {
+    if (partnerDemoMode)
+      return preachingPartnerMutate(mutation, get(userLocalUIDState));
+    const connection = get(partnerConnectionState);
+    if (!connection || !get(partnerReadyState))
+      throw new Error('tr_partnerSyncAccess');
+    return partnerSyncClient(connection).mutate(mutation);
+  }
 );
 
-export const partnerCanCreateState = atom((get) =>
-  get(personsActiveState).some(
-    (person) => person.person_uid === get(userLocalUIDState)
-  )
+export const partnerCanCreateState = atom(
+  (get) =>
+    get(partnerReadyState) &&
+    get(personsActiveState).some(
+      (person) => person.person_uid === get(userLocalUIDState)
+    )
 );
 
 export const preachingPartnerRequestsState = atom((get) => {
-  const requests = get(preachingPartnerRequestsDbState);
+  const connection = get(partnerConnectionState);
+  const activeScope = get(appLocalsState).find(
+    (record) => record.id === PARTNER_SYNC_LOCAL_ID
+  )?.partnerSync?.activeScope;
+  const requests =
+    partnerDemoMode || (connection && activeScope === connection.scope)
+      ? get(preachingPartnerRequestsDbState)
+      : [];
   const persons = get(personsActiveState);
 
   const today = get(partnerTodayState);

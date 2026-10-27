@@ -44,10 +44,10 @@ const usePreachingPartner = () => {
     (next: PreachingPartnerTab, replace: boolean) => {
       navigate(`${PREACHING_PARTNER_PATH}/${next}`, {
         replace,
-        state: replace ? undefined : { fromPartnerList: true },
+        state: replace ? location.state : { fromPartnerList: true },
       });
     },
-    [navigate]
+    [navigate, location.state]
   );
 
   // side by side the tabs swap in place; on a phone each opens a subpage

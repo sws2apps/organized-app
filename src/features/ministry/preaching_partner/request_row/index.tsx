@@ -20,6 +20,7 @@ const PreachingPartnerRow = (props: PreachingPartnerRowProps) => {
 
   const {
     canAct,
+    pending,
     isMine,
     isArranged,
     timeLabel,
@@ -106,6 +107,18 @@ const PreachingPartnerRow = (props: PreachingPartnerRowProps) => {
             sx={{ maxWidth: '100%', overflowWrap: 'anywhere' }}
           />
 
+          {pending && (
+            <Badge
+              size={badgeSize}
+              color="grey"
+              multiLine
+              text={t(
+                pending.error
+                  ? 'tr_partnerSyncFailedLabel'
+                  : 'tr_partnerSyncPendingLabel'
+              )}
+            />
+          )}
           {isArranged && (
             <Badge size={badgeSize} color="accent" text={t('tr_arranged')} />
           )}

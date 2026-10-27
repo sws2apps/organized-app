@@ -1,4 +1,6 @@
-import { isTest } from '@constants/index';
+import { partnerDemoMode } from '@constants/index';
+import { useAtomValue } from 'jotai';
+import { partnerConnectionState } from '@states/preaching_partner';
 import { ListItem } from '@mui/material';
 import {
   IconMinistryReport,
@@ -14,6 +16,7 @@ import MinistryTimer from '@features/ministry/report/ministry_timer';
 
 const MinistryCard = () => {
   const { t } = useAppTranslation();
+  const connection = useAtomValue(partnerConnectionState);
 
   const {
     isPioneer,
@@ -48,11 +51,15 @@ const MinistryCard = () => {
         />
       </ListItem>
 
-      {isTest && (
+      {(partnerDemoMode || connection) && (
         <ListItem disablePadding>
           <DashboardMenu
             icon={<IconRaiseHand color="var(--black)" />}
-            primaryText={t('tr_partnerDemoTitle')}
+            primaryText={t(
+              partnerDemoMode
+                ? 'tr_partnerDemoTitle'
+                : 'tr_findPreachingPartner'
+            )}
             badgeText={
               partnerRequestsCount > 0
                 ? String(partnerRequestsCount)

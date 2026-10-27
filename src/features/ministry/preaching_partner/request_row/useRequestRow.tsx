@@ -1,4 +1,9 @@
-import { partnerCanCreateState } from '@states/preaching_partner';
+import { partnerDemoMode } from '@constants/index';
+import { isOnlineState } from '@states/app';
+import {
+  partnerCacheState,
+  partnerCanCreateState,
+} from '@states/preaching_partner';
 import { useMemo } from 'react';
 import { useAtomValue } from 'jotai';
 import { PreachingPartnerRowProps } from '@features/ministry/preaching_partner/request_row/index.types';
@@ -25,7 +30,12 @@ const useRequestRow = ({
   const { t } = useAppTranslation();
 
   useAtomValue(hour24FormatState);
-  const canAct = useAtomValue(partnerCanCreateState);
+  const canCreate = useAtomValue(partnerCanCreateState);
+  const cache = useAtomValue(partnerCacheState);
+  const online = useAtomValue(isOnlineState);
+  const pending = cache.pending.find(
+    (entry) => entry.mutation.request.request_uid === request.request_uid
+  );
   const persons = useAtomValue(personsActiveState);
   const fullnameOption = useAtomValue(fullnameOptionState);
   const userUID = useAtomValue(userLocalUIDState);
@@ -34,6 +44,10 @@ const useRequestRow = ({
 
   const isMine = person_uid === userUID;
   const isArranged = !!partner_uid;
+  const canAct =
+    canCreate &&
+    (!pending || !!pending.error) &&
+    (partnerDemoMode || (isMine && !isArranged) || online);
 
   const nameFor = useMemo(() => {
     return (uid?: string) => {
@@ -89,6 +103,7 @@ const useRequestRow = ({
 
   return {
     canAct,
+    pending,
     isMine,
     isArranged,
     timeLabel,

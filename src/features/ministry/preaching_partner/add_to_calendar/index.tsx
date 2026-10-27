@@ -1,3 +1,4 @@
+import { partnerDemoMode } from '@constants/index';
 import { PreachingPartnerCalendarProps } from '@features/ministry/preaching_partner/add_to_calendar/index.types';
 import { useAppTranslation } from '@hooks/index';
 import useAddToCalendar from '@features/ministry/preaching_partner/add_to_calendar/useAddToCalendar';
@@ -16,7 +17,9 @@ const PreachingPartnerCalendar = (props: PreachingPartnerCalendarProps) => {
       open={props.open}
       onClose={props.onClose}
       title={t('tr_addToCalendar')}
-      description={t('tr_addToCalendarDesc')}
+      description={t(
+        partnerDemoMode ? 'tr_addToCalendarDesc' : 'tr_partnerLiveCalendarDesc'
+      )}
     >
       <DialogActions>
         <Button variant="secondary" onClick={props.onClose}>

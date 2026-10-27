@@ -1149,3 +1149,11 @@ export const EASING = {
 };
 
 export const PARTNER_NOTIFICATION_LOCAL_ID = 2;
+
+export {
+  PARTNER_SYNC_LOCAL_ID,
+  PARTNER_SYNC_INTERVAL,
+  PARTNER_PENDING_LIMIT,
+} from '@constants/preaching_partner';
+export const partnerDemoMode =
+  isTest && import.meta.env.VITE_PARTNER_LIVE !== 'true';

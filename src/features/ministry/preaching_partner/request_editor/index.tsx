@@ -1,3 +1,4 @@
+import { partnerDemoMode } from '@constants/index';
 import { Box, FormControlLabel, RadioGroup } from '@mui/material';
 import { PreachingPartnerEditorProps } from '@features/ministry/preaching_partner/request_editor/index.types';
 import { PreachingPartnerMinistryType } from '@definition/preaching_partner';
@@ -208,7 +209,11 @@ const PreachingPartnerEditor = (props: PreachingPartnerEditorProps) => {
           onClose={handleCloseDelete}
           onConfirm={handleConfirmDelete}
           title={t('tr_deletePartnerRequest')}
-          description={t('tr_deletePartnerRequestDesc')}
+          description={t(
+            partnerDemoMode
+              ? 'tr_deletePartnerRequestDesc'
+              : 'tr_partnerLiveDeleteDesc'
+          )}
           confirmLabel={t('tr_delete')}
         />
       )}

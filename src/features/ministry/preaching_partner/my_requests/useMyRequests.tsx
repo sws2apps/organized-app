@@ -1,5 +1,6 @@
+import { partnerDemoMode } from '@constants/index';
 import { useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { useSetAtom, useAtomValue } from 'jotai';
 import { PreachingPartnerRequestType } from '@definition/preaching_partner';
 import {
@@ -16,6 +17,7 @@ const useMyRequests = () => {
   const groups = useAtomValue(myPreachingPartnerGroupsState);
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [editRequest, setEditRequest] = useState<PreachingPartnerRequestType>();
   const [cancelRequest, setCancelRequest] =
@@ -40,7 +42,11 @@ const useMyRequests = () => {
 
     displaySnackNotification({
       header: getTranslation({ key: 'tr_arrangementCancelled' }),
-      message: getTranslation({ key: 'tr_arrangementCancelledDesc' }),
+      message: getTranslation({
+        key: partnerDemoMode
+          ? 'tr_arrangementCancelledDesc'
+          : 'tr_partnerLiveCancelledDesc',
+      }),
       severity: 'success',
     });
   };
@@ -49,6 +55,7 @@ const useMyRequests = () => {
   const handleSeeCongregation = () =>
     navigate('/find-a-preaching-partner/congregation-requests', {
       replace: true,
+      state: location.state,
     });
 
   return {

@@ -19,6 +19,8 @@ export const partnerRequestIsValid = (
   { request_data: data }: PreachingPartnerRequestType,
   today = partnerToday()
 ) =>
+  typeof data.comment === 'string' &&
+  data.comment.length <= 5000 &&
   partnerDateIsValid(data.date) &&
   data.date >= today &&
   Object.values(PreachingPartnerMinistryType).includes(data.type) &&

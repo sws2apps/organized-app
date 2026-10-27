@@ -53,3 +53,31 @@ export type PartnerMutation = {
   request: PreachingPartnerRequestType;
   withdrawRequestIds?: string[];
 };
+
+export type PartnerConnection = {
+  scope: string;
+  apiHost: string;
+  congregationId: string;
+  userId: string;
+  actor: string;
+  pocket: boolean;
+};
+export type PartnerWireMutation = PartnerMutation & {
+  operationId: string;
+  publisher_uid: string;
+};
+export type PartnerPendingMutation = {
+  mutation: PartnerWireMutation;
+  optimistic: PreachingPartnerRequestType[];
+  error?: string;
+};
+export type PartnerSyncCache = {
+  requests: PreachingPartnerRequestType[];
+  pending: PartnerPendingMutation[];
+  error?: string;
+  syncedAt?: string;
+};
+export type PartnerSyncLocal = {
+  activeScope: string;
+  scopes: Record<string, PartnerSyncCache>;
+};

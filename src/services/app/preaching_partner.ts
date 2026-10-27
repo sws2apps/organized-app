@@ -1,5 +1,5 @@
 import { dbAppLocalsReadPartnerNotification } from '@services/dexie/app_locals';
-import { isTest } from '@constants/index';
+import { partnerDemoMode } from '@constants/index';
 import { dbPreachingPartnerMutate } from '@services/dexie/preaching_partner';
 import { applyPartnerMutation } from '@services/app/preaching_partner_actions';
 import {
@@ -146,7 +146,7 @@ export const preachingPartnerMutate = (
   mutation: PartnerMutation,
   actor: string
 ) => {
-  if (!isTest) throw new Error('tr_partnerDemoOnly');
+  if (!partnerDemoMode) throw new Error('tr_partnerDemoOnly');
   return dbPreachingPartnerMutate((records, active) =>
     applyPartnerMutation(records, mutation, actor, active)
   );

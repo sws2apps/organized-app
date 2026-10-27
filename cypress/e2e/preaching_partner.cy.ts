@@ -115,4 +115,17 @@ describe('Find a partner demo', { testIsolation: false }, () => {
     cy.contains('Filters').should('be.visible');
     cy.screenshot('partner-mobile-dark', { capture: 'viewport' });
   });
+  it('preserves mobile back history after saving a request', () => {
+    cy.viewport(390, 844);
+    cy.get('button[aria-label="Back"]').click();
+    cy.get(myTab).click();
+    button('New request').click();
+    cy.get('input[type="text"]').last().type('Mobile history request');
+    button('CREATE').click();
+    cy.contains('Mobile history request').should('be.visible');
+    cy.window().its('history.state.usr.fromPartnerList').should('equal', true);
+    cy.get('button[aria-label="Back"]').click();
+    cy.get(myTab).should('be.visible');
+    cy.contains('Mobile history request').should('not.exist');
+  });
 });

@@ -34,7 +34,6 @@ import { dbHandleIncomingReports } from '@services/dexie/cong_field_service_repo
 import { apiUserGetUpdates } from '@services/api/user';
 import { apiFetchNotifications } from '@services/api/notification';
 import useJoinRequests from './useJoinRequests';
-import usePartnerRequests from './usePartnerRequests';
 import usePendingRequests from './usePendingRequests';
 import useRemoteNotifications from './useRemoteNotifications';
 import useUnverifiedReports from './useUnverifiedReports';
@@ -48,8 +47,6 @@ const useContainer = () => {
   const { updatePendingRequestsNotification } = usePendingRequests();
 
   const { checkUnverifiedReports } = useUnverifiedReports();
-
-  usePartnerRequests();
 
   const { handleRemoteNotifications } = useRemoteNotifications();
 

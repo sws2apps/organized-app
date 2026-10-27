@@ -1,3 +1,4 @@
+import { partnerDemoMode } from '@constants/index';
 import PreachingPartnerCalendar from '@features/ministry/preaching_partner/add_to_calendar';
 import { Fragment } from 'react';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
@@ -88,7 +89,11 @@ const MyRequests = () => {
           onClose={handleCloseCancel}
           onConfirm={handleConfirmCancel}
           title={t('tr_cancelArrangement')}
-          description={t('tr_cancelArrangementDesc')}
+          description={t(
+            partnerDemoMode
+              ? 'tr_cancelArrangementDesc'
+              : 'tr_partnerLiveCancelDesc'
+          )}
           confirmLabel={t('tr_cancelArrangement')}
         />
       )}

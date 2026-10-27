@@ -1,4 +1,10 @@
-import { isTest } from '@constants/index';
+import { partnerDemoMode } from '@constants/index';
+import { useAtomValue } from 'jotai';
+import {
+  partnerConnectionState,
+  partnerReadyState,
+} from '@states/preaching_partner';
+import PartnerSyncStatus from '@features/ministry/preaching_partner/sync_status';
 import InfoNote from '@components/info_note';
 import { useEffect } from 'react';
 import { Box } from '@mui/material';
@@ -21,6 +27,8 @@ import PreachingPartnerNav from '@features/ministry/preaching_partner/requests_n
 
 const PreachingPartner = () => {
   const { t } = useAppTranslation();
+  const connection = useAtomValue(partnerConnectionState);
+  const ready = useAtomValue(partnerReadyState);
 
   const { laptopUp, tablet688Up } = useBreakpoints();
 
@@ -41,7 +49,9 @@ const PreachingPartner = () => {
 
   const tabs = usePreachingPartnerTabs();
 
-  const pageTitle = t('tr_partnerDemoTitle');
+  const pageTitle = t(
+    partnerDemoMode ? 'tr_partnerDemoTitle' : 'tr_findPreachingPartner'
+  );
 
   const activeTabLabel = tabs.find((tab) => tab.id === activeTab)?.label;
 
@@ -49,7 +59,7 @@ const PreachingPartner = () => {
     if (isUnknownTab) handleBackToList();
   }, [isUnknownTab, handleBackToList]);
 
-  const newRequestButton = canCreate && isTest && (
+  const newRequestButton = canCreate && ready && (
     <NavBarButtonGroup>
       <NavBarButton
         text={t('tr_newPartnerRequest')}
@@ -59,8 +69,10 @@ const PreachingPartner = () => {
     </NavBarButtonGroup>
   );
 
-  const demoNotice = (
+  const demoNotice = partnerDemoMode ? (
     <InfoNote variant="card" message={t('tr_partnerDemoNotice')} />
+  ) : (
+    <PartnerSyncStatus />
   );
   const identityNotice = !canCreate && (
     <InfoNote variant="card" message={t('tr_partnerIdentityRequired')} />
@@ -90,12 +102,11 @@ const PreachingPartner = () => {
     paddingBottom: !tablet688Up ? '120px' : '0px',
   };
 
-  if (!isTest)
+  if (!partnerDemoMode && !connection)
     return (
       <Box sx={pageSx}>
         <PageTitle title={pageTitle} onBack={handleLeave} />
-        {demoNotice}
-        <InfoNote message={t('tr_partnerDemoOnly')} />
+        <InfoNote message={t('tr_partnerSyncAccess')} />
       </Box>
     );
 
