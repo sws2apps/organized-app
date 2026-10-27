@@ -18,7 +18,9 @@ const PreachingPartnerCalendar = (props: PreachingPartnerCalendarProps) => {
       onClose={props.onClose}
       title={t('tr_addToCalendar')}
       description={t(
-        partnerDemoMode ? 'tr_addToCalendarDesc' : 'tr_partnerLiveCalendarDesc'
+        partnerDemoMode
+          ? 'tr_partnerDemoCalendarDesc'
+          : 'tr_partnerLiveCalendarDesc'
       )}
     >
       <DialogActions>
