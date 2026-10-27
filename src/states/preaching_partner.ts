@@ -10,6 +10,7 @@ This file holds the source of the truth from the table "preaching_partner_reques
 
 import { atom } from 'jotai';
 import {
+  PartnerConnection,
   PartnerMutation,
   PreachingPartnerFilterType,
   PreachingPartnerRequestType,
@@ -30,7 +31,6 @@ import {
   userLocalUIDState,
 } from '@states/settings';
 import { apiHostState, userIDState } from '@states/app';
-import { PartnerConnection } from '@definition/preaching_partner';
 import {
   activatePartnerConnection,
   partnerSyncClient,
