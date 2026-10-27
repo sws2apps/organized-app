@@ -65,7 +65,7 @@ const usePartnerRequests = () => {
             partner.person_data.person_firstname.value,
             fullnameOption
           )
-        : '';
+        : t('tr_partnerUnavailable');
 
       const notification: StandardNotificationType = {
         id: `${NOTIFICATION_PREFIX}${userUID}-${request.request_uid}-${request.request_data.arranged_at}`,

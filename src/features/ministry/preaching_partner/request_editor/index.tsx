@@ -1,4 +1,5 @@
 import { partnerDemoMode } from '@constants/index';
+import { PARTNER_COMMENT_LIMIT } from '@constants/preaching_partner';
 import { Box, FormControlLabel, RadioGroup } from '@mui/material';
 import { PreachingPartnerEditorProps } from '@features/ministry/preaching_partner/request_editor/index.types';
 import { PreachingPartnerMinistryType } from '@definition/preaching_partner';
@@ -168,6 +169,7 @@ const PreachingPartnerEditor = (props: PreachingPartnerEditorProps) => {
             label={t('tr_comments')}
             value={value.request_data.comment}
             onChange={(e) => handleCommentChange(e.target.value)}
+            slotProps={{ htmlInput: { maxLength: PARTNER_COMMENT_LIMIT } }}
           />
         </Box>
 
