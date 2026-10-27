@@ -1,6 +1,7 @@
 import { KeyboardEvent, useEffect, useRef, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { getWeeksInMonth, isValid } from 'date-fns';
+import { getPickerDateDefault, isPickerDateAllowed } from '@utils/pickers';
 import { Box, ClickAwayListener } from '@mui/material';
 import { ArrowDropDown, ArrowLeft, ArrowRight } from '@mui/icons-material';
 import { DesktopDatePicker } from '@mui/x-date-pickers';
@@ -34,11 +35,8 @@ const DatePicker = ({
   error,
   helperText,
 }: CustomDatePickerProps) => {
-  // Years below this threshold are transient artifacts of typing the year
-  // section (e.g. 0002 while entering 2026) and must not be propagated.
-  const MIN_VALID_YEAR = 1000;
-
   const poperRef = useRef<HTMLDivElement>(null);
+  const defaultPending = useRef(false);
 
   const shortDateFormatDefault = useAtomValue(shortDateFormatState);
 
@@ -47,6 +45,30 @@ const DatePicker = ({
   const [height, setHeight] = useState(240); // Initial height
   const [open, setOpen] = useState(false);
   const [valueTmp, setValueTmp] = useState<Date | null>(value ?? null);
+  const bounds = { minDate, maxDate, disablePast };
+
+  const handleOpen = () => {
+    if (readOnly || open) return;
+    if (valueTmp === null) {
+      const initial = getPickerDateDefault(bounds);
+      setValueTmp(initial);
+      defaultPending.current = initial !== null;
+    }
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    if (defaultPending.current) setValueTmp(value ?? null);
+    defaultPending.current = false;
+    setOpen(false);
+  };
+
+  const handleAccept = () => {
+    if (readOnly || !isPickerDateAllowed(valueTmp, bounds)) return;
+    if (defaultPending.current) onChange?.(valueTmp);
+    defaultPending.current = false;
+    setOpen(false);
+  };
 
   const slotFieldProps =
     view === 'button' ? { field: ButtonField } : { textField: InputTextField };
@@ -60,19 +82,20 @@ const DatePicker = ({
   };
 
   const handleKeyDown = (e: KeyboardEvent<Element>) => {
-    if (e.key !== 'Enter') return;
-
-    const isValidDate = valueTmp instanceof Date && isValid(valueTmp);
-
-    if (!isValidDate) return;
-
-    if (valueTmp.getFullYear() < MIN_VALID_YEAR) return;
-
+    if (
+      e.key !== 'Enter' ||
+      (e.target instanceof Element && e.target.closest('button')) ||
+      readOnly ||
+      !isPickerDateAllowed(valueTmp, bounds)
+    )
+      return;
     onChange?.(valueTmp);
+    defaultPending.current = false;
     setOpen(false);
   };
 
   const handleValueChange = (newValue: Date | null) => {
+    if (readOnly) return;
     const isValidDate = newValue instanceof Date && isValid(newValue);
 
     // Mirror every change locally so the controlled picker stays in sync
@@ -83,10 +106,9 @@ const DatePicker = ({
     // which scrambles or wipes the entry. An explicit clear (null) is
     // always forwarded.
     setValueTmp(newValue);
+    defaultPending.current = false;
 
-    if (!isValidDate && newValue !== null) return;
-
-    if (isValidDate && newValue.getFullYear() < MIN_VALID_YEAR) return;
+    if (newValue !== null && !isPickerDateAllowed(newValue, bounds)) return;
 
     onChange?.(newValue);
 
@@ -108,6 +130,8 @@ const DatePicker = ({
   }, [valueTmp]);
 
   useEffect(() => {
+    defaultPending.current = false;
+    if (readOnly) setOpen(false);
     setValueTmp((prev) => {
       const next = value ?? null;
 
@@ -121,10 +145,10 @@ const DatePicker = ({
 
       return next;
     });
-  }, [value]);
+  }, [value, readOnly]);
 
   return (
-    <ClickAwayListener onClickAway={() => setOpen(false)}>
+    <ClickAwayListener onClickAway={handleClose}>
       <Box sx={{ width: '100%' }}>
         <DesktopDatePicker
           readOnly={readOnly}
@@ -138,15 +162,20 @@ const DatePicker = ({
           format={shortDateFormatLocale}
           open={!readOnly && open}
           onChange={handleValueChange}
+          onAccept={handleAccept}
           onMonthChange={changeHeight}
-          onOpen={() => {
-            if (readOnly) return;
-            setOpen(true);
-          }}
+          onOpen={handleOpen}
+          onClose={handleClose}
           slots={{
             ...slotFieldProps,
             toolbar: () => <Toolbar selected={valueTmp} />,
-            actionBar: () => <ActionBar onClose={() => setOpen(false)} />,
+            actionBar: () => (
+              <ActionBar
+                onClose={handleClose}
+                onAccept={handleAccept}
+                acceptDisabled={!isPickerDateAllowed(valueTmp, bounds)}
+              />
+            ),
             openPickerIcon: IconDate,
             leftArrowIcon: hideNav ? () => <></> : ArrowLeft,
             rightArrowIcon: hideNav ? () => <></> : ArrowRight,
@@ -179,10 +208,7 @@ const DatePicker = ({
               ref: poperRef,
             },
             textField: {
-              onClick: () => {
-                if (readOnly) return;
-                setOpen(true);
-              },
+              onClick: handleOpen,
               onKeyDown: handleKeyDown,
               ref: poperRef,
               error,

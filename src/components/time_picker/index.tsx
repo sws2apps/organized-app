@@ -1,6 +1,7 @@
 import { DesktopTimePicker, renderTimeViewClock } from '@mui/x-date-pickers';
 import { Box, ClickAwayListener, useMediaQuery } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
+import { isValid } from 'date-fns';
 import { CustomTimePickerProps } from './index.types';
 import { StyleTimePickerPopper, StyleTimePickerToolbar } from './index.styles';
 import { IconClock } from '@components/icons';
@@ -36,20 +37,34 @@ const TimePicker = ({
 
   const isMobile = useMediaQuery('(max-width:600px)');
 
-  const handleClickAway = () => {
-    if (open) setOpen(false);
+  const handleOpen = () => {
+    if (readOnly || open) return;
+    if (valueTmp === null) {
+      const now = new Date();
+      now.setSeconds(0, 0);
+      setValueTmp(now);
+    }
+    setOpen(true);
   };
 
-  const handleValueChange = (value: Date) => {
+  const handleClose = () => {
+    if (!open) return;
     setValueTmp(value);
+    setOpen(false);
+  };
+
+  const handleValueChange = (value: Date | null) => {
+    if (!readOnly) setValueTmp(value);
   };
 
   const handleSave = () => {
+    if (readOnly || !valueTmp || !isValid(valueTmp)) return;
     onChange?.(valueTmp);
     setOpen(false);
   };
 
   const handleClear = () => {
+    if (readOnly) return;
     setValueTmp(null);
     onChange?.(null);
     setOpen(false);
@@ -57,16 +72,16 @@ const TimePicker = ({
 
   useEffect(() => {
     setValueTmp(value);
-  }, [value]);
+    if (readOnly) setOpen(false);
+  }, [value, readOnly]);
 
   return (
-    <ClickAwayListener onClickAway={handleClickAway}>
+    <ClickAwayListener onClickAway={handleClose}>
       <Box
         ref={divRef}
         sx={{ flex: 1, minWidth: '120px', width: '100%', ...sx }}
       >
         <DesktopTimePicker
-          key={value ? value.toISOString() : crypto.randomUUID()}
           readOnly={readOnly}
           localeText={{ toolbarTitle: t('tr_pickerSelectTime') }}
           open={!readOnly && open}
@@ -76,7 +91,8 @@ const TimePicker = ({
           value={valueTmp}
           ampm={ampm}
           onChange={handleValueChange}
-          onOpen={() => setOpen(true)}
+          onOpen={handleOpen}
+          onClose={handleClose}
           viewRenderers={{
             hours: renderTimeViewClock,
             minutes: renderTimeViewClock,
@@ -85,13 +101,17 @@ const TimePicker = ({
             textField: InputTextField,
             openPickerIcon: IconClock,
             actionBar: () => (
-              <ActionBar onClear={handleClear} onClose={handleSave} />
+              <ActionBar
+                onClear={handleClear}
+                onClose={handleSave}
+                acceptDisabled={!valueTmp || !isValid(valueTmp)}
+              />
             ),
           }}
           slotProps={{
             textField: {
               label: label,
-              onClick: () => setOpen(!open),
+              onClick: handleOpen,
               error,
               helperText,
             },
