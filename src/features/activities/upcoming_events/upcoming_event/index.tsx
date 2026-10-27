@@ -40,8 +40,6 @@ const UpcomingEvent = (props: UpcomingEventProps) => {
     handleOnSaveEvent,
     dayIndicatorMaxWidth,
     dayIndicatorRefs,
-    handleMouseEnter,
-    handleMouseLeave,
     eventFormatted,
     previousDay,
     dayColumns,
@@ -86,8 +84,6 @@ const UpcomingEvent = (props: UpcomingEventProps) => {
           },
         }),
       }}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
     >
       <Box
         sx={{

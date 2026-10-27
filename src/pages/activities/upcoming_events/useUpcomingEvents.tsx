@@ -99,7 +99,7 @@ const useUpcomingEvents = () => {
 
       displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
-        message: getMessageByCode('error_app_generic-title'),
+        message: '',
         severity: 'error',
         icon: <IconError color="var(--white)" />,
       });

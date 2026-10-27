@@ -25,7 +25,6 @@ const useUpcomingEvent = ({ data }: UpcomingEventProps) => {
   const dayIndicatorRefs = useRef<HTMLDivElement[]>([]);
 
   const [isEdit, setIsEdit] = useState(false);
-  const [showEditIcon, setShowEditIcon] = useState(false);
   const [dayIndicatorMaxWidth, setDayIndicatorMaxWidth] = useState(0);
 
   const previousDay = useMemo(() => {
@@ -71,10 +70,6 @@ const useUpcomingEvent = ({ data }: UpcomingEventProps) => {
     return decorationsForEvent[category];
   }, [data.event_data.category]);
 
-  const handleMouseEnter = () => setShowEditIcon(true);
-
-  const handleMouseLeave = () => setShowEditIcon(false);
-
   const handleTurnEditMode = () => setIsEdit((prev) => !prev);
 
   const handleOnSaveEvent = async (event: UpcomingEventType) => {
@@ -86,7 +81,7 @@ const useUpcomingEvent = ({ data }: UpcomingEventProps) => {
 
       displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
-        message: getMessageByCode('error_app_generic-title'),
+        message: '',
         severity: 'error',
         icon: <IconError color="var(--white)" />,
       });
@@ -106,9 +101,6 @@ const useUpcomingEvent = ({ data }: UpcomingEventProps) => {
     dayIndicatorMaxWidth,
     dayIndicatorRefs,
     handleTurnEditMode,
-    showEditIcon,
-    handleMouseEnter,
-    handleMouseLeave,
     eventFormatted,
     previousDay,
     dayColumns,
