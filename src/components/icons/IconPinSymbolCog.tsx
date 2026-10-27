@@ -17,7 +17,9 @@ const IconPinSymbolCog = ({
 }: IconProps) => {
   return (
     <SvgIcon
-      className={['organized-icon-pin-symbol-cog', className].filter(Boolean).join(' ')}
+      className={['organized-icon-pin-symbol-cog', className]
+        .filter(Boolean)
+        .join(' ')}
       sx={{ width: `${width}px`, height: `${height}px`, ...sx }}
       viewBox="-1 -1 18 19"
     >
