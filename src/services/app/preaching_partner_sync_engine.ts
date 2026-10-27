@@ -36,6 +36,9 @@ export const partnerSyncError = (status?: number) => {
   return 'tr_partnerSyncRetry';
 };
 
+const requiresPartnerConfirmation = (action: PartnerMutation['action']) =>
+  action === 'join' || action === 'cancel';
+
 const stagePartnerMutation = (
   cache: PartnerSyncCache,
   input: PartnerMutation,
@@ -155,7 +158,7 @@ export const createPartnerSyncClient = (
             error: message,
             pending: cache.pending.map((pending) =>
               pending.mutation.operationId === entry.mutation.operationId &&
-              rejected
+              (rejected || requiresPartnerConfirmation(entry.mutation.action))
                 ? { ...pending, error: message }
                 : pending
             ),
@@ -168,32 +171,31 @@ export const createPartnerSyncClient = (
     return completed;
   };
 
-  const synchronize = () =>
-    serial(async () => {
-      if (!dependencies.online())
-        return new Map<string, PreachingPartnerRequestType[]>();
-      const completed = await sendPending();
-      try {
-        const baseline = (await dependencies.read()).requests;
-        const requests = await dependencies.request();
-        await dependencies.update((cache) => ({
-          cache: {
-            ...cache,
-            requests: mergePartnerSnapshot(cache.requests, requests, baseline),
-            syncedAt: new Date().toISOString(),
-            error: cache.pending.find((entry) => entry.error)?.error,
-          },
-          result: undefined,
-        }));
-      } catch (error) {
-        await setError(partnerSyncError(dependencies.errorStatus(error)));
-      }
-      return completed;
-    });
+  const synchronizePending = async () => {
+    if (!dependencies.online())
+      return new Map<string, PreachingPartnerRequestType[]>();
+    const completed = await sendPending();
+    try {
+      const baseline = (await dependencies.read()).requests;
+      const requests = await dependencies.request();
+      await dependencies.update((cache) => ({
+        cache: {
+          ...cache,
+          requests: mergePartnerSnapshot(cache.requests, requests, baseline),
+          syncedAt: new Date().toISOString(),
+          error: cache.pending.find((entry) => entry.error)?.error,
+        },
+        result: undefined,
+      }));
+    } catch (error) {
+      await setError(partnerSyncError(dependencies.errorStatus(error)));
+    }
+    return completed;
+  };
+  const synchronize = () => serial(synchronizePending);
 
   const mutate = async (input: PartnerMutation) => {
-    const requiresConfirmation =
-      input.action === 'join' || input.action === 'cancel';
+    const requiresConfirmation = requiresPartnerConfirmation(input.action);
     if (requiresConfirmation && !dependencies.online())
       throw new Error('tr_partnerOnlineRequired');
     const operationId = crypto.randomUUID();
@@ -211,17 +213,33 @@ export const createPartnerSyncClient = (
       if (dependencies.online()) void synchronize().catch(() => undefined);
       return optimistic;
     }
-    const results = await synchronize();
-    const confirmed = results
-      .get(operationId)
-      ?.find((record) => record.request_uid === input.request.request_uid);
-    if (confirmed) return confirmed;
-    return confirmedPartnerRequest(
-      await dependencies.read(),
-      input,
-      connection,
-      operationId
-    );
+    return serial(async () => {
+      try {
+        const results = await synchronizePending();
+        const confirmed = results
+          .get(operationId)
+          ?.find((record) => record.request_uid === input.request.request_uid);
+        if (confirmed) return confirmed;
+        return confirmedPartnerRequest(
+          await dependencies.read(),
+          input,
+          connection,
+          operationId
+        );
+      } catch (error) {
+        // Finish cleanup before another background sync can deliver this action.
+        await dependencies.update((cache) => ({
+          cache: {
+            ...cache,
+            pending: cache.pending.filter(
+              (entry) => entry.mutation.operationId !== operationId
+            ),
+          },
+          result: undefined,
+        }));
+        throw error;
+      }
+    });
   };
 
   const discardFailed = async () => {

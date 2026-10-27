@@ -81,15 +81,26 @@ const device = (
   let online = false;
   let loseResponse = false;
   let sentOperation = '';
+  let nextFailure: Error | undefined;
+  let disconnectAfterUpdate = false;
   const client = createPartnerSyncClient(connection(actor), {
     read: async () => structuredClone(cache),
     update: async (update) => {
       const next = update(structuredClone(cache), ['alice', 'bob', 'carol']);
       cache = next.cache;
+      if (disconnectAfterUpdate) {
+        online = false;
+        disconnectAfterUpdate = false;
+      }
       return next.result;
     },
     request: async (mutation) => {
       if (mutation) sentOperation = mutation.operationId;
+      if (mutation && nextFailure) {
+        const error = nextFailure;
+        nextFailure = undefined;
+        throw error;
+      }
       const result = await backend.send(actor, mutation);
       if (mutation && loseResponse) {
         loseResponse = false;
@@ -113,6 +124,12 @@ const device = (
     },
     disconnect: () => {
       online = false;
+    },
+    failNextMutation: (status?: number) => {
+      nextFailure = Object.assign(new Error('delivery failed'), { status });
+    },
+    disconnectAfterNextUpdate: () => {
+      disconnectAfterUpdate = true;
     },
     loseNextResponse: () => {
       loseResponse = true;
@@ -173,7 +190,7 @@ test('two publishers race to join; only the accepted publisher receives confirma
     1
   );
   assert.equal(backend.records[0].request_data.partner_uid, 'bob');
-  assert.equal(carol.cache.pending[0].error, 'tr_partnerSyncConflict');
+  assert.equal(carol.cache.pending.length, 0);
 });
 
 test('offline joining and cancellation never create a false confirmation', async () => {
@@ -283,4 +300,96 @@ test('a rejected edit never changes the calendar details of an arrangement accep
     cache.pending[0].mutation.request.request_data.comment,
     'Unsynced draft notes'
   );
+});
+
+test('failed joins and cancellations are never replayed after reconnect or restart', async () => {
+  for (const action of ['join', 'cancel'] as const) {
+    for (const status of [undefined, 500]) {
+      const backend = server();
+      const shared = request();
+      if (action === 'cancel') shared.request_data.partner_uid = 'bob';
+      const own = request('bob');
+      backend.setRecords([shared, own]);
+      const draft = request('bob');
+      const retained = {
+        mutation: {
+          operationId: crypto.randomUUID(),
+          publisher_uid: 'bob',
+          action: 'create' as const,
+          request: draft,
+        },
+        optimistic: [draft],
+        error: 'tr_partnerSyncConflict',
+      };
+      const bob = device('bob', backend, {
+        ...emptyPartnerCache(),
+        pending: [retained],
+      });
+      bob.connect();
+      await bob.client.synchronize();
+      bob.failNextMutation(status);
+      await assert.rejects(
+        bob.client.mutate({
+          action,
+          request: shared,
+          ...(action === 'join'
+            ? { withdrawRequestIds: [own.request_uid] }
+            : {}),
+        }),
+        /tr_partnerSyncRetry/
+      );
+      assert.deepEqual(bob.cache.pending, [retained]);
+      const restored = device('bob', backend, bob.cache);
+      restored.connect();
+      await restored.client.synchronize();
+      assert.equal(backend.writes, 0);
+      assert.deepEqual(backend.records, [shared, own]);
+    }
+  }
+});
+
+test('losing connectivity after staging a confirmation does not queue it for later delivery', async () => {
+  for (const action of ['join', 'cancel'] as const) {
+    const backend = server();
+    const shared = request();
+    if (action === 'cancel') shared.request_data.partner_uid = 'bob';
+    backend.setRecords([shared]);
+    const bob = device('bob', backend);
+    bob.connect();
+    await bob.client.synchronize();
+    bob.disconnectAfterNextUpdate();
+    await assert.rejects(
+      bob.client.mutate({ action, request: shared }),
+      /tr_partnerSyncRetry/
+    );
+    assert.equal(bob.cache.pending.length, 0);
+    bob.connect();
+    await bob.client.synchronize();
+    assert.equal(backend.writes, 0);
+  }
+});
+
+test('a lost confirmation response reconciles server state without replaying the action', async () => {
+  for (const action of ['join', 'cancel'] as const) {
+    const backend = server();
+    const shared = request();
+    if (action === 'cancel') shared.request_data.partner_uid = 'bob';
+    backend.setRecords([shared]);
+    const bob = device('bob', backend);
+    bob.connect();
+    await bob.client.synchronize();
+    bob.loseNextResponse();
+    await assert.rejects(
+      bob.client.mutate({ action, request: shared }),
+      /tr_partnerSyncRetry/
+    );
+    assert.equal(bob.cache.pending.length, 0);
+    assert.deepEqual(bob.cache.requests, backend.records);
+    await bob.client.synchronize();
+    assert.equal(backend.writes, 1);
+    assert.equal(
+      bob.cache.requests[0].request_data.partner_uid,
+      action === 'join' ? 'bob' : undefined
+    );
+  }
 });
