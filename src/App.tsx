@@ -121,12 +121,12 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
             { path: '/user-profile', element: <MyProfile /> },
             { path: '/weekly-schedules', element: <WeeklySchedules /> },
             {
-              path: '/activities/field-service-meetings',
-              element: <FieldServiceMeetings />,
-            },
-            {
               element: <RouteProtected allowed={!isMidweekStudent} />,
               children: [
+                {
+                  path: '/activities/field-service-meetings',
+                  element: <FieldServiceMeetings />,
+                },
                 {
                   path: '/field-service-groups',
                   element: <FieldServiceGroups />,
