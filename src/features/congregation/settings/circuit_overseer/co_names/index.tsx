@@ -29,17 +29,19 @@ const CONames = () => {
     lastname,
   } = useCircuitOverseer();
 
+  const direction = tablet600Up ? 'row' : 'column';
+
+  // first name leads unless the congregation shows last names first
+  const flexDirection =
+    fullnameOption === FullnameOption.FIRST_BEFORE_LAST
+      ? direction
+      : `${direction}-reverse`;
+
   return (
     <>
       <TwoColumnsRow
         sx={{
-          flexDirection: tablet600Up
-            ? fullnameOption === FullnameOption.FIRST_BEFORE_LAST
-              ? 'row'
-              : 'row-reverse'
-            : fullnameOption === FullnameOption.FIRST_BEFORE_LAST
-              ? 'column'
-              : 'column-reverse',
+          flexDirection,
         }}
       >
         <TextField

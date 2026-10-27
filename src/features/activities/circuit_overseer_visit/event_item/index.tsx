@@ -26,6 +26,10 @@ const EventItem = ({ event, weekOf }: EventItemProps) => {
 
   const data = event.event_data;
 
+  const time = data.time
+    ? formatDate(generateDateFromTime(data.time), hour24 ? 'HH:mm' : 'h:mm a')
+    : '—';
+
   const hosts = persons
     .filter((person) => data.hosts.includes(person.person_uid))
     .map((person) =>
@@ -39,14 +43,7 @@ const EventItem = ({ event, weekOf }: EventItemProps) => {
         size="medium"
         color="accent"
         faded
-        text={
-          data.time
-            ? formatDate(
-                generateDateFromTime(data.time),
-                hour24 ? 'HH:mm' : 'h:mm a'
-              )
-            : '—'
-        }
+        text={time}
         sx={{ flexShrink: 0, fontVariantNumeric: 'tabular-nums' }}
       />
 

@@ -80,12 +80,12 @@ const useEventEditor = ({ event }: EventEditorProps) => {
     if (debounce) {
       timer.current = setTimeout(() => {
         timer.current = undefined;
-        saveEvent(uid, value);
+        void saveEvent(uid, value);
       }, 500);
       return;
     }
 
-    saveEvent(uid, value);
+    void saveEvent(uid, value);
   };
 
   const handleTimeChange = (value: Date | null) => {
@@ -124,7 +124,7 @@ const useEventEditor = ({ event }: EventEditorProps) => {
       if (!timer.current) return;
 
       clearTimeout(timer.current);
-      saveEvent(uid, latest.current);
+      void saveEvent(uid, latest.current);
     };
   }, [uid]);
 

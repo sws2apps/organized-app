@@ -38,8 +38,10 @@ const circuitOverseerVisitEventsState = atom((get) =>
 export const upcomingEventsState = atom((get) => {
   const visitEvents = get(circuitOverseerVisitEventsState);
 
-  const visitWeeks = visitEvents.map((record) =>
-    formatDate(new Date(record.event_data.start), 'yyyy/MM/dd')
+  const visitWeeks = new Set(
+    visitEvents.map((record) =>
+      formatDate(new Date(record.event_data.start), 'yyyy/MM/dd')
+    )
   );
 
   const events = get(upcomingEventsDbState).filter((record) => {
@@ -56,7 +58,7 @@ export const upcomingEventsState = atom((get) => {
       'yyyy/MM/dd'
     );
 
-    return !visitWeeks.includes(weekOf);
+    return !visitWeeks.has(weekOf);
   });
 
   return [...events, ...visitEvents].sort((a, b) =>
