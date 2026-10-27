@@ -7,7 +7,6 @@ import {
   isolateLegacySections,
   sectionsForView,
   validateDutyName,
-  uniqueDutyName,
 } from '@utils/duties_sections';
 import { SettingsType } from '@definition/settings';
 import { settingsState, userDataViewState } from '@states/settings';
@@ -72,9 +71,6 @@ export const dutiesSectionsShareTime = (
 
 const scheduleOf = (week: string) =>
   store.get(schedulesState).find((record) => record.weekOf === week);
-
-const sectionsOf = (week: string, meeting: DutiesMeetingValue) =>
-  structuredClone(scheduleOf(week)?.duties?.[meeting].sections ?? []);
 
 const dynamicOf = (week: string, meeting: DutiesMeetingValue) =>
   structuredClone(scheduleOf(week)?.duties?.[meeting].dynamic ?? []);
@@ -308,54 +304,6 @@ export const dutiesSectionDelete = (
       dynamic.filter((entry) => entry.type === dataView),
       (sectionId) => sectionId === section.id
     );
-  });
-
-export const dutiesSectionMove = (
-  week: string,
-  meeting: DutiesMeetingValue,
-  id: string,
-  direction: -1 | 1
-) =>
-  mutateSections(week, meeting, (sections, _, dataView) => {
-    const section = findSection(sections, id, dataView);
-    const active = sectionsForView(sections, dataView);
-    const index = active.indexOf(section);
-    const target = index + direction;
-    if (target < 0 || target >= active.length) return;
-    [active[index], active[target]] = [active[target], active[index]];
-    const updatedAt = new Date().toISOString();
-    active.forEach((record, order) =>
-      Object.assign(record, { order, updatedAt })
-    );
-  });
-
-/** Copy structure only; existing target sections and assignments are never replaced. */
-export const dutiesSectionsCopy = (
-  week: string,
-  meeting: DutiesMeetingValue,
-  fromWeek: string
-) =>
-  mutateSections(week, meeting, (sections, _, dataView) => {
-    const source = sectionsForView(sectionsOf(fromWeek, meeting), dataView);
-    const active = sectionsForView(sections, dataView);
-    if (!source.length) throw new Error('tr_sectionsNothingToCopy');
-    if (source.length + active.length > DUTIES_SECTIONS_MAX)
-      throw new Error('tr_sectionsLimitReached');
-    let order = Math.max(-1, ...active.map((record) => record.order ?? 0));
-    for (const section of source) {
-      const name = uniqueDutyName(section.name, active);
-      const copy = {
-        ...structuredClone(section),
-        id: crypto.randomUUID(),
-        legacyId: undefined,
-        dataView,
-        name,
-        order: ++order,
-        updatedAt: new Date().toISOString(),
-      };
-      sections.push(copy);
-      active.push(copy);
-    }
   });
 
 export type DutiesStaticKey = Exclude<

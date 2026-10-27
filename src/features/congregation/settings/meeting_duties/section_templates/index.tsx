@@ -138,7 +138,9 @@ const SectionTemplates = ({
                       borderRadius: 'var(--radius-l)',
                     }}
                     disabled={busy}
-                    aria-label={t('tr_sectionEdit')}
+                    aria-label={t('tr_sectionEditNamed', {
+                      section: section.name,
+                    })}
                     onClick={() => setEditing(section.id)}
                   >
                     <IconEdit
@@ -155,7 +157,9 @@ const SectionTemplates = ({
                     }}
                     color="error"
                     disabled={busy}
-                    aria-label={t('tr_sectionDelete')}
+                    aria-label={t('tr_sectionDeleteNamed', {
+                      section: section.name,
+                    })}
                     onClick={() => remove(section.id)}
                   >
                     <IconDelete
