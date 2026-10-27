@@ -3,9 +3,9 @@ import { useAtomValue } from 'jotai';
 import { IconError } from '@components/icons';
 import { PersonSelectorType } from '../index.types';
 import {
-  CODisplayNameState,
-  COFullnameState,
   displayNameMeetingsEnableState,
+  fullnameOptionState,
+  settingsState,
 } from '@states/settings';
 import { schedulesState } from '@states/schedules';
 import {
@@ -16,14 +16,20 @@ import { ASSIGNMENT_PATH } from '@constants/index';
 import { AssignmentCongregation } from '@definition/schedules';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
+import { circuitOverseerNamesGet } from '@utils/circuit_overseer_visit';
 
 const useCircuitOverseer = ({ week, assignment }: PersonSelectorType) => {
   const timerSource = useRef<NodeJS.Timeout>(undefined);
 
   const displayNameEnabled = useAtomValue(displayNameMeetingsEnableState);
-  const displayName = useAtomValue(CODisplayNameState);
-  const fullname = useAtomValue(COFullnameState);
+  const settings = useAtomValue(settingsState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
   const schedules = useAtomValue(schedulesState);
+
+  const { displayName, fullname } = useMemo(
+    () => circuitOverseerNamesGet(settings, week, fullnameOption),
+    [settings, week, fullnameOption]
+  );
 
   const [value, setValue] = useState('');
 
