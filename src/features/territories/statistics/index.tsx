@@ -313,7 +313,8 @@ const TerritoriesStatistics = () => {
         </Box>
 
         <Stack spacing="12px">
-          {[...territories]
+          {territories
+            .filter((territory) => territory.doNotCalls.length > 0)
             .sort((a, b) => b.doNotCalls.length - a.doNotCalls.length)
             .slice(0, 5)
             .map((territory) => (
