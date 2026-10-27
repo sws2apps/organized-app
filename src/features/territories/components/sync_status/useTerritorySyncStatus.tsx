@@ -8,8 +8,10 @@ import {
   territorySyncStatusState,
 } from '@states/territory_sync';
 import { territoryLocalModeState } from '@states/territories';
-import { dbTerritorySyncGet } from '@services/dexie/territory_sync';
-import { discardPendingTerritories } from '@services/app/territory_sync';
+import {
+  discardPendingTerritories,
+  territoryPendingReview,
+} from '@services/app/territory_sync';
 import { exportFile } from '@services/files/export';
 
 const useTerritorySyncStatus = () => {
@@ -23,13 +25,10 @@ const useTerritorySyncStatus = () => {
   const [failed, setFailed] = useState(false);
   const openReview = async () => {
     try {
-      const data = await dbTerritorySyncGet();
-      if (data?.scope !== scope) return;
+      const data = await territoryPendingReview();
+      if (!data) return;
       setReviewScope(scope);
-      setReview({
-        queue: data.queue,
-        settings: data.settingsDirty ? data.settings : undefined,
-      });
+      setReview(data);
       setFailed(false);
     } catch {
       setFailed(true);
