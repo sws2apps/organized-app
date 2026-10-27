@@ -90,7 +90,7 @@ const releaseSlots = (
 
 export type DutiesStaticKey = Exclude<
   keyof DutiesMeetingType,
-  'sections' | 'dynamic' | 'section_overrides'
+  'sections' | 'dynamic' | 'section_overrides' | 'hospitality_not_needed'
 >;
 
 type ReleasePositionsParams = {

@@ -1,3 +1,3 @@
-// A handled Hospitality status stored in the existing encrypted assignment value.
-// It is never a person UID and must not enter assignment history.
+// The picker option for a week without Hospitality. It is never stored as a
+// person: the week keeps a separate flag and empty hosts.
 export const HOSPITALITY_NOT_NEEDED = '__hospitality_not_needed__';

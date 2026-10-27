@@ -6,6 +6,7 @@ import {
 } from '@utils/duties_recurring';
 import {
   dutiesAssignRecords,
+  dutiesHospitalityNotNeeded,
   dutiesHospitalityRecords,
   dutiesPatchSchedule,
   dutyAssignmentForMeeting,
@@ -347,6 +348,13 @@ export const schedulesDutiesGetFieldValue = (
   field: Pick<DutyFieldDefinitionType, 'assignment' | 'schedule_id'>,
   dataView: string
 ) => {
+  if (field.assignment.includes('_DUTIES_Hospitality_')) {
+    const meeting = field.assignment.startsWith('MM_') ? 'midweek' : 'weekend';
+    const duties = schedule.duties?.[meeting];
+    if (duties && dutiesHospitalityNotNeeded(duties, dataView))
+      return HOSPITALITY_NOT_NEEDED;
+  }
+
   const data = schedulesGetData(
     schedule,
     ASSIGNMENT_PATH[field.assignment]
@@ -1741,12 +1749,7 @@ export const schedulesBuildHistoryList = () => {
 
         if (assigned._deleted) continue;
 
-        if (
-          assigned.value === '' ||
-          (key.includes('_DUTIES_Hospitality_') &&
-            assigned.value === HOSPITALITY_NOT_NEEDED)
-        )
-          continue;
+        if (assigned.value === '') continue;
 
         const isActive = isActiveDutyField(
           key as AssignmentFieldType,
@@ -2037,18 +2040,17 @@ const dutyAssignmentChanges = ({
   const path = ASSIGNMENT_PATH[field];
   if (field.includes('_DUTIES_Hospitality_')) {
     const position = path.split('.').at(-1) as keyof DutyPositionsType;
-    const hospitality = dutiesHospitalityRecords(
-      duties[meeting].hospitality,
+    const { positions, flags } = dutiesHospitalityRecords(
+      duties[meeting],
       position,
       toSave,
       dataView,
       updatedAt
     );
-    for (const key of Object.keys(
-      hospitality
-    ) as (keyof typeof hospitality)[]) {
-      changes[`duties.${meeting}.hospitality.${key}`] = hospitality[key];
+    for (const key of Object.keys(positions) as (keyof DutyPositionsType)[]) {
+      changes[`duties.${meeting}.hospitality.${key}`] = positions[key];
     }
+    if (flags) changes[`duties.${meeting}.hospitality_not_needed`] = flags;
     return changes;
   }
   const records = (schedulesGetData(latest, path) ??

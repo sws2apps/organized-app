@@ -510,7 +510,20 @@ const useBrotherSelector = ({
 
     let person: PersonOptionsType;
 
-    person = options.find((record) => record.person_uid === assigned?.value);
+    const hospitalityNotNeeded =
+      type === AssignmentCode.DUTIES_Hospitality &&
+      schedule !== undefined &&
+      schedulesDutiesGetFieldValue(
+        schedule,
+        { assignment, schedule_id },
+        dataView
+      ) === HOSPITALITY_NOT_NEEDED;
+
+    person = options.find(
+      (record) =>
+        record.person_uid ===
+        (hospitalityNotNeeded ? HOSPITALITY_NOT_NEEDED : assigned?.value)
+    );
 
     // handle default value for some parts
     if (
@@ -564,6 +577,7 @@ const useBrotherSelector = ({
     hasMixedDuties,
     week,
     assignment,
+    type,
     dataView,
     schedule,
     schedule_id,
