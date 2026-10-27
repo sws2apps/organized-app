@@ -15,7 +15,6 @@ import { userIDState } from '@states/app';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { settingsState } from '@states/settings';
 import { useMemo } from 'react';
-import { getMessageByCode } from '@services/i18n/translation';
 
 const useUserDetails = () => {
   const { id } = useParams();
@@ -53,7 +52,7 @@ const useUserDetails = () => {
 
       const savedUser = users.find((record) => record.id === user.id);
       if (!savedUser) {
-        throw new Error(getMessageByCode('error_app_generic-title'));
+        throw new Error('error_app_generic-title');
       }
       setUsers(users);
 

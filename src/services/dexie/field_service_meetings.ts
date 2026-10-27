@@ -18,24 +18,6 @@ const dbUpdateFieldServiceMeetingsMetadata = async () => {
   await appDb.metadata.put(metadata);
 };
 
-export const dbFieldServiceMeetingsGetAll = () => {
-  return appDb.field_service_meetings.toArray();
-};
-
-export const dbFieldServiceMeetingsGetActive = async () => {
-  const meetings = await appDb.field_service_meetings
-    .filter((record) => !record.meeting_data._deleted)
-    .toArray();
-  return meetings;
-};
-
-export const dbFieldServiceMeetingsBulkSave = async (
-  meetings: FieldServiceMeetingType[]
-) => {
-  await appDb.field_service_meetings.bulkPut(meetings);
-  await dbUpdateFieldServiceMeetingsMetadata();
-};
-
 export const dbFieldServiceMeetingsSave = async (
   meeting: FieldServiceMeetingType,
   expectedRevision?: { updatedAt: string | undefined }
