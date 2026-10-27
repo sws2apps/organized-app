@@ -1,5 +1,5 @@
 import { SxProps } from '@mui/material';
-import { MouseEvent } from 'react';
+import { MouseEvent, ReactNode } from 'react';
 
 /**
  * Represents the order of sorting, either 'asc' (ascending) or 'desc' (descending).
@@ -16,9 +16,10 @@ export interface Column {
   id: string;
 
   /**
-   * The label displayed for the column.
+   * The label displayed for the column. A node is rendered as it is, without
+   * the sort control, for columns that hold a control of their own.
    */
-  label: string;
+  label: string | ReactNode;
 
   /**
    * The type of the column data, either 'number' or 'action'.

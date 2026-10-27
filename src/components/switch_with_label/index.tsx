@@ -10,6 +10,7 @@ const SwitchWithLabel = ({
   checked,
   onChange,
   readOnly,
+  inputProps,
 }: SwitchWithLabelProps) => {
   return (
     <SwitcherContainer>
@@ -17,6 +18,7 @@ const SwitchWithLabel = ({
         checked={checked}
         onChange={(e) => onChange?.(e.target.checked)}
         readOnly={readOnly}
+        slotProps={inputProps && { input: inputProps }}
       />
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
         <Typography
