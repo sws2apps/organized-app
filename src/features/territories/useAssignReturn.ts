@@ -1,3 +1,4 @@
+import { differenceInCalendarDays } from 'date-fns';
 import useTerritoryAccess from '@features/territories/useTerritoryAccess';
 import { displaySnackNotification } from '@services/states/app';
 import { territoryPermissions } from '@services/app/territory_access';
@@ -31,8 +32,9 @@ import { offerUndo } from '@features/territories/undo';
 // undefined leaves an assignment's campaign as it is, null clears it
 type Campaign = TerritoryAssignment['campaign'] | null;
 
+// calendar days, as withAssignments counts them after a reload
 const daysSince = (date: Date) =>
-  Math.max(0, Math.round((Date.now() - date.getTime()) / 86400000));
+  Math.max(0, differenceInCalendarDays(new Date(), date));
 
 // undefined leaves the note and the publisher as they are, an empty note
 // clears it
@@ -42,7 +44,8 @@ const closeOpen = (
   campaign?: Campaign,
   note?: string,
   publisher?: string,
-  completed?: boolean
+  completed?: boolean,
+  publisherId?: string
 ) =>
   territory.assignments.map((item) =>
     item.returnedOn
@@ -54,6 +57,7 @@ const closeOpen = (
             parseDate(item.assignedOn) ?? end,
             end
           ),
+          ...(publisherId ? { publisherId } : {}),
           ...(campaign === undefined
             ? {}
             : { campaign: campaign ?? undefined }),
@@ -221,6 +225,12 @@ const useAssignReturn = () => {
         publisher = undefined;
       }
       const open = territory.assignments.find((item) => !item.returnedOn);
+      // the picker gives a name; keep the person's ID for statistics
+      const namedBy =
+        publisher && publisher !== open?.publisher
+          ? assignees.filter((item) => !item.group && item.name === publisher)
+          : [];
+      const returnedById = namedBy.length === 1 ? namedBy[0].id : undefined;
       const covered =
         !!open &&
         isCoverage({
@@ -239,8 +249,11 @@ const useAssignReturn = () => {
         holderGroup: undefined,
         daysOut: undefined,
         ...(covered ? { daysSinceCovered: daysSince(end) } : {}),
-        // a note is for the editor to read; the list marks it until they do
-        reviewNeeded: territory.reviewNeeded || !!note,
+        // a note is for the editor to read; the list marks it until they do.
+        // The hand-over note carried into the dialog is not a finding.
+        reviewNeeded:
+          territory.reviewNeeded ||
+          (!!note?.trim() && note.trim() !== (open?.note ?? '').trim()),
         ...(households === undefined ? {} : { households }),
         assignments: closeOpen(
           territory,
@@ -248,7 +261,8 @@ const useAssignReturn = () => {
           campaign,
           note,
           publisher,
-          completed
+          completed,
+          returnedById
         ),
       };
     });
