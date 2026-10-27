@@ -13,7 +13,6 @@ import Button from '@components/button';
 import DatePicker from '@components/date_picker';
 import DeleteEvent from '../delete_event';
 import Divider from '@components/divider';
-import IconButton from '@components/icon_button';
 import MenuItem from '@components/menuitem';
 import Select from '@components/select';
 import SwitchWithLabel from '@components/switch_with_label';
@@ -35,7 +34,7 @@ const editorTitleKey = (
 const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
   const { t } = useAppTranslation();
 
-  const { desktopUp, tabletUp, tablet600Up } = useBreakpoints();
+  const { desktopUp, tablet600Up } = useBreakpoints();
 
   const {
     hour24,
@@ -97,33 +96,31 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
         sx={{
           display: 'flex',
           alignItems: 'center',
-          justifyContent: tabletUp ? 'space-between' : 'unset',
+          justifyContent: 'space-between',
           gap: '16px',
         }}
       >
         <Typography
           className="h2"
           sx={{
+            minWidth: 0,
+            overflowWrap: 'anywhere',
             color: 'var(--black)',
           }}
         >
           {title}
         </Typography>
 
-        {props.type === 'edit' && !tabletUp && (
-          <IconButton onClick={handleOpenDeleteConfirm} color="error">
-            <IconDelete color="var(--red-main)" height={20} width={20} />
-          </IconButton>
-        )}
-
-        {props.type === 'edit' && tabletUp && (
+        {props.type === 'edit' && (
           <Button
             variant="small"
+            disableAutoStretch
             color="red"
             startIcon={<IconDelete />}
             sx={{
-              height: '32px',
-              minHeight: '32px !important',
+              flexShrink: 0,
+              marginInlineStart: 'auto',
+              whiteSpace: 'nowrap',
             }}
             onClick={handleOpenDeleteConfirm}
           >
