@@ -569,6 +569,11 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
             return acc;
           }
 
+          // a duties-only remote week holds no meeting schedule
+          if (type !== 'duties' && !schedule[`${type}_meeting`]) {
+            return acc;
+          }
+
           const month = schedule.weekOf.slice(0, 7);
           if (!acc.includes(month)) {
             acc.push(month);

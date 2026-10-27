@@ -115,3 +115,23 @@ test('duties publishing retains other published language views and the existing 
     remote,
   ]);
 });
+test('merging keeps duty slots of one data view apart', async () => {
+  const { updateObject } = await import('@utils/common');
+  const local = {
+    dynamic: [
+      { id: 'section_1', type: 'main', value: 'A', updatedAt: '1' },
+      { id: 'section_2', type: 'main', value: 'B', updatedAt: '1' },
+    ],
+  };
+  const remote = {
+    dynamic: [
+      { id: 'section_2', type: 'main', value: 'C', updatedAt: '2' },
+      { id: 'custom_1', type: 'main', value: 'D', updatedAt: '2' },
+    ],
+  };
+  updateObject(local, remote);
+  assert.deepEqual(
+    local.dynamic.map((entry) => `${entry.id}=${entry.value}`),
+    ['section_1=A', 'section_2=C', 'custom_1=D']
+  );
+});

@@ -191,12 +191,16 @@ const syncFromRemote = <T extends object>(local: T, remote: T): T => {
 
       for (const lockKey of lockKeys) {
         if (lockKey in remoteObject) {
+          // duty slots share a data view type, so their id tells them apart
           const localValue = localArray.find(
             (value) =>
               typeof value === 'object' &&
               value !== null &&
               (value as Record<string, unknown>)[lockKey] ===
-                remoteObject[lockKey]
+                remoteObject[lockKey] &&
+              (lockKey !== 'type' ||
+                !('id' in remoteObject) ||
+                (value as Record<string, unknown>).id === remoteObject.id)
           ) as Record<string, unknown> | undefined;
 
           if (!localValue) {

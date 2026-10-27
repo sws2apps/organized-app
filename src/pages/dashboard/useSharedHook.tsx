@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { useCurrentUser } from '@hooks/index';
 
 export default function useSharedHook() {
-  const { isGroup, languageGroup, isDutiesEditor } = useCurrentUser();
+  const { isGroup, languageGroup } = useCurrentUser();
 
   const showMidweek = useMemo(() => {
     if (!isGroup) return true;
@@ -16,15 +16,9 @@ export default function useSharedHook() {
     return languageGroup?.group_data.weekend_meeting ?? false;
   }, [isGroup, languageGroup]);
 
-  const showDuties = useMemo(() => {
-    if (!isGroup) return true;
-
-    return showMidweek || showWeekend;
-  }, [isGroup, showMidweek, showWeekend]);
-
   const showMeetingCard = useMemo(() => {
-    return showMidweek || showWeekend || isDutiesEditor;
-  }, [showMidweek, showWeekend, isDutiesEditor]);
+    return showMidweek || showWeekend;
+  }, [showMidweek, showWeekend]);
 
-  return { showMidweek, showWeekend, showMeetingCard, showDuties };
+  return { showMidweek, showWeekend, showMeetingCard };
 }

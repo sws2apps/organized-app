@@ -16,6 +16,7 @@ import {
   schedulesDutiesExportSettingsSave,
   schedulesDutiesFieldList,
   schedulesDutiesGetFieldValue,
+  schedulesDutiesMeetingStatus,
   schedulesDutiesSections,
   schedulesDutiesSectionTitle,
   schedulesGetMeetingDate,
@@ -54,6 +55,7 @@ type MeetingSlotType = {
   id: string;
   schedule: SchedWeekType;
   meeting: DutyMeeting;
+  status: ReturnType<typeof schedulesDutiesMeetingStatus>;
   date: string;
   sortDate: string;
   event?: string;
@@ -152,14 +154,15 @@ const useDutiesExport = (onClose: DutiesExportType['onClose']) => {
 
     const person = persons.find((record) => record.person_uid === uid);
 
-    if (!person) return uid;
+    // a deleted person leaves no name to print
+    if (!person) return '';
 
     return personGetDisplayName(person, displayNameEnabled, fullnameOption);
   };
 
   const meetingEvent = (schedule: SchedWeekType, meeting: DutyMeeting) => {
     const weekType =
-      schedule[`${meeting}_meeting`].week_type.find(
+      schedule[`${meeting}_meeting`]?.week_type.find(
         (record) => record.type === dataView
       )?.value ?? Week.NORMAL;
 
@@ -177,6 +180,7 @@ const useDutiesExport = (onClose: DutiesExportType['onClose']) => {
     return weekTypes.find((record) => record.id === weekType)?.week_type_name;
   };
 
+  // same rule as the editor: no row for a meeting that is not held
   const meetingSlots = (weeks: SchedWeekType[]): MeetingSlotType[] => {
     return weeks
       .flatMap((schedule) =>
@@ -191,13 +195,19 @@ const useDutiesExport = (onClose: DutiesExportType['onClose']) => {
             id: `${schedule.weekOf}_${meeting}`,
             schedule,
             meeting,
+            status: schedulesDutiesMeetingStatus(schedule, meeting),
             date: meetingDate.locale,
             sortDate: meetingDate.date,
             event: meetingEvent(schedule, meeting),
           };
         })
       )
-      .filter((slot) => slot.date.length > 0)
+      .filter(
+        (slot) =>
+          slot.date.length > 0 &&
+          (slot.status === 'held' ||
+            (slot.status === 'no-meeting' && Boolean(slot.event)))
+      )
       .sort((first, second) => first.sortDate.localeCompare(second.sortDate));
   };
 
@@ -372,7 +382,10 @@ const useDutiesExport = (onClose: DutiesExportType['onClose']) => {
       );
 
       const duties = config ? dutyCards(weeks, config) : [];
-      if (duties.length === 0) throw new Error('tr_dutiesExportEmpty');
+      const hasAssignments = duties.some((card) =>
+        card.rows.some((row) => row.persons.length > 0)
+      );
+      if (!hasAssignments) throw new Error('tr_dutiesExportEmpty');
 
       const blob = await pdf(
         <TemplateMeetingDuties

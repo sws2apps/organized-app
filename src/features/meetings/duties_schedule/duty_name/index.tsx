@@ -19,7 +19,7 @@ const DutyName = ({ icon, duty }: DutyNameProps) => {
         gap: '8px',
         backgroundColor: 'var(--accent-150)',
         width: '100%',
-        // desktop matches the 48px field beside it
+        // desktop matches the 44px field beside it
         minHeight: laptopDown ? '40px' : '44px',
         '& svg': { flexShrink: 0 },
       }}

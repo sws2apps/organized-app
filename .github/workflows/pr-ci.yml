@@ -1,4 +1,4 @@
-name: PR checks
+name: Lint Check
 
 on:
   pull_request:
@@ -7,8 +7,8 @@ permissions:
   contents: read
 
 jobs:
-  lint-and-duties-tests:
-    name: Lint and duty regression tests
+  cypress-run:
+    name: Test application
     runs-on: ubuntu-latest
 
     steps:

@@ -8,7 +8,7 @@ import DialogActions from '@components/dialog_actions';
 import IconLoading from '@components/icon_loading';
 import Radio from '@components/radio';
 import Typography from '@components/typography';
-import WeekRangeSelector from '../week_range_selector';
+import WeekRangeSelector from '@features/meetings/week_range_selector';
 
 const DutiesExport = ({ open, onClose }: DutiesExportType) => {
   const { t } = useAppTranslation();
