@@ -2126,24 +2126,30 @@ const saveDutyAssignment = (
       );
     }
     if (Object.keys(changes).length === 0) return;
-    const updated = dutiesPatchSchedule(latest, changes);
-    await dbSchedUpdate(
-      schedule.weekOf,
-      (stored.duties
-        ? changes
-        : { duties: updated.duties }) as unknown as UpdateSpec<SchedWeekType>
-    );
-    store.set(schedulesState, (current) =>
-      current.map((item) =>
-        item.weekOf === schedule.weekOf
-          ? stored.duties
-            ? dutiesPatchSchedule(item, changes)
-            : { ...item, duties: updated.duties }
-          : item
-      )
-    );
-    store.set(assignmentsHistoryState, schedulesBuildHistoryList());
+    await persistDutyChanges(stored, latest, changes);
   });
+};
+
+const persistDutyChanges = async (
+  stored: SchedWeekType,
+  latest: SchedWeekType,
+  changes: Record<string, unknown>
+) => {
+  const created = !stored.duties;
+  const duties = created
+    ? dutiesPatchSchedule(latest, changes).duties
+    : undefined;
+  await dbSchedUpdate(
+    stored.weekOf,
+    (created ? { duties } : changes) as unknown as UpdateSpec<SchedWeekType>
+  );
+  store.set(schedulesState, (current) =>
+    current.map((item) => {
+      if (item.weekOf !== stored.weekOf) return item;
+      return created ? { ...item, duties } : dutiesPatchSchedule(item, changes);
+    })
+  );
+  store.set(assignmentsHistoryState, schedulesBuildHistoryList());
 };
 
 export const schedulesSaveAssignment = async (
