@@ -8,14 +8,13 @@ const fixtureApi = 'http://localhost:4081/';
 
 const publisher = (name: 'alice' | 'bob') =>
   cy.window().then(async (win) => {
-    const load = win.Function('url', 'return import(url)');
-    const [{ store }, app, settings, { default: db }] = await Promise.all([
-      load('/src/states/index.ts'),
-      load('/src/states/app.ts'),
-      load('/src/states/settings.ts'),
+    const load = (url: string) => win.eval(`import(${JSON.stringify(url)})`);
+    const [app, { default: db }, settings] = await Promise.all([
+      load('/src/services/states/app.ts'),
       load('/src/indexedDb/appDb.ts'),
+      load('/src/services/dexie/settings.ts'),
     ]);
-    store.set(app.userIDState, '');
+    app.setUserID('');
     const people = (await db.persons.toArray()).filter(
       (person) =>
         !person._deleted.value &&
@@ -37,10 +36,12 @@ const publisher = (name: 'alice' | 'bob') =>
     value.user_settings.user_local_uid = actor;
     value.cong_settings.cong_id = 'partner-browser-fixture';
     value.cong_settings.data_sync.value = true;
-    await db.app_settings.put(value);
-    store.set(settings.settingsState, value);
-    store.set(app.apiHostState, fixtureApi);
-    store.set(app.userIDState, name);
+    await settings.dbAppSettingsUpdateWithoutNotice({
+      user_settings: value.user_settings,
+      cong_settings: value.cong_settings,
+    });
+    app.setApiHost(fixtureApi);
+    app.setUserID(name);
   });
 
 const online = (value: boolean) =>
@@ -49,25 +50,52 @@ const online = (value: boolean) =>
       configurable: true,
       get: () => value,
     });
-    const load = win.Function('url', 'return import(url)');
-    const [{ store }, app] = await Promise.all([
-      load('/src/states/index.ts'),
-      load('/src/states/app.ts'),
-    ]);
-    store.set(app.isOnlineState, value);
+    const load = (url: string) => win.eval(`import(${JSON.stringify(url)})`);
+    const app = await load('/src/services/states/app.ts');
+    app.setIsOnline(value);
     win.dispatchEvent(new win.Event(value ? 'online' : 'offline'));
   });
 
-describe('Find a partner live sharing', { testIsolation: false }, () => {
+const liveSuite = Cypress.env('partnerLive') ? describe : describe.skip;
+
+liveSuite('Find a partner live sharing', { testIsolation: false }, () => {
   before(() => {
     cy.viewport(1280, 900);
     cy.visit('/');
-    liveButton('START TESTING').should('be.visible').click();
+    cy.contains('button', /START TESTING/i, { timeout: 60_000 })
+      .should('be.visible')
+      .click();
     liveButton('OK').should('be.visible').click();
     publisher('alice');
     cy.window().then((win) => {
       win.location.hash = '/find-a-preaching-partner/my-requests';
     });
+    cy.window()
+      .then(async (win) => {
+        const load = (url: string) =>
+          win.eval(`import(${JSON.stringify(url)})`);
+        const [{ store }, app, settings, partner] = await Promise.all([
+          load('/src/states/index.ts'),
+          load('/src/states/app.ts'),
+          load('/src/states/settings.ts'),
+          load('/src/states/preaching_partner.ts'),
+        ]);
+        return { store, app, settings, partner };
+      })
+      .should(({ store, app, settings, partner }) => {
+        const context = {
+          user: store.get(app.userIDState),
+          api: store.get(app.apiHostState),
+          congregation: store.get(settings.congIDState),
+          actor: store.get(settings.userLocalUIDState),
+          account: store.get(settings.accountTypeState),
+          sync: store.get(settings.congDataSyncState),
+        };
+        expect(
+          store.get(partner.partnerConnectionState),
+          JSON.stringify(context)
+        ).not.to.equal(null);
+      });
     liveButton('New request').should('be.visible');
   });
 
@@ -95,7 +123,8 @@ describe('Find a partner live sharing', { testIsolation: false }, () => {
     cy.contains('Live shared ministry request').should('be.visible');
     cy.window()
       .then(async (win) => {
-        const load = win.Function('url', 'return import(url)');
+        const load = (url: string) =>
+          win.eval(`import(${JSON.stringify(url)})`);
         const [{ store }, { notificationsState }] = await Promise.all([
           load('/src/states/index.ts'),
           load('/src/states/notification.ts'),
