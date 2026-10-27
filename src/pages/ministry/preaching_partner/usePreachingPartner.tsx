@@ -1,6 +1,9 @@
-import { useAtomValue } from 'jotai';
-import { partnerCanCreateState } from '@states/preaching_partner';
-import { useCallback, useState } from 'react';
+import { useAtomValue, useSetAtom } from 'jotai';
+import {
+  partnerCanCreateState,
+  partnerFeatureOpenState,
+} from '@states/preaching_partner';
+import { useCallback, useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router';
 import {
   PREACHING_PARTNER_TABS,
@@ -15,6 +18,7 @@ export type NavigationDirection = 'forward' | 'backward' | 'none';
 
 const usePreachingPartner = () => {
   const canCreate = useAtomValue(partnerCanCreateState);
+  const setFeatureOpen = useSetAtom(partnerFeatureOpenState);
   const navigate = useNavigate();
   const location = useLocation();
   const { tab } = useParams();
@@ -71,6 +75,11 @@ const usePreachingPartner = () => {
   }, [location.state, navigate]);
 
   const handleLeave = useCallback(() => navigate('/'), [navigate]);
+
+  useEffect(() => {
+    setFeatureOpen(true);
+    return () => setFeatureOpen(false);
+  }, [setFeatureOpen]);
 
   const handleOpenEditor = () => setIsEditorOpen(true);
 

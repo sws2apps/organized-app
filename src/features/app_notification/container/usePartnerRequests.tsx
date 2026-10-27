@@ -1,4 +1,5 @@
 import {
+  PARTNER_BACKGROUND_SYNC_INTERVAL,
   PARTNER_NOTIFICATION_PREFIX,
   PARTNER_SYNC_INTERVAL,
 } from '@constants/preaching_partner';
@@ -11,6 +12,7 @@ import {
   myArrangedPreachingPartnerRequestsState,
   partnerReadNotificationsState,
   partnerConnectionState,
+  partnerFeatureOpenState,
   partnerSyncState,
 } from '@states/preaching_partner';
 import { useEffect } from 'react';
@@ -26,14 +28,24 @@ import { useAppTranslation } from '@hooks/index';
 const usePartnerRequests = () => {
   const { t } = useAppTranslation();
   const connection = useAtomValue(partnerConnectionState);
+  const featureOpen = useAtomValue(partnerFeatureOpenState);
   const sync = useSetAtom(partnerSyncState);
+  useEffect(() => {
+    if (connection) void sync(true).catch(() => undefined);
+  }, [connection, sync]);
+
+  // outside the page a slow check is enough to deliver join notifications
   useEffect(() => {
     if (!connection) return;
     const refresh = () => {
       if (!document.hidden) void sync().catch(() => undefined);
     };
-    void sync(true).catch(() => undefined);
-    const timer = setInterval(refresh, PARTNER_SYNC_INTERVAL);
+    const timer = setInterval(
+      refresh,
+      featureOpen ? PARTNER_SYNC_INTERVAL : PARTNER_BACKGROUND_SYNC_INTERVAL
+    );
+    if (!featureOpen) return () => clearInterval(timer);
+    refresh();
     window.addEventListener('online', refresh);
     window.addEventListener('focus', refresh);
     document.addEventListener('visibilitychange', refresh);
@@ -43,7 +55,7 @@ const usePartnerRequests = () => {
       window.removeEventListener('focus', refresh);
       document.removeEventListener('visibilitychange', refresh);
     };
-  }, [connection, sync]);
+  }, [connection, featureOpen, sync]);
 
   const setNotifications = useSetAtom(notificationsState);
 

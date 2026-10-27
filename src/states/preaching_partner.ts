@@ -88,6 +88,9 @@ export const partnerDiscardFailedState = atom(null, async (get) => {
   if (connection) await partnerSyncClient(connection).discardFailed();
 });
 
+// the fast poll runs only while the partner page is open
+export const partnerFeatureOpenState = atom(false);
+
 export const preachingPartnerRequestsDbState = atom<
   PreachingPartnerRequestType[]
 >([]);

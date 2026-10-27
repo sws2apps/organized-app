@@ -89,3 +89,12 @@ export const mergePartnerSnapshot = (
   }
   return [...records.values()];
 };
+
+// A poll that only refreshes the sync time must not rewrite the shared tables.
+export const partnerCacheUnchanged = (
+  previous: PartnerSyncCache,
+  next: PartnerSyncCache
+) =>
+  !!previous.syncedAt === !!next.syncedAt &&
+  JSON.stringify({ ...previous, syncedAt: undefined }) ===
+    JSON.stringify({ ...next, syncedAt: undefined });

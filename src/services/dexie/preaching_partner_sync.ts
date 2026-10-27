@@ -6,6 +6,7 @@ import {
 } from '@definition/preaching_partner';
 import {
   emptyPartnerCache,
+  partnerCacheUnchanged,
   projectPartnerRequests,
 } from '@utils/preaching_partner_sync';
 
@@ -40,10 +41,10 @@ export const dbPartnerSyncUpdate = <T>(
             !person._deleted.value && !person.person_data.archived?.value
         )
         .map((person) => person.person_uid);
-      const { cache, result } = update(
-        local.scopes[scope] ?? emptyPartnerCache(),
-        activeIds
-      );
+      const previous = local.scopes[scope] ?? emptyPartnerCache();
+      const { cache, result } = update(previous, activeIds);
+      const activated = activate && local.activeScope !== scope;
+      if (!activated && partnerCacheUnchanged(previous, cache)) return result;
       const next = {
         ...local,
         activeScope: activate ? scope : local.activeScope,
@@ -54,11 +55,15 @@ export const dbPartnerSyncUpdate = <T>(
         id: PARTNER_SYNC_LOCAL_ID,
         partnerSync: next,
       });
-      if (next.activeScope === scope) {
+      const projected = projectPartnerRequests(cache);
+      if (
+        next.activeScope === scope &&
+        (activated ||
+          JSON.stringify(projected) !==
+            JSON.stringify(projectPartnerRequests(previous)))
+      ) {
         await appDb.preaching_partner_requests.clear();
-        await appDb.preaching_partner_requests.bulkPut(
-          projectPartnerRequests(cache)
-        );
+        await appDb.preaching_partner_requests.bulkPut(projected);
       }
       return result;
     }

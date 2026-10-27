@@ -3,6 +3,7 @@ import { test } from 'node:test';
 import { createPartnerSyncClient } from '../src/services/app/preaching_partner_sync_engine';
 import {
   emptyPartnerCache,
+  partnerCacheUnchanged,
   projectPartnerRequests,
   mergePartnerSnapshot,
 } from '../src/utils/preaching_partner_sync';
@@ -402,4 +403,19 @@ test('a lost confirmation response is confirmed from the server snapshot without
     await bob.client.synchronize();
     assert.equal(backend.writes, 1);
   }
+});
+
+test('a poll that only refreshes the sync time counts as unchanged', async () => {
+  const backend = server();
+  backend.setRecords([request()]);
+  const alice = device('alice', backend);
+  alice.connect();
+  await alice.client.synchronize();
+  const first = structuredClone(alice.cache);
+  await alice.client.synchronize();
+  assert.ok(partnerCacheUnchanged(first, alice.cache));
+  assert.equal(partnerCacheUnchanged(emptyPartnerCache(), first), false);
+  backend.setRecords([...backend.records, request('bob')]);
+  await alice.client.synchronize();
+  assert.equal(partnerCacheUnchanged(first, alice.cache), false);
 });
