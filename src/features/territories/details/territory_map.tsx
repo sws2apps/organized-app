@@ -231,6 +231,7 @@ const FullscreenMap = ({
           height: '100%',
           ...MAP_ATTRIBUTION_STYLES,
           '& .maplibregl-ctrl-bottom-left': {
+            ...MAP_ATTRIBUTION_STYLES['& .maplibregl-ctrl-bottom-left'],
             bottom: systemBarInset('bottom'),
             left: systemBarInset('left'),
           },
