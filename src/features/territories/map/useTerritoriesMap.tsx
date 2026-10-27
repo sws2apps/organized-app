@@ -14,6 +14,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import * as maplibregl from 'maplibre-gl';
+import '@features/territories/map/worker';
 import { IconCheckCircle } from '@icons/index';
 import { displaySnackNotification } from '@services/states/app';
 import { getCSSPropertyValue } from '@utils/common';
@@ -282,7 +283,7 @@ const useTerritoriesMap = () => {
   const style = useRef('');
 
   const [ready, setReady] = useState(false);
-  const [mapError, setMapError] = useState(false);
+  const [mapError, setMapError] = useState<false | 'graphics' | 'load'>(false);
   const [generation, setGeneration] = useState(0);
   const reloadMap = () => {
     setMapError(false);
@@ -719,13 +720,13 @@ const useTerritoriesMap = () => {
         ...mapPerformanceOptions(),
       });
     } catch {
-      setMapError(true);
+      setMapError('graphics');
       return;
     }
     // reloading opens the map a step lighter, so it fits the next time
     instance.on('webglcontextlost', () => {
       downgradeMapTier();
-      setMapError(true);
+      setMapError('graphics');
       setReady(false);
     });
     instance.on('webglcontextrestored', () => {
@@ -742,9 +743,17 @@ const useTerritoriesMap = () => {
 
     map.current = instance;
 
+    // offline or a blocked tile host never reaches 'style.load'; say so instead of a blank map
+    let styled = false;
+    instance.on('error', () => {
+      if (!styled) setMapError('load');
+    });
+
     // 'style.load' is the first point a custom layer is accepted, and it fires
     // again after the theme swaps the basemap
     instance.on('style.load', () => {
+      styled = true;
+      setMapError(false);
       applyBasemapOptions(
         instance,
         basemap.current.provider,
@@ -844,6 +853,7 @@ const useTerritoriesMap = () => {
     const registry = markers.current;
 
     return () => {
+      fades.forEach((frame) => cancelAnimationFrame(frame));
       syncMarkers(instance, [], registry);
       instance.remove();
       map.current = null;

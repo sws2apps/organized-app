@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { JWLangLocaleState } from '@states/settings';
 import * as maplibregl from 'maplibre-gl';
+import '@features/territories/map/worker';
 import { Image, Page, pdf } from '@react-pdf/renderer';
 import { FormControlLabel, Radio, RadioGroup, Stack } from '@mui/material';
 import IconLoading from '@components/icon_loading';

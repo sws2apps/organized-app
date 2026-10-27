@@ -543,14 +543,21 @@ const useAnchor = (editor: Editor, map?: maplibregl.Map | null) => {
       else if (feature.geometry.type === 'LineString')
         coordinates = feature.geometry.coordinates as number[][];
       else coordinates = [feature.geometry.coordinates as number[]];
-      const points = coordinates.map((c) => map.project(c as [number, number]));
       // a drawing larger than the view, like the congregation's border,
       // centres the bar on the part that shows
       const { clientWidth, clientHeight } = map.getContainer();
-      const xs = points.map((p) => Math.min(Math.max(p.x, 0), clientWidth));
-      const top = Math.min(...points.map((p) => p.y));
+      let left = Infinity;
+      let right = -Infinity;
+      let top = Infinity;
+      for (const c of coordinates) {
+        const p = map.project(c as [number, number]);
+        const x = Math.min(Math.max(p.x, 0), clientWidth);
+        left = Math.min(left, x);
+        right = Math.max(right, x);
+        top = Math.min(top, p.y);
+      }
       setAnchor({
-        x: (Math.min(...xs) + Math.max(...xs)) / 2,
+        x: (left + right) / 2,
         y: Math.min(Math.max(top, 0), clientHeight),
       });
     };

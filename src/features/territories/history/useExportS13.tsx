@@ -11,7 +11,7 @@ import { withGroupHolders } from '@features/territories/group_holder';
 import { JWLangLocaleState, shortDateFormatState } from '@states/settings';
 import { territoriesState } from '@states/territories';
 import { displaySnackNotification } from '@services/states/app';
-import { getMessageByCode } from '@services/i18n/translation';
+import { getMessageByCode, getTranslation } from '@services/i18n/translation';
 import { formatDate } from '@utils/date';
 import { TemplateS13 } from '@views/index';
 const useExportS13 = (markCampaigns: boolean) => {
@@ -62,7 +62,10 @@ const useExportS13 = (markCampaigns: boolean) => {
         territories,
         assignees.filter((item) => item.group).map(({ name }) => name)
       );
-      const campaignMark = language.startsWith('de') ? 'A' : 'C';
+      const campaignMark = getTranslation({
+        key: 'tr_territoryS13CampaignMark',
+        language,
+      });
       try {
         const rows = [...grouped]
           .sort((a, b) =>

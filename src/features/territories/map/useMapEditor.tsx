@@ -363,6 +363,19 @@ const useMapEditor = ({
 
   const historySize = useCallback(() => history.current?.undoSize() ?? 0, []);
 
+  const lastSize = useRef(0);
+  const replaying = useRef(false);
+  // a new step after an undo starts a fresh branch: marks from the undone one no longer apply
+  const trackSteps = useCallback(() => {
+    const size = historySize();
+    if (!replaying.current && size > lastSize.current) {
+      for (const step of autoSteps.current) {
+        if (step >= size) autoSteps.current.delete(step);
+      }
+    }
+    lastSize.current = size;
+  }, [historySize]);
+
   const markAuto = useCallback(
     (before: number) => {
       for (let size = before + 1; size <= historySize(); size++) {
@@ -488,6 +501,7 @@ const useMapEditor = ({
 
       history.current = new TerraDrawSessionUndoRedo();
       autoSteps.current.clear();
+      lastSize.current = 0;
 
       const terra = new TerraDraw({
         adapter: new TerraDrawMapLibreGLAdapter({ map: instance }),
@@ -552,7 +566,10 @@ const useMapEditor = ({
 
       terra.start();
 
-      terra.on('change', readDraft);
+      terra.on('change', () => {
+        trackSteps();
+        readDraft();
+      });
 
       terra.on('select', (id) => {
         const feature = terra.getSnapshotFeature(id);
@@ -758,6 +775,7 @@ const useMapEditor = ({
       // what was already saved is the starting point, not a step to undo
       terra.clearUndoRedoHistory();
       autoSteps.current.clear();
+      lastSize.current = 0;
 
       if (existing?.length) terra.selectFeature(loaded[0].id!, 'points');
 
@@ -773,7 +791,17 @@ const useMapEditor = ({
 
       onStart(existing);
     },
-    [map, stop, readDraft, onStart, clearVertex, historySize, markAuto, defer]
+    [
+      map,
+      stop,
+      readDraft,
+      trackSteps,
+      onStart,
+      clearVertex,
+      historySize,
+      markAuto,
+      defer,
+    ]
   );
 
   const pickTool = useCallback(
@@ -1140,6 +1168,7 @@ const useMapEditor = ({
       });
       terra.clearUndoRedoHistory();
       autoSteps.current.clear();
+      lastSize.current = 0;
       readDraft();
       adjustBorder();
     },
@@ -1193,6 +1222,7 @@ const useMapEditor = ({
     if (!terra) return;
 
     let size = historySize();
+    replaying.current = true;
     terra.undo();
 
     // keep going while the step just taken back was one we added ourselves
@@ -1200,6 +1230,8 @@ const useMapEditor = ({
       size = historySize();
       terra.undo();
     }
+    replaying.current = false;
+    lastSize.current = historySize();
 
     readDraft();
   }, [readDraft, historySize]);
@@ -1208,11 +1240,14 @@ const useMapEditor = ({
     const terra = draw.current;
     if (!terra) return;
 
+    replaying.current = true;
     terra.redo();
 
     while (autoSteps.current.has(historySize() + 1) && terra.canRedo()) {
       terra.redo();
     }
+    replaying.current = false;
+    lastSize.current = historySize();
 
     readDraft();
   }, [readDraft, historySize]);

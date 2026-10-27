@@ -20,8 +20,12 @@ import type { TerritoryRecord } from '@definition/territory_record';
 
 export class TerritoryDraftChangedError extends Error {}
 
+// Own row so the generic metadata writers (and the backup worker) never overwrite the outbox.
+const SYNC_ROW = 2;
 export const dbTerritorySyncGet = async () =>
-  (await appDb.metadata.get(1))?.territorySync;
+  (await appDb.metadata.get(SYNC_ROW))?.territorySync;
+const dbTerritorySyncPut = (territorySync: TerritorySyncState) =>
+  appDb.metadata.put({ id: SYNC_ROW, metadata: {}, territorySync });
 const assertScope = (state: TerritorySyncState | undefined, scope: string) => {
   if (state && state.scope !== scope)
     throw new Error('Territory account changed');
@@ -33,8 +37,11 @@ export const dbTerritoriesEnqueue = async (
   manager: boolean
 ) => {
   await appDb.transaction('rw', appDb.territories, appDb.metadata, async () => {
-    const metadata = await appDb.metadata.get(1);
-    const state = metadata?.territorySync ?? { scope, queue: [], revision: 0 };
+    const state = (await dbTerritorySyncGet()) ?? {
+      scope,
+      queue: [],
+      revision: 0,
+    };
     assertScope(state, scope);
     const previous = await appDb.territories.bulkGet(
       records.map((item) => item.id)
@@ -69,12 +76,7 @@ export const dbTerritoriesEnqueue = async (
         remote: previous[index]?.remote,
       }))
     );
-    await appDb.metadata.put({
-      ...metadata,
-      id: 1,
-      metadata: metadata?.metadata ?? {},
-      territorySync: state,
-    });
+    await dbTerritorySyncPut(state);
   });
 };
 export const dbTerritorySyncPrepare = async (
@@ -84,15 +86,15 @@ export const dbTerritorySyncPrepare = async (
   changes: TerritoryPendingChange[]
 ) => {
   await appDb.transaction('rw', appDb.metadata, async () => {
-    const metadata = await appDb.metadata.get(1);
-    assertScope(metadata?.territorySync, scope);
-    const entry = metadata?.territorySync?.queue.find((item) => item.id === id);
-    if (!metadata || !entry)
+    const state = await dbTerritorySyncGet();
+    assertScope(state, scope);
+    const entry = state?.queue.find((item) => item.id === id);
+    if (!state || !entry)
       throw new Error('Territory operation no longer exists');
     if (JSON.stringify(entry.changes) !== JSON.stringify(changes))
       throw new TerritoryDraftChangedError();
     entry.prepared = prepared;
-    await appDb.metadata.put(metadata);
+    await dbTerritorySyncPut(state);
   });
 };
 const acknowledgeOperation = (
@@ -123,8 +125,11 @@ export const dbTerritorySyncApply = async (
   retainLocalDrafts = false
 ) => {
   await appDb.transaction('rw', appDb.territories, appDb.metadata, async () => {
-    const metadata = await appDb.metadata.get(1);
-    const state = metadata?.territorySync ?? { scope, revision: 0, queue: [] };
+    const state = (await dbTerritorySyncGet()) ?? {
+      scope,
+      revision: 0,
+      queue: [],
+    };
     assertScope(state, scope);
     const remote = new Map(records.map((item) => [item.id, item]));
     acknowledgeOperation(state, acknowledged, remote);
@@ -147,12 +152,7 @@ export const dbTerritorySyncApply = async (
       ...records.filter((item) => !pending.has(item.id)),
     ]);
     state.revision = revision;
-    await appDb.metadata.put({
-      ...metadata,
-      id: 1,
-      metadata: metadata?.metadata ?? {},
-      territorySync: state,
-    });
+    await dbTerritorySyncPut(state);
   });
 };
 
@@ -163,8 +163,11 @@ export const dbTerritorySettingsSave = async (
 ) => {
   const dirty = options?.dirty ?? true;
   await appDb.transaction('rw', appDb.metadata, async () => {
-    const metadata = await appDb.metadata.get(1);
-    const state = metadata?.territorySync ?? { scope, queue: [], revision: 0 };
+    const state = (await dbTerritorySyncGet()) ?? {
+      scope,
+      queue: [],
+      revision: 0,
+    };
     assertScope(state, scope);
     if (
       !dirty &&
@@ -190,12 +193,7 @@ export const dbTerritorySettingsSave = async (
           ? (state.settingsBaseline ?? options?.baseline)
           : undefined,
       });
-    await appDb.metadata.put({
-      ...metadata,
-      id: 1,
-      metadata: metadata?.metadata ?? {},
-      territorySync: state,
-    });
+    await dbTerritorySyncPut(state);
   });
 };
 
@@ -208,26 +206,22 @@ export const dbTerritorySyncDiscard = async (
   settings?: TerritorySharedSettings
 ) => {
   await appDb.transaction('rw', appDb.territories, appDb.metadata, async () => {
-    const metadata = await appDb.metadata.get(1);
-    const state = metadata?.territorySync;
+    const state = await dbTerritorySyncGet();
     assertScope(state, scope);
-    if (!state || !metadata || !matchesTerritoryReview(state, reviewed))
+    if (!state || !matchesTerritoryReview(state, reviewed))
       throw new Error('Pending changes changed during review');
     const ids = state.queue.flatMap((item) =>
       item.changes.map((change) => change.id)
     );
     await appDb.territories.bulkDelete(ids);
     await appDb.territories.bulkPut(records);
-    await appDb.metadata.put({
-      ...metadata,
-      territorySync: {
-        ...state,
-        revision,
-        queue: [],
-        settings: settings ?? state.settings,
-        settingsDirty: false,
-        settingsBaseline: undefined,
-      },
+    await dbTerritorySyncPut({
+      ...state,
+      revision,
+      queue: [],
+      settings: settings ?? state.settings,
+      settingsDirty: false,
+      settingsBaseline: undefined,
     });
   });
 };
@@ -237,12 +231,9 @@ export const dbTerritoryPolicyBaseline = async (
   localGrants: TerritoryGrant[]
 ) => {
   await appDb.transaction('rw', appDb.metadata, async () => {
-    const metadata = await appDb.metadata.get(1);
-    if (!metadata?.territorySync) return;
-    assertScope(metadata.territorySync, scope);
-    await appDb.metadata.put({
-      ...metadata,
-      territorySync: { ...metadata.territorySync, localGrants },
-    });
+    const state = await dbTerritorySyncGet();
+    if (!state) return;
+    assertScope(state, scope);
+    await dbTerritorySyncPut({ ...state, localGrants });
   });
 };
