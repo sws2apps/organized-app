@@ -421,10 +421,11 @@ export const addAttribution = (map: maplibregl.Map) => {
 
 // the credits as quiet small print in the corner, without a box or toggle
 export const MAP_ATTRIBUTION_STYLES = {
+  // a fixed width, so the text wraps only where the bottom-right buttons begin
+  '& .maplibregl-ctrl-bottom-left': { right: '64px' },
   '& .maplibregl-ctrl-bottom-left .maplibregl-ctrl.maplibregl-ctrl-attrib': {
     margin: '0 0 4px 6px',
     padding: 0,
-    maxWidth: 'calc(100% - 12px)',
     background: 'none',
     border: 'none',
     boxShadow: 'none',
