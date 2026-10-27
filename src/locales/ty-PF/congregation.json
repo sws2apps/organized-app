@@ -380,6 +380,7 @@
   "tr_congregationRequestRejectedDesc": "Ua pāto’i te amuiraa <strong>{{ congregationNameAndNumber }}</strong> i tā ’oe aniraa nō te hi’o i tā rātou tāpura taeae orero nō rāpa’e. Mai te mea ē e mea fīti, e nehenehe ’oe e fārei atu ia rātou.",
   "tr_congregationAccessRevoke": "’A fa’a’ore i te parau fa’ati’a nō teie amuiraa",
   "tr_congregationAccessRevokeDesc": "’A fa’a’ore i te parau fa’ati’a nō te hi’o i tā ’oe tāpura taeae orero nō te amuiraa <strong>{{ congregationName }}</strong>? Eita rātou e nehenehe e hi’o fa’ahou i te reira, e nehenehe rā tā ’oe e fa’a’ite fa’ahou i te reira ia rātou mai te mea ē e hāpono mai rātou i te hō’ē aniraa ’āpī.",
+  "tr_withoutGroup": "Without a group",
   "tr_noGroupsYet": "’Aita ā hō’ē a’e pupu tāviniraa i hāmanihia. ’A hāmani nā mua i te hō’ē pupu nō te tāmata i te tāmau i te mau tairururaa e nō te fa’anaho i te mau pupu.",
   "tr_coordinator": "Ti’aau",
   "tr_secretary": "Pāpa’i parau",

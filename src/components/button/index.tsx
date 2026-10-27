@@ -29,6 +29,8 @@ const Button: FC<ButtonPropsType> = (props) => {
 
   const isGradient = variant === 'main';
 
+  const defaultMinHeight = variant === 'small' ? 32 : 40;
+
   const gradientTop = color
     ? `color-mix(in oklch, var(--${color}-main), white 15%)`
     : 'var(--accent-gradient-top)';
@@ -252,7 +254,7 @@ const Button: FC<ButtonPropsType> = (props) => {
       target={props.target}
       sx={{
         cursor: 'pointer',
-        minHeight: props.minHeight ? `${props.minHeight}px` : '40px',
+        minHeight: `${props.minHeight || defaultMinHeight}px`,
         fontFeatureSettings: '"cv05"',
         padding: variant === 'small' ? '4px 8px' : '8px 16px',
         backgroundColor: getBackgroundColor(),
@@ -305,6 +307,11 @@ const Button: FC<ButtonPropsType> = (props) => {
           color: 'var(--accent-350)',
           border: getBorder(true),
         },
+        // MUI pulls the icons 4px into the padding; btn-small keeps them at 8px
+        ...(variant === 'small' && {
+          '& .MuiButton-startIcon': { marginLeft: 0 },
+          '& .MuiButton-endIcon': { marginRight: 0 },
+        }),
         '& svg': {
           height: variant === 'small' ? '20px' : '22px',
           width: variant === 'small' ? '20px' : '22px',

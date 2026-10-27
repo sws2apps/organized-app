@@ -380,6 +380,7 @@
   "tr_congregationRequestRejectedDesc": "Die <strong>{{ congregationNameAndNumber }}</strong> Versammlung hat deine Anfrage zur Einsichtnahme ihrer Rednerliste abgelehnt. Falls notwendig, kannst du sie persönlich kontaktieren.",
   "tr_congregationAccessRevoke": "Zugriff für diese Versammlung widerrufen",
   "tr_congregationAccessRevokeDesc": "Zugriff auf deine Rednerliste für die Versammlung <strong>{{ congregationName }}</strong> widerrufen? Sie können sie nicht mehr einsehen, aber du kannst sie ihnen später wieder zur Verfügung stellen, falls sie eine neue Anfrage stellen.",
+  "tr_withoutGroup": "Without a group",
   "tr_noGroupsYet": "Du hast noch keine Dienstgruppen erstellt. Erstelle zuerst eine Gruppe, um damit zu beginnen, Verkündiger hinzuzufügen und Gruppen neu anzuordnen.",
   "tr_coordinator": "Koordinator",
   "tr_secretary": "Sekretär",

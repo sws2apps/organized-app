@@ -12,6 +12,7 @@ import useConfirmImport from './useConfirmImport';
 import useCSVImport from './useCSVImport';
 import usePersonsImportConfig from './usePersonsImportConfig';
 import type { ConfirmImportProps } from './index.types';
+import { primaryTranslation } from '@utils/i18n';
 
 const ConfirmImport = (props: ConfirmImportProps) => {
   const { t } = useAppTranslation();
@@ -172,7 +173,7 @@ const ConfirmImport = (props: ConfirmImportProps) => {
                                   opacity: isFieldAvailable ? 1 : 0.6,
                                 }}
                               >
-                                {t(field.label)}
+                                {primaryTranslation(t(field.label))}
                               </Typography>
                             }
                           />
@@ -194,7 +195,7 @@ const ConfirmImport = (props: ConfirmImportProps) => {
         <Button
           variant="main"
           onClick={handleImportData}
-          endIcon={isProcessing && <IconLoading />}
+          endIcon={isProcessing ? <IconLoading /> : undefined}
         >
           {t('tr_import')}
         </Button>

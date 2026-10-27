@@ -380,6 +380,7 @@
   "tr_congregationRequestRejectedDesc": "Zbór <strong>{{ congregationNameAndNumber }}</strong> odrzucił twoją prośbę o przeglądanie listy jego mówców. W razie potrzeby możesz się z nimi skontaktować.",
   "tr_congregationAccessRevoke": "Cofnij dostęp dla tego zboru",
   "tr_congregationAccessRevokeDesc": "Czy chcesz cofnąć dostęp do twojej listy mówców dla zboru <strong>{{ congregationName }}</strong>? Nie będą już mogli jej zobaczyć, ale możesz udostępnić ją ponownie, jeśli złożą nową prośbę.",
+  "tr_withoutGroup": "Without a group",
   "tr_noGroupsYet": "You don’t have any field service groups created yet. Create a group first to start adding publishers and reordering groups.",
   "tr_coordinator": "Koordynator",
   "tr_secretary": "Sekretarz",
