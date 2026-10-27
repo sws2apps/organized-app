@@ -46,6 +46,8 @@ export default defineConfig({
     ],
   },
   worker: { plugins: () => [comlink()] },
+  // maplibre ships its own worker, which the dependency pre-bundler breaks
+  optimizeDeps: { exclude: ['maplibre-gl'] },
   server: {
     port: 4050,
     host: true,
