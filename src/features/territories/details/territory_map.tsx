@@ -179,7 +179,13 @@ const BoundaryPreview = ({
   return (
     <Box
       ref={container}
-      sx={{ height: '100%', width: '100%', minWidth: 0, overflow: 'hidden' }}
+      sx={{
+        height: '100%',
+        width: '100%',
+        minWidth: 0,
+        overflow: 'hidden',
+        ...MAP_ATTRIBUTION_STYLES,
+      }}
     />
   );
 };
@@ -229,9 +235,7 @@ const FullscreenMap = ({
         sx={{
           position: 'relative',
           height: '100%',
-          ...MAP_ATTRIBUTION_STYLES,
           '& .maplibregl-ctrl-bottom-left': {
-            ...MAP_ATTRIBUTION_STYLES['& .maplibregl-ctrl-bottom-left'],
             bottom: systemBarInset('bottom'),
             left: systemBarInset('left'),
           },
