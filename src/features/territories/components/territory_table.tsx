@@ -348,6 +348,7 @@ const Row = memo(function Row({
   view: RowView;
   api: RowApi;
 }) {
+  const { t } = useAppTranslation();
   const {
     phone,
     tablet688Up,
