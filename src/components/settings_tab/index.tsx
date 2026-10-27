@@ -20,12 +20,7 @@ type SettingsTabProps = {
   'role' | 'aria-selected' | 'aria-controls' | 'id' | 'tabIndex'
 >;
 
-/**
- * Vertical sidebar tab for the Settings redesign.
- * Matches the Penpot "vertical-tab" component specs:
- * - Active: accent-150 bg, 4px accent-main left indicator, accent-dark text, chevron
- * - Inactive: transparent bg, grey-400 text, no indicator
- */
+// Vertical navigation tab; the active one shows an indicator bar and a chevron.
 const SettingsTab = ({
   renderIcon,
   label,

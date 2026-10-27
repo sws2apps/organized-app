@@ -134,6 +134,7 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
                 {
                   path: '/find-a-preaching-partner/:tab?',
                   element: <PreachingPartner />,
+                  handle: { keepMounted: true },
                 },
 
                 // only if connected
