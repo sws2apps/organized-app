@@ -6,6 +6,7 @@ import {
   dutyAssignmentForMeeting,
 } from '@utils/duties_weekly';
 import type { SchedWeekType } from '@definition/schedules';
+import { dutiesSchema, scheduleSchema } from '@services/dexie/schema';
 
 const entry = (type: string, value: string, id?: string) => ({
   type,
@@ -91,4 +92,18 @@ test('applying saved paths preserves intervening edits and microphone sections',
     original.duties.weekend.sections
   );
   assert.equal(original.duties.midweek.audio.position_1[0].value, 'A');
+});
+
+test('new weeks carry no duty fields until the first assignment', () => {
+  assert.equal('duties' in scheduleSchema, false);
+  const week = {
+    ...structuredClone(scheduleSchema),
+    weekOf: '2026/11/02',
+    duties: dutiesSchema(),
+  };
+  const updated = dutiesPatchSchedule(week, {
+    'duties.midweek.audio.position_1': [entry('main', 'A')],
+  });
+  assert.equal(updated.duties?.midweek.audio.position_1[0].value, 'A');
+  assert.deepEqual(updated.duties?.weekend.dynamic, []);
 });

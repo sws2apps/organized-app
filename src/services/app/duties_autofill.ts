@@ -10,6 +10,7 @@ import {
 } from '@definition/schedules';
 import { SettingsType } from '@definition/settings';
 import { dbSchedUpdate } from '@services/dexie/schedules';
+import { dutiesSchema } from '@services/dexie/schema';
 import { fieldServiceGroupsState } from '@states/field_service_groups';
 import { store } from '@states/index';
 import { personsActiveState } from '@states/persons';
@@ -536,6 +537,12 @@ const runDutiesAutofill = async (start: string, end: string) => {
 
   if (weeks.length === 0) return 0;
 
+  // duty fields are created on first use, and only changed weeks are written
+  for (const week of weeks) week.duties ??= dutiesSchema();
+  const before = new Map(
+    weeks.map((week) => [week.weekOf, JSON.stringify(week.duties)])
+  );
+
   const settings = store.get(settingsState);
   const dataView = store.get(userDataViewState);
   const persons = store.get(personsActiveState);
@@ -598,11 +605,15 @@ const runDutiesAutofill = async (start: string, end: string) => {
     expectedByCode,
   });
 
-  await Promise.all(
-    weeks.map((week) => dbSchedUpdate(week.weekOf, { duties: week.duties }))
+  const changed = weeks.filter(
+    (week) => JSON.stringify(week.duties) !== before.get(week.weekOf)
   );
 
-  const updatedWeeks = new Map(weeks.map((week) => [week.weekOf, week]));
+  await Promise.all(
+    changed.map((week) => dbSchedUpdate(week.weekOf, { duties: week.duties }))
+  );
+
+  const updatedWeeks = new Map(changed.map((week) => [week.weekOf, week]));
 
   store.set(
     schedulesState,
