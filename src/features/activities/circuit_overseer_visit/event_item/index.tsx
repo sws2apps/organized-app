@@ -26,8 +26,10 @@ const EventItem = ({ event, weekOf }: EventItemProps) => {
 
   const data = event.event_data;
 
+  const timeFormat = hour24 ? 'HH:mm' : 'h:mm a';
+
   const time = data.time
-    ? formatDate(generateDateFromTime(data.time), hour24 ? 'HH:mm' : 'h:mm a')
+    ? formatDate(generateDateFromTime(data.time), timeFormat)
     : '—';
 
   const hosts = persons
