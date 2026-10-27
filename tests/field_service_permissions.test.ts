@@ -53,10 +53,7 @@ for (const [name, config] of [
       assert.equal(rights.canManageMeeting(category, 'first'), true);
       assert.equal(rights.canManageMeeting(category, 'third'), true);
     }
-    assert.equal(
-      rights.canEditGroupTimes(),
-      config.user_settings.cong_role.includes('admin')
-    );
+    assert.equal(rights.canEditGroupTimes('first'), true);
   });
 }
 for (const [uid, own] of [
@@ -82,7 +79,8 @@ for (const [uid, own] of [
       rights.canManageMeeting(Category.ServiceOverseerMeeting, own),
       false
     );
-    assert.equal(rights.canEditGroupTimes(), false);
+    assert.equal(rights.canEditGroupTimes(own), true);
+    assert.equal(rights.canEditGroupTimes('third'), false);
   });
 }
 test('membership alone and deleted groups do not grant scheduling', () => {

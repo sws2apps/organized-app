@@ -304,7 +304,7 @@ export const fieldServiceMeetingTimeSave = async (
     store.get(settingsState),
     store.get(fieldWithLanguageGroupsState)
   );
-  if (!permissions.canEditGroupTimes())
+  if (!permissions.canEditGroupTimes(groupId))
     throw new Error(
       getTranslation({ key: 'tr_fieldServiceMeetingNotAllowed' })
     );

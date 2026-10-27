@@ -55,7 +55,9 @@ export const fieldServiceMeetingPermissions = (
     myLedGroupIds,
     canManageMeeting,
     canCreate: canManageAll || myLedGroupIds.size > 0,
-    canEditGroupTimes: () => isAdmin,
+    // Recurring times follow the same rule as scheduling that group's meetings.
+    canEditGroupTimes: (groupId: string) =>
+      canManageMeeting(FieldServiceMeetingCategory.RegularMeeting, groupId),
   };
 };
 

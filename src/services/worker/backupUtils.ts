@@ -6,7 +6,10 @@ import {
   acknowledgeFieldServiceMeeting,
   fieldServiceGroupRoles,
 } from '@utils/field_service_meeting_sync';
-import { fieldServiceMeetingUploadRecords } from '@utils/field_service_meeting_permissions';
+import {
+  fieldServiceMeetingPermissions,
+  fieldServiceMeetingUploadRecords,
+} from '@utils/field_service_meeting_permissions';
 // to minimize the size of the worker file, we recreate all its needed functions in this file
 
 import appDb from '@db/appDb';
@@ -1950,6 +1953,20 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
 
             obj.app_settings.cong_settings = localSettings.cong_settings;
           }
+        }
+
+        // Field service schedulers who edit no other settings send only the recurring times.
+        if (
+          !settingEditor &&
+          metadata.metadata.cong_settings.send_local &&
+          fieldServiceMeetingPermissions(settings, field_service_groups)
+            .canCreate
+        ) {
+          obj.app_settings ??= {};
+          obj.app_settings.cong_settings = {
+            field_service_meeting_times:
+              settings.cong_settings.field_service_meeting_times ?? [],
+          };
         }
 
         // include person data

@@ -42,7 +42,7 @@ const useRecurringTimes = () => {
         ),
         weekday: weekday ?? '',
         time: time ? generateDateFromTime(time) : null,
-        readOnly: !canEditGroupTimes(),
+        readOnly: !canEditGroupTimes(group.group_id),
       };
     });
 
