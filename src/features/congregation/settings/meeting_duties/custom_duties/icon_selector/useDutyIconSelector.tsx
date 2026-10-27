@@ -22,7 +22,6 @@ const useDutyIconSelector = ({
   };
   const handleClose = () => setAnchorEl(null);
   const handleSelect = (icon: CustomDutyIconType) => {
-    if (disabled) return;
     onChange(icon);
     handleClose();
   };
@@ -37,7 +36,6 @@ const useDutyIconSelector = ({
     event: KeyboardEvent<HTMLButtonElement>,
     index: number
   ) => {
-    if (disabled) return;
     const rtl = getComputedStyle(event.currentTarget).direction === 'rtl';
     const column = index % columns;
     const lastInColumn =

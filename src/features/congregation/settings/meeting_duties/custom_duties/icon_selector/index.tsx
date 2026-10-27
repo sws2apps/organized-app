@@ -34,7 +34,7 @@ const DutyIconSelector = ({
   return (
     <>
       <IconButton
-        aria-label={`${t('tr_dutyIcon')}: ${iconLabel(value)}`}
+        aria-label={t('tr_dutyIconCurrent', { icon: iconLabel(value) })}
         aria-haspopup="dialog"
         aria-expanded={open}
         aria-controls={open ? id : undefined}
@@ -100,20 +100,17 @@ const DutyIconSelector = ({
                 buttons.current[index] = button;
               }}
               onKeyDown={(event) => handleKeyDown(event, index)}
-              disabled={disabled}
               onClick={() => handleSelect(icon)}
               sx={{
                 margin: 0,
                 width: 'calc(var(--dialog-gap-mobile) * 3)',
                 height: 'calc(var(--dialog-gap-mobile) * 3)',
                 borderRadius: 'var(--radius-l)',
-                color: disabled ? 'var(--grey-350)' : 'var(--accent-dark)',
+                color: 'var(--accent-dark)',
                 border: '1px solid transparent',
                 '&[aria-checked="true"]': {
-                  color: disabled ? 'var(--accent-200)' : 'var(--accent-main)',
-                  borderColor: disabled
-                    ? 'var(--accent-200)'
-                    : 'var(--accent-main)',
+                  color: 'var(--accent-main)',
+                  borderColor: 'var(--accent-main)',
                 },
               }}
             >

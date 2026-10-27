@@ -275,6 +275,7 @@
   "tr_sectionsRestoreDesc": "Replace this week’s sections with its recurring setup? Assignments in the current sections will be cleared. Other duties and weeks stay as they are.",
   "tr_sectionTreasuresTalk": "Treasures talk",
   "tr_dutyIcon": "Icon",
+  "tr_dutyIconCurrent": "Icon: {{icon}}",
   "tr_dutyIconDefault": "Default",
   "tr_dutyInvalidIcon": "Choose an available duty icon.",
   "tr_dutyIconEmergency": "Emergency",
