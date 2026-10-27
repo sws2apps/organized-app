@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import {
   fieldServiceMeetingToSync,
+  fieldServiceMeetingEditTimestamp,
   fieldServiceMeetingFromSync,
   fieldServiceSchedulingScope,
   mergeFieldServiceMeetingFromSync,
@@ -246,4 +247,41 @@ test('downloads acknowledge matching pending content independently of property o
     mergeFieldServiceMeetingFromSync(local, remote).sync_revision,
     'r2'
   );
+});
+
+test('content identities distinguish same-timestamp edits from encryption retries', () => {
+  const local = meeting();
+  const first = fieldServiceMeetingToSync(local, 'test-key');
+  const retry = fieldServiceMeetingToSync(local, 'test-key');
+  assert.equal(first.content_hash, retry.content_hash);
+  assert.notEqual(first.meeting_data, retry.meeting_data);
+  local.meeting_data.additionalInfo = 'Another note at the same timestamp';
+  const changed = fieldServiceMeetingToSync(local, 'test-key');
+  assert.notEqual(first.content_hash, changed.content_hash);
+  assert.notEqual(
+    first.content_hash,
+    fieldServiceMeetingToSync(meeting(), 'another-key').content_hash
+  );
+  const reordered = meeting();
+  reordered.meeting_data = Object.fromEntries(
+    Object.entries(reordered.meeting_data).reverse()
+  ) as typeof reordered.meeting_data;
+  assert.equal(
+    first.content_hash,
+    fieldServiceMeetingToSync(reordered, 'test-key').content_hash
+  );
+});
+
+test('local edits remain distinguishable during an upload despite identical or earlier clock readings', () => {
+  const previous = '2026-10-26T00:00:00.000Z';
+  const now = Date.parse(previous);
+  assert.equal(
+    fieldServiceMeetingEditTimestamp(previous, now),
+    '2026-10-26T00:00:00.001Z'
+  );
+  assert.equal(
+    fieldServiceMeetingEditTimestamp(previous, now - 1000),
+    '2026-10-26T00:00:00.001Z'
+  );
+  assert.equal(fieldServiceMeetingEditTimestamp(undefined, now), previous);
 });

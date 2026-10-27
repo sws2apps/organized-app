@@ -30,7 +30,11 @@ export const fieldServiceMeetingPermissions = (
       .map((group) => group.group_id)
   );
   const hasGroupRole = settings.user_settings.cong_role.some((role) =>
-    ['group_overseers', 'language_group_overseers'].includes(role)
+    [
+      'group_overseers',
+      'language_group_overseers',
+      'field_service_group_overseer',
+    ].includes(role)
   );
   const myLedGroupIds = new Set(
     activeGroups

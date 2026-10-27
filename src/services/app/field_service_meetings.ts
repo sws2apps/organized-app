@@ -1,3 +1,4 @@
+import { fieldServiceMeetingEditTimestamp } from '@utils/field_service_meeting_sync';
 import { fieldServiceMeetingConductorAllowed } from '@utils/field_service_meeting_permissions';
 import { dbAppSettingsUpdateFieldServiceMeetingTime } from '@services/dexie/settings';
 import {
@@ -286,7 +287,9 @@ export const fieldServiceMeetingsSave = async (
         // The selected group is the source of truth for data-view visibility.
         type: target.group_id ?? 'main',
         _deleted: deleting,
-        updatedAt: new Date().toISOString(),
+        updatedAt: fieldServiceMeetingEditTimestamp(
+          current?.meeting_data.updatedAt
+        ),
       },
     },
     { updatedAt: current?.meeting_data.updatedAt }

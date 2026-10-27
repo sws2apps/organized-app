@@ -1,3 +1,4 @@
+import { HmacSHA256 } from 'crypto-es';
 import type {
   FieldServiceMeetingType,
   FieldServiceMeetingSyncRecord,
@@ -9,12 +10,33 @@ import type { PersonType } from '@definition/person';
 import { encryptData, decryptData, decryptObject } from '@services/encryption';
 import { fieldServiceMeetingConductorAllowed } from '@utils/field_service_meeting_permissions';
 
+/** Keep local edit timestamps distinct even within a millisecond or after clock changes. */
+export const fieldServiceMeetingEditTimestamp = (
+  previous: string | undefined,
+  now = Date.now()
+) => {
+  const last = Date.parse(previous ?? '');
+  return new Date(
+    Math.max(now, Number.isFinite(last) ? last + 1 : 0)
+  ).toISOString();
+};
+
 export const fieldServiceMeetingToSync = (
   meeting: FieldServiceMeetingType,
   accessCode: string
 ): FieldServiceMeetingSyncRecord => ({
   meeting_uid: meeting.meeting_uid,
   revision: meeting.sync_revision,
+  // Keyed identity distinguishes edits from randomized encryption retries.
+  content_hash: HmacSHA256(
+    `${meeting.meeting_uid}:${JSON.stringify(
+      meeting.meeting_data,
+      Object.keys(meeting.meeting_data).sort((left, right) =>
+        left.localeCompare(right, 'en')
+      )
+    )}`,
+    accessCode
+  ).toString(),
   authorization: {
     group_id: meeting.meeting_data.group_id,
     category: meeting.meeting_data.category,

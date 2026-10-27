@@ -248,3 +248,16 @@ test('a group assignment without a current server-confirmed role does not grant 
     false
   );
 });
+
+test('the legacy field-service group-overseer role remains restricted to its assigned group', () => {
+  const rights = fieldServiceMeetingPermissions(
+    settings('lead', ['field_service_group_overseer']),
+    groups
+  );
+  assert.equal(rights.canManageMeeting(Category.RegularMeeting, 'first'), true);
+  assert.equal(
+    rights.canManageMeeting(Category.RegularMeeting, 'third'),
+    false
+  );
+  assert.equal(rights.canManageMeeting(Category.JointMeeting, 'first'), false);
+});

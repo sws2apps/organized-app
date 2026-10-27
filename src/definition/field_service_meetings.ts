@@ -114,6 +114,7 @@ export type FieldServiceMeetingAgendaDay = {
 export type FieldServiceMeetingSyncRecord = {
   meeting_uid: string;
   revision?: string;
+  content_hash?: string;
   authorization: {
     group_id?: string;
     category: FieldServiceMeetingCategory;
