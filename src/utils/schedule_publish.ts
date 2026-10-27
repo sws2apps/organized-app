@@ -13,9 +13,7 @@ export const filterScheduleByDataView = <T>(
           !item ||
           typeof item !== 'object' ||
           ((!('type' in item) || item.type === dataView) &&
-            (!('dataView' in item) ||
-              !item.dataView ||
-              item.dataView === dataView))
+            (!('dataView' in item) || item.dataView === dataView))
       )
       .map((item) => filterScheduleByDataView(item, dataView)) as T;
   }

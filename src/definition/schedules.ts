@@ -96,9 +96,7 @@ export type DutiesMeetingPartType = {
 
 export type DutiesSectionType = {
   id: string;
-  /** Missing only on legacy shared sections. */
-  dataView?: string;
-  legacyId?: string;
+  dataView: string;
   order?: number;
   name: string;
   // keys of the meeting parts this section covers, empty for a whole meeting

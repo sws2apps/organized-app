@@ -1,32 +1,18 @@
-import {
-  resolveRecurringSections,
-  snapshotRecurringSections,
-} from '@utils/duties_recurring';
 import { queueDutyWrite } from '@services/app/duties_queue';
-import {
-  isolateLegacySections,
-  sectionsForView,
-  validateDutyName,
-} from '@utils/duties_sections';
+import { validateDutyName } from '@utils/duties_sections';
 import { SettingsType } from '@definition/settings';
-import { settingsState, userDataViewState } from '@states/settings';
+import { settingsState } from '@states/settings';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { updateObject } from '@utils/common';
-import { UpdateSpec } from 'dexie';
 import { store } from '@states/index';
 import {
   AssignmentCongregation,
   DutiesMeetingType,
   DutiesSectionType,
-  SchedWeekType,
 } from '@definition/schedules';
 import { assignmentsHistoryState, schedulesState } from '@states/schedules';
 import { dbSchedUpdate } from '@services/dexie/schedules';
-import {
-  schedulesBuildHistoryList,
-  schedulesDutiesMeetingParts,
-  schedulesDutiesSections,
-} from '@services/app/schedules';
+import { schedulesBuildHistoryList } from '@services/app/schedules';
 import { formatDate, getWeekDate } from '@utils/date';
 
 export type DutiesMeetingValue = 'midweek' | 'weekend';
@@ -72,9 +58,6 @@ export const dutiesSectionsShareTime = (
 const scheduleOf = (week: string) =>
   store.get(schedulesState).find((record) => record.weekOf === week);
 
-const dynamicOf = (week: string, meeting: DutiesMeetingValue) =>
-  structuredClone(scheduleOf(week)?.duties?.[meeting].dynamic ?? []);
-
 /**
  * Clears the brothers of the slots a predicate reports as gone, the same way
  * the picker clears one: the entry stays behind, so the change still syncs.
@@ -103,208 +86,6 @@ const releaseSlots = (
 
   return released;
 };
-
-/**
- * The sections of a week travel with the rest of its schedule, so the whole
- * list is written at once. Each section carries its own `updatedAt`, which is
- * what a field-level merge would need if the sync ever gains one.
- */
-const saveSections = async (
-  week: string,
-  meeting: DutiesMeetingValue,
-  sections: DutiesSectionType[],
-  dynamic?: AssignmentCongregation[],
-  overrides?: DutiesMeetingType['section_overrides']
-) => {
-  const changes: Record<string, unknown> = {
-    [`duties.${meeting}.sections`]: sections,
-    ...(overrides
-      ? { [`duties.${meeting}.section_overrides`]: overrides }
-      : {}),
-  };
-
-  if (dynamic) {
-    changes[`duties.${meeting}.dynamic`] = dynamic;
-  }
-
-  await dbSchedUpdate(week, changes as unknown as UpdateSpec<SchedWeekType>);
-
-  store.set(schedulesState, (current) =>
-    current.map((schedule) => {
-      if (schedule.weekOf !== week || !schedule.duties) return schedule;
-      return {
-        ...schedule,
-        duties: {
-          ...schedule.duties,
-          [meeting]: {
-            ...schedule.duties[meeting],
-            sections,
-            ...(overrides ? { section_overrides: overrides } : {}),
-            ...(dynamic ? { dynamic } : {}),
-          },
-        },
-      };
-    })
-  );
-  store.set(assignmentsHistoryState, schedulesBuildHistoryList());
-};
-
-const mutateSections = (
-  week: string,
-  meeting: DutiesMeetingValue,
-  mutate: (
-    sections: DutiesSectionType[],
-    dynamic: AssignmentCongregation[],
-    dataView: string
-  ) => void,
-  expected?: Pick<DutiesSectionType, 'id' | 'updatedAt'>
-) => {
-  const dataView = store.get(userDataViewState);
-  return queueDutyWrite(week, async () => {
-    const schedule = scheduleOf(week);
-    if (!schedule?.duties) throw new Error('tr_sectionUnavailable');
-    if (expected) {
-      const current = schedulesDutiesSections(week, meeting, dataView).find(
-        (section) =>
-          section.id === expected.id || section.legacyId === expected.id
-      );
-      if (!current) throw new Error('tr_sectionUnavailable');
-      if (current.updatedAt !== expected.updatedAt)
-        throw new Error('tr_sectionChanged');
-    }
-    const views =
-      store
-        .get(settingsState)
-        .cong_settings.meeting_duties?.map((config) => config.type) ?? [];
-    const snapshot = snapshotRecurringSections(
-      schedule.duties[meeting],
-      schedulesDutiesSections(week, meeting, dataView),
-      dataView,
-      new Date().toISOString()
-    );
-    const { sections, dynamic } = isolateLegacySections(
-      snapshot.sections,
-      dynamicOf(week, meeting),
-      [...views, dataView]
-    );
-    mutate(sections, dynamic, dataView);
-    await saveSections(
-      week,
-      meeting,
-      sections,
-      dynamic,
-      snapshot.section_overrides
-    );
-  });
-};
-
-const findSection = (
-  sections: DutiesSectionType[],
-  id: string,
-  dataView: string
-) => {
-  const section = sections.find(
-    (record) =>
-      record.dataView === dataView &&
-      !record._deleted &&
-      (record.id === id || record.legacyId === id)
-  );
-  if (!section) throw new Error('tr_sectionUnavailable');
-  return section;
-};
-
-type SectionValues = Pick<DutiesSectionType, 'name' | 'amount' | 'parts'>;
-
-const validateSection = (
-  section: SectionValues,
-  sections: DutiesSectionType[],
-  id?: string
-) => {
-  const error = validateDutyName(section.name, sections, id);
-  if (error) throw new Error(error);
-  if (
-    !Number.isInteger(section.amount) ||
-    section.amount < 1 ||
-    section.amount > 4
-  )
-    throw new Error('tr_dutyInvalidAmount');
-};
-
-export const dutiesSectionAdd = (
-  week: string,
-  meeting: DutiesMeetingValue,
-  section: SectionValues
-) =>
-  mutateSections(week, meeting, (sections, _, dataView) => {
-    const active = sectionsForView(sections, dataView);
-    if (active.length >= DUTIES_SECTIONS_MAX)
-      throw new Error('tr_sectionsLimitReached');
-    validateSection(section, active);
-    const validParts = new Set(
-      schedulesDutiesMeetingParts(week, meeting, dataView).map(
-        (part) => part.key
-      )
-    );
-    if (section.parts.some((key) => !validParts.has(key)))
-      throw new Error('tr_sectionPartsChanged');
-    sections.push({
-      ...section,
-      name: section.name.trim(),
-      id: crypto.randomUUID(),
-      dataView,
-      order: Math.max(-1, ...active.map((item) => item.order ?? 0)) + 1,
-      _deleted: false,
-      updatedAt: new Date().toISOString(),
-    });
-  });
-
-export const dutiesSectionUpdate = (
-  week: string,
-  meeting: DutiesMeetingValue,
-  id: string,
-  changes: SectionValues,
-  expectedUpdatedAt?: string
-) =>
-  mutateSections(
-    week,
-    meeting,
-    (sections, dynamic, dataView) => {
-      const section = findSection(sections, id, dataView);
-      validateSection(changes, sectionsForView(sections, dataView), section.id);
-      const validParts = new Set(
-        schedulesDutiesMeetingParts(week, meeting, dataView).map(
-          (part) => part.key
-        )
-      );
-      if (changes.parts.some((key) => !validParts.has(key)))
-        throw new Error('tr_sectionPartsChanged');
-      Object.assign(section, changes, {
-        name: changes.name.trim(),
-        updatedAt: new Date().toISOString(),
-      });
-      releaseSlots(
-        dynamic.filter((entry) => entry.type === dataView),
-        (sectionId, position) =>
-          sectionId === section.id && position > section.amount
-      );
-    },
-    expectedUpdatedAt ? { id, updatedAt: expectedUpdatedAt } : undefined
-  );
-
-export const dutiesSectionDelete = (
-  week: string,
-  meeting: DutiesMeetingValue,
-  id: string
-) =>
-  mutateSections(week, meeting, (sections, dynamic, dataView) => {
-    const section = findSection(sections, id, dataView);
-    section._deleted = true;
-    section.updatedAt = new Date().toISOString();
-    releaseSlots(
-      dynamic.filter((entry) => entry.type === dataView),
-      (sectionId) => sectionId === section.id
-    );
-  });
 
 export type DutiesStaticKey = Exclude<
   keyof DutiesMeetingType,
@@ -505,41 +286,3 @@ export const dutiesSaveSettings = (
   settingsWrite = pending.catch(() => undefined);
   return pending;
 };
-
-/** Replace only this view's section layout; retain clears for removed assignments. */
-export const dutiesSectionsRestore = (
-  week: string,
-  meeting: DutiesMeetingValue
-) =>
-  mutateSections(week, meeting, (sections, dynamic, dataView) => {
-    const config = store
-      .get(settingsState)
-      .cong_settings.meeting_duties?.find((item) => item.type === dataView);
-    const active = sectionsForView(sections, dataView);
-    const ids = new Set(active.map((section) => section.id));
-    const updatedAt = new Date().toISOString();
-    for (const section of active) {
-      section._deleted = true;
-      section.updatedAt = updatedAt;
-    }
-    releaseSlots(
-      dynamic.filter((entry) => entry.type === dataView),
-      (id) => ids.has(id)
-    );
-    const defaults = resolveRecurringSections({
-      duties: { sections: [] },
-      templates: config?.section_templates ?? [],
-      meeting,
-      dataView,
-      partKeys: schedulesDutiesMeetingParts(week, meeting, dataView).map(
-        (part) => part.key
-      ),
-    });
-    sections.push(
-      ...defaults.map((section) => ({
-        ...section,
-        id: crypto.randomUUID(),
-        updatedAt,
-      }))
-    );
-  });
