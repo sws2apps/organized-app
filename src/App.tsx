@@ -19,6 +19,7 @@ import createCache from '@emotion/cache';
 import rtlPlugin from '@mui/stylis-plugin-rtl';
 import FeatureFlagsWrapper from '@wrapper/feature_flags';
 import RouteProtected from '@components/route_protected';
+import TerritoryEditorRoute from '@features/territories/editor_route';
 import { determineAppLocale } from '@services/app';
 import { firstDayWeekState } from '@states/settings';
 import { LANGUAGE_LIST } from './constants';
@@ -134,9 +135,7 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
             { path: '/territories/:id', element: <TerritoryDetails /> },
 
             {
-              element: (
-                <RouteProtected allowed={isElder || isServiceCommittee} />
-              ),
+              element: <TerritoryEditorRoute />,
               children: [
                 {
                   path: '/territories/statistics',
