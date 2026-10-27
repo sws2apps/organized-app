@@ -63,12 +63,12 @@ const SectionEdit = (props: SectionEditProps) => {
     >
       <Stack spacing="var(--dialog-gap)" sx={{ width: '100%' }}>
         {changed && (
-          <Typography color="var(--orange-dark)">
+          <Typography color="var(--orange-dark)" role="alert">
             {t('tr_sectionChanged')}
           </Typography>
         )}
         {unavailable && (
-          <Typography color="var(--red-main)">
+          <Typography color="var(--red-main)" role="alert">
             {t('tr_sectionUnavailable')}
           </Typography>
         )}
@@ -136,7 +136,7 @@ const SectionEdit = (props: SectionEditProps) => {
           )}
 
           {missingParts.length > 0 && (
-            <Typography color="var(--orange-dark)">
+            <Typography color="var(--orange-dark)" role="alert">
               {t('tr_sectionPartsChanged')}
             </Typography>
           )}

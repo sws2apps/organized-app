@@ -402,7 +402,10 @@ export const schedulesDutiesMeetingParts = (
 
       add(
         `ayf_part${index}`,
-        getTranslation({ key: 'tr_lcPartNum', params: { partNumber: index } }),
+        getTranslation({
+          key: 'tr_ayfAssignment',
+          params: { assignmentNumber: index },
+        }),
         part?.title?.[lang]
       );
     }
@@ -2242,48 +2245,57 @@ export const schedulesRemoveAssignment = (
   return fieldUpdate;
 };
 
-export const scheduleDeleteDutiesAssignments = async (
-  schedule: SchedWeekType
-) => {
-  if (!schedule.duties) return;
+export const scheduleDeleteDutiesAssignments = (schedule: SchedWeekType) =>
+  queueDutyWrite(schedule.weekOf, async () => {
+    // a queued duty save may have changed the week since the caller read it
+    const latest = store
+      .get(schedulesState)
+      .find((item) => item.weekOf === schedule.weekOf);
+    if (!latest?.duties) return;
 
-  const dataView = store.get(userDataViewState);
+    const dataView = store.get(userDataViewState);
 
-  const staticFields = Object.keys(ASSIGNMENT_PATH).filter(
-    (key) => key.includes('_DUTIES_') && !key.includes('_DUTIES_Dynamic')
-  ) as AssignmentFieldType[];
+    const staticFields = Object.keys(ASSIGNMENT_PATH).filter(
+      (key) => key.includes('_DUTIES_') && !key.includes('_DUTIES_Dynamic')
+    ) as AssignmentFieldType[];
 
-  const dataDb = staticFields.reduce<Record<string, unknown>>(
-    (acc, assignment) => {
-      acc[ASSIGNMENT_PATH[assignment]] = schedulesRemoveAssignment(
-        schedule,
-        assignment
-      );
+    const dataDb = staticFields.reduce<Record<string, unknown>>(
+      (acc, assignment) => {
+        acc[ASSIGNMENT_PATH[assignment]] = schedulesRemoveAssignment(
+          latest,
+          assignment
+        );
 
-      return acc;
-    },
-    {}
-  );
+        return acc;
+      },
+      {}
+    );
 
-  // dynamic entries hold one record per data view AND position
-  for (const meeting of ['midweek', 'weekend'] as const) {
-    const entries = structuredClone(schedule.duties[meeting].dynamic ?? []);
+    // dynamic entries hold one record per data view AND position
+    for (const meeting of ['midweek', 'weekend'] as const) {
+      const entries = structuredClone(latest.duties[meeting].dynamic ?? []);
 
-    for (const record of entries) {
-      if (record.type === dataView && record.value.length > 0) {
-        record.value = '';
-        record.updatedAt = new Date().toISOString();
+      for (const record of entries) {
+        if (record.type === dataView && record.value.length > 0) {
+          record.value = '';
+          record.updatedAt = new Date().toISOString();
+        }
       }
+
+      dataDb[`duties.${meeting}.dynamic`] = entries;
     }
 
-    dataDb[`duties.${meeting}.dynamic`] = entries;
-  }
-
-  await dbSchedUpdate(
-    schedule.weekOf,
-    dataDb as unknown as UpdateSpec<SchedWeekType>
-  );
-};
+    await dbSchedUpdate(
+      latest.weekOf,
+      dataDb as unknown as UpdateSpec<SchedWeekType>
+    );
+    store.set(schedulesState, (current) =>
+      current.map((item) =>
+        item.weekOf === latest.weekOf ? dutiesPatchSchedule(item, dataDb) : item
+      )
+    );
+    store.set(assignmentsHistoryState, schedulesBuildHistoryList());
+  });
 
 export const scheduleDeleteMidweekWeekAssignments = async (
   schedule: SchedWeekType
@@ -3792,10 +3804,10 @@ export const schedulesGetMeetingDate = ({
   const schedule = schedules.find((record) => record.weekOf === week);
   const source = sources.find((record) => record.weekOf === week);
 
-  if (!schedule || !source) return { locale, date };
+  if (!schedule) return { locale, date };
 
   if (meeting === 'midweek' && forPrint && !useExact) {
-    locale = source.midweek_meeting.week_date_locale[lang] ?? '';
+    locale = source?.midweek_meeting.week_date_locale[lang] ?? '';
   }
 
   // Duties span both meetings, so selectors group them by the schedule week.

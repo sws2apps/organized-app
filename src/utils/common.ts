@@ -126,8 +126,13 @@ export const updateObject = <T extends object>(oldObj: T, newObj: T): T => {
 
       for (const lockKey of lockKeys) {
         if (lockKey in remoteValue) {
+          // duty slots share a data view type, so their id tells them apart
           const localValue = oldObj[key].find(
-            (r) => r[lockKey] === remoteValue[lockKey]
+            (r) =>
+              r[lockKey] === remoteValue[lockKey] &&
+              (lockKey !== 'type' ||
+                !('id' in remoteValue) ||
+                r.id === remoteValue.id)
           );
 
           if (!localValue) {

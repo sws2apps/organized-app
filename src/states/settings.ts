@@ -728,20 +728,9 @@ export const dutiesSistersState = atom((get) => {
   return duties?.sisters_duties?.value ?? false;
 });
 
-export const dutiesConflictPreventState = atom((get) => {
-  const settings = get(settingsState);
-  const dataView = get(userDataViewState);
-
-  if (!settings.cong_settings.meeting_duties) return false;
-
-  const duties = settings.cong_settings.meeting_duties.find(
-    (record) => record.type === dataView
-  );
-
-  if (!duties) return false;
-
-  return duties.conflict_prevent?.value ?? false;
-});
+export const dutiesConflictPreventState = atom(
+  (get) => get(meetingDutiesState)?.conflict_prevent?.value ?? false
+);
 
 export const dutiesAudioVideoCombinedState = atom((get) => {
   const duties = get(meetingDutiesState);
@@ -750,33 +739,14 @@ export const dutiesAudioVideoCombinedState = atom((get) => {
 });
 
 export const dutiesMicrophoneSectionsState = atom((get) => {
-  const settings = get(settingsState);
-  const dataView = get(userDataViewState);
-
-  if (!settings.cong_settings.meeting_duties) return false;
-
-  const duties = settings.cong_settings.meeting_duties.find(
-    (record) => record.type === dataView
-  );
-
-  if (!duties) return false;
+  const duties = get(meetingDutiesState);
 
   return (
-    !duties.schedule_weekly?.value && (duties.mic_sections?.value ?? false)
+    !duties?.schedule_weekly?.value && (duties?.mic_sections?.value ?? false)
   );
 });
 
-export const dutiesCustomState = atom((get) => {
-  const settings = get(settingsState);
-  const dataView = get(userDataViewState);
-
-  if (!settings.cong_settings.meeting_duties) return [];
-
-  const duties = settings.cong_settings.meeting_duties.find(
-    (record) => record.type === dataView
-  );
-
-  if (!duties) return [];
-
-  return duties.custom?.filter((record) => !record._deleted) ?? [];
-});
+export const dutiesCustomState = atom(
+  (get) =>
+    get(meetingDutiesState)?.custom?.filter((record) => !record._deleted) ?? []
+);
