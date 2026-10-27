@@ -76,7 +76,8 @@ const useDutyEdit = ({ id, onClose, type }: DutyEditProps) => {
       if (type === 'edit') {
         const duty = duties.custom.find((duty) => duty.id === id)!;
 
-        duty.icon = icon;
+        // keep an icon from a newer app version unless the user picked another
+        if (icon !== resolveCustomDutyIcon(duty.icon)) duty.icon = icon;
         duty.name = dutyName;
         duty.amount = amount;
         duty.updatedAt = new Date().toISOString();
