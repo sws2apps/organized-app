@@ -19,7 +19,8 @@ export const paintMapAttribution = (
   const fontSize =
     (6 * Math.max(canvas.width, canvas.height)) / printedLongSide;
   const inset = fontSize / 2;
-  const maxWidth = canvas.width * 0.55;
+  // under a full-width label there are no badges beside it, and a second line would hide
+  const maxWidth = reserved ? canvas.width - inset * 2 : canvas.width * 0.55;
   context.save();
   context.font = `${fontSize}px sans-serif`;
   context.textBaseline = 'bottom';
