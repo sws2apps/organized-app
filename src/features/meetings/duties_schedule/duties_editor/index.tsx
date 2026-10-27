@@ -28,6 +28,8 @@ const DutiesEditor = () => {
   const { tablet500Down, laptopDown } = useBreakpoints();
 
   const {
+    navigationRef,
+    isNavigationWrapped,
     dataView,
     weekly,
     weekDateLocale,
@@ -218,7 +220,7 @@ const DutiesEditor = () => {
       badgeText={t('tr_today')}
       badgeVisible={isCurrentWeek}
       sx={{
-        width: tablet500Down ? '100%' : 'fit-content',
+        width: tablet500Down || isNavigationWrapped ? '100%' : 'fit-content',
         alignSelf: 'flex-start',
         minWidth: 0,
         maxWidth: '100%',
@@ -243,6 +245,7 @@ const DutiesEditor = () => {
       ) : (
         <Stack spacing="24px">
           <Box
+            ref={navigationRef}
             sx={{
               display: 'flex',
               alignItems: 'center',
@@ -251,7 +254,15 @@ const DutiesEditor = () => {
               gap: 'var(--dialog-gap-mobile)',
             }}
           >
-            {dateNavigator}
+            <Box
+              sx={{
+                minWidth: 0,
+                maxWidth: '100%',
+                flex: tablet500Down ? '1 1 auto' : '999 1 auto',
+              }}
+            >
+              {dateNavigator}
+            </Box>
             {!weekly && (
               <TabSwitcher<DutiesMeetingValue>
                 id={tabsId}
@@ -273,11 +284,13 @@ const DutiesEditor = () => {
                   },
                 ]}
                 sx={{
-                  width: tablet500Down
-                    ? '100%'
-                    : 'var(--duties-meeting-switch-width)',
+                  display: tablet500Down ? 'flex' : 'inline-grid',
+                  gridAutoFlow: 'column',
+                  gridAutoColumns: 'minmax(0, 1fr)',
+                  width: tablet500Down ? '100%' : 'max-content',
+                  flexGrow: 1,
                   flexShrink: 0,
-                  marginInlineStart: 'auto',
+                  minWidth: 0,
                   maxWidth: '100%',
                 }}
               />
