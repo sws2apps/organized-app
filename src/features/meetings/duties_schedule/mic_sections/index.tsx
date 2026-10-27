@@ -14,7 +14,7 @@ import Dialog from '@components/dialog';
 import Divider from '@components/divider';
 import IconButton from '@components/icon_button';
 import PersonSelector from '@features/meetings/person_selector';
-import SectionEdit from './section_edit';
+import SectionEdit from '@features/meetings/duties_schedule/mic_sections/section_edit';
 import Typography from '@components/typography';
 import { dutyFieldsLayout } from '@features/meetings/duties_schedule/shared';
 

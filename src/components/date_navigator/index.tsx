@@ -148,7 +148,7 @@ const DateNavigator = ({
     flexShrink: 0,
     position: 'relative',
     zIndex: 1,
-    transition: `background-color var(--motion-hover, 0.2s) var(--ease-standard, ease), transform ${DURATION}ms ${EASING}`,
+    transition: `background-color var(--motion-fast) var(--ease-standard), transform ${DURATION}ms ${EASING}`,
     '&:active': { transform: 'scale(0.88)' },
     '@media (prefers-reduced-motion: reduce)': {
       transition: 'none',

@@ -1,4 +1,3 @@
-// Keep the assignment grid aligned with the Cleaning editor.
 export const DUTY_NAME_WIDTH = 240;
 export const DUTY_FIELD_MIN_WIDTH = 200;
 export const DUTY_FIELD_GAP = 8;
