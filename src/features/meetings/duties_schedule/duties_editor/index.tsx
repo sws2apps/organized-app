@@ -20,6 +20,7 @@ import InfoNote from '@components/info_note';
 import MicSections from '@features/meetings/duties_schedule/mic_sections';
 import TabSwitcher from '@components/tab_switcher';
 import Typography from '@components/typography';
+import { getDutiesNavigationStyles } from '@features/meetings/duties_schedule/duties_editor/index.styles';
 
 const DutiesEditor = () => {
   const { t } = useAppTranslation();
@@ -207,6 +208,11 @@ const DutiesEditor = () => {
     return dutiesPanel(meeting);
   };
 
+  const navigationStyles = getDutiesNavigationStyles(
+    tablet500Down,
+    isNavigationWrapped
+  );
+
   const dateNavigator = (
     <DateNavigator
       value={weekDateLocale}
@@ -219,12 +225,7 @@ const DutiesEditor = () => {
       disableNext={!showWeekNav.next}
       badgeText={t('tr_today')}
       badgeVisible={isCurrentWeek}
-      sx={{
-        width: tablet500Down || isNavigationWrapped ? '100%' : 'fit-content',
-        alignSelf: 'flex-start',
-        minWidth: 0,
-        maxWidth: '100%',
-      }}
+      sx={navigationStyles.dateNavigator}
     />
   );
 
@@ -254,15 +255,7 @@ const DutiesEditor = () => {
               gap: 'var(--dialog-gap-mobile)',
             }}
           >
-            <Box
-              sx={{
-                minWidth: 0,
-                maxWidth: '100%',
-                flex: tablet500Down ? '1 1 auto' : '999 1 auto',
-              }}
-            >
-              {dateNavigator}
-            </Box>
+            <Box sx={navigationStyles.dateContainer}>{dateNavigator}</Box>
             {!weekly && (
               <TabSwitcher<DutiesMeetingValue>
                 id={tabsId}
@@ -283,16 +276,7 @@ const DutiesEditor = () => {
                     panelId: `${tabsId}-panel`,
                   },
                 ]}
-                sx={{
-                  display: tablet500Down ? 'flex' : 'inline-grid',
-                  gridAutoFlow: 'column',
-                  gridAutoColumns: 'minmax(0, 1fr)',
-                  width: tablet500Down ? '100%' : 'max-content',
-                  flexGrow: 1,
-                  flexShrink: 0,
-                  minWidth: 0,
-                  maxWidth: '100%',
-                }}
+                sx={navigationStyles.tabs}
               />
             )}
           </Box>
