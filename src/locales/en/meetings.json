@@ -170,7 +170,6 @@
   "tr_lcPartNum": "Part {{ partNumber }}",
   "tr_sectionNameTaken": "Another item already uses this name.",
   "tr_sectionParts": "Meeting parts",
-  "tr_sectionPartsDesc": "Optionally choose the meeting parts this section covers.",
   "tr_sectionPartsNone": "No meeting material for this week yet.",
   "tr_sectionsMax": "You can add up to {{ maxSections }} sections for one meeting.",
   "tr_notEditableInEditPartsMode": "Not editable in ‘Edit parts’ mode",
@@ -220,10 +219,8 @@
   "tr_attendant": "Attendant",
   "tr_sectionAdd": "Add section",
   "tr_sectionEdit": "Edit section",
-  "tr_sectionDelete": "Delete section",
   "tr_sectionEditNamed": "Edit {{section}}",
   "tr_sectionDeleteNamed": "Delete {{section}}",
-  "tr_sectionDeleteDesc": "Remove this section and its assignments from this meeting for the current congregation or language group.",
   "tr_sectionDefaultName": "Section {{ index }}",
   "tr_hasAnotherDuty": "Has another duty this week",
   "tr_hasAnotherAssignment": "Also assigned: {{ assignment }}",
@@ -267,7 +264,5 @@
   "tr_sectionPositions_other": "{{count}} people",
   "tr_sectionRecurringPartsDesc": "Optionally link this section to meeting parts. It follows the available parts each week and is skipped when none match.",
   "tr_sectionLivingBeforeStudy": "Living as Christians (before Bible study)",
-  "tr_sectionsRestore": "Use recurring setup",
-  "tr_sectionsRestoreDesc": "Replace this week’s sections with its recurring setup? Assignments in the current sections will be cleared. Other duties and weeks stay as they are.",
   "tr_sectionTreasuresTalk": "Treasures talk"
 }
