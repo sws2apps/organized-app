@@ -59,12 +59,27 @@ export const appThemeState = atom((get) => {
   )?.direction ?? 'ltr') as Direction;
 
   return createTheme({
+    palette: { mode: get(isDarkThemeState) ? 'dark' : 'light' },
     typography: {
       allVariants: {
         fontFamily: font,
       },
     },
     components: {
+      MuiPaper: { styleOverrides: { root: { backgroundImage: 'none' } } },
+      MuiFormControlLabel: {
+        styleOverrides: {
+          root: {
+            // Match the custom radio's 4px padding instead of MUI's 9px.
+            '&.MuiFormControlLabel-labelPlacementEnd:has(.MuiRadio-root)': {
+              marginLeft: '-4px',
+            },
+            '&.MuiFormControlLabel-labelPlacementStart:has(.MuiRadio-root)': {
+              marginRight: '-4px',
+            },
+          },
+        },
+      },
       MuiCssBaseline: {
         styleOverrides: {
           body: {

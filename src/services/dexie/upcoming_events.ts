@@ -78,3 +78,5 @@ export const dbUpcomingEventsCleanup = async () => {
     await appDb.upcoming_events.bulkPut(recordsToUpdate);
   }
 };
+
+export const dbUpcomingEventGet = (id: string) => appDb.upcoming_events.get(id);

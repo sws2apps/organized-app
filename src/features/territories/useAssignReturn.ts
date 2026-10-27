@@ -207,7 +207,7 @@ const useAssignReturn = () => {
     campaign?: Campaign,
     note?: string,
     publisher?: string,
-    completed?: boolean
+    completed = true
   ) => {
     const end = returnedOn ?? new Date();
     let changed = false;

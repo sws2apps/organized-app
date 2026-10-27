@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { createEvent, EventAttributes } from 'ics';
 import { AddToCalendarProps } from './index.types';
-import { UpcomingEventCategory } from '@definition/upcoming_events';
+import { upcomingEventTitle } from '@utils/upcoming_events';
 import { isWholeDayEvent } from '@services/app/upcoming_events';
 import { useAppTranslation } from '@hooks/index';
 import { decorationsForEvent } from '../decorations_for_event';
@@ -28,10 +28,10 @@ const useAddToCalendar = ({ event }: AddToCalendarProps) => {
     const endDate = new Date(event.event_data.end);
     const wholeDay = isWholeDayEvent(event);
 
-    const eventTitle =
-      event.event_data.category !== UpcomingEventCategory.Custom
-        ? t(eventDecoration.translationKey)
-        : event.event_data.custom;
+    const eventTitle = upcomingEventTitle(
+      event.event_data,
+      t(eventDecoration.translationKey)
+    );
 
     const eventDetails: EventAttributes = {
       title: eventTitle,

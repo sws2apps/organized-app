@@ -12,40 +12,15 @@ import {
 } from '@components/index';
 import {
   emptyListMessage,
-  PublisherSort,
   sortedPublishers,
 } from '@features/territories/helpers';
 import TruncatedText from '@features/territories/components/truncated_text';
 
-export const PublisherSortButton = ({
-  sort,
-  onChange,
-}: {
-  sort: PublisherSort;
-  onChange: (sort: PublisherSort) => void;
-}) => {
-  const { t } = useAppTranslation();
-  return (
-    <Button
-      variant="small"
-      disableAutoStretch
-      minHeight={32}
-      onClick={() => onChange(sort === 'count' ? 'name' : 'count')}
-    >
-      {sort === 'count'
-        ? t('tr_territorySortMostHeld')
-        : t('tr_territorySortName')}
-    </Button>
-  );
-};
-
 const PublisherLoad = ({
   entries,
-  sort,
   limit = 10,
 }: {
   entries: { publisher: string; count: number }[];
-  sort: PublisherSort;
   limit?: number;
 }) => {
   const { t } = useAppTranslation();
@@ -69,7 +44,7 @@ const PublisherLoad = ({
         spacing="4px"
         divider={<CustomDivider color="var(--accent-200)" />}
       >
-        {sortedPublishers(entries, sort)
+        {sortedPublishers(entries)
           .slice(0, shown)
           .map((entry, index) => (
             <Box

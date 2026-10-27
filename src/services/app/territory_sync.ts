@@ -114,7 +114,8 @@ const applySnapshot = async (
     snapshot.revision,
     localSnapshot(snapshot, key),
     acknowledged,
-    snapshot.manager === true
+    snapshot.manager === true,
+    snapshot.campaignProgress
   );
 };
 const prepare = (

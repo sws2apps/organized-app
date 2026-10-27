@@ -13,6 +13,7 @@ import ImportExport from '@features/congregation/settings/import_export';
 import LanguageGroups from '@features/congregation/settings/language_groups';
 import MeetingForms from '@features/congregation/settings/meeting_forms';
 import MinistrySettings from '@features/congregation/settings/ministry_settings';
+import TerritorySettings from '@features/congregation/settings/territory_settings';
 import PageTitle from '@components/page_title';
 import NavBarButton from '@components/nav_bar_button';
 import NavBarButtonGroup from '@components/nav_bar_button_group';
@@ -91,6 +92,7 @@ const CongregationSettings = () => {
             {!isGroup && (
               <>
                 <MinistrySettings />
+                <TerritorySettings />
                 <CircuitOverseer />
               </>
             )}
@@ -108,6 +110,7 @@ const CongregationSettings = () => {
           {!isGroup && (
             <>
               <MinistrySettings />
+              <TerritorySettings />
               <CircuitOverseer />
               <LanguageGroups />
               <CongregationPrivacy />

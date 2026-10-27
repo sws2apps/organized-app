@@ -223,7 +223,6 @@ const DetailsForm = ({
 
       <SwitchWithLabel
         label={t('tr_territoryCardLost')}
-        helper={t('tr_territoryTheCardNeedsReprinting')}
         checked={territory.cardLost}
         onChange={(value) => onChange({ ...territory, cardLost: value })}
       />

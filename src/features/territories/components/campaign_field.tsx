@@ -13,7 +13,7 @@ const CampaignField = ({
 }) => (
   <CampaignPicker
     value={checked ? value : undefined}
-    onChange={(value) => onChange({ checked: !!value, value })}
+    onChange={(next) => onChange({ checked: !!next, value: next ?? value })}
   />
 );
 export default CampaignField;

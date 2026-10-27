@@ -1,9 +1,13 @@
+import { Box, Stack } from '@mui/material';
 import { useAtomValue } from 'jotai';
 import { Select, Typography } from '@components/index';
+import SwitchWithLabel from '@components/switch_with_label';
 import MenuItem from '@components/menuitem';
-import { useAppTranslation } from '@hooks/index';
-import { TerritoryAssignment, TerritoryCampaign } from '@definition/territory';
-import { territoryCampaignsState } from '@features/territories/campaigns';
+import { useAppTranslation, useBreakpoints } from '@hooks/index';
+import { TerritoryAssignment } from '@definition/territory';
+import { appLocaleState } from '@states/app';
+import { campaignLabel } from '@features/territories/campaign_dates';
+import useCampaignPicker from '@features/territories/components/campaign_picker/useCampaignPicker';
 
 type Campaign = TerritoryAssignment['campaign'];
 const CampaignPicker = ({
@@ -14,30 +18,75 @@ const CampaignPicker = ({
   onChange: (value?: Campaign) => void;
 }) => {
   const { t } = useAppTranslation();
-  const campaigns = useAtomValue(territoryCampaignsState);
-  const options: Pick<TerritoryCampaign, 'id' | 'name'>[] = [...campaigns];
-  if (value && !options.some((item) => item.id === value.id))
-    options.push(value);
+  const { tablet600Up } = useBreakpoints();
+  const locale = useAtomValue(appLocaleState);
+  const { options, displayed, canEnable, handleToggle, handleSelect } =
+    useCampaignPicker(value, onChange);
+
   return (
-    <Select
-      label={t('tr_territoryAssignmentPurpose')}
-      value={value?.id ?? ''}
-      onChange={(event) => {
-        const campaign = options.find((item) => item.id === event.target.value);
-        onChange(
-          campaign ? { id: campaign.id, name: campaign.name } : undefined
-        );
-      }}
+    <Stack
+      direction={tablet600Up ? 'row' : 'column'}
+      spacing="16px"
+      sx={{ alignItems: 'flex-start', minWidth: 0, width: '100%' }}
     >
-      <MenuItem value="">
-        <Typography>{t('tr_territoryRegularWork')}</Typography>
-      </MenuItem>
-      {options.map((campaign) => (
-        <MenuItem key={campaign.id} value={campaign.id}>
-          <Typography>{campaign.name}</Typography>
-        </MenuItem>
-      ))}
-    </Select>
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          minHeight: '44px',
+          flexShrink: 0,
+          width: tablet600Up ? 'auto' : '100%',
+        }}
+      >
+        <SwitchWithLabel
+          label={t('tr_territoryAssignmentPurpose')}
+          checked={!!value}
+          onChange={handleToggle}
+          readOnly={!canEnable}
+          helper={!canEnable ? t('tr_territoryCampaignsEmpty') : undefined}
+          inputProps={{
+            'aria-label': t('tr_territoryAssignmentPurpose'),
+            disabled: !canEnable,
+          }}
+        />
+      </Box>
+      <Box
+        aria-hidden={!value}
+        sx={{
+          minWidth: 0,
+          flex: 1,
+          width: '100%',
+          visibility: value ? 'visible' : 'hidden',
+        }}
+      >
+        <Select
+          disabled={!value}
+          renderValue={() => (
+            <Typography noWrap title={displayed?.name ?? ''}>
+              {displayed?.name ?? ''}
+            </Typography>
+          )}
+          label={t('tr_territoryCampaignName')}
+          value={displayed?.id ?? ''}
+          onChange={(event) => handleSelect(String(event.target.value))}
+        >
+          {options.map((campaign) => (
+            <MenuItem key={campaign.id} value={campaign.id}>
+              <Typography
+                sx={{ whiteSpace: 'normal', overflowWrap: 'anywhere' }}
+              >
+                {campaignLabel(campaign, locale.code)}
+              </Typography>
+            </MenuItem>
+          ))}
+          {displayed && !options.some((item) => item.id === displayed.id) && (
+            <MenuItem value={displayed.id}>
+              <Typography>{displayed.name}</Typography>
+            </MenuItem>
+          )}
+        </Select>
+      </Box>
+    </Stack>
   );
 };
 export default CampaignPicker;

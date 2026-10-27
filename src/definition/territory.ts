@@ -112,6 +112,7 @@ export type TerritoryAssignment = {
 export type TerritoryCampaign = {
   id: string;
   name: string;
+  description?: string;
   start: string;
   end: string;
   group?: string;
@@ -209,6 +210,7 @@ export type TerritoryRestrictions = {
 export type TerritoryTab =
   | 'requests'
   | 'recommended'
+  | 'campaign'
   | 'all'
   | 'mine'
   | 'group'

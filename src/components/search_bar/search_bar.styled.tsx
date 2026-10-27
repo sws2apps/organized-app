@@ -34,7 +34,7 @@ export const StyledInput = styled(Input)({
   minWidth: 0,
 
   '& .MuiInput-input::placeholder': {
-    color: 'var(--grey-350)',
+    color: 'var(--grey-400)',
     opacity: 1,
     textOverflow: 'ellipsis',
     overflow: 'hidden',
