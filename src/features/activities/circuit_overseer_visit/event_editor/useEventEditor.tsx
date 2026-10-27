@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useAtomValue } from 'jotai';
+import { isValid } from 'date-fns';
 import { CircuitOverseerEventType } from '@definition/circuit_overseer_visit';
 import { personsActiveState, personsState } from '@states/persons';
 import {
@@ -89,6 +90,8 @@ const useEventEditor = ({ event }: EventEditorProps) => {
   };
 
   const handleTimeChange = (value: Date | null) => {
+    if (value && !isValid(value)) return;
+
     handleChange({ time: value ? formatDate(value, 'HH:mm') : '' });
   };
 

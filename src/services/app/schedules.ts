@@ -2739,7 +2739,7 @@ export const schedulesWeekendData = (
       assignment: 'WM_CircuitOverseer',
     });
 
-    if (result.co_name?.length === 0) {
+    if (!result.co_name) {
       const coNames = circuitOverseerNamesGet(
         store.get(settingsState),
         schedule.weekOf,
