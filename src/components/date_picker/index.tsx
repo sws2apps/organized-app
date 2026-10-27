@@ -4,7 +4,10 @@ import { getWeeksInMonth, isValid } from 'date-fns';
 import { getPickerDateDefault, isPickerDateAllowed } from '@utils/pickers';
 import { Box, ClickAwayListener } from '@mui/material';
 import { ArrowDropDown, ArrowLeft, ArrowRight } from '@mui/icons-material';
-import { DesktopDatePicker } from '@mui/x-date-pickers';
+import {
+  DesktopDatePicker,
+  PickerChangeHandlerContext,
+} from '@mui/x-date-pickers';
 import { IconDate } from '@components/icons';
 import { shortDateFormatState } from '@states/settings';
 import { CustomDatePickerProps } from './index.types';
@@ -36,6 +39,7 @@ const DatePicker = ({
   helperText,
 }: CustomDatePickerProps) => {
   const poperRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const defaultPending = useRef(false);
 
   const shortDateFormatDefault = useAtomValue(shortDateFormatState);
@@ -49,7 +53,8 @@ const DatePicker = ({
 
   const handleOpen = () => {
     if (readOnly || open) return;
-    if (valueTmp === null) {
+    // Seed only an empty field, so partially typed sections survive.
+    if (valueTmp === null && !inputRef.current?.value) {
       const initial = getPickerDateDefault(bounds);
       setValueTmp(initial);
       defaultPending.current = initial !== null;
@@ -63,9 +68,9 @@ const DatePicker = ({
     setOpen(false);
   };
 
-  const handleAccept = () => {
-    if (readOnly || !isPickerDateAllowed(valueTmp, bounds)) return;
-    if (defaultPending.current) onChange?.(valueTmp);
+  const handleAccept = (accepted: Date | null = valueTmp) => {
+    if (readOnly || !isPickerDateAllowed(accepted, bounds)) return;
+    if (defaultPending.current) onChange?.(accepted);
     defaultPending.current = false;
     setOpen(false);
   };
@@ -94,7 +99,10 @@ const DatePicker = ({
     setOpen(false);
   };
 
-  const handleValueChange = (newValue: Date | null) => {
+  const handleValueChange = (
+    newValue: Date | null,
+    context?: PickerChangeHandlerContext<unknown>
+  ) => {
     if (readOnly) return;
     const isValidDate = newValue instanceof Date && isValid(newValue);
 
@@ -106,6 +114,10 @@ const DatePicker = ({
     // which scrambles or wipes the entry. An explicit clear (null) is
     // always forwarded.
     setValueTmp(newValue);
+
+    // Browsing the calendar from a seeded default (e.g. picking a year)
+    // stays provisional until the day is accepted or the picker dismissed.
+    if (defaultPending.current && context?.source === 'view') return;
     defaultPending.current = false;
 
     if (newValue !== null && !isPickerDateAllowed(newValue, bounds)) return;
@@ -162,17 +174,18 @@ const DatePicker = ({
           format={shortDateFormatLocale}
           open={!readOnly && open}
           onChange={handleValueChange}
-          onAccept={handleAccept}
+          onAccept={(accepted) => handleAccept(accepted)}
           onMonthChange={changeHeight}
           onOpen={handleOpen}
           onClose={handleClose}
+          inputRef={inputRef}
           slots={{
             ...slotFieldProps,
             toolbar: () => <Toolbar selected={valueTmp} />,
             actionBar: () => (
               <ActionBar
                 onClose={handleClose}
-                onAccept={handleAccept}
+                onAccept={() => handleAccept()}
                 acceptDisabled={!isPickerDateAllowed(valueTmp, bounds)}
               />
             ),

@@ -29,6 +29,7 @@ const TimePicker = ({
   helperText,
 }: CustomTimePickerProps) => {
   const divRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const { t } = useAppTranslation();
 
@@ -39,7 +40,8 @@ const TimePicker = ({
 
   const handleOpen = () => {
     if (readOnly || open) return;
-    if (valueTmp === null) {
+    // Seed only an empty field, so partially typed sections survive.
+    if (valueTmp === null && !inputRef.current?.value) {
       const now = new Date();
       now.setSeconds(0, 0);
       setValueTmp(now);
@@ -93,6 +95,7 @@ const TimePicker = ({
           onChange={handleValueChange}
           onOpen={handleOpen}
           onClose={handleClose}
+          inputRef={inputRef}
           viewRenderers={{
             hours: renderTimeViewClock,
             minutes: renderTimeViewClock,
