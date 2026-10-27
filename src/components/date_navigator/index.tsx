@@ -154,6 +154,10 @@ const DateNavigator = ({
     zIndex: 1,
     transition: `background-color var(--motion-hover) var(--ease-standard), transform ${DURATION}ms ${EASING}`,
     '&:active': { transform: 'scale(0.88)' },
+    '@media (pointer: coarse)': {
+      minWidth: 'var(--touch-target-size)',
+      minHeight: 'var(--touch-target-size)',
+    },
     '@media (prefers-reduced-motion: reduce)': {
       transition: 'none',
       '&:active': { transform: 'none' },

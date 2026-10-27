@@ -27,7 +27,10 @@ const WeekSelectorPanel = ({
         flexShrink: 0,
         position: desktopUp ? 'sticky' : 'static',
         top: desktopUp ? 57 : undefined,
-        '& .MuiIconButton-root': { minWidth: '44px', minHeight: '44px' },
+        '& .MuiIconButton-root': {
+          minWidth: 'var(--touch-target-size)',
+          minHeight: 'var(--touch-target-size)',
+        },
         '@media (prefers-reduced-motion: reduce)': {
           '& .MuiCollapse-root, & svg': { transition: 'none !important' },
         },
@@ -49,7 +52,7 @@ const WeekSelectorPanel = ({
         </Typography>
         <Box sx={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
           <IconButton
-            aria-label={t('tr_fieldServiceMeetingSort')}
+            aria-label={t('tr_reverseWeekOrder')}
             aria-pressed={sortDown}
             onClick={onToggleSort}
             edge={false}
@@ -62,7 +65,7 @@ const WeekSelectorPanel = ({
           </IconButton>
           {!desktopUp && (
             <IconButton
-              aria-label={t('tr_fieldServiceMeetingToggleWeeks')}
+              aria-label={t('tr_toggleWeeks')}
               aria-expanded={expanded}
               aria-controls={id}
               onClick={onToggleExpand}

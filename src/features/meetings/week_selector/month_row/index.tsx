@@ -32,6 +32,9 @@ const MonthRow = ({
           alignItems: 'center',
           justifyContent: 'space-between',
           cursor: 'pointer',
+          // Keep the status icons at their own size and colour.
+          '& svg': {},
+          '& svg, & svg g, & svg g path': {},
         }}
         onClick={onToggle}
       >

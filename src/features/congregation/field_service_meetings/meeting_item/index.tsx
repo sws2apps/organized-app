@@ -127,6 +127,12 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
               aria-label={t('tr_edit')}
               edge={false}
               onClick={onEdit}
+              sx={{
+                '@media (pointer: coarse)': {
+                  minWidth: 'var(--touch-target-size)',
+                  minHeight: 'var(--touch-target-size)',
+                },
+              }}
             >
               <IconEdit color="var(--accent-dark)" />
             </IconButton>
