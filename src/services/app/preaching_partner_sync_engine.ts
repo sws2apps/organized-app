@@ -84,18 +84,21 @@ const stagePartnerMutation = (
   };
 };
 
-// Another tab may deliver the durable operation while this tab waits.
+// The unconfirmed action is dropped, so its error must not promise a retry.
+const unconfirmedPartnerError = (error?: string) => {
+  if (error === 'tr_partnerSyncConflict') return 'tr_partnerRequestChanged';
+  if (!error || error === 'tr_partnerSyncRetry')
+    return 'tr_partnerActionFailed';
+  return error;
+};
+
+// Another tab or a lost response may have delivered the operation already.
 const confirmedPartnerRequest = (
   cache: PartnerSyncCache,
   input: PartnerMutation,
   connection: PartnerConnection,
   operationId: string
 ) => {
-  // Another tab may have delivered the same durable operation while this tab waited.
-  const pending = cache.pending.find(
-    (entry) => entry.mutation.operationId === operationId
-  );
-  if (pending) throw new Error(pending.error ?? 'tr_partnerSyncRetry');
   const current = cache.requests.find(
     (record) => record.request_uid === input.request.request_uid
   );
@@ -111,6 +114,10 @@ const confirmedPartnerRequest = (
     )
       return current;
   }
+  const pending = cache.pending.find(
+    (entry) => entry.mutation.operationId === operationId
+  );
+  if (pending) throw new Error(unconfirmedPartnerError(pending.error));
   throw new Error('tr_partnerRequestChanged');
 };
 
@@ -226,18 +233,25 @@ export const createPartnerSyncClient = (
           connection,
           operationId
         );
-      } catch (error) {
+      } finally {
         // Finish cleanup before another background sync can deliver this action.
-        await dependencies.update((cache) => ({
-          cache: {
-            ...cache,
-            pending: cache.pending.filter(
-              (entry) => entry.mutation.operationId !== operationId
-            ),
-          },
-          result: undefined,
-        }));
-        throw error;
+        await dependencies.update((cache) => {
+          const dropped = cache.pending.find(
+            (entry) => entry.mutation.operationId === operationId
+          );
+          const pending = cache.pending.filter((entry) => entry !== dropped);
+          return {
+            cache: {
+              ...cache,
+              pending,
+              error:
+                dropped?.error && cache.error === dropped.error
+                  ? pending.find((entry) => entry.error)?.error
+                  : cache.error,
+            },
+            result: undefined,
+          };
+        });
       }
     });
   };

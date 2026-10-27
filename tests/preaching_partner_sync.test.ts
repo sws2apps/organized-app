@@ -189,8 +189,11 @@ test('two publishers race to join; only the accepted publisher receives confirma
     results.filter((result) => result.status === 'fulfilled').length,
     1
   );
+  const rejected = results.find((result) => result.status === 'rejected');
+  assert.match(String(rejected?.reason), /tr_partnerRequestChanged/);
   assert.equal(backend.records[0].request_data.partner_uid, 'bob');
   assert.equal(carol.cache.pending.length, 0);
+  assert.equal(carol.cache.error, undefined);
 });
 
 test('offline joining and cancellation never create a false confirmation', async () => {
@@ -336,7 +339,7 @@ test('failed joins and cancellations are never replayed after reconnect or resta
             ? { withdrawRequestIds: [own.request_uid] }
             : {}),
         }),
-        /tr_partnerSyncRetry/
+        /tr_partnerActionFailed/
       );
       assert.deepEqual(bob.cache.pending, [retained]);
       const restored = device('bob', backend, bob.cache);
@@ -360,7 +363,7 @@ test('losing connectivity after staging a confirmation does not queue it for lat
     bob.disconnectAfterNextUpdate();
     await assert.rejects(
       bob.client.mutate({ action, request: shared }),
-      /tr_partnerSyncRetry/
+      /tr_partnerActionFailed/
     );
     assert.equal(bob.cache.pending.length, 0);
     bob.connect();
@@ -369,7 +372,7 @@ test('losing connectivity after staging a confirmation does not queue it for lat
   }
 });
 
-test('a lost confirmation response reconciles server state without replaying the action', async () => {
+test('a lost confirmation response is confirmed from the server snapshot without replaying the action', async () => {
   for (const action of ['join', 'cancel'] as const) {
     const backend = server();
     const shared = request();
@@ -379,17 +382,15 @@ test('a lost confirmation response reconciles server state without replaying the
     bob.connect();
     await bob.client.synchronize();
     bob.loseNextResponse();
-    await assert.rejects(
-      bob.client.mutate({ action, request: shared }),
-      /tr_partnerSyncRetry/
+    const confirmed = await bob.client.mutate({ action, request: shared });
+    assert.equal(
+      confirmed.request_data.partner_uid,
+      action === 'join' ? 'bob' : undefined
     );
     assert.equal(bob.cache.pending.length, 0);
+    assert.equal(bob.cache.error, undefined);
     assert.deepEqual(bob.cache.requests, backend.records);
     await bob.client.synchronize();
     assert.equal(backend.writes, 1);
-    assert.equal(
-      bob.cache.requests[0].request_data.partner_uid,
-      action === 'join' ? 'bob' : undefined
-    );
   }
 });
