@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { isAboutOpenState } from '@states/app';
@@ -13,6 +13,8 @@ const useAbout = ({ updatePwa }: AboutProps) => {
   const { t } = useAppTranslation();
 
   const isOpen = useAtomValue(isAboutOpenState);
+
+  const [tab, setTab] = useState(0);
 
   const privacyText = useMemo(() => {
     const htmlString = t('tr_privacySecurityDesc');
@@ -34,7 +36,12 @@ const useAbout = ({ updatePwa }: AboutProps) => {
     }
   };
 
-  const handleClose = () => setIsAboutOpen(false);
+  const handleClose = () => {
+    setIsAboutOpen(false);
+    setTab(0);
+  };
+
+  const handleTabChange = (value: number) => setTab(value);
 
   const handleOpenSupport = () => {
     setIsAboutOpen(false);
@@ -53,6 +60,8 @@ const useAbout = ({ updatePwa }: AboutProps) => {
     handleOpenSupport,
     handleForceReload,
     privacyText,
+    tab,
+    handleTabChange,
   };
 };
 
