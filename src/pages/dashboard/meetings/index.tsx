@@ -3,6 +3,7 @@ import {
   IconAssignment,
   IconCalendarWeek,
   IconDiamond,
+  IconDuties,
   IconTalk,
 } from '@icons/index';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
@@ -15,8 +16,12 @@ import DashboardMenu from '@features/dashboard/menu';
 const MeetingsCard = ({ assignmentCount }: MeetingsCardProps) => {
   const { t } = useAppTranslation();
 
-  const { isMidweekEditor, isWeekendEditor, isPublicTalkCoordinator } =
-    useCurrentUser();
+  const {
+    isMidweekEditor,
+    isWeekendEditor,
+    isPublicTalkCoordinator,
+    isDutiesEditor,
+  } = useCurrentUser();
 
   const { showMeetingCard, showMidweek, showWeekend } = useSharedHook();
 
@@ -34,6 +39,7 @@ const MeetingsCard = ({ assignmentCount }: MeetingsCardProps) => {
           onClick={handleOpenMyAssignments}
         />
       </ListItem>
+
       <ListItem disablePadding>
         <DashboardMenu
           icon={<IconCalendarWeek color="var(--black)" />}
@@ -41,6 +47,16 @@ const MeetingsCard = ({ assignmentCount }: MeetingsCardProps) => {
           path="/weekly-schedules"
         />
       </ListItem>
+
+      {isDutiesEditor && (
+        <ListItem disablePadding>
+          <DashboardMenu
+            icon={<IconDuties color="var(--black)" />}
+            primaryText={t('tr_meetingDutiesSchedules')}
+            path="/meeting-duties"
+          />
+        </ListItem>
+      )}
 
       {showMidweek && isMidweekEditor && (
         <ListItem disablePadding>

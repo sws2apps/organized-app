@@ -1,6 +1,10 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { filterScheduleByDataView } from '@utils/schedule_publish';
+import { sourceSchema } from '@services/dexie/schema';
+import {
+  mergeDutiesSources,
+  filterScheduleByDataView,
+} from '@utils/schedule_publish';
 
 test('publishing keeps microphone section links and filters assignments by data view', () => {
   const schedule = {
@@ -49,6 +53,68 @@ test('publishing preserves empty arrays and scalar source values', () => {
   assert.deepEqual(filterScheduleByDataView(source, 'main'), source);
 });
 
+test('duties publishing preserves already-published programs even when local drafts are newer', () => {
+  const remote = structuredClone(sourceSchema);
+  remote.weekOf = '2026/10/26';
+  remote.midweek_meeting.lc_part3.title = [
+    { type: 'main', value: 'Published program', updatedAt: '2026-10-01' },
+  ];
+  const draft = structuredClone(remote);
+  draft.midweek_meeting.lc_part3.title[0] = {
+    type: 'main',
+    value: 'Unreviewed draft',
+    updatedAt: '2026-10-26',
+  };
+  draft.weekend_meeting.public_talk[0] = {
+    type: 'main',
+    value: 99,
+    updatedAt: '2026-10-26',
+  };
+  const published = mergeDutiesSources([draft], [remote], '2026/09/01');
+  assert.deepEqual(published, [remote]);
+  published[0].midweek_meeting.lc_part3.title[0].value = 'changed';
+  assert.equal(
+    remote.midweek_meeting.lc_part3.title[0].value,
+    'Published program'
+  );
+});
+
+test('a new duties week publishes localized dates without draft songs, talks or event names', () => {
+  const draft = structuredClone(sourceSchema);
+  draft.weekOf = '2026/10/26';
+  draft.midweek_meeting.week_date_locale = { E: 'October 26–November 1' };
+  draft.midweek_meeting.event_name = [
+    { type: 'group', value: 'Draft event', updatedAt: '2026-10-26' },
+  ];
+  draft.weekend_meeting.public_talk[0].value = 99;
+  draft.weekend_meeting.song_first[0].value = '7';
+  const expected = structuredClone(sourceSchema);
+  expected.weekOf = draft.weekOf;
+  expected.midweek_meeting.week_date_locale = {
+    ...draft.midweek_meeting.week_date_locale,
+  };
+  const published = mergeDutiesSources([draft], [], '2026/09/01');
+  assert.deepEqual(published, [expected]);
+  published[0].midweek_meeting.week_date_locale.E = 'Changed';
+  assert.equal(
+    draft.midweek_meeting.week_date_locale.E,
+    'October 26–November 1'
+  );
+});
+
+test('duties publishing retains other published language views and the existing retention window', () => {
+  const remote = structuredClone(sourceSchema);
+  remote.weekOf = '2026/10/26';
+  remote.weekend_meeting.public_talk.push({
+    type: 'group',
+    value: 77,
+    updatedAt: '2026-10-26',
+  });
+  const old = { ...structuredClone(remote), weekOf: '2026/01/01' };
+  assert.deepEqual(mergeDutiesSources([], [old, remote], '2026/09/01'), [
+    remote,
+  ]);
+});
 test('merging keeps duty slots of one data view apart', async () => {
   const { updateObject } = await import('@utils/common');
   const local = {

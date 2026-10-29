@@ -1,3 +1,5 @@
+import { schedulesDutiesSections } from '@services/app/schedules';
+import { snapshotRecurringSections } from '@utils/duties_recurring';
 import { useEffect, useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { useQuery } from '@tanstack/react-query';
@@ -14,6 +16,7 @@ import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { SourceWeekType } from '@definition/sources';
 import { schedulesState } from '@states/schedules';
 import {
+  AssignmentCongregation,
   OutgoingTalkExportScheduleType,
   SchedWeekType,
 } from '@definition/schedules';
@@ -33,6 +36,102 @@ import {
 } from '@services/api/schedule';
 import { speakersCongregationsState } from '@states/speakers_congregations';
 import { getUserDataView } from '@services/app';
+import {
+  filterScheduleByDataView,
+  mergeDutiesSources,
+} from '@utils/schedule_publish';
+
+// dynamic duty slots of one data view all share the same type, and
+// updateObject matches array entries by type before id, so it would fold
+// every slot into the first remote one: merge them by id here instead
+const mergeDynamicDuties = (
+  remote: AssignmentCongregation[] | undefined,
+  local: AssignmentCongregation[]
+) => {
+  const merged = structuredClone(remote ?? []);
+
+  for (const entry of local) {
+    const index = merged.findIndex(
+      (record) => record.id === entry.id && record.type === entry.type
+    );
+
+    if (index === -1) {
+      merged.push(entry);
+    } else if (entry.updatedAt > merged[index].updatedAt) {
+      merged[index] = entry;
+    }
+  }
+
+  return merged;
+};
+
+type ScheduleWithDuties = { duties?: SchedWeekType['duties'] };
+
+// applies a local schedule onto its remote copy, keeping the dynamic duty
+// slots of both sides instead of letting updateObject collapse them
+const mergeScheduleIntoRemote = <T extends { weekOf: string }>(
+  remoteItem: T,
+  item: T
+) => {
+  if (
+    remoteItem['midweek_meeting']?.['aux_fsg'] &&
+    typeof remoteItem['midweek_meeting']['aux_fsg'] === 'string'
+  ) {
+    delete remoteItem['midweek_meeting']['aux_fsg'];
+  }
+
+  const localItem = structuredClone(item) as T & ScheduleWithDuties;
+  const remoteSchedule = remoteItem as T & ScheduleWithDuties;
+
+  const dynamicMerged: Partial<
+    Record<'midweek' | 'weekend', AssignmentCongregation[]>
+  > = {};
+
+  for (const meeting of ['midweek', 'weekend'] as const) {
+    const localMeeting = localItem.duties?.[meeting];
+
+    if (!localMeeting?.dynamic) continue;
+
+    dynamicMerged[meeting] = mergeDynamicDuties(
+      remoteSchedule.duties?.[meeting]?.dynamic,
+      localMeeting.dynamic
+    );
+
+    delete (localMeeting as Partial<typeof localMeeting>).dynamic;
+  }
+
+  updateObject(remoteItem, localItem);
+
+  for (const meeting of ['midweek', 'weekend'] as const) {
+    const merged = dynamicMerged[meeting];
+    const remoteMeeting = remoteSchedule.duties?.[meeting];
+
+    if (merged && remoteMeeting) remoteMeeting.dynamic = merged;
+  }
+};
+
+// true when any duty assignment across either meeting holds a person
+const scheduleHasDutiesData = (schedule: SchedWeekType) => {
+  if (!schedule.duties) return false;
+
+  const hasValue = (node: unknown): boolean => {
+    if (Array.isArray(node)) {
+      return node.some((item) => hasValue(item));
+    }
+
+    if (node && typeof node === 'object') {
+      if ('value' in node) {
+        return typeof node.value === 'string' && node.value.length > 0;
+      }
+
+      return Object.values(node).some((child) => hasValue(child));
+    }
+
+    return false;
+  };
+
+  return hasValue(schedule.duties);
+};
 
 const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
   const { t } = useAppTranslation();
@@ -73,6 +172,15 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
       base = base.filter(
         (record) =>
           record.midweek_meeting.weekly_bible_reading[lang]?.length > 0
+      );
+    }
+
+    // duties weeks qualify when either meeting exists
+    if (type === 'duties') {
+      base = base.filter(
+        (record) =>
+          record.midweek_meeting.weekly_bible_reading[lang]?.length > 0 ||
+          record.weekend_meeting.w_study[lang]?.length > 0
       );
     }
 
@@ -154,37 +262,10 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
     }
   };
 
-  const filterArraysByDataView = <T extends object>(
-    obj: T,
-    parentKey?: string
-  ): T => {
-    if (Array.isArray(obj)) {
-      // Skip filtering if the parent key is "outgoing_talks"
-      if (parentKey === 'outgoing_talks') {
-        return obj;
-      }
-
-      return obj
-        .filter((item) => typeof item === 'object' && item !== null)
-        .filter((item) => !('type' in item) || item.type === dataView)
-        .map((item) => filterArraysByDataView(item)) as T;
-    } else if (typeof obj === 'object' && obj !== null) {
-      const result = {} as T;
-
-      for (const key in obj) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        result[key] = filterArraysByDataView(obj[key] as any, key);
-      }
-
-      return result;
-    }
-
-    return obj;
-  };
-
   const handleGetMaterials = <T extends SchedWeekType | SourceWeekType>(
     data: T[],
-    months: string[]
+    months: string[],
+    keysToDelete: string[]
   ): T[] => {
     const result: T[] = [];
 
@@ -196,12 +277,12 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
       result.push(...monthSources);
     }
 
-    const sectionToDelete =
-      type === 'midweek' ? 'weekend_meeting' : 'midweek_meeting';
-
     const finalData = result.map((record) => {
-      const item = filterArraysByDataView(record);
-      delete item[sectionToDelete];
+      const item = filterScheduleByDataView(record, dataView);
+
+      for (const key of keysToDelete) {
+        delete item[key as keyof T];
+      }
 
       return item;
     });
@@ -213,7 +294,8 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
     schedules: SchedWeekType[],
     published: SchedWeekType[]
   ) => {
-    if (type === 'midweek') return schedules;
+    // only weekend resolves visiting-speaker display names
+    if (type !== 'weekend') return schedules;
 
     return schedulesStampVisitingSpeakers({
       schedules: structuredClone(schedules),
@@ -239,19 +321,10 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
         (record) => record.weekOf === item.weekOf
       );
 
-      if (!remoteItem) {
-        filteredData.push(item);
-      }
-
       if (remoteItem) {
-        if (
-          remoteItem['midweek_meeting']?.['aux_fsg'] &&
-          typeof remoteItem['midweek_meeting']['aux_fsg'] === 'string'
-        ) {
-          delete remoteItem['midweek_meeting']['aux_fsg'];
-        }
-
-        updateObject(remoteItem, item);
+        mergeScheduleIntoRemote(remoteItem, item);
+      } else {
+        filteredData.push(item);
       }
     }
 
@@ -355,87 +428,149 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
 
       const months = checkedItems.toSorted();
 
-      const sourcesLocalPublish = handleGetMaterials(sources, months);
-      const schedulesLocalPublish = handleGetMaterials(schedules, months);
+      // Each publish carries only its own sections. Duties source merging below
+      // preserves published programs and adds date-only shells for new weeks.
+      const scheduleKeysToDelete = {
+        midweek: ['weekend_meeting', 'duties'],
+        weekend: ['midweek_meeting', 'duties'],
+        duties: ['midweek_meeting', 'weekend_meeting'],
+      }[type];
 
-      const { data } = await refetch();
+      const sourceKeysToDelete = {
+        midweek: ['weekend_meeting'],
+        weekend: ['midweek_meeting'],
+        duties: [],
+      }[type];
 
-      if (Array.isArray(data?.schedules) && Array.isArray(data?.sources)) {
-        const sourcesRemote = data.sources;
-        const schedulesRemote = data.schedules;
+      const sourcesLocalPublish = handleGetMaterials(
+        sources,
+        months,
+        sourceKeysToDelete
+      );
+      const schedulesToPublish =
+        type === 'duties'
+          ? schedules.map((schedule) => {
+              if (!schedule.duties) return schedule;
+              const duties = { ...schedule.duties };
+              for (const meeting of ['midweek', 'weekend'] as const) {
+                duties[meeting] = snapshotRecurringSections(
+                  duties[meeting],
+                  schedulesDutiesSections(schedule.weekOf, meeting, dataView),
+                  dataView,
+                  new Date().toISOString()
+                );
+              }
+              return { ...schedule, duties };
+            })
+          : schedules;
+      const schedulesLocalPublish = handleGetMaterials(
+        schedulesToPublish,
+        months,
+        scheduleKeysToDelete
+      );
 
-        // clone before the merge below: it mutates the matched remote records
-        const schedulesPublished = structuredClone(schedulesRemote);
+      const { data, isError } = await refetch();
 
-        const sourcesPublish = handleUpdateMaterialsFromRemote(
-          sourcesLocalPublish,
-          sourcesRemote
-        );
-
-        const schedulesBasePublish = handleUpdateMaterialsFromRemote(
-          schedulesLocalPublish,
-          schedulesRemote
-        );
-
-        const schedulesPrePublish = handleUpdateSchedules(
-          schedulesBasePublish,
-          schedulesPublished
-        );
-        let schedulesPublish = schedulesPrePublish;
-
-        let talksPublish: OutgoingTalkExportScheduleType[] = undefined;
-
-        if (isPublicTalkCoordinator && type === 'weekend') {
-          schedulesPublish = handleFilterOutgoingTalks(schedulesPrePublish);
-          talksPublish = handleGetIncomingTalks(schedulesPublish);
-        }
-
-        const { status, message } = await apiPublishSchedule(
-          sourcesPublish,
-          schedulesPublish,
-          talksPublish
-        );
-
-        if (status !== 200) {
-          throw new Error(message);
-        }
-
-        displaySnackNotification({
-          header: t('tr_successfullyPublished'),
-          message: t('tr_successfullyPublishedDesc'),
-          severity: 'success',
-        });
-
-        setIsProcessing(false);
-        onClose?.();
+      if (
+        isError ||
+        data?.status !== 200 ||
+        !Array.isArray(data?.schedules) ||
+        !Array.isArray(data?.sources)
+      ) {
+        throw new Error(data?.message || 'error_app_generic-title');
       }
+
+      const sourcesRemote = data.sources;
+      const schedulesRemote = data.schedules;
+
+      // clone before the merge below: it mutates the matched remote records
+      const schedulesPublished = structuredClone(schedulesRemote);
+
+      const sourcesPublish =
+        type === 'duties'
+          ? mergeDutiesSources(
+              sourcesLocalPublish,
+              sourcesRemote,
+              formatDate(addMonths(getWeekDate(), -3), 'yyyy/MM/dd')
+            )
+          : handleUpdateMaterialsFromRemote(sourcesLocalPublish, sourcesRemote);
+
+      const schedulesBasePublish = handleUpdateMaterialsFromRemote(
+        schedulesLocalPublish,
+        schedulesRemote
+      );
+
+      const schedulesPrePublish = handleUpdateSchedules(
+        schedulesBasePublish,
+        schedulesPublished
+      );
+      let schedulesPublish = schedulesPrePublish;
+
+      let talksPublish: OutgoingTalkExportScheduleType[] = undefined;
+
+      if (isPublicTalkCoordinator && type === 'weekend') {
+        schedulesPublish = handleFilterOutgoingTalks(schedulesPrePublish);
+        talksPublish = handleGetIncomingTalks(schedulesPublish);
+      }
+
+      const { status, message } = await apiPublishSchedule(
+        sourcesPublish,
+        schedulesPublish,
+        talksPublish
+      );
+
+      if (status !== 200) {
+        throw new Error(message);
+      }
+
+      displaySnackNotification({
+        header: t('tr_successfullyPublished'),
+        message: t('tr_successfullyPublishedDesc'),
+        severity: 'success',
+      });
+
+      onClose?.();
     } catch (error) {
       console.error(error);
 
-      setIsProcessing(false);
-      onClose?.();
-
       displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
-        message: getMessageByCode(error.message),
+        message: getMessageByCode(
+          error instanceof Error ? error.message : 'error_app_generic-title'
+        ),
         severity: 'error',
       });
+    } finally {
+      setIsProcessing(false);
     }
   };
 
   useEffect(() => {
     if (Array.isArray(data?.schedules) && Array.isArray(data?.sources)) {
-      const published = data.schedules.reduce((acc: string[], { weekOf }) => {
-        const month = weekOf.slice(0, 7);
-        if (!acc.includes(month)) {
-          acc.push(month);
-        }
-        return acc;
-      }, []);
+      const published = data.schedules.reduce(
+        (acc: string[], schedule: SchedWeekType) => {
+          // a month is duties-published only when remote duties hold data
+          if (type === 'duties' && !scheduleHasDutiesData(schedule)) {
+            return acc;
+          }
+
+          // a duties-only remote week holds no meeting schedule
+          if (type !== 'duties' && !schedule[`${type}_meeting`]) {
+            return acc;
+          }
+
+          const month = schedule.weekOf.slice(0, 7);
+          if (!acc.includes(month)) {
+            acc.push(month);
+          }
+          return acc;
+        },
+        []
+      );
 
       setPublishedItems(published);
     }
-  }, [data]);
+  }, [data, type]);
 
   return {
     schedulesList,
