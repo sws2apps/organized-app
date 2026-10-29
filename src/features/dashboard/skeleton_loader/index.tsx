@@ -1,6 +1,7 @@
 import { Box, Skeleton } from '@mui/material';
-import DashboardCardSkeleton from './card_skeleton';
-import useSkeletonLoader from './useSkeletonLoader';
+import useDashboardSkeleton from './useDashboardSkeleton';
+import MinistryTimerSkeletonLoader from './components/ministry_header';
+import SkeletonLoaderCard from './components/skeleton_card';
 
 const lineSx = {
   background: 'var(--accent-200)',
@@ -8,7 +9,7 @@ const lineSx = {
 };
 
 const DashboardSkeletonLoader = () => {
-  const { cardRows } = useSkeletonLoader();
+  const { cards } = useDashboardSkeleton();
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -29,8 +30,13 @@ const DashboardSkeletonLoader = () => {
           gridGap: '24px',
         }}
       >
-        {cardRows.map((rows, index) => (
-          <DashboardCardSkeleton key={index} rows={rows} />
+        {cards.map((card) => (
+          <SkeletonLoaderCard
+            key={card.key}
+            items={card.items}
+            badges={card.badges}
+            header={card.key === 'ministry' && <MinistryTimerSkeletonLoader />}
+          />
         ))}
       </Box>
     </Box>
