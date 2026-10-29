@@ -101,6 +101,11 @@ export interface CustomTabProps extends TabOwnProps {
   actionComponent?: ReactNode;
 
   /**
+   * Draws a divider under the tabs row, with the indicator sitting on it. (Default: false)
+   */
+  divider?: boolean;
+
+  /**
    * A boolean indicating whether to display the tabs. (Default: true)
    */
   showTabs?: boolean;
