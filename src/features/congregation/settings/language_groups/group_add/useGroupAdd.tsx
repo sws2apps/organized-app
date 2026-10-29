@@ -16,7 +16,7 @@ import { dbFieldServiceGroupSave } from '@services/dexie/field_service_groups';
 import { syncJWMeetingMaterials } from '@services/app/meeting_materials';
 import { refreshLocaleDerivedData } from '@services/app/locale_derived_data';
 
-const useGroupAdd = ({ onClose }: GroupAddProps) => {
+const useGroupAdd = ({ onClose, onSuccess }: GroupAddProps) => {
   const { t } = useAppTranslation();
 
   const congCircuit = useAtomValue(circuitNumberState);
@@ -226,6 +226,20 @@ const useGroupAdd = ({ onClose }: GroupAddProps) => {
         'cong_settings.weekend_meeting': weekendMeeting,
       });
 
+      // the settings page no longer has a switch for language groups: having
+      // one is what turns them on for selectors, attendance and reports
+      const languageGroupsEnabled =
+        !Array.isArray(appSettings.cong_settings.language_groups) &&
+        appSettings.cong_settings.language_groups.enabled.value;
+
+      if (!languageGroupsEnabled) {
+        await dbAppSettingsUpdate({
+          'cong_settings.language_groups': {
+            enabled: { value: true, updatedAt: new Date().toISOString() },
+          },
+        });
+      }
+
       await refreshLocaleDerivedData();
 
       try {
@@ -241,6 +255,12 @@ const useGroupAdd = ({ onClose }: GroupAddProps) => {
           LanguageGroupName: group.group_data.name,
         }),
       });
+
+      try {
+        onSuccess?.(group.group_id);
+      } catch (error) {
+        console.error(error);
+      }
 
       onClose();
     } catch (error) {
