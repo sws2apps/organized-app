@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import {
@@ -31,13 +31,15 @@ import { APP_ROLES, VIP_ROLES } from '@constants/index';
 import { handleDeleteDatabase, loadApp, runUpdater } from '@services/app';
 import { apiValidateMe } from '@services/api/user';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
-import { userSignOut } from '@services/firebase/auth';
-import useFirebaseAuth from '@hooks/useFirebaseAuth';
+import {
+  AuthNotReadyError,
+  userSignOut,
+  waitForAuthReady,
+  whenAuthSettled,
+} from '@services/firebase/auth';
 
 const useStartup = () => {
   const [searchParams] = useSearchParams();
-
-  const { isAuthenticated } = useFirebaseAuth();
 
   const [isUserSignIn, setIsUserSignIn] = useAtom(isUserSignInState);
 
@@ -62,9 +64,21 @@ const useStartup = () => {
   const [isStart, setIsStart] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
+  const checkStarted = useRef(false);
+
+  const [checkRetry, setCheckRetry] = useState(0);
+
+  // also written directly, so the recovery callback never reads a stale value
+  const isUserSignInRef = useRef(isUserSignIn);
+
+  useEffect(() => {
+    isUserSignInRef.current = isUserSignIn;
+  }, [isUserSignIn]);
+
   const isEmailLink = searchParams.get('code') !== null;
 
   const showSignin = useCallback(() => {
+    isUserSignInRef.current = !isEmailLink;
     setIsUserSignIn(!isEmailLink);
     setUserMfaVerify(false);
   }, [setIsUserSignIn, isEmailLink]);
@@ -106,14 +120,15 @@ const useStartup = () => {
       if (allowOpen) {
         setIsSetup(false);
         await runUpdater();
-        loadApp();
-        setTimeout(() => {
-          setIsSetup(false);
-          setIsAppLoad(false);
-        }, 1000);
+        await loadApp();
+        setIsAppLoad(false);
 
         return;
       }
+
+      // otherwise the request can go out without a token and sign the user out
+      const authUser = await waitForAuthReady();
+      const isAuthenticated = Boolean(authUser);
 
       const { status, result } = await apiValidateMe();
 
@@ -189,6 +204,20 @@ const useStartup = () => {
       showSignin();
       setIsLoading(false);
       console.error(error);
+
+      // Firebase was slow, not signed out: retry once it restores a user
+      if (error instanceof AuthNotReadyError) {
+        whenAuthSettled()
+          .then((user) => {
+            if (user && isUserSignInRef.current) {
+              isUserSignInRef.current = false;
+              setIsUserSignIn(false);
+              checkStarted.current = false;
+              setCheckRetry((prev) => prev + 1);
+            }
+          })
+          .catch((err) => console.error(err));
+      }
     }
   }, [
     isOfflineOverride,
@@ -201,7 +230,6 @@ const useStartup = () => {
     congID,
     setCongCreate,
     setCurrentStep,
-    isAuthenticated,
     setIsUserSignIn,
   ]);
 
@@ -223,8 +251,11 @@ const useStartup = () => {
       setIsUserSignIn(true);
     }
 
-    if (cookiesConsent && isStart) runStartupCheck();
-  }, [setIsUserSignIn, cookiesConsent, isStart, runStartupCheck]);
+    if (cookiesConsent && isStart && !checkStarted.current) {
+      checkStarted.current = true;
+      runStartupCheck();
+    }
+  }, [setIsUserSignIn, cookiesConsent, isStart, runStartupCheck, checkRetry]);
 
   return {
     isUserSignIn,
