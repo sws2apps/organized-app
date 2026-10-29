@@ -1,3 +1,5 @@
+import { SxProps, Theme } from '@mui/material';
+
 /**
  * Type representing the view options for the custom date picker.
  */
@@ -7,9 +9,9 @@ export type CustomDatePickerView = 'button' | 'input';
  * Props for the CustomDatePicker component.
  */
 export interface CustomDatePickerProps {
- /**
-  * The selected date value.
-  */
+  /**
+   * The selected date value.
+   */
   value?: Date | null;
 
   /**
@@ -40,7 +42,7 @@ export interface CustomDatePickerProps {
   /**
    * Function called when the selected date changes.
    * @param value - The new selected date value.
-  */
+   */
   onChange?: (value: Date | null) => void | Promise<void>;
 
   /**
@@ -60,4 +62,6 @@ export interface CustomDatePickerProps {
   error?: boolean;
 
   helperText?: string;
+
+  sx?: SxProps<Theme>;
 }

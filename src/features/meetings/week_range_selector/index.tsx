@@ -12,6 +12,13 @@ const WeekRangeSelector = ({
   onEndChange,
   onStartChange,
   meeting,
+  weeks,
+  startWeek,
+  endWeek,
+  startWeekError,
+  endWeekError,
+  startWeekHelperText,
+  endWeekHelperText,
 }: WeekRangeSelectorType) => {
   const { t } = useAppTranslation();
 
@@ -21,9 +28,16 @@ const WeekRangeSelector = ({
     endWeekOptions: [endPastWeeks, endUpcomingWeeks],
     startWeekOptions: [startPastWeeks, startUpcomingWeeks],
     handleStartWeekChange,
-    startWeek,
+    startWeek: selectedStartWeek,
     showDateLabel,
-  } = useWeekRangeSelector(onStartChange, meeting);
+  } = useWeekRangeSelector(onStartChange, meeting, startWeek, weeks);
+
+  // Controlled by the parent when start/end values are provided, otherwise
+  // the Select manages its own selection (default for most usages).
+  const startValueProps =
+    startWeek === undefined ? { defaultValue: '' } : { value: startWeek };
+  const endValueProps =
+    endWeek === undefined ? { defaultValue: '' } : { value: endWeek };
 
   return (
     <Box
@@ -36,7 +50,9 @@ const WeekRangeSelector = ({
     >
       <Select
         label={showDateLabel ? t('tr_startDate') : t('tr_startWeek')}
-        defaultValue=""
+        {...startValueProps}
+        error={startWeekError}
+        helperText={startWeekHelperText}
         onChange={(e) => handleStartWeekChange(e.target.value as string)}
       >
         <MenuSubHeader>{t('tr_upcomingDates')}</MenuSubHeader>
@@ -69,14 +85,16 @@ const WeekRangeSelector = ({
       </Select>
 
       <Tooltip
-        show={startWeek.length === 0}
+        show={selectedStartWeek.length === 0}
         title={t('tr_dateRangeSelectStart')}
         sx={{ width: '100%' }}
       >
         <Select
           label={showDateLabel ? t('tr_endDate') : t('tr_endWeek')}
-          defaultValue=""
-          disabled={startWeek.length === 0}
+          {...endValueProps}
+          disabled={selectedStartWeek.length === 0}
+          error={endWeekError}
+          helperText={endWeekHelperText}
           onChange={(e) => onEndChange?.(e.target.value as string)}
         >
           <MenuSubHeader>{t('tr_upcomingDates')}</MenuSubHeader>

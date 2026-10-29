@@ -27,7 +27,10 @@ interface ProgressBarProps {
  * @param maxValue - The maximum value of the progress bar.
  */
 const ProgressBarSmall = ({ value, maxValue }: ProgressBarProps) => {
-  const progressValue = Math.round((value * 100) / maxValue);
+  const progressValue =
+    maxValue > 0
+      ? Math.max(0, Math.min(100, Math.round((value * 100) / maxValue)))
+      : 0;
 
   const progressBarWidth =
     maxValue > 0 && value === maxValue ? 'calc(100% - 26px)' : '100%';

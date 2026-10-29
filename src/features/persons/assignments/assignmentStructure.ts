@@ -104,6 +104,10 @@ export const ASSIGNMENT_SECTIONS: AssignmentSection[] = [
         code: AssignmentCode.MINISTRY_HOURS_CREDIT,
         nameKey: 'tr_reportHoursCredit',
       },
+      {
+        code: AssignmentCode.MINISTRY_FS_CONDUCTOR,
+        nameKey: 'tr_fieldServiceMeetingConductor',
+      },
     ],
   },
 ];
