@@ -1,23 +1,18 @@
-import { useAtom, useAtomValue } from 'jotai';
+import { useAtomValue } from 'jotai';
 import { ColorSchemeType } from '@definition/app';
-import { appThemeNameState, colorSchemeState } from '@states/app';
+import { colorSchemeState } from '@states/app';
+import {
+  accountAppearanceSave,
+  appColorSchemeApply,
+} from '@services/app/appearance';
 
 const useColorSchemeSelector = () => {
-  const [colorScheme, setColorScheme] = useAtom(colorSchemeState);
+  const colorScheme = useAtomValue(colorSchemeState);
 
-  const theme = useAtomValue(appThemeNameState);
+  const handleChangeColor = async (selectedColor: ColorSchemeType) => {
+    appColorSchemeApply(selectedColor);
 
-  const handleChangeColor = (selectedColor: ColorSchemeType) => {
-    setColorScheme(selectedColor);
-    document.documentElement.dataset.theme = `${selectedColor}-${theme}`;
-
-    const themeColor = getComputedStyle(
-      document.documentElement
-    ).getPropertyValue('--accent-100');
-
-    document
-      .querySelector("meta[name='theme-color']")
-      ?.setAttribute('content', themeColor);
+    await accountAppearanceSave('color_scheme', selectedColor);
   };
 
   return { colorScheme, handleChangeColor };
