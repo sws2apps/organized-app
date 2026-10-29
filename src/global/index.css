@@ -34,8 +34,8 @@ html {
   --accent-gradient-top: rgb(84, 110, 237);
 }
 
-body {
-  background-color: var(--accent-100) !important;
+html body {
+  background-color: var(--accent-100);
   margin: 0;
   -webkit-tap-highlight-color: transparent;
 }
@@ -214,6 +214,11 @@ body iframe {
 /* page to page transitions */
 .page-transition {
   animation: page-enter var(--motion-base) var(--ease-standard) both;
+}
+
+/* A local slide owns the motion; combining it with page-enter looks diagonal. */
+.page-transition:has([data-page-transition='horizontal']) {
+  animation: none;
 }
 
 @keyframes page-enter {

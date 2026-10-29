@@ -57,7 +57,9 @@ const NavBarButton = (props: NavBarButtonProps) => {
         }
       }}
       sx={{
-        padding: '10px',
+        // Keeps the icon-only button the same height as the text button next
+        // to it, so a bar of either kind measures the same.
+        padding: '8px',
         borderRadius: 'var(--radius-l)',
         display: 'flex',
         alignItems: 'center',

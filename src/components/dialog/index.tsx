@@ -114,7 +114,7 @@ const Dialog = ({
 
   if (header) {
     heading = (
-      <Box id={titleId} sx={{ minWidth: 0 }}>
+      <Box id={titleId} sx={{ minWidth: 0, flex: 1 }}>
         {header}
       </Box>
     );
@@ -177,12 +177,15 @@ const Dialog = ({
     onClose();
   };
 
+  const headingLabelledBy = header || title ? titleId : undefined;
+
   return (
     <MUIDialog
       fullWidth
       open={open}
       onClose={handleClose}
-      aria-labelledby={header || title ? titleId : undefined}
+      aria-label={header && title ? title : undefined}
+      aria-labelledby={header && title ? undefined : headingLabelledBy}
       sx={{
         boxSizing: 'border-box',
         '.MuiPaper-root': {
@@ -237,6 +240,9 @@ const Dialog = ({
               overscrollBehavior: 'contain',
             },
             ...(Array.isArray(sx) ? sx : [sx ?? {}]),
+            // The header already supplies half of the title-to-content gap.
+            // Keep a small inset for floating field labels and focus outlines.
+            ...(titleRow ? [{ paddingTop: 'var(--dialog-header-gap)' }] : []),
           ]}
         >
           {content}
