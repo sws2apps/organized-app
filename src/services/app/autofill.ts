@@ -38,6 +38,7 @@ import {
 } from '@states/settings';
 import { sourcesState } from '@states/sources';
 import { formatDate } from '@utils/date';
+import { getAutofillRotationPoolSizes } from '@utils/autofill_rotation';
 import {
   getCorrespondingStudentOrAssistant,
   getRotationWeeks,
@@ -61,6 +62,7 @@ import {
   isPersonBlockedOnDate,
   personAssignmentHasClassroom,
   personIsElder,
+  personSkipsAutofill,
 } from './persons';
 import {
   schedulesAutofillSaveAssignment,
@@ -1282,6 +1284,10 @@ const filterCandidates = (
     }
   }
 
+  // a person kept out of the autofill is only assigned on purpose: a fixed or
+  // linked assignment above still applies, but the open pool leaves them out
+  const pool = persons.filter((p) => !personSkipsAutofill(p));
+
   const isStudentTask =
     task.assignmentKey.includes('_Student_') &&
     STUDENT_ASSIGNMENT.includes(task.code);
@@ -1296,7 +1302,7 @@ const filterCandidates = (
       requiresAssistant: false,
     };
 
-    availableAssistants = persons.filter((potentialAssistant) => {
+    availableAssistants = pool.filter((potentialAssistant) => {
       const assistantAllowedUIDs = eligibilityMapView?.get(
         AssignmentCode.MM_AssistantOnly
       );
@@ -1310,7 +1316,7 @@ const filterCandidates = (
     });
   }
   // -----------------------------------------------------------------------------
-  return persons.filter((p) => {
+  return pool.filter((p) => {
     const valid = isCandidateValid(
       p,
       task,
@@ -1896,6 +1902,15 @@ const processingTasks = ({
 }: ProcessingTasksParams): Map<string, number> => {
   const sortedTasks = getSortedTasks(tasks, checkAssignmentsSettingsResult);
   const assignedPersons = new Map<string, number>();
+  const selectablePersonUIDs = new Set(
+    persons
+      .filter((person) => !personSkipsAutofill(person))
+      .map((person) => person.person_uid)
+  );
+  const rotationPoolSizes = getAutofillRotationPoolSizes(
+    eligibilityMapView,
+    selectablePersonUIDs
+  );
 
   for (const task of sortedTasks) {
     if (
@@ -1919,7 +1934,7 @@ const processingTasks = ({
     );
 
     const rotationWeeks = getRotationWeeks(
-      eligibilityMapView.get(task.code)?.size ?? 0,
+      rotationPoolSizes.get(task.code) ?? 0,
       assignmentsMetrics.get(task.dataView)?.get(task.code)?.frequency ?? 0
     );
 
