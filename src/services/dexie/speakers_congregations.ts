@@ -111,23 +111,23 @@ export const dbSpeakersCongregationsDummy = async () => {
     updatedAt: new Date().toISOString(),
   };
   cong1.cong_data.coordinator = {
-    name: { value: 'Coordinator 1', updatedAt: new Date().toISOString() },
+    name: { value: 'Daniel Brooks', updatedAt: new Date().toISOString() },
     email: {
-      value: 'coordinator1@fakemail.com',
+      value: 'daniel.brooks@fakemail.com',
       updatedAt: new Date().toISOString(),
     },
-    phone: { value: '+81 965-431-3024', updatedAt: new Date().toISOString() },
+    phone: { value: '+1 206 555 0121', updatedAt: new Date().toISOString() },
   };
   cong1.cong_data.public_talk_coordinator = {
     name: {
-      value: 'Public Talk Coordinator 1',
+      value: 'Thomas Grant',
       updatedAt: new Date().toISOString(),
     },
     email: {
-      value: 'public-talk-coordinator1@fakemail.com',
+      value: 'thomas.grant@fakemail.com',
       updatedAt: new Date().toISOString(),
     },
-    phone: { value: '+49 258-627-6644', updatedAt: new Date().toISOString() },
+    phone: { value: '+1 206 555 0122', updatedAt: new Date().toISOString() },
   };
   cong1.cong_data.request_status = 'approved';
 
@@ -155,23 +155,23 @@ export const dbSpeakersCongregationsDummy = async () => {
     updatedAt: new Date().toISOString(),
   };
   cong2.cong_data.coordinator = {
-    name: { value: 'Coordinator 2', updatedAt: new Date().toISOString() },
+    name: { value: 'Henry Wallace', updatedAt: new Date().toISOString() },
     email: {
-      value: 'coordinator2@fakemail.com',
+      value: 'henry.wallace@fakemail.com',
       updatedAt: new Date().toISOString(),
     },
-    phone: { value: '+91 936-400-4116', updatedAt: new Date().toISOString() },
+    phone: { value: '+1 425 555 0131', updatedAt: new Date().toISOString() },
   };
   cong2.cong_data.public_talk_coordinator = {
     name: {
-      value: 'Public Talk Coordinator 2',
+      value: 'Adam Fischer',
       updatedAt: new Date().toISOString(),
     },
     email: {
-      value: 'public-talk-coordinator2@fakemail.com',
+      value: 'adam.fischer@fakemail.com',
       updatedAt: new Date().toISOString(),
     },
-    phone: { value: '+1 976-686-7996', updatedAt: new Date().toISOString() },
+    phone: { value: '+1 425 555 0132', updatedAt: new Date().toISOString() },
   };
   cong2.cong_data.request_status = 'approved';
 
