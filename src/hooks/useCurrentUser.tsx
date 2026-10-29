@@ -1,3 +1,4 @@
+import { isHallAttendant } from '@utils/hall_attendant';
 import { useMemo } from 'react';
 import { useAtomValue } from 'jotai';
 import { formatDate } from '@utils/date';
@@ -199,7 +200,11 @@ const useCurrentUser = () => {
     return userRole.some((role) => role === 'elder');
   }, [accountType, isPersonEditor, userRole]);
 
+  const canUseHallAttendant = isHallAttendant(person, dataView, userRole);
+  const canEditHallInfo = isAdmin || userRole.includes('hall_attendant_info');
+
   const isAttendanceEditor = useMemo(() => {
+    if (canUseHallAttendant) return true;
     if (isAdmin) return true;
 
     if (isGroup && user_in_group && isLanguageGroupOverseer) return true;
@@ -213,7 +218,14 @@ const useCurrentUser = () => {
     if (isGroup && user_in_group) return true;
 
     return false;
-  }, [isAdmin, userRole, user_in_group, isGroup, isLanguageGroupOverseer]);
+  }, [
+    isAdmin,
+    userRole,
+    user_in_group,
+    isGroup,
+    isLanguageGroupOverseer,
+    canUseHallAttendant,
+  ]);
 
   const isAppointed = useMemo(() => {
     if (accountType === 'pocket') return false;
@@ -307,6 +319,8 @@ const useCurrentUser = () => {
     isElder,
     isPersonEditor,
     isAttendanceEditor,
+    canUseHallAttendant,
+    canEditHallInfo,
     isAppointed,
     isMidweekEditor,
     isWeekendEditor,

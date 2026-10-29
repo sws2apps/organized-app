@@ -20,9 +20,11 @@ const WeekBox = (props: WeekBoxProps) => {
     fields,
     values,
     handleValueChange,
+    flushField,
     total,
     box_label,
     noMeeting,
+    canEdit,
     clickerEnabled,
     clickerOpen,
     clickerTitle,
@@ -66,12 +68,13 @@ const WeekBox = (props: WeekBoxProps) => {
           >
             <Typography
               className="body-small-semibold"
-              color={
-                props.type === 'midweek'
-                  ? 'var(--accent-dark)'
-                  : 'var(--weekend-meeting)'
-              }
-              sx={{ flexShrink: 0 }}
+              sx={{
+                color:
+                  props.type === 'midweek'
+                    ? 'var(--accent-dark)'
+                    : 'var(--weekend-meeting)',
+                flexShrink: 0,
+              }}
             >
               {box_label}
             </Typography>
@@ -116,8 +119,9 @@ const WeekBox = (props: WeekBoxProps) => {
                   }
                   value={values[field.name]}
                   onChange={handleValueChange(field.name)}
+                  onBlur={() => flushField(field.name)}
                   onFocus={() => handleFieldFocus(field.name)}
-                  disabled={noMeeting}
+                  disabled={noMeeting || !canEdit}
                   slotProps={{
                     htmlInput: { className: 'h4' },
                   }}
@@ -149,12 +153,11 @@ const WeekBox = (props: WeekBoxProps) => {
           >
             <Typography
               className="h4"
-              color={
-                props.type === 'midweek'
-                  ? 'var(--accent-dark)'
-                  : 'var(--weekend-meeting)'
-              }
               sx={{
+                color:
+                  props.type === 'midweek'
+                    ? 'var(--accent-dark)'
+                    : 'var(--weekend-meeting)',
                 textAlign: 'center',
               }}
             >

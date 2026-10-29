@@ -86,11 +86,19 @@ const Dialog = ({
   title,
   description,
   closable,
+  fullScreen = false,
+  ariaLabel,
+  ariaLabelledBy,
 }: DialogProps) => {
   const { t } = useAppTranslation();
 
   // dialogs can be open at once, so each names itself by its own heading
   const titleId = useId();
+
+  const labelledBy =
+    ariaLabelledBy ??
+    PaperProps?.['aria-labelledby'] ??
+    (header || title ? titleId : undefined);
 
   const ref = useScrollFade();
 
@@ -180,29 +188,34 @@ const Dialog = ({
   return (
     <MUIDialog
       fullWidth
+      fullScreen={fullScreen}
+      aria-labelledby={labelledBy}
       open={open}
       onClose={handleClose}
-      aria-labelledby={header || title ? titleId : undefined}
       sx={{
         boxSizing: 'border-box',
         '.MuiPaper-root': {
-          margin: { mobile: '16px', tablet: '24px', desktop: '32px' },
+          margin: fullScreen
+            ? 0
+            : { mobile: '16px', tablet: '24px', desktop: '32px' },
         },
       }}
       slotProps={{
         backdrop: {
-          style: {
-            backgroundColor: 'var(--accent-dark-overlay)',
-          },
+          style: { backgroundColor: 'var(--accent-dark-overlay)' },
         },
-
-        paper: PaperProps || {
-          className: 'pop-up-shadow',
-          style: {
-            maxWidth: '560px',
-            borderRadius: 'var(--radius-xl)',
-            backgroundColor: 'var(--white)',
-          },
+        paper: {
+          ...(PaperProps || {
+            className: 'pop-up-shadow',
+            style: {
+              maxWidth: fullScreen ? 'none' : '560px',
+              borderRadius: fullScreen ? 0 : 'var(--radius-xl)',
+              backgroundColor: 'var(--white)',
+            },
+          }),
+          ...(labelledBy
+            ? { 'aria-labelledby': labelledBy, 'aria-label': undefined }
+            : { 'aria-label': ariaLabel ?? PaperProps?.['aria-label'] }),
         },
       }}
     >

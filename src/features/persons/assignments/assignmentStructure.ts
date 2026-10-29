@@ -106,4 +106,14 @@ export const ASSIGNMENT_SECTIONS: AssignmentSection[] = [
       },
     ],
   },
+  {
+    id: 'duties',
+    headerKey: 'tr_duties',
+    items: [
+      {
+        code: AssignmentCode.DUTIES_HallAttendant,
+        nameKey: 'tr_hallAttendant',
+      },
+    ],
+  },
 ];
