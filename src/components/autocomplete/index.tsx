@@ -75,6 +75,7 @@ const Autocomplete = <T,>(props: AutocompletePropsType<T>) => {
   const { t } = useAppTranslation();
 
   const {
+    height = 48,
     startIcon,
     endIcon,
     label,
@@ -145,7 +146,7 @@ const Autocomplete = <T,>(props: AutocompletePropsType<T>) => {
           }}
           startIcon={startIcon}
           endIcon={endIcon}
-          height={48}
+          height={height}
           styleIcon={styleIcon ?? true}
           sx={
             decorator

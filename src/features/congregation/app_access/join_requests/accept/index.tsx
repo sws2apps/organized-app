@@ -1,7 +1,7 @@
 import { Box, Stack } from '@mui/material';
 import { IconCheck } from '@components/icons';
 import IconLoading from '@components/icon_loading';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { AcceptRequestProps, UsersOption } from './index.types';
 import { SwitchContainer } from '../../user_details/shared_styles';
 import useAcceptRequest from './useAccept';
@@ -16,6 +16,7 @@ import Typography from '@components/typography';
 
 const AcceptRequest = (props: AcceptRequestProps) => {
   const { t } = useAppTranslation();
+  const { dutiesEnabled } = useCurrentUser();
 
   const { isLoading, fullname } = props;
 
@@ -170,6 +171,16 @@ const AcceptRequest = (props: AcceptRequestProps) => {
                   handleRolesChange('public_talk_schedule', checked)
                 }
               />
+
+              {dutiesEnabled && (
+                <SwitchWithLabel
+                  label={t('tr_meetingDutiesScheduling')}
+                  checked={roles.includes('duties_schedule')}
+                  onChange={(checked) =>
+                    handleRolesChange('duties_schedule', checked)
+                  }
+                />
+              )}
 
               <SwitchWithLabel
                 label={t('tr_attendanceRecordTracking')}
