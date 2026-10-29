@@ -19,6 +19,7 @@ const WaitingLoader = ({
     sx = {
       position: 'absolute',
       top: '50%',
+      transform: 'translateY(-50%)',
       margin: 'auto',
     };
   }
