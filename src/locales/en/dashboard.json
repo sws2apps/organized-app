@@ -114,5 +114,8 @@
   "tr_improvements": "Improvements:",
   "tr_ok": "OK",
   "tr_groupSettings": "Group settings",
-  "tr_languageGroupShort": "Group"
+  "tr_languageGroupShort": "Group",
+  "tr_appLockLockNow": "Lock the app",
+  "tr_appLockAutoLocksAfter": "Auto-locks after {{ minutes }} min of inactivity",
+  "tr_appLockAutoOff": "Auto-lock is off"
 }

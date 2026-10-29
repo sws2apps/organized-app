@@ -9,6 +9,7 @@ import useSecurity from './useSecurity';
 import Divider from '@components/divider';
 import MFAEnable from './mfaEnable';
 import MFADisable from './mfaDisable';
+import AppLockSection from './app_lock';
 import Button from '@components/button';
 import Switch from '@components/switch';
 import SwitcherContainer from '@components/switcher_container';
@@ -28,6 +29,7 @@ const Security = () => {
     handleCloseDelete,
     handleOpenDelete,
     isAccountDelete,
+    isAppLockAvailable,
   } = useSecurity();
 
   return (
@@ -67,6 +69,8 @@ const Security = () => {
             </SwitcherContainer>
           </SettingWithBorderContainer>
         )}
+
+        {isAppLockAvailable && <AppLockSection />}
 
         <Box sx={{ display: 'flex', justifyContent: 'center' }}>
           <Button
