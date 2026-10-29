@@ -51,8 +51,8 @@ const BrotherAssignment = (props: BrotherAssignmentProps) => {
           dataView={dataView}
         />
       </PrimaryFieldContainer>
-      <SecondaryFieldContainer sx={{ maxWidth: laptopUp ? '360px' : '100%' }}>
-        {enableAssignment && (
+      {enableAssignment && (
+        <SecondaryFieldContainer sx={{ maxWidth: laptopUp ? '360px' : '100%' }}>
           <Tooltip
             title={t('tr_notEditableInEditPartsMode')}
             show={isEdit}
@@ -66,8 +66,8 @@ const BrotherAssignment = (props: BrotherAssignmentProps) => {
               readOnly={isEdit}
             />
           </Tooltip>
-        )}
-      </SecondaryFieldContainer>
+        </SecondaryFieldContainer>
+      )}
     </DoubleFieldContainer>
   );
 };
