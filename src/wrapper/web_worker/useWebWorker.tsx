@@ -10,7 +10,9 @@ import {
   congAccountConnectedState,
   isAppDataSyncingState,
   isOnlineState,
+  justResumedState,
 } from '@states/app';
+import { store } from '@states/index';
 import {
   backupAutoState,
   backupIntervalState,
@@ -62,6 +64,16 @@ const useWebWorker = () => {
 
         if (event.data === 'Done') {
           setIsAppDataSyncing(false);
+
+          if (store.get(justResumedState)) {
+            store.set(justResumedState, false);
+
+            displaySnackNotification({
+              header: getMessageByCode('tr_backOnline'),
+              message: getMessageByCode('tr_allChangesSynced'),
+              severity: 'success',
+            });
+          }
 
           // sync complete -> refresh app data
 

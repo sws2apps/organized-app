@@ -28,6 +28,7 @@ const InfoMessage = (props: InfoMessagePropsType) => {
     if (variant === 'message-with-button') color = 'var(--accent-main)';
     if (variant === 'error') color = 'var(--red-main)';
     if (variant === 'success') color = 'var(--green-main)';
+    if (variant === 'warning') color = 'var(--orange-main)';
 
     return color;
   };
@@ -42,6 +43,7 @@ const InfoMessage = (props: InfoMessagePropsType) => {
     if (variant === 'message-with-button') effect = 'message-glow';
     if (variant === 'error') effect = 'error-glow';
     if (variant === 'success') effect = 'success-glow';
+    if (variant === 'warning') effect = 'warning-glow';
 
     return effect;
   };

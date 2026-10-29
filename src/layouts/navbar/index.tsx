@@ -18,15 +18,20 @@ import {
   IconLogo,
   IconMail,
   IconArrowLink,
-  IconLogout,
   IconNavigateLeft,
   IconSettings,
 } from '@icons/index';
-import { useAppTranslation, useFirebaseAuth } from '@hooks/index';
+import { useAppTranslation } from '@hooks/index';
 import { APP_ENVIRONMENT, isTest } from '@constants/index';
 import { NavBarType } from './index.types';
 import useNavbar from './useNavbar';
 import AccountHeaderIcon from '@components/account_header_icon';
+import {
+  WorkOfflineMenuItem,
+  WorkOfflineReminder,
+} from '@features/work_offline';
+import { accountAttentionState, workOfflineState } from '@states/app';
+import { useAtomValue } from 'jotai';
 import AppNotification from '@features/app_notification';
 import InstallDialog from '@features/app_install/install_dialog';
 import Button from '@components/button';
@@ -62,8 +67,6 @@ const NavBar = ({ isSupported }: NavBarType) => {
 
   const [settingsAnimating, setSettingsAnimating] = useState(false);
 
-  const { isAuthenticated } = useFirebaseAuth();
-
   const {
     anchorEl,
     handleCloseMore,
@@ -80,11 +83,11 @@ const NavBar = ({ isSupported }: NavBarType) => {
     handleGoDashboard,
     isAppLoad,
     handleReconnectAccount,
+    reconnectLabel,
     handleOpenRealApp,
     handleBack,
     accountType,
     tablet688Up,
-    handleDisconnectAccount,
     congName,
     fullname,
     navBarOptions,
@@ -97,6 +100,9 @@ const NavBar = ({ isSupported }: NavBarType) => {
     installGuide,
     markLastNavBarButton,
   } = useNavbar();
+
+  const workOffline = useAtomValue(workOfflineState);
+  const accountAttention = useAtomValue(accountAttentionState);
 
   return (
     <>
@@ -229,6 +235,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
                           marginLeft: !tabletUp ? '4px' : '0px',
                         }}
                       >
+                        {!isTest && <WorkOfflineReminder />}
                         <AccountHeaderIcon
                           handleOpenMore={handleOpenMoreMenu}
                           isMoreOpen={openMore}
@@ -461,6 +468,17 @@ const NavBar = ({ isSupported }: NavBarType) => {
 
                         {!isTest &&
                           !isAppLoad &&
+                          accountType !== '' &&
+                          accountAttention !== 'signin' && (
+                            <WorkOfflineMenuItem
+                              sx={menuStyle}
+                              onDone={handleCloseMore}
+                            />
+                          )}
+
+                        {!isTest &&
+                          !isAppLoad &&
+                          !workOffline &&
                           !isCongAccountConnected &&
                           accountType === 'vip' && (
                             <MenuItem
@@ -480,35 +498,11 @@ const NavBar = ({ isSupported }: NavBarType) => {
                               </ListItemIcon>
                               <ListItemText>
                                 <Typography className="body-regular">
-                                  {t('tr_reconnectAccount')}
+                                  {t(reconnectLabel)}
                                 </Typography>
                               </ListItemText>
                             </MenuItem>
                           )}
-
-                        {isAuthenticated && (
-                          <MenuItem
-                            disableRipple
-                            sx={menuStyle}
-                            onClick={handleDisconnectAccount}
-                          >
-                            <ListItemIcon
-                              sx={{
-                                '&.MuiListItemIcon-root': {
-                                  width: '24px',
-                                  minWidth: '24px !important',
-                                },
-                              }}
-                            >
-                              <IconLogout color="var(--black)" />
-                            </ListItemIcon>
-                            <ListItemText>
-                              <Typography className="body-regular">
-                                {t('tr_disconnectAccount')}
-                              </Typography>
-                            </ListItemText>
-                          </MenuItem>
-                        )}
                       </Menu>
                     </>
                   )}
