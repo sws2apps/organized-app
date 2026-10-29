@@ -4,9 +4,11 @@ import Button from '@components/button';
 
 type ActionBarProps = {
   onClose: VoidFunction;
+  onAccept: VoidFunction;
+  acceptDisabled: boolean;
 };
 
-const ActionBar = ({ onClose }: ActionBarProps) => {
+const ActionBar = ({ onClose, onAccept, acceptDisabled }: ActionBarProps) => {
   const { t } = useAppTranslation();
 
   return (
@@ -21,8 +23,8 @@ const ActionBar = ({ onClose }: ActionBarProps) => {
       <Button variant="secondary" onClick={onClose}>
         {t('tr_close')}
       </Button>
-      <Button variant="main" onClick={onClose}>
-        OK
+      <Button variant="main" onClick={onAccept} disabled={acceptDisabled}>
+        {t('tr_ok')}
       </Button>
     </Stack>
   );
