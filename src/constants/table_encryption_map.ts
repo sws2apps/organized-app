@@ -240,4 +240,12 @@ export const TABLE_ENCRYPTION_MAP = {
     updatedAt: 'shared',
     event_data: 'shared',
   },
+  volunteer_activities: {
+    activity_uid: 'public',
+    activity_data: 'shared',
+  },
+  volunteer_activity_participants: {
+    participation_uid: 'public',
+    participation_data: 'shared',
+  },
 };

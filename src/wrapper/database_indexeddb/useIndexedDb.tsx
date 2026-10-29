@@ -24,6 +24,10 @@ import { upcomingEventsDbState } from '@states/upcoming_events';
 import { publicTalksState } from '@states/public_talks';
 import { songsState } from '@states/songs';
 import { appLocalsState } from '@states/app_locals';
+import {
+  volunteerActivitiesDbState,
+  volunteerActivityParticipantsDbState,
+} from '@states/volunteer_activities';
 
 const useIndexedDb = () => {
   const dbSettings = useLiveQuery(() => appDb.app_settings.toArray());
@@ -67,6 +71,12 @@ const useIndexedDb = () => {
   const dbPublicTalks = useLiveQuery(() => appDb.public_talks.toArray());
   const dbSongs = useLiveQuery(() => appDb.songs.toArray());
   const dbAppLocals = useLiveQuery(() => appDb.app_locals.toArray());
+  const dbVolunteerActivities = useLiveQuery(() =>
+    appDb.volunteer_activities.toArray()
+  );
+  const dbVolunteerParticipants = useLiveQuery(() =>
+    appDb.volunteer_activity_participants.toArray()
+  );
 
   const setSettings = useSetAtom(settingsState);
   const setPersons = useSetAtom(personsState);
@@ -91,6 +101,10 @@ const useIndexedDb = () => {
   const setPublicTalks = useSetAtom(publicTalksState);
   const setSongs = useSetAtom(songsState);
   const setAppLocals = useSetAtom(appLocalsState);
+  const setVolunteerActivities = useSetAtom(volunteerActivitiesDbState);
+  const setVolunteerParticipants = useSetAtom(
+    volunteerActivityParticipantsDbState
+  );
 
   const loadSettings = useCallback(() => {
     if (dbSettings && dbSettings[0]) {
@@ -218,6 +232,21 @@ const useIndexedDb = () => {
     }
   }, [dbAppLocals, setAppLocals]);
 
+  const loadVolunteerActivities = useCallback(() => {
+    if (dbVolunteerActivities) {
+      setVolunteerActivities(dbVolunteerActivities);
+    }
+
+    if (dbVolunteerParticipants) {
+      setVolunteerParticipants(dbVolunteerParticipants);
+    }
+  }, [
+    dbVolunteerActivities,
+    dbVolunteerParticipants,
+    setVolunteerActivities,
+    setVolunteerParticipants,
+  ]);
+
   return {
     loadSettings,
     loadPersons,
@@ -240,6 +269,7 @@ const useIndexedDb = () => {
     loadPublicTalks,
     loadSongs,
     loadAppLocals,
+    loadVolunteerActivities,
   };
 };
 
