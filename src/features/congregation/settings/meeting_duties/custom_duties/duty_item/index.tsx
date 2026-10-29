@@ -1,6 +1,6 @@
 import DialogActions from '@components/dialog_actions';
 import { Stack } from '@mui/material';
-import { IconEdit } from '@components/icons';
+import { IconCustomDuty, IconEdit } from '@components/icons';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { DUTIES_MAX } from '../../shared/constants';
 import { DutyItemProps } from './index.types';
@@ -75,12 +75,29 @@ const DutyItem = (props: DutyItemProps) => {
         />
       )}
 
-      <Stack spacing="4px" direction="row" sx={{ alignItems: 'center' }}>
-        <Typography sx={{ minWidth: 0, overflowWrap: 'anywhere' }}>
+      <Stack
+        direction="row"
+        sx={{
+          alignItems: 'center',
+          gap: 'var(--dialog-header-gap)',
+          color: 'var(--grey-400)',
+        }}
+      >
+        <IconCustomDuty
+          icon={props.icon}
+          size={20}
+          color="currentColor"
+          sx={{ flexShrink: 0 }}
+        />
+        <Typography
+          color="inherit"
+          sx={{ minWidth: 0, overflowWrap: 'anywhere' }}
+        >
           {props.name}
         </Typography>
 
         <IconButton
+          edge={false}
           aria-label={t('tr_dutyEditNamed', { duty: props.name })}
           disabled={isBusy || !isDutiesEditor}
           onClick={handleOpenForm}

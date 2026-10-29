@@ -247,6 +247,7 @@ const layoutCard = ({
       id: `${card.id}_${cards.length}`,
       name: card.name,
       icon: card.icon,
+      customIcon: card.customIcon,
       span: columns.length,
       height: title + BORDER + columnsHeight(columns),
       groupGap,

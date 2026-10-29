@@ -1,3 +1,4 @@
+import { HOSPITALITY_NOT_NEEDED } from '@constants/duties';
 import { queueDutyWrite } from '@services/app/duties_queue';
 import {
   resolveRecurringSections,
@@ -5,6 +6,8 @@ import {
 } from '@utils/duties_recurring';
 import {
   dutiesAssignRecords,
+  dutiesHospitalityNotNeeded,
+  dutiesHospitalityRecords,
   dutiesPatchSchedule,
   dutyAssignmentForMeeting,
 } from '@utils/duties_weekly';
@@ -69,6 +72,7 @@ import {
   OutgoingSpeakersScheduleType,
   S89DataType,
   SchedWeekType,
+  DutyPositionsType,
   WeekendMeetingDataType,
   WeekTypeCongregation,
 } from '@definition/schedules';
@@ -320,11 +324,13 @@ export const schedulesDutiesFieldList = (
     config.auditorium_attendant_amount?.value ?? 1
   );
 
-  positioned(
-    'Hospitality',
-    AssignmentCode.DUTIES_Hospitality,
-    config.hospitality_amount.value
-  );
+  if (meeting === 'weekend' || config.schedule_weekly?.value) {
+    positioned(
+      'Hospitality',
+      AssignmentCode.DUTIES_Hospitality,
+      config.hospitality_amount.value
+    );
+  }
 
   positioned(
     'VideoconferenceHost',
@@ -342,6 +348,13 @@ export const schedulesDutiesGetFieldValue = (
   field: Pick<DutyFieldDefinitionType, 'assignment' | 'schedule_id'>,
   dataView: string
 ) => {
+  if (field.assignment.includes('_DUTIES_Hospitality_')) {
+    const meeting = field.assignment.startsWith('MM_') ? 'midweek' : 'weekend';
+    const duties = schedule.duties?.[meeting];
+    if (duties && dutiesHospitalityNotNeeded(duties, dataView))
+      return HOSPITALITY_NOT_NEEDED;
+  }
+
   const data = schedulesGetData(
     schedule,
     ASSIGNMENT_PATH[field.assignment]
@@ -2025,6 +2038,21 @@ const dutyAssignmentChanges = ({
   }
   const field = dutyAssignmentForMeeting(assignment, meeting);
   const path = ASSIGNMENT_PATH[field];
+  if (field.includes('_DUTIES_Hospitality_')) {
+    const position = path.split('.').at(-1) as keyof DutyPositionsType;
+    const { positions, flags } = dutiesHospitalityRecords(
+      duties[meeting],
+      position,
+      toSave,
+      dataView,
+      updatedAt
+    );
+    for (const key of Object.keys(positions) as (keyof DutyPositionsType)[]) {
+      changes[`duties.${meeting}.hospitality.${key}`] = positions[key];
+    }
+    if (flags) changes[`duties.${meeting}.hospitality_not_needed`] = flags;
+    return changes;
+  }
   const records = (schedulesGetData(latest, path) ??
     []) as AssignmentCongregation[];
   if (schedule_id) {
@@ -2069,7 +2097,18 @@ const saveDutyAssignment = (
     const updatedAt = new Date().toISOString();
     const toSave =
       typeof value === 'string' ? value : (value?.person_uid ?? '');
+    if (
+      toSave === HOSPITALITY_NOT_NEEDED &&
+      !assignment.includes('_DUTIES_Hospitality_')
+    )
+      throw new Error('tr_invalidDutyValue');
     for (const meeting of ['midweek', 'weekend'] as const) {
+      if (
+        !weekly &&
+        assignment.includes('_DUTIES_Hospitality_') &&
+        meeting !== 'weekend'
+      )
+        continue;
       if (!weekly && meeting !== selectedMeeting) continue;
       if (!schedulesDutiesMeetingHeld(latest, meeting, dataView)) continue;
       Object.assign(

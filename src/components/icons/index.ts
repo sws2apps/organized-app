@@ -137,6 +137,7 @@ export { default as IconInstall } from './IconInstall';
 export { default as IconInstallDesktop } from './nonFigmaIcons/IconInstallDesktop';
 export { default as IconInstallPhone } from './nonFigmaIcons/IconInstallPhone';
 export { default as IconInstallTablet } from './nonFigmaIcons/IconInstallTablet';
+export { default as IconCustomDuty } from './nonFigmaIcons/IconCustomDuty';
 export { default as IconInvite } from './IconInvite';
 export { default as IconJwHome } from './IconJwHome';
 export { default as IconJwOrg } from './IconJwOrg';
