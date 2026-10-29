@@ -17,11 +17,16 @@ const usePersonRecord = () => {
   const [firstname, setFirstname] = useState(
     settings.user_settings.firstname.value
   );
+  const [middlename, setMiddlename] = useState(
+    settings.user_settings.middlename?.value || ''
+  );
   const [lastname, setLastname] = useState(
     settings.user_settings.lastname.value
   );
 
   const handleFirstnameChange = (value: string) => setFirstname(value);
+
+  const handleMiddlenameChange = (value: string) => setMiddlename(value);
 
   const handleLastnameChange = (value: string) => setLastname(value);
 
@@ -41,6 +46,11 @@ const usePersonRecord = () => {
 
       person.person_data.person_firstname = {
         value: firstname,
+        updatedAt: new Date().toISOString(),
+      };
+
+      person.person_data.person_middlename = {
+        value: middlename,
         updatedAt: new Date().toISOString(),
       };
 
@@ -80,8 +90,10 @@ const usePersonRecord = () => {
   return {
     handleSavePerson,
     firstname,
+    middlename,
     lastname,
     handleFirstnameChange,
+    handleMiddlenameChange,
     handleLastnameChange,
     isProcessing,
   };

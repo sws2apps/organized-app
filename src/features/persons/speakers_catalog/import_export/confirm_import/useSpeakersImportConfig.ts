@@ -15,6 +15,7 @@ import {
 } from '@utils/congregations';
 import {
   updateSpeakerFirstname,
+  updateSpeakerMiddlename,
   updateSpeakerLastname,
   updateSpeakerEmail,
   updateSpeakerPhone,
@@ -83,6 +84,14 @@ const useSpeakersImportConfig = () => {
         groupLabel: 'tr_speakers',
         examples: ['John', 'Max', 'Peter', 'Andreas'],
         handler: (d, v) => updateSpeakerFirstname(d.speaker, v),
+      },
+      {
+        key: 'speaker.middlename',
+        label: 'tr_middlename',
+        group: 'speaker',
+        groupLabel: 'tr_speakers',
+        examples: ['Robert', 'Martin', '', 'Alexander'],
+        handler: (d, v) => updateSpeakerMiddlename(d.speaker, v),
       },
       {
         key: 'speaker.lastname',

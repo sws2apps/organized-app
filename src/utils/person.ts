@@ -14,6 +14,13 @@ export const changeFirstname = (newPerson: PersonType, value: string) => {
     new Date().toISOString();
 };
 
+export const changeMiddlename = (newPerson: PersonType, value: string) => {
+  newPerson.person_data.person_middlename = {
+    value,
+    updatedAt: new Date().toISOString(),
+  };
+};
+
 export const changeLastname = (newPerson: PersonType, value: string) => {
   newPerson.person_data.person_lastname.value = value;
   newPerson.person_data.person_lastname.updatedAt = new Date().toISOString();

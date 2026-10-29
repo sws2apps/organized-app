@@ -14,6 +14,7 @@ import MenuItem from '@components/menuitem';
 import MidweekExactDate from './midweek_exact_date';
 import MultiDayDisplay from './multiday_display';
 import NameFormat from './name_format';
+import PrintNameFormat from './print_name_format';
 import PublishersSort from '../congregation_privacy/publishers_sort';
 import Select from '@components/select';
 import SourceLanguage from './source_language';
@@ -96,6 +97,19 @@ const MeetingForms = () => {
           }}
         >
           <NameFormat />
+
+          <PrintNameFormat
+            context="schedule"
+            label="tr_schedulePrintNameFormat"
+          />
+          <PrintNameFormat
+            context="publisher_card"
+            label="tr_publisherPrintNameFormat"
+          />
+          <PrintNameFormat
+            context="group_list"
+            label="tr_groupPrintNameFormat"
+          />
 
           <DateFormat />
 

@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { buildPersonFullname } from '@utils/common';
+import { accountProfileFullname } from '@utils/name_format';
 import { useAppTranslation } from '@hooks/index';
 import { UsersListType } from '../index.types';
 import useCongregationPersons from './useCongregationPersons';
@@ -33,11 +33,7 @@ const CongregationPersons = ({ isLoading }: UsersListType) => {
             <UserAccountItem
               key={user.id}
               variant="user"
-              name={buildPersonFullname(
-                user.profile.lastname.value,
-                user.profile.firstname.value,
-                fullnameOption
-              )}
+              name={accountProfileFullname(user.profile, fullnameOption)}
               clickOnUserAccountItem={() => handleOpenUserDetails(user.id)}
             />
           ))}
