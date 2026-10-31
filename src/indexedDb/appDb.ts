@@ -59,6 +59,10 @@ import {
 import { publicTalkSchema, PublicTalkTable } from './tables/public_talk';
 import { songSchema, SongTable } from './tables/songs';
 import { appLocalsSchema, AppLocalsTable } from './tables/app_locals';
+import {
+  preachingPartnerRequestsSchema,
+  PreachingPartnerRequestsTable,
+} from './tables/preaching_partner';
 
 type DexieTables = PersonsTable &
   SettingsTable &
@@ -81,7 +85,8 @@ type DexieTables = PersonsTable &
   DelegatedFieldServiceReportsTable &
   PublicTalkTable &
   SongTable &
-  AppLocalsTable;
+  AppLocalsTable &
+  PreachingPartnerRequestsTable;
 
 type Dexie<T = DexieTables> = BaseDexie & T;
 
@@ -268,6 +273,18 @@ appDb
         meetingAttendanceSplitDeaf(attendance);
       });
   });
+
+appDb.version(16).stores({
+  ...schema,
+  ...metadataSchema,
+  ...delegatedFieldServiceReportsSchema,
+  ...weekTypeSchema,
+  ...publicTalkSchema,
+  ...songSchema,
+  ...upcomingEventsSchema,
+  ...appLocalsSchema,
+  ...preachingPartnerRequestsSchema,
+});
 
 appDb.on('populate', function () {
   appDb.app_settings.add(settingSchema);

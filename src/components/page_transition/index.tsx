@@ -1,6 +1,6 @@
 import { PropsWithChildren } from 'react';
 import { Box } from '@mui/material';
-import { useLocation } from 'react-router';
+import { useLocation, useMatches } from 'react-router';
 
 /**
  * Component that fades a page in when the route changes.
@@ -9,9 +9,15 @@ import { useLocation } from 'react-router';
  */
 const PageTransition = ({ children }: PropsWithChildren) => {
   const { pathname } = useLocation();
+  const route = useMatches().at(-1);
+
+  // a route whose params only switch views keeps its page and keyboard focus
+  const keepMounted = (route?.handle as { keepMounted?: boolean } | undefined)
+    ?.keepMounted;
+  const transitionKey = keepMounted && route ? route.id : pathname;
 
   return (
-    <Box key={pathname} className="page-transition">
+    <Box key={transitionKey} className="page-transition">
       {children}
     </Box>
   );
