@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useAtomValue } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import {
   backupAutoState,
@@ -7,6 +7,7 @@ import {
   hapticsEnabledState,
   themeFollowOSEnabledState,
 } from '@states/settings';
+import { forceReloadEnabledState } from '@states/app';
 import { useBreakpoints, useIsTouchDevice } from '@hooks/index';
 
 const useAppSettings = () => {
@@ -18,6 +19,8 @@ const useAppSettings = () => {
   const autoBackupInterval = useAtomValue(backupIntervalState);
   const followOSTheme = useAtomValue(themeFollowOSEnabledState);
   const hapticsOn = useAtomValue(hapticsEnabledState);
+
+  const [forceReload, setForceReload] = useAtom(forceReloadEnabledState);
 
   const [autoSync, setAutoSync] = useState(autoBackup);
   const [autoSyncInterval, setAutoSyncInterval] = useState(autoBackupInterval);
@@ -68,6 +71,10 @@ const useAppSettings = () => {
     });
   };
 
+  const handleUpdateForceReload = (value: boolean) => {
+    setForceReload(value);
+  };
+
   useEffect(() => {
     setSyncTheme(followOSTheme);
   }, [followOSTheme]);
@@ -87,6 +94,8 @@ const useAppSettings = () => {
     haptics,
     handleUpdateHaptics,
     showHaptics,
+    forceReload,
+    handleUpdateForceReload,
   };
 };
 

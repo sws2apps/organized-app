@@ -109,7 +109,7 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
                   <Box sx={{ marginBottom: '32px' }}>
                     <MyAssignments />
                     <PageTransition>
-                      <Outlet />
+                      <Outlet context={{ updatePwa }} />
                     </PageTransition>
                   </Box>
                 </Suspense>
