@@ -1,4 +1,5 @@
 import { forwardRef, Ref } from 'react';
+import { centeredFieldLabel } from '@components/textfield/index.styles';
 import { PickersTextField, PickersTextFieldProps } from '@mui/x-date-pickers';
 
 const InputTextField = forwardRef(function DatePickerInputField(
@@ -41,7 +42,9 @@ const InputTextField = forwardRef(function DatePickerInputField(
           paddingLeft: '0px',
           paddingRight: '0px',
           flex: '1 0 0',
-          color: !props.areAllSectionsEmpty ? 'var(--black)' : 'var(--accent-400)',
+          color: !props.areAllSectionsEmpty
+            ? 'var(--black)'
+            : 'var(--accent-400)',
           cursor: props.disabled ? 'not-allowed' : 'auto',
         },
         '.MuiInputAdornment-root': {
@@ -106,7 +109,8 @@ const InputTextField = forwardRef(function DatePickerInputField(
           },
         },
 
-        '.MuiFormLabel-root[data-shrink=false]': { top: `-${varHeight}px` },
+        '.MuiInputLabel-outlined[data-shrink=false]':
+          centeredFieldLabel(heightLocal),
         '& > .MuiAutocomplete-popupIndicator': {
           '& svg, & svg g, & svg g path': { fill: 'var(--black)' },
         },

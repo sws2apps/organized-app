@@ -33,6 +33,9 @@ export type AutocompletePropsType<T> = Omit<
    */
   label?: string;
 
+  /** Height shared by the input and its resting label. */
+  height?: number;
+
   /**
    * Function to render the input of the Autocomplete component.
    * @param {AutocompleteRenderInputParams} params - Parameters for rendering the input.

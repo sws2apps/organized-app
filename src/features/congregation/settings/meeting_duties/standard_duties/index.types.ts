@@ -1,0 +1,10 @@
+export type DutyStandard =
+  | 'tr_audioVideo'
+  | 'tr_dutiesAudio'
+  | 'tr_dutiesVideo'
+  | 'tr_dutiesMicrophones'
+  | 'tr_dutiesStage'
+  | 'tr_dutiesEntranceAttendant'
+  | 'tr_dutiesAuditoriumAttendant'
+  | 'tr_hospitality'
+  | 'tr_dutiesVideoconferenceHost';

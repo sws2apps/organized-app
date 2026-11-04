@@ -1,3 +1,4 @@
+import { DutiesSectionTemplateType } from '@definition/schedules';
 import { AppRoleType } from './app';
 import { AssignmentFieldType } from './assignment';
 import { UpcomingEventDisplayType } from './upcoming_events';
@@ -290,6 +291,31 @@ export type SettingsType = {
       updatedAt: string;
       value: boolean;
     }[];
+    meeting_duties: {
+      type: string;
+      schedule_weekly?: { value: boolean; updatedAt: string };
+      _deleted: { value: boolean; updatedAt: string };
+      conflict_prevent: { value: boolean; updatedAt: string };
+      sisters_duties?: { value: boolean; updatedAt: string };
+      mic_sections: { value: boolean; updatedAt: string };
+      section_templates?: DutiesSectionTemplateType[];
+      av_combined: { value: boolean; updatedAt: string };
+      audio_amount: { value: number; updatedAt: string };
+      video_amount: { value: number; updatedAt: string };
+      mic_amount: { value: number; updatedAt: string };
+      stage_amount: { value: number; updatedAt: string };
+      entrance_attendant_amount: { value: number; updatedAt: string };
+      auditorium_attendant_amount: { value: number; updatedAt: string };
+      hospitality_amount: { value: number; updatedAt: string };
+      videoconference_host_amount: { value: number; updatedAt: string };
+      custom: {
+        _deleted: boolean;
+        id: string;
+        name: string;
+        updatedAt: string;
+        amount: number;
+      }[];
+    }[];
   };
   user_settings: {
     id?: string;
@@ -307,6 +333,13 @@ export type SettingsType = {
     theme_follow_os_enabled: { value: boolean; updatedAt: string };
     haptics_enabled: { value: boolean; updatedAt: string };
     hour_credits_enabled: { value: boolean; updatedAt: string };
+    meeting_duties_export?: {
+      orientation: {
+        value: 'portrait' | 'landscape';
+        updatedAt: string;
+      };
+      font_size: { value: number; updatedAt: string };
+    };
     data_view: { value: string; updatedAt: string };
   };
 };

@@ -1,4 +1,7 @@
 :root {
+  --field-content-inset: 12px;
+  --select-content-inset: 14px;
+  --date-navigator-label-min-width: 200px;
   --dashed-border-width: 1px;
   --dashed-border-pattern: 10 7;
 
@@ -209,6 +212,22 @@ body iframe {
   --motion-fast: 180ms;
   --motion-base: 240ms;
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+}
+
+/* Keep dropdown arrows smooth in both opening and closing directions. */
+.MuiAutocomplete-root .MuiAutocomplete-popupIndicator,
+.MuiInputBase-root .MuiSelect-icon {
+  transition:
+    transform var(--motion-base) var(--ease-standard),
+    background-color var(--motion-fast) var(--ease-standard),
+    color var(--motion-fast) var(--ease-standard);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .MuiAutocomplete-root .MuiAutocomplete-popupIndicator,
+  .MuiInputBase-root .MuiSelect-icon {
+    transition: none;
+  }
 }
 
 /* page to page transitions */

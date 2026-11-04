@@ -20,7 +20,7 @@ const AutocompleteMultiple = <T,>(props: AutocompleteMutilePropsType<T>) => {
       clearIcon={false}
       sx={{
         '& .MuiAutocomplete-popupIndicator': {
-          color: 'var(--black)',
+          color: props.disabled ? 'var(--accent-200)' : 'var(--accent-300)',
         },
       }}
       noOptionsText={

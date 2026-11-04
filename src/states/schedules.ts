@@ -45,6 +45,9 @@ export const S140DataState = atom<MidweekMeetingDataType[]>([]);
 export const S140DownloadOpenState = atom(false);
 
 export const selectedWeekState = atomWithReset('');
+export const dutiesSelectedMeetingState = atom<'midweek' | 'weekend'>(
+  'midweek'
+);
 
 export const assignmentsHistoryState = atom<AssignmentHistoryType[]>([]);
 

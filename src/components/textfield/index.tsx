@@ -6,6 +6,7 @@ import {
 } from '@mui/material';
 import { IconVisibility, IconVisibilityOff } from '@components/icons';
 import { TextFieldTypeProps } from './index.types';
+import { centeredFieldLabel } from '@components/textfield/index.styles';
 
 /**
  * A custom text field component.
@@ -77,8 +78,12 @@ const TextField = (props: TextFieldTypeProps) => {
     'inputProps' in props &&
     typeof (props as Record<string, unknown>).inputProps === 'object' &&
     (props as Record<string, unknown>).inputProps !== null
-      ? ((props as Record<string, unknown>).inputProps as Record<string, unknown>)
-          .value
+      ? (
+          (props as Record<string, unknown>).inputProps as Record<
+            string,
+            unknown
+          >
+        ).value
       : undefined;
 
   const hasValue =
@@ -94,8 +99,8 @@ const TextField = (props: TextFieldTypeProps) => {
           height: isMultiLine ? 'auto' : `${heightLocal}px`,
           paddingTop: isMultiLine ? '12px' : 'auto',
           paddingBottom: isMultiLine ? '12px' : 'auto',
-          paddingLeft: '12px',
-          paddingRight: '12px',
+          paddingLeft: 'var(--field-content-inset)',
+          paddingRight: 'var(--field-content-inset)',
           display: 'flex',
           alignItems: 'center',
           gap: '4px',
@@ -177,9 +182,10 @@ const TextField = (props: TextFieldTypeProps) => {
         },
 
         '.MuiFormLabel-root[data-shrink=false]': { top: `-${varHeight}px` },
-        '& > .MuiAutocomplete-popupIndicator': {
-          '& svg, & svg g, & svg g path': { fill: 'var(--black)' },
-        },
+        ...(!isMultiLine && {
+          '.MuiInputLabel-outlined[data-shrink=false]':
+            centeredFieldLabel(heightLocal),
+        }),
 
         '& .MuiInputAdornment-positionStart .MuiSvgIcon-root': {
           color: startIcon?.props['color'] ?? 'var(--black)',
@@ -194,6 +200,11 @@ const TextField = (props: TextFieldTypeProps) => {
             fill: 'var(--black)',
           },
         },
+        '& .MuiAutocomplete-endAdornment .MuiAutocomplete-popupIndicator .MuiSvgIcon-root':
+          {
+            color: props.disabled ? 'var(--accent-200)' : 'var(--accent-350)',
+            '& g path': { fill: 'currentColor' },
+          },
         ...props.sx,
       }}
       slotProps={{

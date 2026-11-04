@@ -4,7 +4,7 @@ import {
   PublishersSortOption,
   SettingsType,
 } from '@definition/settings';
-import { settingSchema } from './schema';
+import { meetingDutiesDefault, settingSchema } from './schema';
 import { AssignmentCode } from '@definition/assignment';
 import { getRandomArrayItem } from '@utils/common';
 import { LANGUAGE_LIST } from '@constants/index';
@@ -143,9 +143,10 @@ export const dbAppSettingsBuildTest = async () => {
   };
   baseSettings.user_settings.cong_role = [
     'admin',
+    'secretary',
     'elder',
     'publisher',
-    'secretary',
+    'view_schedules',
   ];
   baseSettings.user_settings.account_type = 'vip';
   baseSettings.user_settings.hour_credits_enabled = {
@@ -342,4 +343,36 @@ export const dbAppSettingsUpdateCongNumber = async () => {
   await dbAppSettingsUpdate({
     'cong_settings.cong_number': cong_number,
   });
+};
+
+export const dbAppSettingsSetupMeetingDuties = async () => {
+  const settings = await appDb.app_settings.get(1);
+
+  if (!settings) return;
+
+  const meetingDuties = settings.cong_settings.meeting_duties ?? [];
+
+  // older records still hold the data view as a plain string
+  const dataViewSetting = settings.user_settings.data_view;
+  const dataView =
+    typeof dataViewSetting === 'string'
+      ? dataViewSetting
+      : dataViewSetting.value;
+
+  const current = meetingDuties.find((duty) => duty.type === dataView);
+  const defaults = meetingDutiesDefault(dataView);
+
+  // records saved before a setting existed keep their values and get the rest
+  const isComplete =
+    current && Object.keys(defaults).every((key) => key in current);
+
+  if (isComplete) return;
+
+  const record = { ...defaults, ...current };
+
+  const updated = current
+    ? meetingDuties.map((duty) => (duty.type === dataView ? record : duty))
+    : [...meetingDuties, record];
+
+  await dbAppSettingsUpdate({ 'cong_settings.meeting_duties': updated });
 };

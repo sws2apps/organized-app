@@ -16,6 +16,8 @@ export type DialogProps = PropsWithChildren & {
   // takes the place of `title` and `description`
   header?: ReactNode;
 
+  headerAction?: ReactNode;
+
   // pinned below the content, for buttons that sit inside a component
   actions?: ReactNode;
 };
