@@ -11,6 +11,7 @@ import useGlobal from '@hooks/useGlobal';
 import useRootLayout from './useRootLayout';
 import About from '@features/about';
 import AppFeedback from '@features/app_feedback';
+import AppLock from '@features/app_lock';
 import AppReminders from '@features/reminders';
 import PageTransition from '@components/page_transition';
 import AppUpdater from '@features/app_updater';
@@ -46,6 +47,7 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
     isDashboard,
     isDemoNoticeOpen,
     initialSetupOpen,
+    isAppLockShown,
   } = useRootLayout();
 
   return (
@@ -87,6 +89,8 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
 
               {isAppLoad && isTest && <DemoStartup />}
 
+              {!isAppLoad && <AppLock />}
+
               {!isAppLoad && (
                 <Suspense
                   fallback={
@@ -97,12 +101,18 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
                     )
                   }
                 >
-                  {isTest && <DemoNotice />}
+                  {/* a dialog opened later would take the focus from the lock screen */}
+                  {!isAppLockShown && (
+                    <>
+                      {isTest && <DemoNotice />}
 
-                  {!initialSetupOpen &&
-                    (!isTest || (isTest && !isDemoNoticeOpen)) && <WhatsNew />}
+                      {!initialSetupOpen && (!isTest || !isDemoNoticeOpen) && (
+                        <WhatsNew />
+                      )}
 
-                  {!isTest && initialSetupOpen && <InitialSetup />}
+                      {!isTest && initialSetupOpen && <InitialSetup />}
+                    </>
+                  )}
 
                   {isPublisher && <AppReminders />}
 

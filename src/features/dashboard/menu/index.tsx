@@ -70,7 +70,7 @@ const DashboardMenu = (props: DashboardMenuProps) => {
                 justifyContent: 'space-between',
               }}
             >
-              <Box>
+              <Box sx={{ minWidth: 0 }}>
                 <Typography
                   className="body-regular"
                   sx={{
@@ -84,6 +84,14 @@ const DashboardMenu = (props: DashboardMenuProps) => {
                     className="label-small-regular"
                     sx={{
                       color: 'var(--grey-350)',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      whiteSpace: 'nowrap',
+                      '.MuiListItemButton-root:hover &': {
+                        color: isGroup
+                          ? 'var(--red-secondary)'
+                          : 'var(--accent-400)',
+                      },
                     }}
                   >
                     {props.secondaryText}

@@ -12,6 +12,8 @@ import {
 } from '@hooks/index';
 import { getMessageByCode } from '@services/i18n/translation';
 import { adminRoleState } from '@states/settings';
+import { appLockEnabledState, appLockSettingsState } from '@states/app_lock';
+import { appLockLockNow } from '@services/app_lock/lock';
 import { joinRequestsCountState } from '@states/congregation';
 import { dbMetadataReset } from '@services/dexie/metadata';
 import worker from '@services/worker/backupWorker';
@@ -28,6 +30,8 @@ const useCongregation = () => {
   const isConnected = useAtomValue(congAccountConnectedState);
   const isUserAdmin = useAtomValue(adminRoleState);
   const joinRequestsCount = useAtomValue(joinRequestsCountState);
+  const appLockEnabled = useAtomValue(appLockEnabledState);
+  const { lock_after_minutes } = useAtomValue(appLockSettingsState);
 
   const requests_count = useMemo(() => {
     if (joinRequestsCount === 0) return;
@@ -117,6 +121,9 @@ const useCongregation = () => {
     isConnected,
     isUserAdmin,
     requests_count,
+    appLockEnabled,
+    lockAfterMinutes: lock_after_minutes,
+    handleLockApp: appLockLockNow,
   };
 };
 
