@@ -169,7 +169,7 @@ const TimePicker = ({
                   color: 'var(--accent-350)',
                 },
                 '.Mui-disabled': {
-                  color: 'var(--accent-200)',
+                  color: 'var(--grey-350)',
                 },
               },
             },

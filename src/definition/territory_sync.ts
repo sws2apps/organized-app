@@ -1,3 +1,4 @@
+import type { TerritoryCampaignProgress } from '@definition/territory_campaign_progress';
 import type {
   MapColor,
   TerritoryBoundary,
@@ -58,6 +59,7 @@ export type TerritoryWirePolicy = {
   content: string;
 };
 export type TerritorySnapshot = {
+  campaignProgress?: TerritoryCampaignProgress[];
   manager: boolean;
   revision: number;
   policy: TerritoryWirePolicy;
@@ -101,6 +103,7 @@ export type TerritoryPendingOperation = {
   prepared?: TerritoryBatch;
 };
 export type TerritorySyncState = {
+  campaignProgress?: TerritoryCampaignProgress[];
   scope: string;
   settings?: TerritorySharedSettings;
   settingsDirty?: boolean;

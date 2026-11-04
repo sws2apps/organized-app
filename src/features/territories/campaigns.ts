@@ -31,6 +31,7 @@ export const territoryCampaignsState = atom<TerritoryCampaign[]>((get) => {
         event_data,
         getTranslation({ key: 'tr_specialCampaignWeek' })
       ),
+      description: event_data.description,
       start: localDay(event_data.start),
       end: localDay(event_data.end),
     }));

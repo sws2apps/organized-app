@@ -19,7 +19,7 @@ export const tabsSharedStyles = (
       backgroundColor: 'color-mix(in srgb, var(--accent-150) 38%, transparent)',
     },
     '& button.Mui-selected': {
-      color: 'var(--accent-main)',
+      color: 'var(--accent-dark)',
       background: appearance === 'chip' ? 'var(--accent-150)' : 'unset',
     },
     '& button:not(.Mui-selected)': {

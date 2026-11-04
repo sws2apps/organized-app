@@ -17,14 +17,13 @@ const Select = ({ helperText, ...props }: SelectPropsType) => {
   return (
     <FormControl fullWidth sx={props.sx} disabled={props.disabled ?? false}>
       <InputLabel
-        className="body-regular"
         sx={{
           color: props.error ? 'var(--red-main)' : 'var(--accent-350)',
           '&.Mui-focused': { color: 'var(--accent-main)' },
           '&[data-shrink=false]': {
             transform: 'translate(14px, 12px) scale(1)',
           },
-          '&.Mui-disabled': { color: 'var(--accent-200)' },
+          '&.Mui-disabled': { color: 'var(--grey-350)' },
         }}
       >
         {props.label}

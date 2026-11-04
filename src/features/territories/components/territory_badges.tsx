@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router';
+import Button from '@components/button';
 import { territoryCampaignsState } from '@features/territories/campaigns';
 import { useAppTranslation } from '@hooks/index';
 import { Box, Stack } from '@mui/material';
@@ -13,6 +15,7 @@ import { hasNewNote } from '@features/territories/notes';
 import { categoryBadge } from '@features/territories/category_colors';
 import { useAtomValue } from 'jotai';
 import {
+  territoryLocalModeState,
   territoriesShowDoNotCallCountState,
   territoryCategoriesState,
 } from '@states/territories';
@@ -207,13 +210,15 @@ export const CampaignBadge = ({
   assignment: TerritoryAssignment;
 }) => {
   const campaigns = useAtomValue(territoryCampaignsState);
+  const local = useAtomValue(territoryLocalModeState);
+  const navigate = useNavigate();
   if (!assignment.campaign) return null;
   const name =
     (!assignment.returnedOn &&
       campaigns.find((item) => item.id === assignment.campaign?.id)?.name) ||
     assignment.campaign.name;
 
-  return (
+  const badge = (
     <Badge
       size="small"
       color="accent"
@@ -222,6 +227,23 @@ export const CampaignBadge = ({
       icon={<IconCampaign color="var(--accent-dark)" />}
       sx={{ width: 'fit-content', ...shrink(name) }}
     />
+  );
+  if (!campaigns.some((item) => item.id === assignment.campaign?.id))
+    return badge;
+  return (
+    <Button
+      variant="small"
+      disableAutoStretch
+      sx={{ minWidth: 0, padding: 0 }}
+      onClick={(event) => {
+        event.stopPropagation();
+        navigate(
+          `${local ? '/settings/campaigns' : '/territories/campaigns'}?event=${encodeURIComponent(assignment.campaign!.id)}`
+        );
+      }}
+    >
+      {badge}
+    </Button>
   );
 };
 
@@ -275,8 +297,8 @@ export const CardLostBadge = ({ territory }: { territory: Territory }) => {
       size="small"
       color="red"
       filled={false}
-      text={t('tr_territoryReprint')}
-      sx={{ width: 'fit-content', ...shrink(t('tr_territoryReprint')) }}
+      text={t('tr_territoryLost')}
+      sx={{ width: 'fit-content', ...shrink(t('tr_territoryLost')) }}
     />
   );
 };

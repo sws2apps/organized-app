@@ -1,3 +1,4 @@
+import { upcomingEventTitle } from '@utils/upcoming_events';
 import { ChangeEvent, useCallback, useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { SelectChangeEvent } from '@mui/material';
@@ -22,7 +23,16 @@ const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
 
   const hour24 = useAtomValue(hour24FormatState);
 
-  const [localEvent, setLocalEvent] = useState(data);
+  const [localEvent, setLocalEvent] = useState(() => ({
+    ...data,
+    event_data: {
+      ...data.event_data,
+      custom:
+        data.event_data.category === UpcomingEventCategory.SpecialCampaignWeek
+          ? data.event_data.custom || data.event_data.description
+          : data.event_data.custom,
+    },
+  }));
 
   const [wasSubmitted, setWasSubmitted] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
@@ -43,11 +53,14 @@ const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
 
     const decoration = decorationsForEvent[category];
 
-    return decoration ? t(decoration.translationKey) : '';
+    return upcomingEventTitle(
+      localEvent.event_data,
+      decoration ? t(decoration.translationKey) : ''
+    );
   }, [localEvent.event_data, t]);
 
   const validateField = useCallback(
-    (field: keyof typeof errors, value) => {
+    (field: keyof typeof errors, value: unknown) => {
       const data = localEvent.event_data;
 
       switch (field) {
@@ -57,8 +70,9 @@ const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
           return data.category === null || data.duration === undefined;
         case 'custom':
           return (
-            data.category === UpcomingEventCategory.Custom &&
-            (!value || value.trim() === '')
+            (data.category === UpcomingEventCategory.Custom ||
+              data.category === UpcomingEventCategory.SpecialCampaignWeek) &&
+            (typeof value !== 'string' || value.trim() === '')
           );
         case 'endTime':
           if (data.duration === UpcomingEventDuration.MultipleDays) {
@@ -195,7 +209,8 @@ const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
     setErrors((prev) => ({ ...prev, endTime: false }));
   }, []);
 
-  const handleChangeEventStartDate = useCallback((value: Date) => {
+  const handleChangeEventStartDate = useCallback((value: Date | null) => {
+    if (!value || !Number.isFinite(value.getTime())) return;
     setLocalEvent((prev) => {
       const event_data = {
         ...prev.event_data,
@@ -232,7 +247,8 @@ const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
     setErrors((prev) => ({ ...prev, endTime: false }));
   }, []);
 
-  const handleChangeEventStartTime = useCallback((value: Date) => {
+  const handleChangeEventStartTime = useCallback((value: Date | null) => {
+    if (!value || !Number.isFinite(value.getTime())) return;
     setLocalEvent((prev) => {
       const start = stackDatesToOne(
         new Date(prev.event_data.start),
@@ -256,7 +272,8 @@ const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
     setErrors((prev) => ({ ...prev, endTime: false }));
   }, []);
 
-  const handleChangeEventEndDate = useCallback((value: Date) => {
+  const handleChangeEventEndDate = useCallback((value: Date | null) => {
+    if (!value || !Number.isFinite(value.getTime())) return;
     setLocalEvent((prev) => {
       return {
         ...prev,
@@ -274,7 +291,8 @@ const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
     setErrors((prev) => ({ ...prev, endTime: false }));
   }, []);
 
-  const handleChangeEventEndTime = useCallback((value: Date) => {
+  const handleChangeEventEndTime = useCallback((value: Date | null) => {
+    if (!value || !Number.isFinite(value.getTime())) return;
     setLocalEvent((prev) => {
       return {
         ...prev,

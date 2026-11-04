@@ -1,11 +1,11 @@
 import useCampaignSelection from '@features/territories/components/campaign_picker/useCampaignSelection';
-import TerritoryNote from '@features/territories/components/note';
 import TerritoryNoteField from '@features/territories/components/note_field';
 import { useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { Box, Stack } from '@mui/material';
 import { Badge, Button, InfoNote, Typography } from '@components/index';
 import DatePicker from '@components/date_picker';
+import Divider from '@components/divider';
 import Dialog from '@components/dialog';
 import DialogActions from '@components/dialog_actions';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
@@ -13,7 +13,10 @@ import { IconCancelCicle } from '@icons/index';
 import { shortDateFormatState } from '@states/settings';
 import { territoryAssigneesState } from '@features/territories/assignees';
 import { territoryCampaignsState } from '@features/territories/campaigns';
-import { campaignSnapshot } from '@features/territories/campaign_dates';
+import {
+  campaignFor,
+  campaignSnapshot,
+} from '@features/territories/campaign_dates';
 import {
   chosenHolder,
   holderMissing,
@@ -105,12 +108,10 @@ const AssignDialog = ({
 
   const campaigns = useAtomValue(territoryCampaignsState);
 
-  // Regular work stays the default unless a campaign was explicitly selected.
-  const [manual, setManual] = useState<CampaignChoice>({
-    checked: !!selectedCampaign,
-    value: selectedCampaign,
+  const [campaign, setCampaign] = useState<CampaignChoice>(() => {
+    const value = selectedCampaign ?? campaignFor(campaigns, new Date());
+    return { checked: !!value, value };
   });
-  const campaign = manual ?? { checked: false, value: undefined };
 
   const dateError = territoryAssignmentDateError(
     territory?.assignments ?? [],
@@ -140,6 +141,14 @@ const AssignDialog = ({
             </Typography>
             {subtitle && (
               <Typography color="var(--grey-400)">{subtitle}</Typography>
+            )}
+            {territory?.notes?.trim() && (
+              <Typography
+                className="body-small-regular"
+                sx={{ whiteSpace: 'pre-wrap', overflowWrap: 'anywhere' }}
+              >
+                {t('tr_territoryNoteInline', { note: territory.notes })}
+              </Typography>
             )}
           </Stack>
           {doNotCalls > 0 && (
@@ -172,9 +181,9 @@ const AssignDialog = ({
         </Stack>
       }
     >
-      <HolderModeSwitch value={holder} onChange={setHolder} />
-
-      <TerritoryNote kind="territory" value={territory?.notes} />
+      <Box sx={{ width: '100%', marginBottom: '8px' }}>
+        <HolderModeSwitch value={holder} onChange={setHolder} />
+      </Box>
 
       {lastNote && (
         <Typography
@@ -210,6 +219,10 @@ const AssignDialog = ({
         <InfoNote message={t('tr_territoryAssigneeUnavailable')} />
       )}
 
+      <Divider color="var(--accent-200)" sx={{ width: '100%' }} />
+      <Typography component="h3" className="body-small-semibold">
+        {t('tr_territoryAssignmentHeading')}
+      </Typography>
       <DatePicker
         label={t('tr_territoryAssignedOn')}
         value={assignedOn}
@@ -220,15 +233,18 @@ const AssignDialog = ({
 
       <CardField value={card} onChange={setCard} />
 
-      <TerritoryNoteField kind="assignment" value={note} onChange={setNote} />
-
       {campaigns.length > 0 && (
-        <CampaignField
-          checked={campaign.checked}
-          value={campaign.value}
-          onChange={setManual}
-        />
+        <>
+          <Divider color="var(--accent-200)" sx={{ width: '100%' }} />
+          <CampaignField
+            checked={campaign.checked}
+            value={campaign.value}
+            onChange={setCampaign}
+          />
+        </>
       )}
+
+      <TerritoryNoteField kind="assignment" value={note} onChange={setNote} />
 
       <DialogActions>
         <Button variant="secondary" onClick={onClose}>

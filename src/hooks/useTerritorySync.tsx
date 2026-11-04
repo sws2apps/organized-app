@@ -1,3 +1,4 @@
+import { territoryCampaignSnapshotState } from '@states/territory_campaign_progress';
 import {
   TERRITORY_SYNC_REFRESH_INTERVAL,
   TERRITORY_SYNC_DEBOUNCE,
@@ -22,6 +23,14 @@ const useTerritorySync = () => {
   const enabled = useAtomValue(congDataSyncState);
   const online = useAtomValue(isOnlineState);
   const state = useLiveQuery(dbTerritorySyncGet);
+  const setCampaignProgress = useSetAtom(territoryCampaignSnapshotState);
+  useEffect(() => {
+    setCampaignProgress(
+      state?.campaignProgress
+        ? { scope: state.scope, progress: state.campaignProgress }
+        : undefined
+    );
+  }, [state, setCampaignProgress]);
   const setPending = useSetAtom(territorySyncPendingState);
   useEffect(() => {
     setSettings(DEFAULT_TERRITORY_SHARED_SETTINGS);
