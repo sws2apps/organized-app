@@ -34,10 +34,8 @@ import { LANGUAGE_LIST } from '@constants/index';
 import { dbMetadataDefault } from '@services/dexie/metadata';
 import {
   dbAppSettingsCreatePublishersSort,
-  dbAppSettingsGet,
   dbAppSettingsUpdate,
   dbAppSettingsUpdateCongNumber,
-  dbAppSettingsUpdateWithoutNotice,
   dbConvertAutoAssignPrayers,
 } from '@services/dexie/settings';
 import { dbRemoveDuplicateReports } from '@services/dexie/cong_field_service_reports';
@@ -168,22 +166,6 @@ const convertBrowserLanguage = () => {
   return found;
 };
 
-const setSourceLanguageDefault = async (lang: string) => {
-  const settings = await dbAppSettingsGet();
-
-  const sourceLanguages = structuredClone(
-    settings.cong_settings.source_material.language
-  );
-
-  const main = sourceLanguages.find((record) => record.type === 'main');
-  main.value = lang.toUpperCase();
-  main.updatedAt = new Date().toISOString();
-
-  await dbAppSettingsUpdateWithoutNotice({
-    'cong_settings.source_material.language': sourceLanguages,
-  });
-};
-
 export const getAppLang = () => {
   let appLang = localStorage?.getItem('ui_lang');
 
@@ -192,9 +174,6 @@ export const getAppLang = () => {
 
     if (browserLang) {
       appLang = browserLang.threeLettersCode;
-
-      // settings source language
-      setSourceLanguageDefault(browserLang.code);
     }
 
     if (!browserLang) {
