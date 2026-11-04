@@ -13,3 +13,8 @@ export { default as useKeyboardShortcut } from './useKeyboardShortcut';
 export { default as useAppTheme } from './useAppTheme';
 export { default as usePwaInstall } from './usePwaInstall';
 export { usePwaInstallListener } from './usePwaInstall';
+export { default as useSubpane } from './useSubpane';
+export {
+  default as useUpNavigation,
+  useNavigationTrail,
+} from './useUpNavigation';

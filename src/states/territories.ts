@@ -51,7 +51,7 @@ export const territoriesState = atom(
     set,
     update: Territory[] | ((previous: Territory[]) => Territory[])
   ) => {
-    if (get(territoryLoadedViewState) !== get(userDataViewState)) return;
+    if (get(territoryLoadedViewState) !== get(userDataViewState)) return false;
     const previous = get(territoriesDbState);
     const next = typeof update === 'function' ? update(previous) : update;
     const dataView = get(userDataViewState);
@@ -59,6 +59,7 @@ export const territoriesState = atom(
     set(territoriesDbState, next);
     try {
       await saveTerritoryChanges(previous, next, dataView);
+      return true;
     } catch (error) {
       if (get(territoriesDbState) === next) set(territoriesDbState, previous);
       displaySnackNotification({
@@ -71,6 +72,7 @@ export const territoriesState = atom(
               })
             : getTranslation({ key: 'tr_territorySaveFailed' }),
       });
+      return false;
     } finally {
       set(territoryWritesPendingState, (count) => count - 1);
     }

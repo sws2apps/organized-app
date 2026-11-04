@@ -42,6 +42,10 @@ export type AutocompletePropsType<T> = Omit<
 
   optionsHeader?: ReactNode;
 
+  placeholder?: string;
+
+  autoFocus?: boolean;
+
   styleIcon?: boolean;
 
   decorator?: boolean;
