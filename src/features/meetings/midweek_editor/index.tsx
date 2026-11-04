@@ -84,6 +84,7 @@ const MidweekEditor = () => {
     handleChangeWeekBack,
     handleChangeWeekNext,
     showWeekArrows,
+    isCurrentWeek,
     assignFSG,
     closingPrayerLinked,
     openingPrayerLinked,
@@ -125,6 +126,8 @@ const MidweekEditor = () => {
         >
           <DateNavigator
             value={weekDateLocale}
+            badgeText={t('tr_today')}
+            badgeVisible={isCurrentWeek}
             onBack={handleChangeWeekBack}
             onNext={handleChangeWeekNext}
             disableBack={!showWeekArrows.back}

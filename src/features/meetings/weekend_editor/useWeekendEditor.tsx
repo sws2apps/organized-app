@@ -35,8 +35,12 @@ const useWeekendEditor = () => {
     weekendSongSelectorOpenState
   );
 
-  const { handleChangeWeekBack, handleChangeWeekNext, showWeekArrows } =
-    useWeekNavigation(selectedWeek, setSelectedWeek);
+  const {
+    handleChangeWeekBack,
+    handleChangeWeekNext,
+    showWeekArrows,
+    isCurrentWeek,
+  } = useWeekNavigation(selectedWeek, setSelectedWeek);
 
   const [state, setState] = useState({
     openPublicTalk: true,
@@ -180,6 +184,7 @@ const useWeekendEditor = () => {
     handleChangeWeekBack,
     handleChangeWeekNext,
     showWeekArrows,
+    isCurrentWeek,
   };
 };
 

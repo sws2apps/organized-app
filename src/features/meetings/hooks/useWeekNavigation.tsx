@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { sourcesFormattedState } from '@states/sources';
+import { formatDate, getWeekDate } from '@utils/date';
 
 const useWeekNavigation = (
   selectedWeek: string,
@@ -32,7 +33,7 @@ const useWeekNavigation = (
     const allWeeks = getAllWeeks();
     const selectedWeekIndex = allWeeks.indexOf(selectedWeek);
 
-    if (selectedWeekIndex < allWeeks.length - 1) {
+    if (selectedWeekIndex >= 0 && selectedWeekIndex < allWeeks.length - 1) {
       setSelectedWeek(allWeeks[selectedWeekIndex + 1]);
     }
   }, [getAllWeeks, selectedWeek, setSelectedWeek]);
@@ -41,15 +42,18 @@ const useWeekNavigation = (
     const allWeeks = getAllWeeks();
     const selectedWeekIndex = allWeeks.indexOf(selectedWeek);
 
-    if (selectedWeekIndex !== -1) {
-      setShowWeekArrows({
-        back: selectedWeekIndex !== 0,
-        next: selectedWeekIndex + 1 !== allWeeks.length,
-      });
-    }
+    setShowWeekArrows({
+      back: selectedWeekIndex > 0,
+      next: selectedWeekIndex >= 0 && selectedWeekIndex < allWeeks.length - 1,
+    });
   }, [getAllWeeks, selectedWeek]);
 
-  return { showWeekArrows, handleChangeWeekBack, handleChangeWeekNext };
+  return {
+    showWeekArrows,
+    handleChangeWeekBack,
+    handleChangeWeekNext,
+    isCurrentWeek: selectedWeek === formatDate(getWeekDate(), 'yyyy/MM/dd'),
+  };
 };
 
 export default useWeekNavigation;

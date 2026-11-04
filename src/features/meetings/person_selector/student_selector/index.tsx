@@ -74,6 +74,7 @@ const StudentSelector = (props: PersonSelectorType) => {
       )}
 
       <AutoComplete
+        height={44}
         readOnly={props.readOnly}
         fullWidth={true}
         label={props.label}
@@ -325,9 +326,6 @@ const StudentSelector = (props: PersonSelectorType) => {
         decoratorColor={isMeetingConflict ? 'var(--red-main)' : undefined}
         clearIcon={<IconClose width={20} height={20} />}
         sx={{
-          '& .MuiOutlinedInput-root': {
-            height: '44px !important',
-          },
           '& .MuiOutlinedInput-input': {
             paddingRight: '80px !important',
           },

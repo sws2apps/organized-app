@@ -1,9 +1,9 @@
-import { MeetingType } from '@definition/app';
+import { ScheduleMeetingType } from '@definition/app';
 
 export type SchedulePublishProps = {
   open: boolean;
   onClose: VoidFunction;
-  type: MeetingType;
+  type: ScheduleMeetingType;
 };
 
 export type YearGroupType = {
