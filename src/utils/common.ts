@@ -388,3 +388,22 @@ export const updatedAtOverride = <T extends object>(object: T): T => {
 
   return object;
 };
+
+/**
+ * Turns text written entirely in capitals into word case ("ISAIAH 1-2" to
+ * "Isaiah 1-2"). Text already in mixed case is returned unchanged.
+ *
+ * Pass the locale of the text itself, not the device's, since casing rules
+ * differ between languages (Turkish maps "I" to a dotless "ı").
+ */
+export const normalizeAllCaps = (value: string, locale?: string) => {
+  if (value !== value.toLocaleUpperCase(locale)) return value;
+
+  return value
+    .toLocaleLowerCase(locale)
+    .replace(
+      /(^|\s)(\p{L})/gu,
+      (_, space: string, letter: string) =>
+        `${space}${letter.toLocaleUpperCase(locale)}`
+    );
+};

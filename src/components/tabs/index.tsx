@@ -53,6 +53,7 @@ const Tabs = ({
   showTabs = true,
   // the plain look is what every caller renders today; a chip is opt-in
   appearance = 'plain',
+  divider = false,
 }: CustomTabProps) => {
   const [valueOfActivePanel, setValueOfActivePanel] = useState(value || 0);
   const { tabletDown } = useBreakpoints();
@@ -83,6 +84,17 @@ const Tabs = ({
           alignItems: tabletDown ? 'stretch' : 'center',
           flexDirection: tabletDown ? 'column' : 'row',
           rowGap: tabletDown ? '16px' : '0px',
+          ...(divider && {
+            borderBottom: '1px solid var(--accent-200)',
+            '& .MuiTabs-root': {
+              alignSelf: tabletDown ? 'stretch' : 'flex-end',
+            },
+            // on small screens the action moves above, so the divider stays under the tabs
+            '& > :not(.MuiTabs-root)': {
+              order: tabletDown ? -1 : 0,
+              marginBottom: tabletDown ? 0 : '4px',
+            },
+          }),
         }}
       >
         {showTabs && (
