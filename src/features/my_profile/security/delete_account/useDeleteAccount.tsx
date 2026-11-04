@@ -12,6 +12,7 @@ import {
 import { userSignOut } from '@services/firebase/auth';
 import { handleDeleteDatabase } from '@services/app';
 import { apiPocketDelete } from '@services/api/pocket';
+import { congregationSettingsTabPath } from '@features/congregation/settings/settings_sidebar/index.types';
 
 const useDeleteAccount = (closeDialog: VoidFunction) => {
   const { t } = useAppTranslation();
@@ -83,7 +84,7 @@ const useDeleteAccount = (closeDialog: VoidFunction) => {
 
   const handleOpenManageAccess = () => {
     closeDialog();
-    navigate('/manage-access');
+    navigate(congregationSettingsTabPath('user-accounts'));
   };
 
   useEffect(() => {

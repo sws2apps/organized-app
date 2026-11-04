@@ -3,10 +3,9 @@ import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { displaySnackNotification } from '@services/states/app';
 import { settingsState } from '@states/settings';
-import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { GroupDeleteProps } from './index.types';
 import { languageGroupsState } from '@states/field_service_groups';
-import { dbFieldServiceGroupSave } from '@services/dexie/field_service_groups';
+import { fieldGroupsSaveWithSettings } from '@services/app/field_service_groups';
 import { settingSchema } from '@services/dexie/schema';
 
 const useGroupDelete = ({ group }: GroupDeleteProps) => {
@@ -225,7 +224,7 @@ const useGroupDelete = ({ group }: GroupDeleteProps) => {
         findSongs.updatedAt = new Date().toISOString();
       }
 
-      await dbAppSettingsUpdate({
+      await fieldGroupsSaveWithSettings(findGroup, {
         'cong_settings.source_material.language': sourceLanguages,
         'cong_settings.cong_circuit': circuits,
         'cong_settings.display_name_enabled': displayName,
@@ -240,8 +239,6 @@ const useGroupDelete = ({ group }: GroupDeleteProps) => {
         'cong_settings.midweek_meeting': midweekMeeting,
         'cong_settings.weekend_meeting': weekendMeeting,
       });
-
-      await dbFieldServiceGroupSave(findGroup);
 
       setIsProcessing(false);
     } catch (error) {

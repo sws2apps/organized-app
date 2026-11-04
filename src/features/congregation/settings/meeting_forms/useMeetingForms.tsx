@@ -6,7 +6,8 @@ import {
   sourcesJWAutoImportState,
 } from '@states/settings';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
-import { SourceFrequency } from '@definition/settings';
+import { SettingsType, SourceFrequency } from '@definition/settings';
+import { UpdateSpec } from 'dexie';
 
 const useMeetingForms = () => {
   const settings = useAtomValue(settingsState);
@@ -19,30 +20,33 @@ const useMeetingForms = () => {
   );
 
   const handleSourceAutoUpdateToggle = async () => {
-    const sourceAutoUpdateEnable = structuredClone(
+    const enabled = structuredClone(
       settings.cong_settings.source_material.auto_import.enabled
     );
 
-    sourceAutoUpdateEnable.value = !sourceAutoUpdate;
-    sourceAutoUpdateEnable.updatedAt = new Date().toISOString();
+    enabled.value = !sourceAutoUpdate;
+    enabled.updatedAt = new Date().toISOString();
 
+    // Dexie supports dot-path keys at runtime but UpdateSpec can't type them
+    // for deeply nested non-array fields. A targeted Record cast is safer than
+    // overwriting the entire source_material object (which risks clobbering
+    // concurrent changes to sibling fields like `language`).
     await dbAppSettingsUpdate({
-      'cong_settings.source_material.auto_import.enabled':
-        sourceAutoUpdateEnable,
-    });
+      'cong_settings.source_material.auto_import.enabled': enabled,
+    } as UpdateSpec<SettingsType>);
   };
 
   const handleSourceUpdateFrequencyChange = async (value: SourceFrequency) => {
-    const updateFrequency = structuredClone(
+    const frequency = structuredClone(
       settings.cong_settings.source_material.auto_import.frequency
     );
 
-    updateFrequency.value = value;
-    updateFrequency.updatedAt = new Date().toISOString();
+    frequency.value = value;
+    frequency.updatedAt = new Date().toISOString();
 
     await dbAppSettingsUpdate({
-      'cong_settings.source_material.auto_import.frequency': updateFrequency,
-    });
+      'cong_settings.source_material.auto_import.frequency': frequency,
+    } as UpdateSpec<SettingsType>);
   };
 
   useEffect(() => {

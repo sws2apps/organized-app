@@ -11,7 +11,6 @@ import {
   useFirebaseAuth,
 } from '@hooks/index';
 import { getMessageByCode } from '@services/i18n/translation';
-import { adminRoleState } from '@states/settings';
 import { joinRequestsCountState } from '@states/congregation';
 import { dbMetadataReset } from '@services/dexie/metadata';
 import worker from '@services/worker/backupWorker';
@@ -26,7 +25,6 @@ const useCongregation = () => {
   const isSyncing = useAtomValue(isAppDataSyncingState);
   const lastSync = useAtomValue(lastAppDataSyncState);
   const isConnected = useAtomValue(congAccountConnectedState);
-  const isUserAdmin = useAtomValue(adminRoleState);
   const joinRequestsCount = useAtomValue(joinRequestsCountState);
 
   const requests_count = useMemo(() => {
@@ -115,7 +113,6 @@ const useCongregation = () => {
     secondaryText: getSecondaryText(),
     handleManualSync,
     isConnected,
-    isUserAdmin,
     requests_count,
   };
 };
