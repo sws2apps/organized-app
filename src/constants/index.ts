@@ -1147,3 +1147,24 @@ export const EASING = {
   expoOut: 'cubic-bezier(0.16, 1, 0.3, 1)',
   easeIn: 'cubic-bezier(0.55, 0, 1, 0.45)',
 };
+
+export const GITHUB_RELEASES_URL =
+  'https://github.com/sws2apps/organized-app/releases';
+
+export const RELEASE_NOTES_MAX = 10;
+
+export const RELEASE_NOTES_VERSIONS: Record<
+  string,
+  { version: string; date: string }
+> = {
+  '2026-10-01T00:00': { version: '3.40.0', date: '2026/09/19' },
+  '2026-09-01T00:00': { version: '3.39.0', date: '2026/09/10' },
+  '2026-07-01T00:00': { version: '3.38.0', date: '2026/07/03' },
+  '2026-01-20T00:00': { version: '3.36.0', date: '2026/02/08' },
+  '2026-01-06T00:00': { version: '3.35.0', date: '2026/01/18' },
+  '2025-07-17T00:00': { version: '3.32.0', date: '2025/07/29' },
+  '2025-03-09T00:00': { version: '3.17.0', date: '2025/03/16' },
+  '2025-02-26T00:00': { version: '3.16.0', date: '2025/03/02' },
+  '2025-02-04T00:00': { version: '3.11.0', date: '2025/02/03' },
+  '2025-02-02T00:00': { version: '3.10.0', date: '2025/02/02' },
+};
