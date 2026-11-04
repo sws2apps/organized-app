@@ -38,6 +38,7 @@ export type ButtonPropsType = {
    * Variant style of the button.
    */
   variant?:
+    | 'soft'
     | 'main'
     | 'secondary'
     | 'tertiary'
