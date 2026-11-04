@@ -14,6 +14,7 @@ import { userBibleStudiesState } from '@states/user_bible_studies';
 import { personsActiveState } from '@states/persons';
 import { AssignmentCode } from '@definition/assignment';
 import { branchFieldReportsState } from '@states/branch_field_service_reports';
+import { isCongReportLocked } from '@services/dexie/cong_field_service_reports';
 import usePerson from '@features/persons/hooks/usePerson';
 import { currentReportMonth } from '@utils/date';
 
@@ -215,13 +216,16 @@ const useMinistryMonthlyRecord = ({
 
     if (!branchReport) return false;
 
-    const isLate =
-      congReport?.report_data.late.value &&
-      congReport?.report_data.late.submitted.length === 0;
-
-    if (isLate) return false;
-
-    return branchReport.report_data.submitted;
+    // Same submitted-month gate as the publisher record editors: reports
+    // marked with the stored override stay editable without the late
+    // workflow. The mark is set when the backfill is saved into a submitted
+    // month, so the live record can be judged directly.
+    return isCongReportLocked(
+      congReport,
+      branchReport.report_data.submitted,
+      congReport?.report_data.late,
+      congReport?.report_data.lock_override
+    );
   }, [
     publisher,
     branchReport,
