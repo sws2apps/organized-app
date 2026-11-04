@@ -6,13 +6,8 @@ import {
   TreeItemProps,
   TreeItemSlotProps,
 } from '@mui/x-tree-view';
-import {
-  IconCheckboxEmpty,
-  IconCheckboxFilled,
-  IconCheckboxMultiple,
-  IconCollapse,
-  IconExpand,
-} from '@components/icons';
+import { IconCollapse, IconExpand } from '@components/icons';
+import CheckMark from '@components/checkbox/check_mark';
 
 const CustomTreeItem = forwardRef(function CustomTreeItem(
   props: TreeItemProps,
@@ -30,11 +25,9 @@ const CustomTreeItem = forwardRef(function CustomTreeItem(
         {
           checkbox: {
             size: 'small',
-            icon: <IconCheckboxEmpty color={'var(--accent-350)'} />,
-            checkedIcon: <IconCheckboxFilled color={'var(--accent-main)'} />,
-            indeterminateIcon: (
-              <IconCheckboxMultiple color={'var(--accent-main)'} />
-            ),
+            icon: <CheckMark state="unchecked" />,
+            checkedIcon: <CheckMark state="checked" />,
+            indeterminateIcon: <CheckMark state="indeterminate" />,
           },
           label: {
             className:
