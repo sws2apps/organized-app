@@ -1,9 +1,6 @@
 import { UpdateSpec } from 'dexie';
 import { store } from '@states/index';
 import {
-  CODisplayNameState,
-  COFullnameState,
-  COScheduleNameState,
   displayNameMeetingsEnableState,
   fullnameOptionState,
   midweekMeetingAuxCounselorDefaultEnabledState,
@@ -113,6 +110,7 @@ import {
 } from '@services/i18n/translation';
 import { songsLocaleState } from '@states/songs';
 import { SettingsType } from '@definition/settings';
+import { circuitOverseerNamesGet } from '@utils/circuit_overseer_visit';
 
 export const schedulesWeekAssignmentsInfo = (
   week: string,
@@ -152,7 +150,11 @@ export const schedulesMidweekInfo = (week: string) => {
   const dataView = store.get(userDataViewState);
   const lang = store.get(JWLangState);
   const sourceLocale = store.get(JWLangLocaleState);
-  const coName = store.get(COFullnameState);
+  const coName = circuitOverseerNamesGet(
+    store.get(settingsState),
+    week,
+    store.get(fullnameOptionState)
+  ).fullname;
 
   const source = sources.find((record) => record.weekOf === week);
   if (!source) return { total: 0, assigned: 0 };
@@ -606,7 +608,11 @@ export const schedulesWeekendInfo = (week: string) => {
 
   const schedules = store.get(schedulesState);
   const dataView = store.get(userDataViewState);
-  const coName = store.get(COFullnameState);
+  const coName = circuitOverseerNamesGet(
+    store.get(settingsState),
+    week,
+    store.get(fullnameOptionState)
+  ).fullname;
 
   const schedule = schedules.find((record) => record.weekOf === week)!;
 
@@ -2445,11 +2451,14 @@ export const schedulesMidweekData = (
   }
 
   if (week_type === Week.CO_VISIT) {
-    const COFullname = store.get(COFullnameState);
-    const CODisplayName = store.get(CODisplayNameState);
+    const coNames = circuitOverseerNamesGet(
+      store.get(settingsState),
+      schedule.weekOf,
+      store.get(fullnameOptionState)
+    );
 
     result.lc_co_talk = source.midweek_meeting.co_talk_title.src;
-    result.co_name = useDisplayName ? CODisplayName : COFullname;
+    result.co_name = useDisplayName ? coNames.displayName : coNames.fullname;
   }
 
   const concluding_song = sourcesSongConclude({
@@ -2730,8 +2739,16 @@ export const schedulesWeekendData = (
       assignment: 'WM_CircuitOverseer',
     });
 
-    if (result.co_name?.length === 0) {
-      result.co_name = store.get(COScheduleNameState);
+    if (!result.co_name) {
+      const coNames = circuitOverseerNamesGet(
+        store.get(settingsState),
+        schedule.weekOf,
+        store.get(fullnameOptionState)
+      );
+
+      result.co_name = store.get(displayNameMeetingsEnableState)
+        ? coNames.displayName
+        : coNames.fullname;
     }
 
     result.public_talk_title = source.weekend_meeting.co_talk_title.public.src;

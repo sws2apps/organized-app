@@ -1,4 +1,6 @@
 import { cloneElement, Fragment } from 'react';
+import { useNavigate } from 'react-router';
+import { useAtomValue } from 'jotai';
 import { Box, IconButton } from '@mui/material';
 import { IconEdit } from '@components/icons';
 import {
@@ -17,12 +19,20 @@ import EditUpcomingEvent from '../edit_upcoming_event';
 import AddToCalendar from '../add_to_calendar';
 import Typography from '@components/typography';
 import UpcomingEventDate from '../upcoming_event_date';
+import { circuitOverseerVisitsState } from '@states/circuit_overseer_visit';
 
 const UpcomingEvent = (props: UpcomingEventProps) => {
   const { t } = useAppTranslation();
 
+  const navigate = useNavigate();
+
   const { isAdmin } = useCurrentUser();
   const { desktopUp, tabletUp, tablet600Up } = useBreakpoints();
+
+  const visits = useAtomValue(circuitOverseerVisitsState);
+
+  // visit weeks are edited in the circuit overseer visit schedule
+  const isVisit = visits.some((visit) => visit.id === props.data.event_uid);
 
   const {
     eventDecoration,
@@ -129,7 +139,17 @@ const UpcomingEvent = (props: UpcomingEventProps) => {
             </Box>
 
             {isAdmin && (!desktopUp || showEditIcon) && (
-              <IconButton sx={{ padding: 0 }} onClick={handleTurnEditMode}>
+              <IconButton
+                sx={{ padding: 0 }}
+                onClick={
+                  isVisit
+                    ? () =>
+                        navigate(
+                          `/activities/circuit-overseer-visit?visit=${props.data.event_uid}`
+                        )
+                    : handleTurnEditMode
+                }
+              >
                 <IconEdit color="var(--accent-main)" />
               </IconButton>
             )}

@@ -82,6 +82,7 @@ const Dialog = ({
   sx,
   PaperProps,
   header,
+  headerAction,
   actions,
   title,
   description,
@@ -139,7 +140,7 @@ const Dialog = ({
   }
 
   // the close button belongs to the row whichever way the header is built
-  const titleRow = (header || title || closable) && (
+  const titleRow = (header || title || closable || headerAction) && (
     <Box
       sx={{
         display: 'flex',
@@ -151,6 +152,10 @@ const Dialog = ({
       }}
     >
       {heading}
+
+      {headerAction && (
+        <Box sx={{ marginLeft: 'auto', flexShrink: 0 }}>{headerAction}</Box>
+      )}
 
       {closable && (
         <IconButton

@@ -130,50 +130,12 @@ export const eventsMultiDayDisplayState = atom((get) => {
   );
 });
 
-export const COFirstnameState = atom((get) => {
-  const settings = get(settingsState);
-
-  return settings.cong_settings.circuit_overseer.firstname.value;
-});
-
-export const COLastnameState = atom((get) => {
-  const settings = get(settingsState);
-
-  return settings.cong_settings.circuit_overseer.lastname.value;
-});
-
-export const CODisplayNameState = atom((get) => {
-  const settings = get(settingsState);
-
-  return settings.cong_settings.circuit_overseer.display_name.value;
-});
-
 export const COMidweekMeetingDayState = atom((get) => {
   const settings = get(settingsState);
 
   return (
     settings.cong_settings.circuit_overseer.midweek_meeting_day?.value ?? 1
   );
-});
-
-export const COFullnameState = atom((get) => {
-  const firstname = get(COFirstnameState);
-  const lastname = get(COLastnameState);
-  const fullnameOption = get(fullnameOptionState);
-
-  const fullname = buildPersonFullname(lastname, firstname, fullnameOption);
-
-  return fullname;
-});
-
-export const COScheduleNameState = atom((get) => {
-  const fullname = get(COFullnameState);
-  const displayName = get(CODisplayNameState);
-  const useDisplayName = get(displayNameMeetingsEnableState);
-
-  const scheduleName = useDisplayName ? displayName : fullname;
-
-  return scheduleName;
 });
 
 export const secretaryRoleState = atom((get) => {

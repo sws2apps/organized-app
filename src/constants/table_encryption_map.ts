@@ -240,4 +240,8 @@ export const TABLE_ENCRYPTION_MAP = {
     updatedAt: 'shared',
     event_data: 'shared',
   },
+  circuit_overseer_events: {
+    event_uid: 'public',
+    event_data: 'shared',
+  },
 };

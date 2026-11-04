@@ -5,8 +5,6 @@ import { schedulesState } from '@states/schedules';
 import { ASSIGNMENT_PATH } from '@constants/index';
 import { schedulesGetData } from '@services/app/schedules';
 import {
-  CODisplayNameState,
-  COFullnameState,
   displayNameMeetingsEnableState,
   fullnameOptionState,
   settingsState,
@@ -17,6 +15,7 @@ import { personsState } from '@states/persons';
 import { personGetDisplayName, speakerGetDetails } from '@utils/common';
 import { incomingSpeakersState } from '@states/visiting_speakers';
 import { speakersCongregationsState } from '@states/speakers_congregations';
+import { circuitOverseerNamesGet } from '@utils/circuit_overseer_visit';
 
 const usePersonComponent = ({
   week,
@@ -29,11 +28,14 @@ const usePersonComponent = ({
   const displayNameEnabled = useAtomValue(displayNameMeetingsEnableState);
   const fullnameOption = useAtomValue(fullnameOptionState);
   const userUID = useAtomValue(userLocalUIDState);
-  const coDisplayName = useAtomValue(CODisplayNameState);
-  const coFullname = useAtomValue(COFullnameState);
   const incomingSpeakers = useAtomValue(incomingSpeakersState);
   const congregations = useAtomValue(speakersCongregationsState);
   const settings = useAtomValue(settingsState);
+
+  const { displayName: coDisplayName, fullname: coFullname } = useMemo(
+    () => circuitOverseerNamesGet(settings, week, fullnameOption),
+    [settings, week, fullnameOption]
+  );
 
   const mmAuxCounselorDefaultEnabled = useMemo(() => {
     return (
