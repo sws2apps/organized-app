@@ -26,10 +26,20 @@ import {
   bg,
   he,
 } from 'date-fns/locale';
-import { AppRoleType, LanguageItem } from '@definition/app';
+import { AppRoleType, ColorSchemeType, LanguageItem } from '@definition/app';
 import { AssignmentCode } from '@definition/assignment';
 import { FullnameOption } from '@definition/settings';
 import { Week } from '@definition/week_type';
+
+export const COLOR_SCHEMES: ColorSchemeType[] = [
+  'blue',
+  'green',
+  'purple',
+  'orange',
+  'teal',
+  'rose',
+  'slate',
+];
 
 export const LANGUAGE_LIST: LanguageItem[] = [
   {

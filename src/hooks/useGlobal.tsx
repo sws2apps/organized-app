@@ -2,16 +2,28 @@ import { useEffect, useState } from 'react';
 import { createTheme } from '@mui/material/styles';
 import { useAtomValue } from 'jotai';
 import {
+  appLangState,
   appSnackOpenState,
+  colorSchemeState,
   congAccountConnectedState,
   isDarkThemeState,
 } from '@states/app';
+import { store } from '@states/index';
 import { disconnectCongAccount, setIsOnline } from '@services/states/app';
 import {
+  accountAppLanguageState,
+  accountColorSchemeState,
   adminRoleState,
   coordinatorRoleState,
   secretaryRoleState,
 } from '@states/settings';
+import {
+  accountAppearanceSave,
+  appColorSchemeApply,
+  appLanguageApply,
+  isAppLanguage,
+  isColorScheme,
+} from '@services/app/appearance';
 import logger from '@services/logger/index';
 import useInternetChecker from '@hooks/useInternetChecker';
 
@@ -29,6 +41,8 @@ const useGlobal = () => {
   const coordinatorRole = useAtomValue(coordinatorRoleState);
   const secretaryRole = useAtomValue(secretaryRoleState);
   const isCongAccountConnected = useAtomValue(congAccountConnectedState);
+  const accountLanguage = useAtomValue(accountAppLanguageState);
+  const accountColorScheme = useAtomValue(accountColorSchemeState);
 
   const [activeTheme, setActiveTheme] = useState(darkTheme);
   const [isLoading, setIsLoading] = useState(true);
@@ -41,6 +55,30 @@ const useGlobal = () => {
       disconnectCongAccount();
     }
   }, [isNavigatorOnline]);
+
+  useEffect(() => {
+    if (accountLanguage === '') {
+      accountAppearanceSave('app_language', store.get(appLangState), '');
+      return;
+    }
+
+    if (!isAppLanguage(accountLanguage)) return;
+    if (accountLanguage === store.get(appLangState)) return;
+
+    appLanguageApply(accountLanguage);
+  }, [accountLanguage]);
+
+  useEffect(() => {
+    if (accountColorScheme === '') {
+      accountAppearanceSave('color_scheme', store.get(colorSchemeState), '');
+      return;
+    }
+
+    if (!isColorScheme(accountColorScheme)) return;
+    if (accountColorScheme === store.get(colorSchemeState)) return;
+
+    appColorSchemeApply(accountColorScheme);
+  }, [accountColorScheme]);
 
   useEffect(() => {
     if (isLight) {
