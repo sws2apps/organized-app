@@ -1,0 +1,109 @@
+import { MapColor, MapStyle, PinType } from '@definition/territory';
+
+// Map context outside the territory boundary, as a fraction of each dimension.
+export const MAP_EXPORT_PADDING = 0.06;
+
+/**
+ * Basemaps that cost nothing and need no API key, so a congregation can open
+ * the map without signing up anywhere. All of them serve vector tiles, which
+ * keeps the download small and lets the style follow the app theme.
+ *
+ * - openfreemap: unlimited and free forever, fully self-hostable; the default
+ * - versatiles: community hosted, ships a dark style of its own
+ */
+export const MAP_PROVIDERS = {
+  openfreemap: {
+    name: 'OpenFreeMap',
+    // the clearest contrast of the free light styles: real colours for streets, water and parks
+    light: 'https://tiles.openfreemap.org/styles/liberty',
+    dark: 'https://tiles.openfreemap.org/styles/dark',
+    // a label can only use fonts the provider's glyph server has; no medium
+    // weight on this one, and bold reads too heavy for numbers
+    fonts: {
+      regular: ['Noto Sans Regular'],
+      bold: ['Noto Sans Bold'],
+      number: ['Noto Sans Regular'],
+    },
+  },
+  versatiles: {
+    name: 'VersaTiles',
+    light: 'https://tiles.versatiles.org/assets/styles/graybeard/style.json',
+    dark: 'https://tiles.versatiles.org/assets/styles/eclipse/style.json',
+    fonts: {
+      regular: ['noto_sans_regular'],
+      bold: ['noto_sans_bold'],
+      number: ['noto_sans_regular'],
+    },
+  },
+} as const;
+
+export type MapProviderKey = keyof typeof MAP_PROVIDERS;
+
+export const DEFAULT_PROVIDER: MapProviderKey = 'openfreemap';
+
+export const MAP_PROVIDER = MAP_PROVIDERS[DEFAULT_PROVIDER];
+
+export const styleUrl = (provider: MapProviderKey, isDark: boolean) => {
+  const styles = MAP_PROVIDERS[provider];
+
+  return isDark ? styles.dark : styles.light;
+};
+
+export { MAP_CENTER as DEFAULT_CENTER } from '@features/territories/mockData';
+export const DEFAULT_ZOOM = 13;
+
+export const SOURCE_ID = 'territories';
+export const FILL_LAYER = 'territories-fill';
+export const HOVER_LAYER = 'territories-hover';
+export const LINE_LAYER = 'territories-line';
+export const LABEL_LAYER = 'territories-label';
+export const LABEL_CAPTION_LAYER = 'territories-label-caption';
+export const LABELS_SOURCE = 'territories-labels';
+
+export const CONGREGATION_SOURCE = 'congregation-boundary';
+export const CONGREGATION_FILL_LAYER = 'congregation-boundary-fill';
+export const CONGREGATION_LINE_LAYER = 'congregation-boundary-line';
+export const CONGREGATION_VEIL_LAYER = 'congregation-boundary-veil';
+export const CONGREGATION_HIT_LAYER = 'congregation-boundary-hit';
+
+// drawings get printed, so they keep a fixed palette instead of the theme
+export const MAP_COLORS: Record<MapColor, string> = {
+  red: '#D93A3A',
+  blue: '#3B6FD8',
+  green: '#3FA34D',
+  orange: '#E8912D',
+  purple: '#8E5BD6',
+  black: '#222222',
+};
+
+// a border drawn before colors could be picked
+export const DEFAULT_BOUNDARY_STYLE: MapStyle = {
+  border: 'blue',
+  fill: 'blue',
+};
+
+export const MAP_COLOR_LABEL: Record<MapColor, string> = {
+  red: 'tr_territoryRed',
+  blue: 'tr_blue',
+  green: 'tr_green',
+  orange: 'tr_orange',
+  purple: 'tr_purple',
+  black: 'tr_territoryBlack',
+};
+
+export const PIN_TYPES: { id: PinType; label: string }[] = [
+  { id: 'normal', label: 'tr_territoryPin' },
+  { id: 'parking', label: 'tr_territoryParking' },
+  { id: 'restaurant', label: 'tr_territoryFood' },
+  { id: 'transport', label: 'tr_timerLabelStop' },
+  { id: 'shop', label: 'tr_territoryShopping' },
+  { id: 'nature', label: 'tr_territoryNature' },
+  { id: 'gas', label: 'tr_territoryFuel' },
+  { id: 'sight', label: 'tr_territorySight' },
+  { id: 'building', label: 'tr_territoryBuilding' },
+  { id: 'school', label: 'tr_territorySchool' },
+  { id: 'cart', label: 'tr_territoryCart' },
+];
+
+export const pinLabel = (type?: PinType) =>
+  PIN_TYPES.find((item) => item.id === type)?.label ?? 'tr_territoryPin';

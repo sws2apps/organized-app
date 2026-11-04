@@ -2,7 +2,7 @@ name: Lint Check
 
 on:
   pull_request:
-    branches: [main]
+    branches: [main, 'feat_territory_*']
 
 permissions:
   contents: read
@@ -28,3 +28,9 @@ jobs:
 
       - name: Check lint
         run: npm run lint
+
+      - name: Check territory regressions
+        run: npm run test:territories
+
+      - name: Build application
+        run: npm run build

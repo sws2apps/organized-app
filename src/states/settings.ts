@@ -130,6 +130,21 @@ export const eventsMultiDayDisplayState = atom((get) => {
   );
 });
 
+export const territoryAccessState = atom(
+  (get) => get(settingsState).cong_settings.territory_access?.value ?? 'request'
+);
+
+export const territoryRestrictedCategoriesState = atom(
+  (get) =>
+    get(settingsState).cong_settings.territory_restricted_categories?.value ??
+    []
+);
+
+export const territoryRestrictedTypesState = atom(
+  (get) =>
+    get(settingsState).cong_settings.territory_restricted_types?.value ?? []
+);
+
 export const COFirstnameState = atom((get) => {
   const settings = get(settingsState);
 

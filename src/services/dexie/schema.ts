@@ -274,6 +274,9 @@ export const settingSchema: SettingsType = {
     ],
     cong_discoverable: { value: false, updatedAt: '' },
     time_away_public: { value: false, updatedAt: '' },
+    territory_access: { value: 'request', updatedAt: '' },
+    territory_restricted_categories: { value: [], updatedAt: '' },
+    territory_restricted_types: { value: [], updatedAt: '' },
     format_24h_enabled: [
       { type: 'main', value: true, updatedAt: '', _deleted: false },
     ],
