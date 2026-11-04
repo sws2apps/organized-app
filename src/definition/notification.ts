@@ -4,7 +4,8 @@ export type NotificationIconType =
   | 'standard'
   | 'talk'
   | 'reports'
-  | 'join-requests';
+  | 'join-requests'
+  | 'ministry';
 
 export type NotificationDbRecordType = {
   id: number;

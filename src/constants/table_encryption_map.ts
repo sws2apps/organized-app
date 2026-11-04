@@ -240,4 +240,19 @@ export const TABLE_ENCRYPTION_MAP = {
     updatedAt: 'shared',
     event_data: 'shared',
   },
+  // the partner API authorizes and expires requests on the public fields
+  preaching_partner_requests: {
+    request_uid: 'public',
+    person_uid: 'public',
+    partner_uid: 'public',
+    date: 'public',
+    arranged_at: 'public',
+    updatedAt: 'public',
+    _deleted: 'public',
+    flexible: 'shared',
+    start: 'shared',
+    end: 'shared',
+    type: 'shared',
+    comment: 'shared',
+  },
 };

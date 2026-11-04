@@ -1,7 +1,11 @@
+import { partnerDemoMode } from '@constants/index';
+import { useAtomValue } from 'jotai';
+import { partnerConnectionState } from '@states/preaching_partner';
 import { ListItem } from '@mui/material';
 import {
   IconMinistryReport,
   IconPioneerForm,
+  IconRaiseHand,
   IconStatsYear,
 } from '@icons/index';
 import { useAppTranslation } from '@hooks/index';
@@ -12,9 +16,15 @@ import MinistryTimer from '@features/ministry/report/ministry_timer';
 
 const MinistryCard = () => {
   const { t } = useAppTranslation();
+  const connection = useAtomValue(partnerConnectionState);
 
-  const { isPioneer, enable_AP_application, hours, hours_balance } =
-    useMinistry();
+  const {
+    isPioneer,
+    enable_AP_application,
+    hours,
+    hours_balance,
+    partnerRequestsCount,
+  } = useMinistry();
 
   return (
     <DashboardCard header={t('tr_ministry')}>
@@ -40,6 +50,25 @@ const MinistryCard = () => {
           path="/service-year"
         />
       </ListItem>
+
+      {(partnerDemoMode || connection) && (
+        <ListItem disablePadding>
+          <DashboardMenu
+            icon={<IconRaiseHand color="var(--black)" />}
+            primaryText={t(
+              partnerDemoMode
+                ? 'tr_partnerDemoTitle'
+                : 'tr_findPreachingPartner'
+            )}
+            badgeText={
+              partnerRequestsCount > 0
+                ? String(partnerRequestsCount)
+                : undefined
+            }
+            path="/find-a-preaching-partner"
+          />
+        </ListItem>
+      )}
 
       {enable_AP_application && (
         <ListItem disablePadding>
