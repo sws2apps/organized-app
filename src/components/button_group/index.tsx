@@ -47,7 +47,7 @@ const ButtonGroup = ({ buttons }: ButtonGroupType) => {
               '&::after': {
                 content: 'attr(data-text)',
                 fontWeight: 500,
-                fontSize: '16px',
+                fontSize: '1rem',
                 letterSpacing: '0px',
                 height: 0,
                 visibility: 'hidden',
@@ -56,7 +56,7 @@ const ButtonGroup = ({ buttons }: ButtonGroupType) => {
                 userSelect: 'none',
                 display: 'block',
                 '@media (max-width: 768px)': {
-                  fontSize: '15px',
+                  fontSize: '0.9375rem',
                   letterSpacing: '-0.3px',
                 },
               },

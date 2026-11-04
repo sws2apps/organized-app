@@ -31,9 +31,9 @@ const ClickerSuggestion = ({ open, onOpen, label }: ClickerSuggestionProps) => {
         color: 'var(--always-white)',
         boxShadow: '0px 4px 16px rgba(var(--accent-main-base), 0.4)',
         fontFamily: 'inherit',
-        fontSize: '13px',
+        fontSize: '0.8125rem',
         fontWeight: 600,
-        lineHeight: '18px',
+        lineHeight: 1.39,
         opacity: open ? 1 : 0,
         transform: open
           ? 'translateX(-50%) translateY(0)'

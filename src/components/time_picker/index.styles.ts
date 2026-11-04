@@ -48,14 +48,14 @@ const h3 = {
   textIndent: '0px',
   textTransform: 'none',
   '@media (max-width: 768px)': {
-    fontSize: '16px',
+    fontSize: '1rem',
     letterSpacing: '0',
-    lineHeight: '20px',
+    lineHeight: 1.25,
   },
   '@media (min-width:768px)': {
-    fontSize: '18px',
-    letterSpacing: '0.18px',
-    lineHeight: '24px',
+    fontSize: '1.125rem',
+    letterSpacing: '0.01em',
+    lineHeight: 1.34,
   },
 };
 
