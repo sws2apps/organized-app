@@ -14,19 +14,15 @@ const GroupMembers = (props: GroupMembersProps) => {
   const { handleCreateGroup, isProcessing } = useGroupMembers(props);
 
   return (
-    <Stack
-      spacing="24px"
-      sx={{
-        width: '100%',
-      }}
-    >
-      <Typography
-        sx={{
-          color: 'var(--grey-400)',
-        }}
-      >
-        {t('tr_addNewLangGroupMembersDesc')}
-      </Typography>
+    <Stack spacing="24px" sx={{ width: '100%' }}>
+      <Stack spacing="8px">
+        <Typography sx={{ color: 'var(--grey-400)' }}>
+          {t('tr_addNewLangGroupMembersDesc')}
+        </Typography>
+        <Typography sx={{ color: 'var(--grey-400)' }}>
+          {t('tr_addNewLangGroupMembersHint')}
+        </Typography>
+      </Stack>
 
       <LanguageGroupMembers
         readOnly={isProcessing}
