@@ -353,7 +353,14 @@ const handleUpdateSettings = async (data: UserLoginResponseType) => {
 const validatePocket = async () => {
   const { result, status } = await apiPocketValidateMe();
 
-  if (status === 403 || status === 404) {
+  // Only a removed account makes the local data nobody's. A missing device
+  // cookie (403 DEVICE_REVOKED) leaves the data on the device untouched and
+  // falls through to the sign-up screen, where the user can reconnect.
+  const accountGone =
+    status === 404 ||
+    (status === 403 && result?.message === 'ACCOUNT_NOT_FOUND');
+
+  if (accountGone) {
     await handleDeleteDatabase();
     return;
   }
