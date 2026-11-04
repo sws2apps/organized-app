@@ -1,0 +1,57 @@
+name: Source Materials Check
+
+on:
+  schedule:
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: Check source materials import
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+
+      - name: Use Node.js LTS version
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+        with:
+          node-version: lts/Krypton
+
+      - name: Install Dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Check all source languages
+        id: check
+        continue-on-error: true
+        run: npm run sources:check -- --report report.md
+
+      - name: Report findings in an issue
+        if: steps.check.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TITLE: Source materials check found import problems
+        run: |
+          if [ ! -s report.md ]; then
+            echo "The check failed without a report" >&2
+            exit 1
+          fi
+
+          issue=$(gh issue list --repo "$GITHUB_REPOSITORY" --state open --search "\"$TITLE\" in:title" --json number --jq '.[0].number')
+
+          if [ -n "$issue" ]; then
+            gh issue comment "$issue" --repo "$GITHUB_REPOSITORY" --body-file report.md
+          else
+            gh issue create --repo "$GITHUB_REPOSITORY" --title "$TITLE" --body-file report.md
+          fi
+
+          exit 1
