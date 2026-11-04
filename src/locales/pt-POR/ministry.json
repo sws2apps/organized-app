@@ -107,7 +107,7 @@
   "tr_S10ReportNotGenerated": "O relatório deste ano ainda não foi gerado. Gere-o para ver todos os detalhes e, então, envie.",
   "tr_quickAssignAP": "Pioneiro auxiliar designado",
   "tr_quickAssignAPDesc": "Este publicador está designado como pioneiro auxiliar neste mês. Você pode alterar isso na lista de atribuições do publicador na página de Pessoas.",
-  "tr_reactivatePublisher": "Reactivate publisher",
+  "tr_reactivatePublisher": "Reativar publicador",
   "tr_S21CardTitle": "Exportar múltiplos registros de publicador (S-21)",
   "tr_S21CardTitleDesc": "Selecione “Todos os publicadores” para exportar e ordenar todos os registros de publicadores, pioneiros regulares e auxiliares, ou “Publicadores específicos” para exportar apenas os registros dos publicadores selecionados.",
   "tr_allPublisherRecords": "Todos os publicadores",
@@ -137,9 +137,9 @@
   "tr_bibleStudiesMonthlyLess": "Você não pode definir menos estudos bíblicos do que o total dos seus registros diários",
   "tr_hoursDecreaseError": "Não é possível alterar horas",
   "tr_hoursDecreaseErrorDesc": "Você não pode definir menos horas do que o total de seus registros diários",
-  "tr_SCEL": "School for Congregation Elders",
-  "tr_timerNothingToSave": "Nothing to save",
-  "tr_timerNothingToSaveDesc": "The session was shorter than a minute, so no time was added to the report.",
-  "tr_timerNoOpenMonth": "No month to add the time to",
-  "tr_timerNoOpenMonthDesc": "Every month since this session started is already confirmed. The session stays paused."
+  "tr_SCEL": "Escola para Anciãos de Congregação",
+  "tr_timerNothingToSave": "Nada para salvar",
+  "tr_timerNothingToSaveDesc": "A sessão durou menos de um minuto, portanto, não foi adicionado tempo ao relatório.",
+  "tr_timerNoOpenMonth": "Não há mês ao qual adicionar o tempo",
+  "tr_timerNoOpenMonthDesc": "Todos os meses desde o início desta sessão já estão confirmados. A sessão permanece pausada."
 }
