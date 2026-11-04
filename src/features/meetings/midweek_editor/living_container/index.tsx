@@ -29,7 +29,7 @@ const LivingContainer = (props: LivingContainerProps) => {
       <Stack spacing="16px" divider={<Divider color="var(--accent-200)" />}>
         {countArray.map((part) => (
           <LivingPart
-            key={part}
+            key={`${selectedWeek}-${part}`}
             part={part}
             isEdit={isEdit}
             selectedWeek={selectedWeek}

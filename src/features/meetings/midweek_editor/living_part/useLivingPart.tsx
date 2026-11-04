@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { UpdateSpec } from 'dexie';
 import { useAtomValue } from 'jotai';
 import {
@@ -6,18 +6,37 @@ import {
   SourceAssignmentType,
   SourceWeekType,
 } from '@definition/sources';
+import { useAppTranslation } from '@hooks/index';
 import { sourcesState } from '@states/sources';
-import { userDataViewState } from '@states/settings';
+import { schedulesState } from '@states/schedules';
+import {
+  JWLangLocaleState,
+  JWLangState,
+  userDataViewState,
+} from '@states/settings';
 import { dbSourcesUpdate } from '@services/dexie/sources';
+import { sourcesCheckLCAssignments } from '@services/app/sources';
+import { schedulesSaveAssignment } from '@services/app/schedules';
+import { AssignmentCongregation } from '@definition/schedules';
+import { AssignmentFieldType } from '@definition/assignment';
 import { LivingPartProps } from './index.types';
 
 const useLivingPart = ({ part, selectedWeek }: LivingPartProps) => {
   const sources = useAtomValue(sourcesState);
+  const schedules = useAtomValue(schedulesState);
+  const { t } = useAppTranslation();
+
   const dataView = useAtomValue(userDataViewState);
+  const lang = useAtomValue(JWLangState);
+  const sourceLocale = useAtomValue(JWLangLocaleState);
 
   const source = useMemo(() => {
     return sources.find((record) => record.weekOf === selectedWeek);
   }, [selectedWeek, sources]);
+
+  const schedule = useMemo(() => {
+    return schedules.find((record) => record.weekOf === selectedWeek);
+  }, [selectedWeek, schedules]);
 
   const type = useMemo(() => {
     return `lc_part${part}` as SourceAssignmentType;
@@ -29,31 +48,132 @@ const useLivingPart = ({ part, selectedWeek }: LivingPartProps) => {
     return source.midweek_meeting[type] as LivingAsChristiansType;
   }, [source, type]);
 
-  const initialOverwrite = useMemo(() => {
-    if (!lcPart) return false;
+  const partNumber = useMemo(() => {
+    return lcPart?.title.default[lang]?.match(/^\d+\.\s/)?.[0] ?? '';
+  }, [lcPart, lang]);
 
-    const lcSrcOverride = lcPart.title.override.find(
-      (record) => record.type === dataView
-    )?.value;
+  const getGBUpdateTitle = useCallback(
+    (number: string) => {
+      const title =
+        number.length > 0
+          ? t('tr_governingBodyUpdateTitle', { lng: sourceLocale, number })
+          : t('tr_governingBodyUpdate', { lng: sourceLocale });
 
-    return lcSrcOverride?.length > 0;
+      return `${partNumber}${title}`;
+    },
+    [t, sourceLocale, partNumber]
+  );
+
+  const initialOverride = useMemo(() => {
+    if (!lcPart) return '';
+
+    return (
+      lcPart.title.override.find((record) => record.type === dataView)?.value ??
+      ''
+    );
   }, [dataView, lcPart]);
 
-  const [isOverwrite, setIsOverwrite] = useState(initialOverwrite);
+  const initialGBUpdateNumber = useMemo(() => {
+    if (initialOverride === getGBUpdateTitle('')) return '';
+
+    const [prefix, suffix] = getGBUpdateTitle('|').split('|');
+
+    if (!initialOverride.startsWith(prefix)) return null;
+    if (!initialOverride.endsWith(suffix)) return null;
+
+    const number = initialOverride.slice(
+      prefix.length,
+      initialOverride.length - suffix.length
+    );
+
+    return /^\d+$/.test(number) ? number : null;
+  }, [initialOverride, getGBUpdateTitle]);
+
+  const [isGBUpdate, setIsGBUpdate] = useState(initialGBUpdateNumber !== null);
+  const [gbUpdateNumber, setGBUpdateNumber] = useState(
+    initialGBUpdateNumber ?? ''
+  );
+  const [isOverwrite, setIsOverwrite] = useState(
+    initialOverride.length > 0 && initialGBUpdateNumber === null
+  );
 
   const handleToggleOverwrite = async () => {
-    const newValue = !isOverwrite;
-    setIsOverwrite(newValue);
+    setIsOverwrite((prev) => !prev);
+    setIsGBUpdate(false);
+    setGBUpdateNumber('');
 
+    await handleResetOverride();
+  };
+
+  const handleToggleGBUpdate = async () => {
+    const newValue = !isGBUpdate;
+    setIsGBUpdate(newValue);
+    setIsOverwrite(false);
+    setGBUpdateNumber('');
+
+    if (!newValue) {
+      await handleResetOverride();
+      return;
+    }
+
+    const title = getGBUpdateTitle('');
+    await handleResetOverride(title);
+
+    const assigned = (
+      schedule?.midweek_meeting[type] as AssignmentCongregation[]
+    )?.find((record) => record.type === dataView)?.value;
+
+    // the update is a video, a name left here would still be printed
+    const desc = lcPart.desc.default[lang];
+
+    if (
+      assigned?.length > 0 &&
+      sourcesCheckLCAssignments(title, desc, sourceLocale)
+    ) {
+      await schedulesSaveAssignment(
+        schedule,
+        `MM_LCPart${part}` as AssignmentFieldType,
+        ''
+      );
+    }
+  };
+
+  const handleGBUpdateNumberChange = async (value: string) => {
+    const number = value.replace(/\D/g, '');
+    setGBUpdateNumber(number);
+
+    const lcPart = source.midweek_meeting[type] as LivingAsChristiansType;
+    const lcPartTitle = structuredClone(lcPart.title.override);
+
+    const title = getGBUpdateTitle(number);
+    const updatedAt = new Date().toISOString();
+
+    const currentTitle = lcPartTitle.find((record) => record.type === dataView);
+
+    if (!currentTitle) {
+      lcPartTitle.push({ type: dataView, updatedAt, value: title });
+    } else {
+      currentTitle.value = title;
+      currentTitle.updatedAt = updatedAt;
+    }
+
+    const toSave = {
+      [`midweek_meeting.${type}.title.override`]: lcPartTitle,
+    } as unknown as UpdateSpec<SourceWeekType>;
+
+    await dbSourcesUpdate(selectedWeek, toSave);
+  };
+
+  const handleResetOverride = async (title = '') => {
     const lcPart = source.midweek_meeting[type] as LivingAsChristiansType;
     const lcPartTitle = structuredClone(lcPart.title.override);
 
     const currentTitle = lcPartTitle.find((record) => record.type === dataView);
 
     if (!currentTitle) {
-      lcPartTitle.push({ type: dataView, updatedAt: '', value: '' });
+      lcPartTitle.push({ type: dataView, updatedAt: '', value: title });
     } else {
-      currentTitle.value = '';
+      currentTitle.value = title;
       currentTitle.updatedAt = new Date().toISOString();
     }
 
@@ -106,7 +226,15 @@ const useLivingPart = ({ part, selectedWeek }: LivingPartProps) => {
     await dbSourcesUpdate(selectedWeek, toSave);
   };
 
-  return { type, isOverwrite, handleToggleOverwrite };
+  return {
+    type,
+    isOverwrite,
+    handleToggleOverwrite,
+    isGBUpdate,
+    gbUpdateNumber,
+    handleToggleGBUpdate,
+    handleGBUpdateNumberChange,
+  };
 };
 
 export default useLivingPart;
