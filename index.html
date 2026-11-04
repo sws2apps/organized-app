@@ -5,6 +5,52 @@
     <meta name="robots" content="notranslate" />
     <meta name="googlebot" content="notranslate" />
     <meta charset="utf-8" />
+    <script>
+      (function () {
+        var read = function (key, fallback) {
+          var value;
+
+          try {
+            value = localStorage.getItem(key);
+          } catch (e) {
+            return fallback;
+          }
+
+          if (!value) return fallback;
+
+          try {
+            return JSON.parse(value);
+          } catch (e) {
+            return value;
+          }
+        };
+
+        var theme = read('color', 'blue') + '-' + read('theme', 'light');
+        var backgrounds = {
+          'blue-light': '#f8f9ff',
+          'blue-dark': '#151519',
+          'green-light': '#f3faf3',
+          'green-dark': '#131413',
+          'purple-light': '#f8f6ff',
+          'purple-dark': '#141216',
+          'orange-light': '#fefbf5',
+          'orange-dark': '#161412',
+          'teal-light': '#f8fcfd',
+          'teal-dark': '#0e1214',
+          'rose-light': '#fff9fb',
+          'rose-dark': '#141012',
+          'slate-light': '#f6fafe',
+          'slate-dark': '#12161a',
+        };
+
+        var root = document.documentElement;
+        root.dataset.theme = theme;
+        root.style.setProperty(
+          '--boot-background',
+          backgrounds[theme] || backgrounds['blue-light']
+        );
+      })();
+    </script>
     <link rel="icon" href="favicon.svg" />
     <link rel="manifest" href="manifest.webmanifest" />
     <script src="/pwa-install.js"></script>
@@ -215,6 +261,10 @@
     />
 
     <style>
+      html {
+        background-color: var(--accent-100, var(--boot-background, #f8f9ff));
+      }
+
       .loader-waiting-js {
         width: 216px;
         margin: auto;
@@ -505,7 +555,7 @@
         <img
           alt=""
           src="./img/splashscreen/loader.gif"
-          style="height: 80px; width: 80px"
+          style="height: 72px; width: 72px"
         />
       </div>
     </div>
