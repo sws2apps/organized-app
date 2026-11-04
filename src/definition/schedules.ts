@@ -1,7 +1,12 @@
 import { AssignmentCode, AssignmentFieldType } from './assignment';
 import { Week } from './week_type';
 
-export type S140TemplateType = 'S140_default' | 'S140_app_normal';
+export type S140TemplateType =
+  | 'S140_default'
+  | 'S140_app_normal'
+  | 'S140_app_monthly_columns'
+  | 'S140_app_monthly_list'
+  | 'S140_app_detailed';
 
 export type S89TemplateType = 'S89_1x1' | 'S89_4x1';
 
@@ -40,11 +45,7 @@ export type AssignmentAYFType = {
 };
 
 export type PublicTalkType =
-  | 'localSpeaker'
-  | 'visitingSpeaker'
-  | 'jwStreamRecording'
-  | 'host'
-  | 'group';
+  'localSpeaker' | 'visitingSpeaker' | 'jwStreamRecording' | 'host' | 'group';
 
 export type PublicTalkCongregation = {
   type: string;
@@ -164,6 +165,7 @@ export type S89DataType = {
 
 export type MidweekMeetingDataType = {
   weekOf: string;
+  meeting_date?: string;
   week_type: Week;
   week_type_name: string;
   schedule_title: string;
@@ -191,6 +193,7 @@ export type MidweekMeetingDataType = {
     pgm_end: string;
   };
   song_first: string;
+  song_first_title?: string;
   opening_prayer_name: string;
   tgw_talk_src: string;
   tgw_talk_time: string;
@@ -199,11 +202,13 @@ export type MidweekMeetingDataType = {
   tgw_gems_time: string;
   tgw_gems_name: string;
   tgw_bible_reading_src: string;
+  tgw_bible_reading_desc?: string;
   tgw_bible_reading_A_name: string;
   tgw_bible_reading_B_name?: string;
   ayf_part1_type: AssignmentCode;
   ayf_part1_type_name: string;
   ayf_part1_time: string;
+  ayf_part1_src?: string;
   ayf_part1_label: string;
   ayf_part1_A_name: string;
   ayf_part1_A_student_name?: string;
@@ -214,6 +219,7 @@ export type MidweekMeetingDataType = {
   ayf_part2_type?: AssignmentCode;
   ayf_part2_type_name?: string;
   ayf_part2_time?: string;
+  ayf_part2_src?: string;
   ayf_part2_label?: string;
   ayf_part2_A_name?: string;
   ayf_part2_A_student_name?: string;
@@ -224,6 +230,7 @@ export type MidweekMeetingDataType = {
   ayf_part3_type?: AssignmentCode;
   ayf_part3_type_name?: string;
   ayf_part3_time?: string;
+  ayf_part3_src?: string;
   ayf_part3_label?: string;
   ayf_part3_A_name?: string;
   ayf_part3_A_student_name?: string;
@@ -234,6 +241,7 @@ export type MidweekMeetingDataType = {
   ayf_part_type?: AssignmentCode;
   ayf_part4_type_name?: string;
   ayf_part4_time?: string;
+  ayf_part4_src?: string;
   ayf_part4_label?: string;
   ayf_part4_A_name?: string;
   ayf_part4_A_student_name?: string;
@@ -242,6 +250,7 @@ export type MidweekMeetingDataType = {
   ayf_part4_B_student_name?: string;
   ayf_part4_B_assistant_name?: string;
   lc_middle_song: string;
+  lc_middle_song_title?: string;
   lc_count: number;
   lc_part1_time: string;
   lc_part1_src: string;
@@ -255,11 +264,13 @@ export type MidweekMeetingDataType = {
   lc_co_talk?: string;
   lc_cbs_title?: string;
   lc_cbs_time?: string;
+  lc_cbs_src?: string;
   lc_cbs_label?: string;
   lc_cbs_name?: string;
   lc_cbs_conductor_name?: string;
   lc_cbs_reader_name?: string;
   lc_concluding_song: string;
+  lc_concluding_song_title?: string;
   lc_concluding_prayer: string;
   co_name?: string;
   full: boolean;

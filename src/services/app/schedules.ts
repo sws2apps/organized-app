@@ -2060,6 +2060,14 @@ export const schedulesMidweekData = (
   const sourceLocale = store.get(JWLangLocaleState);
   const assignFSG = store.get(midweekMeetingAssigFSGState);
   const fieldGroups = store.get(fieldGroupsState);
+  const songs = store.get(songsLocaleState);
+
+  const getSongTitle = (song: string) => {
+    const title =
+      songs.find((record) => record.song_number === +song)?.song_title || '';
+
+    return title.replace(/^\d+\.\s*/, '');
+  };
 
   const minLabel = getTranslation({
     key: 'tr_minLabel',
@@ -2095,6 +2103,7 @@ export const schedulesMidweekData = (
   });
 
   const scheduleDate = meetingDate.locale;
+  result.meeting_date = meetingDate.date;
 
   const week_type =
     schedule.midweek_meeting.week_type.find(
@@ -2198,6 +2207,9 @@ export const schedulesMidweekData = (
     getTranslation({ key: 'tr_song', language: sourceLocale }) +
     ' ' +
     source.midweek_meeting.song_first[lang];
+  result.song_first_title = getSongTitle(
+    source.midweek_meeting.song_first[lang]
+  );
 
   if (openingPrayerLinked === '') {
     result.opening_prayer_name = schedulesWeekGetAssigned({
@@ -2233,6 +2245,8 @@ export const schedulesMidweekData = (
   });
   result.tgw_bible_reading_src =
     source.midweek_meeting.tgw_bible_reading.title[lang];
+  result.tgw_bible_reading_desc =
+    source.midweek_meeting.tgw_bible_reading.src[lang];
 
   if (hasAux) {
     result.tgw_bible_reading_B_name = schedulesWeekGetAssigned({
@@ -2249,6 +2263,7 @@ export const schedulesMidweekData = (
     const fieldTypeName = `${baseName}_type_name`;
     const fieldTime = `${baseName}_time`;
     const fieldLabel = `${baseName}_label`;
+    const fieldSrc = `${baseName}_src`;
     const fieldNameA = `${baseName}_A_name`;
     const fieldStudentNameA = `${baseName}_A_student_name`;
     const fieldAssistantNameA = `${baseName}_A_assistant_name`;
@@ -2273,6 +2288,7 @@ export const schedulesMidweekData = (
         sourcesPartTiming(source, assignment, dataView, lang) + ' ' + minLabel;
 
       const src = ayfSource.src[lang];
+      result[fieldSrc] = src;
       const isTalk =
         ayfType === AssignmentCode.MM_ExplainingBeliefs
           ? sourcesCheckAYFExplainBeliefsAssignment(src, sourceLocale)
@@ -2355,6 +2371,9 @@ export const schedulesMidweekData = (
     getTranslation({ key: 'tr_song', language: sourceLocale }) +
     ' ' +
     source.midweek_meeting.song_middle[lang];
+  result.lc_middle_song_title = getSongTitle(
+    source.midweek_meeting.song_middle[lang]
+  );
 
   result.lc_count = sourcesCountLC(source, dataView, lang);
 
@@ -2404,6 +2423,7 @@ export const schedulesMidweekData = (
     );
     result.lc_cbs_time =
       sourcesPartTiming(source, 'lc_cbs', dataView, lang) + ' ' + minLabel;
+    result.lc_cbs_src = source.midweek_meeting.lc_cbs.src[lang];
 
     if (useDisplayName) {
       result.lc_cbs_label =
@@ -2465,6 +2485,9 @@ export const schedulesMidweekData = (
     : getTranslation({ key: 'tr_song', language: sourceLocale }) +
       ' ' +
       concluding_song;
+  result.lc_concluding_song_title = isSongText
+    ? ''
+    : getSongTitle(concluding_song);
 
   if (closingPrayerLinked === '') {
     result.lc_concluding_prayer = schedulesWeekGetAssigned({

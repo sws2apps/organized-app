@@ -20,12 +20,15 @@ const S140SourceComplex = ({
         justifyContent: 'space-between',
       }}
     >
-      <View style={{ flexDirection: 'row' }}>
+      <View style={{ flexDirection: 'row', flex: 1 }}>
         <Text style={{ ...styles.bulletPoint, color: bulletColor }}>
           {'\u2022'}
         </Text>
         <Text
-          style={{ fontSize: fontSize.source[lang] || fontSize.source.default }}
+          style={{
+            flex: 1,
+            fontSize: fontSize.source[lang] || fontSize.source.default,
+          }}
         >
           {source}{' '}
           <Text
