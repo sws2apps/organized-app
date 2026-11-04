@@ -1,3 +1,4 @@
+import { getAppInstallationId } from '@services/firebase/installation';
 import {
   APFormOutgoing,
   CongregationUpdatesResponseType,
@@ -63,6 +64,7 @@ export const apiUpdatePasswordlessInfo = async () => {
 
 export const apiSendAuthorization = async () => {
   const { apiHost, appVersion: appversion, idToken } = await apiDefault();
+  const installation = await getAppInstallationId();
 
   const res = await fetch(`${apiHost}api/v3/user-login`, {
     method: 'GET',
@@ -72,6 +74,7 @@ export const apiSendAuthorization = async () => {
       Authorization: `Bearer ${idToken}`,
       appclient: 'organized',
       appversion,
+      ...(installation ? { installation } : {}),
     },
   });
 
@@ -102,6 +105,7 @@ export const apiHandleVerifyOTP = async (userOTP: string) => {
 
 export const apiValidateMe = async (): Promise<ValidateMeResponseType> => {
   const { apiHost, appVersion: appversion, idToken } = await apiDefault();
+  const installation = await getAppInstallationId();
 
   const res = await fetch(`${apiHost}api/v3/users/validate-me`, {
     method: 'GET',
@@ -111,6 +115,7 @@ export const apiValidateMe = async (): Promise<ValidateMeResponseType> => {
       Authorization: `Bearer ${idToken}`,
       appclient: 'organized',
       appversion,
+      ...(installation ? { installation } : {}),
     },
   });
 

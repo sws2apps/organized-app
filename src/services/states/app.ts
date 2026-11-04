@@ -50,7 +50,13 @@ import {
   isContactOpenState,
   encryptedMasterKeyState,
   appMessageIconState,
+  workOfflineState,
+  workOfflineStorageKey,
+  accountAttentionState,
+  justResumedState,
+  appMessageActionState,
 } from '@states/app';
+import type { WorkOfflineType } from '@states/app';
 import { ReactElement } from 'react';
 
 export const handleSWOnInstalled = () => {
@@ -78,12 +84,15 @@ export const displaySnackNotification = ({
   message,
   severity,
   icon,
+  action,
 }: {
   header: string;
   message: string;
   severity?: SnackBarSeverityType;
   icon?: ReactElement;
+  action?: { text: string; onClick: VoidFunction };
 }) => {
+  store.set(appMessageActionState, action);
   store.set(appMessageHeaderState, header);
   store.set(appMessageState, message);
   store.set(appMessageIconState, icon);
@@ -127,6 +136,30 @@ export const setRootModalOpen = (value: boolean) => {
 
 export const setIsSetup = (value: boolean) => {
   store.set(isSetupState, value);
+};
+
+export const setWorkOffline = (value: WorkOfflineType | undefined) => {
+  try {
+    if (value)
+      localStorage.setItem(workOfflineStorageKey, JSON.stringify(value));
+    else localStorage.removeItem(workOfflineStorageKey);
+  } catch {
+    // storage unavailable: offline mode lasts until the app is closed
+  }
+
+  if (!value && store.get(workOfflineState)) store.set(justResumedState, true);
+
+  store.set(workOfflineState, value);
+};
+
+export const retryConnectionNow = () => {
+  window.dispatchEvent(new Event('organized:retry-connection'));
+};
+
+export const setAccountAttention = (
+  value: '' | 'signin' | 'two-step' | 'pocket-reconnect'
+) => {
+  store.set(accountAttentionState, value);
 };
 
 export const setCongAccountConnected = (value: boolean) => {
