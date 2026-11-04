@@ -61,7 +61,7 @@ const useStart = () => {
 
       await runUpdater();
 
-      loadApp();
+      await loadApp();
 
       setIsAppLoad(false);
     };

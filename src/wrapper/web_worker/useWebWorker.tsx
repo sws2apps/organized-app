@@ -17,8 +17,7 @@ import {
   JWLangState,
 } from '@states/settings';
 import { useCurrentUser, useFirebaseAuth } from '@hooks/index';
-import { schedulesBuildHistoryList } from '@services/app/schedules';
-import { setAssignmentsHistory } from '@services/states/schedules';
+import { buildAssignmentHistory } from '@services/app';
 import { refreshLocalesResources } from '@services/i18n';
 import { getMessageByCode } from '@services/i18n/translation';
 import { dbPublicTalkUpdate } from '@services/dexie/public_talk';
@@ -61,21 +60,20 @@ const useWebWorker = () => {
         }
 
         if (event.data === 'Done') {
-          setIsAppDataSyncing(false);
+          // sync complete -> refresh app data before clearing the syncing state
+          try {
+            await refreshLocalesResources();
+            await dbWeekTypeUpdate();
+            await dbAssignmentUpdate();
+            await dbPublicTalkUpdate();
+            await dbSongUpdate();
 
-          // sync complete -> refresh app data
+            await buildAssignmentHistory();
 
-          await refreshLocalesResources();
-          await dbWeekTypeUpdate();
-          await dbAssignmentUpdate();
-          await dbPublicTalkUpdate();
-          await dbSongUpdate();
-
-          // load assignment history
-          const history = schedulesBuildHistoryList();
-          setAssignmentsHistory(history);
-
-          await dbSpeakersCongregationsSetName();
+            await dbSpeakersCongregationsSetName();
+          } finally {
+            setIsAppDataSyncing(false);
+          }
         }
 
         if (event.data.error === 'BACKUP_FAILED') {
