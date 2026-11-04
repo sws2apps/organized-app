@@ -1,3 +1,4 @@
+import { CustomDutyIconType } from '@definition/duties';
 import { PageType } from '@views/components/page/index.types';
 
 export type DutiesCardIconType =
@@ -31,6 +32,7 @@ export type DutiesScheduleCardType = {
   id: string;
   name: string;
   icon: DutiesCardIconType;
+  customIcon?: CustomDutyIconType;
   rows: DutiesScheduleRowType[];
   groupGap?: number;
 };
@@ -39,6 +41,7 @@ export type DutiesCardLayoutType = {
   id: string;
   name: string;
   icon: DutiesCardIconType;
+  customIcon?: CustomDutyIconType;
   span: number;
   height: number;
   columns: DutiesScheduleRowType[][];

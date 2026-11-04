@@ -1,3 +1,4 @@
+import IconCustomDuty from '@views/components/icons/IconCustomDuty';
 import { ComponentType } from 'react';
 import { Text, View } from '@react-pdf/renderer';
 import {
@@ -52,7 +53,15 @@ const DutiesCard = ({ card, width, fontSize }: DutiesCardProps) => {
   return (
     <View style={{ width }}>
       <View style={styles.cardTitleContainer}>
-        <Icon size={iconSize(fontSize)} color={TITLE_COLOR} />
+        {card.icon === 'custom' ? (
+          <IconCustomDuty
+            icon={card.customIcon}
+            size={iconSize(fontSize)}
+            color={TITLE_COLOR}
+          />
+        ) : (
+          <Icon size={iconSize(fontSize)} color={TITLE_COLOR} />
+        )}
         <Text style={{ ...styles.cardTitle, fontSize }}>{card.name}</Text>
       </View>
 

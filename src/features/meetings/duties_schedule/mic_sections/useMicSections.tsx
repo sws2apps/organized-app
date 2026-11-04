@@ -12,6 +12,7 @@ import {
   schedulesDutiesSections,
 } from '@services/app/schedules';
 import { DutiesMeetingValue } from '@services/app/duties';
+import { hasSavedSections } from '@utils/duties_recurring';
 
 const useMicSections = (week: string, meeting: DutiesMeetingValue) => {
   const schedules = useAtomValue(schedulesState);
@@ -33,6 +34,14 @@ const useMicSections = (week: string, meeting: DutiesMeetingValue) => {
     [week, meeting, schedules, sources, lang, dataView]
   );
 
+  const savedDuties = schedules.find((item) => item.weekOf === week)?.duties?.[
+    meeting
+  ];
+  const emptyHint =
+    savedDuties && hasSavedSections(savedDuties, dataView)
+      ? 'tr_sectionsSavedWeekHint'
+      : 'tr_sectionsConfigureHint';
+
   const sectionParts = (keys: string[]) =>
     keys
       .map((key) => parts.find((part) => part.key === key)?.label)
@@ -41,6 +50,7 @@ const useMicSections = (week: string, meeting: DutiesMeetingValue) => {
 
   return {
     sections,
+    emptyHint,
     sectionParts,
     parts,
   };

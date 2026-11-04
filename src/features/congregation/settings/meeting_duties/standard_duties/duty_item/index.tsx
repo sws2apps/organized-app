@@ -1,5 +1,5 @@
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
-import { DUTIES_MAX } from '../../shared/constants';
+import { DUTIES_MAX } from '@features/congregation/settings/meeting_duties/shared/constants';
 import { Stack } from '@mui/material';
 import { DutyItemProps } from './index.types';
 import useDutyItem from './useDutyItem';
@@ -21,7 +21,12 @@ const DutyItem = (props: DutyItemProps) => {
         gap: 'var(--dialog-gap-mobile)',
       }}
     >
-      <Typography sx={{ overflowWrap: 'anywhere' }}>{t(props.duty)}</Typography>
+      <Typography
+        color="var(--grey-400)"
+        sx={{ minWidth: 0, overflowWrap: 'anywhere' }}
+      >
+        {t(props.duty)}
+      </Typography>
 
       <Select
         label={t('tr_dutyPeopleNeeded')}

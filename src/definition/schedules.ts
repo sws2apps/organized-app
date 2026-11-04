@@ -126,6 +126,12 @@ export type DutiesMeetingType = {
   videoconference_host: DutyPositionsType;
   sections: DutiesSectionType[];
   section_overrides?: { type: string; updatedAt: string }[];
+  // kept beside the hosts so older apps read a skipped week as unassigned
+  hospitality_not_needed?: {
+    type: string;
+    value: boolean;
+    updatedAt: string;
+  }[];
   // `${sectionOrCustomId}_${position}` entries for sections and custom duties
   dynamic: AssignmentCongregation[];
 };
