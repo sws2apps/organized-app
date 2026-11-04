@@ -1,3 +1,4 @@
+import { restoreLoginMiddleName } from '@services/app/login_names';
 import { useState } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
 import {
@@ -116,6 +117,7 @@ const useSignup = () => {
       }
     }
 
+    await restoreLoginMiddleName(data);
     await dbAppSettingsUpdate({
       'user_settings.account_type': 'pocket',
       'user_settings.lastname': app_settings.user_settings.lastname,

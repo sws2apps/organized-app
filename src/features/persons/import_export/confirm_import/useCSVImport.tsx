@@ -13,7 +13,7 @@ import {
 } from './field_service_group';
 import appDb from '@db/appDb';
 import { dbFieldServiceGroupBulkSave } from '@services/dexie/field_service_groups';
-import Papa from 'papaparse';
+import { parseCsv } from '@utils/csv';
 import { primaryTranslation } from '@utils/i18n';
 
 const useCSVImport = () => {
@@ -25,27 +25,11 @@ const useCSVImport = () => {
     return PERSON_FIELD_META.map((field) => field.key);
   };
 
-  const detectDelimiter = (csvText: string): string => {
-    const { meta } = Papa.parse(csvText, {
-      preview: 1,
-      delimiter: '',
-      skipEmptyLines: 'greedy',
-    });
-    return meta.delimiter ?? ',';
-  };
-
-  type MyRowType = Record<string, string>;
-
   const parseCsvToPersonsAndGroups = (
     csvText: string,
     selectedFields?: Record<string, boolean>
   ): [PersonType[], FieldServiceGroupType[]] => {
-    const parsed = Papa.parse<MyRowType>(csvText, {
-      header: true,
-      skipEmptyLines: 'greedy',
-      delimiter: detectDelimiter(csvText),
-      transformHeader: (header) => header.trim(),
-    });
+    const parsed = parseCsv(csvText);
 
     if (parsed.errors.length > 0) {
       console.error('CSV parsing errors:', parsed.errors);
@@ -130,14 +114,9 @@ const useCSVImport = () => {
     return [personsArray, groupsArray];
   };
 
-  // Update getCSVHeaders to use papaparse
-  const getCSVHeaders = (csvText: string): string[] => {
-    const parsed = Papa.parse(csvText, {
-      header: true,
-      preview: 1, // Only parse first row for headers
-    });
-    return parsed.meta.fields || [];
-  };
+  const getCSVHeaders = (csvText: string): string[] =>
+    parseCsv(csvText, 1).meta.fields || [];
+
   const getPersonPathsTranslated = (): string[] => {
     return PERSON_FIELD_META.map((field) => {
       return primaryTranslation(t(field.label));
@@ -291,7 +270,6 @@ const useCSVImport = () => {
   };
 
   return {
-    detectDelimiter,
     parseCsvToPersonsAndGroups,
     getCSVHeaders,
     addPersonsToDB,

@@ -1,6 +1,10 @@
 import { useState } from 'react';
 import { useAtomValue } from 'jotai';
-import { firstnameState, lastnameState } from '@states/settings';
+import {
+  firstnameState,
+  lastnameState,
+  middlenameState,
+} from '@states/settings';
 import useBreakpoints from '@hooks/useBreakpoints';
 import useFirebaseAuth from '@hooks/useFirebaseAuth';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
@@ -14,10 +18,12 @@ const useUserProfileDetails = () => {
   const userEmail = user?.email || '';
 
   const firstName = useAtomValue(firstnameState);
+  const middleName = useAtomValue(middlenameState);
   const lastName = useAtomValue(lastnameState);
   const isConnected = useAtomValue(congAccountConnectedState);
 
   const [firstNameTmp, setFirstNameTmp] = useState(firstName);
+  const [middleNameTmp, setMiddleNameTmp] = useState(middleName);
   const [lastNameTmp, setLastNameTmp] = useState(lastName);
   const [isOpenSelector, setIsOpenSelector] = useState(false);
 
@@ -32,6 +38,17 @@ const useUserProfileDetails = () => {
     });
   };
 
+  const handleChangeMiddleName = async (value: string) => {
+    setMiddleNameTmp(value);
+
+    await dbAppSettingsUpdate({
+      'user_settings.middlename': {
+        value,
+        updatedAt: new Date().toISOString(),
+      },
+    });
+  };
+
   const handleChangeLastName = async (value: string) => {
     setLastNameTmp(value);
 
@@ -43,8 +60,10 @@ const useUserProfileDetails = () => {
   return {
     tabletDown,
     firstNameTmp,
+    middleNameTmp,
     lastNameTmp,
     handleChangeFirstName,
+    handleChangeMiddleName,
     handleChangeLastName,
     userEmail,
     isConnected,

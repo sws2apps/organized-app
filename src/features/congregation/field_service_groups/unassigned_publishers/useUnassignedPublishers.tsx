@@ -4,7 +4,7 @@ import { UnassignedPublisherType } from './index.types';
 import { fieldWithLanguageGroupsState } from '@states/field_service_groups';
 import { fullnameOptionState } from '@states/settings';
 import { personsActiveState } from '@states/persons';
-import { buildPersonFullname } from '@utils/common';
+import { personGetDisplayName } from '@utils/common';
 
 const useUnassignedPublishers = () => {
   const persons = useAtomValue(personsActiveState);
@@ -25,11 +25,7 @@ const useUnassignedPublishers = () => {
       )
       .map((person) => ({
         person_uid: person.person_uid,
-        name: buildPersonFullname(
-          person.person_data.person_lastname.value,
-          person.person_data.person_firstname.value,
-          fullnameOption
-        ),
+        name: personGetDisplayName(person, false, fullnameOption),
       }))
       .sort((a, b) => a.name.localeCompare(b.name));
 

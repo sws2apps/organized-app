@@ -1,39 +1,33 @@
-import { FullnameOption } from '@definition/settings';
-import {
-  useAppTranslation,
-  useBreakpoints,
-  useCurrentUser,
-} from '@hooks/index';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import {
   CardSection,
   CardSectionContent,
   CardSectionHeader,
-  TwoColumnsRow,
 } from '../shared_styles';
 import useCircuitOverseer from './useCircuitOverseer';
 import TextField from '@components/textfield';
 import WeeksList from './weeks_list';
-import { Stack } from '@mui/material';
+import { Box, Stack } from '@mui/material';
 import COMidweekMeetingDay from './co_midweek_meeting_day';
 
 const CircuitOverseer = () => {
   const { t } = useAppTranslation();
 
-  const { tablet600Up } = useBreakpoints();
-
   const { isAdmin } = useCurrentUser();
 
   const {
-    fullnameOption,
     displayNameEnabled,
     displayname,
     firstname,
     handleDisplaynameChange,
-    handleDisplaynameSave,
+
     handleFirstnameChange,
-    handleFirstnameSave,
+
+    handleMiddlenameChange,
+
+    middlename,
     handleLastnameChange,
-    handleLastnameSave,
+
     lastname,
   } = useCircuitOverseer();
 
@@ -46,15 +40,12 @@ const CircuitOverseer = () => {
 
       <CardSectionContent>
         <Stack spacing="16px">
-          <TwoColumnsRow
+          <Box
             sx={{
-              flexDirection: tablet600Up
-                ? fullnameOption === FullnameOption.FIRST_BEFORE_LAST
-                  ? 'row'
-                  : 'row-reverse'
-                : fullnameOption === FullnameOption.FIRST_BEFORE_LAST
-                  ? 'column'
-                  : 'column-reverse',
+              display: 'flex',
+              gap: '16px',
+              alignItems: 'center',
+              flexWrap: 'wrap',
             }}
           >
             <TextField
@@ -62,18 +53,26 @@ const CircuitOverseer = () => {
               label={t('tr_firstname')}
               value={firstname}
               onChange={(e) => handleFirstnameChange(e.target.value)}
-              onKeyUp={handleFirstnameSave}
               slotProps={{ input: { readOnly: !isAdmin } }}
+              sx={{ flex: '1 0 200px' }}
+            />
+            <TextField
+              type="text"
+              label={t('tr_middlename')}
+              value={middlename}
+              onChange={(e) => handleMiddlenameChange(e.target.value)}
+              slotProps={{ input: { readOnly: !isAdmin } }}
+              sx={{ flex: '1 0 200px' }}
             />
             <TextField
               type="text"
               label={t('tr_lastname')}
               value={lastname}
               onChange={(e) => handleLastnameChange(e.target.value)}
-              onKeyUp={handleLastnameSave}
               slotProps={{ input: { readOnly: !isAdmin } }}
+              sx={{ flex: '1 0 200px' }}
             />
-          </TwoColumnsRow>
+          </Box>
 
           <COMidweekMeetingDay />
 
@@ -83,7 +82,6 @@ const CircuitOverseer = () => {
               label={t('tr_displayName')}
               value={displayname}
               onChange={(e) => handleDisplaynameChange(e.target.value)}
-              onKeyUp={handleDisplaynameSave}
               slotProps={{ input: { readOnly: !isAdmin } }}
             />
           )}

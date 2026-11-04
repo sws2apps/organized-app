@@ -1,6 +1,6 @@
 import { Text, View } from '@react-pdf/renderer';
-import { S140PersonType } from '../shared/index.types';
-import styles from './index.styles';
+import { S140PersonType } from '@views/meetings/midweek/S140/shared/index.types';
+import styles from '@views/meetings/midweek/S140/default/index.styles';
 import { applyRTL, isRTL } from '@views/utils/pdf_utils';
 
 const S140Person = ({
@@ -20,7 +20,12 @@ const S140Person = ({
         gap: direction === 'column' ? '2px' : '4px',
       }}
     >
-      <Text style={stylesSmart.personPrimary}>
+      <Text
+        style={[
+          stylesSmart.personPrimary,
+          ...(secondary ? [{ fontWeight: 'bold' as const }] : []),
+        ]}
+      >
         {isRtl ? '\u200f' : ''}
         {primary}
       </Text>

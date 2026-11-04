@@ -17,6 +17,8 @@ const UserProfileDetails = () => {
     tabletDown,
     firstNameTmp,
     handleChangeFirstName,
+    middleNameTmp,
+    handleChangeMiddleName,
     handleChangeLastName,
     lastNameTmp,
     userEmail,
@@ -57,16 +59,32 @@ const UserProfileDetails = () => {
               onChange={(e) => handleChangeFirstName(e.target.value)}
             />
             {!tabletDown && (
-              <TextField
-                label={t('tr_lastname')}
-                height={48}
-                value={lastNameTmp}
-                onChange={(e) => handleChangeLastName(e.target.value)}
-              />
+              <>
+                <TextField
+                  label={t('tr_middlename')}
+                  height={48}
+                  value={middleNameTmp}
+                  onChange={(e) => handleChangeMiddleName(e.target.value)}
+                />
+                <TextField
+                  label={t('tr_lastname')}
+                  height={48}
+                  value={lastNameTmp}
+                  onChange={(e) => handleChangeLastName(e.target.value)}
+                />
+              </>
             )}
           </Box>
         </Box>
 
+        {tabletDown && (
+          <TextField
+            label={t('tr_middlename')}
+            height={48}
+            value={middleNameTmp}
+            onChange={(e) => handleChangeMiddleName(e.target.value)}
+          />
+        )}
         {tabletDown && (
           <TextField
             label={t('tr_lastname')}

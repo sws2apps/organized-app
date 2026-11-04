@@ -11,12 +11,12 @@ import { personsState } from '@states/persons';
 import { PersonType } from '@definition/person';
 import { congFieldServiceReportsState } from '@states/field_service_reports';
 import {
-  fullnameOptionState,
+  publisherPrintNamePolicyState,
   JWLangLocaleState,
   JWLangState,
   shortDateFormatState,
 } from '@states/settings';
-import { buildPersonFullname } from '@utils/common';
+import { personGetDisplayName } from '@utils/common';
 import { generateMonthNames } from '@services/i18n/translation';
 import usePerson from '@features/persons/hooks/usePerson';
 
@@ -33,7 +33,7 @@ const usePublisherCard = () => {
   const persons = useAtomValue(personsState);
   const reports = useAtomValue(congFieldServiceReportsState);
   const dateFormat = useAtomValue(shortDateFormatState);
-  const fullnameOption = useAtomValue(fullnameOptionState);
+  const namePolicy = useAtomValue(publisherPrintNamePolicyState);
   const sourceLocale = useAtomValue(JWLangLocaleState);
 
   const years = useMemo(() => {
@@ -74,10 +74,10 @@ const usePublisherCard = () => {
     const isAnointed = person.person_data.publisher_baptized.anointed.value;
     card.hope = { anointed: isAnointed, other_sheep: !isAnointed };
 
-    card.name = buildPersonFullname(
-      person.person_data.person_lastname.value,
-      person.person_data.person_firstname.value,
-      fullnameOption
+    card.name = personGetDisplayName(
+      person,
+      namePolicy.displayName,
+      namePolicy.format
     );
 
     const isElder = personIsPrivilegeYearActive(person, 'elder', year);

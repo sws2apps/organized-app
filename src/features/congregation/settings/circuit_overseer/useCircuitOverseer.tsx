@@ -1,185 +1,76 @@
 import { useEffect, useRef, useState } from 'react';
-import { useAtomValue } from 'jotai';
+import { useAtomValue, useSetAtom } from 'jotai';
 import {
   displayNameMeetingsEnableState,
-  fullnameOptionState,
   settingsState,
 } from '@states/settings';
-import { dbAppSettingsUpdate } from '@services/dexie/settings';
+import { coNameChangeState } from '@states/name_settings';
+import { CONameField } from '@services/app/name_settings';
 import { generateDisplayName } from '@utils/common';
+import { displaySnackNotification } from '@services/states/app';
+import { getMessageByCode } from '@services/i18n/translation';
 
 const useCircuitOverseer = () => {
-  type FieldKey = 'firstname' | 'lastname' | 'displayname';
-
-  const saveTimers = useRef<Partial<Record<FieldKey, ReturnType<typeof setTimeout>>>>({});
-
   const settings = useAtomValue(settingsState);
-  const fullnameOption = useAtomValue(fullnameOptionState);
+  const co = settings.cong_settings.circuit_overseer;
   const displayNameEnabled = useAtomValue(displayNameMeetingsEnableState);
-
-  const [firstname, setFirstname] = useState('');
-  const [lastname, setLastname] = useState('');
-  const [displayname, setDisplayname] = useState('');
-  const [editing, setEditing] = useState<Record<FieldKey, boolean>>({
-    firstname: false,
-    lastname: false,
-    displayname: false,
+  const save = useSetAtom(coNameChangeState);
+  const [draft, setDraft] = useState({
+    firstname: co.firstname.value,
+    middlename: co.middlename?.value ?? '',
+    lastname: co.lastname.value,
+    display_name: co.display_name.value,
   });
+  const latest = useRef(draft);
+  const pending = useRef(new Map<CONameField, string>());
 
-  const clearTimer = (key: FieldKey) => {
-    const timer = saveTimers.current[key];
-    if (timer) {
-      clearTimeout(timer);
-      saveTimers.current[key] = undefined;
-    }
-  };
-
-  const scheduleSave = (key: FieldKey, fn: () => Promise<void>, markCompleteKeys: FieldKey[]) => {
-    clearTimer(key);
-
-    saveTimers.current[key] = setTimeout(async () => {
-      saveTimers.current[key] = undefined;
-      await fn();
-      setEditing((prev) => {
-        const next = { ...prev };
-        for (const field of markCompleteKeys) {
-          next[field] = false;
-        }
-        return next;
-      });
-    }, 1000);
-  };
-
-  const markEditing = (keys: FieldKey[]) => {
-    setEditing((prev) => {
-      const next = { ...prev };
-      for (const field of keys) {
-        next[field] = true;
+  useEffect(() => {
+    setDraft((previous) => {
+      const next = { ...previous };
+      for (const field of [
+        'firstname',
+        'middlename',
+        'lastname',
+        'display_name',
+      ] as const) {
+        const value = co[field]?.value ?? '';
+        if (pending.current.get(field) === value) pending.current.delete(field);
+        if (!pending.current.has(field)) next[field] = value;
       }
+      latest.current = next;
       return next;
     });
-  };
+  }, [co]);
 
-  const handleFirstnameChange = (value: string) => {
-    markEditing(['firstname', 'displayname']);
-    setFirstname(value);
-
-    const dispName = generateDisplayName(lastname, value);
-    setDisplayname(dispName);
-  };
-
-  const handleLastnameChange = (value: string) => {
-    markEditing(['lastname', 'displayname']);
-    setLastname(value);
-
-    const dispName = generateDisplayName(value, firstname);
-    setDisplayname(dispName);
-  };
-
-  const handleDisplaynameChange = (value: string) => {
-    markEditing(['displayname']);
-    setDisplayname(value);
-  };
-
-  const handleFirstnameSave = () => {
-    scheduleSave('firstname', handleFirstnameSaveDb, ['firstname', 'displayname']);
-  };
-
-  const handleLastnameSave = () => {
-    scheduleSave('lastname', handleLastnameSaveDb, ['lastname', 'displayname']);
-  };
-
-  const handleDisplaynameSave = () => {
-    scheduleSave('displayname', handleDisplaynameSaveDb, ['displayname']);
-  };
-
-  const handleFirstnameSaveDb = async () => {
-    const firstnameField = structuredClone(
-      settings.cong_settings.circuit_overseer.firstname
-    );
-    const displayNameField = structuredClone(
-      settings.cong_settings.circuit_overseer.display_name
-    );
-
-    firstnameField.value = firstname;
-    firstnameField.updatedAt = new Date().toISOString();
-
-    displayNameField.value = displayname;
-    displayNameField.updatedAt = new Date().toISOString();
-
-    await dbAppSettingsUpdate({
-      'cong_settings.circuit_overseer.firstname': firstnameField,
-      'cong_settings.circuit_overseer.display_name': displayNameField,
-    });
-  };
-
-  const handleLastnameSaveDb = async () => {
-    const lastnameField = structuredClone(
-      settings.cong_settings.circuit_overseer.lastname
-    );
-    const displayNameField = structuredClone(
-      settings.cong_settings.circuit_overseer.display_name
-    );
-
-    lastnameField.value = lastname;
-    lastnameField.updatedAt = new Date().toISOString();
-
-    displayNameField.value = displayname;
-    displayNameField.updatedAt = new Date().toISOString();
-
-    await dbAppSettingsUpdate({
-      'cong_settings.circuit_overseer.lastname': lastnameField,
-      'cong_settings.circuit_overseer.display_name': displayNameField,
-    });
-  };
-
-  const handleDisplaynameSaveDb = async () => {
-    const coName = structuredClone(
-      settings.cong_settings.circuit_overseer.display_name
-    );
-
-    coName.value = displayname;
-    coName.updatedAt = new Date().toISOString();
-
-    await dbAppSettingsUpdate({
-      'cong_settings.circuit_overseer.display_name': coName,
-    });
-  };
-
-  useEffect(() => {
-    const co = settings.cong_settings.circuit_overseer;
-
-    setFirstname((prev) => (editing.firstname ? prev : co.firstname.value));
-    setLastname((prev) => (editing.lastname ? prev : co.lastname.value));
-    setDisplayname((prev) => (editing.displayname ? prev : co.display_name.value));
-  }, [settings, editing]);
-
-  useEffect(() => {
-    const timersOnUnmount = saveTimers.current;
-
-    return () => {
-      (Object.keys(timersOnUnmount) as FieldKey[]).forEach((key) => {
-        const timer = timersOnUnmount[key];
-        if (timer) {
-          clearTimeout(timer);
-        }
+  const change = async (field: CONameField, value: string) => {
+    const next = { ...latest.current, [field]: value };
+    pending.current.set(field, value);
+    if (field === 'firstname' || field === 'lastname') {
+      next.display_name = generateDisplayName(next.lastname, next.firstname);
+      pending.current.set('display_name', next.display_name);
+    }
+    latest.current = next;
+    setDraft(next);
+    try {
+      await save({ field, value });
+    } catch {
+      displaySnackNotification({
+        header: getMessageByCode('error_app_generic-title'),
+        message: getMessageByCode('error_app_name-save'),
+        severity: 'error',
       });
-    };
-  }, []);
-
+    }
+  };
   return {
-    fullnameOption,
     displayNameEnabled,
-    firstname,
-    handleFirstnameChange,
-    handleFirstnameSave,
-    lastname,
-    handleLastnameChange,
-    handleLastnameSave,
-    displayname,
-    handleDisplaynameChange,
-    handleDisplaynameSave,
+    firstname: draft.firstname,
+    middlename: draft.middlename,
+    lastname: draft.lastname,
+    displayname: draft.display_name,
+    handleFirstnameChange: (value: string) => change('firstname', value),
+    handleMiddlenameChange: (value: string) => change('middlename', value),
+    handleLastnameChange: (value: string) => change('lastname', value),
+    handleDisplaynameChange: (value: string) => change('display_name', value),
   };
 };
-
 export default useCircuitOverseer;

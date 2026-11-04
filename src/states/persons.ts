@@ -46,6 +46,7 @@ export const personCurrentDetailsState = atom<PersonType>({
   person_uid: '',
   person_data: {
     person_firstname: { value: '', updatedAt: '' },
+    person_middlename: { value: '', updatedAt: '' },
     person_lastname: { value: '', updatedAt: '' },
     person_display_name: { value: '', updatedAt: '' },
     male: { value: true, updatedAt: '' },

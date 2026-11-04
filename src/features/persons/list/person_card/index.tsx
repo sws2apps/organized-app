@@ -44,7 +44,8 @@ const PersonCard = ({ person }: PersonCardType) => {
         name={buildPersonFullname(
           person.person_data.person_lastname.value,
           person.person_data.person_firstname.value,
-          fullnameOption
+          fullnameOption,
+          person.person_data.person_middlename?.value
         )}
         female={person.person_data.female.value}
         onDelete={isPersonEditor ? handleDelete : null}

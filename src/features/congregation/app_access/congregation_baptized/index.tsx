@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { buildPersonFullname } from '@utils/common';
+import { accountProfileFullname } from '@utils/name_format';
 import { useAppTranslation } from '@hooks/index';
 import useCongregationBaptized from './useCongregationBaptized';
 import Typography from '@components/typography';
@@ -28,11 +28,7 @@ const CongregationBaptized = () => {
           <UserAccountItem
             key={user.id}
             variant="baptized"
-            name={buildPersonFullname(
-              user.profile.lastname.value,
-              user.profile.firstname.value,
-              fullnameOption
-            )}
+            name={accountProfileFullname(user.profile, fullnameOption)}
             clickOnUserAccountItem={() => handleOpenUserDetails(user.id)}
           />
         ))}

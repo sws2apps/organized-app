@@ -1,3 +1,4 @@
+import { personAccountNames } from '@utils/name_format';
 import { useMemo, useState } from 'react';
 import { useAtom, useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
@@ -69,7 +70,8 @@ const usePersonSelect = ({
         person_name: buildPersonFullname(
           person.person_data.person_lastname.value,
           person.person_data.person_firstname.value,
-          fullnameOption
+          fullnameOption,
+          person.person_data.person_middlename?.value
         ),
       };
     });
@@ -115,8 +117,7 @@ const usePersonSelect = ({
         const users = await apiPocketUserCreate({
           cong_person_uid: person.person_uid,
           cong_role,
-          user_firstname: person.person_data.person_firstname.value,
-          user_lastname: person.person_data.person_lastname.value,
+          ...personAccountNames(person),
           user_secret_code: encryptData(code, remoteAccessCode),
         });
 
@@ -127,8 +128,7 @@ const usePersonSelect = ({
         const users = await apiCreateUser({
           cong_person_uid: person?.person_uid || '',
           cong_role,
-          user_firstname: person?.person_data.person_firstname.value || '',
-          user_lastname: person?.person_data.person_lastname.value || '',
+          ...personAccountNames(person),
           user_id: userId,
         });
 

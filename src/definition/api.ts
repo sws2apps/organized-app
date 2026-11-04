@@ -90,6 +90,7 @@ export type UserLoginResponseType = {
   app_settings: {
     user_settings: {
       firstname: { value: string; updatedAt: string };
+      middlename?: { value: string; updatedAt: string };
       lastname: { value: string; updatedAt: string };
       role: UserGlobalRoleType;
       mfa: 'not_enabled' | 'enabled';
@@ -241,6 +242,7 @@ export type CongregationUserType = {
     global_role: UserGlobalRoleType;
     cong_role: AppRoleType[];
     firstname: { value: string; updatedAt: string };
+    middlename?: { value: string; updatedAt: string };
     lastname: { value: string; updatedAt: string };
     user_local_uid: string;
     user_members_delegate: string[];
@@ -268,6 +270,7 @@ export type APFormIncoming = {
 };
 
 export type APIUserRequest = {
+  middlename?: string;
   user: string;
   request_date: string;
   firstname: string;

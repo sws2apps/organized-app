@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { pdf } from '@react-pdf/renderer';
 import { saveAs } from 'file-saver';
-import JSZip from 'jszip';
+import { createS89Archive } from '@services/app/s89_export';
 import { Week } from '@definition/week_type';
-import { MidweekExportType, PDFBlobType } from './index.types';
+import { MidweekExportType } from './index.types';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { useAtom, useAtomValue } from 'jotai';
@@ -110,27 +110,9 @@ const useMidweekExport = (onClose: MidweekExportType['onClose']) => {
       }
 
       if (S89Template === 'S89_1x1') {
-        const pdfBlobs: PDFBlobType[] = [];
-
-        for await (const data of S89) {
-          const blob = await pdf(
-            <TemplateS89 data={data} lang={sourceLocale} />
-          ).toBlob();
-
-          let filename = 'S-89_';
-          filename += data.weekOf.replaceAll('/', '') + '_';
-          filename += data.student_name.replace(' ', '_') + '.pdf';
-
-          pdfBlobs.push({ pdfBlob: blob, filename });
-        }
-
-        const zip = new JSZip();
-
-        pdfBlobs.forEach((blob) => {
-          zip.file(blob.filename, blob.pdfBlob);
-        });
-
-        const content = await zip.generateAsync({ type: 'blob' });
+        const content = await createS89Archive(S89, (data) =>
+          pdf(<TemplateS89 data={data} lang={sourceLocale} />).toBlob()
+        );
 
         const url = URL.createObjectURL(content);
         const link = document.createElement('a');
