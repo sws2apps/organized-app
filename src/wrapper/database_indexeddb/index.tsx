@@ -27,6 +27,8 @@ const DatabaseWrapper = ({ children }: PropsWithChildren) => {
     loadUpcomingEvents,
     loadPublicTalks,
     loadSongs,
+    loadPublicWitnessingLocations,
+    loadPublicWitnessingArrangements,
     loadAppLocals,
   } = useIndexedDb();
 
@@ -52,6 +54,8 @@ const DatabaseWrapper = ({ children }: PropsWithChildren) => {
       loadDbNotifications();
       loadDbDelegatedReports();
       loadUpcomingEvents();
+      loadPublicWitnessingLocations();
+      loadPublicWitnessingArrangements();
       loadAppLocals();
     };
 
@@ -77,6 +81,8 @@ const DatabaseWrapper = ({ children }: PropsWithChildren) => {
     loadUpcomingEvents,
     loadPublicTalks,
     loadSongs,
+    loadPublicWitnessingLocations,
+    loadPublicWitnessingArrangements,
     loadAppLocals,
   ]);
 

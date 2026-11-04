@@ -25,6 +25,7 @@ export const CustomPaper = ({
       elevation={1}
       sx={{
         backgroundColor: 'var(--white)',
+        color: 'var(--black)',
         borderRadius: 'var(--radius-l)',
         border: '1px solid var(--accent-200)',
       }}
@@ -54,12 +55,14 @@ export const CustomListBoxComponent = forwardRef((props: BoxProps, ref) => {
           minHeight: '36px !important',
           backgroundColor: 'unset',
           borderBottom: '1px solid var(--accent-200)',
-          '&:hover': {
-            backgroundColor: 'var(--accent-150)',
-            '& p': {
+          '&:hover, &.Mui-focused, &.Mui-focusVisible, &[aria-selected="true"]':
+            {
+              backgroundColor: 'var(--accent-150)',
               color: 'var(--accent-dark)',
+              '& p': {
+                color: 'var(--accent-dark)',
+              },
             },
-          },
         },
         '& .MuiAutocomplete-option:last-child': {
           borderBottom: 'none',

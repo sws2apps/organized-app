@@ -22,6 +22,18 @@ export interface CustomTimePickerProps {
   onChange?: (value: Date) => void;
   sx?: SxProps<Theme>;
   readOnly?: boolean;
+  /**
+   * Drops the clock button inside the field, freeing its width for the time
+   * itself — the field opens the picker on its own. Meant for narrow layouts.
+   */
+  hideIcon?: boolean;
+  /**
+   * Shows the clear action in the picker. Turn it off where an empty time
+   * is not a valid value.
+   */
+  clearable?: boolean;
+  /** Commit keyboard edits immediately in forms that validate before saving. */
+  commitKeyboardChanges?: boolean;
   error?: boolean;
   helperText?: string;
 }

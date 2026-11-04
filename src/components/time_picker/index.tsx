@@ -2,7 +2,10 @@ import { DesktopTimePicker, renderTimeViewClock } from '@mui/x-date-pickers';
 import { Box, ClickAwayListener, useMediaQuery } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import { CustomTimePickerProps } from './index.types';
-import { StyleTimePickerPopper, StyleTimePickerToolbar } from './index.styles';
+import {
+  getTimePickerPopperStyle,
+  getTimePickerToolbarStyle,
+} from './index.styles';
 import { IconClock } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import InputTextField from './slots/textfield';
@@ -24,6 +27,9 @@ const TimePicker = ({
   onChange,
   sx,
   readOnly = false,
+  hideIcon = false,
+  clearable = true,
+  commitKeyboardChanges = false,
   error,
   helperText,
 }: CustomTimePickerProps) => {
@@ -33,18 +39,30 @@ const TimePicker = ({
 
   const [valueTmp, setValueTmp] = useState(value);
   const [open, setOpen] = useState<boolean>(false);
+  const [invalidValue, setInvalidValue] = useState(false);
 
   const isMobile = useMediaQuery('(max-width:600px)');
 
-  const handleClickAway = () => {
-    if (open) setOpen(false);
+  const handleClose = () => {
+    setValueTmp(value);
+    setOpen(false);
   };
 
-  const handleValueChange = (value: Date) => {
+  const handleClickAway = () => {
+    if (open) handleClose();
+  };
+
+  const handleValueChange = (value: Date | null) => {
     setValueTmp(value);
+    // Keyboard edits outside the popup are already committed field values.
+    // Clock selections stay a draft until its OK action is pressed.
+    if (commitKeyboardChanges && !open) {
+      onChange?.(value && Number.isNaN(value.getTime()) ? null : value);
+    }
   };
 
   const handleSave = () => {
+    if (valueTmp && Number.isNaN(valueTmp.getTime())) return;
     onChange?.(valueTmp);
     setOpen(false);
   };
@@ -66,7 +84,6 @@ const TimePicker = ({
         sx={{ flex: 1, minWidth: '120px', width: '100%', ...sx }}
       >
         <DesktopTimePicker
-          key={value ? value.toISOString() : crypto.randomUUID()}
           readOnly={readOnly}
           localeText={{ toolbarTitle: t('tr_pickerSelectTime') }}
           open={!readOnly && open}
@@ -76,7 +93,12 @@ const TimePicker = ({
           value={valueTmp}
           ampm={ampm}
           onChange={handleValueChange}
-          onOpen={() => setOpen(true)}
+          onError={(reason) => setInvalidValue(Boolean(reason))}
+          onOpen={() => {
+            setValueTmp(value);
+            setOpen(true);
+          }}
+          onClose={handleClose}
           viewRenderers={{
             hours: renderTimeViewClock,
             minutes: renderTimeViewClock,
@@ -85,93 +107,55 @@ const TimePicker = ({
             textField: InputTextField,
             openPickerIcon: IconClock,
             actionBar: () => (
-              <ActionBar onClear={handleClear} onClose={handleSave} />
+              <ActionBar
+                onClear={clearable ? handleClear : undefined}
+                onClose={handleSave}
+              />
             ),
           }}
           slotProps={{
             textField: {
               label: label,
-              onClick: () => setOpen(!open),
-              error,
+              onClick: () => {
+                if (open) handleClose();
+                else setOpen(true);
+              },
+              sx: hideIcon
+                ? { '.MuiInputAdornment-root': { display: 'none' } }
+                : undefined,
+              error:
+                error ||
+                invalidValue ||
+                (commitKeyboardChanges &&
+                  (!valueTmp || Number.isNaN(valueTmp.getTime()))),
               helperText,
             },
             toolbar: {
               hidden: false,
               className: 'h3',
-              sx: {
-                ...StyleTimePickerToolbar,
-                maxWidth: isMobile ? 'none' : '250px',
-                '.MuiTimePickerToolbar-hourMinuteLabel': {
-                  width: '100%',
-                  height: isMobile ? '100%' : null,
-                  marginTop: ampm ? 'auto' : 'unset',
-                  span: {
-                    color: 'var(--black)',
-                    padding: '10px 0',
-                  },
-                },
-                '.MuiTimePickerToolbar-ampmSelection': {
-                  height: isMobile ? '100%' : null,
-                  margin: isMobile ? null : '16px 0 auto',
-                  '& > *:first-of-type': {
-                    borderBottomLeftRadius: isMobile ? '0' : null,
-                    borderBottomRightRadius: isMobile ? '0' : null,
-                  },
-                  '& > *:last-of-type': {
-                    borderTop: isMobile ? '0' : null,
-                    borderTopLeftRadius: isMobile ? '0' : null,
-                    borderTopRightRadius: isMobile ? '0' : null,
-                  },
-                  button: {
-                    border: '1px solid var(--accent-300)',
-                    span: {
-                      color: 'var(--accent-400)',
-                      height: '100%',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      padding: '6px',
-                    },
-                    minWidth: '52px',
-                    height: '100%',
-                  },
-                },
-              },
+              sx: getTimePickerToolbarStyle(isMobile, ampm),
             },
             desktopPaper: {
               className: 'pop-up pop-up-shadow',
+              sx: {
+                maxHeight: 'calc(100dvh - var(--dialog-padding))',
+                overflowY: 'auto',
+                maxWidth: 'calc(100vw - var(--dialog-padding))',
+              },
             },
             popper: {
               anchorEl: divRef.current,
-              sx: {
-                ...StyleTimePickerPopper,
-                '.MuiPickersToolbar-content': {
-                  flexWrap: isMobile ? 'nowrap' : 'wrap',
-                  alignItems: ampm ? 'flex-start' : 'center',
-                  minWidth: '216px',
+              modifiers: [
+                {
+                  name: 'preventOverflow',
+                  options: {
+                    rootBoundary: 'viewport',
+                    altAxis: true,
+                    tether: false,
+                  },
                 },
-                '.MuiPickersLayout-contentWrapper': {
-                  marginTop: isMobile ? '5px' : '40px',
-                  gridColumn: '2 / 2',
-                },
-                '.MuiTimeClock-arrowSwitcher': {
-                  top: 0,
-                  right: 0,
-                },
-                '.MuiPickersArrowSwitcher-button': {
-                  color: 'var(--accent-150)',
-                },
-                '.MuiPickersArrowSwitcher-button:hover': {
-                  backgroundColor: 'var(--accent-150)',
-                  color: 'var(--accent-main)',
-                },
-                '.MuiIconButton-root': {
-                  color: 'var(--accent-350)',
-                },
-                '.Mui-disabled': {
-                  color: 'var(--accent-200)',
-                },
-              },
+              ],
+              sx: getTimePickerPopperStyle(isMobile, ampm),
             },
           }}
         />
