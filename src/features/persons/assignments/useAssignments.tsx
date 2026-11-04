@@ -216,6 +216,21 @@ const useAssignments = () => {
           },
         ],
       },
+      {
+        header: t('tr_hallCleaning'),
+        id: 'hallCleaning',
+        color: 'duties' as AssignmentCheckListColors,
+        items: [
+          {
+            code: AssignmentCode.CLEANING_HallResponsible,
+            name: t('tr_hallCleaningResponsible'),
+          },
+          {
+            code: AssignmentCode.CLEANING_Hall,
+            name: t('tr_hallCleaning'),
+          },
+        ],
+      },
     ];
   }, [t]);
 
@@ -266,7 +281,8 @@ const useAssignments = () => {
         if (!male) {
           if (
             item.code === AssignmentCode.MM_Discussion ||
-            item.code === AssignmentCode.MM_Talk
+            item.code === AssignmentCode.MM_Talk ||
+            item.code === AssignmentCode.CLEANING_HallResponsible
           ) {
             continue;
           }

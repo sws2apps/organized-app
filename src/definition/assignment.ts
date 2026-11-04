@@ -30,6 +30,8 @@ export enum AssignmentCode {
   MM_AssistantOnly = 129,
   WM_WTStudyConductor = 130,
   MINISTRY_HOURS_CREDIT = 300,
+  CLEANING_Hall = 500,
+  CLEANING_HallResponsible = 501,
 }
 
 const getAssignmentCodes = (prefix: string): AssignmentCode[] => {
@@ -129,12 +131,16 @@ export type AssignmentFieldWeekendType =
   | 'WM_ClosingPrayer'
   | 'WM_SubstituteSpeaker';
 
+export type AssignmentFieldHallCleaningType =
+  `HC_${'MM' | 'WM' | 'Yearly'}_Dynamic`;
+
 export type AssignmentFieldType =
   | AssignmentFieldMidweekType
   | AssignmentFieldWeekendType
   | 'MM_CircuitOverseer'
   | 'WM_CircuitOverseer'
-  | 'WM_Speaker_Outgoing';
+  | 'WM_Speaker_Outgoing'
+  | AssignmentFieldHallCleaningType;
 
 export type AssignmentStatItemType = {
   code: AssignmentCode;

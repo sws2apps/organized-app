@@ -1,5 +1,7 @@
+import type { MajorCleaningEvent } from '@definition/hall_cleaning';
 import { AssignmentCode, AssignmentFieldType } from './assignment';
 import { Week } from './week_type';
+import type { SettingsType } from '@definition/settings';
 
 export type S140TemplateType = 'S140_default' | 'S140_app_normal';
 
@@ -40,11 +42,7 @@ export type AssignmentAYFType = {
 };
 
 export type PublicTalkType =
-  | 'localSpeaker'
-  | 'visitingSpeaker'
-  | 'jwStreamRecording'
-  | 'host'
-  | 'group';
+  'localSpeaker' | 'visitingSpeaker' | 'jwStreamRecording' | 'host' | 'group';
 
 export type PublicTalkCongregation = {
   type: string;
@@ -77,8 +75,40 @@ export type OutgoingTalkExportScheduleType = OutgoingTalkScheduleType & {
   weekOf: string;
 };
 
+// value is a field service group id, or the name of a neighbouring congregation;
+// both lists are written one at a time, so either can be missing
+export type HallCleaningType = {
+  // Legacy first group has no id; additional group positions use ids 2–6.
+  group?: AssignmentCongregation[];
+  // position ids: '1' is the responsible publisher
+  persons?: AssignmentCongregation[];
+};
+
+export type HallCleaningYearlyType = HallCleaningType & {
+  // the day, as yyyy/MM/dd
+  date?: AssignmentCongregation[];
+};
+
 export type SchedWeekType = {
   weekOf: string;
+  hall_cleaning?: {
+    publication?: {
+      type: string;
+      slots: { slot: 'midweek' | 'weekend' | 'yearly'; date: string }[];
+      updatedAt: string;
+    }[];
+    events?: MajorCleaningEvent[];
+    configuration?: {
+      type: string;
+      value: NonNullable<
+        SettingsType['cong_settings']['hall_cleaning']
+      >[number];
+      updatedAt: string;
+    }[];
+    midweek: HallCleaningType;
+    weekend: HallCleaningType;
+    yearly: HallCleaningYearlyType;
+  };
   midweek_meeting: {
     chairman: {
       main_hall: AssignmentCongregation[];

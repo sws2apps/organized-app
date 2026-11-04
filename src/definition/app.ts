@@ -2,7 +2,8 @@ import { Locale } from 'date-fns';
 import { FullnameOption } from './settings';
 import { ReactNode } from 'react';
 
-export type ColorSchemeType = 'blue' | 'green' | 'purple' | 'orange' | 'teal' | 'rose' | 'slate';
+export type ColorSchemeType =
+  'blue' | 'green' | 'purple' | 'orange' | 'teal' | 'rose' | 'slate';
 
 export type SnackBarSeverityType = 'success' | 'error' | 'message-with-button';
 
@@ -47,14 +48,11 @@ export type AssignmentCheckListColors =
   | 'duties';
 
 export type BadgeColor =
-  | 'red'
-  | 'grey'
-  | 'green'
-  | 'orange'
-  | 'accent'
-  | 'transparent';
+  'red' | 'grey' | 'green' | 'orange' | 'accent' | 'transparent';
 
 export type MeetingType = 'midweek' | 'weekend';
+
+export type ScheduleMeetingType = MeetingType | 'cleaning';
 
 export type AppRoleType =
   | 'admin'
@@ -70,7 +68,8 @@ export type AppRoleType =
   | 'elder'
   | 'ms'
   | 'group_overseers'
-  | 'language_group_overseers';
+  | 'language_group_overseers'
+  | 'duties_schedule';
 
 export type ReleaseNoteType = {
   [version: string]: {

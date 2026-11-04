@@ -75,7 +75,7 @@ export const StyleDatePickerLayout = {
       backgroundColor: 'rgba(var(--accent-main-base), 0.1)',
     },
   },
-} as Partial<PickersLayoutProps<Date>>;
+} as Partial<PickersLayoutProps<Date | null>>;
 
 export const StyleDatePickerPopper: SxProps<Theme> = {
   width: '360px',

@@ -29,6 +29,14 @@ export type AutocompletePropsType<T> = Omit<
   endIcon?: ReactElement;
 
   /**
+   * Height of the field in pixels, which also places its label. Defaults to 48.
+   */
+  height?: number;
+
+  /** Keep a clear action visible for search text as well as a selected value. Single selectors only. */
+  showInputClearButton?: boolean;
+
+  /**
    * Label text for the Autocomplete component.
    */
   label?: string;

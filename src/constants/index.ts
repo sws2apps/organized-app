@@ -27,7 +27,10 @@ import {
   he,
 } from 'date-fns/locale';
 import { AppRoleType, LanguageItem } from '@definition/app';
-import { AssignmentCode } from '@definition/assignment';
+import {
+  AssignmentCode,
+  AssignmentFieldHallCleaningType,
+} from '@definition/assignment';
 import { FullnameOption } from '@definition/settings';
 import { Week } from '@definition/week_type';
 
@@ -418,18 +421,6 @@ export const APP_READ_ONLY_ROLES: AppRoleType[] = [
   'language_group_overseers',
 ];
 
-export const APP_ROLES: AppRoleType[] = [
-  'admin',
-  'coordinator',
-  'midweek_schedule',
-  'weekend_schedule',
-  'public_talk_schedule',
-  'attendance_tracking',
-  'secretary',
-  'service_overseer',
-  ...APP_READ_ONLY_ROLES,
-];
-
 export const VIP_ROLES: AppRoleType[] = [
   'admin',
   'coordinator',
@@ -441,6 +432,7 @@ export const VIP_ROLES: AppRoleType[] = [
   'elder',
   'group_overseers',
   'language_group_overseers',
+  'duties_schedule',
 ];
 
 export const POCKET_ROLES: AppRoleType[] = [
@@ -449,6 +441,14 @@ export const POCKET_ROLES: AppRoleType[] = [
   'publisher',
   'view_schedules',
 ];
+
+export const APP_ROLES = Array.from(
+  new Set<AppRoleType>([
+    ...APP_READ_ONLY_ROLES,
+    ...VIP_ROLES,
+    'attendance_tracking',
+  ])
+);
 
 export const APP_ENVIRONMENT = import.meta.env.VITE_APP_MODE;
 
@@ -693,7 +693,16 @@ const extractConfigs = <
   return result;
 };
 
-export const ASSIGNMENT_PATH = extractPaths(ASSIGNMENT_PATHS_SECTIONS);
+const HALL_CLEANING_PATHS: Record<AssignmentFieldHallCleaningType, string> = {
+  HC_MM_Dynamic: 'hall_cleaning.midweek.persons',
+  HC_WM_Dynamic: 'hall_cleaning.weekend.persons',
+  HC_Yearly_Dynamic: 'hall_cleaning.yearly.persons',
+};
+
+export const ASSIGNMENT_PATH = {
+  ...extractPaths(ASSIGNMENT_PATHS_SECTIONS),
+  ...HALL_CLEANING_PATHS,
+};
 
 export const ASSIGNMENT_DEFAULTS = extractConfigs(ASSIGNMENT_PATHS_SECTIONS);
 
@@ -850,6 +859,8 @@ export const BROTHER_ASSIGNMENT = [
   AssignmentCode.WM_SpeakerSymposium,
   AssignmentCode.WM_WTStudyConductor,
   AssignmentCode.WM_WTStudyReader,
+  AssignmentCode.CLEANING_Hall,
+  AssignmentCode.CLEANING_HallResponsible,
 ];
 
 export const STUDENT_ASSIGNMENT = [

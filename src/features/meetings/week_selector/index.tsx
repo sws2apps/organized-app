@@ -10,6 +10,7 @@ import useWeekSelector from './useWeekSelector';
 import AssignmentsDelete from '../assignments_delete';
 import Button from '@components/button';
 import IconButton from '@components/icon_button';
+import InfoNote from '@components/info_note';
 import Typography from '@components/typography';
 import ScrollableTabs from '@components/scrollable_tabs';
 
@@ -61,52 +62,62 @@ const WeekSelector = () => {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          cursor: desktopUp ? 'default' : 'pointer',
+          cursor: desktopUp || !hasWeeks ? 'default' : 'pointer',
         }}
-        onClick={desktopUp ? null : handleToggleExpand}
+        onClick={desktopUp || !hasWeeks ? undefined : handleToggleExpand}
       >
-        <Typography className="h2">{t('tr_meetings')}</Typography>
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            gap: '8px',
-            alignItems: 'center',
-          }}
-        >
-          <IconButton
-            onClick={(e) => {
-              e.stopPropagation();
-              handleToggleSort();
-            }}
+        <Typography className="h2">
+          {t(meeting === 'cleaning' ? 'tr_meetingWeeks' : 'tr_meetings')}
+        </Typography>
+        {hasWeeks && (
+          <Box
             sx={{
-              '&:hover': {
-                backgroundColor: 'var(--accent-150)',
-              },
-              '&:active': {
-                backgroundColor: 'var(--accent-200)',
-              },
+              display: 'flex',
+              flexDirection: 'row',
+              gap: '8px',
+              alignItems: 'center',
             }}
           >
-            {sortDown ? (
-              <IconSortDown color="var(--black)" />
-            ) : (
-              <IconSortUp color="var(--black)" />
-            )}
-          </IconButton>
-          {!desktopUp && (
-            <IconCollapse
-              color="var(--black)"
-              sx={{
-                transform: expanded ? 'rotate(0deg)' : 'rotate(180deg)',
-                transition: 'transform 0.3s',
+            <IconButton
+              onClick={(e) => {
+                e.stopPropagation();
+                handleToggleSort();
               }}
-            />
-          )}
-        </Box>
+              sx={{
+                '&:hover': {
+                  backgroundColor: 'var(--accent-150)',
+                },
+                '&:active': {
+                  backgroundColor: 'var(--accent-200)',
+                },
+              }}
+            >
+              {sortDown ? (
+                <IconSortDown color="var(--black)" />
+              ) : (
+                <IconSortUp color="var(--black)" />
+              )}
+            </IconButton>
+            {!desktopUp && (
+              <IconCollapse
+                color="var(--black)"
+                sx={{
+                  transform: expanded ? 'rotate(0deg)' : 'rotate(180deg)',
+                  transition: 'transform 0.3s',
+                }}
+              />
+            )}
+          </Box>
+        )}
       </Box>
 
-      <Collapse in={desktopUp || expanded} timeout="auto" unmountOnExit>
+      {!hasWeeks && <InfoNote message={t('tr_noWeeksImported')} />}
+
+      <Collapse
+        in={hasWeeks && (desktopUp || expanded)}
+        timeout="auto"
+        unmountOnExit
+      >
         {hasWeeks && <ScrollableTabs tabs={tabs} value={activeTab} />}
 
         <Box

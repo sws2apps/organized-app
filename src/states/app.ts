@@ -59,6 +59,13 @@ export const appThemeState = atom((get) => {
   )?.direction ?? 'ltr') as Direction;
 
   return createTheme({
+    // MUI inputs also use text.disabled for WebKit text fill. Keep its palette
+    // tied to the CSS theme so disabled text follows every color mode.
+    palette: {
+      text: {
+        disabled: 'var(--grey-350)',
+      },
+    },
     typography: {
       allVariants: {
         fontFamily: font,
