@@ -101,12 +101,13 @@ function ScrollableTabs({
                   color: 'var(--accent-main)',
                   '&.Mui-disabled': { opacity: 0.3 },
                 },
-                '& .MuiSvgIcon-root g path': {
+                '& .MuiSvgIcon-root g path, & .MuiSvgIcon-root > path': {
                   fill: 'var(--accent-400)',
                 },
-                '& .Mui-selected > .MuiSvgIcon-root g path': {
-                  fill: 'var(--accent-dark)',
-                },
+                '& .Mui-selected > .MuiSvgIcon-root g path, & .Mui-selected > .MuiSvgIcon-root > path':
+                  {
+                    fill: 'var(--accent-dark)',
+                  },
                 '& .MuiTabScrollButton-root': {
                   width: 'auto !important',
                   height: '36px',

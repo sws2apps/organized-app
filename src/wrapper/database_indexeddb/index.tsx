@@ -22,6 +22,7 @@ const DatabaseWrapper = ({ children }: PropsWithChildren) => {
     loadBranchCongAnalysis,
     loadBranchFieldReports,
     loadFieldGroups,
+    loadFieldServiceMeetings,
     loadDbNotifications,
     loadDbDelegatedReports,
     loadUpcomingEvents,
@@ -49,6 +50,7 @@ const DatabaseWrapper = ({ children }: PropsWithChildren) => {
       loadBranchFieldReports();
       loadBranchCongAnalysis();
       loadFieldGroups();
+      loadFieldServiceMeetings();
       loadDbNotifications();
       loadDbDelegatedReports();
       loadUpcomingEvents();
@@ -72,6 +74,7 @@ const DatabaseWrapper = ({ children }: PropsWithChildren) => {
     loadBranchFieldReports,
     loadBranchCongAnalysis,
     loadFieldGroups,
+    loadFieldServiceMeetings,
     loadDbNotifications,
     loadDbDelegatedReports,
     loadUpcomingEvents,

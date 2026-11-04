@@ -1,4 +1,13 @@
+import type { FieldServiceMeetingReceipt } from '@definition/field_service_meetings';
 import { BackupDataType } from './backupType';
+
+const fieldServiceSyncMessage = (message: string) => {
+  if (message === 'FIELD_SERVICE_FORBIDDEN')
+    return 'tr_fieldServiceMeetingNotAllowed';
+  if (message === 'FIELD_SERVICE_CONFLICT')
+    return 'tr_fieldServiceMeetingChanged';
+  return message;
+};
 
 export const apiGetCongregationBackup = async ({
   apiHost,
@@ -104,7 +113,7 @@ export const apiSendPocketBackup = async ({
   });
 
   const data = await res.json();
-
+  if (!res.ok) throw new Error(fieldServiceSyncMessage(data.message));
   return data;
 };
 
@@ -127,7 +136,10 @@ export const apiSendCongregationBackupChunk = async ({
   const totalChunks = Math.ceil(jsonStr.length / CHUNK_SIZE);
   const uploadId = crypto.randomUUID();
 
-  const data = { message: '' };
+  const data: {
+    message: string;
+    field_service_meeting_receipts?: FieldServiceMeetingReceipt[];
+  } = { message: '' };
 
   for (let i = 0; i < totalChunks; i++) {
     const chunkData = jsonStr.slice(i * CHUNK_SIZE, (i + 1) * CHUNK_SIZE);
@@ -154,10 +166,12 @@ export const apiSendCongregationBackupChunk = async ({
     const resData = await res.json();
 
     if (!res.ok) {
-      throw new Error(resData.message);
+      throw new Error(fieldServiceSyncMessage(resData.message));
     }
 
     data.message = resData.message;
+    data.field_service_meeting_receipts =
+      resData.field_service_meeting_receipts;
   }
 
   return data;

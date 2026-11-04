@@ -1,3 +1,15 @@
+import {
+  fieldServiceMeetingToSync,
+  fieldServiceMeetingFromSync,
+  fieldServiceSchedulingScope,
+  mergeFieldServiceMeetingFromSync,
+  acknowledgeFieldServiceMeeting,
+  fieldServiceGroupRoles,
+} from '@utils/field_service_meeting_sync';
+import {
+  fieldServiceMeetingPermissions,
+  fieldServiceMeetingUploadRecords,
+} from '@utils/field_service_meeting_permissions';
 // to minimize the size of the worker file, we recreate all its needed functions in this file
 
 import appDb from '@db/appDb';
@@ -31,6 +43,7 @@ import { MeetingAttendanceType } from '@definition/meeting_attendance';
 import { MetadataRecordType } from '@definition/metadata';
 import { DelegatedFieldServiceReportType } from '@definition/delegated_field_service_reports';
 import { UpcomingEventType } from '@definition/upcoming_events';
+import { FieldServiceMeetingReceipt } from '@definition/field_service_meetings';
 import { formatDate } from '@utils/date';
 import {
   meetingAttendanceFillCounts,
@@ -430,6 +443,7 @@ const dbGetTableData = async () => {
   const sources = await appDb.sources.toArray();
   const meeting_attendance = await appDb.meeting_attendance.toArray();
   const upcoming_events = await appDb.upcoming_events.toArray();
+  const field_service_meetings = await appDb.field_service_meetings.toArray();
   const metadata = await appDb.metadata.get(1);
 
   if (!metadata) {
@@ -498,6 +512,7 @@ const dbGetTableData = async () => {
     metadata,
     delegated_field_service_reports,
     upcoming_events,
+    field_service_meetings,
   };
 };
 
@@ -946,6 +961,37 @@ const dbRestoreUpcomingEvents = async (
     }
   } catch (error) {
     throw new Error(`upcoming_events: ${getErrorMessage(error)}`);
+  }
+};
+
+const dbRestoreFieldServiceMeetings = async (
+  backupData: BackupDataType,
+  accessCode: string
+) => {
+  try {
+    if (!backupData.field_service_meetings) return;
+
+    const remoteMeetings = backupData.field_service_meetings.map((meeting) =>
+      fieldServiceMeetingFromSync(meeting, accessCode)
+    );
+
+    await appDb.transaction('rw', appDb.field_service_meetings, async () => {
+      const meetings = await appDb.field_service_meetings.toArray();
+      const byUid = new Map(
+        meetings.map((meeting) => [meeting.meeting_uid, meeting])
+      );
+      const meetingToUpdate = remoteMeetings.map((remoteMeeting) => {
+        const localMeeting = byUid.get(remoteMeeting.meeting_uid);
+        return localMeeting
+          ? mergeFieldServiceMeetingFromSync(localMeeting, remoteMeeting)
+          : remoteMeeting;
+      });
+      if (meetingToUpdate.length > 0) {
+        await appDb.field_service_meetings.bulkPut(meetingToUpdate);
+      }
+    });
+  } catch (error) {
+    throw new Error(`field_service_meetings: ${getErrorMessage(error)}`);
   }
 };
 
@@ -1726,6 +1772,8 @@ const dbRestoreFromBackup = async (
 
     await dbRestoreUpcomingEvents(backupData, accessCode);
 
+    await dbRestoreFieldServiceMeetings(backupData, accessCode);
+
     await dbRestoreUserReports(backupData, accessCode);
 
     await dbRestoreDelegatedReports(backupData, accessCode);
@@ -1809,6 +1857,7 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
       metadata,
       delegated_field_service_reports,
       upcoming_events,
+      field_service_meetings,
     } = await dbGetTableData();
 
     const dataSync = settings.cong_settings.data_sync.value;
@@ -1834,6 +1883,18 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
     const scheduleEditor = isScheduleEditorRole(userRole);
 
     const personEditor = serviceCommitteeRole || scheduleEditor;
+    const schedulingScope = serviceCommitteeRole
+      ? fieldServiceSchedulingScope(
+          field_service_groups,
+          persons,
+          metadata.metadata.field_service_scheduling?.version ?? ''
+        )
+      : undefined;
+    const meetingsToUpload = fieldServiceMeetingUploadRecords(
+      field_service_meetings,
+      settings,
+      field_service_groups
+    ).map((meeting) => fieldServiceMeetingToSync(meeting, accessCode));
 
     const settingEditor =
       adminRole || languageGroupOverseerRole || scheduleEditor;
@@ -1857,6 +1918,12 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
     );
 
     if (dataSync) {
+      if (
+        meetingsToUpload.length > 0 &&
+        metadata.metadata.field_service_meetings?.send_local
+      ) {
+        obj.field_service_meetings = meetingsToUpload;
+      }
       if (accountType === 'vip') {
         if (metadata.metadata.user_settings.send_local) {
           obj.app_settings = { user_settings: userBaseSettings };
@@ -1886,6 +1953,20 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
 
             obj.app_settings.cong_settings = localSettings.cong_settings;
           }
+        }
+
+        // Field service schedulers who edit no other settings send only the recurring times.
+        if (
+          !settingEditor &&
+          metadata.metadata.cong_settings.send_local &&
+          fieldServiceMeetingPermissions(settings, field_service_groups)
+            .canCreate
+        ) {
+          obj.app_settings ??= {};
+          obj.app_settings.cong_settings = {
+            field_service_meeting_times:
+              settings.cong_settings.field_service_meeting_times ?? [],
+          };
         }
 
         // include person data
@@ -2003,7 +2084,8 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
           serviceCommitteeRole &&
           metadata.metadata.field_service_groups.send_local
         ) {
-          const backupGroups = field_service_groups.map((group) => {
+          const backupGroups = field_service_groups.map((record) => {
+            const group = structuredClone(record);
             encryptObject({
               data: group,
               table: 'field_service_groups',
@@ -2135,6 +2217,10 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
           }
         }
 
+        // Scheduling scope is independent of group metadata: conductor qualifications
+        // can change without a group row changing. Only trusted managers publish it.
+        if (schedulingScope) obj.field_service_scheduling = schedulingScope;
+
         // include user role changes
         if (adminRole && backupData.cong_users) {
           const congUsers: CongUserType[] = [];
@@ -2179,29 +2265,9 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
               userRole.push('ms');
             }
 
-            const group = field_service_groups.find((record) =>
-              record.group_data.members.some(
-                (member) => member.person_uid === person.person_uid
-              )
+            userRole.push(
+              ...fieldServiceGroupRoles(person.person_uid, field_service_groups)
             );
-
-            const publisher = group?.group_data.members.find(
-              (member) => member.person_uid === person.person_uid
-            );
-
-            if (publisher) {
-              const isLanguageGroup = group?.group_data.language_group;
-              const isOverseer =
-                publisher?.isOverseer || publisher?.isAssistant || false;
-
-              if (isOverseer) {
-                userRole.push(
-                  isLanguageGroup
-                    ? 'language_group_overseers'
-                    : 'group_overseers'
-                );
-              }
-            }
 
             userRole = Array.from(new Set(userRole));
 
@@ -2410,10 +2476,61 @@ export const dbClearExportState = async () => {
   const newMetadata = {} as MetadataRecordType['metadata'];
 
   for (const [key, values] of Object.entries(oldMetadata)) {
-    newMetadata[key] = { version: values.version, send_local: false };
+    newMetadata[key] = {
+      version: values.version,
+      send_local: key === 'field_service_meetings' && values.send_local,
+    };
   }
 
   await appDb.metadata.update(metadata.id, {
     metadata: newMetadata,
   });
+};
+
+/** Keep pending edits made during upload and acknowledge only the submitted base revision. */
+export const dbAcknowledgeFieldServiceMeetings = async (
+  receipts: FieldServiceMeetingReceipt[]
+) => {
+  await appDb.transaction(
+    'rw',
+    [
+      appDb.field_service_meetings,
+      appDb.metadata,
+      appDb.app_settings,
+      appDb.field_service_groups,
+    ],
+    async () => {
+      const meetings = await appDb.field_service_meetings.toArray();
+      const byUid = new Map(
+        receipts.map((receipt) => [receipt.meeting_uid, receipt])
+      );
+      const acknowledged = meetings.map((meeting) => {
+        const receipt = byUid.get(meeting.meeting_uid);
+        return receipt
+          ? acknowledgeFieldServiceMeeting(meeting, receipt)
+          : meeting;
+      });
+      await appDb.field_service_meetings.bulkPut(acknowledged);
+      const settings = await dbGetSettings();
+      if (!settings) throw new Error('Settings not found');
+      const groups = await appDb.field_service_groups.toArray();
+      const pending = fieldServiceMeetingUploadRecords(
+        acknowledged,
+        settings,
+        groups
+      ).some(
+        (meeting) => meeting.sync_updatedAt !== meeting.meeting_data.updatedAt
+      );
+      const metadata = await appDb.metadata.get(1);
+      if (!metadata) return;
+      const current = metadata.metadata.field_service_meetings ?? {
+        version: '',
+      };
+      metadata.metadata.field_service_meetings = {
+        ...current,
+        send_local: pending,
+      };
+      await appDb.metadata.put(metadata);
+    }
+  );
 };

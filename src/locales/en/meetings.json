@@ -105,6 +105,8 @@
   "tr_reset": "Reset",
   "tr_numberOfMeetings": "Number of meetings",
   "tr_today": "Now",
+  "tr_current": "Current",
+  "tr_toCurrent": "To current",
   "tr_totalAttendance": "Total attendance",
   "tr_avgAttendance": "Average attendance",
   "tr_avgOnline": "Average online",

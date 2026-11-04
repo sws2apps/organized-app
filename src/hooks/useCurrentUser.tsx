@@ -84,6 +84,13 @@ const useCurrentUser = () => {
     return personIsPublisher(person);
   }, [person, personIsPublisher]);
 
+  const isMidweekStudent = useMemo(
+    () =>
+      !isPublisher &&
+      (person?.person_data.midweek_meeting_student?.active.value ?? false),
+    [person, isPublisher]
+  );
+
   const enable_AP_application = useMemo(() => {
     if (!connected) return false;
 
@@ -303,6 +310,7 @@ const useCurrentUser = () => {
     enable_AP_application,
     isAdmin,
     isPublisher,
+    isMidweekStudent,
     isServiceCommittee,
     isElder,
     isPersonEditor,

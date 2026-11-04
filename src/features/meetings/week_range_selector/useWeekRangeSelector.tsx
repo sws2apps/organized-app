@@ -7,6 +7,8 @@ import {
   formatDate,
   getFirstWeekPreviousMonth,
   MAX_DATE,
+  formatDateShortMonthWithYear,
+  getWeekDate,
 } from '@utils/date';
 import {
   JWLangState,
@@ -18,7 +20,9 @@ import { schedulesGetMeetingDate } from '@services/app/schedules';
 
 const useWeekRangeSelector = (
   onStartChange: WeekRangeSelectorType['onStartChange'],
-  meeting: WeekRangeSelectorType['meeting']
+  meeting: WeekRangeSelectorType['meeting'],
+  controlledStartWeek?: WeekRangeSelectorType['startWeek'],
+  weeks?: string[]
 ) => {
   const sources = useAtomValue(sourcesState);
   const lang = useAtomValue(JWLangState);
@@ -26,15 +30,21 @@ const useWeekRangeSelector = (
   const midweekDay = useAtomValue(midweekMeetingWeekdayState);
   const weekendDay = useAtomValue(weekendMeetingWeekdayState);
 
-  const [startWeek, setStartWeek] = useState('');
+  const [internalStartWeek, setInternalStartWeek] = useState('');
+
+  // In controlled mode (parent passes startWeek) derive from the prop, so a
+  // programmatically set/prefilled value also enables and filters the end
+  // select — not only values picked through this component.
+  const startWeek = controlledStartWeek ?? internalStartWeek;
 
   const showDateLabel = useMemo(() => {
+    if (weeks) return false;
     if (meeting === 'weekend') return true;
 
     if (!meetingExactDate) return false;
 
     return true;
-  }, [meeting, meetingExactDate]);
+  }, [meeting, meetingExactDate, weeks]);
 
   const filterSources = useCallback(
     (startDate: string, endDate: string) => {
@@ -88,6 +98,19 @@ const useWeekRangeSelector = (
   );
 
   const startWeekOptions = useMemo(() => {
+    if (weeks) {
+      const currentWeek = formatDate(getWeekDate(), 'yyyy/MM/dd');
+      const options = [...new Set(weeks)]
+        .sort((first, second) => first.localeCompare(second))
+        .map((week) => ({
+          value: week,
+          label: formatDateShortMonthWithYear(week),
+        }));
+      return [
+        options.filter((option) => option.value < currentWeek),
+        options.filter((option) => option.value >= currentWeek),
+      ];
+    }
     let startDate = formatDate(getFirstWeekPreviousMonth(), 'yyyy/MM/dd');
     let endDate = formatDate(new Date(), 'yyyy/MM/dd');
 
@@ -102,7 +125,7 @@ const useWeekRangeSelector = (
     const upcomingSourcesOptions = mapSourcesToOptions(upcomingSources);
 
     return [pastSourcesOptions, upcomingSourcesOptions];
-  }, [filterSources, mapSourcesToOptions]);
+  }, [filterSources, mapSourcesToOptions, weeks]);
 
   const endWeekOptions = useMemo(() => {
     if (startWeek.length <= 0) return [[], []];
@@ -115,7 +138,7 @@ const useWeekRangeSelector = (
   }, [startWeek, startWeekOptions]);
 
   const handleStartWeekChange = (value: string) => {
-    setStartWeek(value);
+    setInternalStartWeek(value);
     onStartChange?.(value);
   };
 

@@ -63,6 +63,7 @@ import { apiPocketValidateMe } from '@services/api/pocket';
 import { UserLoginResponseType } from '@definition/api';
 import { settingSchema } from '@services/dexie/schema';
 import { dbUpcomingEventsCleanup } from '@services/dexie/upcoming_events';
+import { dbFieldServiceMeetingsCleanup } from '@services/dexie/field_service_meetings';
 import appDb from '@db/appDb';
 import { dbSpeakersCongregationsSetName } from '@services/dexie/speakers_congregations';
 
@@ -93,6 +94,7 @@ export const runUpdater = async () => {
   await dbSourcesUpdateEventsName();
   await dbUserSaveTimerToStorage();
   await dbUpcomingEventsCleanup();
+  await dbFieldServiceMeetingsCleanup();
   await dbAppSettingsUpdateCongNumber();
   await dbSpeakersCongregationsSetName();
 };

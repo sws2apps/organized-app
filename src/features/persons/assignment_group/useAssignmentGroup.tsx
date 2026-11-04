@@ -27,7 +27,11 @@ const useAssignmentGroup = (male: boolean) => {
       if (isPioneer) return false;
 
       const isPublisher = personIsPublisher(person);
-      return !isPublisher;
+      if (isPublisher) return false;
+
+      // Brothers can still be marked as field service meeting conductors even
+      // when the pioneer-only hours-credit item is unavailable to them.
+      return !male;
     }
 
     if (male) isDisabled = false;
@@ -53,6 +57,11 @@ const useAssignmentGroup = (male: boolean) => {
       const isPioneer = isFR || isFS;
 
       return !isPioneer;
+    }
+
+    // The field service meeting conductor qualification is for brothers.
+    if (code === AssignmentCode.MINISTRY_FS_CONDUCTOR) {
+      return !male;
     }
 
     if (code === AssignmentCode.MM_AssistantOnly) {
@@ -97,7 +106,12 @@ const useAssignmentGroup = (male: boolean) => {
     items: { code: AssignmentCode }[]
   ) => {
     if (!items.length) return false;
-    return id === 'ministry' && checkAssignmentDisabled(items[0].code);
+    // The ministry group is only fully disabled when every item within it is
+    // unavailable to the person (hours credit + conductor have separate rules).
+    return (
+      id === 'ministry' &&
+      items.every((item) => checkAssignmentDisabled(item.code))
+    );
   };
 
   const isDisabledByGender = (id: string) => {
