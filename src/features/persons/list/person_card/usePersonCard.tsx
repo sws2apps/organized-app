@@ -14,12 +14,15 @@ import {
   personIsFR,
   personIsFS,
   personIsInactive,
+  personIsIrregularPublisher,
   personIsMS,
   updateRecentPersons,
 } from '@services/app/persons';
 import { personsFilterOpenState, personsRecentState } from '@states/persons';
 import { fullnameOptionState } from '@states/settings';
 import { getMessageByCode } from '@services/i18n/translation';
+import { reportsMapState } from '@states/field_service_reports';
+import { branchFieldReportsState } from '@states/branch_field_service_reports';
 
 const usePersonCard = (person: PersonType) => {
   const navigate = useNavigate();
@@ -30,10 +33,14 @@ const usePersonCard = (person: PersonType) => {
 
   const fullnameOption = useAtomValue(fullnameOptionState);
   const filterOpen = useAtomValue(personsFilterOpenState);
+  const reportsMap = useAtomValue(reportsMapState);
+  const branchReports = useAtomValue(branchFieldReportsState);
 
   const [isDeleting, setIsDeleting] = useState(false);
 
   const getPersonBadge = useCallback(() => {
+    const reportMonths = reportsMap.get(person.person_uid);
+
     const isElder = personIsElder(person);
     const isMS = personIsMS(person);
     const isAP = personIsAP(person);
@@ -47,6 +54,17 @@ const usePersonCard = (person: PersonType) => {
     const disqualified = person.person_data.disqualified.value;
     const isInactivePublisher = personIsInactive(person);
     const isFamilyHead = person.person_data?.family_members?.head ?? false;
+    const isIrregularPublisher = personIsIrregularPublisher(
+      person,
+      reportMonths,
+      branchReports
+    );
+    const isBethelite =
+      isBaptized && (person.person_data.bethelite?.value ?? false);
+    const isBethelCommuter =
+      isBaptized && (person.person_data.bethel_commuter?.value ?? false);
+    const isLdcVolunteer =
+      isBaptized && (person.person_data.ldc_volunteer?.value ?? false);
 
     const badges: { name: string; color: BadgeColor }[] = [];
 
@@ -61,6 +79,10 @@ const usePersonCard = (person: PersonType) => {
     if (!disqualified && !isInactivePublisher) {
       if (isElder) {
         badges.push({ name: t('tr_elder'), color: 'accent' });
+      }
+
+      if (isIrregularPublisher) {
+        badges.push({ name: t('tr_irregularPublisher'), color: 'orange' });
       }
 
       if (isMS) {
@@ -82,6 +104,18 @@ const usePersonCard = (person: PersonType) => {
       if (isFS) {
         badges.push({ name: t('tr_FS'), color: 'orange' });
       }
+
+      if (isBethelite) {
+        badges.push({ name: t('tr_bethelite'), color: 'accent' });
+      }
+
+      if (isBethelCommuter) {
+        badges.push({ name: t('tr_bethelCommuter'), color: 'accent' });
+      }
+
+      if (isLdcVolunteer) {
+        badges.push({ name: t('tr_ldcVolunteer'), color: 'accent' });
+      }
     }
 
     const hasSpecialBadge =
@@ -92,7 +126,10 @@ const usePersonCard = (person: PersonType) => {
       isAP ||
       isFMF ||
       isFR ||
-      isFS;
+      isFS ||
+      isBethelite ||
+      isBethelCommuter ||
+      isLdcVolunteer;
 
     if (!hasSpecialBadge || disqualified) {
       if (isBaptized) {
@@ -113,7 +150,7 @@ const usePersonCard = (person: PersonType) => {
     }
 
     return badges.sort((a, b) => a.name.localeCompare(b.name));
-  }, [t, person]);
+  }, [person, reportsMap, branchReports, t]);
 
   const handleDelete = () => setIsDeleting(true);
 
