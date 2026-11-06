@@ -29,6 +29,7 @@ export enum AssignmentCode {
   MM_AuxiliaryCounselor = 128,
   MM_AssistantOnly = 129,
   WM_WTStudyConductor = 130,
+  MM_AuxiliaryClassroomOnly = 131,
   MINISTRY_HOURS_CREDIT = 300,
 }
 

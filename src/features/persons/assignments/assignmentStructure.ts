@@ -58,6 +58,10 @@ export const ASSIGNMENT_SECTIONS: AssignmentSection[] = [
         nameKey: 'tr_assistantOnly',
         borderTop: true,
       },
+      {
+        code: AssignmentCode.MM_AuxiliaryClassroomOnly,
+        nameKey: 'tr_auxiliaryClassroomOnly',
+      },
     ],
   },
   {
