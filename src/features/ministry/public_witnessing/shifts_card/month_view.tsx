@@ -132,7 +132,9 @@ const MonthView = ({ days, onSelectDay }: MonthViewProps) => {
 
   const dayAriaLabel = (calendarDay: MonthCalendarDay) => {
     const day = byDate.get(calendarDay.dateStr);
-    if (!day || day.slots.length === 0) return calendarDay.dateStr;
+    if (!day || day.slots.length === 0) {
+      return dateFormatFriendly(calendarDay.dateStr);
+    }
 
     const { available, occupied, isOver } = countShifts(day);
 

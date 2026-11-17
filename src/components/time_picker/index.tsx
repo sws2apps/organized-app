@@ -54,9 +54,11 @@ const TimePicker = ({
 
   const handleValueChange = (value: Date | null) => {
     setValueTmp(value);
-    // Keyboard edits outside the popup are already committed field values.
-    // Clock selections stay a draft until its OK action is pressed.
-    if (commitKeyboardChanges && !open) {
+    // Typed times are committed at once, also while the clock is open, so
+    // closing it by clicking away keeps them. The clock keeps focus in its
+    // popup, and its selections stay a draft until OK is pressed.
+    const typed = divRef.current?.contains(document.activeElement);
+    if (commitKeyboardChanges && (!open || typed)) {
       onChange?.(value && Number.isNaN(value.getTime()) ? null : value);
     }
   };
