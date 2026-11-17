@@ -45,8 +45,8 @@ export type PublicWitnessingArrangementType = {
     // person_uid of the author — only the author (and admins) may edit.
     created_by: string;
     partner_needed: boolean;
-    // Publishers still wanted when partner_needed; the shift stays joinable
-    // until this many partners have been arranged.
+    // Partners the author asked for when partner_needed, those who joined
+    // since included; the shift stays joinable until that many have joined.
     partner_count?: number;
     publishers: PublicWitnessingPublisherType[];
   };

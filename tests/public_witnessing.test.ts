@@ -1,11 +1,27 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import {
+  publicWitnessingArrangementWriteError,
+  publicWitnessingBookingError,
+  publicWitnessingCanManage,
+  publicWitnessingCapacityError,
+  publicWitnessingDayShifts,
+  publicWitnessingErrorKey,
+  publicWitnessingIsElapsed,
+  publicWitnessingIsSeekingPartner,
+  publicWitnessingLocationEditError,
+  publicWitnessingLocationError,
   publicWitnessingNextShift,
+  publicWitnessingNextSortIndex,
+  publicWitnessingPartnerRequest,
+  publicWitnessingPartnersStillWanted,
   publicWitnessingPublisherEntries,
   publicWitnessingShiftError,
-  publicWitnessingLocationEditError,
 } from '@utils/public_witnessing';
+import type {
+  PublicWitnessingArrangementType,
+  PublicWitnessingLocationType,
+} from '@definition/public_witnessing';
 
 test('shift identities require distinct start times on a day', () => {
   assert.equal(
@@ -74,15 +90,6 @@ test('same-name selections retain IDs while typed names remain unlinked', () => 
     ]
   );
 });
-
-import {
-  publicWitnessingBookingError,
-  publicWitnessingCapacityError,
-} from '@utils/public_witnessing';
-import type {
-  PublicWitnessingArrangementType,
-  PublicWitnessingLocationType,
-} from '@definition/public_witnessing';
 
 const reviewNow = new Date(2030, 0, 1);
 const reviewLocation: PublicWitnessingLocationType = {
@@ -333,18 +340,229 @@ test('stale join cannot enter a closed shift merely because physical capacity re
     ),
     'tr_PWBookingChanged'
   );
+  const pair = booking('a');
+  pair.arrangement_data.publishers.push({ name: 'Sam' });
   assert.equal(
-    publicWitnessingBookingError(
-      booking('b'),
-      location,
-      [booking('a')],
-      reviewNow
-    ),
+    publicWitnessingBookingError(booking('b'), location, [pair], reviewNow),
     'tr_PWBookingChanged'
   );
 });
 
-import { publicWitnessingDayShifts } from '@utils/public_witnessing';
+test('a publisher left alone by a cancelled partner stays joinable', () => {
+  const joiner = booking('b');
+  assert.equal(publicWitnessingIsSeekingPartner([joiner], 1, 2), true);
+  assert.equal(publicWitnessingIsSeekingPartner([joiner], 1, 1), false);
+  assert.equal(
+    publicWitnessingBookingError(
+      booking('c'),
+      reviewLocation,
+      [joiner],
+      reviewNow
+    ),
+    null
+  );
+
+  const arrangedByAdmin = booking('d', 'someone-else');
+  arrangedByAdmin.arrangement_data.created_by = 'admin';
+  assert.equal(
+    publicWitnessingIsSeekingPartner([arrangedByAdmin], 1, 2),
+    false
+  );
+});
+
+test('a partner request survives being re-saved after someone joined', () => {
+  const location = structuredClone(reviewLocation);
+  location.location_data.max_publishers = 3;
+  const seeker = booking('a');
+  seeker.arrangement_data.partner_needed = true;
+  seeker.arrangement_data.partner_count = 2;
+  const joiner = booking('b');
+
+  assert.equal(
+    publicWitnessingBookingError(seeker, location, [seeker, joiner], reviewNow),
+    null
+  );
+  assert.equal(publicWitnessingIsSeekingPartner([seeker, joiner], 2, 3), true);
+  assert.equal(
+    publicWitnessingIsSeekingPartner([seeker, joiner, booking('c')], 3, 3),
+    false
+  );
+
+  seeker.arrangement_data.partner_count = 3;
+  assert.equal(
+    publicWitnessingBookingError(seeker, location, [seeker, joiner], reviewNow),
+    'tr_PWBookingChanged'
+  );
+});
+
+test('rejects dates that are malformed or do not exist', () => {
+  // the last two roll over onto the scheduled Tuesday itself
+  for (const date of [
+    '2030/13/45',
+    '2030/02/30',
+    '2030-01-01',
+    '2030/1/1',
+    '2029/12/32',
+    '2030/00/32',
+  ]) {
+    const candidate = booking('a');
+    candidate.arrangement_data.date = date;
+    assert.equal(
+      publicWitnessingBookingError(candidate, reviewLocation, [], reviewNow),
+      'tr_PWBookingChanged',
+      date
+    );
+  }
+});
+
+test('a shift counts as elapsed from the minute it ends', () => {
+  const at = (hour: number, minute: number) =>
+    new Date(2030, 0, 1, hour, minute);
+  assert.equal(
+    publicWitnessingIsElapsed('2030/01/01', '10:00', at(9, 59)),
+    false
+  );
+  assert.equal(
+    publicWitnessingIsElapsed('2030/01/01', '10:00', at(10, 0)),
+    true
+  );
+  assert.equal(
+    publicWitnessingIsElapsed('2029/12/31', '23:59', at(0, 0)),
+    true
+  );
+  assert.equal(
+    publicWitnessingIsElapsed('2030/01/02', '00:01', at(23, 59)),
+    false
+  );
+});
+
+test('only the author or a manager may write a booking', () => {
+  const publisher = { userUID: 'a', canManageLocations: false };
+  const other = { userUID: 'b', canManageLocations: false };
+  const manager = { userUID: 'm', canManageLocations: true };
+  const denied = 'error_api_unauthorized-request';
+  const own = booking('a');
+  const cancelled = structuredClone(own);
+  cancelled.arrangement_data._deleted = true;
+  cancelled.arrangement_data.publishers = [];
+  const hijacked = booking('a', 'b');
+
+  assert.equal(
+    publicWitnessingArrangementWriteError(own, undefined, publisher),
+    null
+  );
+  assert.equal(
+    publicWitnessingArrangementWriteError(own, own, publisher),
+    null
+  );
+  assert.equal(
+    publicWitnessingArrangementWriteError(cancelled, own, publisher),
+    null
+  );
+  assert.equal(publicWitnessingArrangementWriteError(own, own, other), denied);
+  assert.equal(
+    publicWitnessingArrangementWriteError(cancelled, own, other),
+    denied
+  );
+  assert.equal(
+    publicWitnessingArrangementWriteError(hijacked, own, other),
+    denied
+  );
+  assert.equal(
+    publicWitnessingArrangementWriteError(booking('x', ''), undefined, {
+      userUID: '',
+      canManageLocations: false,
+    }),
+    denied
+  );
+
+  const withoutAuthor = booking('a');
+  withoutAuthor.arrangement_data.publishers = [{ name: 'Sam' }];
+  assert.equal(
+    publicWitnessingArrangementWriteError(withoutAuthor, undefined, publisher),
+    denied
+  );
+  assert.equal(
+    publicWitnessingArrangementWriteError(withoutAuthor, own, manager),
+    null
+  );
+  assert.equal(
+    publicWitnessingArrangementWriteError(hijacked, own, manager),
+    null
+  );
+});
+
+test('location management follows the congregation role', () => {
+  for (const role of [
+    'admin',
+    'coordinator',
+    'secretary',
+    'service_overseer',
+  ]) {
+    assert.equal(publicWitnessingCanManage(['publisher', role]), true, role);
+  }
+  assert.equal(publicWitnessingCanManage(['publisher', 'elder']), false);
+  assert.equal(publicWitnessingCanManage([]), false);
+});
+
+test('a location needs a name, a whole capacity and valid shifts', () => {
+  const change = (
+    edit: (data: PublicWitnessingLocationType['location_data']) => void
+  ) => {
+    const location = structuredClone(reviewLocation);
+    edit(location.location_data);
+    return publicWitnessingLocationError(location);
+  };
+
+  assert.equal(publicWitnessingLocationError(reviewLocation), null);
+  assert.equal(
+    change((data) => (data.name = '  ')),
+    'tr_fillRequiredField'
+  );
+  for (const capacity of [0, -1, 1.5, NaN]) {
+    assert.equal(
+      change((data) => (data.max_publishers = capacity)),
+      'tr_PWInvalidCapacity'
+    );
+  }
+  assert.equal(
+    change((data) =>
+      data.schedule.push({
+        weekday: 4,
+        shifts: [{ start_time: '10:00', end_time: '09:00' }],
+      })
+    ),
+    'tr_shiftEndsBeforeStart'
+  );
+});
+
+test('a new location sorts after every existing one, also after a deletion', () => {
+  const at = (sort_index: number) => {
+    const location = structuredClone(reviewLocation);
+    location.location_data.sort_index = sort_index;
+    return location;
+  };
+  assert.equal(publicWitnessingNextSortIndex([]), 0);
+  assert.equal(publicWitnessingNextSortIndex([at(0), at(1)]), 2);
+  assert.equal(publicWitnessingNextSortIndex([at(1), at(2)]), 3);
+});
+
+test('only known error keys reach the translation lookup', () => {
+  assert.equal(
+    publicWitnessingErrorKey(new Error('tr_PWBookingChanged')),
+    'tr_PWBookingChanged'
+  );
+  assert.equal(
+    publicWitnessingErrorKey(new Error('error_api_unauthorized-request')),
+    'error_api_unauthorized-request'
+  );
+  assert.equal(
+    publicWitnessingErrorKey(new Error('DataError: x')),
+    'error_app_generic-desc'
+  );
+  assert.equal(publicWitnessingErrorKey('boom'), 'error_app_generic-desc');
+});
+
 test('removing a scheduled time preserves bookings until explicitly deleted', () => {
   const record = booking('a');
   const original = structuredClone(record);
@@ -377,5 +595,164 @@ test('end-time changes retain original bookings as retired slots', () => {
       [booking('a')]
     ),
     [{ start_time: '09:00', end_time: '10:00', retired: false }]
+  );
+});
+
+test('a changed start time keeps the booked slot and hides the overlapping new one', () => {
+  assert.deepEqual(
+    publicWitnessingDayShifts(
+      [
+        { start_time: '09:30', end_time: '10:30' },
+        { start_time: '10:30', end_time: '11:30' },
+      ],
+      [booking('a')]
+    ),
+    [
+      { start_time: '09:00', end_time: '10:00', retired: true },
+      { start_time: '10:30', end_time: '11:30', retired: false },
+    ]
+  );
+
+  // shifts that overlap on purpose stay bookable beside a booking of one
+  assert.deepEqual(
+    publicWitnessingDayShifts(
+      [
+        { start_time: '09:00', end_time: '10:00' },
+        { start_time: '09:30', end_time: '10:30' },
+      ],
+      [booking('a')]
+    ),
+    [
+      { start_time: '09:00', end_time: '10:00', retired: false },
+      { start_time: '09:30', end_time: '10:30', retired: false },
+    ]
+  );
+});
+
+test('a booking on a still-scheduled shift is never shown as retired', () => {
+  const moved = booking('a');
+  const live = booking('b');
+  live.arrangement_data.start_time = '09:30';
+  live.arrangement_data.end_time = '10:30';
+  assert.deepEqual(
+    publicWitnessingDayShifts(
+      [
+        { start_time: '09:30', end_time: '10:30' },
+        { start_time: '10:00', end_time: '11:00' },
+      ],
+      [moved, live]
+    ),
+    [
+      { start_time: '09:00', end_time: '10:00', retired: true },
+      { start_time: '09:30', end_time: '10:30', retired: false },
+      { start_time: '10:00', end_time: '11:00', retired: false },
+    ]
+  );
+});
+
+test('the largest partner request decides how far a shift fills', () => {
+  const first = booking('a');
+  first.arrangement_data.partner_needed = true;
+  first.arrangement_data.partner_count = 2;
+  const second = booking('b');
+  second.arrangement_data.partner_needed = true;
+  second.arrangement_data.partner_count = 2;
+  assert.equal(publicWitnessingIsSeekingPartner([first, second], 2, 6), true);
+  assert.equal(
+    publicWitnessingIsSeekingPartner([first, second, booking('c')], 3, 6),
+    false
+  );
+});
+
+test('confirming a booking unchanged never alters its partner request', () => {
+  const seeker = booking('a');
+  seeker.arrangement_data.partner_needed = true;
+  seeker.arrangement_data.partner_count = 2;
+  const request = (takenByOthers: number) => {
+    const stillWanted = publicWitnessingPartnersStillWanted(
+      seeker,
+      takenByOthers
+    );
+    return publicWitnessingPartnerRequest({
+      existing: seeker,
+      capacity: 4,
+      takenByOthers,
+      seeking: stillWanted > 0,
+      selected: Math.max(1, stillWanted),
+      alone: true,
+    });
+  };
+  const kept = { partner_needed: true, partner_count: 2 };
+
+  assert.equal(publicWitnessingPartnersStillWanted(seeker, 0), 2);
+  assert.equal(publicWitnessingPartnersStillWanted(seeker, 1), 1);
+  assert.equal(publicWitnessingPartnersStillWanted(seeker, 3), 0);
+  assert.equal(publicWitnessingPartnersStillWanted(booking('b'), 0), 0);
+  for (const joiners of [0, 1, 2, 3]) {
+    assert.deepEqual(request(joiners), kept, `${joiners} joined`);
+  }
+
+  // a capacity lowered since only trims the request
+  assert.deepEqual(
+    publicWitnessingPartnerRequest({
+      existing: {
+        ...seeker,
+        arrangement_data: { ...seeker.arrangement_data, partner_count: 3 },
+      },
+      capacity: 3,
+      takenByOthers: 2,
+      seeking: false,
+      selected: 1,
+      alone: true,
+    }),
+    { partner_needed: true, partner_count: 2 }
+  );
+  assert.deepEqual(
+    publicWitnessingPartnerRequest({
+      existing: seeker,
+      capacity: 1,
+      takenByOthers: 0,
+      seeking: false,
+      selected: 1,
+      alone: true,
+    }),
+    { partner_needed: false, partner_count: undefined }
+  );
+
+  // someone who only joined never turns into a request
+  assert.deepEqual(
+    publicWitnessingPartnerRequest({
+      existing: booking('b'),
+      capacity: 4,
+      takenByOthers: 1,
+      seeking: false,
+      selected: 1,
+      alone: true,
+    }),
+    { partner_needed: false, partner_count: undefined }
+  );
+
+  // naming a partner, or arranging it for others, ends the request
+  assert.deepEqual(
+    publicWitnessingPartnerRequest({
+      existing: seeker,
+      capacity: 4,
+      takenByOthers: 2,
+      seeking: false,
+      selected: 1,
+      alone: false,
+    }),
+    { partner_needed: false, partner_count: undefined }
+  );
+  assert.deepEqual(
+    publicWitnessingPartnerRequest({
+      existing: undefined,
+      capacity: 4,
+      takenByOthers: 0,
+      seeking: true,
+      selected: 3,
+      alone: true,
+    }),
+    { partner_needed: true, partner_count: 3 }
   );
 });

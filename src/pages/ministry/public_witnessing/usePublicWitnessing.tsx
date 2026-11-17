@@ -66,7 +66,6 @@ const usePublicWitnessing = () => {
 
   return {
     canManageLocations,
-    hasLocations: locations.length > 0,
     isSubpage,
     currentLocation,
     // Mobile opens a location as its own page: editing belongs there, and

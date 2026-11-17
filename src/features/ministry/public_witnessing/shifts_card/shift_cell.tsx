@@ -220,9 +220,10 @@ const ShiftCell = ({
 
   const cell = (
     <Box
+      role={interactive ? undefined : 'group'}
       {...(!compact ? interactiveProps : {})}
       onClick={interactive ? onClick : undefined}
-      aria-label={!compact ? accessibleLabel : undefined}
+      aria-label={!compact || !interactive ? accessibleLabel : undefined}
       sx={getCellStyles({ compact, interactive, slot })}
     >
       <Box

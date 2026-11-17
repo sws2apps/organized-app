@@ -98,13 +98,17 @@ const PublicWitnessingContainer = () => {
     );
   }
 
-  const details = selectedLocation && (
+  // the selected atom follows the route one render late, so a subpage reads
+  // its location from the route
+  const shownLocation =
+    !laptopUp && locationId
+      ? locations.find((record) => record.location_uid === locationId)
+      : selectedLocation;
+
+  const details = shownLocation && (
     <>
-      <LocationDetails location={selectedLocation} />
-      <ShiftsCard
-        key={selectedLocation.location_uid}
-        location={selectedLocation}
-      />
+      <LocationDetails location={shownLocation} />
+      <ShiftsCard key={shownLocation.location_uid} location={shownLocation} />
     </>
   );
 

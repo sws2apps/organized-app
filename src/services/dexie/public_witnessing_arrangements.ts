@@ -78,12 +78,5 @@ export const dbPublicWitnessingArrangementsDeleteByLocation = async (
   await dbPublicWitnessingArrangementsBulkSave(records.map(softDelete));
 };
 
-export const dbPublicWitnessingArrangementsClear = async () => {
-  const records = await appDb.public_witnessing_arrangements.toArray();
-  if (records.length === 0) return;
-
-  await dbPublicWitnessingArrangementsBulkSave(records.map(softDelete));
-};
-
 export const dbPublicWitnessingArrangementGet = (uid: string) =>
   appDb.public_witnessing_arrangements.get(uid);

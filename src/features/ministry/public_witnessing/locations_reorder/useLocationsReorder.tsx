@@ -7,6 +7,7 @@ import {
 } from '@states/public_witnessing';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
+import { publicWitnessingErrorKey } from '@utils/public_witnessing';
 import { LocationItemType, LocationsReorderProps } from './index.types';
 
 const useLocationsReorder = ({ onClose }: LocationsReorderProps) => {
@@ -62,12 +63,12 @@ const useLocationsReorder = ({ onClose }: LocationsReorderProps) => {
 
       onClose();
     } catch (error) {
-      setSaveError((error as Error).message);
+      setSaveError(publicWitnessingErrorKey(error));
       console.error(error);
 
       displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
-        message: getMessageByCode((error as Error).message),
+        message: getMessageByCode(publicWitnessingErrorKey(error)),
         severity: 'error',
       });
     } finally {

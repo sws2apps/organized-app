@@ -13,6 +13,7 @@
     "build": "vite build && tsx workbox.config.ts",
     "preview": "serve -l 4050 -s dist",
     "test": "npm run cypress:test",
+    "test:unit": "tsx --test tests/*.test.ts",
     "cypress:open": "cypress open",
     "cypress:test": "cypress run --browser chrome",
     "generate:css": "node converter/css/convert.js && prettier  converter/css/tokens.json src/global/global.css src/global/global.ts --write",

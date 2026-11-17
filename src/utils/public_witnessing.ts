@@ -3,6 +3,7 @@ import {
   PublicWitnessingLocationType,
   PublicWitnessingPublisherType,
   PublicWitnessingShiftType,
+  PublicWitnessingWriteContext,
 } from '@definition/public_witnessing';
 import {
   PUBLIC_WITNESSING_LAST_MINUTE_OF_DAY,
@@ -11,6 +12,73 @@ import {
 } from '@constants/public_witnessing';
 
 const isValidTime = (time: string) => /^([01]\d|2[0-3]):[0-5]\d$/.test(time);
+
+// new Date() rolls 2026/13/45 over into a real day, so compare the parts back
+const parseDateKey = (value: string) => {
+  const match = /^(\d{4})\/(\d{2})\/(\d{2})$/.exec(value);
+  if (!match) return null;
+  const [year, month, day] = match.slice(1).map(Number);
+  const date = new Date(year, month - 1, day);
+  return date.getMonth() === month - 1 && date.getDate() === day ? date : null;
+};
+
+export const publicWitnessingIsElapsed = (
+  date: string,
+  end_time: string,
+  now = new Date()
+) => {
+  const [year, month, day] = date.split('/').map(Number);
+  const [hour, minute] = end_time.split(':').map(Number);
+  return new Date(year, month - 1, day, hour, minute) <= now;
+};
+
+export const publicWitnessingCanManage = (roles: readonly string[]) =>
+  roles.some((role) =>
+    ['admin', 'coordinator', 'secretary', 'service_overseer'].includes(role)
+  );
+
+export const publicWitnessingErrorKey = (error: unknown) => {
+  const message = error instanceof Error ? error.message : '';
+  return /^(tr|error)_/.test(message) ? message : 'error_app_generic-desc';
+};
+
+export const publicWitnessingArrangementWriteError = (
+  arrangement: PublicWitnessingArrangementType,
+  existing: PublicWitnessingArrangementType | undefined,
+  context: PublicWitnessingWriteContext
+) => {
+  if (context.canManageLocations) return null;
+  const data = arrangement.arrangement_data;
+  const isAuthor =
+    Boolean(context.userUID) &&
+    data.created_by === context.userUID &&
+    (!existing || existing.arrangement_data.created_by === context.userUID);
+  const isListed =
+    data._deleted ||
+    data.publishers.some((person) => person.person_uid === context.userUID);
+  return isAuthor && isListed ? null : 'error_api_unauthorized-request';
+};
+
+export const publicWitnessingLocationError = (
+  location: PublicWitnessingLocationType
+) => {
+  const { name, max_publishers, schedule } = location.location_data;
+  if (!name.trim()) return 'tr_fillRequiredField';
+  if (!Number.isInteger(max_publishers) || max_publishers <= 0) {
+    return 'tr_PWInvalidCapacity';
+  }
+  for (const day of schedule) {
+    const error = publicWitnessingShiftError(day.shifts);
+    if (error) return error;
+  }
+  return null;
+};
+
+export const publicWitnessingNextSortIndex = (
+  locations: readonly PublicWitnessingLocationType[]
+) =>
+  Math.max(-1, ...locations.map((record) => record.location_data.sort_index)) +
+  1;
 
 export const publicWitnessingLocationEditError = (
   current: PublicWitnessingLocationType | undefined,
@@ -78,14 +146,11 @@ export const publicWitnessingBookingError = (
     (record) => record.arrangement_uid === arrangement.arrangement_uid
   );
   if (existing?.arrangement_data._deleted) return 'tr_PWBookingChanged';
-  const [year, month, day] = data.date.split('/').map(Number);
-  const date = new Date(year, month - 1, day);
-  const [hour, minute] = data.end_time.split(':').map(Number);
-  const ends = new Date(year, month - 1, day, hour, minute);
+  const date = parseDateKey(data.date);
   if (
-    !Number.isFinite(ends.getTime()) ||
-    ends <= now ||
-    publicWitnessingShiftError([data])
+    !date ||
+    publicWitnessingShiftError([data]) ||
+    publicWitnessingIsElapsed(data.date, data.end_time, now)
   ) {
     return 'tr_PWBookingChanged';
   }
@@ -122,7 +187,8 @@ export const publicWitnessingBookingError = (
       (data.partner_count === undefined ||
         !Number.isInteger(data.partner_count) ||
         data.partner_count < 1 ||
-        data.partner_count > capacity - occupied - data.publishers.length))
+        // counts every partner wanted, those who joined since included
+        data.partner_count > capacity - data.publishers.length))
   )
     return 'tr_PWBookingChanged';
 
@@ -154,17 +220,79 @@ export const publicWitnessingIsSeekingPartner = (
   publisherCount: number,
   capacity: number
 ) => {
+  // each request already counts everyone else in the shift, so the largest
+  // one is what the shift still has to reach
   const wanted = records
     .filter((record) => record.arrangement_data.partner_needed)
     .reduce(
-      (total, record) =>
-        total +
-        record.arrangement_data.publishers.length +
-        (record.arrangement_data.partner_count ?? 1),
+      (most, record) =>
+        Math.max(
+          most,
+          record.arrangement_data.publishers.length +
+            (record.arrangement_data.partner_count ?? 1)
+        ),
       0
     );
 
-  return publisherCount < Math.min(wanted, capacity);
+  // A publisher whose partner cancelled must not hold the shift closed alone.
+  const [only] = records;
+  const leftAlone =
+    records.length === 1 &&
+    publisherCount === 1 &&
+    Boolean(only.arrangement_data.created_by) &&
+    only.arrangement_data.publishers[0]?.person_uid ===
+      only.arrangement_data.created_by;
+
+  return (
+    publisherCount < Math.min(Math.max(wanted, leftAlone ? 2 : 0), capacity)
+  );
+};
+
+export const publicWitnessingPartnersStillWanted = (
+  existing: PublicWitnessingArrangementType | undefined,
+  takenByOthers: number
+) =>
+  existing?.arrangement_data.partner_needed
+    ? Math.max(
+        0,
+        (existing.arrangement_data.partner_count ?? 1) - takenByOthers
+      )
+    : 0;
+
+// partner_count is everyone the author asked for, joiners included
+export const publicWitnessingPartnerRequest = ({
+  existing,
+  capacity,
+  takenByOthers,
+  seeking,
+  selected,
+  alone,
+}: {
+  existing: PublicWitnessingArrangementType | undefined;
+  capacity: number;
+  takenByOthers: number;
+  seeking: boolean;
+  selected: number;
+  alone: boolean;
+}) => {
+  if (seeking) {
+    return { partner_needed: true, partner_count: selected + takenByOthers };
+  }
+
+  const asked = existing?.arrangement_data.partner_needed
+    ? (existing.arrangement_data.partner_count ?? 1)
+    : 0;
+
+  // A request with no seat left to fill stays on the record, so the shift
+  // reopens when a joiner cancels.
+  if (alone && asked > 0 && capacity > 1) {
+    return {
+      partner_needed: true,
+      partner_count: Math.min(asked, capacity - 1),
+    };
+  }
+
+  return { partner_needed: false, partner_count: undefined };
 };
 
 /** Retain original booked times when either end of the recurring shift changes. */
@@ -174,17 +302,20 @@ export const publicWitnessingDayShifts = (
 ) => {
   const key = (shift: PublicWitnessingShiftType) =>
     `${shift.start_time}|${shift.end_time}`;
-  // A changed end time must not offer a second, overlapping bookable slot.
+  // A changed time must not offer a second, overlapping bookable slot.
   // Keep the original slot until its existing arrangements are cancelled.
-  const active = records.filter((record) => !record.arrangement_data._deleted);
+  const scheduledKeys = new Set(scheduled.map(key));
+  const retired = records
+    .map((record) => record.arrangement_data)
+    .filter((data) => !data._deleted && !scheduledKeys.has(key(data)));
   const shifts = new Map(
     scheduled
       .filter(
         (shift) =>
-          !active.some(
-            (record) =>
-              record.arrangement_data.start_time === shift.start_time &&
-              record.arrangement_data.end_time !== shift.end_time
+          !retired.some(
+            (data) =>
+              data.start_time < shift.end_time &&
+              shift.start_time < data.end_time
           )
       )
       .map((shift) => [key(shift), { ...shift, retired: false }])
@@ -196,7 +327,7 @@ export const publicWitnessingDayShifts = (
       shifts.set(key(record.arrangement_data), {
         start_time,
         end_time,
-        retired: true,
+        retired: !scheduledKeys.has(key(record.arrangement_data)),
       });
     }
   }
@@ -215,9 +346,7 @@ export const publicWitnessingCapacityError = (
   const occupancy = new Map<string, number>();
   for (const { arrangement_data: data } of records) {
     if (data._deleted || data.location_uid !== location.location_uid) continue;
-    const [year, month, day] = data.date.split('/').map(Number);
-    const [hour, minute] = data.end_time.split(':').map(Number);
-    if (new Date(year, month - 1, day, hour, minute) <= now) continue;
+    if (publicWitnessingIsElapsed(data.date, data.end_time, now)) continue;
     const key = `${data.date}|${data.start_time}`;
     const count = (occupancy.get(key) ?? 0) + data.publishers.length;
     if (count > location.location_data.max_publishers)

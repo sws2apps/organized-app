@@ -184,7 +184,6 @@ const Dialog = ({
       fullWidth
       open={open}
       onClose={handleClose}
-      aria-label={header && title ? title : undefined}
       aria-labelledby={header && title ? undefined : headingLabelledBy}
       sx={{
         boxSizing: 'border-box',
@@ -199,13 +198,19 @@ const Dialog = ({
           },
         },
 
-        paper: PaperProps || {
-          className: 'pop-up-shadow',
-          style: {
-            maxWidth: '560px',
-            borderRadius: 'var(--radius-xl)',
-            backgroundColor: 'var(--white)',
-          },
+        paper: {
+          ...(PaperProps || {
+            className: 'pop-up-shadow',
+            style: {
+              maxWidth: '560px',
+              borderRadius: 'var(--radius-xl)',
+              backgroundColor: 'var(--white)',
+            },
+          }),
+          // the name belongs on the dialog itself, not on its backdrop root
+          ...(header && title
+            ? { 'aria-label': title, 'aria-labelledby': undefined }
+            : {}),
         },
       }}
     >

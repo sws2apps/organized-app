@@ -9,11 +9,13 @@ import {
   publicWitnessingSaveLocationState,
 } from '@states/public_witnessing';
 import {
+  publicWitnessingErrorKey,
   publicWitnessingNextShift,
+  publicWitnessingNextSortIndex,
   publicWitnessingShiftError,
 } from '@utils/public_witnessing';
 import { displaySnackNotification } from '@services/states/app';
-import { getMessageByCode, getTranslation } from '@services/i18n/translation';
+import { getMessageByCode } from '@services/i18n/translation';
 import {
   EditableShiftType,
   LocationFormProps,
@@ -165,6 +167,9 @@ const useLocationForm = ({ location, onClose }: LocationFormProps) => {
   ) => {
     if (editedDays.length === 0) return;
 
+    // shifts entered for every day outlive switching the mode back
+    if (isEveryDay) setCustomDraft(null);
+
     setShiftsByDay((prev) => {
       const next = { ...prev };
       for (const weekday of editedDays) next[weekday] = updater(prev[weekday]);
@@ -231,16 +236,17 @@ const useLocationForm = ({ location, onClose }: LocationFormProps) => {
     const invalidDay = approvedDays.find((weekday) =>
       publicWitnessingShiftError(shiftsByDay[weekday])
     );
+    const shiftError =
+      invalidDay !== undefined &&
+      publicWitnessingShiftError(shiftsByDay[invalidDay]);
 
-    if (invalidDay !== undefined) {
+    if (shiftError) {
       setStep(1);
       if (!isEveryDay) setSelectedDay(invalidDay);
-      setSaveError(publicWitnessingShiftError(shiftsByDay[invalidDay]) ?? '');
+      setSaveError(shiftError);
       displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
-        message: getTranslation({
-          key: publicWitnessingShiftError(shiftsByDay[invalidDay]),
-        }),
+        message: getMessageByCode(shiftError),
         severity: 'error',
       });
       return;
@@ -270,7 +276,9 @@ const useLocationForm = ({ location, onClose }: LocationFormProps) => {
             cart_stored_at: cartStoredAt.trim(),
             max_publishers: Number(maxPublishers),
             description: description.trim(),
-            sort_index: location?.location_data.sort_index ?? locations.length,
+            sort_index:
+              location?.location_data.sort_index ??
+              publicWitnessingNextSortIndex(locations),
             schedule,
           },
         },
@@ -279,12 +287,12 @@ const useLocationForm = ({ location, onClose }: LocationFormProps) => {
 
       onClose();
     } catch (error) {
-      setSaveError((error as Error).message);
+      setSaveError(publicWitnessingErrorKey(error));
       console.error(error);
 
       displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
-        message: getMessageByCode((error as Error).message),
+        message: getMessageByCode(publicWitnessingErrorKey(error)),
         severity: 'error',
       });
     } finally {

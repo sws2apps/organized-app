@@ -1,4 +1,5 @@
 import {
+  publicWitnessingIsElapsed,
   publicWitnessingIsSeekingPartner,
   publicWitnessingDayShifts,
 } from '@utils/public_witnessing';
@@ -80,7 +81,7 @@ const useShiftsCard = ({ location }: ShiftsCardProps) => {
   }, []);
 
   const [view, setView] = useAtom(publicWitnessingViewState);
-  const [selectedDate, setSelectedDate] = useAtom(
+  const [storedDate, setSelectedDate] = useAtom(
     publicWitnessingSelectedDateState
   );
 
@@ -97,7 +98,7 @@ const useShiftsCard = ({ location }: ShiftsCardProps) => {
   }, []);
 
   const today = formatDate(now, 'yyyy/MM/dd');
-  const currentTime = formatDate(now, 'HH:mm');
+  const selectedDate = storedDate ?? today;
 
   const dateObj = useMemo(() => parseDate(selectedDate), [selectedDate]);
 
@@ -129,7 +130,8 @@ const useShiftsCard = ({ location }: ShiftsCardProps) => {
     return dates;
   }, [view, dateObj, firstDayWeek]);
 
-  const arrangementsBySlot = useMemo(() => {
+  // keyed by date, and by date and times, so no day rescans every booking
+  const arrangementsIndex = useMemo(() => {
     const index = new Map<string, PublicWitnessingArrangementType[]>();
 
     for (const record of arrangements) {
@@ -137,11 +139,12 @@ const useShiftsCard = ({ location }: ShiftsCardProps) => {
         record.arrangement_data;
       if (location_uid !== location.location_uid) continue;
 
-      const key = `${date}|${start_time}|${end_time}`;
-      const slotRecords = index.get(key);
+      for (const key of [date, `${date}|${start_time}|${end_time}`]) {
+        const keyRecords = index.get(key);
 
-      if (slotRecords) slotRecords.push(record);
-      else index.set(key, [record]);
+        if (keyRecords) keyRecords.push(record);
+        else index.set(key, [record]);
+      }
     }
 
     return index;
@@ -156,18 +159,16 @@ const useShiftsCard = ({ location }: ShiftsCardProps) => {
           (day) => day.weekday === getScheduleWeekday(date)
         )?.shifts ?? [];
 
-      const dateRecords = arrangements.filter(
-        (record) =>
-          record.arrangement_data.location_uid === location.location_uid &&
-          record.arrangement_data.date === dateKey
+      const shifts = publicWitnessingDayShifts(
+        scheduled,
+        arrangementsIndex.get(dateKey) ?? []
       );
-      const shifts = publicWitnessingDayShifts(scheduled, dateRecords);
 
       const capacity = location.location_data.max_publishers;
 
       return shifts.map((shift) => {
         const records =
-          arrangementsBySlot.get(
+          arrangementsIndex.get(
             `${dateKey}|${shift.start_time}|${shift.end_time}`
           ) ?? [];
         const isRetired = shift.retired;
@@ -176,9 +177,7 @@ const useShiftsCard = ({ location }: ShiftsCardProps) => {
           record.arrangement_data.publishers.map((publisher) => publisher.name)
         );
 
-        const isPast =
-          dateKey < today ||
-          (dateKey === today && shift.end_time <= currentTime);
+        const isPast = publicWitnessingIsElapsed(dateKey, shift.end_time, now);
 
         return {
           retired: isRetired,
@@ -204,7 +203,7 @@ const useShiftsCard = ({ location }: ShiftsCardProps) => {
         };
       });
     },
-    [location, arrangements, arrangementsBySlot, today, currentTime, userUID]
+    [location, arrangementsIndex, now, userUID]
   );
 
   const days = useMemo<DayShiftsType[]>(() => {
@@ -295,7 +294,7 @@ const useShiftsCard = ({ location }: ShiftsCardProps) => {
 
   const handleNext = () => shiftPeriod(1);
 
-  const goToToday = () => setSelectedDate(today);
+  const goToToday = () => setSelectedDate(null);
 
   const handleSelectDay = (date: string) => {
     setSelectedDate(date);

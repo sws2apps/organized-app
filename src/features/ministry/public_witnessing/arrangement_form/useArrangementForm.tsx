@@ -8,8 +8,13 @@ import { publicWitnessingSaveArrangementState } from '@states/public_witnessing'
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { buildPersonFullname } from '@utils/common';
-import { formatDate } from '@utils/date';
-import { publicWitnessingPublisherEntries } from '@utils/public_witnessing';
+import {
+  publicWitnessingErrorKey,
+  publicWitnessingIsElapsed,
+  publicWitnessingPartnerRequest,
+  publicWitnessingPartnersStillWanted,
+  publicWitnessingPublisherEntries,
+} from '@utils/public_witnessing';
 import usePublicWitnessingPermissions from '../usePermissions';
 import {
   ArrangementEditorProps,
@@ -85,12 +90,32 @@ const useArrangementForm = ({
 
   const mode = getMode(Boolean(existing), slot.status);
 
+  const capacity = location.location_data.max_publishers;
+
+  // Seats other people already hold in this shift. An edit does not count its
+  // own record — those seats are the ones being re-arranged.
+  const takenByOthers = slot.arrangements
+    .filter((record) => record.arrangement_uid !== existing?.arrangement_uid)
+    .reduce(
+      (total, record) => total + record.arrangement_data.publishers.length,
+      0
+    );
+
+  const stillWanted = publicWitnessingPartnersStillWanted(
+    existing,
+    takenByOthers
+  );
+
+  // the card shows a publisher left alone as looking for a partner
+  const leftAlone =
+    takenByOthers === 0 &&
+    existing?.arrangement_data.publishers.length === 1 &&
+    existing.arrangement_data.publishers[0].person_uid === bookingUserUID;
+
   const [partnerNeeded, setPartnerNeeded] = useState(
-    existing ? existing.arrangement_data.partner_needed : true
+    existing ? stillWanted > 0 || leftAlone : true
   );
-  const [partnerCount, setPartnerCount] = useState(
-    existing?.arrangement_data.partner_count ?? 1
-  );
+  const [partnerCount, setPartnerCount] = useState(Math.max(1, stillWanted));
   const [partnerNames, setPartnerNames] = useState<PartnerNameType[]>(() => {
     const others = (existing?.arrangement_data.publishers ?? [])
       .filter((publisher) => publisher.person_uid !== bookingUserUID)
@@ -107,17 +132,6 @@ const useArrangementForm = ({
         )
       : false
   );
-
-  const capacity = location.location_data.max_publishers;
-
-  // Seats other people already hold in this shift. An edit does not count its
-  // own record — those seats are the ones being re-arranged.
-  const takenByOthers = slot.arrangements
-    .filter((record) => record.arrangement_uid !== existing?.arrangement_uid)
-    .reduce(
-      (total, record) => total + record.arrangement_data.publishers.length,
-      0
-    );
 
   const seatsLeft = Math.max(0, capacity - takenByOthers);
 
@@ -137,7 +151,7 @@ const useArrangementForm = ({
   // non-seeking record would otherwise mark the whole shift as full.
   const joinedBooking = Boolean(
     existing &&
-    !existing.arrangement_data.partner_needed &&
+    stillWanted === 0 &&
     existing.arrangement_data.publishers.length === 1 &&
     takenByOthers > 0
   );
@@ -148,18 +162,6 @@ const useArrangementForm = ({
   const canConfirm =
     !slot.retired &&
     (!needsNames || names.some((partner) => partner.name.trim().length > 0));
-
-  // The card only refreshes its clock every minute, so check again that the
-  // shift has not ended while the dialog was open.
-  const isElapsed = () => {
-    const now = new Date();
-    const today = formatDate(now, 'yyyy/MM/dd');
-
-    return (
-      slot.date < today ||
-      (slot.date === today && slot.end_time <= formatDate(now, 'HH:mm'))
-    );
-  };
 
   const buildPublishers = (): PublicWitnessingPublisherType[] => {
     const named = publicWitnessingPublisherEntries(names);
@@ -191,12 +193,12 @@ const useArrangementForm = ({
       });
       return true;
     } catch (error) {
-      setSaveError((error as Error).message);
+      setSaveError(publicWitnessingErrorKey(error));
       console.error(error);
 
       displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
-        message: getMessageByCode((error as Error).message),
+        message: getMessageByCode(publicWitnessingErrorKey(error)),
         severity: 'error',
       });
       return false;
@@ -206,7 +208,9 @@ const useArrangementForm = ({
   const handleConfirm = async () => {
     if (seatsLeft === 0 || !canConfirm) return false;
 
-    if (isElapsed()) {
+    // The card only refreshes its clock every minute, so check again that the
+    // shift has not ended while the dialog was open.
+    if (publicWitnessingIsElapsed(slot.date, slot.end_time)) {
       onClose();
       return false;
     }
@@ -218,14 +222,18 @@ const useArrangementForm = ({
       });
     }
 
-    const seekingPartner = !forOthers && canInvitePartners && partnerNeeded;
+    const publishers = buildPublishers();
 
     return handleSave({
-      partner_needed: seekingPartner,
-      partner_count: seekingPartner
-        ? Math.min(partnerCount, maxNames)
-        : undefined,
-      publishers: buildPublishers(),
+      ...publicWitnessingPartnerRequest({
+        existing,
+        capacity,
+        takenByOthers,
+        seeking: !forOthers && canInvitePartners && partnerNeeded,
+        selected: Math.min(partnerCount, maxNames),
+        alone: !forOthers && publishers.length === 1,
+      }),
+      publishers,
     });
   };
 
@@ -240,12 +248,12 @@ const useArrangementForm = ({
 
       onClose();
     } catch (error) {
-      setSaveError((error as Error).message);
+      setSaveError(publicWitnessingErrorKey(error));
       console.error(error);
 
       displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
-        message: getMessageByCode((error as Error).message),
+        message: getMessageByCode(publicWitnessingErrorKey(error)),
         severity: 'error',
       });
     }

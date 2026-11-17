@@ -12,7 +12,10 @@ import {
   dbPublicWitnessingLocationsReorder,
   dbPublicWitnessingLocationsSave,
 } from '@services/dexie/public_witnessing_locations';
-import { publicWitnessingShiftError } from '@utils/public_witnessing';
+import {
+  publicWitnessingArrangementWriteError,
+  publicWitnessingLocationError,
+} from '@utils/public_witnessing';
 
 const requireManager = (context: PublicWitnessingWriteContext) => {
   if (!context.canManageLocations)
@@ -26,20 +29,12 @@ export const publicWitnessingSaveArrangement = async (
   const existing = await dbPublicWitnessingArrangementGet(
     arrangement.arrangement_uid
   );
-  const data = arrangement.arrangement_data;
-
-  if (
-    !context.canManageLocations &&
-    (!context.userUID ||
-      data.created_by !== context.userUID ||
-      (existing && existing.arrangement_data.created_by !== context.userUID) ||
-      (!data._deleted &&
-        !data.publishers.some(
-          (person) => person.person_uid === context.userUID
-        )))
-  ) {
-    throw new Error('error_api_unauthorized-request');
-  }
+  const error = publicWitnessingArrangementWriteError(
+    arrangement,
+    existing,
+    context
+  );
+  if (error) throw new Error(error);
 
   await dbPublicWitnessingArrangementsSave(arrangement);
 };
@@ -50,16 +45,8 @@ export const publicWitnessingSaveLocation = async (
   expectedUpdatedAt?: string
 ) => {
   requireManager(context);
-  if (
-    !Number.isInteger(location.location_data.max_publishers) ||
-    location.location_data.max_publishers <= 0
-  ) {
-    throw new Error('tr_PWInvalidCapacity');
-  }
-  for (const day of location.location_data.schedule) {
-    const error = publicWitnessingShiftError(day.shifts);
-    if (error) throw new Error(error);
-  }
+  const error = publicWitnessingLocationError(location);
+  if (error) throw new Error(error);
   await dbPublicWitnessingLocationsSave(location, expectedUpdatedAt);
 };
 

@@ -5,6 +5,7 @@ import { useAppTranslation } from '@hooks/index';
 import { publicWitnessingDeleteLocationState } from '@states/public_witnessing';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
+import { publicWitnessingErrorKey } from '@utils/public_witnessing';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
 import Typography from '@components/typography';
@@ -25,12 +26,12 @@ const LocationDelete = ({ open, onClose, location }: LocationDeleteProps) => {
 
       onClose();
     } catch (error) {
-      setDeleteError((error as Error).message);
+      setDeleteError(publicWitnessingErrorKey(error));
       console.error(error);
 
       displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
-        message: getMessageByCode((error as Error).message),
+        message: getMessageByCode(publicWitnessingErrorKey(error)),
         severity: 'error',
       });
     } finally {

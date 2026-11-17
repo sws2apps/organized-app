@@ -4,7 +4,7 @@ import {
   PublicWitnessingLocationType,
   PublicWitnessingViewType,
 } from '@definition/public_witnessing';
-import { formatDate } from '@utils/date';
+import { publicWitnessingCanManage } from '@utils/public_witnessing';
 import { settingsState, userLocalUIDState } from '@states/settings';
 import {
   publicWitnessingDeleteLocation,
@@ -33,11 +33,9 @@ export const publicWitnessingSelectedLocationState = atom(
   null as string | null
 );
 
-// Day shown in the shifts card, "yyyy/MM/dd". In the week and month views it
-// anchors the period the card displays.
-export const publicWitnessingSelectedDateState = atom(
-  formatDate(new Date(), 'yyyy/MM/dd')
-);
+// Day shown in the shifts card, "yyyy/MM/dd", or null for today. In the week
+// and month views it anchors the period the card displays.
+export const publicWitnessingSelectedDateState = atom(null as string | null);
 
 // Period the shifts card lays out: a single day, a week, or a month.
 export const publicWitnessingViewState = atom(
@@ -66,14 +64,9 @@ export const publicWitnessingSelectedLocationRecordState = atom((get) => {
 export const publicWitnessingWriteContextState = atom((get) => {
   const settings = get(settingsState);
   const userUID = get(userLocalUIDState);
-  const canManageLocations =
-    settings.user_settings.cong_role.some(
-      (role) =>
-        role === 'admin' || role === 'coordinator' || role === 'secretary'
-    ) ||
-    Boolean(
-      userUID && userUID === settings.cong_settings.responsabilities?.service
-    );
+  const canManageLocations = publicWitnessingCanManage(
+    settings.user_settings.cong_role
+  );
 
   return { userUID, canManageLocations };
 });

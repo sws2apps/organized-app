@@ -71,20 +71,6 @@ export const dbPublicWitnessingLocationsReorder = async (
   );
 };
 
-export const dbPublicWitnessingLocationsBulkSave = async (
-  locations: PublicWitnessingLocationType[]
-) => {
-  await appDb.transaction(
-    'rw',
-    appDb.public_witnessing_locations,
-    appDb.metadata,
-    async () => {
-      await appDb.public_witnessing_locations.bulkPut(locations);
-      await dbUpdatePublicWitnessingLocationsMetadata();
-    }
-  );
-};
-
 /**
  * Deletes a location together with its bookings in one transaction, so a
  * failed write cannot leave the location active without its arrangements.
@@ -110,16 +96,4 @@ export const dbPublicWitnessingLocationDelete = async (
       await dbPublicWitnessingLocationsSave(record);
     }
   );
-};
-
-export const dbPublicWitnessingLocationsClear = async () => {
-  const records = await appDb.public_witnessing_locations.toArray();
-  if (records.length === 0) return;
-
-  for (const record of records) {
-    record.location_data._deleted = true;
-    record.location_data.updatedAt = new Date().toISOString();
-  }
-
-  await dbPublicWitnessingLocationsBulkSave(records);
 };
