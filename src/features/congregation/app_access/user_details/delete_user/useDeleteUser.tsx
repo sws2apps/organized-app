@@ -7,7 +7,7 @@ import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { apiCongregationUserDelete } from '@services/api/congregation';
 import { CongregationUserType } from '@definition/api';
-import { buildPersonFullname } from '@utils/common';
+import { accountProfileFullname } from '@utils/name_format';
 import { fullnameOptionState } from '@states/settings';
 import { congregationUsersState } from '@states/congregation';
 
@@ -32,11 +32,7 @@ const useDeleteUser = (
       const users = await apiCongregationUserDelete(user.id);
       setUsers(users);
 
-      const personName = buildPersonFullname(
-        user.profile.lastname.value,
-        user.profile.firstname.value,
-        fullnameOption
-      );
+      const personName = accountProfileFullname(user.profile, fullnameOption);
 
       onClose?.();
       navigate('/manage-access');

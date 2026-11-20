@@ -35,7 +35,8 @@ const usePersonDetails = () => {
     return buildPersonFullname(
       record.person_data.person_lastname.value,
       record.person_data.person_firstname.value,
-      fullnameOption
+      fullnameOption,
+      record.person_data.person_middlename?.value
     );
   }, [id, isNewPerson, person, persons, fullnameOption]);
 

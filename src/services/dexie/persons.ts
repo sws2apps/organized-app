@@ -1,3 +1,4 @@
+import { samePersonName } from '@utils/name_format';
 import appDb from '@db/appDb';
 import { PersonType } from '@definition/person';
 import { personsUpdateAssignments } from '@services/app/persons';
@@ -89,12 +90,8 @@ export const dbPersonsSave = async (person: PersonType, isNew?: boolean) => {
     // CHECK FOR EXISTING RECORD IF NEW
     if (isNew) {
       const personsActive = await dbPersonsGetActive();
-      const found = personsActive.find(
-        (record) =>
-          record.person_data.person_firstname.value ===
-            person.person_data.person_firstname.value &&
-          record.person_data.person_lastname.value ===
-            person.person_data.person_lastname.value
+      const found = personsActive.some((record) =>
+        samePersonName(record.person_data, person.person_data)
       );
 
       if (found) {
