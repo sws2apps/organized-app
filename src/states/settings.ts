@@ -696,3 +696,12 @@ export const isElderState = atom((get) => {
 
   return userRole.includes('elder');
 });
+
+export const hallCleaningState = atom((get) => {
+  const settings = get(settingsState);
+  const dataView = get(userDataViewState);
+
+  return settings.cong_settings.hall_cleaning?.find(
+    (record) => record.type === dataView && !record._deleted.value
+  );
+});

@@ -1,9 +1,10 @@
-import { MeetingType } from '@definition/app';
+import type { SchedulePublicationState } from '@definition/schedule_publication';
+import { ScheduleMeetingType } from '@definition/app';
 
 export type SchedulePublishProps = {
   open: boolean;
   onClose: VoidFunction;
-  type: MeetingType;
+  type: ScheduleMeetingType;
 };
 
 export type YearGroupType = {
@@ -16,6 +17,6 @@ export type ScheduleListType = {
   months: {
     month: string;
     checked: boolean;
-    published: boolean;
+    status: SchedulePublicationState;
   }[];
 };

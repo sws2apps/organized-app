@@ -34,6 +34,8 @@ const useAssignmentGroup = (male: boolean) => {
 
     if (!male) {
       if (id === 'applyFieldMinistryPart') isDisabled = false;
+
+      if (id === 'hallCleaning') isDisabled = false;
     }
 
     return isDisabled;
@@ -88,6 +90,8 @@ const useAssignmentGroup = (male: boolean) => {
       if (code === AssignmentCode.MM_MakingDisciples) isDisabled = false;
       if (code === AssignmentCode.MM_ExplainingBeliefs) isDisabled = false;
       if (code === AssignmentCode.MM_AssistantOnly) isDisabled = false;
+
+      if (code === AssignmentCode.CLEANING_Hall) isDisabled = false;
     }
     return isDisabled;
   };
@@ -101,7 +105,12 @@ const useAssignmentGroup = (male: boolean) => {
   };
 
   const isDisabledByGender = (id: string) => {
-    return !male && id !== 'applyFieldMinistryPart' && id !== 'ministry';
+    return (
+      !male &&
+      id !== 'applyFieldMinistryPart' &&
+      id !== 'ministry' &&
+      id !== 'hallCleaning'
+    );
   };
 
   const getTooltipsForAssignmentTitles = (

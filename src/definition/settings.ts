@@ -86,11 +86,7 @@ export type AvatarIconName = (typeof AVATAR_ICON_NAMES)[number];
  * initials, and `default` the generic silhouette used as fallback.
  */
 export type AvatarType =
-  | 'google'
-  | 'initials'
-  | 'default'
-  | AvatarIconName
-  | AvatarImageName;
+  'google' | 'initials' | 'default' | AvatarIconName | AvatarImageName;
 
 export enum SourceFrequency {
   WEEKLY = 1,
@@ -289,6 +285,27 @@ export type SettingsType = {
       _deleted: boolean;
       updatedAt: string;
       value: boolean;
+    }[];
+    hall_cleaning?: {
+      type: string;
+      _deleted: { value: boolean; updatedAt: string };
+      // whole groups, publishers of a group, or any publishers
+      assign_to: {
+        value: 'group' | 'group_persons' | 'persons';
+        updatedAt: string;
+      };
+      // 'week' keeps one assignee for both meetings of the week
+      period: { value: 'meeting' | 'week'; updatedAt: string };
+      amount: { value: number; updatedAt: string };
+      group_amount?: { value: number; updatedAt: string };
+      // groups take turns in this order; an empty list turns the rotation off
+      rotation_groups: { value: string[]; updatedAt: string };
+      rotation_unit: { value: 'week' | 'month'; updatedAt: string };
+      // weeks or months each group keeps its turn
+      rotation_length: { value: number; updatedAt: string };
+      // week the first group starts, as yyyy/MM/dd
+      rotation_start: { value: string; updatedAt: string };
+      rotation_end?: { value: string; updatedAt: string };
     }[];
   };
   user_settings: {

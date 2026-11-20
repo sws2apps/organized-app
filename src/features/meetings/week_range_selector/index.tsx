@@ -9,9 +9,12 @@ import useWeekRangeSelector from './useWeekRangeSelector';
 import { WeekRangeSelectorType } from './index.types';
 
 const WeekRangeSelector = ({
+  disabled = false,
   onEndChange,
   onStartChange,
   meeting,
+  startWeek: controlledStart,
+  endWeek,
 }: WeekRangeSelectorType) => {
   const { t } = useAppTranslation();
 
@@ -23,7 +26,7 @@ const WeekRangeSelector = ({
     handleStartWeekChange,
     startWeek,
     showDateLabel,
-  } = useWeekRangeSelector(onStartChange, meeting);
+  } = useWeekRangeSelector(onStartChange, meeting, controlledStart);
 
   return (
     <Box
@@ -35,8 +38,12 @@ const WeekRangeSelector = ({
       }}
     >
       <Select
+        disabled={disabled}
         label={showDateLabel ? t('tr_startDate') : t('tr_startWeek')}
-        defaultValue=""
+        inputProps={{
+          'aria-label': showDateLabel ? t('tr_startDate') : t('tr_startWeek'),
+        }}
+        value={startWeek}
         onChange={(e) => handleStartWeekChange(e.target.value as string)}
       >
         <MenuSubHeader>{t('tr_upcomingDates')}</MenuSubHeader>
@@ -75,8 +82,12 @@ const WeekRangeSelector = ({
       >
         <Select
           label={showDateLabel ? t('tr_endDate') : t('tr_endWeek')}
-          defaultValue=""
-          disabled={startWeek.length === 0}
+          inputProps={{
+            'aria-label': showDateLabel ? t('tr_endDate') : t('tr_endWeek'),
+          }}
+          value={endWeek}
+          defaultValue={endWeek === undefined ? '' : undefined}
+          disabled={disabled || startWeek.length === 0}
           onChange={(e) => onEndChange?.(e.target.value as string)}
         >
           <MenuSubHeader>{t('tr_upcomingDates')}</MenuSubHeader>

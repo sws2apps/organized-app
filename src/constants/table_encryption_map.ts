@@ -82,6 +82,7 @@ export const TABLE_ENCRYPTION_MAP = {
     aux_class_qualifications: 'shared',
     first_day_week: 'shared',
     schedule_songs_weekend: 'shared',
+    hall_cleaning: 'shared',
   },
   speakers_congregations: {
     _deleted: 'private',
@@ -171,6 +172,7 @@ export const TABLE_ENCRYPTION_MAP = {
     submitted: 'shared',
   },
   sched: {
+    hall_cleaning: 'shared',
     chairman: 'shared',
     opening_prayer: 'shared',
     tgw_talk: 'shared',

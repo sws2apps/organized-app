@@ -27,7 +27,7 @@ const useAssignmentItem = ({ history }: AssignmentItemProps) => {
   const class_name = useMemo(() => {
     if (!history.assignment) return '';
 
-    const key = history.assignment.key;
+    const key = history.assignment.key ?? '';
 
     if (key.endsWith('_A')) {
       return t('tr_hallA');
@@ -39,7 +39,9 @@ const useAssignmentItem = ({ history }: AssignmentItemProps) => {
   }, [history.assignment, t]);
 
   const isMidweek = useMemo(() => {
-    return history.assignment.key.startsWith('MM_');
+    const key = history.assignment.key ?? '';
+
+    return Boolean(key?.startsWith('MM_') || key?.startsWith('HC_MM_'));
   }, [history.assignment]);
 
   const assignmentDate = useMemo(() => {

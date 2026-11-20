@@ -66,6 +66,7 @@ const ApplicationDetails = lazy(
   () => import('@pages/persons/application_details')
 );
 const UpcomingEvents = lazy(() => import('@pages/activities/upcoming_events'));
+const HallCleaning = lazy(() => import('@pages/activities/hall_cleaning'));
 
 const queryClient = new QueryClient();
 
@@ -95,6 +96,7 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
     isServiceCommittee,
     isGroup,
     isLanguageGroupOverseer,
+    isCleaningEditor,
   } = useCurrentUser();
 
   const [adapterLocale, setAdapterLocale] = useAtom(appLocaleState);
@@ -223,6 +225,17 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
                 {
                   path: '/reports/meeting-attendance',
                   element: <MeetingAttendance />,
+                },
+              ],
+            },
+
+            // hall cleaning editor route
+            {
+              element: <RouteProtected allowed={isCleaningEditor} />,
+              children: [
+                {
+                  path: '/activities/hall-cleaning',
+                  element: <HallCleaning />,
                 },
               ],
             },
