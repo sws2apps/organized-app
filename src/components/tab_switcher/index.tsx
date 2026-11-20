@@ -1,6 +1,30 @@
 import { Box, ButtonBase } from '@mui/material';
 import { cloneElement } from 'react';
-import { TabSwitcherOption, TabSwitcherProps } from './index.types';
+import {
+  TabSwitcherOption,
+  TabSwitcherProps,
+  TabSwitcherSurface,
+} from './index.types';
+
+const PALETTE: Record<
+  TabSwitcherSurface,
+  { track: string; trackBorder: string; thumb: string; thumbBorder: string }
+> = {
+  tinted: {
+    track: 'var(--accent-150)',
+    trackBorder: 'var(--accent-200)',
+    thumb: 'var(--accent-200)',
+    thumbBorder: 'var(--accent-main)',
+  },
+  // the tinted look one step lighter, with a softer outline, so on white and
+  // other light backgrounds the switch doesn't outshine the content around it
+  light: {
+    track: 'var(--accent-100)',
+    trackBorder: 'var(--accent-200)',
+    thumb: 'var(--accent-150)',
+    thumbBorder: 'var(--accent-300)',
+  },
+};
 
 /** Reusable segmented tab control. */
 const TabSwitcher = <T extends string = string>({
@@ -8,10 +32,22 @@ const TabSwitcher = <T extends string = string>({
   value,
   onChange,
   ariaLabel,
+  surface = 'tinted',
+  iconOnly = false,
+  collapseBelow,
   sx,
 }: TabSwitcherProps<T>) => {
+  const palette = PALETTE[surface];
+  const activeClassName = surface === 'light' ? 'body-small-semibold' : 'h4';
+  const inactiveClassName =
+    surface === 'light' ? 'body-small-regular' : 'body-regular';
+  const labelPadding = surface === 'light' ? '4px 12px' : '4px 16px';
+
   const activeIndex = options.findIndex((option) => option.value === value);
   const gap = 8;
+  const collapse = collapseBelow
+    ? `@container (max-width: ${collapseBelow}px)`
+    : undefined;
 
   return (
     <Box
@@ -23,8 +59,12 @@ const TabSwitcher = <T extends string = string>({
         gap: `${gap}px`,
         padding: '4px',
         borderRadius: 'var(--radius-l)',
-        backgroundColor: 'var(--accent-150)',
-        border: '1px solid var(--accent-200)',
+        backgroundColor: palette.track,
+        border: `1px solid ${palette.trackBorder}`,
+        ...(collapse && { containerType: 'inline-size' }),
+        '@media (prefers-reduced-motion: reduce)': {
+          '& *': { transition: 'none' },
+        },
         ...sx,
       }}
     >
@@ -37,8 +77,8 @@ const TabSwitcher = <T extends string = string>({
           left: '4px',
           width: `calc((100% - ${(options.length - 1) * gap + 8}px) / ${options.length})`,
           borderRadius: 'var(--radius-m)',
-          backgroundColor: 'var(--accent-200)',
-          border: '1px solid var(--accent-main)',
+          backgroundColor: palette.thumb,
+          border: `1px solid ${palette.thumbBorder}`,
           transform: `translateX(calc(${Math.max(activeIndex, 0)} * (100% + ${gap}px)))`,
           transition: 'transform 0.2s cubic-bezier(0.22, 1, 0.36, 1)',
           opacity: activeIndex === -1 ? 0 : 1,
@@ -52,8 +92,9 @@ const TabSwitcher = <T extends string = string>({
           <ButtonBase
             key={option.value}
             role="tab"
-            className={isActive ? 'h4' : 'body-regular'}
+            className={isActive ? activeClassName : inactiveClassName}
             aria-selected={isActive}
+            aria-label={iconOnly || collapse ? option.label : undefined}
             disabled={option.disabled}
             disableRipple
             onClick={() => onChange(option.value)}
@@ -65,8 +106,8 @@ const TabSwitcher = <T extends string = string>({
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              gap: '8px',
-              padding: '4px 16px',
+              gap: surface === 'light' ? '6px' : '8px',
+              padding: iconOnly ? '4px 8px' : labelPadding,
               minHeight: '28px',
               borderRadius: 'var(--radius-m)',
               fontFamily: 'inherit',
@@ -77,6 +118,13 @@ const TabSwitcher = <T extends string = string>({
                 fill: isActive ? 'var(--accent-dark)' : 'var(--accent-400)',
                 transition: 'fill 0.16s ease-out',
               },
+              ...(collapse && {
+                [collapse]: {
+                  '& > span:last-of-type:not(:first-of-type)': {
+                    display: 'none',
+                  },
+                },
+              }),
               '&:focus-visible': { outline: 'var(--accent-main) auto 1px' },
             }}
           >
@@ -85,20 +133,25 @@ const TabSwitcher = <T extends string = string>({
                 component="span"
                 sx={{ display: 'inline-flex', flexShrink: 0 }}
               >
-                {cloneElement(option.icon, { width: 20, height: 20 })}
+                {cloneElement(option.icon, {
+                  width: surface === 'light' ? 18 : 20,
+                  height: surface === 'light' ? 18 : 20,
+                })}
               </Box>
             )}
-            <Box
-              component="span"
-              sx={{
-                minWidth: 0,
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                whiteSpace: 'nowrap',
-              }}
-            >
-              {option.label}
-            </Box>
+            {!iconOnly && (
+              <Box
+                component="span"
+                sx={{
+                  minWidth: 0,
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {option.label}
+              </Box>
+            )}
           </ButtonBase>
         );
       })}
