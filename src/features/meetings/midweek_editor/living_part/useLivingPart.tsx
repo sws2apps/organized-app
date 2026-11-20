@@ -65,9 +65,7 @@ const useLivingPart = ({ part, selectedWeek }: LivingPartProps) => {
 
     await dbSourcesUpdate(selectedWeek, toSave);
 
-    const lcPartTime = structuredClone(
-      source.midweek_meeting.lc_part1.time.override
-    );
+    const lcPartTime = structuredClone(lcPart.time.override);
     const currentTime = lcPartTime.find((record) => record.type === dataView);
 
     if (!currentTime) {
@@ -85,9 +83,7 @@ const useLivingPart = ({ part, selectedWeek }: LivingPartProps) => {
 
     await dbSourcesUpdate(selectedWeek, toSave);
 
-    const lcPartDesc = structuredClone(
-      source.midweek_meeting.lc_part1.desc.override
-    );
+    const lcPartDesc = structuredClone(lcPart.desc.override);
     const currentDesc = lcPartDesc.find((record) => record.type === dataView);
 
     if (!currentDesc) {
