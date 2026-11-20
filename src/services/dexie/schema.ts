@@ -5,7 +5,12 @@ import { DelegatedFieldServiceReportType } from '@definition/delegated_field_ser
 import { FieldServiceGroupType } from '@definition/field_service_groups';
 import { MeetingAttendanceType } from '@definition/meeting_attendance';
 import { PersonType } from '@definition/person';
-import { SchedWeekType } from '@definition/schedules';
+import {
+  AssignmentCongregation,
+  DutiesMeetingType,
+  DutyPositionsType,
+  SchedWeekType,
+} from '@definition/schedules';
 import {
   FullnameOption,
   PublishersSortOption,
@@ -85,6 +90,36 @@ export const sourceSchema: SourceWeekType = {
     },
   },
 };
+
+const dutyAssignment = (): AssignmentCongregation[] => [
+  { type: 'main', value: '', name: '', updatedAt: '' },
+];
+
+const dutyPositions = (): DutyPositionsType => ({
+  position_1: dutyAssignment(),
+  position_2: dutyAssignment(),
+  position_3: dutyAssignment(),
+  position_4: dutyAssignment(),
+});
+
+const dutiesMeeting = (): DutiesMeetingType => ({
+  audio: dutyPositions(),
+  video: dutyPositions(),
+  audio_video: dutyPositions(),
+  microphones: dutyPositions(),
+  stage: dutyPositions(),
+  entrance_attendant: dutyPositions(),
+  auditorium_attendant: dutyPositions(),
+  hospitality: dutyPositions(),
+  videoconference_host: dutyPositions(),
+  sections: [],
+  dynamic: [],
+});
+
+export const dutiesSchema = () => ({
+  midweek: dutiesMeeting(),
+  weekend: dutiesMeeting(),
+});
 
 export const scheduleSchema: SchedWeekType = {
   weekOf: '',
@@ -237,6 +272,31 @@ export const personSchema: PersonType = {
   },
 };
 
+export const meetingDutiesDefault = (
+  type: string
+): SettingsType['cong_settings']['meeting_duties'][number] => {
+  // Generated defaults must yield to configured values during timestamp-based sync.
+  const updatedAt = '';
+
+  return {
+    type,
+    _deleted: { value: false, updatedAt },
+    conflict_prevent: { value: false, updatedAt },
+    sisters_duties: { value: false, updatedAt },
+    mic_sections: { value: false, updatedAt },
+    av_combined: { value: false, updatedAt },
+    audio_amount: { value: 1, updatedAt },
+    video_amount: { value: 1, updatedAt },
+    mic_amount: { value: 2, updatedAt },
+    stage_amount: { value: 1, updatedAt },
+    entrance_attendant_amount: { value: 1, updatedAt },
+    auditorium_attendant_amount: { value: 1, updatedAt },
+    hospitality_amount: { value: 0, updatedAt },
+    videoconference_host_amount: { value: 0, updatedAt },
+    custom: [],
+  };
+};
+
 export const settingSchema: SettingsType = {
   id: 1,
   cong_settings: {
@@ -353,6 +413,7 @@ export const settingSchema: SettingsType = {
     schedule_songs_weekend: [
       { type: 'main', value: false, _deleted: false, updatedAt: '' },
     ],
+    meeting_duties: [],
   },
   user_settings: {
     cong_role: [],
@@ -362,6 +423,10 @@ export const settingSchema: SettingsType = {
       interval: { value: 5, updatedAt: '' },
     },
     hour_credits_enabled: { value: false, updatedAt: '' },
+    meeting_duties_export: {
+      orientation: { value: 'portrait', updatedAt: '' },
+      font_size: { value: 10, updatedAt: '' },
+    },
     firstname: { value: '', updatedAt: '' },
     lastname: { value: '', updatedAt: '' },
     theme_follow_os_enabled: { value: false, updatedAt: '' },

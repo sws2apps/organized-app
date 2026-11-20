@@ -1,4 +1,4 @@
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { SwitchContainer } from '../shared_styles';
 import useUserAdditionalRights from './useUserAdditionalRights';
 import useUserDetails from '../useUserDetails';
@@ -7,6 +7,7 @@ import Typography from '@components/typography';
 
 const UserAdditionalRights = () => {
   const { t } = useAppTranslation();
+  const { dutiesEnabled } = useCurrentUser();
 
   const { isProcessing } = useUserDetails();
 
@@ -19,6 +20,8 @@ const UserAdditionalRights = () => {
     handleToggleAttendance,
     isWeekend,
     handleToggleWeekend,
+    isDuties,
+    handleToggleDuties,
   } = useUserAdditionalRights();
 
   return (
@@ -62,6 +65,15 @@ const UserAdditionalRights = () => {
           checked={isPublicTalk}
           onChange={handleTogglePublicTalk}
         />
+
+        {dutiesEnabled && (
+          <SwitchWithLabel
+            label={t('tr_meetingDutiesScheduling')}
+            readOnly={isProcessing}
+            checked={isDuties}
+            onChange={handleToggleDuties}
+          />
+        )}
 
         <SwitchWithLabel
           label={t('tr_attendanceRecordTracking')}
