@@ -31,6 +31,10 @@ import { MeetingAttendanceType } from '@definition/meeting_attendance';
 import { MetadataRecordType } from '@definition/metadata';
 import { DelegatedFieldServiceReportType } from '@definition/delegated_field_service_reports';
 import { UpcomingEventType } from '@definition/upcoming_events';
+import {
+  VolunteerActivityParticipantType,
+  VolunteerActivityType,
+} from '@definition/volunteer_activities';
 import { formatDate } from '@utils/date';
 import {
   meetingAttendanceFillCounts,
@@ -430,6 +434,9 @@ const dbGetTableData = async () => {
   const sources = await appDb.sources.toArray();
   const meeting_attendance = await appDb.meeting_attendance.toArray();
   const upcoming_events = await appDb.upcoming_events.toArray();
+  const volunteer_activities = await appDb.volunteer_activities.toArray();
+  const volunteer_activity_participants =
+    await appDb.volunteer_activity_participants.toArray();
   const metadata = await appDb.metadata.get(1);
 
   if (!metadata) {
@@ -498,6 +505,8 @@ const dbGetTableData = async () => {
     metadata,
     delegated_field_service_reports,
     upcoming_events,
+    volunteer_activities,
+    volunteer_activity_participants,
   };
 };
 
@@ -946,6 +955,67 @@ const dbRestoreUpcomingEvents = async (
     }
   } catch (error) {
     throw new Error(`upcoming_events: ${getErrorMessage(error)}`);
+  }
+};
+
+const dbRestoreVolunteerActivities = async (
+  backupData: BackupDataType,
+  accessCode: string
+) => {
+  try {
+    if (backupData.volunteer_activities) {
+      const remoteData = (
+        backupData.volunteer_activities as VolunteerActivityType[]
+      ).map((data) => {
+        decryptObject({ data, table: 'volunteer_activities', accessCode });
+
+        return data;
+      });
+
+      const localData = await appDb.volunteer_activities.toArray();
+
+      const dataToUpdate = remoteData.map((remoteItem) => {
+        const localItem = localData.find(
+          (record) => record.activity_uid === remoteItem.activity_uid
+        );
+
+        if (!localItem) return remoteItem;
+
+        return syncFromRemote(structuredClone(localItem), remoteItem);
+      });
+
+      await appDb.volunteer_activities.bulkPut(dataToUpdate);
+    }
+
+    if (backupData.volunteer_activity_participants) {
+      const remoteData = (
+        backupData.volunteer_activity_participants as VolunteerActivityParticipantType[]
+      ).map((data) => {
+        decryptObject({
+          data,
+          table: 'volunteer_activity_participants',
+          accessCode,
+        });
+
+        return data;
+      });
+
+      const localData = await appDb.volunteer_activity_participants.toArray();
+
+      const dataToUpdate = remoteData.map((remoteItem) => {
+        const localItem = localData.find(
+          (record) => record.participation_uid === remoteItem.participation_uid
+        );
+
+        if (!localItem) return remoteItem;
+
+        return syncFromRemote(structuredClone(localItem), remoteItem);
+      });
+
+      await appDb.volunteer_activity_participants.bulkPut(dataToUpdate);
+    }
+  } catch (error) {
+    throw new Error(`volunteer_activities: ${getErrorMessage(error)}`);
   }
 };
 
@@ -1726,6 +1796,8 @@ const dbRestoreFromBackup = async (
 
     await dbRestoreUpcomingEvents(backupData, accessCode);
 
+    await dbRestoreVolunteerActivities(backupData, accessCode);
+
     await dbRestoreUserReports(backupData, accessCode);
 
     await dbRestoreDelegatedReports(backupData, accessCode);
@@ -1809,6 +1881,8 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
       metadata,
       delegated_field_service_reports,
       upcoming_events,
+      volunteer_activities,
+      volunteer_activity_participants,
     } = await dbGetTableData();
 
     const dataSync = settings.cong_settings.data_sync.value;
@@ -2133,6 +2207,21 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
 
             obj.upcoming_events = backupUpcomingEvents;
           }
+
+          // include volunteer activities
+          if (metadata.metadata.volunteer_activities?.send_local) {
+            const backupActivities = volunteer_activities.map((activity) => {
+              encryptObject({
+                data: activity,
+                table: 'volunteer_activities',
+                accessCode,
+              });
+
+              return activity;
+            });
+
+            obj.volunteer_activities = backupActivities;
+          }
         }
 
         // include user role changes
@@ -2326,6 +2415,29 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
           );
 
           obj.delegated_field_service_reports = backupReports;
+        }
+
+        // include own volunteer activity participations
+        if (
+          myPerson &&
+          metadata.metadata.volunteer_activity_participants?.send_local
+        ) {
+          const backupParticipants = volunteer_activity_participants
+            .filter(
+              (record) =>
+                record.participation_data.person_uid === myPerson.person_uid
+            )
+            .map((participant) => {
+              encryptObject({
+                data: participant,
+                table: 'volunteer_activity_participants',
+                accessCode,
+              });
+
+              return participant;
+            });
+
+          obj.volunteer_activity_participants = backupParticipants;
         }
       }
     }

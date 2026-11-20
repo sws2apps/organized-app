@@ -26,6 +26,8 @@ export const dbMetadataDefault = async () => {
           user_bible_studies: { version: '', send_local: true },
           user_field_service_reports: { version: '', send_local: true },
           upcoming_events: { version: '', send_local: true },
+          volunteer_activities: { version: '', send_local: true },
+          volunteer_activity_participants: { version: '', send_local: true },
           delegated_field_service_reports: { version: '', send_local: true },
         },
       });
@@ -73,6 +75,8 @@ export const dbMetadataReset = async () => {
         user_field_service_reports: { version: '', send_local: true },
         delegated_field_service_reports: { version: '', send_local: true },
         upcoming_events: { version: '', send_local: true },
+        volunteer_activities: { version: '', send_local: true },
+        volunteer_activity_participants: { version: '', send_local: true },
       },
     });
   } catch (error) {

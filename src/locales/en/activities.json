@@ -7,5 +7,21 @@
   "tr_deleteDate": "Delete the date",
   "tr_deleteDateDecs": "You cannot undo this action, but you can create a new date at any time.",
   "tr_deleteMonth": "Delete the month",
-  "tr_deleteMonthDesc": "You cannot undo this action, but you can add a new month at any time."
+  "tr_deleteMonthDesc": "You cannot undo this action, but you can add a new month at any time.",
+  "tr_volunteerActivities": "Volunteer activities",
+  "tr_addVolunteerActivity": "Add activity",
+  "tr_editVolunteerActivity": "Edit activity",
+  "tr_volunteerActivitiesEmpty": "There are no activities yet.",
+  "tr_volunteerActivitiesEmptyAdmin": "There are no activities yet. Add an activity to find those in your congregation who would like to help.",
+  "tr_participantGoal": "Participant goal",
+  "tr_allowExtraParticipants": "Let more people join",
+  "tr_allowExtraParticipantsDesc": "People can still join after the goal is reached",
+  "tr_participantGoalTooLow": "The goal is below the current number of participants. Increase it or let more people join.",
+  "tr_participantsCount": "Participants: {{ count }} out of {{ goal }}",
+  "tr_noParticipantsYet": "No participants yet",
+  "tr_joinActivity": "Join",
+  "tr_activityFull": "Full",
+  "tr_activitySignUpsClosed": "Sign-ups closed",
+  "tr_deleteVolunteerActivity": "Delete activity",
+  "tr_deleteVolunteerActivityDesc": "Delete “{{ name }}” and its participant list? You cannot undo this action."
 }
