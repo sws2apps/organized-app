@@ -123,3 +123,29 @@ export const generateDayShortNames = (language?: string) => {
 
   return days;
 };
+
+// Intl supplies translated unit names and plural forms without assembling UI prose.
+export const formatElapsedDuration = (
+  months: number,
+  days: number,
+  language = getI18n()?.language ?? 'en'
+) => {
+  const parts: string[] = [];
+  if (months)
+    parts.push(
+      new Intl.NumberFormat(language, {
+        style: 'unit',
+        unit: 'month',
+        unitDisplay: 'long',
+      }).format(months)
+    );
+  if (days || !months)
+    parts.push(
+      new Intl.NumberFormat(language, {
+        style: 'unit',
+        unit: 'day',
+        unitDisplay: 'long',
+      }).format(days)
+    );
+  return new Intl.ListFormat(language, { type: 'unit' }).format(parts);
+};

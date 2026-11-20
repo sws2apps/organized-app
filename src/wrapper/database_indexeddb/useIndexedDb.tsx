@@ -1,9 +1,25 @@
+import { useAtomValue, useStore, useSetAtom } from 'jotai';
+import { isTest } from '@constants/index';
+import { dbTerritoriesGetAll } from '@services/dexie/territories';
+import {
+  territoriesDbState,
+  territoryWritesPendingState,
+  territoryLoadedViewState,
+  territoryLoadedScopeState,
+} from '@states/territories';
+import { dbTerritorySyncGet } from '@services/dexie/territory_sync';
+import { userIDState } from '@states/app';
+import {
+  congIDState,
+  userDataViewState,
+  settingsState,
+} from '@states/settings';
+import { sampleTerritories } from '@features/territories/mockData';
 import { useCallback } from 'react';
-import { useSetAtom } from 'jotai';
+
 import { useLiveQuery } from 'dexie-react-hooks';
 import appDb from '@db/appDb';
 
-import { settingsState } from '@states/settings';
 import { personsState } from '@states/persons';
 import { weekTypeState } from '@states/weekType';
 import { assignmentState } from '@states/assignment';
@@ -26,6 +42,49 @@ import { songsState } from '@states/songs';
 import { appLocalsState } from '@states/app_locals';
 
 const useIndexedDb = () => {
+  const store = useStore();
+  const dataView = useAtomValue(userDataViewState);
+  const writesPending = useAtomValue(territoryWritesPendingState);
+  const dbTerritories = useLiveQuery(dbTerritoriesGetAll);
+  const territorySync = useLiveQuery(
+    async () => (await dbTerritorySyncGet()) ?? null
+  );
+  const territoryUser = useAtomValue(userIDState);
+  const territoryCongregation = useAtomValue(congIDState);
+  const setTerritories = useSetAtom(territoriesDbState);
+  const setTerritoryScope = useSetAtom(territoryLoadedScopeState);
+  const setTerritoryView = useSetAtom(territoryLoadedViewState);
+  const loadTerritories = useCallback(() => {
+    if (!dbTerritories || writesPending || territorySync === undefined) return;
+    const records = new Map(
+      (isTest ? sampleTerritories(store.get) : []).map((item) => [
+        item.id,
+        item,
+      ])
+    );
+    const wrongAccount =
+      territorySync &&
+      territorySync.scope !== `${territoryCongregation}:${territoryUser}`;
+    for (const record of wrongAccount ? [] : dbTerritories) {
+      if (record.dataView !== dataView) continue;
+      if (record.deleted) records.delete(record.data.id);
+      else records.set(record.data.id, record.data);
+    }
+    setTerritories([...records.values()]);
+    setTerritoryView(dataView);
+    setTerritoryScope(`${territoryCongregation}:${territoryUser}`);
+  }, [
+    dbTerritories,
+    territorySync,
+    territoryCongregation,
+    territoryUser,
+    store,
+    dataView,
+    setTerritories,
+    writesPending,
+    setTerritoryView,
+    setTerritoryScope,
+  ]);
   const dbSettings = useLiveQuery(() => appDb.app_settings.toArray());
   const dbPersons = useLiveQuery(() => appDb.persons.toArray());
   const dbWeekType = useLiveQuery(() => appDb.week_type.toArray());
@@ -237,6 +296,7 @@ const useIndexedDb = () => {
     loadDbNotifications,
     loadDbDelegatedReports,
     loadUpcomingEvents,
+    loadTerritories,
     loadPublicTalks,
     loadSongs,
     loadAppLocals,

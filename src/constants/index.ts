@@ -1147,3 +1147,7 @@ export const EASING = {
   expoOut: 'cubic-bezier(0.16, 1, 0.3, 1)',
   easeIn: 'cubic-bezier(0.55, 0, 1, 0.45)',
 };
+
+export const TERRITORY_SYNC_BATCH_LIMIT = 20;
+export const TERRITORY_SYNC_REFRESH_INTERVAL = 30_000;
+export const TERRITORY_SYNC_DEBOUNCE = 500;
