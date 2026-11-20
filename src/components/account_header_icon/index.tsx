@@ -1,8 +1,15 @@
 import { Box, SxProps, Theme } from '@mui/material';
-import { IconExpand, IconNoConnection } from '@icons/index';
+import {
+  IconCloudOff,
+  IconCloudSync,
+  IconExpand,
+  IconInfo,
+  IconNoConnection,
+} from '@icons/index';
 import { useAccountHeaderIcon } from './useAccountHeaderIcon';
 import { isTest } from '@constants/index';
 import ProfilePicture from '@components/profile_picture';
+import { useAppTranslation } from '@hooks/index';
 
 /**
  * Functional component for rendering the user's avatar or a default icon
@@ -23,20 +30,57 @@ const AccountHeaderIcon = ({
   isMoreOpen?: boolean;
   sx?: SxProps<Theme>;
 }) => {
-  const { isOffline } = useAccountHeaderIcon();
+  const { status } = useAccountHeaderIcon();
+  const { t } = useAppTranslation();
 
-  const isRed = !isTest && isOffline;
+  const statusLabel: Record<string, string> = {
+    connected: t('tr_statusConnected'),
+    connecting: t('tr_statusConnecting'),
+    paused: t('tr_offlineMode'),
+    'no-network': t('tr_statusNoNetwork'),
+    'server-unreachable': t('tr_cantReachServer'),
+    attention: t('tr_statusAttention'),
+  };
+
+  const badge = isTest || status === 'connected' ? null : status;
+
+  const redBadge =
+    'linear-gradient(180deg, rgba(202, 38, 38, 0) 0%, #CA2626 100%)';
+
+  const badgeBackground: Record<string, string> = {
+    attention: redBadge,
+    'no-network': redBadge,
+    'server-unreachable': redBadge,
+    paused:
+      'linear-gradient(180deg, rgba(221, 140, 44, 0) 0%, rgba(221, 140, 44, 0.85) 45%, var(--orange-main) 80%)',
+    connecting:
+      'linear-gradient(180deg, rgba(90, 96, 120, 0) 0%, var(--accent-main) 100%)',
+  };
+
+  let borderColor: string | undefined;
+  if (badge === 'paused') borderColor = 'var(--orange-main)';
+  else if (badge && badge !== 'connecting') borderColor = 'var(--red-main)';
+
+  const badgeIcons: Record<string, typeof IconInfo> = {
+    paused: IconNoConnection,
+    'no-network': IconCloudOff,
+    'server-unreachable': IconCloudOff,
+    connecting: IconCloudSync,
+  };
+
+  const BadgeIcon = (badge && badgeIcons[badge]) ?? IconInfo;
 
   return (
     <Box
       role="button"
       tabIndex={0}
+      aria-label={statusLabel[status]}
       sx={{
         display: 'flex',
         flexDirection: 'row',
         gap: '4px',
         borderRadius: 'var(--radius-max)',
-        border: `1px solid ${isRed ? 'var(--red-main)' : 'var(--accent-200)'}`,
+        border: `1px solid ${borderColor ?? 'var(--accent-200)'}`,
         backgroundColor: 'var(--accent-150)',
         padding: '6px 6px 6px 6px',
         alignItems: 'center',
@@ -49,7 +93,7 @@ const AccountHeaderIcon = ({
 
         '&:hover': {
           backgroundColor: 'var(--accent-200)',
-          borderColor: isRed ? 'var(--red-main)' : 'var(--accent-300)',
+          borderColor: borderColor ?? 'var(--accent-300)',
         },
         ...sx,
       }}
@@ -68,11 +112,11 @@ const AccountHeaderIcon = ({
         }}
       >
         <ProfilePicture size={28} />
-        {isRed && (
+        {badge && (
           <Box
             sx={{
               width: '32px',
-              height: '75%',
+              height: badge === 'paused' ? '80%' : '75%',
               position: 'absolute',
               bottom: '0',
               left: 'calc(50% - 16px)',
@@ -80,15 +124,10 @@ const AccountHeaderIcon = ({
               flexDirection: 'row',
               justifyContent: 'center',
               alignItems: 'center',
-              background:
-                'linear-gradient(180deg, rgba(202, 38, 38, 0) 0%, #CA2626 100%)',
+              background: badgeBackground[badge],
             }}
           >
-            <IconNoConnection
-              color="var(--always-white)"
-              width={12}
-              height={12}
-            />
+            <BadgeIcon color="var(--always-white)" width={12} height={12} />
           </Box>
         )}
       </Box>

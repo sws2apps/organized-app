@@ -1,5 +1,6 @@
 import { useAtomValue } from 'jotai';
 import {
+  appMessageActionState,
   appMessageHeaderState,
   appMessageIconState,
   appMessageState,
@@ -14,6 +15,7 @@ const useAppFeedback = () => {
   const appMessage = useAtomValue(appMessageState);
   const appMessageHeader = useAtomValue(appMessageHeaderState);
   const appMessageIcon = useAtomValue(appMessageIconState);
+  const appMessageAction = useAtomValue(appMessageActionState);
 
   const handleClose = () => setAppSnackOpen(false);
 
@@ -24,6 +26,7 @@ const useAppFeedback = () => {
     appMessageHeader,
     handleClose,
     appMessageIcon,
+    appMessageAction,
   };
 };
 
