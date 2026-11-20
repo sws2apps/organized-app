@@ -55,6 +55,7 @@ export const personCurrentDetailsState = atom<PersonType>({
     timeAway: [],
     archived: { value: false, updatedAt: '' },
     disqualified: { value: false, updatedAt: '' },
+    autofill_skipped: { value: false, updatedAt: '' },
     email: { value: '', updatedAt: '' },
     address: { value: '', updatedAt: '' },
     phone: { value: '', updatedAt: '' },
