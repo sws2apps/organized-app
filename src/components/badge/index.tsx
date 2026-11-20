@@ -122,6 +122,9 @@ const Badge = (props: BadgePropsType) => {
   const textColor = getColor(props);
   const backgroundColor = getBackgroundColor(props);
 
+  const filledMinHeight = filled ? '24px' : '28px';
+  const bigBadgeMinHeight = props.multiLine ? 'unset' : filledMinHeight;
+
   return (
     <>
       {size === 'small' && (
@@ -129,7 +132,7 @@ const Badge = (props: BadgePropsType) => {
           className={className ? undefined : 'label-xsmall-semibold'}
           sx={{
             border: '2px',
-            height: props.multiLine ? 'unset' : '20px',
+            minHeight: props.multiLine ? 'unset' : '20px',
             background: backgroundColor,
             display: 'flex',
             flexDirection: 'row',
@@ -137,6 +140,7 @@ const Badge = (props: BadgePropsType) => {
             gap: '4px',
             padding: '2px 6px',
             flexShrink: '0',
+            maxWidth: '100%',
             width: fullWidth ? '100%' : 'auto',
             justifyContent: centerContent ? 'center' : 'flex-start',
             borderStyle: borderStyle || 'none',
@@ -166,7 +170,7 @@ const Badge = (props: BadgePropsType) => {
           sx={{
             border: '1px',
             borderColor: 'var(--accent-350)',
-            height: props.multiLine ? 'unset' : '22px',
+            minHeight: props.multiLine ? 'unset' : '22px',
             background: backgroundColor,
             display: 'flex',
             flexDirection: 'row',
@@ -174,6 +178,7 @@ const Badge = (props: BadgePropsType) => {
             padding: '2px 8px',
             gap: '4px',
             flexShrink: '0',
+            maxWidth: '100%',
             width: fullWidth ? '100%' : 'auto',
             justifyContent: centerContent ? 'center' : 'flex-start',
             borderStyle: borderStyle || 'none',
@@ -202,7 +207,7 @@ const Badge = (props: BadgePropsType) => {
           className={className ? undefined : 'label-large-medium'}
           sx={{
             border: '4px',
-            height: props.multiLine ? 'unset' : filled ? '24px' : '28px',
+            minHeight: bigBadgeMinHeight,
             background: backgroundColor,
             display: 'flex',
             flexDirection: 'row',
@@ -210,6 +215,7 @@ const Badge = (props: BadgePropsType) => {
             gap: filled ? '10px' : '8px',
             padding: filled ? '2px 6px' : '4px 8px',
             flexShrink: '0',
+            maxWidth: '100%',
             width: fullWidth ? '100%' : 'auto',
             justifyContent: centerContent ? 'center' : 'flex-start',
             borderStyle: borderStyle || 'none',
