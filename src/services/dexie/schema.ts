@@ -366,6 +366,7 @@ export const settingSchema: SettingsType = {
     lastname: { value: '', updatedAt: '' },
     theme_follow_os_enabled: { value: false, updatedAt: '' },
     haptics_enabled: { value: true, updatedAt: '' },
+    group_badges_enabled: { value: true, updatedAt: '' },
     user_avatar_type: { value: 'google', updatedAt: '' },
     user_local_uid: '',
     user_members_delegate: [],
