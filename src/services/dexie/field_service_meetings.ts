@@ -1,0 +1,106 @@
+import { getTranslation } from '@services/i18n/translation';
+import appDb from '@db/appDb';
+import {
+  FieldServiceMeetingCategory,
+  FieldServiceMeetingType,
+} from '@definition/field_service_meetings';
+
+export const dbFieldServiceMeetingsGet = (uid: string) =>
+  appDb.field_service_meetings.get(uid);
+
+const dbUpdateFieldServiceMeetingsMetadata = async () => {
+  const metadata = await appDb.metadata.get(1);
+  if (!metadata) return;
+  metadata.metadata.field_service_meetings = {
+    ...metadata.metadata.field_service_meetings,
+    send_local: true,
+  };
+  await appDb.metadata.put(metadata);
+};
+
+export const dbFieldServiceMeetingsSave = async (
+  meeting: FieldServiceMeetingType,
+  expectedRevision?: { updatedAt: string | undefined }
+) => {
+  await appDb.transaction(
+    'rw',
+    appDb.field_service_meetings,
+    appDb.metadata,
+    async () => {
+      const current = expectedRevision
+        ? await appDb.field_service_meetings.get(meeting.meeting_uid)
+        : undefined;
+      if (expectedRevision) {
+        if (
+          current?.meeting_data._deleted ||
+          current?.meeting_data.updatedAt !== expectedRevision.updatedAt
+        ) {
+          throw new Error(
+            getTranslation({ key: 'tr_fieldServiceMeetingChanged' })
+          );
+        }
+      }
+      await appDb.field_service_meetings.put(
+        current
+          ? {
+              ...meeting,
+              // Upload receipts can advance these while the editor stays open.
+              sync_revision: current.sync_revision,
+              sync_updatedAt: current.sync_updatedAt,
+            }
+          : meeting
+      );
+      await dbUpdateFieldServiceMeetingsMetadata();
+    }
+  );
+};
+
+export const dbFieldServiceMeetingsClear = async () => {
+  const records = await appDb.field_service_meetings.toArray();
+  if (records.length === 0) return;
+  for (const record of records) {
+    record.meeting_data._deleted = true;
+    record.meeting_data.updatedAt = new Date().toISOString();
+  }
+  await appDb.field_service_meetings.bulkPut(records);
+};
+
+export const dbFieldServiceMeetingsCleanup = async () => {
+  const records = await appDb.field_service_meetings.toArray();
+  if (records.length === 0) return;
+  const recordsToUpdate = records.reduce(
+    (acc: FieldServiceMeetingType[], current) => {
+      let changed = false;
+      const meeting = structuredClone(current);
+
+      // Legacy: migrate top-level _deleted/updatedAt into meeting_data. Copy
+      // the values only when they are newer — otherwise a stale legacy stamp
+      // would overwrite state that has since synced from another device.
+      if (meeting.updatedAt) {
+        if (meeting.updatedAt > meeting.meeting_data.updatedAt) {
+          meeting.meeting_data._deleted = meeting._deleted ?? false;
+          meeting.meeting_data.updatedAt = meeting.updatedAt;
+        }
+        delete meeting._deleted;
+        delete meeting.updatedAt;
+        changed = true;
+      }
+
+      // Legacy: the removed "GroupMeeting" category (value 1) becomes a
+      // RegularMeeting; the group association is preserved via group_id.
+      if ((meeting.meeting_data.category as number) === 1) {
+        meeting.meeting_data.category =
+          FieldServiceMeetingCategory.RegularMeeting;
+        meeting.meeting_data.updatedAt = new Date().toISOString();
+        changed = true;
+      }
+
+      if (changed) acc.push(meeting);
+      return acc;
+    },
+    []
+  );
+  if (recordsToUpdate.length > 0) {
+    await appDb.field_service_meetings.bulkPut(recordsToUpdate);
+  }
+};

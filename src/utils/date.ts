@@ -13,7 +13,11 @@ import {
   generateMonthShortNames,
   getTranslation,
 } from '@services/i18n/translation';
-import { dayNamesShortState, monthShortNamesState } from '@states/app';
+import {
+  dayNamesState,
+  dayNamesShortState,
+  monthShortNamesState,
+} from '@states/app';
 import { FirstDayWeekOption } from '@definition/settings';
 
 export const MAX_DATE = new Date(9999, 11, 31);
@@ -472,7 +476,11 @@ export const getDatesBetweenDates = (
   return dates;
 };
 
-export const formatLongDateWithShortVars = (date: Date | string) => {
+export const formatLongDateWithShortVars = (
+  date: Date | string,
+  includeYear = true,
+  weekdayFormat: 'short' | 'long' = 'short'
+) => {
   date = new Date(date);
 
   const month = date.getMonth();
@@ -481,13 +489,17 @@ export const formatLongDateWithShortVars = (date: Date | string) => {
   const year = date.getFullYear();
 
   const monthNames = store.get(monthShortNamesState);
-  const dayNames = store.get(dayNamesShortState);
+  const dayNames = store.get(
+    weekdayFormat === 'long' ? dayNamesState : dayNamesShortState
+  );
 
   const monthV = monthNames[month];
   const dayV = dayNames[day];
 
   return getTranslation({
-    key: 'tr_longDateWithYearAndDayLocale',
+    key: includeYear
+      ? 'tr_longDateWithYearAndDayLocale'
+      : 'tr_longDateWithDayLocale',
     params: { day: dayV, date: dateV, month: monthV, year },
   });
 };

@@ -1,4 +1,22 @@
 :root {
+  --week-selector-width: 360px;
+  --date-navigator-label-min-width: 320px;
+  --icon-size: 24px;
+  --icon-size-small: 20px;
+  --touch-target-size: 44px;
+  --group-badge-color-weight: 60%;
+  --agenda-group-rail-width: 4px;
+  --agenda-group-rail-gap: 12px;
+  --agenda-entry-header-height: 24px;
+  --detail-label-gap: 4px;
+  --detail-column-gap: 24px;
+  --detail-row-gap: 12px;
+  --note-padding: 8px 12px;
+  --note-background: var(--grey-100);
+  --agenda-detail-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+  --accent-text: color-mix(in srgb, var(--accent-dark) 80%, var(--black));
+  --text-muted: color-mix(in srgb, var(--grey-350), var(--grey-400));
+
   --dashed-border-width: 1px;
   --dashed-border-pattern: 10 7;
 
@@ -34,8 +52,8 @@ html {
   --accent-gradient-top: rgb(84, 110, 237);
 }
 
-body {
-  background-color: var(--accent-100) !important;
+html body {
+  background-color: var(--accent-100);
   margin: 0;
   -webkit-tap-highlight-color: transparent;
 }
@@ -206,6 +224,7 @@ body iframe {
 
 /* shared motion tokens */
 :root {
+  --motion-hover: 100ms;
   --motion-fast: 180ms;
   --motion-base: 240ms;
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);

@@ -6,6 +6,26 @@ import useUserDetails from '../useUserDetails';
 const useUserAdditionalRights = () => {
   const { handleSaveDetails, currentUser } = useUserDetails();
 
+  const isFieldService =
+    currentUser?.profile.cong_role?.includes('field_service_schedule') ?? false;
+  const handleToggleFieldService = async (value: boolean) => {
+    if (!currentUser) return;
+    const newUser = structuredClone(currentUser);
+    const roles = newUser.profile.cong_role ?? [];
+    newUser.profile.cong_role = value
+      ? [...new Set([...roles, 'field_service_schedule' as const])]
+      : roles.filter((role) => role !== 'field_service_schedule');
+    try {
+      await handleSaveDetails(newUser);
+    } catch (error) {
+      displaySnackNotification({
+        header: getMessageByCode('error_app_generic-title'),
+        message: getMessageByCode((error as Error).message),
+        severity: 'error',
+      });
+    }
+  };
+
   const [isMidweek, setIsMidweek] = useState(false);
   const [isWeekend, setIsWeekend] = useState(false);
   const [isPublicTalk, setIsPublicTalk] = useState(false);
@@ -150,6 +170,8 @@ const useUserAdditionalRights = () => {
   }, [currentUser]);
 
   return {
+    isFieldService,
+    handleToggleFieldService,
     isMidweek,
     handleToggleMidweek,
     isWeekend,

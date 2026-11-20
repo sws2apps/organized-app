@@ -66,6 +66,9 @@ const ApplicationDetails = lazy(
   () => import('@pages/persons/application_details')
 );
 const UpcomingEvents = lazy(() => import('@pages/activities/upcoming_events'));
+const FieldServiceMeetings = lazy(
+  () => import('@pages/congregation/field_service_meetings')
+);
 
 const queryClient = new QueryClient();
 
@@ -90,9 +93,9 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
     isMidweekEditor,
     isWeekendEditor,
     isGroupOverseer,
+    isMidweekStudent,
     isSecretary,
     isPublicTalkCoordinator,
-    isServiceCommittee,
     isGroup,
     isLanguageGroupOverseer,
   } = useCurrentUser();
@@ -118,6 +121,19 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
             { path: '/user-profile', element: <MyProfile /> },
             { path: '/weekly-schedules', element: <WeeklySchedules /> },
             {
+              element: <RouteProtected allowed={!isMidweekStudent} />,
+              children: [
+                {
+                  path: '/activities/field-service-meetings',
+                  element: <FieldServiceMeetings />,
+                },
+                {
+                  path: '/field-service-groups',
+                  element: <FieldServiceGroups />,
+                },
+              ],
+            },
+            {
               path: '/activities/upcoming-events',
               element: <UpcomingEvents />,
             },
@@ -138,21 +154,6 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
                       element: <AuxiliaryPioneerApplication />,
                     },
                   ],
-                },
-              ],
-            },
-
-            // publisher, service committee, appointed routes
-            {
-              element: (
-                <RouteProtected
-                  allowed={isPublisher || isAppointed || isServiceCommittee}
-                />
-              ),
-              children: [
-                {
-                  path: '/field-service-groups',
-                  element: <FieldServiceGroups />,
                 },
               ],
             },

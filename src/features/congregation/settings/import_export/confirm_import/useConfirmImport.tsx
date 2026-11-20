@@ -42,6 +42,8 @@ import { dbUserFieldServiceReportsClear } from '@services/dexie/user_field_servi
 import { dbVisitingSpeakersClear } from '@services/dexie/visiting_speakers';
 import { UpcomingEventType } from '@definition/upcoming_events';
 import { dbUpcomingEventsClear } from '@services/dexie/upcoming_events';
+import { FieldServiceMeetingType } from '@definition/field_service_meetings';
+import { dbFieldServiceMeetingsClear } from '@services/dexie/field_service_meetings';
 import { isTest } from '@constants/index';
 import useCongReportsImport from './useCongReportsImport';
 import useMinistryReportsImport from './useMinistryReportsImport';
@@ -53,6 +55,7 @@ import useMeetingImport from './useMeetingImport';
 import useAppSettingsImport from './useAppSettingsImport';
 import useImportHourglass from './useImportHourglass';
 import useUpcomingEventsImport from './useUpcomingEventsImport';
+import useFieldServiceMeetingsImport from './useFieldServiceMeetingsImport';
 import appDb from '@db/appDb';
 
 const useConfirmImport = ({ onClose }: ConfirmImportProps) => {
@@ -69,6 +72,7 @@ const useConfirmImport = ({ onClose }: ConfirmImportProps) => {
   const { getSchedules, getSources } = useMeetingImport();
   const { getCongSettings, getUserSettings } = useAppSettingsImport();
   const { getUpcomingEvents } = useUpcomingEventsImport();
+  const { getFieldServiceMeetings } = useFieldServiceMeetingsImport();
 
   const {
     migrateHourglassPersons,
@@ -96,6 +100,7 @@ const useConfirmImport = ({ onClose }: ConfirmImportProps) => {
     cong_settings: false,
     user_settings: false,
     upcoming_events: false,
+    field_service_meetings: false,
   });
 
   const backupContents = useMemo(() => {
@@ -348,6 +353,30 @@ const useConfirmImport = ({ onClose }: ConfirmImportProps) => {
     }
   }, [backupFileType, backupContents, t]);
 
+  const field_service_meetings = useMemo(() => {
+    try {
+      if (backupFileType === 'Organized') {
+        const backup = backupContents as BackupOrganizedType;
+        const backupData = backup.data[
+          'field_service_meetings'
+        ] as FieldServiceMeetingType[];
+        return backupData ?? [];
+      }
+
+      return [];
+    } catch (error) {
+      console.error(error);
+
+      displaySnackNotification({
+        severity: 'error',
+        header: t('error_app_generic-title'),
+        message: (error as Error).message,
+      });
+
+      return [];
+    }
+  }, [backupFileType, backupContents, t]);
+
   const selectedAll = useMemo(() => {
     if (persons.length > 0 && !selected.persons) {
       return false;
@@ -377,6 +406,10 @@ const useConfirmImport = ({ onClose }: ConfirmImportProps) => {
     }
 
     if (upcoming_events.length > 0 && !selected.upcoming_events) {
+      return false;
+    }
+
+    if (field_service_meetings.length > 0 && !selected.field_service_meetings) {
       return false;
     }
 
@@ -414,6 +447,7 @@ const useConfirmImport = ({ onClose }: ConfirmImportProps) => {
     cong_settings,
     user_settings,
     upcoming_events,
+    field_service_meetings,
   ]);
 
   const inderterminate = useMemo(() => {
@@ -465,6 +499,10 @@ const useConfirmImport = ({ onClose }: ConfirmImportProps) => {
 
         if (upcoming_events.length > 0) {
           data.upcoming_events = true;
+        }
+
+        if (field_service_meetings.length > 0) {
+          data.field_service_meetings = true;
         }
 
         if (user_field_service_reports.length > 0) {
@@ -615,6 +653,12 @@ const useConfirmImport = ({ onClose }: ConfirmImportProps) => {
         data.upcoming_events = await getUpcomingEvents(upcoming_events);
       }
 
+      if (selected.field_service_meetings) {
+        data.field_service_meetings = await getFieldServiceMeetings(
+          field_service_meetings
+        );
+      }
+
       if (selected.cong_settings) {
         data.cong_settings = await getCongSettings(cong_settings);
       }
@@ -716,6 +760,11 @@ const useConfirmImport = ({ onClose }: ConfirmImportProps) => {
         await appDb.upcoming_events.bulkPut(data.upcoming_events);
       }
 
+      if (data.field_service_meetings) {
+        await dbFieldServiceMeetingsClear();
+        await appDb.field_service_meetings.bulkPut(data.field_service_meetings);
+      }
+
       displaySnackNotification({
         severity: 'success',
         header: t('tr_importDataCompleted'),
@@ -771,6 +820,7 @@ const useConfirmImport = ({ onClose }: ConfirmImportProps) => {
     cong_settings,
     user_settings,
     upcoming_events,
+    field_service_meetings,
   };
 };
 

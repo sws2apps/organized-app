@@ -1,4 +1,5 @@
 export { default as IconGroups } from './IconGroups';
+export { default as IconService } from './IconService';
 export { default as IconDate } from './IconDate';
 export { default as IconWavingHand } from './IconWavingHand';
 export { default as IconLocalLibrary } from './IconLocalLibrary';
@@ -16,3 +17,6 @@ export { default as IconJwHome } from './IconJwHome';
 export { default as IconTranslate } from './IconTranslate';
 export { default as IconDiagnosis } from './IconDiagnosis';
 export { default as IconCalendarClock } from './IconCalendarClock';
+export { default as IconAtHome } from './IconAtHome';
+export { default as IconConference } from './IconConference';
+export { default as IconInTerritory } from './IconInTerritory';

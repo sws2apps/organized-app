@@ -44,14 +44,6 @@ const useMonthItem = ({
     return monthNames[monthIndex];
   }, [monthNames, month]);
 
-  const assignComplete = useMemo(() => {
-    return total === 0 ? false : assigned === total;
-  }, [total, assigned]);
-
-  const assignPartial = useMemo(() => {
-    return total > 0 && assigned > 0 && assigned < total;
-  }, [total, assigned]);
-
   const meeting_month = useMemo(() => {
     if (!selectedWeek) return;
 
@@ -121,8 +113,6 @@ const useMonthItem = ({
     monthName,
     expanded,
     handleToggleExpand,
-    assignComplete,
-    assignPartial,
     assigned,
     total,
   };
