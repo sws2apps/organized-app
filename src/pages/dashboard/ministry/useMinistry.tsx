@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { useAtomValue } from 'jotai';
 import { useCurrentUser } from '@hooks/index';
 import {
   personIsAP,
@@ -10,9 +11,14 @@ import {
 import { currentMonthServiceYear, currentServiceYear } from '@utils/date';
 import useMinistryMonthlyRecord from '@features/ministry/hooks/useMinistryMonthlyRecord';
 import usePioneerStats from '@features/ministry/service_year/yearly_stats/pioneer_stats/usePioneerStats';
+import { congregationPreachingPartnerCountState } from '@states/preaching_partner';
 
 const useMinistry = () => {
   const { person, enable_AP_application } = useCurrentUser();
+
+  const partnerRequestsCount = useAtomValue(
+    congregationPreachingPartnerCountState
+  );
 
   const currentMonth = useMemo(() => {
     return currentMonthServiceYear();
@@ -58,6 +64,7 @@ const useMinistry = () => {
     hours,
     hours_balance: displayedBalance,
     enable_AP_application,
+    partnerRequestsCount,
   };
 };
 

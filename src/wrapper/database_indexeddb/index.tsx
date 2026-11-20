@@ -4,8 +4,10 @@ This file will be the entry to get the live update from IndexedDb using dexie ho
 
 import { PropsWithChildren, useEffect } from 'react';
 import useIndexedDb from './useIndexedDb';
+import usePartnerRequests from '@features/app_notification/container/usePartnerRequests';
 
 const DatabaseWrapper = ({ children }: PropsWithChildren) => {
+  usePartnerRequests();
   const {
     loadSettings,
     loadAssignment,
@@ -28,6 +30,7 @@ const DatabaseWrapper = ({ children }: PropsWithChildren) => {
     loadPublicTalks,
     loadSongs,
     loadAppLocals,
+    loadPreachingPartnerRequests,
   } = useIndexedDb();
 
   useEffect(() => {
@@ -53,6 +56,7 @@ const DatabaseWrapper = ({ children }: PropsWithChildren) => {
       loadDbDelegatedReports();
       loadUpcomingEvents();
       loadAppLocals();
+      loadPreachingPartnerRequests();
     };
 
     refreshData();
@@ -78,6 +82,7 @@ const DatabaseWrapper = ({ children }: PropsWithChildren) => {
     loadPublicTalks,
     loadSongs,
     loadAppLocals,
+    loadPreachingPartnerRequests,
   ]);
 
   return children;
