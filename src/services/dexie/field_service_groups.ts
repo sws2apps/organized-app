@@ -1,3 +1,6 @@
+import { UpdateSpec } from 'dexie';
+import { SettingsType } from '@definition/settings';
+import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { FieldServiceGroupType } from '@definition/field_service_groups';
 import appDb from '@db/appDb';
 
@@ -37,4 +40,29 @@ export const dbFieldServiceGroupClear = async () => {
   }
 
   await appDb.field_service_groups.bulkPut(records);
+};
+
+/** Save related settings and the group together, without restoring a tombstone. */
+export const dbFieldServiceGroupSaveWithSettings = (
+  group: FieldServiceGroupType,
+  changes: UpdateSpec<SettingsType>
+) => {
+  return appDb.transaction(
+    'rw',
+    [appDb.field_service_groups, appDb.app_settings, appDb.metadata],
+    async () => {
+      const current = await appDb.field_service_groups.get(group.group_id);
+
+      if (
+        !current ||
+        (current.group_data._deleted && !group.group_data._deleted)
+      ) {
+        return false;
+      }
+
+      await dbAppSettingsUpdate(changes);
+      await dbFieldServiceGroupSave(group);
+      return true;
+    }
+  );
 };

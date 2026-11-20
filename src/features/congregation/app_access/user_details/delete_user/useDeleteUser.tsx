@@ -10,6 +10,7 @@ import { CongregationUserType } from '@definition/api';
 import { buildPersonFullname } from '@utils/common';
 import { fullnameOptionState } from '@states/settings';
 import { congregationUsersState } from '@states/congregation';
+import { congregationSettingsTabPath } from '@features/congregation/settings/settings_sidebar/index.types';
 
 const useDeleteUser = (
   user: CongregationUserType,
@@ -39,7 +40,7 @@ const useDeleteUser = (
       );
 
       onClose?.();
-      navigate('/manage-access');
+      navigate(congregationSettingsTabPath('user-accounts'));
 
       displaySnackNotification({
         header: t('tr_userDeletedTitle', { UserName: personName }),
