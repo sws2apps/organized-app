@@ -10,10 +10,13 @@ const CampaignContext = () => {
   const [params, setParams] = useSearchParams();
   const campaigns = useAtomValue(territoryCampaignsState);
   const id = params.get('campaign') || params.get('forCampaign');
-  if (!id) return null;
+  if (!id || params.get('tab') === 'campaign') return null;
   const campaign = campaigns.find((item) => item.id === id);
   return (
-    <Stack spacing={1}>
+    <Stack
+      direction="row"
+      sx={{ alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}
+    >
       <InfoNote
         message={
           campaign
@@ -23,6 +26,7 @@ const CampaignContext = () => {
       />
       <Button
         variant="small"
+        disableAutoStretch
         onClick={() =>
           setParams((previous) => {
             const next = new URLSearchParams(previous);

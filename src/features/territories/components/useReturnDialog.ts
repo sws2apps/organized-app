@@ -35,7 +35,6 @@ const useReturnDialog = ({
     territory ? String(territory.households) : ''
   );
   const [returnedOn, setReturnedOn] = useState<Date | null>(new Date());
-  const [completed, setCompleted] = useState(true);
   const [note, setNote] = useState(open?.note ?? '');
   const [returnedBy, setReturnedBy] = useState(open?.publisher ?? '');
   const [assignAgain, setAssignAgain] = useState(false);
@@ -64,11 +63,6 @@ const useReturnDialog = ({
     ? parseTerritoryHouseholds(households, territory.households)
     : territory.households;
 
-  const chosenCampaign = campaign.checked ? campaign.value : undefined;
-  const selectedCampaign = own ? flagged : chosenCampaign;
-  const linkedCampaign = campaigns.find(
-    (item) => item.id === selectedCampaign?.id
-  );
   const assigned = parseDate(open?.assignedOn);
   // unflagged work that still ran into a campaign can be filed under it
   const overlapping =
@@ -95,7 +89,7 @@ const useReturnDialog = ({
       chosen(),
       note.trim(),
       own ? undefined : changedBy,
-      completed
+      true
     );
 
     if (!returned) return;
@@ -111,8 +105,6 @@ const useReturnDialog = ({
     setHouseholds,
     returnedOn,
     setReturnedOn,
-    completed,
-    setCompleted,
     note,
     setNote,
     returnedBy,
@@ -126,8 +118,6 @@ const useReturnDialog = ({
     reassign,
     dateError,
     count,
-    selectedCampaign,
-    linkedCampaign,
     overlapping,
     showHouseholds,
     handleReturn,

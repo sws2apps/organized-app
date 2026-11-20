@@ -1,3 +1,4 @@
+import type { TerritoryCampaignProgress } from '@definition/territory_campaign_progress';
 import { mergeTerritorySettings } from '@utils/territory_policy';
 import type {
   TerritoryPendingReview,
@@ -122,7 +123,8 @@ export const dbTerritorySyncApply = async (
   revision: number,
   records: TerritoryRecord[],
   acknowledged?: string,
-  retainLocalDrafts = false
+  retainLocalDrafts = false,
+  campaignProgress?: TerritoryCampaignProgress[]
 ) => {
   await appDb.transaction('rw', appDb.territories, appDb.metadata, async () => {
     const state = (await dbTerritorySyncGet()) ?? {
@@ -152,6 +154,7 @@ export const dbTerritorySyncApply = async (
       ...records.filter((item) => !pending.has(item.id)),
     ]);
     state.revision = revision;
+    state.campaignProgress = campaignProgress;
     await dbTerritorySyncPut(state);
   });
 };

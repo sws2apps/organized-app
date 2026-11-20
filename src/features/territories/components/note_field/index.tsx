@@ -14,16 +14,13 @@ const TerritoryNoteField = ({
   const { t } = useAppTranslation();
   return (
     <TextField
+      sx={{ color: 'var(--grey-400)' }}
       label={t(
         kind === 'territory'
           ? 'tr_territoryNotes'
           : 'tr_territoryAssignmentNotes'
       )}
-      helperText={t(
-        kind === 'territory'
-          ? 'tr_territoryNotesHelp'
-          : 'tr_territoryAssignmentNotesHelp'
-      )}
+      helperText={kind === 'territory' ? t('tr_territoryNotesHelp') : undefined}
       multiline
       minRows={2}
       value={value}

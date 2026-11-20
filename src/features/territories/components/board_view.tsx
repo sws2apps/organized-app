@@ -2,7 +2,7 @@ import { memo, useEffect, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { Box, Stack } from '@mui/material';
 import { ReactSortable } from 'react-sortablejs';
-import { Badge, Typography } from '@components/index';
+import { Badge, InfoNote, Typography } from '@components/index';
 import {
   STATUS_LABEL,
   Territory,
@@ -156,7 +156,7 @@ const BoardView = ({
               padding: '16px',
               borderRadius: 'var(--radius-xl)',
               backgroundColor: canDrop ? 'var(--grey-100)' : 'transparent',
-              border: canDrop ? '1px solid' : '1px dashed',
+              border: '1px solid',
               borderColor,
               opacity: dragging && !accepts ? 0.4 : 1,
               transition: 'border-color 0.2s ease, opacity 0.2s ease',
@@ -190,24 +190,16 @@ const BoardView = ({
 
             <Box sx={{ position: 'relative', minHeight: '72px', flexGrow: 1 }}>
               {column.length === 0 && (
-                <Stack
+                <InfoNote
+                  message={
+                    canDrop ? t('tr_territoryDropHere') : emptyListMessage()
+                  }
                   sx={{
-                    alignItems: 'center',
-                    justifyContent: 'center',
                     position: 'absolute',
                     inset: 0,
-                    borderRadius: 'var(--radius-m)',
-                    border: '1px dashed var(--accent-300)',
                     pointerEvents: 'none',
                   }}
-                >
-                  <Typography
-                    className="label-small-regular"
-                    color="var(--grey-350)"
-                  >
-                    {canDrop ? t('tr_territoryDropHere') : emptyListMessage()}
-                  </Typography>
-                </Stack>
+                />
               )}
 
               <ReactSortable

@@ -1,3 +1,4 @@
+import { disabledFieldStyles } from '@components/textfield/disabled.styles';
 import { forwardRef, Ref } from 'react';
 import { PickersTextField, PickersTextFieldProps } from '@mui/x-date-pickers';
 
@@ -30,7 +31,9 @@ const InputTextField = forwardRef(function DatePickerInputField(
           paddingTop: `calc(14.5px - ${varHeight}px)`,
           paddingBottom: `calc(14.5px - ${varHeight}px)`,
           flex: '1 0 0',
-          color: !props.areAllSectionsEmpty ? 'var(--black)' : 'var(--accent-400)',
+          color: !props.areAllSectionsEmpty
+            ? 'var(--black)'
+            : 'var(--accent-400)',
           cursor: props.disabled ? 'not-allowed' : 'auto',
         },
         '.MuiPickersInput-root:before': {
@@ -92,6 +95,7 @@ const InputTextField = forwardRef(function DatePickerInputField(
         '& > .MuiAutocomplete-popupIndicator': {
           '& svg, & svg g, & svg g path': { fill: 'var(--black)' },
         },
+        ...disabledFieldStyles,
       }}
     />
   );

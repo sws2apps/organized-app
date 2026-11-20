@@ -1,3 +1,4 @@
+import { withAssignments } from '@utils/territory_dates';
 import type { Territory, DoNotCall } from '@definition/territory';
 import type {
   TerritoryAccessContext,
@@ -8,6 +9,12 @@ export const territoryPermissions = (
   territory: Territory,
   context: TerritoryAccessContext
 ) => {
+  // Assignment history is authoritative when stored status or holder fields lag.
+  // Legacy records without history still use their stored assignment summary.
+  if (territory.assignments.length > 0) {
+    territory = withAssignments(territory, territory.assignments);
+  }
+
   const { editor, publisher, access, groupHolder, restricted } = context;
   const held = territory.holderId
     ? territory.holderId === context.publisherId

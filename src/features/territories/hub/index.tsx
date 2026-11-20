@@ -1,3 +1,4 @@
+import CampaignBrowser from '@features/territories/components/campaign_browser';
 import {
   ReactNode,
   useLayoutEffect,
@@ -37,7 +38,6 @@ import {
 } from '@definition/territory';
 import Card from '@components/card';
 import BoardView from '@features/territories/components/board_view';
-import CampaignBanner from '@features/territories/components/campaign_banner';
 import AssignDialog from '@features/territories/components/assign_dialog';
 import AssignReturnDialogs from '@features/territories/components/assign_return_dialogs';
 import ReturnManyDialog from '@features/territories/components/return_many_dialog';
@@ -496,15 +496,6 @@ const TerritoriesHub = ({ hub }: TerritoriesHubProps) => {
         />
       )}
 
-      {!isMine && hub.running && (
-        <CampaignBanner
-          campaign={hub.running}
-          territories={territories}
-          filters={filters}
-          onChange={setFilters}
-        />
-      )}
-
       <Box>
         <TabsRow
           tabs={tabs}
@@ -513,6 +504,15 @@ const TerritoriesHub = ({ hub }: TerritoriesHubProps) => {
           onChange={switchTab}
           aside={inlineSwitch}
         />
+
+        {tabId === 'campaign' && (
+          <CampaignBrowser
+            campaign={hub.campaign}
+            status={hub.campaignStatus}
+            territories={hub.campaignTerritories}
+            onChange={hub.setCampaign}
+          />
+        )}
 
         <Box
           ref={slide}

@@ -1,3 +1,4 @@
+import { saveUpcomingEvent } from '@services/app/upcoming_events';
 /*
 This file holds the source of the truth from the table "upcoming_events".
 */
@@ -48,3 +49,10 @@ export const upcomingEventsByDataViewState = atom((get) => {
     );
   });
 });
+
+export const saveUpcomingEventState = atom(
+  null,
+  async (_get, _set, event: UpcomingEventType) => {
+    await saveUpcomingEvent(event);
+  }
+);
