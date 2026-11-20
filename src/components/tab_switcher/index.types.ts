@@ -1,4 +1,4 @@
-import { ReactElement } from 'react';
+import { ReactElement, ReactNode } from 'react';
 import { SxProps, Theme } from '@mui/material';
 
 export type TabSwitcherOption<T extends string = string> = {
@@ -6,6 +6,8 @@ export type TabSwitcherOption<T extends string = string> = {
   label: string;
   icon?: ReactElement<{ width?: number; height?: number; color?: string }>;
   disabled?: boolean;
+  badge?: ReactNode;
+  panelId?: string;
 };
 
 export type TabSwitcherProps<T extends string = string> = {
@@ -13,5 +15,8 @@ export type TabSwitcherProps<T extends string = string> = {
   value: T;
   onChange: (value: T) => void;
   ariaLabel?: string;
+  id?: string;
+  wrapLabels?: boolean;
+  surface?: 'tinted' | 'light';
   sx?: SxProps<Theme>;
 };

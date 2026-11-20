@@ -1,6 +1,9 @@
-import { Box, ButtonBase } from '@mui/material';
-import { cloneElement } from 'react';
-import { TabSwitcherOption, TabSwitcherProps } from './index.types';
+import { Box, ButtonBase, useTheme } from '@mui/material';
+import { cloneElement, KeyboardEvent, useId, useRef } from 'react';
+import {
+  TabSwitcherOption,
+  TabSwitcherProps,
+} from '@components/tab_switcher/index.types';
 
 /** Reusable segmented tab control. */
 const TabSwitcher = <T extends string = string>({
@@ -8,9 +11,53 @@ const TabSwitcher = <T extends string = string>({
   value,
   onChange,
   ariaLabel,
+  id,
+  wrapLabels = false,
+  surface = 'tinted',
   sx,
 }: TabSwitcherProps<T>) => {
+  const generatedId = useId();
+  const tabId = id ?? generatedId;
+  const { direction } = useTheme();
+  const buttons = useRef<(HTMLButtonElement | null)[]>([]);
+  const handleKeyDown = (event: KeyboardEvent, index: number) => {
+    const enabled = options.flatMap((option, i) =>
+      option.disabled ? [] : [i]
+    );
+    if (!enabled.length) return;
+    const current = enabled.indexOf(index);
+    let next: number;
+    switch (event.key) {
+      case 'Home':
+        next = enabled[0];
+        break;
+      case 'End':
+        next = enabled.at(-1)!;
+        break;
+      case 'ArrowRight':
+      case 'ArrowLeft': {
+        const forward = (event.key === 'ArrowRight') !== (direction === 'rtl');
+        next =
+          enabled[
+            (current + (forward ? 1 : -1) + enabled.length) % enabled.length
+          ];
+        break;
+      }
+      default:
+        return;
+    }
+    event.preventDefault();
+    buttons.current[next]?.focus();
+    onChange(options[next].value);
+  };
   const activeIndex = options.findIndex((option) => option.value === value);
+  const focusIndex = options.findIndex(
+    (option) => option.value === value && !option.disabled
+  );
+  const tabbableIndex =
+    focusIndex === -1
+      ? options.findIndex((option) => !option.disabled)
+      : focusIndex;
   const gap = 8;
 
   return (
@@ -23,7 +70,8 @@ const TabSwitcher = <T extends string = string>({
         gap: `${gap}px`,
         padding: '4px',
         borderRadius: 'var(--radius-l)',
-        backgroundColor: 'var(--accent-150)',
+        backgroundColor:
+          surface === 'light' ? 'var(--accent-100)' : 'var(--accent-150)',
         border: '1px solid var(--accent-200)',
         ...sx,
       }}
@@ -34,25 +82,37 @@ const TabSwitcher = <T extends string = string>({
           position: 'absolute',
           top: '4px',
           bottom: '4px',
-          left: '4px',
+          insetInlineStart: '4px',
           width: `calc((100% - ${(options.length - 1) * gap + 8}px) / ${options.length})`,
           borderRadius: 'var(--radius-m)',
-          backgroundColor: 'var(--accent-200)',
-          border: '1px solid var(--accent-main)',
-          transform: `translateX(calc(${Math.max(activeIndex, 0)} * (100% + ${gap}px)))`,
+          backgroundColor:
+            surface === 'light' ? 'var(--accent-150)' : 'var(--accent-200)',
+          border: `1px solid ${surface === 'light' ? 'var(--accent-300)' : 'var(--accent-main)'}`,
+          transform: `translateX(calc(${(direction === 'rtl' ? -1 : 1) * Math.max(activeIndex, 0)} * (100% + ${gap}px)))`,
           transition: 'transform 0.2s cubic-bezier(0.22, 1, 0.36, 1)',
           opacity: activeIndex === -1 ? 0 : 1,
+          '@media (prefers-reduced-motion: reduce)': { transition: 'none' },
         }}
       />
 
-      {options.map((option: TabSwitcherOption<T>) => {
+      {options.map((option: TabSwitcherOption<T>, index) => {
         const isActive = option.value === value;
+        const activeClass = surface === 'light' ? 'body-small-semibold' : 'h4';
+        const inactiveClass =
+          surface === 'light' ? 'body-small-regular' : 'body-regular';
 
         return (
           <ButtonBase
             key={option.value}
             role="tab"
-            className={isActive ? 'h4' : 'body-regular'}
+            id={`${tabId}-${option.value}`}
+            aria-controls={option.panelId}
+            tabIndex={index === tabbableIndex ? 0 : -1}
+            ref={(node: HTMLButtonElement | null) => {
+              buttons.current[index] = node;
+            }}
+            onKeyDown={(event) => handleKeyDown(event, index)}
+            className={isActive ? activeClass : inactiveClass}
             aria-selected={isActive}
             disabled={option.disabled}
             disableRipple
@@ -66,13 +126,17 @@ const TabSwitcher = <T extends string = string>({
               alignItems: 'center',
               justifyContent: 'center',
               gap: '8px',
-              padding: '4px 16px',
+              padding: surface === 'light' ? '4px 12px' : '4px 16px',
               minHeight: '28px',
               borderRadius: 'var(--radius-m)',
               fontFamily: 'inherit',
               color: isActive ? 'var(--accent-dark)' : 'var(--accent-400)',
               transition: 'color 0.16s ease-out',
               '&.Mui-disabled': { opacity: 0.5 },
+              '@media (prefers-reduced-motion: reduce)': {
+                transition: 'none',
+                '& svg, & svg g, & svg g path': { transition: 'none' },
+              },
               '& svg, & svg g, & svg g path': {
                 fill: isActive ? 'var(--accent-dark)' : 'var(--accent-400)',
                 transition: 'fill 0.16s ease-out',
@@ -94,11 +158,13 @@ const TabSwitcher = <T extends string = string>({
                 minWidth: 0,
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
-                whiteSpace: 'nowrap',
+                whiteSpace: wrapLabels ? 'normal' : 'nowrap',
+                overflowWrap: wrapLabels ? 'anywhere' : undefined,
               }}
             >
               {option.label}
             </Box>
+            {option.badge}
           </ButtonBase>
         );
       })}

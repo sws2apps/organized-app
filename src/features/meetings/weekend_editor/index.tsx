@@ -1,11 +1,5 @@
 import { Box } from '@mui/material';
-import {
-  IconClose,
-  IconNavigateLeft,
-  IconNavigateRight,
-  IconTalk,
-  IconWatchtowerStudy,
-} from '@components/icons';
+import { IconClose, IconTalk, IconWatchtowerStudy } from '@components/icons';
 import {
   useAppTranslation,
   useBreakpoints,
@@ -25,7 +19,6 @@ import {
   DoubleFieldContainer,
   PrimaryFieldContainer,
   SecondaryFieldContainer,
-  StyledNavigationArrowButton,
 } from '../shared_styles';
 import { EditorContainer } from './index.styles';
 import useSiblingAssignments from '../sibling_assignments/useSiblingAssignments';
@@ -35,6 +28,7 @@ import useWeekendEditor from './useWeekendEditor';
 import AssignmentsWeekDelete from '../assignments_week_delete';
 import Button from '@components/button';
 import Divider from '@components/divider';
+import DateNavigator from '@components/date_navigator';
 import EventEditor from '../event_editor';
 import InfoNote from '@components/info_note';
 import Markup from '@components/text_markup';
@@ -84,6 +78,7 @@ const WeekendEditor = () => {
     handleChangeWeekBack,
     handleChangeWeekNext,
     showWeekArrows,
+    isCurrentWeek,
   } = useWeekendEditor();
 
   const { talkType } = usePublicTalkTypeSelector(selectedWeek);
@@ -115,58 +110,17 @@ const WeekendEditor = () => {
             sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
           >
             <PrimaryFieldContainer sx={{ width: '100%' }}>
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  gap: '16px',
-                  justifyContent: tablet500Down
-                    ? 'space-between'
-                    : 'flex-start',
-                  alignItems: 'center',
-                  width: '100%',
-                }}
-              >
-                <StyledNavigationArrowButton
-                  onClick={
-                    showWeekArrows.back ? handleChangeWeekBack : undefined
-                  }
-                  tabIndex={showWeekArrows.back ? 0 : -1}
-                  aria-disabled={showWeekArrows.back ? 'false' : 'true'}
-                  sx={{ cursor: showWeekArrows.back ? 'pointer' : 'default' }}
-                >
-                  <IconNavigateLeft
-                    color={
-                      showWeekArrows.back ? 'var(--black)' : 'var(--grey-300)'
-                    }
-                  />
-                </StyledNavigationArrowButton>
-
-                <Typography
-                  className="h2"
-                  sx={{
-                    minWidth: tablet500Down ? 'auto' : '140px',
-                    textAlign: 'center',
-                  }}
-                >
-                  {weekDateLocale}
-                </Typography>
-
-                <StyledNavigationArrowButton
-                  onClick={
-                    showWeekArrows.next ? handleChangeWeekNext : undefined
-                  }
-                  tabIndex={showWeekArrows.next ? 0 : -1}
-                  aria-disabled={showWeekArrows.next ? 'false' : 'true'}
-                  sx={{ cursor: showWeekArrows.next ? 'pointer' : 'default' }}
-                >
-                  <IconNavigateRight
-                    color={
-                      showWeekArrows.next ? 'var(--black)' : 'var(--grey-300)'
-                    }
-                  />
-                </StyledNavigationArrowButton>
-              </Box>
+              <DateNavigator
+                value={weekDateLocale}
+                onBack={handleChangeWeekBack}
+                onNext={handleChangeWeekNext}
+                disableBack={!showWeekArrows.back}
+                disableNext={!showWeekArrows.next}
+                badgeText={t('tr_today')}
+                badgeVisible={isCurrentWeek}
+                labelMinWidth={tablet500Down ? undefined : '140px'}
+                sx={{ width: tablet500Down ? '100%' : 'auto' }}
+              />
             </PrimaryFieldContainer>
             <SecondaryFieldContainer
               sx={{

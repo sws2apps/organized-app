@@ -40,8 +40,12 @@ const useMidweekEditor = () => {
   const [openLC, setOpenLC] = useState(true);
   const [clearAll, setClearAll] = useState(false);
 
-  const { handleChangeWeekBack, handleChangeWeekNext, showWeekArrows } =
-    useWeekNavigation(selectedWeek, setSelectedWeek);
+  const {
+    handleChangeWeekBack,
+    handleChangeWeekNext,
+    showWeekArrows,
+    isCurrentWeek,
+  } = useWeekNavigation(selectedWeek, setSelectedWeek);
 
   const source = useMemo(() => {
     return sources.find((record) => record.weekOf === selectedWeek);
@@ -161,6 +165,7 @@ const useMidweekEditor = () => {
     handleChangeWeekBack,
     handleChangeWeekNext,
     showWeekArrows,
+    isCurrentWeek,
     assignFSG,
     showCBSForGroup,
     dataView,
