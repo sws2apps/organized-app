@@ -50,6 +50,7 @@ const Checkbox = (props: CheckboxPropsType) => {
       control={
         <MUICheckbox
           readOnly={props.readOnly ?? false}
+          slotProps={{ input: { 'aria-label': props.ariaLabel } }}
           checked={checked}
           indeterminate={indeterminate}
           disabled={disabled}
