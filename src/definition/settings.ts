@@ -109,11 +109,20 @@ export enum FirstDayWeekOption {
   SATURDAY = 6,
 }
 
+export type CircuitOverseerSubstituteType = {
+  enabled: boolean;
+  firstname: string;
+  lastname: string;
+  wife_firstname: string;
+  wife_lastname: string;
+};
+
 export type CircuitOverseerVisitType = {
   _deleted: boolean;
   id: string;
   weekOf: string;
   updatedAt: string;
+  substitute?: CircuitOverseerSubstituteType;
 };
 
 export type SpecialMonthType = {
@@ -231,6 +240,8 @@ export type SettingsType = {
       firstname: { value: string; updatedAt: string };
       lastname: { value: string; updatedAt: string };
       display_name: { value: string; updatedAt: string };
+      wife_firstname?: { value: string; updatedAt: string };
+      wife_lastname?: { value: string; updatedAt: string };
       midweek_meeting_day: { value: number; updatedAt: string };
       visits: CircuitOverseerVisitType[];
     };

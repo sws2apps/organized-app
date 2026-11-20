@@ -301,6 +301,8 @@ export const settingSchema: SettingsType = {
       firstname: { value: '', updatedAt: '' },
       lastname: { value: '', updatedAt: '' },
       display_name: { value: '', updatedAt: '' },
+      wife_firstname: { value: '', updatedAt: '' },
+      wife_lastname: { value: '', updatedAt: '' },
       midweek_meeting_day: { value: 1, updatedAt: '' },
       visits: [],
     },

@@ -24,6 +24,7 @@ import { upcomingEventsDbState } from '@states/upcoming_events';
 import { publicTalksState } from '@states/public_talks';
 import { songsState } from '@states/songs';
 import { appLocalsState } from '@states/app_locals';
+import { circuitOverseerEventsDbState } from '@states/circuit_overseer_visit';
 
 const useIndexedDb = () => {
   const dbSettings = useLiveQuery(() => appDb.app_settings.toArray());
@@ -67,6 +68,9 @@ const useIndexedDb = () => {
   const dbPublicTalks = useLiveQuery(() => appDb.public_talks.toArray());
   const dbSongs = useLiveQuery(() => appDb.songs.toArray());
   const dbAppLocals = useLiveQuery(() => appDb.app_locals.toArray());
+  const dbCircuitOverseerEvents = useLiveQuery(() =>
+    appDb.circuit_overseer_events.toArray()
+  );
 
   const setSettings = useSetAtom(settingsState);
   const setPersons = useSetAtom(personsState);
@@ -91,6 +95,7 @@ const useIndexedDb = () => {
   const setPublicTalks = useSetAtom(publicTalksState);
   const setSongs = useSetAtom(songsState);
   const setAppLocals = useSetAtom(appLocalsState);
+  const setCircuitOverseerEvents = useSetAtom(circuitOverseerEventsDbState);
 
   const loadSettings = useCallback(() => {
     if (dbSettings && dbSettings[0]) {
@@ -218,6 +223,12 @@ const useIndexedDb = () => {
     }
   }, [dbAppLocals, setAppLocals]);
 
+  const loadCircuitOverseerEvents = useCallback(() => {
+    if (dbCircuitOverseerEvents) {
+      setCircuitOverseerEvents(dbCircuitOverseerEvents);
+    }
+  }, [dbCircuitOverseerEvents, setCircuitOverseerEvents]);
+
   return {
     loadSettings,
     loadPersons,
@@ -240,6 +251,7 @@ const useIndexedDb = () => {
     loadPublicTalks,
     loadSongs,
     loadAppLocals,
+    loadCircuitOverseerEvents,
   };
 };
 
