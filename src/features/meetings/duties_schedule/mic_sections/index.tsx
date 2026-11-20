@@ -13,7 +13,10 @@ const MicSections = ({ week, prefix, meeting }: MicSectionsProps) => {
   const { t } = useAppTranslation();
   const { tabletDown } = useBreakpoints();
 
-  const { sections, parts, sectionParts } = useMicSections(week, meeting);
+  const { sections, emptyHint, parts, sectionParts } = useMicSections(
+    week,
+    meeting
+  );
 
   return (
     <Stack spacing="16px" sx={{ flex: 1, width: '100%', minWidth: 0 }}>
@@ -100,7 +103,7 @@ const MicSections = ({ week, prefix, meeting }: MicSectionsProps) => {
       })}
       {sections.length === 0 && (
         <Typography className="body-small-regular" color="var(--grey-350)">
-          {t('tr_sectionsConfigureHint')}
+          {t(emptyHint)}
         </Typography>
       )}
     </Stack>
