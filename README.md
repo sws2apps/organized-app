@@ -51,6 +51,8 @@ Organized takes an elder-first approach: once the body of elders approves and se
 
 🛜 **Offline-use convenience:** Use the app offline. Your data syncs automatically when you reconnect.
 
+Synchronization repairs recognized meeting assignment types so assistant fields stay available across devices.
+
 <img width="1110" alt="Organized App Features - Jehovah's Witnesses Congregation Scheduling Interface" src="https://github.com/sws2apps/organized-app/assets/26148770/041d0b7a-0e59-446b-a735-0e978f3df9a5">
 
 > Learn even more about Organized features and benefits on the [About Organized website](https://about.organized-app.com).
