@@ -108,6 +108,7 @@ import {
 } from '@states/field_service_groups';
 import { monthNamesState, monthShortNamesState } from '@states/app';
 import {
+  generateMonthNames,
   generateMonthShortNames,
   getTranslation,
 } from '@services/i18n/translation';
@@ -2981,6 +2982,11 @@ export const schedulesGetMeetingDate = ({
   const lang = store.get(JWLangState);
   const useExact = store.get(meetingExactDateState);
 
+  // printouts speak the congregation language, while the on-screen view
+  // speaks the UI language. When the JW date string is missing, the fallback
+  // below must still use congregation month names, not UI ones.
+  const sourceLocale = store.get(JWLangLocaleState);
+
   dataView = dataView ?? userDataView;
 
   const schedule = schedules.find((record) => record.weekOf === week);
@@ -3003,11 +3009,20 @@ export const schedulesGetMeetingDate = ({
   const month = meetingDate.getMonth();
   const year = meetingDate.getFullYear();
 
-  const monthName = short ? monthShortNames[month] : monthNames[month];
+  let monthName: string;
+  if (forPrint) {
+    const printNames = short
+      ? generateMonthShortNames(sourceLocale)
+      : generateMonthNames(sourceLocale);
+    monthName = printNames[month];
+  } else {
+    monthName = short ? monthShortNames[month] : monthNames[month];
+  }
 
   if (locale === '') {
     locale = getTranslation({
       key,
+      language: forPrint ? sourceLocale : undefined,
       params: { date: vardate, month: monthName, year },
     });
   }
