@@ -1,13 +1,44 @@
 import { forwardRef, Ref } from 'react';
 import { PickersTextField, PickersTextFieldProps } from '@mui/x-date-pickers';
 
+/** The pixel value an sx `height` resolves to, or null when it can't be known. */
+const pixelHeight = (height: string | number): number | null => {
+  if (typeof height === 'number') {
+    return height > 1 ? height : null;
+  }
+
+  const trimmed = height.trim();
+
+  if (!trimmed.endsWith('px')) return null;
+
+  const parsed = Number.parseFloat(trimmed);
+
+  return Number.isFinite(parsed) ? parsed : null;
+};
+
 const InputTextField = forwardRef(function DatePickerInputField(
   props: PickersTextFieldProps,
   ref: Ref<HTMLDivElement>
 ) {
   const heightLocal = 44;
 
-  const varHeight = (56 - heightLocal) / 2;
+  // Consumers set the height via slotProps.textField.sx; array and function
+  // sx forms can't be inspected.
+  const consumerHeight =
+    props.sx && !Array.isArray(props.sx) && typeof props.sx === 'object'
+      ? (props.sx as { height?: unknown }).height
+      : undefined;
+
+  const customHeight =
+    typeof consumerHeight === 'string' || typeof consumerHeight === 'number'
+      ? consumerHeight
+      : `${heightLocal}px`;
+
+  // Padding and the label offset follow the rendered height, or a consumer
+  // override leaves them misaligned.
+  const effectiveHeight = pixelHeight(customHeight) ?? heightLocal;
+
+  const varHeight = (56 - effectiveHeight) / 2;
 
   return (
     <PickersTextField
@@ -17,12 +48,22 @@ const InputTextField = forwardRef(function DatePickerInputField(
       ref={ref}
       sx={{
         '.MuiPickersInputBase-root': {
-          height: `${heightLocal}px`,
+          height: customHeight,
           paddingTop: 'auto',
           paddingBottom: 'auto',
           display: 'flex',
           alignItems: 'center',
           gap: '8px',
+        },
+        // The sections must fill the space left after the icon button, or
+        // they overflow and push the clock icon outside the input.
+        '.MuiPickersSectionList-root, .MuiPickersInputBase-sectionsContainer': {
+          flex: '1 1 auto',
+          overflow: 'hidden',
+          minWidth: 0,
+        },
+        '.MuiInputAdornment-root': {
+          flexShrink: 0,
         },
         '.MuiPickersInputBase-input': {
           overflow: 'hidden',

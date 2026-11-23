@@ -1,3 +1,4 @@
+import type { FieldServiceMeetingReceipt } from '@definition/field_service_meetings';
 import { delay } from '@utils/common';
 import {
   apiGetCongregationBackup,
@@ -7,6 +8,7 @@ import {
 } from './backupApi';
 import {
   dbClearExportState,
+  dbAcknowledgeFieldServiceMeetings,
   dbExportDataBackup,
   dbGetMetadata,
   dbGetSettings,
@@ -35,6 +37,7 @@ self.onmessage = function (event) {
 
 const runBackup = async () => {
   let backup = '';
+  let meetingReceipts: FieldServiceMeetingReceipt[] = [];
 
   try {
     const { apiHost, userID, idToken } = self.setting;
@@ -85,6 +88,7 @@ const runBackup = async () => {
         }
 
         if (data.message === 'BACKUP_SENT') {
+          meetingReceipts = data.field_service_meeting_receipts ?? [];
           backup = 'completed';
         }
 
@@ -140,6 +144,7 @@ const runBackup = async () => {
         }
 
         if (data.message === 'BACKUP_SENT') {
+          meetingReceipts = data.field_service_meeting_receipts ?? [];
           backup = 'completed';
         }
 
@@ -158,6 +163,7 @@ const runBackup = async () => {
 
     if (backup === 'completed') {
       await dbClearExportState();
+      await dbAcknowledgeFieldServiceMeetings(meetingReceipts);
 
       self.postMessage('Done');
       self.postMessage({ lastBackup: new Date().toISOString() });

@@ -1,4 +1,7 @@
 {
+  "tr_fieldServiceMeetingNote": "Note (optional)",
+  "tr_fieldServiceMeetingScheduling": "Field service meeting scheduling (all groups)",
+  "tr_fieldServiceMeetingConductorGroupError": "Select a qualified conductor from your service group.",
   "tr_addNewDate": "Add new date",
   "tr_deepCleaning": "Deep cleaning",
   "tr_noCleaningSchedulesYet": "You have no cleaning schedules created yet. Add a new month to start creating your first schedule.",

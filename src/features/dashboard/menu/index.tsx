@@ -35,7 +35,7 @@ const DashboardMenu = (props: DashboardMenuProps) => {
           '& p': {
             color: hoverTextColor,
           },
-          '& svg, & svg g, & svg g path': {
+          '& svg, & svg g, & svg path': {
             fill: hoverTextColor,
           },
           '& .menu-secondary': {

@@ -424,6 +424,7 @@ export const APP_ROLES: AppRoleType[] = [
   'midweek_schedule',
   'weekend_schedule',
   'public_talk_schedule',
+  'field_service_schedule',
   'attendance_tracking',
   'secretary',
   'service_overseer',
@@ -1147,3 +1148,6 @@ export const EASING = {
   expoOut: 'cubic-bezier(0.16, 1, 0.3, 1)',
   easeIn: 'cubic-bezier(0.55, 0, 1, 0.45)',
 };
+
+export const FIELD_SERVICE_MEETING_DURATION_MINUTES = 60;
+export const FIELD_SERVICE_MEETING_FIELD_MIN_WIDTH = 260;

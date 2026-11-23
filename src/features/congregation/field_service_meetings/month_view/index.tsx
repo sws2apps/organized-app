@@ -1,0 +1,336 @@
+import { formatLongDateWithShortVars } from '@utils/date';
+import { Box } from '@mui/material';
+import { type KeyboardEvent } from 'react';
+import { useAtomValue } from 'jotai';
+import { dayNamesShortState } from '@states/app';
+import { useAppTranslation, useBreakpoints } from '@hooks/index';
+import Typography from '@components/typography';
+import GroupBadge from '@components/group_badge';
+import {
+  MonthBadge,
+  MonthDayCell,
+  MonthViewProps,
+} from '@features/congregation/field_service_meetings/month_view/index.types';
+import useMonthView from '@features/congregation/field_service_meetings/month_view/useMonthView';
+
+const DESKTOP_MAX_BADGES = 2;
+const LINE = '1px solid var(--accent-200)';
+
+const handleDayCellKeyDown = (
+  e: KeyboardEvent<HTMLDivElement>,
+  onSelectDay: (date: Date) => void,
+  date: Date
+) => {
+  if (e.key === 'Enter' || e.key === ' ') {
+    e.preventDefault();
+    onSelectDay(date);
+  }
+};
+
+type MeetingBadgesProps = {
+  dateStr: string;
+  visible: MonthBadge[];
+  hidden: number;
+  count: number;
+};
+
+const MeetingBadges = ({
+  dateStr,
+  visible,
+  hidden,
+  count,
+}: MeetingBadgesProps) => {
+  const { t } = useAppTranslation();
+
+  return (
+    <Box
+      sx={{
+        marginTop: 'auto',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '2px',
+        width: '100%',
+        minWidth: 0,
+      }}
+    >
+      <Box
+        sx={{
+          display: 'none',
+          '@container (min-width: 700px)': { display: 'flex' },
+          flexDirection: 'column',
+          gap: '2px',
+          minWidth: 0,
+        }}
+      >
+        {visible.map((badge, index) => (
+          <GroupBadge
+            key={`${dateStr}-${index}`}
+            label={badge.label}
+            color={badge.color}
+            variant="outlined"
+            size="small"
+            fullWidth
+            align="center"
+          />
+        ))}
+        {hidden > 0 && (
+          <Typography
+            className="label-small-regular"
+            color="var(--accent-text)"
+          >
+            {t('tr_xMore', { quantity: hidden })}
+          </Typography>
+        )}
+      </Box>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          '@container (min-width: 700px)': { display: 'none' },
+        }}
+      >
+        <GroupBadge
+          label={String(count)}
+          variant="outlined"
+          size="small"
+          align="center"
+        />
+      </Box>
+    </Box>
+  );
+};
+
+type DayCellProps = {
+  cell: MonthDayCell;
+  borderSx: Record<string, string>;
+  onSelectDay: (date: Date) => void;
+};
+
+const DayCell = ({ cell, borderSx, onSelectDay }: DayCellProps) => {
+  const { t } = useAppTranslation();
+  const { tabletUp } = useBreakpoints();
+
+  const hasMeetings = cell.badges.length > 0;
+  const dotSize = tabletUp ? '12px' : '8px';
+
+  const interactiveProps = {
+    role: 'button',
+    tabIndex: 0,
+    onClick: () => onSelectDay(cell.date),
+    onKeyDown: (e: KeyboardEvent<HTMLDivElement>) =>
+      handleDayCellKeyDown(e, onSelectDay, cell.date),
+    'aria-label': `${formatLongDateWithShortVars(cell.date)}, ${t('tr_fieldServiceMeetingCount', { count: cell.badges.length })}`,
+    'aria-current': cell.isToday ? ('date' as const) : undefined,
+  };
+
+  return (
+    <Box
+      {...interactiveProps}
+      sx={{
+        minWidth: 0,
+        minHeight: tabletUp ? '96px' : '64px',
+        padding: tabletUp ? '8px' : '4px',
+        alignItems: tabletUp ? 'stretch' : 'center',
+        ...borderSx,
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '4px',
+        backgroundColor: cell.isWeekend
+          ? 'rgba(var(--accent-main-base), 0.04)'
+          : 'var(--white)',
+        cursor: 'pointer',
+        '&:hover': { backgroundColor: 'var(--accent-100)' },
+        '&:focus-visible': {
+          outline: '2px solid var(--accent-main)',
+          outlineOffset: '-2px',
+        },
+      }}
+    >
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          width: '100%',
+        }}
+      >
+        <Typography className="body-small-semibold" color="var(--black)">
+          {cell.dayNumber}
+        </Typography>
+        {cell.isToday && (
+          <Box
+            aria-hidden
+            sx={{
+              width: dotSize,
+              height: dotSize,
+              borderRadius: '50%',
+              backgroundColor: 'var(--accent-main)',
+              flexShrink: 0,
+            }}
+          />
+        )}
+      </Box>
+
+      {hasMeetings && (
+        <MeetingBadges
+          dateStr={cell.dateStr}
+          visible={cell.badges.slice(0, DESKTOP_MAX_BADGES)}
+          hidden={Math.max(0, cell.badges.length - DESKTOP_MAX_BADGES)}
+          count={cell.badges.length}
+        />
+      )}
+    </Box>
+  );
+};
+
+const getCellBorderSx = (
+  week: MonthDayCell[],
+  weeks: MonthDayCell[][],
+  dayIndex: number,
+  weekIndex: number,
+  inBlock: (cell: MonthDayCell | undefined, week: number) => boolean
+): Record<string, string> => {
+  const previousInBlock = inBlock(week[dayIndex - 1], weekIndex);
+  const topInBlock = inBlock(weeks[weekIndex - 1]?.[dayIndex], weekIndex - 1);
+  const nextInBlock = inBlock(week[dayIndex + 1], weekIndex);
+  const bottomInBlock = inBlock(
+    weeks[weekIndex + 1]?.[dayIndex],
+    weekIndex + 1
+  );
+  return {
+    borderInlineEnd: LINE,
+    borderBottom: LINE,
+    ...(previousInBlock ? {} : { borderInlineStart: LINE }),
+    ...(weekIndex > 0 && !topInBlock ? { borderTop: LINE } : {}),
+    ...(!previousInBlock && !bottomInBlock
+      ? { borderEndStartRadius: 'var(--radius-xl)' }
+      : {}),
+    ...(!nextInBlock && !bottomInBlock
+      ? { borderEndEndRadius: 'var(--radius-xl)' }
+      : {}),
+  };
+};
+
+/**
+ * Monthly calendar grid. Each day cell shows a badge per group meeting
+ * (with an "x more" overflow). On mobile it collapses to a compact grid with a
+ * per-day count badge. Selecting a day opens that day in the week view.
+ */
+const MonthView = ({ meetings, onSelectDay }: MonthViewProps) => {
+  const { tabletUp } = useBreakpoints();
+  const { weeks, weekdayLabels } = useMonthView(meetings);
+  const dayNamesShort = useAtomValue(dayNamesShortState);
+
+  // In-month days and leading blanks form the drawn block; trailing blanks
+  // stay outside it so the grid steps away at the end.
+  const inBlock = (cell: MonthDayCell | undefined, week: number) =>
+    cell !== undefined && (cell.inMonth || week === 0);
+
+  return (
+    <Box sx={{ containerType: 'inline-size', minWidth: 0 }}>
+      <Box
+        sx={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(7, minmax(0, 1fr))',
+          backgroundColor: 'var(--white)',
+        }}
+      >
+        {weekdayLabels.map((label, index) => (
+          <Box
+            key={label}
+            sx={{
+              minWidth: 0,
+              padding: '8px 4px',
+              borderTop: LINE,
+              borderBottom: LINE,
+              borderInlineEnd: LINE,
+              ...(index === 0 && {
+                borderInlineStart: LINE,
+                borderStartStartRadius: 'var(--radius-xl)',
+              }),
+              ...(index === weekdayLabels.length - 1 && {
+                borderStartEndRadius: 'var(--radius-xl)',
+              }),
+            }}
+          >
+            <Typography
+              className="body-small-semibold"
+              color="var(--grey-400)"
+              title={label}
+              sx={{
+                textAlign: 'center',
+                overflowWrap: 'anywhere',
+                '@container (min-width: 840px)': { display: 'none' },
+              }}
+            >
+              {dayNamesShort[weeks[0][index].date.getDay()]}
+            </Typography>
+            <Typography
+              className="body-small-semibold"
+              color="var(--grey-400)"
+              sx={{
+                display: 'none',
+                textAlign: 'center',
+                overflowWrap: 'anywhere',
+                '@container (min-width: 840px)': { display: 'block' },
+              }}
+            >
+              {label}
+            </Typography>
+          </Box>
+        ))}
+      </Box>
+
+      {weeks.map((week, weekIndex) => (
+        <Box
+          key={week[0].dateStr}
+          sx={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(7, minmax(0, 1fr))',
+          }}
+        >
+          {week.map((cell, dayIndex) => {
+            // Trailing blanks render empty — grid outline steps away at the end.
+            if (!inBlock(cell, weekIndex)) {
+              return <Box key={cell.dateStr} />;
+            }
+
+            const borderSx = getCellBorderSx(
+              week,
+              weeks,
+              dayIndex,
+              weekIndex,
+              inBlock
+            );
+
+            // Leading blanks (before the 1st): keep dividers, muted fill.
+            if (!cell.inMonth) {
+              return (
+                <Box
+                  key={cell.dateStr}
+                  sx={{
+                    minWidth: 0,
+                    minHeight: tabletUp ? '96px' : '64px',
+                    ...borderSx,
+                    backgroundColor: 'var(--accent-100)',
+                  }}
+                />
+              );
+            }
+
+            return (
+              <DayCell
+                key={cell.dateStr}
+                cell={cell}
+                borderSx={borderSx}
+                onSelectDay={onSelectDay}
+              />
+            );
+          })}
+        </Box>
+      ))}
+    </Box>
+  );
+};
+
+export default MonthView;

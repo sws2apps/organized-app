@@ -176,7 +176,9 @@ const TextField = (props: TextFieldTypeProps) => {
           color: 'var(--accent-350)',
         },
 
-        '.MuiFormLabel-root[data-shrink=false]': { top: `-${varHeight}px` },
+        '.MuiFormLabel-root[data-shrink=false]': {
+          top: isMultiLine ? 0 : `-${varHeight}px`,
+        },
         '& > .MuiAutocomplete-popupIndicator': {
           '& svg, & svg g, & svg g path': { fill: 'var(--black)' },
         },
