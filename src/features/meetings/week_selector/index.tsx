@@ -1,22 +1,13 @@
-import { Box, Collapse } from '@mui/material';
-import {
-  IconClearMultiple,
-  IconCollapse,
-  IconSortDown,
-  IconSortUp,
-} from '@components/icons';
-import { useAppTranslation, useBreakpoints } from '@hooks/index';
-import useWeekSelector from './useWeekSelector';
-import AssignmentsDelete from '../assignments_delete';
+import { IconClearMultiple } from '@components/icons';
+import { useAppTranslation } from '@hooks/index';
+import useWeekSelector from '@features/meetings/week_selector/useWeekSelector';
+import AssignmentsDelete from '@features/meetings/assignments_delete';
 import Button from '@components/button';
-import IconButton from '@components/icon_button';
-import Typography from '@components/typography';
+import WeekSelectorPanel from '@features/meetings/week_selector/panel';
 import ScrollableTabs from '@components/scrollable_tabs';
 
 const WeekSelector = () => {
   const { t } = useAppTranslation();
-
-  const { desktopUp } = useBreakpoints();
 
   const {
     tabs,
@@ -33,20 +24,12 @@ const WeekSelector = () => {
   } = useWeekSelector();
 
   return (
-    <Box
-      sx={{
-        width: desktopUp ? '360px' : '100%',
-        flexShrink: 0,
-        borderRadius: 'var(--radius-xl)',
-        border: '1px solid var(--accent-300)',
-        backgroundColor: 'var(--white)',
-        padding: '16px',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '16px',
-        position: desktopUp ? 'sticky' : 'unset',
-        top: desktopUp ? 57 : 'unset',
-      }}
+    <WeekSelectorPanel
+      title={t('tr_meetings')}
+      expanded={expanded}
+      sortDown={sortDown}
+      onToggleExpand={handleToggleExpand}
+      onToggleSort={handleToggleSort}
     >
       {openDelete && (
         <AssignmentsDelete
@@ -55,82 +38,18 @@ const WeekSelector = () => {
           onClose={handleCloseDelete}
         />
       )}
-
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          cursor: desktopUp ? 'default' : 'pointer',
-        }}
-        onClick={desktopUp ? null : handleToggleExpand}
-      >
-        <Typography className="h2">{t('tr_meetings')}</Typography>
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            gap: '8px',
-            alignItems: 'center',
-          }}
+      {hasWeeks && <ScrollableTabs tabs={tabs} value={activeTab} />}
+      {hasWeeks && (
+        <Button
+          variant="small"
+          startIcon={<IconClearMultiple height={20} width={20} />}
+          color="red"
+          onClick={handleOpenDelete}
         >
-          <IconButton
-            onClick={(e) => {
-              e.stopPropagation();
-              handleToggleSort();
-            }}
-            sx={{
-              '&:hover': {
-                backgroundColor: 'var(--accent-150)',
-              },
-              '&:active': {
-                backgroundColor: 'var(--accent-200)',
-              },
-            }}
-          >
-            {sortDown ? (
-              <IconSortDown color="var(--black)" />
-            ) : (
-              <IconSortUp color="var(--black)" />
-            )}
-          </IconButton>
-          {!desktopUp && (
-            <IconCollapse
-              color="var(--black)"
-              sx={{
-                transform: expanded ? 'rotate(0deg)' : 'rotate(180deg)',
-                transition: 'transform 0.3s',
-              }}
-            />
-          )}
-        </Box>
-      </Box>
-
-      <Collapse in={desktopUp || expanded} timeout="auto" unmountOnExit>
-        {hasWeeks && <ScrollableTabs tabs={tabs} value={activeTab} />}
-
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: hasWeeks ? 'space-between' : 'flex-end',
-          }}
-        >
-          {hasWeeks && (
-            <Button
-              variant="small"
-              startIcon={<IconClearMultiple height={20} width={20} />}
-              sx={{ height: '32px', minHeight: '32px' }}
-              color="red"
-              onClick={handleOpenDelete}
-            >
-              {t('tr_assignmentsDeleteMultiple')}
-            </Button>
-          )}
-        </Box>
-      </Collapse>
-    </Box>
+          {t('tr_assignmentsDeleteMultiple')}
+        </Button>
+      )}
+    </WeekSelectorPanel>
   );
 };
-
 export default WeekSelector;

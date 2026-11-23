@@ -111,8 +111,8 @@ const useMidweekMeeting = ({
     if (!schedule || noSchedule) return;
 
     const assignments = Object.entries(ASSIGNMENT_PATH);
-    const midweekAssignments = assignments.filter((record) =>
-      record[0].includes('MM_')
+    const midweekAssignments = assignments.filter(
+      (record) => record[0].includes('MM_') && !record[0].includes('_DUTIES_')
     );
 
     let cn = 0;

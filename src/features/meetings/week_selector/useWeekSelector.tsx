@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'react-router';
 import { useAtom, useAtomValue } from 'jotai';
 import { useResetAtom } from 'jotai/utils';
-import { MeetingType } from '@definition/app';
+import { ScheduleMeetingType } from '@definition/app';
 import { SourcesFormattedType } from '@definition/sources';
 import { sourcesFormattedState, sourcesValidState } from '@states/sources';
 import { useBreakpoints } from '@hooks/index';
@@ -29,7 +29,7 @@ const useWeekSelector = () => {
   const meetingExactDate = useAtomValue(meetingExactDateState);
   const lang = useAtomValue(JWLangState);
 
-  const [expanded, setExpanded] = useState(true);
+  const [expanded, setExpanded] = useState(desktopUp);
   const [openDelete, setOpenDelete] = useState(false);
   const [sortDown, setSortDown] = useState(
     convertStringToBoolean(localStorage.getItem('meeting_sort_down'))
@@ -37,7 +37,9 @@ const useWeekSelector = () => {
   const [activeTab, setActiveTab] = useState(0);
   const [initialSelectDone, setInitialSelectDone] = useState(false);
 
-  const meeting: MeetingType = useMemo(() => {
+  const meeting: ScheduleMeetingType = useMemo(() => {
+    if (location.pathname === '/meeting-duties') return 'duties';
+
     return location.pathname === '/midweek-meeting' ? 'midweek' : 'weekend';
   }, [location.pathname]);
 

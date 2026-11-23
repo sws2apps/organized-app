@@ -11,5 +11,7 @@ export type DateNavigatorType = {
   disableNext?: boolean;
   labelClassName?: CustomClassName;
   labelMinWidth?: string | number;
+  badgeText?: string;
+  badgeVisible?: boolean;
   sx?: SxProps<Theme>;
 };

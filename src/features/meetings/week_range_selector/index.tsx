@@ -22,8 +22,10 @@ const WeekRangeSelector = ({
     startWeekOptions: [startPastWeeks, startUpcomingWeeks],
     handleStartWeekChange,
     startWeek,
+    endWeek,
+    handleEndWeekChange,
     showDateLabel,
-  } = useWeekRangeSelector(onStartChange, meeting);
+  } = useWeekRangeSelector(onStartChange, meeting, onEndChange);
 
   return (
     <Box
@@ -36,7 +38,7 @@ const WeekRangeSelector = ({
     >
       <Select
         label={showDateLabel ? t('tr_startDate') : t('tr_startWeek')}
-        defaultValue=""
+        value={startWeek}
         onChange={(e) => handleStartWeekChange(e.target.value as string)}
       >
         <MenuSubHeader>{t('tr_upcomingDates')}</MenuSubHeader>
@@ -75,9 +77,9 @@ const WeekRangeSelector = ({
       >
         <Select
           label={showDateLabel ? t('tr_endDate') : t('tr_endWeek')}
-          defaultValue=""
+          value={endWeek}
           disabled={startWeek.length === 0}
-          onChange={(e) => onEndChange?.(e.target.value as string)}
+          onChange={(e) => handleEndWeekChange(e.target.value as string)}
         >
           <MenuSubHeader>{t('tr_upcomingDates')}</MenuSubHeader>
           {endUpcomingWeeks.map((option) => (
