@@ -35,6 +35,7 @@ const GroupDetails = (props: GroupDetailsProps) => {
         onCircuitChange={props.onCircuitChange}
         language={language}
         onLanguageChange={handleLanguageChange}
+        layout="popup"
       />
 
       <DialogActions>
