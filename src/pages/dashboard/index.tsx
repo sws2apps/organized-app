@@ -6,7 +6,9 @@ import {
   useCurrentUser,
 } from '@hooks/index';
 import useDashboard from './useDashboard';
+import useSharedHook from './useSharedHook';
 import ActivitiesCard from './activities';
+import AppCard from './app';
 import CongregationCard from './congregation';
 import LanguageGroupSelector from '@features/language_group_selector';
 import Markup from '@components/text_markup';
@@ -32,7 +34,10 @@ const Dashboard = () => {
     isAttendanceEditor,
     isGroupOverseer,
     isLanguageGroupOverseer,
+    isSecretary,
   } = useCurrentUser();
+
+  const { showMeetingCard } = useSharedHook();
 
   const {
     firstName,
@@ -93,9 +98,14 @@ const Dashboard = () => {
 
         {isMeetingEditor && <MeetingsMaterialsCard />}
 
-        {(isElder || isAttendanceEditor || isGroupOverseer || isLanguageGroupOverseer) && <ReportsCard />}
+        {((showMeetingCard && isAttendanceEditor) ||
+          isSecretary ||
+          isGroupOverseer ||
+          isLanguageGroupOverseer) && <ReportsCard />}
 
-        <CongregationCard />
+        {(isPublisher || isElder) && <CongregationCard />}
+
+        <AppCard />
       </Box>
 
       {newCongSnack && (
