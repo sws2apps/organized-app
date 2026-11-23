@@ -2,11 +2,11 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'react-router';
 import { useAtom, useAtomValue } from 'jotai';
 import { useResetAtom } from 'jotai/utils';
-import { MeetingType } from '@definition/app';
+import { ScheduleMeetingType } from '@definition/app';
 import { SourcesFormattedType } from '@definition/sources';
 import { sourcesFormattedState, sourcesValidState } from '@states/sources';
 import { useBreakpoints } from '@hooks/index';
-import { selectedWeekState } from '@states/schedules';
+import { selectedWeekState, schedulesState } from '@states/schedules';
 import { convertStringToBoolean } from '@utils/common';
 import { JWLangState, meetingExactDateState } from '@states/settings';
 import MonthsContainer from './months_container';
@@ -24,6 +24,7 @@ const useWeekSelector = () => {
   const resetSelectedWeek = useResetAtom(selectedWeekState);
 
   const sourcesValid = useAtomValue(sourcesValidState);
+  const schedules = useAtomValue(schedulesState);
   const sourcesFormattedByWeek = useAtomValue(sourcesFormattedState);
   const [selectedWeek, setSelectedWeek] = useAtom(selectedWeekState);
   const meetingExactDate = useAtomValue(meetingExactDateState);
@@ -32,12 +33,14 @@ const useWeekSelector = () => {
   const [expanded, setExpanded] = useState(true);
   const [openDelete, setOpenDelete] = useState(false);
   const [sortDown, setSortDown] = useState(
-    convertStringToBoolean(localStorage.getItem('meeting_sort_down'))
+    convertStringToBoolean(localStorage.getItem('meeting_sort_down') ?? 'false')
   );
   const [activeTab, setActiveTab] = useState(0);
   const [initialSelectDone, setInitialSelectDone] = useState(false);
 
-  const meeting: MeetingType = useMemo(() => {
+  const meeting: ScheduleMeetingType = useMemo(() => {
+    if (location.pathname === '/activities/hall-cleaning') return 'cleaning';
+
     return location.pathname === '/midweek-meeting' ? 'midweek' : 'weekend';
   }, [location.pathname]);
 
@@ -59,7 +62,7 @@ const useWeekSelector = () => {
         const currentClone = structuredClone(curr);
 
         for (const month of currentClone.months) {
-          let anyMemorialWeek: string;
+          let anyMemorialWeek: string | undefined;
 
           if (meeting === 'midweek') {
             anyMemorialWeek = month.weeks.find((week) =>
@@ -114,8 +117,21 @@ const useWeekSelector = () => {
       return true;
     });
 
-    return { weeksExact, weeks };
-  }, [meeting, lang, sourcesFormattedByWeek, sourcesValid]);
+    const cleaningWeeks = [
+      ...new Set([
+        ...weeks.map((week) => week.weekOf),
+        ...schedules
+          .filter((week) => week.hall_cleaning)
+          .map((week) => week.weekOf),
+      ]),
+    ]
+      .sort((a, b) => a.localeCompare(b))
+      .map((weekOf) => ({ weekOf }));
+    return {
+      weeksExact,
+      weeks: meeting === 'cleaning' ? cleaningWeeks : weeks,
+    };
+  }, [meeting, lang, sourcesFormattedByWeek, sourcesValid, schedules]);
 
   const sources = useMemo(() => {
     if (meeting === 'midweek' && !meetingExactDate) {
@@ -134,26 +150,18 @@ const useWeekSelector = () => {
       const year = +date.split('/')[0];
       const month = date.substring(0, 7);
 
-      // Initialize year object if not already present
-      const findYear = acc.find((record) => record.value === year);
-      if (!findYear) {
-        acc.push({ value: year, months: [] });
+      let yearRecord = acc.find((record) => record.value === year);
+      if (!yearRecord) {
+        yearRecord = { value: year, months: [] };
+        acc.push(yearRecord);
       }
-
-      // Initialize month array if not already present
-      const yearRecord = acc.find((record) => record.value === year);
-      const findMonth = yearRecord.months.find(
+      let monthRecord = yearRecord.months.find(
         (record) => record.value === month
       );
-      if (!findMonth) {
-        yearRecord.months.push({ value: month, weeks: [] });
+      if (!monthRecord) {
+        monthRecord = { value: month, weeks: [] };
+        yearRecord.months.push(monthRecord);
       }
-
-      // Add current week to the appropriate month array
-      const monthRecord = yearRecord.months.find(
-        (record) => record.value === month
-      );
-
       monthRecord.weeks.push(curr.weekOf);
 
       return acc;
@@ -260,7 +268,7 @@ const useWeekSelector = () => {
     hasWeeks,
     expanded,
     handleToggleExpand,
-    activeTab,
+    activeTab: Math.min(activeTab, Math.max(0, tabs.length - 1)),
     openDelete,
     handleCloseDelete,
     handleOpenDelete,

@@ -189,39 +189,46 @@ const syncFromRemote = <T extends object>(local: T, remote: T): T => {
 
       const remoteObject = remoteValue as Record<string, unknown>;
 
-      for (const lockKey of lockKeys) {
-        if (lockKey in remoteObject) {
-          const localValue = localArray.find(
-            (value) =>
-              typeof value === 'object' &&
-              value !== null &&
-              (value as Record<string, unknown>)[lockKey] ===
-                remoteObject[lockKey]
-          ) as Record<string, unknown> | undefined;
+      // lists kept per data view and position (duties, hall cleaning) repeat
+      // the same type, so their entries only match on type and id together
+      const matchKeys =
+        'type' in remoteObject && 'id' in remoteObject
+          ? ['type', 'id']
+          : lockKeys.filter((lockKey) => lockKey in remoteObject).slice(0, 1);
 
-          if (!localValue) {
-            localArray.push(remoteValue);
-          } else {
-            if ('updatedAt' in localValue) {
-              const localUpdatedAt = localValue.updatedAt;
-              const remoteUpdatedAt = remoteObject.updatedAt;
+      if (matchKeys.length === 0) continue;
 
-              if (
-                typeof localUpdatedAt === 'string' &&
-                typeof remoteUpdatedAt === 'string' &&
-                remoteUpdatedAt > localUpdatedAt
-              ) {
-                Object.assign(localValue, remoteValue);
-              }
-            }
+      const localValue = localArray.find(
+        (value) =>
+          typeof value === 'object' &&
+          value !== null &&
+          matchKeys.every(
+            (matchKey) =>
+              (value as Record<string, unknown>)[matchKey] ===
+              remoteObject[matchKey]
+          )
+      ) as Record<string, unknown> | undefined;
 
-            if (!('updatedAt' in localValue)) {
-              syncFromRemote(localValue, remoteValue);
-            }
-          }
+      if (!localValue) {
+        localArray.push(remoteValue);
+        continue;
+      }
 
-          break;
+      if ('updatedAt' in localValue) {
+        const localUpdatedAt = localValue.updatedAt;
+        const remoteUpdatedAt = remoteObject.updatedAt;
+
+        if (
+          typeof localUpdatedAt === 'string' &&
+          typeof remoteUpdatedAt === 'string' &&
+          remoteUpdatedAt > localUpdatedAt
+        ) {
+          Object.assign(localValue, remoteValue);
         }
+      }
+
+      if (!('updatedAt' in localValue)) {
+        syncFromRemote(localValue, remoteValue);
       }
     }
   }
@@ -287,7 +294,8 @@ const isScheduleEditorRole = (userRole: AppRoleType[]) => {
     userRole.includes('language_group_overseers') ||
     userRole.includes('midweek_schedule') ||
     userRole.includes('weekend_schedule') ||
-    userRole.includes('public_talk_schedule')
+    userRole.includes('public_talk_schedule') ||
+    userRole.includes('duties_schedule')
   );
 };
 
