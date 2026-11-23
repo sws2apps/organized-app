@@ -121,7 +121,11 @@ const scheduleHasDutiesData = (schedule: SchedWeekType) => {
 
     if (node && typeof node === 'object') {
       if ('value' in node) {
-        return typeof node.value === 'string' && node.value.length > 0;
+        // a week marked as needing no Hospitality counts as scheduled
+        return (
+          (typeof node.value === 'string' && node.value.length > 0) ||
+          node.value === true
+        );
       }
 
       return Object.values(node).some((child) => hasValue(child));

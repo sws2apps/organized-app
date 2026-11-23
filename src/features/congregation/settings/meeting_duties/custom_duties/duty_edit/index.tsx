@@ -1,3 +1,4 @@
+import DutyIconSelector from '@features/congregation/settings/meeting_duties/custom_duties/icon_selector';
 import DialogActions from '@components/dialog_actions';
 import { DUTY_NAME_MAX } from '@utils/duties_sections';
 import { Box, Stack } from '@mui/material';
@@ -18,6 +19,8 @@ const DutyEdit = (props: DutyEditProps) => {
   const { tablet500Down } = useBreakpoints();
 
   const {
+    icon,
+    handleIconChange,
     name,
     amount,
     nameError,
@@ -72,20 +75,21 @@ const DutyEdit = (props: DutyEditProps) => {
       <Stack spacing="var(--dialog-gap)" sx={{ width: '100%' }}>
         {unavailable && (
           <Typography color="var(--red-main)" role="alert">
-            {t('tr_sectionUnavailable')}
+            {t('tr_dutyUnavailable')}
           </Typography>
         )}
         <Box
           sx={{
             display: 'grid',
             gridTemplateColumns: tablet500Down
-              ? 'minmax(0, 1fr)'
-              : 'minmax(0, 2fr) minmax(0, 1fr)',
+              ? 'auto minmax(0, 1fr)'
+              : 'minmax(0, 2fr) auto minmax(0, 1fr)',
             gap: 'var(--dialog-gap-mobile)',
             alignItems: 'start',
           }}
         >
           <TextField
+            sx={{ gridColumn: tablet500Down ? '1 / -1' : undefined }}
             autoFocus
             label={t('tr_dutyName')}
             value={name}
@@ -96,6 +100,11 @@ const DutyEdit = (props: DutyEditProps) => {
             slotProps={{ htmlInput: { maxLength: DUTY_NAME_MAX } }}
           />
 
+          <DutyIconSelector
+            value={icon}
+            onChange={handleIconChange}
+            disabled={isSaving || unavailable}
+          />
           <Select
             label={t('tr_dutyPeopleNeeded')}
             value={amount}

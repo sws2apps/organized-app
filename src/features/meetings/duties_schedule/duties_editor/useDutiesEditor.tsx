@@ -1,3 +1,4 @@
+import { HOSPITALITY_NOT_NEEDED } from '@constants/duties';
 import { useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useAtom, useAtomValue } from 'jotai';
 import {
@@ -21,6 +22,7 @@ import { sourcesState } from '@states/sources';
 import { fieldServiceGroupsState } from '@states/field_service_groups';
 import {
   schedulesDutiesFieldList,
+  schedulesDutiesGetFieldValue,
   schedulesDutiesMeetingStatus,
   schedulesDutiesSections,
   schedulesResolveMeetingDate,
@@ -143,6 +145,18 @@ const useDutiesEditor = () => {
         .filter((field) => field.type === type && !field.schedule_id)
         .map((field) => ({ ...field, label }));
 
+    const hospitality = byType(
+      AssignmentCode.DUTIES_Hospitality,
+      t('tr_hospitality')
+    );
+    const notNeeded =
+      schedule &&
+      hospitality.find(
+        (field) =>
+          schedulesDutiesGetFieldValue(schedule, field, dataView) ===
+          HOSPITALITY_NOT_NEEDED
+      );
+
     return {
       // one column per duty: combined has a single one, split keeps them apart
       audioVideo: [
@@ -160,10 +174,7 @@ const useDutiesEditor = () => {
         AssignmentCode.DUTIES_AuditoriumAttendant,
         attendant
       ),
-      hospitality: byType(
-        AssignmentCode.DUTIES_Hospitality,
-        t('tr_hospitality')
-      ),
+      hospitality: notNeeded ? [notNeeded] : hospitality,
       videoconferenceHost: byType(
         AssignmentCode.DUTIES_VideoconferenceHost,
         responsible
@@ -171,6 +182,7 @@ const useDutiesEditor = () => {
       custom: customDuties.map((duty) => ({
         id: duty.id,
         name: duty.name,
+        icon: duty.icon,
         fields: fields
           .filter((field) => field.schedule_id?.startsWith(`${duty.id}_`))
           .map((field): DutyFieldType => ({ ...field, label: responsible })),
@@ -180,6 +192,8 @@ const useDutiesEditor = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     activeMeeting,
+    dataView,
+    schedule,
     meetingStatus,
     dutiesConfig,
     customDuties,
