@@ -1,9 +1,7 @@
+import { upcomingEventTitle } from '@utils/upcoming_events';
 import { View, Text } from '@react-pdf/renderer';
 import { cloneElement, Fragment } from 'react';
-import {
-  UpcomingEventCategory,
-  UpcomingEventDuration,
-} from '@definition/upcoming_events';
+import { UpcomingEventDuration } from '@definition/upcoming_events';
 import { decorationsForEvent } from './decoration_for_event';
 import { useAppTranslation } from '@hooks/index';
 import { UpcomingEventProps } from './index.types';
@@ -51,9 +49,7 @@ const UpcomingEvent = ({ event }: UpcomingEventProps) => {
             <Text
               style={{ fontWeight: 500, fontSize: '11px', color: '#222222' }}
             >
-              {event.category !== UpcomingEventCategory.Custom
-                ? t(decoration.translationKey)
-                : event.custom}
+              {upcomingEventTitle(event, t(decoration.translationKey))}
             </Text>
           </View>
 

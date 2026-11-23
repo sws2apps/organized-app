@@ -14,6 +14,7 @@ import MinistryCard from './ministry';
 import MeetingsCard from './meetings';
 import MeetingsMaterialsCard from './meeting_materials';
 import PersonsCard from './persons';
+import TerritoriesCard from './territories';
 import ReportsCard from './reports';
 import Snackbar from '@components/snackbar';
 import Typography from '@components/typography';
@@ -86,6 +87,8 @@ const Dashboard = () => {
         {isPublisher && <MinistryCard />}
 
         <MeetingsCard assignmentCount={countFutureAssignments} />
+
+        <TerritoriesCard />
 
         <ActivitiesCard />
 

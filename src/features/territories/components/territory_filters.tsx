@@ -1,3 +1,4 @@
+import { useSearchParams } from 'react-router';
 import { useAppTranslation } from '@hooks/index';
 import { ReactNode } from 'react';
 import { Box, Stack } from '@mui/material';
@@ -44,6 +45,7 @@ const TerritoryFilters = ({
   showClear?: boolean;
 }) => {
   const { t } = useAppTranslation();
+  const [params] = useSearchParams();
 
   const categories = useAtomValue(territoryCategoriesState);
 
@@ -172,7 +174,9 @@ const TerritoryFilters = ({
           </Group>
         ))}
 
-        <CampaignChips filters={filters} onChange={onChange} />
+        {params.get('tab') !== 'campaign' && (
+          <CampaignChips filters={filters} onChange={onChange} />
+        )}
       </Box>
 
       {showClear && (

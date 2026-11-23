@@ -342,3 +342,79 @@ test('history uses stable IDs and rejects unsafe or blank legacy name matching',
     ['own']
   );
 });
+
+const openAssignment = {
+  id: 'current',
+  publisher: 'Publisher A',
+  publisherId: 'publisher-a',
+  assignedOn: '05.10.2026',
+  serviceYear: 2027,
+  months: 1,
+  startMonth: 1,
+  endMonth: 1,
+};
+
+test('return permissions use open history when the stored summary says available', () => {
+  const record = territory({ assignments: [openAssignment] });
+  assert.equal(
+    territoryPermissions(record, context({ editor: true })).return,
+    true
+  );
+  assert.equal(
+    territoryPermissions(record, context({ publisherId: 'publisher-a' }))
+      .return,
+    true
+  );
+  assert.equal(
+    territoryPermissions(record, context({ publisherId: 'other' })).return,
+    false
+  );
+  assert.equal(
+    territoryPermissions(
+      record,
+      context({ publisherId: 'publisher-a', access: 'own' })
+    ).return,
+    false
+  );
+  assert.equal(
+    territoryPermissions(record, context({ publisherId: 'other' })).request,
+    false
+  );
+  assert.equal(record.status, 'available');
+});
+
+test('return permissions use the current group instead of a stale holder', () => {
+  const record = territory({
+    holderId: 'previous-publisher',
+    holderGroupId: 'previous-group',
+    assignments: [{ ...openAssignment, group: 'Group A', groupId: 'group-a' }],
+  });
+  assert.equal(
+    territoryPermissions(record, context({ groupId: 'group-a' })).return,
+    true
+  );
+  assert.equal(
+    territoryPermissions(
+      record,
+      context({ publisherId: 'previous-publisher', groupId: 'previous-group' })
+    ).return,
+    false
+  );
+});
+
+test('closed history prevents another return even when the stored status is in work', () => {
+  const record = territory({
+    status: 'in_work',
+    holderId: 'publisher-a',
+    assignments: [{ ...openAssignment, returnedOn: '20.10.2026' }],
+  });
+  assert.equal(
+    territoryPermissions(record, context({ editor: true })).return,
+    false
+  );
+  assert.equal(
+    territoryPermissions(record, context({ publisherId: 'publisher-a' }))
+      .return,
+    false
+  );
+});

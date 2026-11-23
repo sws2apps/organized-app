@@ -1,16 +1,14 @@
 import useReturnDialog from '@features/territories/components/useReturnDialog';
-import { useNavigate } from 'react-router';
 import TerritoryNoteField from '@features/territories/components/note_field';
-import { useAtomValue } from 'jotai';
 import { Box, Stack } from '@mui/material';
 import { Button, TextField, Typography } from '@components/index';
 import DatePicker from '@components/date_picker';
 import Dialog from '@components/dialog';
 import DialogActions from '@components/dialog_actions';
+import Divider from '@components/divider';
 import SwitchWithLabel from '@components/switch_with_label';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
-import { IconArrowLink, IconPrint } from '@icons/index';
-import { territoryLocalModeState } from '@states/territories';
+import { IconPrint } from '@icons/index';
 import CampaignField from '@features/territories/components/campaign_field';
 import { PublisherPicker } from '@features/territories/components/holder_picker';
 import {
@@ -40,50 +38,6 @@ export type ReturnDialogProps = {
   ) => boolean;
 };
 
-const ReturnCampaign = ({
-  selectedCampaign,
-  linkedCampaign,
-}: {
-  selectedCampaign: NonNullable<TerritoryAssignment['campaign']>;
-  linkedCampaign?: NonNullable<
-    ReturnType<typeof useReturnDialog>
-  >['linkedCampaign'];
-}) => {
-  const navigate = useNavigate();
-  const localMode = useAtomValue(territoryLocalModeState);
-  return linkedCampaign ? (
-    <Button
-      variant="small"
-      disableAutoStretch
-      endIcon={<IconArrowLink />}
-      href={`#${localMode ? '/settings/campaigns' : '/territories/campaigns'}?event=${encodeURIComponent(selectedCampaign.id)}`}
-      target={localMode ? undefined : '_blank'}
-      rel="noopener noreferrer"
-      onClick={
-        localMode
-          ? (event) => {
-              event.preventDefault();
-              navigate(
-                `/settings/campaigns?event=${encodeURIComponent(selectedCampaign.id)}`
-              );
-            }
-          : undefined
-      }
-      sx={{
-        alignSelf: 'flex-start',
-        textAlign: 'left',
-        overflowWrap: 'anywhere',
-      }}
-    >
-      {linkedCampaign.name}
-    </Button>
-  ) : (
-    <Typography className="body-small-regular">
-      {selectedCampaign.name}
-    </Typography>
-  );
-};
-
 const ReturnDialog = ({
   territory,
   own = false,
@@ -109,8 +63,6 @@ const ReturnDialog = ({
     setHouseholds,
     returnedOn,
     setReturnedOn,
-    completed,
-    setCompleted,
     note,
     setNote,
     returnedBy,
@@ -124,42 +76,74 @@ const ReturnDialog = ({
     reassign,
     dateError,
     count,
-    selectedCampaign,
-    linkedCampaign,
     overlapping,
     showHouseholds,
     handleReturn,
   } = state;
-  const completedLabel = t(
-    selectedCampaign ? 'tr_territoryCompleted' : 'tr_territoryRegularCovered'
-  );
 
   return (
     <Dialog
       onClose={onClose}
       open
-      title={t('tr_territoryReturnNumber', { number: territory.number })}
-      description={
-        own
-          ? t('tr_territoryEnterTheReturnDateAndHouseholdCount')
-          : t('tr_territoryConfirmTheReturnDateAndHouseholdCount')
+      header={
+        <Stack spacing="2px" sx={{ minWidth: 0 }}>
+          <Typography component="h2" className="h2">
+            {t('tr_territoryReturnNumber', { number: territory.number })}
+          </Typography>
+          <Typography color="var(--grey-400)">
+            {[territory.name, territory.city].filter(Boolean).join(' · ')}
+          </Typography>
+          {territory.notes?.trim() && (
+            <Typography
+              className="body-small-regular"
+              sx={{ whiteSpace: 'pre-wrap', overflowWrap: 'anywhere' }}
+            >
+              {t('tr_territoryNoteInline', { note: territory.notes })}
+            </Typography>
+          )}
+        </Stack>
       }
     >
       {open && !own && (
-        <PublisherPicker
-          label={t('tr_territoryReturnedBy')}
-          value={returnedBy}
-          onChange={setReturnedBy}
-          current={open.publisher}
-        />
+        <>
+          <PublisherPicker
+            label={t('tr_territoryReturnedBy')}
+            value={returnedBy}
+            onChange={setReturnedBy}
+            current={open.publisher}
+          />
+          <Divider color="var(--accent-200)" sx={{ width: '100%' }} />
+        </>
       )}
 
-      <Stack
-        direction={tablet600Up ? 'row' : 'column'}
-        spacing="16px"
-        sx={{ width: '100%' }}
+      <Typography component="h3" className="body-small-semibold">
+        {t('tr_territoryAssignmentHeading')}
+      </Typography>
+
+      <Box
+        sx={{
+          display: 'grid',
+          width: '100%',
+          gap: '16px',
+          gridTemplateColumns:
+            tablet600Up && showHouseholds
+              ? 'repeat(2, minmax(0, 1fr))'
+              : 'minmax(0, 1fr)',
+          gridTemplateAreas:
+            tablet600Up && showHouseholds
+              ? ['"returned households"', canAssignAgain && '"again again"']
+                  .filter(Boolean)
+                  .join(' ')
+              : [
+                  '"returned"',
+                  canAssignAgain && '"again"',
+                  showHouseholds && '"households"',
+                ]
+                  .filter(Boolean)
+                  .join(' '),
+        }}
       >
-        <Box sx={{ flex: 1, minWidth: 0 }}>
+        <Box sx={{ gridArea: 'returned', minWidth: 0 }}>
           <DatePicker
             label={t('tr_territoryReturnedOn')}
             value={returnedOn}
@@ -168,9 +152,18 @@ const ReturnDialog = ({
             onChange={(value) => setReturnedOn(value)}
           />
         </Box>
-
+        {canAssignAgain && (
+          <Box sx={{ gridArea: 'again', minWidth: 0 }}>
+            <SwitchWithLabel
+              label={t('tr_territoryAssignAgain')}
+              helper={t('tr_territoryToTheSamePersonFromTheReturnDate')}
+              checked={assignAgain}
+              onChange={setAssignAgain}
+            />
+          </Box>
+        )}
         {showHouseholds && (
-          <Box sx={{ flex: 1, minWidth: 0 }}>
+          <Box sx={{ gridArea: 'households', minWidth: 0 }}>
             <TextField
               label={t('tr_territoryHouseholds')}
               type="number"
@@ -186,25 +179,7 @@ const ReturnDialog = ({
             />
           </Box>
         )}
-      </Stack>
-
-      <Stack spacing={1}>
-        <SwitchWithLabel
-          label={completedLabel}
-          checked={completed}
-          onChange={setCompleted}
-          inputProps={{
-            'aria-label': completedLabel,
-          }}
-        />
-        {selectedCampaign && (
-          <ReturnCampaign
-            selectedCampaign={selectedCampaign}
-            linkedCampaign={linkedCampaign}
-          />
-        )}
-      </Stack>
-      <TerritoryNoteField kind="assignment" value={note} onChange={setNote} />
+      </Box>
 
       {/* a card went out with it: a nudge to take it back */}
       {open?.card === 'printed' && (
@@ -217,21 +192,17 @@ const ReturnDialog = ({
       )}
 
       {!own && (flagged || overlapping.length > 0) && (
-        <CampaignField
-          checked={campaign.checked}
-          value={campaign.value}
-          onChange={setCampaign}
-        />
+        <>
+          <Divider color="var(--accent-200)" sx={{ width: '100%' }} />
+          <CampaignField
+            checked={campaign.checked}
+            value={campaign.value}
+            onChange={setCampaign}
+          />
+        </>
       )}
 
-      {canAssignAgain && (
-        <SwitchWithLabel
-          label={t('tr_territoryAssignAgain')}
-          helper={t('tr_territoryToTheSamePersonFromTheReturnDate')}
-          checked={assignAgain}
-          onChange={setAssignAgain}
-        />
-      )}
+      <TerritoryNoteField kind="assignment" value={note} onChange={setNote} />
 
       <DialogActions>
         <Button variant="secondary" onClick={onClose}>

@@ -539,17 +539,9 @@ export const publisherCoverage = (
   };
 };
 
-export type PublisherSort = 'count' | 'name';
-
 export const sortedPublishers = (
-  entries: { publisher: string; count: number }[],
-  sort: PublisherSort
-) =>
-  [...entries].sort((a, b) =>
-    sort === 'name' || a.count === b.count
-      ? a.publisher.localeCompare(b.publisher)
-      : b.count - a.count
-  );
+  entries: { publisher: string; count: number }[]
+) => [...entries].sort((a, b) => b.count - a.count);
 
 export { coveredDays, coveredAge } from '@features/territories/coverage_rate';
 

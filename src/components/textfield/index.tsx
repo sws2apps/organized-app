@@ -1,3 +1,4 @@
+import { disabledFieldStyles } from '@components/textfield/disabled.styles';
 import { HTMLInputTypeAttribute, useState } from 'react';
 import {
   IconButton,
@@ -77,8 +78,12 @@ const TextField = (props: TextFieldTypeProps) => {
     'inputProps' in props &&
     typeof (props as Record<string, unknown>).inputProps === 'object' &&
     (props as Record<string, unknown>).inputProps !== null
-      ? ((props as Record<string, unknown>).inputProps as Record<string, unknown>)
-          .value
+      ? (
+          (props as Record<string, unknown>).inputProps as Record<
+            string,
+            unknown
+          >
+        ).value
       : undefined;
 
   const hasValue =
@@ -113,6 +118,10 @@ const TextField = (props: TextFieldTypeProps) => {
           flex: '1 0 0',
           color: hasValue ? 'var(--black)' : 'var(--accent-400)',
           cursor: props.disabled && 'not-allowed',
+        },
+        '.MuiInputBase-input::placeholder': {
+          color: 'var(--grey-400)',
+          opacity: 1,
         },
         '.MuiInput-root:before': {
           borderBottom: '1px solid var(--accent-300) !important',
@@ -194,6 +203,7 @@ const TextField = (props: TextFieldTypeProps) => {
             fill: 'var(--black)',
           },
         },
+        ...disabledFieldStyles,
         ...props.sx,
       }}
       slotProps={{
@@ -245,6 +255,7 @@ const TextField = (props: TextFieldTypeProps) => {
         },
         formHelperText: {
           component: 'div',
+          className: 'label-small-regular',
           style: {
             margin: 0,
             padding: resetHelperPadding ? 0 : '4px 16px 0px 16px',

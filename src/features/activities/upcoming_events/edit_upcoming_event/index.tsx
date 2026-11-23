@@ -13,18 +13,28 @@ import Button from '@components/button';
 import DatePicker from '@components/date_picker';
 import DeleteEvent from '../delete_event';
 import Divider from '@components/divider';
-import IconButton from '@components/icon_button';
 import MenuItem from '@components/menuitem';
 import Select from '@components/select';
 import SwitchWithLabel from '@components/switch_with_label';
 import TextField from '@components/textfield';
 import TimePicker from '@components/time_picker';
 import Typography from '@components/typography';
+import InfoNote from '@components/info_note';
+
+const editorTitleKey = (
+  category: UpcomingEventCategory,
+  type: EditUpcomingEventProps['type']
+) => {
+  const isCampaign = category === UpcomingEventCategory.SpecialCampaignWeek;
+  if (type === 'add')
+    return isCampaign ? 'tr_territoryAddCampaign' : 'tr_addUpcomingEvent';
+  return isCampaign ? 'tr_territoryEditCampaign' : 'tr_editUpcomingEvent';
+};
 
 const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
   const { t } = useAppTranslation();
 
-  const { desktopUp, tabletUp } = useBreakpoints();
+  const { desktopUp, tablet600Up } = useBreakpoints();
 
   const {
     hour24,
@@ -47,6 +57,19 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
     handleCloseDeleteConfirm,
     eventTitle,
   } = useEditUpcomingEvent(props);
+
+  const rowStyles = {
+    display: 'flex',
+    flexDirection: 'row',
+    gap: '16px',
+    flexWrap: desktopUp ? 'nowrap' : 'wrap',
+    '& > *': { flex: desktopUp ? '1' : 'none' },
+  };
+  const categoryLocked =
+    props.data.event_data.category ===
+    UpcomingEventCategory.SpecialCampaignWeek;
+  const timeWidth = hour24 ? '140px' : '150px';
+  const title = t(editorTitleKey(localEvent.event_data.category, props.type));
 
   return (
     <Box
@@ -73,35 +96,31 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
         sx={{
           display: 'flex',
           alignItems: 'center',
-          justifyContent: tabletUp ? 'space-between' : 'unset',
+          justifyContent: 'space-between',
           gap: '16px',
         }}
       >
         <Typography
           className="h2"
           sx={{
+            minWidth: 0,
+            overflowWrap: 'anywhere',
             color: 'var(--black)',
           }}
         >
-          {props.type == 'add'
-            ? t('tr_addUpcomingEvent')
-            : t('tr_editUpcomingEvent')}
+          {title}
         </Typography>
 
-        {props.type === 'edit' && !tabletUp && (
-          <IconButton onClick={handleOpenDeleteConfirm} color="error">
-            <IconDelete color="var(--red-main)" height={20} width={20} />
-          </IconButton>
-        )}
-
-        {props.type === 'edit' && tabletUp && (
+        {props.type === 'edit' && (
           <Button
             variant="small"
+            disableAutoStretch
             color="red"
             startIcon={<IconDelete />}
             sx={{
-              height: '32px',
-              minHeight: '32px !important',
+              flexShrink: 0,
+              marginInlineStart: 'auto',
+              whiteSpace: 'nowrap',
             }}
             onClick={handleOpenDeleteConfirm}
           >
@@ -110,6 +129,11 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
         )}
       </Box>
 
+      {localEvent.event_data.category ===
+        UpcomingEventCategory.SpecialCampaignWeek && (
+        <InfoNote message={t('tr_territoryCampaignsHelp')} />
+      )}
+
       <Box
         sx={{
           display: 'flex',
@@ -117,21 +141,14 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
           gap: '16px',
         }}
       >
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            gap: '16px',
-            flexWrap: !desktopUp ? 'wrap' : 'nowrap',
-            '& > *': { flex: !desktopUp ? 'none' : '1' },
-          }}
-        >
+        <Box sx={rowStyles}>
           <Select
             label={t('tr_eventType')}
+            disabled={categoryLocked}
             value={localEvent.event_data.category ?? ''}
             onChange={handleChangeEventCategory}
             error={errors.category}
-            helperText={errors.category && t('tr_fillRequiredField')}
+            helperText={errors.category ? t('tr_fillRequiredField') : undefined}
           >
             {decorationsForEvent.map((option, index) => (
               <MenuItem value={index} key={option.translationKey}>
@@ -143,7 +160,9 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
                     alignItems: 'center',
                   }}
                 >
-                  {cloneElement(option.icon, { color: 'var(--black)' })}
+                  {cloneElement(option.icon, {
+                    color: categoryLocked ? 'var(--grey-350)' : 'var(--black)',
+                  })}
                   <Typography
                     className="body-regular"
                     sx={{
@@ -157,13 +176,20 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
             ))}
           </Select>
 
-          {localEvent.event_data.category === UpcomingEventCategory.Custom && (
+          {(localEvent.event_data.category === UpcomingEventCategory.Custom ||
+            localEvent.event_data.category ===
+              UpcomingEventCategory.SpecialCampaignWeek) && (
             <TextField
-              label={t('tr_eventTitle')}
+              label={t(
+                localEvent.event_data.category ===
+                  UpcomingEventCategory.SpecialCampaignWeek
+                  ? 'tr_territoryCampaignName'
+                  : 'tr_eventTitle'
+              )}
               value={localEvent.event_data.custom}
               onChange={handleChangeEventCustomTitle}
               error={errors.custom}
-              helperText={errors.custom && t('tr_fillRequiredField')}
+              helperText={errors.custom ? t('tr_fillRequiredField') : undefined}
             />
           )}
 
@@ -180,20 +206,25 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
 
         <Box
           sx={{
-            display: 'flex',
-            flexDirection: 'row',
+            display: 'grid',
+            gridTemplateColumns:
+              tablet600Up &&
+              localEvent.event_data.duration ===
+                UpcomingEventDuration.MultipleDays
+                ? 'repeat(2, minmax(0, 1fr))'
+                : 'minmax(0, 1fr)',
             gap: '16px',
-
-            flexWrap: !desktopUp ? 'wrap' : 'nowrap',
-            '& > *': { flex: !desktopUp ? 'none' : '1' },
+            alignItems: 'start',
+            '& > *': { minWidth: 0 },
           }}
         >
           <Select
+            sx={{ gridColumn: '1 / -1' }}
             label={t('tr_eventDuration')}
             onChange={handleChangeEventDuration}
             value={localEvent.event_data.duration ?? ''}
             error={errors.duration}
-            helperText={errors.duration && t('tr_fillRequiredField')}
+            helperText={errors.duration ? t('tr_fillRequiredField') : undefined}
           >
             <MenuItem value={UpcomingEventDuration.SingleDay} key={0}>
               <Typography
@@ -251,27 +282,19 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
             />
 
             {!wholeDay && (
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  gap: '16px',
-                  flexWrap: !desktopUp ? 'wrap' : 'nowrap',
-                  '& > *': { flex: !desktopUp ? 'none' : '1' },
-                }}
-              >
+              <Box sx={rowStyles}>
                 <TimePicker
                   onChange={handleChangeEventStartTime}
                   label={t('tr_startTime')}
                   ampm={!hour24}
-                  sx={{ minWidth: hour24 ? '140px' : '150px' }}
+                  sx={{ minWidth: timeWidth }}
                   value={new Date(localEvent.event_data.start)}
                 />
                 <TimePicker
                   onChange={handleChangeEventEndTime}
                   label={t('tr_endTime')}
                   ampm={!hour24}
-                  sx={{ minWidth: hour24 ? '140px' : '150px' }}
+                  sx={{ minWidth: timeWidth }}
                   value={new Date(localEvent.event_data.end)}
                   error={errors.endTime}
                   helperText={errors.endTime ? t('tr_endTimeAfterStart') : ''}
