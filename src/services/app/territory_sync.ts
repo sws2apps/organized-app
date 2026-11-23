@@ -373,6 +373,17 @@ export const synchronizeTerritories = () => {
   return running;
 };
 
+export const territoryPendingReview = async (): Promise<
+  TerritoryPendingReview | undefined
+> => {
+  const state = await dbTerritorySyncGet();
+  if (state?.scope !== scopeNow()) return undefined;
+  return {
+    queue: state.queue,
+    settings: state.settingsDirty ? state.settings : undefined,
+  };
+};
+
 export const discardPendingTerritories = async (
   reviewed: TerritoryPendingReview
 ) => {

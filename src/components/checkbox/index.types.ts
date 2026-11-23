@@ -56,4 +56,6 @@ export type CheckboxPropsType = {
   readOnly?: boolean;
 
   stopPropagation?: boolean;
+
+  ariaLabel?: string;
 };

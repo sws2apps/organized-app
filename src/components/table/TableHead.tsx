@@ -46,34 +46,44 @@ const TableHead = (props: EnhancedTableProps) => {
               ...headCell.sx,
             }}
           >
-            <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : 'asc'}
-              onClick={createSortHandler(headCell.id)}
-              style={{ position: 'relative' }}
-              IconComponent={(props) => (
-                <Stack
-                  {...props}
-                  style={{ position: 'absolute', right: '-25px' }}
-                >
-                  <IconDown color={'var(--grey-350)'} width={18} height={18} />
-                </Stack>
-              )}
-            >
-              <Typography
-                className={'body-small-regular'}
-                sx={{
-                  color: 'var(--grey-350)',
-                }}
+            {typeof headCell.label !== 'string' && headCell.label}
+
+            {typeof headCell.label === 'string' && (
+              <TableSortLabel
+                active={orderBy === headCell.id}
+                direction={orderBy === headCell.id ? order : 'asc'}
+                onClick={createSortHandler(headCell.id)}
+                style={{ position: 'relative' }}
+                IconComponent={(props) => (
+                  <Stack
+                    {...props}
+                    style={{ position: 'absolute', right: '-25px' }}
+                  >
+                    <IconDown
+                      color={'var(--grey-350)'}
+                      width={18}
+                      height={18}
+                    />
+                  </Stack>
+                )}
               >
-                {headCell.label}
-              </Typography>
-              {orderBy === headCell.id ? (
-                <Box component="span" sx={visuallyHidden}>
-                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                </Box>
-              ) : null}
-            </TableSortLabel>
+                <Typography
+                  className={'body-small-regular'}
+                  sx={{
+                    color: 'var(--grey-350)',
+                  }}
+                >
+                  {headCell.label}
+                </Typography>
+                {orderBy === headCell.id ? (
+                  <Box component="span" sx={visuallyHidden}>
+                    {order === 'desc'
+                      ? 'sorted descending'
+                      : 'sorted ascending'}
+                  </Box>
+                ) : null}
+              </TableSortLabel>
+            )}
           </TableCell>
         ))}
       </TableRow>
