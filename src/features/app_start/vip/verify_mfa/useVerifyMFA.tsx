@@ -1,3 +1,4 @@
+import { restoreLoginMiddleName } from '@services/app/login_names';
 import { useState } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
@@ -50,10 +51,10 @@ const useVerifyMFA = () => {
     }
   };
 
-  const handleAuthorization = async ({
-    app_settings,
-  }: UserLoginResponseType) => {
+  const handleAuthorization = async (response: UserLoginResponseType) => {
+    const { app_settings } = response;
     if (app_settings) {
+      await restoreLoginMiddleName(response);
       await dbAppSettingsUpdate({
         'user_settings.account_type': 'vip',
         'user_settings.lastname': app_settings.user_settings.lastname,

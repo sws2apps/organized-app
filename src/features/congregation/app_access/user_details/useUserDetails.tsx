@@ -48,6 +48,7 @@ const useUserDetails = () => {
         user_secret_code: code,
         first_name: user.profile.firstname.value,
         last_name: user.profile.lastname.value,
+        middle_name: user.profile.middlename?.value,
       });
 
       setUsers(users);

@@ -1,3 +1,5 @@
+import Select from '@components/select';
+import MenuItem from '@components/menuitem';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import { IconBackupOrganized } from '@components/icons';
@@ -12,7 +14,8 @@ import type { ExportType } from './index.types';
 const Export = (props: ExportType) => {
   const { t } = useAppTranslation();
 
-  const { fileName, isProcessing, handleExport } = useExportPersons();
+  const { fileName, isProcessing, handleExport, fileFormat, setFileFormat } =
+    useExportPersons();
 
   return (
     <Stack spacing="16px">
@@ -37,6 +40,20 @@ const Export = (props: ExportType) => {
         </Box>
       </Stack>
 
+      <Select
+        label={t('tr_personsExportFormat')}
+        inputProps={{ 'aria-label': t('tr_personsExportFormat') }}
+        value={fileFormat}
+        onChange={(event) =>
+          setFileFormat(event.target.value === 'csv' ? 'csv' : 'xlsx')
+        }
+      >
+        <MenuItem value="xlsx">{t('tr_personsExportXlsx')}</MenuItem>
+        <MenuItem value="csv">{t('tr_personsExportCsv')}</MenuItem>
+      </Select>
+      {fileFormat === 'csv' && (
+        <Typography>{t('tr_personsExportCsvHint')}</Typography>
+      )}
       <DialogActions>
         <Button
           variant="secondary"

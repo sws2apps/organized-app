@@ -9,6 +9,7 @@ export type SpeakerInfoTabType = {
   fullnameOption: FullnameOption;
   persons: PersonType[];
   onFirstnameChange: (value: string) => void;
+  onMiddlenameChange: (value: string) => void;
   onLastnameChange: (value: string) => void;
   onDisplayNameChange: (value: string) => void;
   onPrivilegeChange: (value: string) => void;

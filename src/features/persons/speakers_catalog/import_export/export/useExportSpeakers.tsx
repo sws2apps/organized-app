@@ -1,8 +1,10 @@
+import { speakerNameCells } from '@utils/speakers';
+import { copyNameFields } from '@utils/name_format';
 // src/features/persons/speakers_catalog/import_export/export/useExportSpeakers.tsx
 import { useState } from 'react';
 import { useAtomValue } from 'jotai';
 import writeXlsxFile, { Row, SheetData } from 'write-excel-file/browser';
-import Papa from 'papaparse';
+import { exportCsv } from '@utils/csv';
 import { IconError } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import { getMessageByCode } from '@services/i18n/translation';
@@ -102,11 +104,9 @@ const useExportSpeakers = () => {
     speaker: VisitingSpeakerType,
     field: string
   ): string => {
+    const names = speakerNameCells(speaker);
+    if (field in names) return names[field as keyof typeof names];
     switch (field) {
-      case 'speaker.firstname':
-        return speaker.speaker_data.person_firstname.value;
-      case 'speaker.lastname':
-        return speaker.speaker_data.person_lastname.value;
       case 'speaker.email':
         return speaker.speaker_data.person_email?.value || '';
       case 'speaker.phone':
@@ -353,14 +353,7 @@ const useExportSpeakers = () => {
           ...speaker,
           speaker_data: {
             ...speaker.speaker_data,
-            person_firstname: {
-              value: person.person_data.person_firstname.value,
-              updatedAt: speaker.speaker_data.person_firstname.updatedAt,
-            },
-            person_lastname: {
-              value: person.person_data.person_lastname.value,
-              updatedAt: speaker.speaker_data.person_lastname.updatedAt,
-            },
+            ...copyNameFields(person.person_data),
             person_display_name: {
               value: person.person_data.person_display_name.value,
               updatedAt: speaker.speaker_data.person_display_name.updatedAt,
@@ -410,7 +403,7 @@ const useExportSpeakers = () => {
           let raw = '';
           if (field.key.startsWith('speaker.')) {
             raw = getSpeakerValue(speaker, field.key);
-            return sanitizeSpreadsheetCell(raw);
+            return format === 'xlsx' ? sanitizeSpreadsheetCell(raw) : raw;
           } else if (field.key.startsWith('congregation.')) {
             raw = getCongregationValue(
               congregation,
@@ -418,7 +411,7 @@ const useExportSpeakers = () => {
               isOwnCongregation,
               field.key
             );
-            return sanitizeSpreadsheetCell(raw);
+            return format === 'xlsx' ? sanitizeSpreadsheetCell(raw) : raw;
           }
           return '';
         });
@@ -527,14 +520,9 @@ const useExportSpeakers = () => {
     headerLabels: string[],
     dataRows: string[][]
   ): Promise<void> => {
-    const csvData: string[][] = [headerKeys, headerLabels, ...dataRows];
-    const delimiter = getCSVDelimiterByNumberFormat();
-
-    const csv = Papa.unparse(csvData, {
-      delimiter: delimiter,
-      newline: '\n',
-      quotes: true,
-      header: false,
+    const csv = exportCsv(headerKeys, dataRows, {
+      delimiter: getCSVDelimiterByNumberFormat(),
+      labels: headerLabels,
     });
 
     const BOM = '\uFEFF';

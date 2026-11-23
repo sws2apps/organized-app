@@ -61,7 +61,8 @@ const useFormBody = ({ application, onChange }: ApplicationFormProps) => {
     return buildPersonFullname(
       person.person_data.person_lastname.value,
       person.person_data.person_firstname.value,
-      fullnameOption
+      fullnameOption,
+      person.person_data.person_middlename?.value
     );
   }, [settings, persons, fullnameOption]);
 
@@ -74,7 +75,8 @@ const useFormBody = ({ application, onChange }: ApplicationFormProps) => {
     return buildPersonFullname(
       person.person_data.person_lastname.value,
       person.person_data.person_firstname.value,
-      fullnameOption
+      fullnameOption,
+      person.person_data.person_middlename?.value
     );
   }, [settings, persons, fullnameOption]);
 
@@ -87,7 +89,8 @@ const useFormBody = ({ application, onChange }: ApplicationFormProps) => {
     return buildPersonFullname(
       person.person_data.person_lastname.value,
       person.person_data.person_firstname.value,
-      fullnameOption
+      fullnameOption,
+      person.person_data.person_middlename?.value
     );
   }, [settings, persons, fullnameOption]);
 

@@ -1,3 +1,4 @@
+import { printNameRecordBelongsToView } from '@utils/name_format';
 import { useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
@@ -8,6 +9,21 @@ import { GroupDeleteProps } from './index.types';
 import { languageGroupsState } from '@states/field_service_groups';
 import { dbFieldServiceGroupSave } from '@services/dexie/field_service_groups';
 import { settingSchema } from '@services/dexie/schema';
+
+const deleteGroupSetting = <
+  T extends { type: string; _deleted: boolean; updatedAt: string },
+>(
+  records: T[],
+  groupId: string
+): T[] => {
+  const updated = structuredClone(records);
+  const record = updated.find((item) => item.type === groupId);
+  if (record) {
+    record._deleted = true;
+    record.updatedAt = new Date().toISOString();
+  }
+  return updated;
+};
 
 const useGroupDelete = ({ group }: GroupDeleteProps) => {
   const { t } = useAppTranslation();
@@ -51,28 +67,15 @@ const useGroupDelete = ({ group }: GroupDeleteProps) => {
       findGroup.group_data._deleted = true;
       findGroup.group_data.updatedAt = new Date().toISOString();
 
-      const sourceLanguages = structuredClone(
-        settings.cong_settings.source_material.language
+      const sourceLanguages = deleteGroupSetting(
+        settings.cong_settings.source_material.language,
+        group.group_id
       );
 
-      const findSource = sourceLanguages.find(
-        (record) => record.type === group.group_id
+      const circuits = deleteGroupSetting(
+        settings.cong_settings.cong_circuit,
+        group.group_id
       );
-
-      if (findSource) {
-        findSource._deleted = true;
-        findSource.updatedAt = new Date().toISOString();
-      }
-
-      const circuits = structuredClone(settings.cong_settings.cong_circuit);
-      const findCircuit = circuits.find(
-        (record) => record.type === group.group_id
-      );
-
-      if (findCircuit) {
-        findCircuit._deleted = true;
-        findCircuit.updatedAt = new Date().toISOString();
-      }
 
       const displayName = structuredClone(
         settings.cong_settings.display_name_enabled
@@ -98,6 +101,19 @@ const useGroupDelete = ({ group }: GroupDeleteProps) => {
       if (findOption) {
         findOption._deleted = true;
         findOption.updatedAt = new Date().toISOString();
+      }
+
+      const printFullnameOption = structuredClone(
+        settings.cong_settings.print_fullname_option ?? []
+      );
+
+      const matchingPrintOptions = printFullnameOption.filter((record) =>
+        printNameRecordBelongsToView(record.type, group.group_id)
+      );
+
+      for (const findPrintOption of matchingPrintOptions) {
+        findPrintOption._deleted = true;
+        findPrintOption.updatedAt = new Date().toISOString();
       }
 
       const shortDateFormat = structuredClone(
@@ -230,6 +246,7 @@ const useGroupDelete = ({ group }: GroupDeleteProps) => {
         'cong_settings.cong_circuit': circuits,
         'cong_settings.display_name_enabled': displayName,
         'cong_settings.fullname_option': fullnameOption,
+        'cong_settings.print_fullname_option': printFullnameOption,
         'cong_settings.short_date_format': shortDateFormat,
         'cong_settings.format_24h_enabled': format24h,
         'cong_settings.events_multiday_display': eventsDisplay,
