@@ -4,6 +4,7 @@ import {
   IconCheck,
   IconNotifications,
   IconPrepareReport,
+  IconRaiseHand,
   IconTalk,
 } from '@components/icons';
 import {
@@ -52,6 +53,10 @@ const NotificationItem = ({
 
           {notification.icon === 'join-requests' && (
             <IconAccount color="var(--black)" />
+          )}
+
+          {notification.icon === 'ministry' && (
+            <IconRaiseHand color="var(--black)" />
           )}
 
           {notification.id !== 'reports-unverified' && (

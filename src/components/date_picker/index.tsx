@@ -33,6 +33,7 @@ const DatePicker = ({
   hideNav,
   error,
   helperText,
+  onError,
 }: CustomDatePickerProps) => {
   // Years below this threshold are transient artifacts of typing the year
   // section (e.g. 0002 while entering 2026) and must not be propagated.
@@ -138,6 +139,7 @@ const DatePicker = ({
           format={shortDateFormatLocale}
           open={!readOnly && open}
           onChange={handleValueChange}
+          onError={onError}
           onMonthChange={changeHeight}
           onOpen={() => {
             if (readOnly) return;
