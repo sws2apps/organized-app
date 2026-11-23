@@ -27,6 +27,7 @@ export const dbMetadataDefault = async () => {
           user_field_service_reports: { version: '', send_local: true },
           upcoming_events: { version: '', send_local: true },
           delegated_field_service_reports: { version: '', send_local: true },
+          circuit_overseer_events: { version: '', send_local: true },
         },
       });
     }
@@ -72,6 +73,7 @@ export const dbMetadataReset = async () => {
         user_bible_studies: { version: '', send_local: true },
         user_field_service_reports: { version: '', send_local: true },
         delegated_field_service_reports: { version: '', send_local: true },
+        circuit_overseer_events: { version: '', send_local: true },
         upcoming_events: { version: '', send_local: true },
       },
     });
