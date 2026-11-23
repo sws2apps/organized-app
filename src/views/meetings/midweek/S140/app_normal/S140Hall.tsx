@@ -13,16 +13,10 @@ const S140Hall = ({ name, counselor, group, lang }: S140HallType) => {
         {rtl && '\u200f'}
         {name}
       </Text>
-      {counselor && (
+      {(counselor || group) && (
         <Text style={stylesSmart.hallCounselor}>
           {rtl && '\u200f'}
-          {counselor}
-        </Text>
-      )}
-      {group && (
-        <Text style={stylesSmart.hallGroup}>
-          {rtl && '\u200f'}
-          {group}
+          {[counselor, group].filter(Boolean).join(' · ')}
         </Text>
       )}
     </View>

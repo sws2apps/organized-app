@@ -46,11 +46,15 @@ const styles = StyleSheet.create({
     padding: '0 0 0 8px',
   },
   personPrimary: {
+    maxLines: 1,
+    textOverflow: 'ellipsis',
     color: 'black',
     fontSize: '9px',
     textAlign: 'left',
   },
   personSecondary: {
+    maxLines: 1,
+    textOverflow: 'ellipsis',
     color: 'black',
     fontSize: '9px',
     textAlign: 'left',
