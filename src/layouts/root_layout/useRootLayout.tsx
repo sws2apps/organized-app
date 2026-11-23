@@ -16,6 +16,7 @@ import { useEffect, useMemo } from 'react';
 import { usePwaInstallListener, useUserAutoLogin } from '@hooks/index';
 import { isImportEPUBState, isImportJWOrgState } from '@states/sources';
 import { settingsState } from '@states/settings';
+import { appLockNeedsPinState, isAppLockedState } from '@states/app_lock';
 import { checkPwaUpdate } from '@services/app';
 import logger from '@services/logger/index';
 
@@ -27,6 +28,8 @@ const useRootLayout = () => {
   usePwaInstallListener();
 
   const isAppLoad = useAtomValue(isAppLoadState);
+  const isAppLocked = useAtomValue(isAppLockedState);
+  const appLockNeedsPin = useAtomValue(appLockNeedsPinState);
   const isOpenContact = useAtomValue(isContactOpenState);
   const isOpenAbout = useAtomValue(isAboutOpenState);
   const isImportJWOrg = useAtomValue(isImportJWOrgState);
@@ -86,6 +89,7 @@ const useRootLayout = () => {
     isDemoNoticeOpen,
     initialSetupOpen,
     isDarkTheme,
+    isAppLockShown: isAppLocked || appLockNeedsPin,
   };
 };
 
