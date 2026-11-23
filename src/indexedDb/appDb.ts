@@ -1,3 +1,4 @@
+import { TerritoriesTable, territoriesSchema } from '@db/tables/territories';
 import BaseDexie from 'dexie';
 import { settingSchema } from '@services/dexie/schema';
 import { MeetingAttendanceType } from '@definition/meeting_attendance';
@@ -60,7 +61,8 @@ import { publicTalkSchema, PublicTalkTable } from './tables/public_talk';
 import { songSchema, SongTable } from './tables/songs';
 import { appLocalsSchema, AppLocalsTable } from './tables/app_locals';
 
-type DexieTables = PersonsTable &
+type DexieTables = TerritoriesTable &
+  PersonsTable &
   SettingsTable &
   SourcesTable &
   AssignmentTable &
@@ -268,6 +270,18 @@ appDb
         meetingAttendanceSplitDeaf(attendance);
       });
   });
+
+appDb.version(16).stores({
+  ...schema,
+  ...metadataSchema,
+  ...delegatedFieldServiceReportsSchema,
+  ...weekTypeSchema,
+  ...publicTalkSchema,
+  ...songSchema,
+  ...upcomingEventsSchema,
+  ...appLocalsSchema,
+  ...territoriesSchema,
+});
 
 appDb.on('populate', function () {
   appDb.app_settings.add(settingSchema);

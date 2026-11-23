@@ -125,6 +125,7 @@
   "tr_forceRefreshButtonTooltip": "Force refresh the app to check for updates if they aren't showing up. No data will be cleared.",
   "tr_dateRangeSelectStart": "Select a start date first",
   "tr_noNotifications": "No notifications yet",
+  "tr_noRecordsYet": "No records yet",
   "tr_noNotificationsDesc": "Important notifications will be displayed here.",
   "tr_userRoleChanged": "Access changed",
   "tr_userRoleChangedDesc": "Your access rights in Organized have been changed recently. Log in to your account again for the changes to take effect.",
@@ -180,5 +181,17 @@
   "tr_normal": "Normal",
   "tr_large": "Large",
   "tr_chooseFields": "Choose export fields",
-  "tr_chooseFieldsDesc": "Please select the fields you want to include in the export file."
+  "tr_chooseFieldsDesc": "Please select the fields you want to include in the export file.",
+  "tr_territorySyncPending": "Saved on this device. Waiting to send your changes.",
+  "tr_territorySyncing": "Updating territories…",
+  "tr_territorySyncConflict": "Another device changed this territory. Your local changes are retained and have not overwritten it.",
+  "tr_territorySyncIdentity": "Some older records need a person, group, or date to be reviewed before they can be sent. Your changes are saved on this device.",
+  "tr_territorySyncUnavailable": "Territory sharing is not available on the server yet. Your changes are saved on this device.",
+  "tr_territorySyncFailed": "Your changes are saved on this device. Check your connection and account access, then try again.",
+  "tr_territorySyncRetry": "Try again",
+  "tr_territorySyncReview": "Review pending changes",
+  "tr_territorySyncReviewDescription": "These territories or settings have changes saved only on this device. You can export a copy to keep them. Choosing the server version discards the reviewed pending changes and reloads the latest shared records and settings.",
+  "tr_territorySyncExportDraft": "Export local changes",
+  "tr_territorySyncUseServer": "Discard changes and reload",
+  "tr_territorySyncSettingsPending": "Territory settings also have pending changes."
 }
