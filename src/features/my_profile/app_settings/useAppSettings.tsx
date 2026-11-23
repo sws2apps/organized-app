@@ -8,11 +8,14 @@ import {
   themeFollowOSEnabledState,
 } from '@states/settings';
 import { useBreakpoints, useIsTouchDevice } from '@hooks/index';
+import { isTest } from '@constants/index';
 
 const useAppSettings = () => {
   const { laptopUp } = useBreakpoints();
 
   const showHaptics = useIsTouchDevice();
+
+  const showLanguage = !isTest;
 
   const autoBackup = useAtomValue(backupAutoState);
   const autoBackupInterval = useAtomValue(backupIntervalState);
@@ -87,6 +90,7 @@ const useAppSettings = () => {
     haptics,
     handleUpdateHaptics,
     showHaptics,
+    showLanguage,
   };
 };
 
