@@ -8,7 +8,8 @@ import {
   userDataViewState,
   userLocalUIDState,
 } from '@states/settings';
-import { congAccountConnectedState } from '@states/app';
+import { congAccountConnectedState, featureFlagsState } from '@states/app';
+import { APP_ENVIRONMENT, MEETING_DUTIES_FLAG } from '@constants/index';
 import {
   fieldWithLanguageGroupsState,
   languageGroupsState,
@@ -30,6 +31,10 @@ const useCurrentUser = () => {
   const fieldGroups = useAtomValue(fieldWithLanguageGroupsState);
   const languageGroups = useAtomValue(languageGroupsState);
   const dataView = useAtomValue(userDataViewState);
+  const featureFlags = useAtomValue(featureFlagsState);
+  const dutiesEnabled =
+    featureFlags[MEETING_DUTIES_FLAG] ??
+    (import.meta.env.DEV || APP_ENVIRONMENT === 'TEST');
 
   const person = useMemo(() => {
     return persons.find((record) => record.person_uid === userUID);
@@ -297,6 +302,36 @@ const useCurrentUser = () => {
     return false;
   }, [isGroup, isAdmin, isLanguageGroupOverseer]);
 
+  const isDutiesEditor = useMemo(() => {
+    if (!dutiesEnabled) return false;
+
+    if (isAdmin) return true;
+
+    const isMember = languageGroup?.group_data.members.some(
+      (member) => member.person_uid === userUID
+    );
+
+    if (isGroup && isMember && isLanguageGroupOverseer) return true;
+
+    const hasRole = userRole.includes('duties_schedule');
+
+    if (!hasRole) return false;
+
+    if (!isGroup) return true;
+
+    if (isGroup && isMember) return true;
+
+    return false;
+  }, [
+    dutiesEnabled,
+    isAdmin,
+    userRole,
+    languageGroup,
+    userUID,
+    isGroup,
+    isLanguageGroupOverseer,
+  ]);
+
   return {
     person,
     first_report,
@@ -321,6 +356,8 @@ const useCurrentUser = () => {
     languageGroup,
     isLanguageGroupOverseer,
     isSettingsEditor,
+    dutiesEnabled,
+    isDutiesEditor,
   };
 };
 

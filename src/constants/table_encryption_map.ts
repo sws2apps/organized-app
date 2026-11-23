@@ -76,12 +76,14 @@ export const TABLE_ENCRYPTION_MAP = {
     theme_follow_os_enabled: 'shared',
     haptics_enabled: 'shared',
     hour_credits_enabled: 'shared',
+    meeting_duties_export: 'shared',
     group_publishers_sort: 'shared',
     data_view: 'shared',
     aux_class_fsg: 'shared',
     aux_class_qualifications: 'shared',
     first_day_week: 'shared',
     schedule_songs_weekend: 'shared',
+    meeting_duties: 'shared',
   },
   speakers_congregations: {
     _deleted: 'private',
@@ -171,6 +173,7 @@ export const TABLE_ENCRYPTION_MAP = {
     submitted: 'shared',
   },
   sched: {
+    duties: 'shared',
     chairman: 'shared',
     opening_prayer: 'shared',
     tgw_talk: 'shared',

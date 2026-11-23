@@ -15,7 +15,7 @@ export const SelectStyled = styled(Select)({
     paddingBottom: '0px !important',
   },
   '.MuiSelect-icon': {
-    color: 'var(--black)',
+    color: 'var(--accent-350)',
     '&.Mui-disabled': {
       color: 'var(--accent-200)',
     },

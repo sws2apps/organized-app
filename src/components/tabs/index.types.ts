@@ -5,6 +5,7 @@ import { SxProps, TabOwnProps, Theme } from '@mui/material';
  * Props for the TabsPanel component.
  */
 export type TabsPanelProps = {
+  idPrefix?: string;
   /**
    * The content of the tab panel.
    */
@@ -40,6 +41,8 @@ export type TabsLayout = 'auto' | 'stretch';
  * Custom props for the Tab component.
  */
 export interface CustomTabProps extends TabOwnProps {
+  'aria-label'?: string;
+
   /**
    * The look of the tabs. (Default: chip)
    */
@@ -49,6 +52,8 @@ export interface CustomTabProps extends TabOwnProps {
    * An array of tabs containing label and corresponding component.
    */
   tabs: {
+    /** Stable identity for tabs with a non-text label. */
+    id?: string;
     /**
      * The label of the tab.
      */
@@ -101,9 +106,20 @@ export interface CustomTabProps extends TabOwnProps {
   actionComponent?: ReactNode;
 
   /**
+   * Where the action component sits relative to the tab list. (Default: 'end')
+   */
+  actionPosition?: 'start' | 'end';
+
+  /**
    * A boolean indicating whether to display the tabs. (Default: true)
    */
   showTabs?: boolean;
+
+  /**
+   * When true, the tab list fills its container and every tab shares the
+   * width equally (e.g. two tabs at 50/50). (Default: false)
+   */
+  fullWidth?: boolean;
 
   /**
    * Custom styling applied to the tab component using MUI's `sx` prop.
