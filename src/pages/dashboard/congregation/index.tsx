@@ -2,6 +2,7 @@ import { ListItem } from '@mui/material';
 import {
   IconGroups,
   IconManageAccess,
+  IconNoConnection,
   IconSettings,
   IconSynced,
 } from '@icons/index';
@@ -20,6 +21,7 @@ const CongregationCard = () => {
     secondaryText,
     handleManualSync,
     isConnected,
+    isOfflineMode,
     isUserAdmin,
     requests_count,
   } = useCongregation();
@@ -81,6 +83,16 @@ const CongregationCard = () => {
             primaryText={t('tr_syncAppData')}
             secondaryText={secondaryText}
             onClick={handleManualSync}
+          />
+        </ListItem>
+      )}
+
+      {isOfflineMode && (
+        <ListItem disablePadding>
+          <DashboardMenu
+            icon={<IconNoConnection color="var(--black)" />}
+            primaryText={t('tr_syncAppData')}
+            secondaryText={secondaryText}
           />
         </ListItem>
       )}
