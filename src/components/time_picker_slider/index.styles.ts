@@ -4,7 +4,7 @@ import { SxProps, Theme } from '@mui/material';
 export const CASE_SIZE = 40;
 
 export const TimePickerTypography: SxProps<Theme> = {
-  fontSize: '18px',
+  fontSize: '1.125rem',
   lineHeight: '1',
   display: 'flex',
   alignItems: 'center',
