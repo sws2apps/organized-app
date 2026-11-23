@@ -5,9 +5,10 @@ import Button from '@components/button';
 type ActionBarProps = {
   onClose: VoidFunction;
   onClear: VoidFunction;
+  acceptDisabled: boolean;
 };
 
-const ActionBar = ({ onClose, onClear }: ActionBarProps) => {
+const ActionBar = ({ onClose, onClear, acceptDisabled }: ActionBarProps) => {
   const { t } = useAppTranslation();
 
   return (
@@ -26,8 +27,8 @@ const ActionBar = ({ onClose, onClear }: ActionBarProps) => {
       <Button variant="secondary" onClick={onClear}>
         {t('tr_clear')}
       </Button>
-      <Button variant="main" onClick={onClose}>
-        OK
+      <Button variant="main" onClick={onClose} disabled={acceptDisabled}>
+        {t('tr_ok')}
       </Button>
     </Stack>
   );
