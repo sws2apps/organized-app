@@ -16,7 +16,7 @@ import {
   SettingsType,
   SourceFrequency,
 } from '@definition/settings';
-import { LANGUAGE_LIST } from '@constants/index';
+import { DEFAULT_MEETING_WEEKDAYS, LANGUAGE_LIST } from '@constants/index';
 import { AssignmentFieldType } from '@definition/assignment';
 
 export const settingsState = atom(settingSchema);
@@ -381,7 +381,7 @@ export const midweekMeetingWeekdayState = atom((get) => {
   return (
     settings.cong_settings.midweek_meeting.find(
       (record) => record.type === dataView
-    )?.weekday.value ?? 2
+    )?.weekday.value ?? DEFAULT_MEETING_WEEKDAYS.midweek
   );
 });
 
@@ -491,7 +491,7 @@ export const weekendMeetingWeekdayState = atom((get) => {
   return (
     settings.cong_settings.weekend_meeting.find(
       (record) => record.type === dataView
-    )?.weekday.value ?? 6
+    )?.weekday.value ?? DEFAULT_MEETING_WEEKDAYS.weekend
   );
 });
 

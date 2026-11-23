@@ -216,6 +216,17 @@ const useAssignments = () => {
           },
         ],
       },
+      {
+        header: t('tr_duties'),
+        id: 'duties',
+        color: 'duties' as AssignmentCheckListColors,
+        items: [
+          {
+            code: AssignmentCode.DUTIES_HallAttendant,
+            name: t('tr_hallAttendant'),
+          },
+        ],
+      },
     ];
   }, [t]);
 

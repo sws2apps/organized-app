@@ -1,141 +1,44 @@
-import { store } from '@states/index';
-import { meetingAttendanceState } from '@states/meeting_attendance';
-import { debounce } from '@utils/common';
 import {
   AttendanceCongregation,
   AttendanceRecordField,
-  AttendanceValues,
+  AttendanceSaveParams,
   MeetingAttendanceStats,
   MeetingAttendanceType,
   WeeklyAttendance,
 } from '@definition/meeting_attendance';
-import { meetingAttendanceSchema } from '@services/dexie/schema';
 import { MeetingType } from '@definition/app';
 import { dbMeetingAttendanceSave } from '@services/dexie/meeting_attendance';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode, getTranslation } from '@services/i18n/translation';
-import {
-  attendanceHasDeafCount,
-  attendanceRecordTotal,
-  attendanceSplitDeaf,
-} from '@utils/meeting_attendance';
+import { attendanceRecordTotal } from '@utils/meeting_attendance';
 
-// Cloned record + data-view row (created if missing); clone keeps writes off the atom.
-const getWritableAttendance = ({
-  index,
-  month,
-  type,
-  dataView,
-}: {
-  index: number;
-  month: string;
-  type: MeetingType;
-  dataView: string;
-}) => {
-  const attendances = store.get(meetingAttendanceState);
-  const dbAttendance = attendances.find(
-    (record) => record.month_date === month
-  );
-
-  let attendance: MeetingAttendanceType;
-
-  if (!dbAttendance) {
-    attendance = structuredClone(meetingAttendanceSchema);
-    attendance.month_date = month;
-  } else {
-    attendance = structuredClone(dbAttendance);
-  }
-
-  const weekRecord = attendance[`week_${index}`] as WeeklyAttendance;
-  const meetingRecord = weekRecord[type];
-
-  let current = meetingRecord.find((record) => record.type === dataView);
-
-  if (!current) {
-    current = {
-      type: dataView,
-      online: undefined,
-      present: undefined,
-      updatedAt: '',
-    };
-    meetingRecord.push(current);
-  }
-
-  return { attendance, current };
-};
-
-// every field of a week is written in one go: a deaf count and the count it
-// belongs to have to land together
-const handleUpdateRecord = ({
-  index,
-  month,
-  type,
-  values,
-  dataView,
-}: {
-  month: string;
-  index: number;
-  values: AttendanceValues;
-  type: MeetingType;
-  dataView: string;
-}) => {
-  const { attendance, current } = getWritableAttendance({
-    index,
-    month,
-    type,
-    dataView,
-  });
-
-  attendanceSplitDeaf(current);
-
-  const entries = Object.entries(values) as [AttendanceRecordField, string][];
-
-  for (const [field, count] of entries) {
-    current[field] = count.length === 0 ? undefined : +count;
-  }
-
-  if (attendanceHasDeafCount(current)) current.deaf_separate = true;
-
-  current.updatedAt = new Date().toISOString();
-
-  return attendance;
-};
-
-const handlePresentSaveDb = async ({
-  index,
-  month,
-  type,
-  values,
-  dataView,
-}: {
-  month: string;
-  index: number;
-  type: MeetingType;
-  values: AttendanceValues;
-  dataView: string;
-}) => {
+export const meetingAttendancePresentSave = async (
+  params: AttendanceSaveParams
+) => {
   try {
-    const attendance = handleUpdateRecord({
-      index,
-      month,
-      type,
-      values,
-      dataView,
-    });
-
-    await dbMeetingAttendanceSave(attendance);
+    if (
+      !Number.isInteger(params.index) ||
+      params.index < 1 ||
+      params.index > 5 ||
+      !/^\d{4}\/(0[1-9]|1[0-2])$/.test(params.month) ||
+      Object.values(params.values).some(
+        (value) =>
+          value !== '' &&
+          (!/^\d+$/.test(value) || !Number.isSafeInteger(Number(value)))
+      )
+    )
+      throw new Error('error_app_generic-desc');
+    await dbMeetingAttendanceSave(params);
+    return true;
   } catch (error) {
-    console.error(error);
-
     displaySnackNotification({
       header: getTranslation({ key: 'tr_errorTitle' }),
       message: getMessageByCode(error.message),
       severity: 'error',
     });
+    return false;
   }
 };
-
-export const meetingAttendancePresentSave = debounce(handlePresentSaveDb, 10);
 
 const sumField = (
   records: AttendanceCongregation[],
