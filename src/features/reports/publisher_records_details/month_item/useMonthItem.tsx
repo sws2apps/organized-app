@@ -191,8 +191,10 @@ const useMonthItem = ({ month, person }: MonthItemProps) => {
   }, [isInactive, month, first_report, branchReport]);
 
   const report_locked = useMemo(() => {
+    if (report?.report_data.lock_override) return false;
+
     return branch_report_submitted && monthStatus === 'shared';
-  }, [branch_report_submitted, monthStatus]);
+  }, [branch_report_submitted, monthStatus, report]);
 
   const mobileShowEdit = useMemo(() => {
     if (!allowEdit) return false;

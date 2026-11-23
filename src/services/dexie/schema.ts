@@ -543,6 +543,7 @@ export const congFieldServiceReportSchema: CongFieldServiceReportType = {
       value: false,
       submitted: '',
     },
+    lock_override: false,
     status: 'confirmed',
   },
 };
