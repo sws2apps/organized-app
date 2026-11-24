@@ -36,13 +36,11 @@ const OTPInput: FC<OTPInputProps> = ({ hasError, ...props }) => {
       <MuiOtpInput
         {...props}
         length={6}
-        display="flex"
-        gap={1}
         validateChar={validateChar}
         TextFieldsProps={(index) => ({
           autoComplete: 'off',
-          inputProps: {
-            className: 'h1',
+          slotProps: {
+            htmlInput: { className: 'h1' },
           },
           sx: {
             '.MuiOutlinedInput-input': {
@@ -65,7 +63,7 @@ const OTPInput: FC<OTPInputProps> = ({ hasError, ...props }) => {
             },
           },
         })}
-        sx={{}}
+        sx={{ display: 'flex', gap: 1 }}
       />
     </Box>
   );

@@ -19,12 +19,16 @@ const ButtonField = (props: DatePickerFieldProps) => {
     clearable: _clearable,
     onClear: _onClear,
     customInput: _customInput,
+    slotProps: _slotProps,
+    inputRef: _inputRef,
     ...buttonProps
   } = forwardedProps as typeof forwardedProps & {
     enableAccessibleFieldDOMStructure?: boolean;
     clearable?: boolean;
     onClear?: () => void;
     customInput?: unknown;
+    slotProps?: unknown;
+    inputRef?: unknown;
   };
 
   const pickerContext = usePickerContext();
@@ -40,6 +44,9 @@ const ButtonField = (props: DatePickerFieldProps) => {
   return (
     <Button
       {...buttonProps}
+      ref={pickerContext.triggerRef}
+      aria-haspopup="dialog"
+      aria-expanded={pickerContext.open}
       variant="text"
       onClick={() => pickerContext.setOpen((prev) => !prev)}
       endIcon={<IconDate color={'var(--accent-dark)'} />}
