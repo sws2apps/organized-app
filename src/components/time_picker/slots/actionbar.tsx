@@ -4,7 +4,7 @@ import Button from '@components/button';
 
 type ActionBarProps = {
   onClose: VoidFunction;
-  onClear: VoidFunction;
+  onClear?: VoidFunction;
 };
 
 const ActionBar = ({ onClose, onClear }: ActionBarProps) => {
@@ -23,9 +23,13 @@ const ActionBar = ({ onClose, onClear }: ActionBarProps) => {
         p: '12px',
       }}
     >
-      <Button variant="secondary" onClick={onClear}>
-        {t('tr_clear')}
-      </Button>
+      {onClear ? (
+        <Button variant="secondary" onClick={onClear}>
+          {t('tr_clear')}
+        </Button>
+      ) : (
+        <span />
+      )}
       <Button variant="main" onClick={onClose}>
         OK
       </Button>

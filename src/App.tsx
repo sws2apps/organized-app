@@ -41,6 +41,9 @@ const FieldServiceReportsPage = lazy(
 const MidweekMeeting = lazy(() => import('@pages/meetings/midweek'));
 const MinistryReport = lazy(() => import('@pages/ministry/ministry_report'));
 const ServiceYear = lazy(() => import('@pages/ministry/service_year'));
+const PublicWitnessing = lazy(
+  () => import('@pages/ministry/public_witnessing')
+);
 const AuxiliaryPioneerApplication = lazy(
   () => import('@pages/ministry/auxiliary_pioneer')
 );
@@ -128,6 +131,11 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
               children: [
                 { path: '/ministry-report', element: <MinistryReport /> },
                 { path: '/service-year', element: <ServiceYear /> },
+                { path: '/public-witnessing', element: <PublicWitnessing /> },
+                {
+                  path: '/public-witnessing/:locationId',
+                  element: <PublicWitnessing />,
+                },
 
                 // only if connected
                 {
