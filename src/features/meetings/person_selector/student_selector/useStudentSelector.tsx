@@ -83,6 +83,7 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
   }, [assignment]);
 
   const classroom = useMemo(() => {
+    if (assignment.endsWith('_C')) return '3';
     return assignment.endsWith('_B') ? '2' : '1';
   }, [assignment]);
 
@@ -199,20 +200,21 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
   const options = useMemo(() => {
     const checkClassrooms = congAuxClassQualifications && classCount === 2;
 
+    const isInAssignedGroup = (record: PersonType) => {
+      const memberGroup = serviceGroups.find((g) =>
+        g.group_data.members.some((m) => m.person_uid === record.person_uid)
+      );
+      return memberGroup?.group_id === assignedFSG;
+    };
+
     const filteredPersons = persons.filter((record) => {
       // keep the currently assigned person visible even when a
       // classroom restriction would exclude them
       const skipClassrooms =
         !checkClassrooms || record.person_uid === personAssigned?.person_uid;
 
-      if (showGroupToggle && groupChecked) {
-        const findInGroup = serviceGroups.find((g) =>
-          g.group_data.members.some((m) => m.person_uid === record.person_uid)
-        );
-
-        if (!findInGroup) return false;
-
-        if (findInGroup.group_id !== assignedFSG) return false;
+      if (showGroupToggle && groupChecked && !isInAssignedGroup(record)) {
+        return false;
       }
 
       const personAssignments = record.person_data.assignments.find(
@@ -220,6 +222,13 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
       );
 
       const activeAssignments = personAssignments?.values ?? [];
+
+      if (
+        classroom === '1' &&
+        activeAssignments.includes(AssignmentCode.MM_AuxiliaryClassroomOnly)
+      ) {
+        return false;
+      }
 
       if (!isAssistant) {
         return (
